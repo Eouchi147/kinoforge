@@ -1,0 +1,125 @@
+# Renders the example scenes (the anthology prototypes) that make up the project's gallery and regression set.
+# Trigger: push a queue file (render/queue/<name>.json: {"scenes": ["p05-relic", ...], "w": 1280, "h": 720, "fps": 24})
+# or run by hand. One runner per scene; results go to the "gallery" release and a 7-day artifact.
+name: render
+on:
+  workflow_dispatch:
+    inputs:
+      scenes: { description: 'scene dirs under proto/, comma-separated, or "all"', default: 'all' }
+      w: { description: 'width', default: '1280' }
+      h: { description: 'height', default: '720' }
+  push:
+    branches: [main]
+    paths: ['render/queue/*.json']
+permissions:
+  contents: write
+concurrency:
+  group: render-${{ github.run_id }}
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      jobs: ${{ steps.p.outputs.jobs }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - id: p
+        env:
+          INPUT_SCENES: ${{ github.event.inputs.scenes }}
+          INPUT_W: ${{ github.event.inputs.w }}
+          INPUT_H: ${{ github.event.inputs.h }}
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json, os, glob, subprocess
+          jobs = []
+          def add(scene, w=1280, h=720, fps=24, samples=None):
+              if not os.path.isdir(f'proto/{scene}'): print(f'skip {scene}: no proto dir', flush=True); return
+              kind = 'blender' if os.path.exists(f'proto/{scene}/blender.py') else 'web'
+              jobs.append({'scene': scene, 'w': int(w), 'h': int(h), 'fps': int(fps), 'kind': kind, 'samples': samples or 96})
+          if os.environ.get('INPUT_SCENES'):
+              names = [s.strip() for s in os.environ['INPUT_SCENES'].split(',') if s.strip()]
+              if names == ['all']: names = sorted(os.path.basename(p) for p in glob.glob('proto/p*'))
+              for n in names: add(n, os.environ.get('INPUT_W') or 1280, os.environ.get('INPUT_H') or 720)
+          else:
+              changed = subprocess.run(['git', 'diff', '--name-only', 'HEAD~1', 'HEAD', '--', 'render/queue/'], capture_output=True, text=True).stdout.split()
+              files = [f for f in changed if f.endswith('.json') and os.path.exists(f)] or sorted(glob.glob('render/queue/*.json'))
+              for f in files:
+                  q = json.load(open(f))
+                  for s in q.get('scenes', []):
+                      if isinstance(s, str): add(s, q.get('w', 1280), q.get('h', 720), q.get('fps', 24), q.get('samples'))
+                      else: add(s['scene'], s.get('w', q.get('w', 1280)), s.get('h', q.get('h', 720)), s.get('fps', q.get('fps', 24)), s.get('samples', q.get('samples')))
+          seen = set(); jobs = [j for j in jobs if not (j['scene'] in seen or seen.add(j['scene']))]
+          print('jobs=' + json.dumps(jobs))
+          EOF
+          cat "$GITHUB_OUTPUT"
+  render:
+    needs: plan
+    if: ${{ needs.plan.outputs.jobs != '[]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        job: ${{ fromJson(needs.plan.outputs.jobs) }}
+    name: ${{ matrix.job.scene }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: 'npm', cache-dependency-path: harness/package-lock.json }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.13', cache: 'pip', cache-dependency-path: harness/requirements.txt }
+      - name: tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q -r harness/requirements.txt
+          npm ci --prefix harness --no-audit --no-fund
+      - name: browser cache
+        if: matrix.job.kind == 'web'
+        id: pw
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ hashFiles('harness/package-lock.json') }}
+      - name: browser
+        if: matrix.job.kind == 'web'
+        run: |
+          cd harness
+          if [ "${{ steps.pw.outputs.cache-hit }}" = "true" ]; then npx playwright install-deps chromium > /dev/null; else npx playwright install --with-deps chromium > /dev/null; fi
+      - name: blender
+        if: matrix.job.kind == 'blender'
+        run: pip install -q bpy==5.2.2 && python3 -c "import bpy; print('bpy', bpy.app.version_string)"
+      - name: soundtrack
+        run: |
+          mkdir -p out/${{ matrix.job.scene }}
+          if [ -f proto/${{ matrix.job.scene }}/audio.py ]; then python3 proto/${{ matrix.job.scene }}/audio.py out/${{ matrix.job.scene }}/audio.wav; fi
+      - name: render (web)
+        if: matrix.job.kind == 'web'
+        run: |
+          A=""; [ -f out/${{ matrix.job.scene }}/audio.wav ] && A="--audio out/${{ matrix.job.scene }}/audio.wav"
+          node harness/render.cjs proto/${{ matrix.job.scene }} --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --mp4 --contact $A
+      - name: render (blender)
+        if: matrix.job.kind == 'blender'
+        run: |
+          A=""; [ -f out/${{ matrix.job.scene }}/audio.wav ] && A="--audio out/${{ matrix.job.scene }}/audio.wav"
+          python3 harness/blender_render.py proto/${{ matrix.job.scene }} --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --samples ${{ matrix.job.samples }} --mp4 --contact $A
+      - name: keep a few frames for review
+        run: |
+          cd out/${{ matrix.job.scene }} && mkdir -p review && ls frames | awk 'NR%24==1' | head -12 | while read f; do cp frames/$f review/$f; done; ls review | wc -l
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.job.scene }}
+          path: |
+            out/${{ matrix.job.scene }}/*.mp4
+            out/${{ matrix.job.scene }}/*.contact.jpg
+            out/${{ matrix.job.scene }}/review/*.png
+          retention-days: 7
+          if-no-files-found: warn
+      - name: publish to the gallery release
+        if: success()
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          gh release view gallery > /dev/null 2>&1 || gh release create gallery --title "gallery" --notes "Rendered example scenes (CI output)." || true
+          gh release upload gallery out/${{ matrix.job.scene }}/${{ matrix.job.scene }}.mp4 out/${{ matrix.job.scene }}/${{ matrix.job.scene }}.contact.jpg --clobber

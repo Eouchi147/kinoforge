@@ -1,0 +1,23 @@
+# Quick regression: the harness must still render a frame on a clean runner (runs on pushes that touch the harness).
+name: smoke
+on:
+  push:
+    branches: [main]
+    paths: ['harness/**', 'proto/smoke/**']
+  pull_request:
+    paths: ['harness/**']
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: 'npm', cache-dependency-path: harness/package-lock.json }
+      - run: npm ci --prefix harness --no-audit --no-fund
+      - run: cd harness && npx playwright install --with-deps chromium > /dev/null
+      - run: sudo apt-get install -y -qq ffmpeg > /dev/null && node harness/render.cjs proto/smoke --w 640 --h 360 --end 6 --mp4
+      - uses: actions/upload-artifact@v4
+        with: { name: smoke, path: out/smoke/*.mp4, retention-days: 3 }
