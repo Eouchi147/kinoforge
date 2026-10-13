@@ -1,4 +1,4 @@
-"""KINOFORGE procedural sound kit — synthesised drones, risers, hits, ambiences, tones and a cue-sheet mixer.
+"""KINOFORGE procedural sound kit (beds start at full level: use Mix.put(fade_in=..., fade_out=...) to shape them) — synthesised drones, risers, hits, ambiences, tones and a cue-sheet mixer.
 No samples needed. 48 kHz float32 mono/stereo numpy. Deterministic (seeded).
 
     from sfx import *
@@ -71,13 +71,13 @@ def drone(dur, f0=55.0, detune=0.4, lp=500.0, voices=5, motion=0.05, shape='saw'
         out += w / voices
     out = lowpass(out, float(lp))
     lfo = 1 + motion * np.sin(2 * np.pi * 0.05 * t); out = out * lfo
-    return fade(out.astype(np.float32), 0.5, 0.5)
+    return out.astype(np.float32)
 def pad(dur, freqs=(110, 164.8, 220), lp=1200, vib=0.15):
     t = t_axis(dur); out = np.zeros_like(t)
     for f in freqs:
         for k, g in [(1, 1), (2, 0.4), (3, 0.2)]:
             out += g * np.sin(2 * np.pi * f * k * t + vib * np.sin(2 * np.pi * 0.3 * t + _rng.random() * 6)) / (len(freqs) * 1.6)
-    return fade(lowpass(out, lp), 1.0, 1.0).astype(np.float32)
+    return lowpass(out, lp).astype(np.float32)
 def riser(dur, f_start=150, f_end=3000, noise_mix=0.5, curve=2.0):
     """Tension riser: pitch sweep + filtered noise, swelling. Ends at its peak (land a hit there)."""
     t = t_axis(dur); u = (t / dur) ** curve
@@ -93,7 +93,7 @@ def shepard(dur, base=55, octaves=6, rate=0.12):
     for i in range(octaves):
         phase = (i / octaves + rate * t) % 1.0; f = base * 2 ** (phase * octaves)
         amp = np.sin(np.pi * phase) ** 2; ph = 2 * np.pi * np.cumsum(f) / SR; out += amp * np.sin(ph) / octaves
-    return fade(lowpass(out, 2500), 0.5, 0.5).astype(np.float32)
+    return lowpass(out, 2500).astype(np.float32)
 def hit(dur=2.5, sub=45.0, click=True, tail=True, crunch=0.6):
     """Trailer hit: sub thump + noise crack + tail."""
     t = t_axis(dur)
@@ -104,7 +104,7 @@ def hit(dur=2.5, sub=45.0, click=True, tail=True, crunch=0.6):
     if click: out += highpass(noise(dur), 2000) * np.exp(-t * 120) * 0.6
     out = saturate(out, 1.8)
     if tail: out = reverb(out, size=0.9, decay=2.0, mix=0.35)[:len(t)]
-    return out.astype(np.float32)
+    return fade(out.astype(np.float32), 0.0, 0.05)
 def braam(dur=3.0, f0=41.2):
     """Brass-like blast (use ≤2 per piece, R-6-07)."""
     t = t_axis(dur); out = np.zeros_like(t)
@@ -127,13 +127,13 @@ def whoosh(dur=0.8, lo=300, hi=4000, direction=1):
     return fade(out * env, 0.01, 0.05).astype(np.float32)
 def wind(dur, strength=0.5, gust=0.3):
     t = t_axis(dur); g = 1 + gust * (0.6 * np.sin(2 * np.pi * 0.09 * t) + 0.4 * np.sin(2 * np.pi * 0.23 * t + 1))
-    return fade(lowpass(noise(dur, 'pink'), 600 + 900 * strength) * g * strength, 1.0, 1.0).astype(np.float32)
+    return (lowpass(noise(dur, 'pink'), 600 + 900 * strength) * g * strength).astype(np.float32)
 def rain(dur, intensity=0.6):
     base = highpass(lowpass(noise(dur), 9000), 800) * 0.25 * intensity
     n = int(dur * SR); drops = np.zeros(n, dtype=np.float32); k = int(dur * 60 * intensity)
     idx = _rng.integers(0, n - 200, k)
     for i in idx: drops[i:i + 120] += np.sin(np.linspace(0, np.pi, 120)) * _rng.random() * 0.4
-    return fade(base + bandpass(drops, 1500, 7000) * 0.4, 0.5, 0.5).astype(np.float32)
+    return (base + bandpass(drops, 1500, 7000) * 0.4).astype(np.float32)
 def hum(dur, f=60.0, level=0.3):
     t = t_axis(dur); return fade((np.sin(2 * np.pi * f * t) + 0.3 * np.sin(2 * np.pi * 2 * f * t) + 0.1 * np.sin(2 * np.pi * 3 * f * t)) * level, 0.2, 0.2).astype(np.float32)
 def tape_hiss(dur, level=0.15): return fade(highpass(noise(dur), 3000) * level, 0.1, 0.1).astype(np.float32)
@@ -179,7 +179,7 @@ def choir(dur, freqs=(130.8, 196, 261.6), breath=0.3):
         v = np.sin(2 * np.pi * f * t + 0.3 * np.sin(2 * np.pi * 5.2 * t)) + 0.4 * np.sin(2 * np.pi * 2 * f * t) + 0.2 * np.sin(2 * np.pi * 3 * f * t)
         out += bandpass(v, 200, 2500) / len(freqs)
     out += bandpass(noise(dur), 1500, 4000) * breath * 0.3
-    return fade(out, 1.5, 1.5).astype(np.float32)
+    return fade(out, 0.05, 0.05).astype(np.float32)
 NOTE = {n: 440 * 2 ** ((i - 9) / 12) for i, n in enumerate(['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'])}
 def note(name, octave=4): return NOTE[name] * 2 ** (octave - 4)
 

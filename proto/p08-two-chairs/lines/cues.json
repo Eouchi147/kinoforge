@@ -1,0 +1,897 @@
+{
+ "fps": 24,
+ "total_frames": 288,
+ "duration": 12.0,
+ "lookahead_s": 0.035,
+ "beat_frames_rule": 18,
+ "lines": [
+  {
+   "id": "L1",
+   "who": "remi",
+   "text": "I rehearsed this speech for three weeks.",
+   "voice": "am_michael",
+   "speed": 1.08,
+   "nominal": 0.6,
+   "wav": "lines/L1-remi.wav",
+   "start": 0.5833333333333334,
+   "start_frame": 14,
+   "dur": 2.005,
+   "on": 0.6033,
+   "off": 2.5083,
+   "speech_dur": 1.905,
+   "gaps": [
+    [
+     0.78,
+     0.84
+    ],
+    [
+     1.715,
+     1.78
+    ]
+   ],
+   "visemes": [
+    [
+     0.0,
+     0.03,
+     "X"
+    ],
+    [
+     0.03,
+     0.08,
+     "C"
+    ],
+    [
+     0.08,
+     0.26,
+     "B"
+    ],
+    [
+     0.26,
+     0.47,
+     "E"
+    ],
+    [
+     0.47,
+     0.68,
+     "B"
+    ],
+    [
+     0.68,
+     0.76,
+     "A"
+    ],
+    [
+     0.76,
+     1.09,
+     "B"
+    ],
+    [
+     1.09,
+     1.16,
+     "G"
+    ],
+    [
+     1.16,
+     1.51,
+     "B"
+    ],
+    [
+     1.51,
+     1.58,
+     "F"
+    ],
+    [
+     1.58,
+     1.93,
+     "B"
+    ],
+    [
+     1.93,
+     2.0,
+     "X"
+    ]
+   ],
+   "words": [
+    [
+     0.03,
+     0.13,
+     "i"
+    ],
+    [
+     0.13,
+     0.57,
+     "rehearsed"
+    ],
+    [
+     0.57,
+     0.71,
+     "this"
+    ],
+    [
+     0.71,
+     1.1,
+     "speech"
+    ],
+    [
+     1.1,
+     1.23,
+     "for"
+    ],
+    [
+     1.23,
+     1.48,
+     "three"
+    ],
+    [
+     1.48,
+     1.93,
+     "weeks"
+    ]
+   ]
+  },
+  {
+   "id": "L2",
+   "who": "bo",
+   "text": "Mm-hm.",
+   "voice": "bm_george",
+   "speed": 0.92,
+   "nominal": 3.1,
+   "wav": "lines/L2-bo.wav",
+   "start": 3.0833333333333335,
+   "start_frame": 74,
+   "dur": 1.03,
+   "on": 3.0983,
+   "off": 4.0333,
+   "speech_dur": 0.935,
+   "gaps": [],
+   "visemes": [
+    [
+     0.0,
+     0.05,
+     "B"
+    ],
+    [
+     0.05,
+     0.1,
+     "C"
+    ],
+    [
+     0.1,
+     0.23,
+     "A"
+    ],
+    [
+     0.23,
+     0.41,
+     "C"
+    ],
+    [
+     0.41,
+     0.48,
+     "B"
+    ],
+    [
+     0.48,
+     0.55,
+     "F"
+    ],
+    [
+     0.55,
+     0.81,
+     "A"
+    ],
+    [
+     0.81,
+     0.97,
+     "B"
+    ],
+    [
+     0.97,
+     1.03,
+     "X"
+    ]
+   ],
+   "words": []
+  },
+  {
+   "id": "L3",
+   "who": "remi",
+   "text": "Three weeks. In the mirror. With hand gestures.",
+   "voice": "am_michael",
+   "speed": 1.08,
+   "nominal": 4.0,
+   "wav": "lines/L3-remi.wav",
+   "start": 4.166666666666667,
+   "start_frame": 100,
+   "dur": 2.96,
+   "on": 4.1867,
+   "off": 7.0467,
+   "speech_dur": 2.86,
+   "gaps": [
+    [
+     0.615,
+     0.875
+    ],
+    [
+     1.495,
+     1.755
+    ]
+   ],
+   "visemes": [
+    [
+     0.0,
+     0.03,
+     "X"
+    ],
+    [
+     0.03,
+     0.22,
+     "B"
+    ],
+    [
+     0.22,
+     0.36,
+     "F"
+    ],
+    [
+     0.36,
+     0.64,
+     "B"
+    ],
+    [
+     0.64,
+     0.88,
+     "X"
+    ],
+    [
+     0.88,
+     1.04,
+     "B"
+    ],
+    [
+     1.04,
+     1.12,
+     "A"
+    ],
+    [
+     1.12,
+     1.22,
+     "B"
+    ],
+    [
+     1.22,
+     1.43,
+     "E"
+    ],
+    [
+     1.43,
+     1.76,
+     "C"
+    ],
+    [
+     1.76,
+     1.83,
+     "F"
+    ],
+    [
+     1.83,
+     1.89,
+     "B"
+    ],
+    [
+     1.89,
+     2.17,
+     "C"
+    ],
+    [
+     2.17,
+     2.31,
+     "B"
+    ],
+    [
+     2.31,
+     2.45,
+     "C"
+    ],
+    [
+     2.45,
+     2.66,
+     "B"
+    ],
+    [
+     2.66,
+     2.73,
+     "E"
+    ],
+    [
+     2.73,
+     2.87,
+     "B"
+    ],
+    [
+     2.87,
+     2.96,
+     "X"
+    ]
+   ],
+   "words": [
+    [
+     0.03,
+     0.24,
+     "three"
+    ],
+    [
+     0.24,
+     0.64,
+     "weeks"
+    ],
+    [
+     0.88,
+     0.97,
+     "in"
+    ],
+    [
+     0.97,
+     1.04,
+     "the"
+    ],
+    [
+     1.04,
+     1.43,
+     "mirror"
+    ],
+    [
+     1.76,
+     1.88,
+     "with"
+    ],
+    [
+     1.88,
+     2.26,
+     "hand"
+    ],
+    [
+     2.26,
+     2.87,
+     "gestures"
+    ]
+   ]
+  },
+  {
+   "id": "L4",
+   "who": "bo",
+   "text": "And?",
+   "voice": "bm_george",
+   "speed": 0.92,
+   "nominal": 7.4,
+   "wav": "lines/L4-bo.wav",
+   "start": 7.416666666666667,
+   "start_frame": 178,
+   "dur": 0.689,
+   "on": 7.4367,
+   "off": 8.0417,
+   "speech_dur": 0.605,
+   "gaps": [],
+   "visemes": [
+    [
+     0.0,
+     0.03,
+     "X"
+    ],
+    [
+     0.03,
+     0.27,
+     "C"
+    ],
+    [
+     0.27,
+     0.55,
+     "B"
+    ],
+    [
+     0.55,
+     0.68,
+     "X"
+    ]
+   ],
+   "words": [
+    [
+     0.03,
+     0.55,
+     "and"
+    ]
+   ]
+  },
+  {
+   "id": "L5",
+   "who": "remi",
+   "text": "The mirror said no.",
+   "voice": "am_michael",
+   "speed": 1.08,
+   "nominal": 8.6,
+   "wav": "lines/L5-remi.wav",
+   "start": 8.791666666666666,
+   "start_frame": 211,
+   "dur": 1.195,
+   "on": 8.8117,
+   "off": 9.9067,
+   "speech_dur": 1.095,
+   "gaps": [],
+   "visemes": [
+    [
+     0.0,
+     0.01,
+     "X"
+    ],
+    [
+     0.01,
+     0.09,
+     "B"
+    ],
+    [
+     0.09,
+     0.17,
+     "A"
+    ],
+    [
+     0.17,
+     0.27,
+     "B"
+    ],
+    [
+     0.27,
+     0.41,
+     "E"
+    ],
+    [
+     0.41,
+     0.55,
+     "B"
+    ],
+    [
+     0.55,
+     0.62,
+     "C"
+    ],
+    [
+     0.62,
+     0.69,
+     "B"
+    ],
+    [
+     0.69,
+     0.83,
+     "C"
+    ],
+    [
+     0.83,
+     0.97,
+     "E"
+    ],
+    [
+     0.97,
+     1.04,
+     "F"
+    ],
+    [
+     1.04,
+     1.19,
+     "X"
+    ]
+   ],
+   "words": [
+    [
+     0.03,
+     0.09,
+     "the"
+    ],
+    [
+     0.09,
+     0.42,
+     "mirror"
+    ],
+    [
+     0.42,
+     0.72,
+     "said"
+    ],
+    [
+     0.72,
+     1.04,
+     "no"
+    ]
+   ]
+  }
+ ],
+ "shots": [
+  {
+   "name": "S1 WS two-shot",
+   "start_frame": 0,
+   "frames": 74,
+   "start": 0.0,
+   "dur": 3.0833
+  },
+  {
+   "name": "S2 MCU Bo",
+   "start_frame": 74,
+   "frames": 26,
+   "start": 3.0833,
+   "dur": 1.0833
+  },
+  {
+   "name": "S3 MCU Remi",
+   "start_frame": 100,
+   "frames": 78,
+   "start": 4.1667,
+   "dur": 3.25
+  },
+  {
+   "name": "S4 MCU-tight Bo",
+   "start_frame": 178,
+   "frames": 33,
+   "start": 7.4167,
+   "dur": 1.375
+  },
+  {
+   "name": "S5 MS two-shot",
+   "start_frame": 211,
+   "frames": 35,
+   "start": 8.7917,
+   "dur": 1.4583
+  },
+  {
+   "name": "S6 MCU-tight Bo reaction",
+   "start_frame": 246,
+   "frames": 12,
+   "start": 10.25,
+   "dur": 0.5
+  },
+  {
+   "name": "S7 CU Remi deflation",
+   "start_frame": 258,
+   "frames": 30,
+   "start": 10.75,
+   "dur": 1.25
+  }
+ ],
+ "events": {
+  "beat_s": 0.77,
+  "beat_frames": 18.48,
+  "creak1": 4.2667,
+  "creak2": 8.7917,
+  "pad_cut": 10.25,
+  "hand": 6.046666666666667,
+  "gestures": 6.426666666666667,
+  "mirror3": 5.206666666666667,
+  "weeks3": 4.406666666666667,
+  "speech": 1.2933333333333334,
+  "weeks1": 2.0633333333333335,
+  "for1": 1.6833333333333336,
+  "mirror5": 8.881666666666666,
+  "no5": 9.511666666666667
+ },
+ "mouth": {
+  "remi": "XXXXXXXXXXXXXXCCBBBBEEEEEBBBBBAABBBBBBBGGBBBBBBBBBFFBBBBBBBBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXBBBBBFFFBBBBBBBXXXXXXBBBBAABBEEEEECCCCCCCCFFFCCCCCCCBBBCCCBBBBBEEBBBBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXBBAABBEEEBBBBCCCCCCCEEEFFXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "bo": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXCCAAACCCCBBFFAAAAAABBBBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXCCCCCCBBBBBBBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+ },
+ "sync": [
+  {
+   "line": "L1",
+   "shape": "C",
+   "t": 0.613,
+   "frame": 14,
+   "offset_ms": -30.0
+  },
+  {
+   "line": "L1",
+   "shape": "B",
+   "t": 0.663,
+   "frame": 16,
+   "offset_ms": 3.3
+  },
+  {
+   "line": "L1",
+   "shape": "E",
+   "t": 0.843,
+   "frame": 20,
+   "offset_ms": -10.0
+  },
+  {
+   "line": "L1",
+   "shape": "B",
+   "t": 1.053,
+   "frame": 25,
+   "offset_ms": -11.7
+  },
+  {
+   "line": "L1",
+   "shape": "A",
+   "t": 1.263,
+   "frame": 30,
+   "offset_ms": -13.3
+  },
+  {
+   "line": "L1",
+   "shape": "B",
+   "t": 1.343,
+   "frame": 32,
+   "offset_ms": -10.0
+  },
+  {
+   "line": "L1",
+   "shape": "G",
+   "t": 1.673,
+   "frame": 39,
+   "offset_ms": -48.3
+  },
+  {
+   "line": "L1",
+   "shape": "B",
+   "t": 1.743,
+   "frame": 41,
+   "offset_ms": -35.0
+  },
+  {
+   "line": "L1",
+   "shape": "F",
+   "t": 2.093,
+   "frame": 50,
+   "offset_ms": -10.0
+  },
+  {
+   "line": "L1",
+   "shape": "B",
+   "t": 2.163,
+   "frame": 52,
+   "offset_ms": 3.3
+  },
+  {
+   "line": "L2",
+   "shape": "B",
+   "t": 3.083,
+   "offset_ms": null
+  },
+  {
+   "line": "L2",
+   "shape": "C",
+   "t": 3.133,
+   "frame": 74,
+   "offset_ms": -50.0
+  },
+  {
+   "line": "L2",
+   "shape": "A",
+   "t": 3.183,
+   "frame": 76,
+   "offset_ms": -16.7
+  },
+  {
+   "line": "L2",
+   "shape": "C",
+   "t": 3.313,
+   "frame": 79,
+   "offset_ms": -21.7
+  },
+  {
+   "line": "L2",
+   "shape": "B",
+   "t": 3.493,
+   "frame": 83,
+   "offset_ms": -35.0
+  },
+  {
+   "line": "L2",
+   "shape": "F",
+   "t": 3.563,
+   "frame": 85,
+   "offset_ms": -21.7
+  },
+  {
+   "line": "L2",
+   "shape": "A",
+   "t": 3.633,
+   "frame": 87,
+   "offset_ms": -8.3
+  },
+  {
+   "line": "L2",
+   "shape": "B",
+   "t": 3.893,
+   "frame": 93,
+   "offset_ms": -18.3
+  },
+  {
+   "line": "L3",
+   "shape": "B",
+   "t": 4.197,
+   "frame": 100,
+   "offset_ms": -30.0
+  },
+  {
+   "line": "L3",
+   "shape": "F",
+   "t": 4.387,
+   "frame": 105,
+   "offset_ms": -11.7
+  },
+  {
+   "line": "L3",
+   "shape": "B",
+   "t": 4.527,
+   "frame": 108,
+   "offset_ms": -26.7
+  },
+  {
+   "line": "L3",
+   "shape": "B",
+   "t": 5.047,
+   "frame": 121,
+   "offset_ms": -5.0
+  },
+  {
+   "line": "L3",
+   "shape": "A",
+   "t": 5.207,
+   "frame": 125,
+   "offset_ms": 1.7
+  },
+  {
+   "line": "L3",
+   "shape": "B",
+   "t": 5.287,
+   "frame": 127,
+   "offset_ms": 5.0
+  },
+  {
+   "line": "L3",
+   "shape": "E",
+   "t": 5.387,
+   "frame": 129,
+   "offset_ms": -11.7
+  },
+  {
+   "line": "L3",
+   "shape": "C",
+   "t": 5.597,
+   "frame": 134,
+   "offset_ms": -13.3
+  },
+  {
+   "line": "L3",
+   "shape": "F",
+   "t": 5.927,
+   "frame": 142,
+   "offset_ms": -10.0
+  },
+  {
+   "line": "L3",
+   "shape": "B",
+   "t": 5.997,
+   "offset_ms": null
+  },
+  {
+   "line": "L3",
+   "shape": "C",
+   "t": 6.057,
+   "frame": 145,
+   "offset_ms": -15.0
+  },
+  {
+   "line": "L3",
+   "shape": "B",
+   "t": 6.337,
+   "frame": 152,
+   "offset_ms": -3.3
+  },
+  {
+   "line": "L3",
+   "shape": "C",
+   "t": 6.477,
+   "frame": 155,
+   "offset_ms": -18.3
+  },
+  {
+   "line": "L3",
+   "shape": "B",
+   "t": 6.617,
+   "frame": 158,
+   "offset_ms": -33.3
+  },
+  {
+   "line": "L3",
+   "shape": "E",
+   "t": 6.827,
+   "frame": 163,
+   "offset_ms": -35.0
+  },
+  {
+   "line": "L3",
+   "shape": "B",
+   "t": 6.897,
+   "frame": 165,
+   "offset_ms": -21.7
+  },
+  {
+   "line": "L4",
+   "shape": "C",
+   "t": 7.447,
+   "frame": 178,
+   "offset_ms": -30.0
+  },
+  {
+   "line": "L4",
+   "shape": "B",
+   "t": 7.687,
+   "frame": 184,
+   "offset_ms": -20.0
+  },
+  {
+   "line": "L5",
+   "shape": "B",
+   "t": 8.802,
+   "frame": 211,
+   "offset_ms": -10.0
+  },
+  {
+   "line": "L5",
+   "shape": "A",
+   "t": 8.882,
+   "frame": 213,
+   "offset_ms": -6.7
+  },
+  {
+   "line": "L5",
+   "shape": "B",
+   "t": 8.962,
+   "frame": 215,
+   "offset_ms": -3.3
+  },
+  {
+   "line": "L5",
+   "shape": "E",
+   "t": 9.062,
+   "frame": 217,
+   "offset_ms": -20.0
+  },
+  {
+   "line": "L5",
+   "shape": "B",
+   "t": 9.202,
+   "frame": 220,
+   "offset_ms": -35.0
+  },
+  {
+   "line": "L5",
+   "shape": "C",
+   "t": 9.342,
+   "frame": 224,
+   "offset_ms": -8.3
+  },
+  {
+   "line": "L5",
+   "shape": "B",
+   "t": 9.412,
+   "offset_ms": null
+  },
+  {
+   "line": "L5",
+   "shape": "C",
+   "t": 9.482,
+   "offset_ms": null
+  },
+  {
+   "line": "L5",
+   "shape": "E",
+   "t": 9.622,
+   "frame": 231,
+   "offset_ms": 3.3
+  },
+  {
+   "line": "L5",
+   "shape": "F",
+   "t": 9.762,
+   "frame": 234,
+   "offset_ms": -11.7
+  }
+ ]
+}

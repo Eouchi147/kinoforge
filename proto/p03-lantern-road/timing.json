@@ -1,0 +1,19 @@
+{
+  "_": "Single source of truth for picture (scene.js) and sound (audio.py). Seconds unless noted.",
+  "fps": 24,
+  "shots": [
+    { "name": "S1 EWS dolly - the lantern line", "dur": 4.6 },
+    { "name": "S2 low crane - the village wakes", "dur": 4.2 },
+    { "name": "S3 MWS locked - the gate", "dur": 3.2 }
+  ],
+  "walk": { "heightM": 1.75, "T": 0.55, "step": 0.30, "phase0": 0.225, "_contacts": "phase0 + k*T, foot = k mod 2; a plant lands on the S1->S2 cut (4.625)" },
+  "s1": { "ropeLanterns": [1.0, 2.5, 4.0], "posts": [0.45, 4.55] },
+  "s2": { "chain": [5.40, 5.80, 6.20, 6.60, 7.00, 7.40, 7.80, 8.15, 8.45], "crane": [4.6, 8.2] },
+  "s3": { "brake": 8.80, "plantBrake": 9.025, "plantStop": 9.40, "lookUp": [9.85, 10.12], "ignite": 10.2083, "title": 10.625 },
+  "bells": [1.8, 9.0],
+  "silence": [9.62, 10.20],
+  "captions": [
+    { "text": "He had walked for eleven days.", "in": 0.55, "out": 4.25 },
+    { "text": "The village had been waiting.", "in": 5.25, "out": 8.45 }
+  ]
+}

@@ -133,7 +133,7 @@ export function dustPoints({ count = 800, box = [10, 6, 10], center = [0, 0, 0],
 const shaftVert = `varying vec3 vPos; varying vec2 vUv; varying float vNdotV; void main(){ vUv=uv; vPos=position; vec4 mv=modelViewMatrix*vec4(position,1.0); vec3 n=normalize(normalMatrix*normal); vNdotV=abs(dot(n, normalize(-mv.xyz))); gl_Position=projectionMatrix*mv; }`;
 const shaftFrag = `uniform vec3 uColor; uniform float uIntensity; uniform float uTime; uniform float uLength; varying vec3 vPos; varying vec2 vUv; varying float vNdotV;
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);} float n2(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}
-void main(){ float along=clamp(-vPos.y/uLength,0.0,1.0); float a=(1.0-along*0.8); a*=smoothstep(0.0,0.45,vNdotV); a*=smoothstep(0.0,0.08,along);
+void main(){ float along=clamp(-vPos.y/uLength,0.0,1.0); float a=(1.0-along*0.8); a*=smoothstep(0.0,0.45,vNdotV); a*=smoothstep(0.0,0.08,along); a*=smoothstep(1.0,0.82,along);
  float nz=n2(vec2(vUv.x*5.0+uTime*0.04, along*2.5-uTime*0.06))*0.7+0.3; nz*=0.6+0.4*n2(vec2(vUv.x*17.0-uTime*0.02, along*9.0)); gl_FragColor=vec4(uColor*uIntensity*a*nz*0.35, 1.0); }`;
 export function lightShaft({ length = 10, radiusTop = 0.3, radiusBottom = 2.5, color = 0xffe3b0, intensity = 1.0 } = {}) {
   const g = new THREE.CylinderGeometry(radiusTop, radiusBottom, length, 24, 1, true); g.translate(0, -length / 2, 0);
@@ -196,7 +196,7 @@ const FinishShader = {
       col*=exposure; col=col*gain+lift; col=pow(max(col,0.0), vec3(1.0/gamma));
       col=(col-0.5)*contrast+0.5; float l=lum(col); col=mix(vec3(l), col, saturation);
       col+=shadowTint*(1.0-smoothstep(0.0,0.6,l)) + highlightTint*smoothstep(0.4,1.0,l);
-      if(mode==2){ // quantise + ordered dither
+      if(mode==2){ col*=1.0-vignette*smoothstep(0.25,1.6,r2*2.2); // quantise + ordered dither
         float bx=mod(floor(uv.x*resolution.x/ (resolution.x/max(modeParams.x,32.0))),4.0), by=mod(floor(uv.y*resolution.y/(resolution.x/max(modeParams.x,32.0))),4.0);
         float bayer[16]; bayer[0]=0.;bayer[1]=8.;bayer[2]=2.;bayer[3]=10.;bayer[4]=12.;bayer[5]=4.;bayer[6]=14.;bayer[7]=6.;bayer[8]=3.;bayer[9]=11.;bayer[10]=1.;bayer[11]=9.;bayer[12]=15.;bayer[13]=7.;bayer[14]=13.;bayer[15]=5.;
         float d=(bayer[int(bx)+int(by)*4]/16.0-0.5)*modeParams.y; col=floor((col+d)*palette+0.5)/palette; }
@@ -204,10 +204,10 @@ const FinishShader = {
         float ang=modeParams.x; float cell=max(modeParams.y,3.0); mat2 rot=mat2(cos(ang),-sin(ang),sin(ang),cos(ang)); vec2 p=rot*(uv*resolution); vec2 f=fract(p/cell)-0.5; float d=length(f);
         float dark=1.0-l; float dot=smoothstep(dark*0.7+0.02, dark*0.7-0.08, d); col=mix(col, col*(1.0-0.75*modeAmount), dot*smoothstep(0.25,0.75,dark)); }
       if(mode==1){ float sl=0.5+0.5*sin(uv.y*resolution.y*3.1416); col*=1.0-0.35*modeAmount*sl; col*=1.0-0.06*modeAmount*hash(vec2(time*3.0,0.5)); }
-      // vignette (<=0.5 stop by default)
-      col*=1.0-vignette*smoothstep(0.25,1.6,r2*2.2);
+      // vignette (<=0.5 stop by default) — in pixel mode it is applied before quantisation (see above)
+      if(mode!=2) col*=1.0-vignette*smoothstep(0.25,1.6,r2*2.2);
       // grain: finer in highlights
-      if(grain>0.0){ float g=hash(floor(uv*resolution/grainSize)+fract(time*61.7)*13.0)-0.5; col+=g*grain*(1.0-0.5*clamp(l,0.0,1.0)); }
+      if(grain>0.0 && mode!=2){ float g=hash(floor(uv*resolution/grainSize)+fract(time*61.7)*13.0)-0.5; col+=g*grain*(1.0-0.5*clamp(l,0.0,1.0)); }
       // letterbox bars
       if(letterbox>0.0){ float bar=(1.0-ar/letterbox)*0.5; if(uv.y<bar||uv.y>1.0-bar) col=vec3(0.0); }
       col*=fade;
@@ -252,7 +252,7 @@ export function makeComposer(renderer, scene, camera, { bloom = null, bokeh = nu
   let ov = null, ovPass = null;
   if (overlay) {
     const c = document.createElement('canvas'); c.width = w; c.height = h; const ctx = c.getContext('2d');
-    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.NoColorSpace; // composited in display space: no decode
     ovPass = new ShaderPass(OverlayShader); ovPass.uniforms.tOverlay.value = tex; ov = { canvas: c, ctx, tex, clear: () => ctx.clearRect(0, 0, w, h) };
   }
   if (ovPass && !overlayAfterFinish) composer.addPass(ovPass);
@@ -287,7 +287,7 @@ export async function boot({ fps = 24, duration = null, shots = null, init, rend
   document.body.style.margin = '0'; document.body.style.background = '#000'; document.body.appendChild(canvas);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true, alpha, powerPreference: 'high-performance' });
   renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.toneMapping = toneMapping; renderer.toneMappingExposure = exposure; renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
   const timeline = shots ? new Timeline(shots) : null; duration = duration ?? (timeline ? timeline.total : 10);
   const ctx = { THREE, renderer, canvas, W, H, fps, timeline, q, duration };
   if (fonts.length) await loadFonts(fonts);
