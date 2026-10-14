@@ -64,10 +64,10 @@ jobs:
           python -m pip install -q --upgrade pip
           if [ "$ENGINE" = "chatterbox" ]; then
             pip install -q torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
-            pip install -q chatterbox-tts kokoro-onnx
+            pip install -q chatterbox-tts kokoro-onnx==0.6.1
           elif [ "$ENGINE" = "kokoro" ]; then
             pip install -q torch --index-url https://download.pytorch.org/whl/cpu
-            pip install -q kokoro-onnx
+            pip install -q kokoro-onnx==0.6.1
           else
             pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
             pip install -q qwen-tts
@@ -82,7 +82,9 @@ jobs:
           ls -la
       - name: narrate + check every take
         env: { KOKORO_DIR: 'models/kokoro', OMP_NUM_THREADS: '4' }
-        run: python harness/voice/narrate.py ${{ matrix.run.job }} ${{ matrix.run.engine }} out/${{ matrix.run.film }}-${{ matrix.run.engine }}
+        run: |
+          set -o pipefail; mkdir -p out
+          python harness/voice/narrate.py ${{ matrix.run.job }} ${{ matrix.run.engine }} out/${{ matrix.run.film }}-${{ matrix.run.engine }} 2>&1 | tee out/${{ matrix.run.film }}-${{ matrix.run.engine }}.log
       - name: publish to the voice release
         if: always()
         env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
@@ -93,6 +95,7 @@ jobs:
           gh release view voice > /dev/null 2>&1 || gh release create voice --title "voice" --notes "Narration takes + checker reports (CI, prototypes only)." || true
           gh release upload voice out/$N.zip --clobber
           [ -f out/$N/report.json ] && cp out/$N/report.json out/$N.report.json && gh release upload voice out/$N.report.json --clobber || true
+          [ -f out/$N.log ] && gh release upload voice out/$N.log --clobber || true
 
   diagnose:
     needs: plan
@@ -109,9 +112,13 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - run: pip install -q faster-whisper numpy
-      - run: python harness/voice/diagnose.py ${{ matrix.d.script }} ${{ matrix.d.audio }} ${{ matrix.d.name }}.diagnosis.json
+      - run: |
+          set -o pipefail
+          python harness/voice/diagnose.py ${{ matrix.d.script }} ${{ matrix.d.audio }} ${{ matrix.d.name }}.diagnosis.json 2>&1 | tee ${{ matrix.d.name }}.log
       - name: publish
+        if: always()
         env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
         run: |
           gh release view voice > /dev/null 2>&1 || gh release create voice --title "voice" --notes "Narration takes + checker reports (CI, prototypes only)." || true
-          gh release upload voice ${{ matrix.d.name }}.diagnosis.json --clobber
+          [ -f ${{ matrix.d.name }}.diagnosis.json ] && gh release upload voice ${{ matrix.d.name }}.diagnosis.json --clobber || true
+          gh release upload voice ${{ matrix.d.name }}.log --clobber || true

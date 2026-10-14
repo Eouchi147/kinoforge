@@ -207,7 +207,9 @@ for line in job['lines']:
         except Exception:
             entry['takes'].append({'take': k, 'error': traceback.format_exc()[-600:]}); continue
         path = os.path.join(OUT, 'takes', f"{line['id']}_{k}.wav"); sf.write(path, x, SR, subtype='PCM_16')
-        q = check(x, line); q.update({'take': k, 'file': os.path.relpath(path, OUT), 'gen_s': round(time.time() - t0, 1)})
+        try: q = check(x, line)
+        except Exception: q = {'pass': False, 'reasons': ['checker crashed'], 'score': 99.0, 'error': traceback.format_exc()[-1500:]}; log(q['error'])
+        q.update({'take': k, 'file': os.path.relpath(path, OUT), 'gen_s': round(time.time() - t0, 1)})
         entry['takes'].append(q); all_takes.append((line['id'], k, x)); log(line['id'], k, 'PASS' if q['pass'] else 'fail', q['reasons'], q['heard'])
     report['lines'].append(entry)
 
