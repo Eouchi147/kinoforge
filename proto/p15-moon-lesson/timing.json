@@ -1,0 +1,13 @@
+{"duration": 62.5, "x_at": 12.7, "lamp_off": 52.95, "voice": "moon-take4.wav (VoiceStudio / OmniVoice, designed voice, 61.4 s)",
+ "beats": [
+  {"id": "hook", "t0": 0.0, "t1": 5.25},
+  {"id": "myth", "t0": 5.25, "t1": 14.3},
+  {"id": "setup", "t0": 14.3, "t1": 23.6},
+  {"id": "stand", "t0": 23.6, "t1": 28.0},
+  {"id": "new", "t0": 28.0, "t1": 35.0},
+  {"id": "quarter", "t0": 35.0, "t1": 41.1},
+  {"id": "full", "t0": 41.1, "t1": 47.4},
+  {"id": "seat", "t0": 47.4, "t1": 51.4},
+  {"id": "light", "t0": 51.4, "t1": 56.0},
+  {"id": "end", "t0": 56.0, "t1": 62.5}
+ ]}
