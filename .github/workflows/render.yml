@@ -26,6 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 2 }
+      - run: pip install -q numpy scipy > /dev/null 2>&1 || true
       - id: p
         env:
           INPUT_SCENES: ${{ github.event.inputs.scenes }}
@@ -33,7 +34,7 @@ jobs:
           INPUT_H: ${{ github.event.inputs.h }}
         run: |
           python3 - <<'EOF' >> "$GITHUB_OUTPUT"
-          import json, os, glob, subprocess, re
+          import json, os, glob, subprocess, re, sys
           jobs, joins = [], []
           def frames(scene, fps):
               # total frames from the scene's declared duration (blender.py: DURATION or SHOTS), imported with bpy stubbed out
@@ -44,11 +45,11 @@ jobs:
               for mod in ('bpy', 'mathutils', 'bmesh'): sys.modules.setdefault(mod, MagicMock())
               sys.path.insert(0, d); spec = importlib.util.spec_from_file_location('kf_' + scene.replace('-', '_'), f'{d}/blender.py'); m = importlib.util.module_from_spec(spec)
               try: spec.loader.exec_module(m)
-              except Exception as e: print(f'warning: cannot import {scene}/blender.py for its duration: {e}', flush=True); return None
+              except Exception as e: print(f'warning: cannot import {scene}/blender.py for its duration: {e}', file=sys.stderr, flush=True); return None
               dur = getattr(m, 'DURATION', None) or sum(x['dur'] for x in getattr(m, 'SHOTS', []))
               return int(round(float(dur) * fps)) if dur else None
           def add(scene, w=1280, h=720, fps=24, samples=None, parts=1):
-              if not os.path.isdir(f'proto/{scene}'): print(f'skip {scene}: no proto dir', flush=True); return
+              if not os.path.isdir(f'proto/{scene}'): print(f'skip {scene}: no proto dir', file=sys.stderr, flush=True); return
               kind = 'blender' if os.path.exists(f'proto/{scene}/blender.py') else 'web'
               base = {'scene': scene, 'w': int(w), 'h': int(h), 'fps': int(fps), 'kind': kind, 'samples': int(samples or 96)}
               total = frames(scene, int(fps)) if kind == 'blender' else None
