@@ -1,0 +1,72 @@
+{
+ "film": "dragon-tale",
+ "duration": 126.5,
+ "takes": 3,
+ "profile": "fable storyteller",
+ "kokoro_ref": "bm_fable",
+ "persona": "A warm, wise grandfather storyteller with a gentle, slightly husky British voice, telling a bedtime fable by the fire. Unhurried, with a soft smile in his voice and a twinkle on the funny parts; never theatrical, never booming.",
+ "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening.",
+ "ref_tone": "Calm, warm and unhurried, like the start of a bedtime story.",
+ "lines": [
+  {
+   "id": "L1",
+   "text": "In a little paper kingdom, there lived a little king... with a very big temper.",
+   "start": 0.6,
+   "end": 7.0,
+   "tone": "Cosy and amused, with a twinkle on 'a very big temper'.",
+   "wpm": [
+    115,
+    160
+   ],
+   "exaggeration": 0.6
+  },
+  {
+   "id": "L2",
+   "text": "One evening, a dragon fell out of the sky.",
+   "start": 13.75,
+   "end": 18.4,
+   "tone": "Hushed wonder, then a hint of comedy at the end.",
+   "wpm": [
+    100,
+    150
+   ],
+   "exaggeration": 0.6
+  },
+  {
+   "id": "L3",
+   "text": "Everyone saw a monster. Only one small girl saw a broken wing.",
+   "start": 83.33,
+   "end": 88.7,
+   "tone": "Tender and slower, a soft catch of feeling on 'a broken wing'.",
+   "wpm": [
+    105,
+    150
+   ],
+   "exaggeration": 0.65
+  },
+  {
+   "id": "L4",
+   "text": "And that night, the whole kingdom learned to look up.",
+   "start": 116.33,
+   "end": 121.1,
+   "tone": "Warm and uplifting, gently proud.",
+   "wpm": [
+    110,
+    155
+   ],
+   "exaggeration": 0.6
+  },
+  {
+   "id": "L5",
+   "text": "Sometimes, the loudest roar... is a call for help.",
+   "start": 121.33,
+   "end": 126.2,
+   "tone": "Gentle and wise, slow: the moral of the story.",
+   "wpm": [
+    90,
+    140
+   ],
+   "exaggeration": 0.55
+  }
+ ]
+}

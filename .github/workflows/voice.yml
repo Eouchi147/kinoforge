@@ -1,0 +1,117 @@
+# KINOFORGE voice lane — directed narration takes + the automatic take checker, on GitHub's free runners.
+# Push a file to voice/queue/*.json  ->  one job per (film x engine) + one job per narration to diagnose.
+# Results (report.json, the placed narration track, every take) go to the "voice" release.
+# Test narration for prototypes only; nothing produced here is published.
+name: voice
+on:
+  workflow_dispatch:
+    inputs:
+      queue: { description: 'queue file under voice/queue/', default: '' }
+  push:
+    branches: [main]
+    paths: ['voice/queue/*.json']
+permissions:
+  contents: write
+concurrency:
+  group: voice-${{ github.run_id }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      runs: ${{ steps.p.outputs.runs }}
+      diag: ${{ steps.p.outputs.diag }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - id: p
+        shell: python
+        env: { QUEUE: '${{ github.event.inputs.queue }}' }
+        run: |
+          import json, os, subprocess
+          q = os.environ.get('QUEUE')
+          if not q:
+              files = subprocess.run(['git', 'diff', '--name-only', 'HEAD~1', 'HEAD', '--', 'voice/queue/'], capture_output=True, text=True).stdout.split()
+              q = files[-1] if files else sorted(os.listdir('voice/queue'))[-1]
+          if not q.startswith('voice/'): q = 'voice/queue/' + q
+          d = json.load(open(q))
+          runs = [{'job': r['job'], 'engine': e, 'film': json.load(open(r['job']))['film']} for r in d.get('runs', []) for e in r['engines']]
+          diag = [dict(x, name=os.path.splitext(os.path.basename(x['audio']))[0]) for x in d.get('diagnose', [])]
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('runs=' + json.dumps(runs) + '\n'); f.write('diag=' + json.dumps(diag or [{'name': 'none'}]) + '\n')
+          print(q, runs, diag)
+
+  narrate:
+    needs: plan
+    if: needs.plan.outputs.runs != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        run: ${{ fromJson(needs.plan.outputs.runs) }}
+    name: ${{ matrix.run.film }} · ${{ matrix.run.engine }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: system packages
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq sox libsox-fmt-all ffmpeg > /dev/null
+      - name: install the engine
+        env: { ENGINE: '${{ matrix.run.engine }}' }
+        run: |
+          python -m pip install -q --upgrade pip
+          if [ "$ENGINE" = "chatterbox" ]; then
+            pip install -q torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+            pip install -q chatterbox-tts kokoro-onnx
+          elif [ "$ENGINE" = "kokoro" ]; then
+            pip install -q torch --index-url https://download.pytorch.org/whl/cpu
+            pip install -q kokoro-onnx
+          else
+            pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+            pip install -q qwen-tts
+          fi
+          pip install -q faster-whisper resemblyzer pyloudnorm soundfile scipy
+      - name: Kokoro model files
+        if: matrix.run.engine == 'chatterbox' || matrix.run.engine == 'kokoro'
+        run: |
+          mkdir -p models/kokoro && cd models/kokoro
+          curl -sSL -o kokoro-v1.0.onnx https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx
+          curl -sSL -o voices-v1.0.bin https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin
+          ls -la
+      - name: narrate + check every take
+        env: { KOKORO_DIR: 'models/kokoro', OMP_NUM_THREADS: '4' }
+        run: python harness/voice/narrate.py ${{ matrix.run.job }} ${{ matrix.run.engine }} out/${{ matrix.run.film }}-${{ matrix.run.engine }}
+      - name: publish to the voice release
+        if: always()
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          N=${{ matrix.run.film }}-${{ matrix.run.engine }}
+          [ -d out/$N ] || exit 0
+          cd out && zip -qr $N.zip $N && cd ..
+          gh release view voice > /dev/null 2>&1 || gh release create voice --title "voice" --notes "Narration takes + checker reports (CI, prototypes only)." || true
+          gh release upload voice out/$N.zip --clobber
+          [ -f out/$N/report.json ] && cp out/$N/report.json out/$N.report.json && gh release upload voice out/$N.report.json --clobber || true
+
+  diagnose:
+    needs: plan
+    if: needs.plan.outputs.diag != '[{"name":"none"}]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        d: ${{ fromJson(needs.plan.outputs.diag) }}
+    name: diagnose · ${{ matrix.d.name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q faster-whisper numpy
+      - run: python harness/voice/diagnose.py ${{ matrix.d.script }} ${{ matrix.d.audio }} ${{ matrix.d.name }}.diagnosis.json
+      - name: publish
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          gh release view voice > /dev/null 2>&1 || gh release create voice --title "voice" --notes "Narration takes + checker reports (CI, prototypes only)." || true
+          gh release upload voice ${{ matrix.d.name }}.diagnosis.json --clobber
