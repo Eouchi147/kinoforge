@@ -143,8 +143,9 @@ def doubled(ws): return sum(1 for a, b in zip(ws, ws[1:]) if a == b)
 
 def check(x, line):
     """Measure one take. Returns a dict with pass/fail and a score (lower is better)."""
-    tmp = os.path.join(OUT, '_asr.wav'); sf.write(tmp, x, SR)
-    segs, _ = asr().transcribe(tmp, language='en', word_timestamps=True, beam_size=5, vad_filter=False, condition_on_previous_text=False)
+    from scipy.signal import resample_poly
+    a16 = resample_poly(x, 1, 3).astype(np.float32)               # 48 kHz -> 16 kHz array (no file decoding, no PyAV)
+    segs, _ = asr().transcribe(a16, language='en', word_timestamps=True, beam_size=5, vad_filter=False, condition_on_previous_text=False)
     W = [w for s in segs for w in (s.words or [])]
     hyp_text = ' '.join(w.word.strip() for w in W); hyp = words(hyp_text); ref = words(line['text'])
     S, Dl, I = edit_ops(ref, hyp); wer = (S + Dl + I) / max(1, len(ref))
@@ -210,7 +211,7 @@ for line in job['lines']:
         try: q = check(x, line)
         except Exception: q = {'pass': False, 'reasons': ['checker crashed'], 'score': 99.0, 'error': traceback.format_exc()[-1500:]}; log(q['error'])
         q.update({'take': k, 'file': os.path.relpath(path, OUT), 'gen_s': round(time.time() - t0, 1)})
-        entry['takes'].append(q); all_takes.append((line['id'], k, x)); log(line['id'], k, 'PASS' if q['pass'] else 'fail', q['reasons'], q['heard'])
+        entry['takes'].append(q); all_takes.append((line['id'], k, x)); log(line['id'], k, 'PASS' if q['pass'] else 'fail', q['reasons'], q.get('heard', ''))
     report['lines'].append(entry)
 
 # same voice on every line: distance of each take from the engine's average voice

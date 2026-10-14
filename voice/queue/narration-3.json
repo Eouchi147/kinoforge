@@ -1,0 +1,21 @@
+{
+ "runs": [
+  {
+   "job": "voice/jobs/dragon-tale.json",
+   "engines": [
+    "kokoro"
+   ]
+  }
+ ],
+ "diagnose": [
+  {
+   "script": "voice/inputs/moon-script.json",
+   "audio": "voice/inputs/moon-v2-voicestudio.flac"
+  },
+  {
+   "script": "voice/inputs/moon-script.json",
+   "audio": "voice/inputs/moon-v2-kokoro.flac"
+  }
+ ],
+ "note": "debug the checker (2)"
+}

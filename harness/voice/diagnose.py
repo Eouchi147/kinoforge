@@ -13,7 +13,12 @@ import numpy as np
 script = json.load(open(sys.argv[1])); audio = sys.argv[2]; out = sys.argv[3]
 from faster_whisper import WhisperModel
 m = WhisperModel(os.environ.get('KF_ASR', 'medium.en'), device='cpu', compute_type='int8')
-segs, _ = m.transcribe(audio, language='en', word_timestamps=True, beam_size=5, condition_on_previous_text=False)
+import soundfile as sf
+from scipy.signal import resample_poly
+from math import gcd
+y, sr = sf.read(audio, dtype='float32', always_2d=True); y = y.mean(1)
+if sr != 16000: g = gcd(16000, sr); y = resample_poly(y, 16000 // g, sr // g).astype(np.float32)
+segs, _ = m.transcribe(y, language='en', word_timestamps=True, beam_size=5, condition_on_previous_text=False)
 W = [w for s in segs for w in (s.words or [])]
 norm = lambda s: re.findall(r"[a-z']+", s.lower().replace('’', "'").replace('-', ' '))
 heard = [(norm(w.word)[0] if norm(w.word) else '', w.start, w.end) for w in W]
