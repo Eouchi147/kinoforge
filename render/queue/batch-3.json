@@ -1,9 +1,30 @@
-{"w": 1280, "h": 720, "fps": 24, "note": "anthology batch 3: Blender scenes chunked across runners + paper, kinetic (9:16), terrain",
+{
+ "w": 1280,
+ "h": 720,
+ "fps": 24,
+ "note": "anthology batch 3 (retry after workflow fix)",
  "scenes": [
-  {"scene": "p04-witness", "parts": 8, "samples": 32},
-  {"scene": "p07-ash-ascent", "parts": 2, "samples": 64},
-  {"scene": "p10-clay", "parts": 2, "samples": 16},
+  {
+   "scene": "p04-witness",
+   "parts": 8,
+   "samples": 32
+  },
+  {
+   "scene": "p07-ash-ascent",
+   "parts": 2,
+   "samples": 64
+  },
+  {
+   "scene": "p10-clay",
+   "parts": 2,
+   "samples": 16
+  },
   "p09-paper-kingdom",
-  {"scene": "p11-kinetic", "w": 720, "h": 1280},
+  {
+   "scene": "p11-kinetic",
+   "w": 720,
+   "h": 1280
+  },
   "p12-terrain"
- ]}
+ ]
+}
