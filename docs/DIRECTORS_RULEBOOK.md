@@ -2,6 +2,24 @@
 
 Scope: AI-assisted animated/cinematic pieces, 15 s–12 min. f = frames at 24 fps (≈42 ms); FF = full-frame-equivalent mm; ASL = average shot length; **(house)** = studio default, not research. §9 = blockers; others are majors, waivable with a written reason.
 
+## 0. COMMON SENSE (core rule: a blocker that outranks every other rule)
+
+R-0-00 | Everything on screen must make sense to an ordinary viewer. What should be there is there; what shouldn't be there, or doesn't make sense, is not. No style, budget or convenience excuses a break. | WHY: A viewer who spots one "that's wrong" stops believing the film; children notice first (owner rule, 14 Oct 2026, after a dragon shipped to review as a neck with no body). | CHECK: §0 review below passes with zero findings.
+
+R-0-01 | Anatomy is complete: every creature and person has every part its kind has (body, legs, tail, arms, head), attached where they belong (wings on the shoulders, not the neck). A part may be hidden only by something that really stands in front of it, and the viewer must be able to tell what hides it. | CHECK: For each character, list the body parts; for each part not visible in a shot, name what is in front of it.
+
+R-0-02 | Physics and contact: things that stand touch the ground; nothing floats, sinks into the ground or passes through a solid without a reason the story gives; what falls lands; scale stays consistent between shots. | CHECK: Feet/base on the ground line in every grounded shot; sizes match across shots (±10%).
+
+R-0-03 | Motion matches facing: characters move the way they face (no flying backwards, no walking in reverse); turning is shown. | CHECK: Velocity direction vs facing direction for each moving character.
+
+R-0-04 | Story actions are seen: when the plot depends on an action (a breath lights the lanterns, a hand meets a nose), its cause and its effect are both in frame and readable at phone size. Key characters are big enough to read. | CHECK: Each beat in the beat list has its cause and effect on screen; the key character is ≥8% of frame height in its key moment.
+
+R-0-05 | Continuity: props, injuries, costume and state carry over between shots (a crown that fell stays fallen until someone fixes it); nothing appears or vanishes without a cause. | CHECK: State ledger per character and prop, shot by shot.
+
+R-0-06 | Nothing nonsensical: no stray or leftover pieces, no extra or doubled limbs, no text or symbols that mean nothing, no object in a place it could not be. | CHECK: Reviewer lists anything that made them ask "why is that there?"
+
+R-0-07 | Process (house): before ANY render that leaves the machine (GitHub, the Mac, a preview to the owner), make a contact sheet (≥1 frame per beat, plus every shot's first and last frame) and give it to a reviewer who has not seen the work being made (a separate agent or model), with only the story summary and this section. Every finding is fixed and re-checked before the render. | CHECK: Review log with zero open findings, attached to the render queue entry.
+
 ## 1. STORY
 
 R-1-01 | Hook ≤3 s: the first shot poses a question, anomaly or threat; no logo or title first. | WHY: 47% of a mobile video's value lands in 3 s, 74% in 10 s [Meta]. | CHECK: Freeze at 72 f: open question statable; no logo/title yet.
@@ -167,6 +185,8 @@ R-8-08 | Comedy: rule of three; a beat before the punchline (12–36 f in animat
 R-8-09 | Pathos: the climax is an on-screen choice that sacrifices the want for the need. | WHY: Harmon's "take" step; Pixar #1. | CHECK: Want, need, cost named; choice shown, not narrated.
 
 ## 9. ANTI-SLOP CHECKLIST (blockers)
+
+First blocker: §0 Common sense (R-0-00 to R-0-07) passes with zero findings.
 
 R-9-01 | No flicker, texture swim, boiling or melting. | WHY: Consistency and flicker are core VBench dimensions [VBench]. | CHECK: 25%-speed scrub; frame-to-frame DINO/CLIP similarity ≥ threshold.
 

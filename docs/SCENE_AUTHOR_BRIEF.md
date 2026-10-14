@@ -8,7 +8,7 @@ Judge your own frames like a picky film editor would. "It renders" is not the ba
 - Repo: `/home/claude/kinoforge` (git; do NOT commit or push — the lead does). Your scene lives in `proto/<scene-id>/`.
 - Harness API & contract: `harness/README.md` (read it). Kit source: `harness/kit/film.js` (read it; it is the API you call).
 - Reference scene to imitate structurally: `proto/p05-relic/scene.js`, `proto/p05-relic/audio.py`, `proto/p05-relic/NOTES.md`.
-- Rulebook: `docs/DIRECTORS_RULEBOOK.md` — your shot list must satisfy §2 (motivated moves, lens per shot), §3 (cut rhythm, silence before the hit), §4 (motivated light, separation, one grade), §5 (anticipation/holds/eases), §9 (anti-slop blockers).
+- Rulebook: `docs/DIRECTORS_RULEBOOK.md` — your shot list must satisfy §0 (COMMON SENSE: complete anatomy, ground contact, motion matches facing, key actions visible — the core rule, a blocker above all others), §2 (motivated moves, lens per shot), §3 (cut rhythm, silence before the hit), §4 (motivated light, separation, one grade), §5 (anticipation/holds/eases), §9 (anti-slop blockers).
 - Sound kit: `harness/audio/sfx.py` (procedural: drones, risers, hits, rain, wind, crackle, pluck, piano, choir, tick, heartbeat, Mix with ducking). Speech: `harness/audio/tts.py` (Kokoro voices + Rhubarb visemes) — only if your brief uses voice.
 - Fonts (link the CSS in index.html, then list them in `boot({fonts})`): Bebas Neue, Inter, Playfair Display, Special Elite (typewriter), VT323 (terminal), Cinzel, Bangers (comic), Cormorant Garamond, Oswald, Press Start 2P (pixel), Permanent Marker, IM Fell English. Path: `/harness/node_modules/@fontsource/<kebab-name>/index.css`.
 

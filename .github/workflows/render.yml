@@ -48,13 +48,13 @@ jobs:
               except Exception as e: print(f'warning: cannot import {scene}/blender.py for its duration: {e}', file=sys.stderr, flush=True); return None
               dur = getattr(m, 'DURATION', None) or sum(x['dur'] for x in getattr(m, 'SHOTS', []))
               return int(round(float(dur) * fps)) if dur else None
-          def add(scene, w=1280, h=720, fps=24, samples=None, parts=1):
+          def add(scene, w=1280, h=720, fps=24, samples=None, parts=1, nframes=None):
               if not os.path.isdir(f'proto/{scene}'): print(f'skip {scene}: no proto dir', file=sys.stderr, flush=True); return
               kind = 'blender' if os.path.exists(f'proto/{scene}/blender.py') else 'web'
               base = {'scene': scene, 'w': int(w), 'h': int(h), 'fps': int(fps), 'kind': kind, 'samples': int(samples or 96)}
-              total = frames(scene, int(fps)) if kind == 'blender' else None
+              total = frames(scene, int(fps)) if kind == 'blender' else (int(nframes) if nframes else None)   # web scenes declare their length in the queue ("frames")
               parts = int(parts or 1)
-              if kind == 'blender' and parts > 1 and total:
+              if parts > 1 and total:
                   for k in range(parts):
                       a, b = total * k // parts, total * (k + 1) // parts
                       jobs.append({**base, 'start': a, 'end': b, 'part': k, 'parts': parts, 'name': f'{scene} {k+1}/{parts}'})
@@ -72,7 +72,7 @@ jobs:
                   q = json.load(open(f))
                   for s in q.get('scenes', []):
                       if isinstance(s, str): add(s, q.get('w', 1280), q.get('h', 720), q.get('fps', 24), q.get('samples'))
-                      else: add(s['scene'], s.get('w', q.get('w', 1280)), s.get('h', q.get('h', 720)), s.get('fps', q.get('fps', 24)), s.get('samples', q.get('samples')), s.get('parts', 1))
+                      else: add(s['scene'], s.get('w', q.get('w', 1280)), s.get('h', q.get('h', 720)), s.get('fps', q.get('fps', 24)), s.get('samples', q.get('samples')), s.get('parts', 1), s.get('frames'))
           seen = set(); jobs = [j for j in jobs if not (j['name'] in seen or seen.add(j['name']))]
           print('jobs=' + json.dumps(jobs)); print('joins=' + json.dumps(joins))
           EOF
@@ -125,10 +125,15 @@ jobs:
           mkdir -p out/$SCENE
           if [ -f proto/$SCENE/audio.py ]; then python3 proto/$SCENE/audio.py out/$SCENE/audio.wav; fi
       - name: render (web)
-        if: matrix.job.kind == 'web'
+        if: matrix.job.kind == 'web' && matrix.job.parts == 1
         run: |
           A=""; [ -f out/$SCENE/audio.wav ] && A="--audio out/$SCENE/audio.wav"
           node harness/render.cjs proto/$SCENE --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --mp4 --contact $A
+      - name: render (web, part)
+        if: matrix.job.kind == 'web' && matrix.job.parts > 1
+        run: |
+          mkdir -p out/$SCENE
+          node harness/render.cjs proto/$SCENE --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --start ${{ matrix.job.start }} --end ${{ matrix.job.end }} 2>&1 | tee out/$SCENE/part-${{ matrix.job.part }}.log; test ${PIPESTATUS[0]} -eq 0
       - name: render (blender, whole clip)
         if: matrix.job.kind == 'blender' && matrix.job.parts == 1
         run: |
