@@ -135,7 +135,14 @@ jobs:
       - name: render (blender, part)
         if: matrix.job.kind == 'blender' && matrix.job.parts > 1
         run: |
-          python3 harness/blender_render.py proto/$SCENE --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --samples ${{ matrix.job.samples }} --start ${{ matrix.job.start }} --end ${{ matrix.job.end }}
+          mkdir -p out/$SCENE
+          python3 harness/blender_render.py proto/$SCENE --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --samples ${{ matrix.job.samples }} --start ${{ matrix.job.start }} --end ${{ matrix.job.end }} 2>&1 | grep -v -E '^(Fra:|EGL|Error: EGL)' | tee out/$SCENE/part-${{ matrix.job.part }}.log; test ${PIPESTATUS[0]} -eq 0
+      - name: keep the log where it can be read
+        if: failure()
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          gh release view logs > /dev/null 2>&1 || gh release create logs --title "logs" --notes "Failed-job logs (CI)." || true
+          f=$(ls out/$SCENE/*.log 2>/dev/null | head -1); [ -n "$f" ] && cp "$f" "$SCENE-part-${{ matrix.job.part }}.log" && gh release upload logs "$SCENE-part-${{ matrix.job.part }}.log" --clobber || true
       - uses: actions/upload-artifact@v4
         if: matrix.job.parts > 1
         with:
