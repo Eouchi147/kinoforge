@@ -4,7 +4,7 @@ Scope: AI-assisted animated/cinematic pieces, 15 s–12 min. f = frames at 24 fp
 
 ## 0. COMMON SENSE (core rule: a blocker that outranks every other rule)
 
-R-0-00 | Everything on screen must make sense to an ordinary viewer. What should be there is there; what shouldn't be there, or doesn't make sense, is not. No style, budget or convenience excuses a break. | WHY: A viewer who spots one "that's wrong" stops believing the film; children notice first (owner rule, 14 Oct 2026, after a dragon shipped to review as a neck with no body). | CHECK: §0 review below passes with zero findings.
+R-0-00 | Everything on screen must make sense to an ordinary viewer. What should be there is there; what shouldn't be there, or doesn't make sense, is not. No style, budget or convenience excuses a break. | WHY: A viewer who spots one "that's wrong" stops believing the film; children notice first (owner rule, 14 Oct 2026, after a dragon shipped to review as a neck with no body). | CHECK: §0 review below passes with zero findings (R-0-08 polish included).
 
 R-0-01 | Anatomy is complete: every creature and person has every part its kind has (body, legs, tail, arms, head), attached where they belong (wings on the shoulders, not the neck). A part may be hidden only by something that really stands in front of it, and the viewer must be able to tell what hides it. | CHECK: For each character, list the body parts; for each part not visible in a shot, name what is in front of it.
 
@@ -17,6 +17,8 @@ R-0-04 | Story actions are seen: when the plot depends on an action (a breath li
 R-0-05 | Continuity: props, injuries, costume and state carry over between shots (a crown that fell stays fallen until someone fixes it); nothing appears or vanishes without a cause. | CHECK: State ledger per character and prop, shot by shot.
 
 R-0-06 | Nothing nonsensical: no stray or leftover pieces, no extra or doubled limbs, no text or symbols that mean nothing, no object in a place it could not be. | CHECK: Reviewer lists anything that made them ask "why is that there?"
+
+R-0-08 | Polish: every element is clean, smooth and polished, and the elements fit together harmoniously. Nothing is clunky. Nothing is harsh, scratchy or sharp unless that is the intended look of a specific element, and then the intent is written in the style sheet. This covers stray lines, crease or rim strokes that read as scratches, jagged edges, mismatched line weights, and pieces that look stuck on (owner rule, 14 Oct 2026, after scratch-like lines on the dragon's wings). | CHECK: Full-size frame review of every character and prop; each visible line or edge is either part of the design or removed.
 
 R-0-07 | Process (house): before ANY render that leaves the machine (GitHub, the Mac, a preview to the owner), make a contact sheet (≥1 frame per beat, plus every shot's first and last frame) and give it to a reviewer who has not seen the work being made (a separate agent or model), with only the story summary and this section. Every finding is fixed and re-checked before the render. | CHECK: Review log with zero open findings, attached to the render queue entry.
 
