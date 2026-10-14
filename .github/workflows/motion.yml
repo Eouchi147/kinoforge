@@ -1,0 +1,47 @@
+# KINOFORGE motion lane — learn the human baseline from licence-safe mocap on GitHub's free runners.
+# Push motion/queue/*.json -> download the listed datasets, compute baseline.json, publish to the "motion" release.
+# Sources are CC BY / free-for-all-uses only (see the blueprint); credit lines are written into the output.
+name: motion
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['motion/queue/*.json']
+permissions:
+  contents: write
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        source: ['100STYLE']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q numpy
+      - name: download ${{ matrix.source }}
+        run: |
+          mkdir -p data && cd data
+          if [ "${{ matrix.source }}" = "100STYLE" ]; then
+            curl -sSL -o 100STYLE.zip "https://zenodo.org/records/8127870/files/100STYLE.zip?download=1"
+            echo "3cf627852fd8192024c04a8d0ef49583  100STYLE.zip" | md5sum -c -
+            unzip -q 100STYLE.zip -d 100STYLE && rm 100STYLE.zip
+          fi
+          find . -name "*.bvh" | wc -l; du -sh .
+      - name: learn the baseline
+        run: |
+          set -o pipefail; mkdir -p out
+          python harness/motion/baseline.py data/${{ matrix.source }} out/${{ matrix.source }} --source ${{ matrix.source }} 2>&1 | tee out/${{ matrix.source }}.log
+          echo "Motion data: 100STYLE dataset by Ian Mason et al., CC BY 4.0 (https://www.ianxmason.com/100style/)" > out/${{ matrix.source }}/CREDITS.txt
+      - name: publish to the motion release
+        if: always()
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          gh release view motion > /dev/null 2>&1 || gh release create motion --title "motion" --notes "Human motion baseline learned from licence-safe mocap (CI)." || true
+          cd out && zip -qr ${{ matrix.source }}-baseline.zip ${{ matrix.source }} && cd ..
+          gh release upload motion out/${{ matrix.source }}-baseline.zip --clobber || true
+          [ -f out/${{ matrix.source }}/baseline.json ] && cp out/${{ matrix.source }}/baseline.json out/${{ matrix.source }}-baseline.json && gh release upload motion out/${{ matrix.source }}-baseline.json --clobber || true
+          gh release upload motion out/${{ matrix.source }}.log --clobber || true
