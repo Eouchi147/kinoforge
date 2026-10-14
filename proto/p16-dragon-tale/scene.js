@@ -148,6 +148,7 @@ function litFrames() {                                                       // 
   }
   SCAN = false; return LIT;
 }
+globalThis.KF_LIT = () => litFrames();                            // the soundtrack reads these (one breath + one bell per window)
 const NOSE = new Map();
 function noseAt(f, dx = 0) { if (!NOSE.has(f)) { const d = dragon(f), m = dragonMouth(d.pose); NOSE.set(f, [BX + d.ox + DS * d.sc * m[0], BY + d.oy + DS * d.sc * m[1] - 6]); } const n = NOSE.get(f); return [n[0] + dx, n[1]]; }
 function girlX() { return noseAt(CUE.reach + 40)[0] - 30; }        // she stops right under the nose it will lower to her
