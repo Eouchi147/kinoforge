@@ -94,11 +94,11 @@ def shepard(dur, base=55, octaves=6, rate=0.12):
         phase = (i / octaves + rate * t) % 1.0; f = base * 2 ** (phase * octaves)
         amp = np.sin(np.pi * phase) ** 2; ph = 2 * np.pi * np.cumsum(f) / SR; out += amp * np.sin(ph) / octaves
     return lowpass(out, 2500).astype(np.float32)
-def hit(dur=2.5, sub=45.0, click=True, tail=True, crunch=0.6):
-    """Trailer hit: sub thump + noise crack + tail."""
+def hit(dur=2.5, sub=45.0, click=True, tail=True, crunch=0.6, decay=2.2):
+    """Trailer hit: sub thump + noise crack + tail. decay: sub decay rate (2.2 = long cinematic thump; 12 = short dry thud)."""
     t = t_axis(dur)
     pitch = sub * (1 + 3 * np.exp(-t * 18)); ph = 2 * np.pi * np.cumsum(pitch) / SR
-    s = np.sin(ph) * np.exp(-t * 2.2)
+    s = np.sin(ph) * np.exp(-t * decay)
     nz = lowpass(noise(dur), 1800) * np.exp(-t * 14) * crunch
     out = s + nz
     if click: out += highpass(noise(dur), 2000) * np.exp(-t * 120) * 0.6
@@ -116,8 +116,9 @@ def sub_drop(dur=2.0, f_start=70, f_end=30):
     t = t_axis(dur); f = f_start * (f_end / f_start) ** (t / dur); ph = 2 * np.pi * np.cumsum(f) / SR
     return (np.sin(ph) * np.exp(-t * 1.2)).astype(np.float32)
 def whoosh(dur=0.8, lo=300, hi=4000, direction=1):
-    t = t_axis(dur); u = t / dur; u = u if direction > 0 else 1 - u
+    t = t_axis(dur); u = t / dur
     nz = noise(dur); env = np.sin(np.pi * u) ** 2
+    if direction < 0: lo, hi = hi, lo  # sweep downward
     out = np.zeros_like(nz);
     # moving band-pass by chunks
     N = 16; step = len(nz) // N
@@ -148,7 +149,10 @@ def heartbeat(dur, bpm=60, level=0.8):
     beat = np.sin(2 * np.pi * 55 * t) * np.exp(-t * 20); beat2 = np.sin(2 * np.pi * 48 * t) * np.exp(-t * 24) * 0.7
     k = 0.0
     while k < dur - 0.4:
-        i = int(k * SR); out[i:i + len(beat)] += beat; j = int((k + period * 0.3) * SR); out[j:j + len(beat2)] += beat2; k += period
+        i = int(k * SR); j = int((k + period * 0.3) * SR)
+        if i + len(beat) <= n: out[i:i + len(beat)] += beat
+        if j + len(beat2) <= n: out[j:j + len(beat2)] += beat2
+        k += period
     return (out * level).astype(np.float32)
 def tick(dur, bpm=120, level=0.4, f=3000):
     n = int(dur * SR); out = np.zeros(n, dtype=np.float32); t = t_axis(0.03); tk = np.sin(2 * np.pi * f * t) * np.exp(-t * 300)
@@ -197,7 +201,8 @@ class Mix:
     def duck(self, start, end, depth_db=-12, ramp=0.15):
         """Pull the whole mix down between start and end (e.g. under dialogue or for a pre-hit silence)."""
         g = np.ones(self.n, dtype=np.float32); i, j = int(start * self.sr), int(end * self.sr); k = int(ramp * self.sr); d = 10 ** (depth_db / 20)
-        g[i:j] = d; g[max(0, i - k):i] = np.linspace(1, d, min(k, i)); g[j:j + k] = np.linspace(d, 1, min(k, self.n - j))
+        # fully ducked between start and end; the release ramp ends AT `end` so a hit placed at `end` is untouched
+        g[i:j] = d; g[max(0, i - k):i] = np.linspace(1, d, min(k, i)); g[max(i, j - k):j] = np.linspace(d, 1, min(k, j - i))
         self.L *= g; self.R *= g; return self
     def write(self, path, peak_db=-1.0, target_rms_db=-18.0):
         st = np.stack([self.L, self.R], axis=1)

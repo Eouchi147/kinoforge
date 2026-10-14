@@ -37,7 +37,7 @@ class Timeline:
 
 shots = getattr(mod, 'SHOTS', None); timeline = Timeline(shots) if shots else None
 duration = getattr(mod, 'DURATION', timeline.total if timeline else 6.0)
-settings = {'samples': 96, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Medium High Contrast', 'exposure': 0.0, 'film_transparent': False, 'engine': 'CYCLES', 'max_bounces': 6, 'volume_bounces': 1, 'clamp_indirect': 8.0}
+settings = {'samples': 96, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast', 'exposure': 0.0, 'film_transparent': False, 'engine': 'CYCLES', 'max_bounces': 6, 'volume_bounces': 1, 'clamp_indirect': 8.0}
 settings.update(getattr(mod, 'SETTINGS', {}))
 if a.samples: settings['samples'] = a.samples
 if a.engine: settings['engine'] = a.engine
@@ -52,11 +52,15 @@ if settings['engine'] == 'CYCLES':
     cy = sc.cycles; cy.device = 'CPU'; cy.samples = settings['samples']; cy.use_adaptive_sampling = True; cy.adaptive_threshold = 0.02
     cy.use_denoising = settings['denoise']; cy.denoiser = 'OPENIMAGEDENOISE'; cy.max_bounces = settings['max_bounces']; cy.volume_bounces = settings['volume_bounces']
     cy.sample_clamp_indirect = settings['clamp_indirect']; cy.use_light_tree = True
+    cy.adaptive_min_samples = settings.get('adaptive_min_samples', 8); cy.denoising_prefilter = settings.get('denoising_prefilter', 'FAST'); cy.volume_step_rate = settings.get('volume_step_rate', 2.0)
+    cy.time_limit = settings.get('time_limit', 0)
     sc.render.use_motion_blur = settings['motion_blur']; sc.render.motion_blur_shutter = 0.5
     if a.threads: sc.render.threads_mode = 'FIXED'; sc.render.threads = a.threads
 vs = sc.view_settings; vs.view_transform = settings['view_transform']
 try: vs.look = settings['look']
-except Exception: pass
+except Exception as e:
+    valid = [l.name for l in bpy.types.ColorManagedViewSettings.bl_rna.properties['look'].enum_items] if hasattr(bpy.types.ColorManagedViewSettings.bl_rna.properties['look'], 'enum_items') else []
+    print(f'WARNING: look {settings["look"]!r} not available ({e}); valid: {valid[:12]}', flush=True)
 vs.exposure = settings['exposure']
 sc.frame_start = 0; sc.frame_end = int(round(duration * a.fps)) - 1
 

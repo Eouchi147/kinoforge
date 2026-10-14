@@ -1,6 +1,7 @@
 # Renders the example scenes (the anthology prototypes) that make up the project's gallery and regression set.
-# Trigger: push a queue file (render/queue/<name>.json: {"scenes": ["p05-relic", ...], "w": 1280, "h": 720, "fps": 24})
-# or run by hand. One runner per scene; results go to the "gallery" release and a 7-day artifact.
+# Trigger: push a queue file (render/queue/<name>.json) or run by hand. Web scenes get one runner each; Blender scenes
+# can be split into frame-range parts ({"scene": "p04-witness", "parts": 6, "samples": 32}) that a join job assembles.
+# Results go to the "gallery" release and a 7-day artifact.
 name: render
 on:
   workflow_dispatch:
@@ -21,6 +22,7 @@ jobs:
     timeout-minutes: 5
     outputs:
       jobs: ${{ steps.p.outputs.jobs }}
+      joins: ${{ steps.p.outputs.joins }}
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 2 }
@@ -31,26 +33,47 @@ jobs:
           INPUT_H: ${{ github.event.inputs.h }}
         run: |
           python3 - <<'EOF' >> "$GITHUB_OUTPUT"
-          import json, os, glob, subprocess
-          jobs = []
-          def add(scene, w=1280, h=720, fps=24, samples=None):
+          import json, os, glob, subprocess, re
+          jobs, joins = [], []
+          def frames(scene, fps):
+              # total frames from the scene's declared duration (blender.py: DURATION or SHOTS), imported with bpy stubbed out
+              d = f'proto/{scene}'
+              if not os.path.exists(f'{d}/blender.py'): return None
+              import sys, importlib.util
+              from unittest.mock import MagicMock
+              for mod in ('bpy', 'mathutils', 'bmesh'): sys.modules.setdefault(mod, MagicMock())
+              sys.path.insert(0, d); spec = importlib.util.spec_from_file_location('kf_' + scene.replace('-', '_'), f'{d}/blender.py'); m = importlib.util.module_from_spec(spec)
+              try: spec.loader.exec_module(m)
+              except Exception as e: print(f'warning: cannot import {scene}/blender.py for its duration: {e}', flush=True); return None
+              dur = getattr(m, 'DURATION', None) or sum(x['dur'] for x in getattr(m, 'SHOTS', []))
+              return int(round(float(dur) * fps)) if dur else None
+          def add(scene, w=1280, h=720, fps=24, samples=None, parts=1):
               if not os.path.isdir(f'proto/{scene}'): print(f'skip {scene}: no proto dir', flush=True); return
               kind = 'blender' if os.path.exists(f'proto/{scene}/blender.py') else 'web'
-              jobs.append({'scene': scene, 'w': int(w), 'h': int(h), 'fps': int(fps), 'kind': kind, 'samples': samples or 96})
+              base = {'scene': scene, 'w': int(w), 'h': int(h), 'fps': int(fps), 'kind': kind, 'samples': int(samples or 96)}
+              total = frames(scene, int(fps)) if kind == 'blender' else None
+              parts = int(parts or 1)
+              if kind == 'blender' and parts > 1 and total:
+                  for k in range(parts):
+                      a, b = total * k // parts, total * (k + 1) // parts
+                      jobs.append({**base, 'start': a, 'end': b, 'part': k, 'parts': parts, 'name': f'{scene} {k+1}/{parts}'})
+                  joins.append({**base, 'parts': parts, 'total': total})
+              else:
+                  jobs.append({**base, 'start': 0, 'end': -1, 'part': 0, 'parts': 1, 'name': scene})
           if os.environ.get('INPUT_SCENES'):
               names = [s.strip() for s in os.environ['INPUT_SCENES'].split(',') if s.strip()]
               if names == ['all']: names = sorted(os.path.basename(p) for p in glob.glob('proto/p*'))
               for n in names: add(n, os.environ.get('INPUT_W') or 1280, os.environ.get('INPUT_H') or 720)
           else:
               changed = subprocess.run(['git', 'diff', '--name-only', 'HEAD~1', 'HEAD', '--', 'render/queue/'], capture_output=True, text=True).stdout.split()
-              files = [f for f in changed if f.endswith('.json') and os.path.exists(f)] or sorted(glob.glob('render/queue/*.json'))
+              files = [f for f in changed if f.endswith('.json') and os.path.exists(f)] or sorted(glob.glob('render/queue/*.json'))[-1:]
               for f in files:
                   q = json.load(open(f))
                   for s in q.get('scenes', []):
                       if isinstance(s, str): add(s, q.get('w', 1280), q.get('h', 720), q.get('fps', 24), q.get('samples'))
-                      else: add(s['scene'], s.get('w', q.get('w', 1280)), s.get('h', q.get('h', 720)), s.get('fps', q.get('fps', 24)), s.get('samples', q.get('samples')))
-          seen = set(); jobs = [j for j in jobs if not (j['scene'] in seen or seen.add(j['scene']))]
-          print('jobs=' + json.dumps(jobs))
+                      else: add(s['scene'], s.get('w', q.get('w', 1280)), s.get('h', q.get('h', 720)), s.get('fps', q.get('fps', 24)), s.get('samples', q.get('samples')), s.get('parts', 1))
+          seen = set(); jobs = [j for j in jobs if not (j['name'] in seen or seen.add(j['name']))]
+          print('jobs=' + json.dumps(jobs)); print('joins=' + json.dumps(joins))
           EOF
           cat "$GITHUB_OUTPUT"
   render:
@@ -60,13 +83,16 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 12
       matrix:
         job: ${{ fromJson(needs.plan.outputs.jobs) }}
-    name: ${{ matrix.job.scene }}
+    name: ${{ matrix.job.name }}
+    env:
+      SCENE: ${{ matrix.job.scene }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        if: matrix.job.kind == 'web'
         with: { node-version: '22', cache: 'npm', cache-dependency-path: harness/package-lock.json }
       - uses: actions/setup-python@v5
         with: { python-version: '3.13', cache: 'pip', cache-dependency-path: harness/requirements.txt }
@@ -74,7 +100,7 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
           pip install -q -r harness/requirements.txt
-          npm ci --prefix harness --no-audit --no-fund
+          if [ "${{ matrix.job.kind }}" = "web" ]; then npm ci --prefix harness --no-audit --no-fund; fi
       - name: browser cache
         if: matrix.job.kind == 'web'
         id: pw
@@ -91,24 +117,37 @@ jobs:
         if: matrix.job.kind == 'blender'
         run: pip install -q bpy==5.2.2 && python3 -c "import bpy; print('bpy', bpy.app.version_string)"
       - name: soundtrack
+        if: matrix.job.parts == 1
         run: |
-          mkdir -p out/${{ matrix.job.scene }}
-          if [ -f proto/${{ matrix.job.scene }}/audio.py ]; then python3 proto/${{ matrix.job.scene }}/audio.py out/${{ matrix.job.scene }}/audio.wav; fi
+          mkdir -p out/$SCENE
+          if [ -f proto/$SCENE/audio.py ]; then python3 proto/$SCENE/audio.py out/$SCENE/audio.wav; fi
       - name: render (web)
         if: matrix.job.kind == 'web'
         run: |
-          A=""; [ -f out/${{ matrix.job.scene }}/audio.wav ] && A="--audio out/${{ matrix.job.scene }}/audio.wav"
-          node harness/render.cjs proto/${{ matrix.job.scene }} --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --mp4 --contact $A
-      - name: render (blender)
-        if: matrix.job.kind == 'blender'
+          A=""; [ -f out/$SCENE/audio.wav ] && A="--audio out/$SCENE/audio.wav"
+          node harness/render.cjs proto/$SCENE --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --mp4 --contact $A
+      - name: render (blender, whole clip)
+        if: matrix.job.kind == 'blender' && matrix.job.parts == 1
         run: |
-          A=""; [ -f out/${{ matrix.job.scene }}/audio.wav ] && A="--audio out/${{ matrix.job.scene }}/audio.wav"
-          python3 harness/blender_render.py proto/${{ matrix.job.scene }} --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --samples ${{ matrix.job.samples }} --mp4 --contact $A
-      - name: keep a few frames for review
+          A=""; [ -f out/$SCENE/audio.wav ] && A="--audio out/$SCENE/audio.wav"
+          python3 harness/blender_render.py proto/$SCENE --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --samples ${{ matrix.job.samples }} --mp4 --contact $A
+      - name: render (blender, part)
+        if: matrix.job.kind == 'blender' && matrix.job.parts > 1
         run: |
-          cd out/${{ matrix.job.scene }} && mkdir -p review && ls frames | awk 'NR%24==1' | head -12 | while read f; do cp frames/$f review/$f; done; ls review | wc -l
+          python3 harness/blender_render.py proto/$SCENE --w ${{ matrix.job.w }} --h ${{ matrix.job.h }} --fps ${{ matrix.job.fps }} --samples ${{ matrix.job.samples }} --start ${{ matrix.job.start }} --end ${{ matrix.job.end }}
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: matrix.job.parts > 1
+        with:
+          name: ${{ matrix.job.scene }}-part-${{ matrix.job.part }}
+          path: out/${{ matrix.job.scene }}/frames/*.png
+          retention-days: 3
+          if-no-files-found: error
+      - name: keep a few frames for review
+        if: matrix.job.parts == 1
+        run: |
+          cd out/$SCENE && mkdir -p review && ls frames | awk 'NR%24==1' | head -12 | while read f; do cp frames/$f review/$f; done; ls review | wc -l
+      - uses: actions/upload-artifact@v4
+        if: matrix.job.parts == 1 && always()
         with:
           name: ${{ matrix.job.scene }}
           path: |
@@ -118,8 +157,46 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
       - name: publish to the gallery release
-        if: success()
+        if: matrix.job.parts == 1 && success()
         env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
         run: |
           gh release view gallery > /dev/null 2>&1 || gh release create gallery --title "gallery" --notes "Rendered example scenes (CI output)." || true
-          gh release upload gallery out/${{ matrix.job.scene }}/${{ matrix.job.scene }}.mp4 out/${{ matrix.job.scene }}/${{ matrix.job.scene }}.contact.jpg --clobber
+          gh release upload gallery out/$SCENE/$SCENE.mp4 out/$SCENE/$SCENE.contact.jpg --clobber
+  join:
+    needs: [plan, render]
+    if: ${{ always() && needs.plan.outputs.joins != '[]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        job: ${{ fromJson(needs.plan.outputs.joins) }}
+    name: join ${{ matrix.job.scene }}
+    env:
+      SCENE: ${{ matrix.job.scene }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.13', cache: 'pip', cache-dependency-path: harness/requirements.txt }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null && pip install -q -r harness/requirements.txt
+      - uses: actions/download-artifact@v4
+        with: { path: out/${{ matrix.job.scene }}/frames, pattern: '${{ matrix.job.scene }}-part-*', merge-multiple: true }
+      - name: assemble
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          cd out/$SCENE && N=$(ls frames/*.png | wc -l) && echo "$N frames (expected ${{ matrix.job.total }})" && [ "$N" -eq "${{ matrix.job.total }}" ]
+          cd $GITHUB_WORKSPACE
+          [ -f proto/$SCENE/audio.py ] && python3 proto/$SCENE/audio.py out/$SCENE/audio.wav
+          A=""; [ -f out/$SCENE/audio.wav ] && A="-i out/$SCENE/audio.wav"
+          ffmpeg -y -loglevel error -framerate ${{ matrix.job.fps }} -i out/$SCENE/frames/%05d.png $A -c:v libx264 -preset slow -crf 17 -pix_fmt yuv420p -movflags +faststart $( [ -n "$A" ] && echo "-c:a aac -b:a 256k -shortest" ) out/$SCENE/$SCENE.mp4
+          STEP=$(( ${{ matrix.job.total }} / 12 )); [ $STEP -lt 1 ] && STEP=1
+          ffmpeg -y -loglevel error -i out/$SCENE/$SCENE.mp4 -vf "select='not(mod(n\,$STEP))',scale=320:-2,tile=6x2" -frames:v 1 -q:v 3 out/$SCENE/$SCENE.contact.jpg
+          gh release view gallery > /dev/null 2>&1 || gh release create gallery --title "gallery" --notes "Rendered example scenes (CI output)." || true
+          gh release upload gallery out/$SCENE/$SCENE.mp4 out/$SCENE/$SCENE.contact.jpg --clobber
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.job.scene }}
+          path: |
+            out/${{ matrix.job.scene }}/*.mp4
+            out/${{ matrix.job.scene }}/*.contact.jpg
+          retention-days: 7

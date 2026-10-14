@@ -251,7 +251,7 @@ export function makeComposer(renderer, scene, camera, { bloom = null, bokeh = nu
   applyGrade(finishPass.uniforms, grade, finish);
   let ov = null, ovPass = null;
   if (overlay) {
-    const c = document.createElement('canvas'); c.width = w; c.height = h; const ctx = c.getContext('2d');
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const ctx = c.getContext('2d', { willReadFrequently: true }); // CPU raster: ~10x faster under SwiftShader
     const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.NoColorSpace; // composited in display space: no decode
     ovPass = new ShaderPass(OverlayShader); ovPass.uniforms.tOverlay.value = tex; ov = { canvas: c, ctx, tex, clear: () => ctx.clearRect(0, 0, w, h) };
   }
