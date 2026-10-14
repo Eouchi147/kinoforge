@@ -247,8 +247,12 @@ export function makeComposer(renderer, scene, camera, { bloom = null, bokeh = nu
   let bloomPass = null;
   if (bloom) { bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), bloom.strength ?? 0.6, bloom.radius ?? 0.4, bloom.threshold ?? 0.8); composer.addPass(bloomPass); }
   composer.addPass(new OutputPass());
+  // ?finish=0 renders the scene RAW (no grade/grain/halation/letterbox, no bloom): used for before/after comparisons
+  const RAW = new URLSearchParams(location.search).get('finish') === '0';
+  if (RAW && bloomPass) { bloomPass.enabled = false; }
   const finishPass = new ShaderPass(FinishShader); finishPass.uniforms.resolution.value.set(w, h);
   applyGrade(finishPass.uniforms, grade, finish);
+  if (RAW) { applyGrade(finishPass.uniforms, 'none', { grain: 0, vignette: 0, halation: 0, aberration: 0, letterbox: 0, mode: 0, exposure: 1, contrast: 1, saturation: 1, gamma: 1, lift: [0, 0, 0], gain: [1, 1, 1], shadowTint: [0, 0, 0], highlightTint: [0, 0, 0], weave: 0 }); }
   let ov = null, ovPass = null;
   if (overlay) {
     const c = document.createElement('canvas'); c.width = w; c.height = h; const ctx = c.getContext('2d', { willReadFrequently: true }); // CPU raster: ~10x faster under SwiftShader

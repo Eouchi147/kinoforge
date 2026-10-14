@@ -116,7 +116,9 @@ jobs:
           if [ "${{ steps.pw.outputs.cache-hit }}" = "true" ]; then npx playwright install-deps chromium > /dev/null; else npx playwright install --with-deps chromium > /dev/null; fi
       - name: blender
         if: matrix.job.kind == 'blender'
-        run: pip install -q bpy==5.2.2 && python3 -c "import bpy; print('bpy', bpy.app.version_string)"
+        run: |
+          sudo apt-get install -y -qq libegl1 libgl1 libglu1-mesa libxi6 libxkbcommon0 libxrender1 libxxf86vm1 libxfixes3 libsm6 libgomp1 > /dev/null
+          pip install -q bpy==5.2.2 && python3 -c "import bpy; print('bpy', bpy.app.version_string)"
       - name: soundtrack
         if: matrix.job.parts == 1
         run: |
