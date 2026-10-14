@@ -17,7 +17,20 @@ the clips to the [gallery release](../../releases/tag/gallery). Each scene ships
 
 | id | title | lane | what it exercises |
 |----|-------|------|-------------------|
+| p01 | Static | analog horror | CCTV corridor, VHS pass (curvature, chroma bleed, tracking band), a continuity-change scare, timestamp overlay |
+| p02 | Ink & Ember | motion comic noir | comic-page grammar, parallax inside panels, halftone shadows, ink-blot wipe, one accent colour |
+| p03 | The Lantern Road | 2.5D living painting | ten painted layers, multiplane parallax, Kuwahara painterly pass, lanterns lighting on cause→effect, a walk cycle on 2s |
+| p04 | Witness | Blender Cycles interior | candlelight, f/2 rack focus, volumetric haze, torches through leaded glass, a head turn with anticipation |
 | p05 | Relic | epic / trailer grammar | cold open → crane reveal → push-in turn → silence → title stinger; volumetric shafts, carved emissive runes, ember grade, 2.39 |
+| p06 | Cel | cel-shaded anime | toon gradients, inverted-hull outlines, hue-shifted shadows, lightning on the thunder frame, a lamp that floods the frame |
+| p07 | Ash Ascent | Blender Cycles aerial | physically based sky, a mesh-bounded cloud volume, a 1:60 rider, sunrise timed to a frame, hard cut to silence |
+| p08 | Two Chairs | 2D dialogue comedy | Canvas 2D rig, Kokoro voices, Rhubarb visemes, blinks and breathing per the rulebook, rule of three with an 18-frame beat |
+| p09 | Paper Kingdom | cut-paper shadow theatre | fibre-edged silhouettes, layered shadows from one backlight, puppets on 2s, three folds held six frames each |
+| p10 | Clay | Blender claymation | subsurface clay with thumb-print bump, animation on 2s with per-pose jitter, volume-preserving squash |
+| p11 | Kinetic | 9:16 typographic hook | safe zones verified per frame, snappy type with holds, a pattern interrupt, sound on every text beat |
+| p12 | Terrain | relief-map explainer | heightmap terrain with engraved contours and hatching, a route that inks itself, projected labels, one motivated tilt |
+| p13 | Pixel Vigil | pixel-art cinematic | true 320-px grid, palette quantisation and ordered dither, moves snapped to art pixels |
+| p14 | Finishing | craft | `tools/finishing_compare.py`: the same shot raw vs finished with a moving wipe |
 
 More scenes are added as they pass review against `docs/DIRECTORS_RULEBOOK.md`.
 
