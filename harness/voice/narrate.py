@@ -152,7 +152,7 @@ def check(x, line):
     rep = max(0, doubled(hyp) - doubled(ref))
     dur = len(x) / SR; window = line['end'] - line['start']
     t0 = W[0].start if W else 0.0; t1 = W[-1].end if W else dur
-    speech = max(0.3, t1 - t0); wpm = 60 * len(ref) / speech
+    speech = max(0.3, dur - 0.06); wpm = 60 * len(ref) / speech          # the take is trimmed to its speech, so its length is the true speaking time
     gaps = [W[k + 1].start - W[k].end for k in range(len(W) - 1)]
     punct = len(re.findall(r'[.,;:!?…]|\.\.\.', line['text'].strip().rstrip('.!?…')))   # pauses the script asks for (inside the line)
     long_gaps = [g for g in gaps if g > 1.2]; mid_gaps = [g for g in gaps if g > 0.5]

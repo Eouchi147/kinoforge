@@ -1,0 +1,23 @@
+{
+ "runs": [
+  {
+   "job": "voice/jobs/dragon-tale.json",
+   "engines": [
+    "qwen-design",
+    "qwen-clone",
+    "chatterbox",
+    "kokoro"
+   ]
+  },
+  {
+   "job": "voice/jobs/moon-lesson.json",
+   "engines": [
+    "qwen-design",
+    "qwen-clone",
+    "chatterbox",
+    "kokoro"
+   ]
+  }
+ ],
+ "note": "Gate A narrator A/B, run 2 (checker fixed)"
+}
