@@ -1,0 +1,42 @@
+{
+ "_": "The director's crew: who does what, which models may fill each seat, and the spending caps. Read by the web studio (lib/agents.js) and the build orchestrator (harness/director). Seats are filled live from OpenRouter's model list: the highest published intelligence inside the seat's price ceiling and abilities, one model per provider so fallbacks fail independently. `prefer` is used when the live list cannot be read.",
+ "caps": {
+  "turn_usd": 0.12,
+  "film_usd": 1.0,
+  "day_usd": 2.0,
+  "reserve_usd": 0.5,
+  "max_loops": 2
+ },
+ "seats": {
+  "head": {
+   "job": "Plans the film, talks to Sam, makes the final review. Few calls, the best judgment.",
+   "max_in": 5, "max_out": 25, "needs": ["text"], "n": 3, "timeout_s": 50,
+   "prefer": ["anthropic/claude-opus-5.5", "anthropic/claude-sonnet-5.5", "google/gemini-4-argon"]
+  },
+  "deputy": {
+   "job": "Reviews every step between plan and final review against the brief and the rulebook.",
+   "max_in": 2, "max_out": 10, "needs": ["text"], "n": 3, "timeout_s": 45,
+   "prefer": ["anthropic/claude-sonnet-5.5", "google/gemini-4-argon", "openai/gpt-6.1-sol"]
+  },
+  "crew": {
+   "job": "Drafts: stories, scripts, shot lists, sound cues. Several drafts in parallel, the deputy keeps the best.",
+   "max_in": 0.5, "max_out": 1.0, "needs": ["text"], "n": 3, "timeout_s": 40,
+   "prefer": ["xiaomi/mimo-v2.6-pro", "anthropic/claude-haiku-5.5", "z-ai/glm-5.3-flash", "deepseek/deepseek-v4.1-flash"]
+  },
+  "eyes": {
+   "job": "Looks at contact sheets and frames.",
+   "max_in": 0.5, "max_out": 1.0, "needs": ["text", "image"], "n": 2, "timeout_s": 90,
+   "prefer": ["xiaomi/mimo-v2.6-pro", "z-ai/glm-5.3-flash", "anthropic/claude-haiku-5.5"]
+  },
+  "ears": {
+   "job": "Listens to narration and mixes.",
+   "max_in": 1.0, "max_out": 4.0, "needs": ["text", "audio"], "n": 2, "timeout_s": 90,
+   "prefer": ["xiaomi/mimo-v2.6-pro", "google/gemini-3.8-flash"]
+  },
+  "free": {
+   "job": "Last resort when every paid seat is down or the money cap is reached.",
+   "max_in": 0, "max_out": 0, "needs": ["text"], "n": 2, "timeout_s": 40, "free": true,
+   "prefer": ["thinkingmachines/inkling-small:free", "nvidia/nemotron-3-ultra-550b-a55b:free"]
+  }
+ }
+}

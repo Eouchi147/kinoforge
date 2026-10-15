@@ -120,8 +120,8 @@ function Director({ status, go }) {
       const r = await fetch('/api/director', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: next, brief }) });
       const j = await r.json();
       if (!r.ok) throw Object.assign(new Error(j.error), { code: j.code });
-      setMsgs([...next, { role: 'assistant', content: j.say, step: j.step_for_sam }]); setOptions(j.options || []); setBrief(j.brief); setReady(Boolean(j.ready));
-    } catch (e) { setErr(e.code === 'limit' ? 'Today’s free messages are used up. They reset tomorrow; or add $10 once on OpenRouter to get 1,000 a day.' : e.code === 'credits' ? 'This model needs credits. The studio is set to free models, so try again in a moment.' : e.code === 'no-key' ? null : 'The director could not answer just now. Send your message again.'); }
+      setMsgs([...next, { role: 'assistant', content: j.say, step: j.step_for_sam, by: j.director }]); setOptions(j.options || []); setBrief(j.brief); setReady(Boolean(j.ready));
+    } catch (e) { setErr(e.code === 'credits' ? 'Your OpenRouter key has reached its spending limit. Raise it on openrouter.ai under Settings, Keys.' : e.code === 'no-key' ? null : 'Every model in the director’s chain failed just now. Send your message again in a minute.'); }
     setBusy(false);
   }
   async function build() {
@@ -174,7 +174,12 @@ function Director({ status, go }) {
             </dl>
             {!!msgs.length && <button className="btn ghost" style={{ marginTop: 16 }} onClick={() => { setMsgs([]); setBrief(null); setOptions([]); setReady(false); setSaved(null); }}>Start a new film</button>}
           </motion.div>
-          {status?.openrouter && status?.models?.length > 0 && <p className="faint" style={{ margin: '0 6px' }}>Thinking with {status.models[0]}{status.budget === 'free' ? ', the strongest free model on OpenRouter right now' : ''}.</p>}
+          {(() => { const by = [...msgs].reverse().find((m) => m.by)?.by; const a = status?.account;
+            return status?.openrouter && (
+              <p className="faint" style={{ margin: '0 6px' }}>
+                {by ? <>Last answer: {by.head}{by.crew?.length ? <>, with {by.crew.length} crew drafts</> : null}, {(by.ms / 1000).toFixed(0)} s, ${by.usd.toFixed(3)}.{by.note ? <> {by.note}</> : null}</> : <>Director: {(status.seats?.head?.[0] || '').split('/').pop()}. Crew: {(status.seats?.crew || []).slice(0, 3).map((m) => m.split('/').pop()).join(', ')}.</>}
+                {a?.remaining != null && <> ${a.remaining.toFixed(2)} left on your key.</>}
+              </p>); })()}
         </aside>
       </div>
     </>

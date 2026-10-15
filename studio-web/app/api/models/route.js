@@ -22,7 +22,7 @@ export async function GET() {
   const live = data.filter((m) => !m.expiration_date && !m.id.startsWith('openrouter/'));
   const byIq = (l) => l.map(row).sort((a, b) => (b.iq ?? -1) - (a.iq ?? -1) || b.created - a.created);
   return Response.json({
-    account: keyInfo?.data ? { usage: keyInfo.data.usage, limit: keyInfo.data.limit, limit_remaining: keyInfo.data.limit_remaining, is_free_tier: keyInfo.data.is_free_tier } : null,
+    account: keyInfo?.data ? Object.fromEntries(Object.entries(keyInfo.data).filter(([k]) => /usage|limit|tier|rate/.test(k))) : null,
     paid: byIq(live.filter((m) => !m.id.includes(':'))).slice(0, 30),
     free: byIq(live.filter((m) => m.id.endsWith(':free'))).slice(0, 25),
   });
