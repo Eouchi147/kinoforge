@@ -93,7 +93,7 @@ jobs:
           print('ready:', [r['scene'] for r in ready])
           PY
           git config user.name "kinoforge-director"; git config user.email "director@kinoforge.local"
-          date -u > films/showcase/started.txt
+          python3 -c "import json,sys; sys.exit(0 if json.load(open('render/queue/showcase.json'))['scenes'] else 1)" && date -u > films/showcase/started.txt
           git add proto films/showcase render/queue/showcase.json
           git diff --cached --quiet || git commit -qm "showcase: scenes written by the scene agent"
           for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
