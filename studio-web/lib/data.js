@@ -12,8 +12,8 @@ export const FILMS = [
   },
   {
     id: 'moon-lesson', title: 'Why the Moon Changes Shape', style: 'Clay', length: '1:02', format: '16:9',
-    stage: 4, media: 'moon-lesson-v2', status: 'v2 picture approved in principle · narration being redone',
-    next: 'Nothing yet. The new narration arrives on the Voices page.',
+    stage: 4, media: 'moon-lesson-v2', status: 'v2 picture approved in principle · clean narration ready to approve',
+    next: 'Watch it with the clean narration on the Voices page, then tap “Use this narrator”.',
     logline: 'A thumb-sized clay kid stands on Earth while a desk lamp plays the Sun, and the Moon’s phases explain themselves.',
   },
   {

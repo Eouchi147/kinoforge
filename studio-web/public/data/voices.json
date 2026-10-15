@@ -1,7 +1,30 @@
-{"films": [
- {"id": "dragon-tale", "title": "The Dragon Who Couldn’t Fly",
-  "note": "One voice, designed with VoiceStudio’s engine: an elderly British storyteller. All 5 lines passed the checks: every word right, nothing repeated, 120 to 153 words a minute, the same voice from first line to last. Watch it in the film.",
-  "takes": [
-   {"id": "omnivoice-storyteller", "name": "The storyteller", "summary": "Warm, low, unhurried. Lines at 0:00, 0:13, 1:23 and the ending.", "src": "/media/voices/dragon-tale-omnivoice.mp4"}
-  ]}
-]}
+{
+ "films": [
+  {
+   "id": "dragon-tale",
+   "title": "The Dragon Who Couldn’t Fly",
+   "note": "One voice, designed with VoiceStudio’s engine: an elderly British storyteller. All 5 lines passed the checks: every word right, nothing repeated, 120 to 153 words a minute, the same voice from first line to last. Watch it in the film.",
+   "takes": [
+    {
+     "id": "omnivoice-storyteller",
+     "name": "The storyteller",
+     "summary": "Warm, low, unhurried. Lines at 0:00, 0:13, 1:23 and the ending.",
+     "src": "/media/voices/dragon-tale-omnivoice.mp4"
+    }
+   ]
+  },
+  {
+   "id": "moon-lesson",
+   "title": "Why the Moon Changes Shape",
+   "note": "VoiceStudio’s voice, cloned from your original take, every line redone. All 18 lines now have every word right: the repeats you heard (“a quarter of the way round”, “never changed”, “that that”) are gone, and the long pauses too. Two lines start a fifth of a second later than before so nothing is rushed. It is brisk (about 150 to 175 words a minute) because the lines sit close together on the picture.",
+   "takes": [
+    {
+     "id": "omnivoice-clone",
+     "name": "VoiceStudio voice, redone",
+     "summary": "Same voice as your original, clean takes.",
+     "src": "/media/voices/moon-lesson-omnivoice.mp4"
+    }
+   ]
+  }
+ ]
+}
