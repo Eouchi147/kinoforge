@@ -14,7 +14,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(
 from agents import Ledger, API, KEY
 
 BACKUP = {'bytedance-seed/seedream-5-0-pro': 'google/gemini-3-pro-image', 'google/gemini-3-pro-image': 'bytedance-seed/seedream-5-0-pro'}
-WORST = 0.25   # booked per image before the call; the real cost replaces it
+WORST = 0.16   # booked per image before the call; the real cost replaces it
+MODS = {}      # model -> output modalities that worked (Seedream is image-only)
 
 
 def log(*a): print(time.strftime('%H:%M:%S'), *a, flush=True)
@@ -40,7 +41,7 @@ class Book:
 
 
 def one(book, model, prompt, aspect, out, label):
-    body = {'model': model, 'messages': [{'role': 'user', 'content': prompt}], 'modalities': ['image', 'text'],
+    body = {'model': model, 'messages': [{'role': 'user', 'content': prompt}], 'modalities': MODS.get(model, ['image', 'text']),
             'image_config': {'aspect_ratio': aspect}, 'usage': {'include': True}}
     for attempt in range(4):
         if not book.take(): raise RuntimeError('board cap reached')
@@ -58,7 +59,7 @@ def one(book, model, prompt, aspect, out, label):
         except urllib.error.HTTPError as e:
             msg = e.read().decode(errors='ignore')[:300]; log(label, model, 'error', e.code, msg[:200])
             if e.code == 402: raise RuntimeError('OpenRouter key limit reached')
-            if e.code == 404 and 'modalit' in msg and body['modalities'] != ['image']: body['modalities'] = ['image']; continue
+            if e.code == 404 and 'modalit' in msg and body['modalities'] != ['image']: body['modalities'] = MODS[model] = ['image']; continue
             if e.code == 400 and 'image_config' in body: body.pop('image_config'); continue
             if e.code in (400, 404): break
             time.sleep(12)
@@ -76,19 +77,19 @@ def main(bdir):
     before = key_usage(); log('key before:', before)
     aspect = spec.get('aspect', '16:9')
 
+    from PIL import Image
     def job(f):
         out = os.path.join(outd, f['id'] + '.png')
         if os.path.exists(out): return f['id'], 'kept'
-        for m in [f['model'], BACKUP.get(f['model'])]:
-            if m and one(book, m, f['prompt'], aspect, out, f['id']): log(f['id'], 'done with', m); return f['id'], m
+        try:
+            for m in [f['model'], BACKUP.get(f['model'])]:
+                if m and one(book, m, f['prompt'], aspect, out, f['id']):
+                    im = Image.open(out).convert('RGB'); im.thumbnail((1920, 1920)); im.save(out[:-4] + '.jpg', quality=90)   # saved at once: a later failure never loses it
+                    log(f['id'], 'done with', m); return f['id'], m
+        except Exception as e: log(f['id'], 'stopped:', e)
         return f['id'], None
 
-    with cf.ThreadPoolExecutor(4) as ex: results = list(ex.map(job, spec['frames']))
-    from PIL import Image
-    for fid, m in results:
-        p = os.path.join(outd, fid + '.png')
-        if os.path.exists(p):
-            im = Image.open(p).convert('RGB'); im.thumbnail((1920, 1920)); im.save(p[:-4] + '.jpg', quality=90)
+    with cf.ThreadPoolExecutor(3) as ex: results = list(ex.map(job, spec['frames']))
     after = key_usage(); log('key after:', after)
     spent = round(after['usage'] - before['usage'], 4) if 'usage' in after and 'usage' in before else None
     json.dump({'before': before, 'after': after, 'board_spent': spent, 'ledger_total': round(led.total, 4),
