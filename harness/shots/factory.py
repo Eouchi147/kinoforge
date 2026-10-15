@@ -195,21 +195,41 @@ TREAT = {'type': 'object', 'additionalProperties': False, 'required': ['title', 
     'voice': {'type': 'string', 'enum': VOICES}, 'music': S('a music prompt: genre, instruments, tempo, mood arc, no vocals'),
     'end_card': {'type': 'object', 'additionalProperties': False, 'required': ['brand', 'line', 'cta'], 'properties': {'brand': S(), 'line': S('tagline'), 'cta': S('call to action, or empty')}}}}
 
+BANNED = [r'#\s*1\b', r'\bnumber one\b', r'trusted by', r'never miss', r'guarantee[ds]?\b(?! in)', r'\$\s*\d', r'\d+\s*(?:dollars|bucks)', r'https?://', r'www\.', r'\.(?:com|ca|app|io)\b',
+          r'\d(?:\.\d)?\s*stars?', r'\d+\s*(?:reviews|clients|customers)', r'\d+\s*%']
+def clean_text(t, brief):
+    """Code-level guard on every word the audience will hear or read: no dashes or ellipses, and (under a policy) no banned claims."""
+    def tidy(x): return re.sub(r'\s+', ' ', re.sub(r'\s*[\u2014\u2013]\s*', ', ', x).replace('\u2026', '.').replace('...', '.')).strip(' ,')
+    for v in t.get('voiceover', []): v['text'] = tidy(v['text'])
+    for k in ('brand', 'line', 'cta'): t['end_card'][k] = tidy(t['end_card'].get(k) or '')
+    if brief.get('policy'):
+        allowed = ' '.join(brief.get('allowed_claims', [])).lower()
+        def bad(x): return [p for p in BANNED if re.search(p, x.lower()) and not re.search(p, allowed)]
+        for v in list(t.get('voiceover', [])):
+            if bad(v['text']): log('policy: dropped voiceover line', repr(v['text']), bad(v['text'])); t['voiceover'].remove(v)
+        for k in ('line', 'cta'):
+            if bad(t['end_card'][k]): log('policy: cleared end card', k, repr(t['end_card'][k])); t['end_card'][k] = ''
+    if brief.get('concept_label'): t['end_card']['cta'] = brief['concept_label']
+    return t
+
 def treatment(B, brief, tier):
     durs = DURS[TIERS[tier]['video']]
     sys_p = ('You are the creative director of a premium commercial and short-film studio. You write treatments that AI image and video models execute shot by shot. '
              'Rules: hook in the first 1.5 s; every shot one clear idea; motivated camera; real physics; complete bodies; the product identical in every shot (always reference it); '
              'premium light and composition; emotion first, features second; brand voice in few words. NEVER ask the models for text, logos, labels, signs or letters: the brand name and '
              'lines are typeset in the edit. People: invented, no real persons or look-alikes. Voiceover: sparse, after the hook, never describing what we see.')
+    ppath = os.path.join(ROOT, 'harness', 'shots', 'policies', f'{brief.get("policy", "")}.md')
+    policy = open(ppath).read() if brief.get('policy') and os.path.exists(ppath) else ''
     dpath = os.path.join(ROOT, 'harness', 'shots', 'directions', f'{brief.get("direction", "classic")}.md')
     direction = open(dpath).read() if os.path.exists(dpath) else ''
-    user = (f'BRIEF:\n{json.dumps(brief, indent=1)}\n\nDIRECTION (follow it in every shot, cut and sound choice):\n{direction}\n\n'
+    user = (f'BRIEF:\n{json.dumps(brief, indent=1)}\n\n' + (f'POLICY (hard rules, they override the brief and the direction):\n{policy}\n\n' if policy else '') + f'DIRECTION (follow it in every shot, cut and sound choice):\n{direction}\n\n'
             f'Timing: each shot is GENERATED at one of {durs} seconds (the video model\'s options) and then CUT: use_from + use must fit inside the generated length; '
             f'"slow" shots play at 2/3 speed, so they need use x 0.67 s of source. The used times add up to {brief["duration"]} s; the last {brief.get("end_card_s", 3)} s of the last shot carry the end card '
             f'(make that shot calm and at least {brief.get("end_card_s", 3) + 1} s). Aspect {brief.get("aspect", "16:9")}. Voiceover: about 2.5 words per second, first 1.5 s clear. Music: give a tempo in BPM.')
     complete = lambda d: None if all(k in d for k in TREAT['required']) and len(d.get('shots') or []) >= 2 else f'incomplete treatment (keys {list(d)[:6]})'
     t, m = ask('head', [{'role': 'system', 'content': sys_p}, {'role': 'user', 'content': user}], TREAT, B.led, name='treatment', max_tokens=14000, label='treatment', validate=complete)
     json.dump(t, open(os.path.join(ROOT, 'pieces', brief['id'], 'treatment.raw.json'), 'w'), indent=1)
+    t = clean_text(t, brief)
     for s in t['shots']:
         s.setdefault('speed', 'normal'); s.setdefault('transition', 'cut'); s.setdefault('refs', [])
         s['seconds'] = int(round(float(s.get('seconds') or durs[0]))); s['use'] = float(s.get('use') or s['seconds']); s['use_from'] = float(s.get('use_from') or 0)
@@ -223,41 +243,54 @@ def _font_file(weight):
     for pat in [f'/usr/share/fonts/**/Inter*{weight}*.[ot]tf', f'/usr/share/fonts/**/Inter-{weight}.*', '/usr/share/fonts/**/DejaVuSans-Bold.ttf', '/usr/share/fonts/**/*.ttf']:
         hits = sorted(glob.glob(pat, recursive=True))
         if hits: return hits[0]
-def end_card(card, w, h, out):
-    from PIL import Image, ImageDraw, ImageFont
+FONT_URLS = {'Instrument Sans': 'https://github.com/google/fonts/raw/main/ofl/instrumentsans/InstrumentSans%5Bwdth,wght%5D.ttf'}
+def brand_font(name, size, weight=600):
+    from PIL import ImageFont
+    url = FONT_URLS.get(name or '')
+    if url:
+        p = f'/tmp/{name.replace(" ", "")}.ttf'
+        try:
+            if not os.path.exists(p): open(p, 'wb').write(urllib.request.urlopen(url, timeout=60).read())
+            f = ImageFont.truetype(p, size)
+            try: f.set_variation_by_axes([100, weight])
+            except Exception: pass
+            return f
+        except Exception as e:
+            log('font download failed:', e)
+            if os.path.exists(p) and os.path.getsize(p) < 1000: os.remove(p)
+    ff = _font_file('SemiBold' if weight >= 600 else 'Regular')
+    return ImageFont.truetype(ff, size) if ff else ImageFont.load_default()
+
+def hexrgb(h, a=255): h = h.lstrip('#'); return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16), a)
+
+def end_card(card, w, h, out, style=None):
+    """The brand end card, typeset in code. style: {bg, fg, muted, accent, node, font, logo: 'ring-node'}."""
+    from PIL import Image, ImageDraw
+    import math as m_
+    st = style or {}
     im = Image.new('RGBA', (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
-    def font(sz, bold=True):
-        f = _font_file('SemiBold' if bold else 'Regular')
-        return ImageFont.truetype(f, sz) if f else ImageFont.load_default()
-    d.rectangle([0, 0, w, h], fill=(0, 0, 0, 120))
-    big, mid, small = font(int(h * 0.085)), font(int(h * 0.035), False), font(int(h * 0.028))
-    lines = [(card['brand'].upper(), big, 0.42, 255), (card['line'], mid, 0.54, 235), (card.get('cta') or '', small, 0.64, 210)]
-    for text, f, y, a in lines:
+    d.rectangle([0, 0, w, h], fill=hexrgb(st['bg'], 235) if st.get('bg') else (0, 0, 0, 120))
+    fg, muted = hexrgb(st.get('fg', '#ffffff')), hexrgb(st.get('muted', '#d8dbe2'))
+    y0 = h * 0.40
+    if st.get('logo') == 'ring-node':              # a ring with a small node at about 1 o'clock
+        r = h * 0.055; cx, cy = w / 2, h * 0.30; lw = max(3, int(r * 0.22))
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=hexrgb(st.get('accent', '#2f7df6')), width=lw)
+        a_ = m_.radians(60); nx, ny = cx + r * m_.cos(a_), cy - r * m_.sin(a_); nr = lw * 1.25
+        d.ellipse([nx - nr, ny - nr, nx + nr, ny + nr], fill=hexrgb(st.get('node', '#79b4ff')))
+        y0 = h * 0.42
+    big, mid, small = brand_font(st.get('font'), int(h * 0.08), 650), brand_font(st.get('font'), int(h * 0.034), 450), brand_font(st.get('font'), int(h * 0.027), 500)
+    lines = [(card['brand'] if st.get('font') else card['brand'].upper(), big, y0, fg), (card['line'], mid, y0 + h * 0.12, fg), (card.get('cta') or '', small, y0 + h * 0.20, muted)]
+    for text, f, y, col in lines:
         if not text: continue
-        tw = d.textlength(text, font=f); d.text(((w - tw) / 2, h * y), text, font=f, fill=(255, 255, 255, a))
+        tw = d.textlength(text, font=f); d.text(((w - tw) / 2, y), text, font=f, fill=col)
     im.save(out)
 
-def beats(wav):
-    """Onset times (s) of the music: spectral-flux peaks, so cuts can land on the beat."""
-    import numpy as np
-    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', wav, '-ac', '1', '-ar', '11025', '-f', 's16le', '-'], capture_output=True).stdout
-    x = np.frombuffer(raw, np.int16).astype(np.float32) / 32768
-    if len(x) < 11025: return []
-    hop, n = 256, 1024; frames = np.lib.stride_tricks.sliding_window_view(x, n)[::hop] * np.hanning(n)
-    mag = np.abs(np.fft.rfft(frames, axis=1)); flux = np.maximum(0, np.diff(mag, axis=0)).sum(1)
-    flux = (flux - flux.mean()) / (flux.std() + 1e-9); thr = np.convolve(flux, np.ones(16) / 16, 'same') + 0.8
-    pk = [i for i in range(1, len(flux) - 1) if flux[i] > thr[i] and flux[i] >= flux[i - 1] and flux[i] >= flux[i + 1]]
-    return [round((i + 1) * hop / 11025, 3) for i in pk]
-
-def snap(t, onsets, window=0.3):
-    """Move each cut to the nearest musical onset (within window), keeping every shot at least 0.7 s."""
-    if not onsets: return
-    acc = 0.0
-    for k, s in enumerate(t['shots'][:-1]):
-        end = acc + s['use']; near = min(onsets, key=lambda o: abs(o - end))
-        if abs(near - end) <= window and near - acc >= 0.7:
-            delta = near - end; s['use'] = round(s['use'] + delta, 3); t['shots'][k + 1]['use'] = round(max(0.7, t['shots'][k + 1]['use'] - delta), 3)
-        acc += s['use']
+def corner_label(text, w, h, out):
+    from PIL import Image, ImageDraw
+    im = Image.new('RGBA', (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im); f = brand_font(None, int(h * 0.022), 500)
+    tw = d.textlength(text, font=f); pad = h * 0.012; x, y = w - tw - h * 0.03, h - h * 0.06
+    d.rounded_rectangle([x - pad, y - pad * 0.7, x + tw + pad, y + h * 0.022 + pad], radius=pad, fill=(0, 0, 0, 110)); d.text((x, y), text, font=f, fill=(255, 255, 255, 220))
+    im.save(out)
 
 def edit(pdir, t, brief, clips, vo_files, music_file):
     aspect = brief.get('aspect', '16:9'); w, h = (1080, 1920) if aspect == '9:16' else (1920, 1080)
@@ -286,7 +319,7 @@ def edit(pdir, t, brief, clips, vo_files, music_file):
     pic = os.path.join(pdir, 'work', 'picture.mp4')
     run(['ffmpeg', '-v', 'error', '-y', *v_in, '-filter_complex', ';'.join(fc), '-map', '[vg]', '-map', acur, '-c:v', 'libx264', '-crf', '16', '-c:a', 'aac', pic])
     total = t_acc; ec_s = brief.get('end_card_s', 3)
-    card = os.path.join(pdir, 'work', 'card.png'); end_card(t['end_card'], w, h, card)
+    card = os.path.join(pdir, 'work', 'card.png'); end_card(t['end_card'], w, h, card, brief.get('end_card_style'))
     # sound: clip ambience low, music bed ducked under the voice, voice on top, master -14 LUFS
     inputs, mixes = ['-i', pic, '-loop', '1', '-t', f'{total:.2f}', '-i', card], []
     k = 2; fa = ['[0:a]volume=0.35[amb]']; parts = ['[amb]']
@@ -303,7 +336,12 @@ def edit(pdir, t, brief, clips, vo_files, music_file):
     elif music_file: parts.append('[mus]')
     fa.append(f'{"".join(parts)}amix=inputs={len(parts)}:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[aout]')
     fa.append(f'[1:v]format=rgba,fade=t=in:st={total - ec_s:.2f}:d=0.6:alpha=1[card]')
-    fa.append(f'[0:v][card]overlay=0:0:enable=\'gte(t,{total - ec_s:.2f})\'[vout]')
+    if brief.get('corner_label'):
+        lab = os.path.join(pdir, 'work', 'label.png'); corner_label(brief['corner_label'], w, h, lab)
+        inputs += ['-loop', '1', '-t', f'{total:.2f}', '-i', lab]
+        fa.append(f'[0:v][card]overlay=0:0:enable=\'gte(t,{total - ec_s:.2f})\'[vc];[{k}:v]format=rgba[lab];[vc][lab]overlay=0:0[vout]'); k += 1
+    else:
+        fa.append(f'[0:v][card]overlay=0:0:enable=\'gte(t,{total - ec_s:.2f})\'[vout]')
     final = os.path.join(pdir, f'{brief["id"]}.mp4')
     run(['ffmpeg', '-v', 'error', '-y', *inputs, '-filter_complex', ';'.join(fa), '-map', '[vout]', '-map', '[aout]', '-t', f'{total:.2f}',
          '-c:v', 'libx264', '-crf', '17', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', final])
