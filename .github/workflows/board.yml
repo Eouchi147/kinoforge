@@ -11,13 +11,13 @@ concurrency: { group: 'board-${{ inputs.board }}', cancel-in-progress: false }
 jobs:
   stills:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
     env: { B: '${{ inputs.board }}' }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
-      - run: pip install -q pillow
+      - run: pip install -q pillow "rembg[cpu]"
       - name: generate stills
         env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}' }
         run: set -o pipefail; python harness/shots/board.py boards/$B 2>&1 | tee boards/$B/board.log
@@ -27,7 +27,8 @@ jobs:
         run: |
           gh release view boards > /dev/null 2>&1 || gh release create boards --title "boards" --notes "Style boards: stills per direction, for Sam to choose a look before any video is made." || true
           for f in boards/$B/out/*.jpg; do [ -f "$f" ] && cp "$f" "boards/$B/out/$B-$(basename $f)"; done
-          gh release upload boards boards/$B/out/$B-*.jpg --clobber || true
+          for f in boards/$B/out/*.cut.png boards/$B/out/*.mp4; do [ -f "$f" ] && cp "$f" "boards/$B/out/$B-$(basename $f)"; done
+          for f in boards/$B/out/$B-*; do gh release upload boards "$f" --clobber || true; done
           cp boards/$B/board.log boards/$B/$B-board.log && gh release upload boards boards/$B/$B-board.log --clobber || true
           git config user.name "kinoforge-bot"; git config user.email "bot@users.noreply.github.com"
           for f in ledger.json account.json; do [ -f boards/$B/$f ] && git add boards/$B/$f; done

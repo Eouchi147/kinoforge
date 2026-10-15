@@ -1,0 +1,19 @@
+{
+ "_": "Round 2 for the restaurant concept (Sam, 15 Oct): real photo cutouts for Type in Motion, and Freeze Frame seen in motion. Two 6 s image-to-video tests are the only video spend.",
+ "cap_usd": 1.9,
+ "aspect": "16:9",
+ "frames": [
+  {"id": "cut-bread", "model": "bytedance-seed/seedream-5-0-pro", "aspect": "1:1", "cutout": true,
+   "prompt": "Studio product photograph, photographed for real, not illustrated: one round puffed flatbread fresh from a clay tannur oven, pale cream and golden with dark blistered char spots and a light dusting of flour, puffed up like a pillow, seen from a three-quarter angle slightly above, the whole bread in frame with generous margin around it. Isolated on a pure white seamless background, bright soft even studio light, no shadow, no plate, no props, nothing else in frame. Sharp focus edge to edge, true colours."},
+  {"id": "cut-tea", "model": "bytedance-seed/seedream-5-0-pro", "aspect": "1:1", "cutout": true,
+   "prompt": "Studio product photograph, photographed for real, not illustrated: one small Moroccan tea glass with a gold patterned band, filled with amber mint tea, a fresh green mint sprig standing in it, seen straight on at eye level, the whole glass in frame with generous margin around it. Isolated on a flat saffron-yellow seamless backdrop (#F2A31B), soft even studio light, no shadow, no props, nothing else in frame. Sharp, true colours."},
+  {"id": "freeze-2", "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "High-speed studio advertising photograph, frozen in mid-air: a freshly baked puffed flatbread torn in two, the halves suspended apart with steam escaping from inside, a burst of flour dust and sesame seeds frozen around it, and below it a spoonful of hummus with a ribbon of olive oil frozen mid-splash. Deep teal-black backdrop, hard side light, crisp shadows, every particle sharp. Photoreal premium food commercial. No hands, no people, no text, no letters, no logos."}
+ ],
+ "clips": [
+  {"id": "freeze-1-move", "from": "in/freeze-1.jpg", "model": "google/veo-3.1-fast", "seconds": 6,
+   "prompt": "Ultra slow motion, filmed on a Phantom high-speed camera at 1000 frames per second: the saffron threads, golden rice grains, almonds, pistachios and apricot pieces keep drifting gently upward and apart above the copper pot, slowly tumbling and turning in the air, the turmeric dust slowly billowing outward. The camera pushes in very slowly. Same dark studio and rim light. Photoreal. Every particle keeps its shape and nothing new appears. No text."},
+  {"id": "freeze-2-move", "from": "freeze-2", "model": "google/veo-3.1-fast", "seconds": 6,
+   "prompt": "Ultra slow motion, filmed on a Phantom high-speed camera at 1000 frames per second: the two halves of the torn flatbread drift slowly apart in mid-air, steam curling out from inside, flour dust and sesame seeds slowly spreading outward, the ribbon of olive oil stretching slowly. The camera orbits a few degrees. Same studio light. Photoreal. The bread keeps its shape, no hands, nothing new appears. No text."}
+ ]
+}

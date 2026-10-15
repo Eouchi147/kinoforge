@@ -7,7 +7,9 @@ boards/<id>/board.json:
      "frames": [{"id": "hero-1", "direction": "hero", "model": "bytedance-seed/seedream-5-0-pro", "prompt": "..."}]}
 Writes boards/<id>/out/<frame id>.png and .jpg, boards/<id>/ledger.json and boards/<id>/account.json
 (the OpenRouter key's usage before and after, so the spend is the account's own number, not an estimate).
-Images only: this script cannot start a video job.
+Frames may set "aspect" (e.g. "1:1") and "cutout": true (background removed with rembg -> <id>.cut.png, transparent).
+Optional "clips": [{"id", "from": frame id or a path under the board, "prompt", "seconds", "model"}] make short image-to-video
+tests from approved stills. Every call is booked against cap_usd before it is made; nothing runs past the cap.
 """
 import os, sys, json, time, base64, urllib.request, urllib.error, concurrent.futures as cf
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'director'))
@@ -70,6 +72,41 @@ def one(book, model, prompt, aspect, out, label):
     return None
 
 
+VPRICE = {'google/veo-3.1-fast': 0.12, 'google/veo-3.1-lite': 0.05, 'google/veo-3.1': 0.40, 'kwaivgi/kling-v3.0-pro': 0.168}   # worst case per second
+
+
+def clip(led, model, prompt, img, seconds, out, label):
+    """One image-to-video test: the still is the first frame. Booked at the worst-case price before submitting."""
+    from PIL import Image
+    worst = VPRICE.get(model, 0.4) * seconds * 1.05
+    if not led.room(worst): raise RuntimeError(f'{label}: the board cap ${led.cap} would be passed')
+    im = Image.open(img).convert('RGB'); w, h = im.size; ta = 16 / 9
+    if abs(w / h - ta) > 0.01:
+        if w / h > ta: nw = int(h * ta); im = im.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
+        else: nh = int(w / ta); im = im.crop((0, (h - nh) // 2, w, (h - nh) // 2 + nh))
+    tmp = out[:-4] + '.first.jpeg'; im.save(tmp, quality=93)
+    H = {'Authorization': f'Bearer {KEY}', 'Content-Type': 'application/json', 'X-Title': 'KINOFORGE style board'}
+    body = {'model': model, 'prompt': prompt, 'duration': seconds, 'resolution': '1080p', 'aspect_ratio': '16:9', 'generate_audio': False,
+            'frame_images': [{'type': 'image_url', 'image_url': {'url': 'data:image/jpeg;base64,' + base64.b64encode(open(tmp, 'rb').read()).decode()}, 'frame_type': 'first_frame'}]}
+    t0 = time.time()
+    job = json.load(urllib.request.urlopen(urllib.request.Request(f'{API}/videos', data=json.dumps(body).encode(), headers=H), timeout=120))
+    poll = job.get('polling_url') or f"{API}/videos/{job['id']}"; log(label, 'submitted', model, f'{seconds}s')
+    while time.time() - t0 < 1500:
+        time.sleep(15)
+        try: st = json.load(urllib.request.urlopen(urllib.request.Request(poll, headers=H), timeout=60))
+        except Exception as e: log(label, 'poll hiccup', e); continue
+        if st['status'] == 'completed':
+            cost = float((st.get('usage') or {}).get('cost') or 0); est = not cost
+            if est: cost = VPRICE.get(model, 0.4) * seconds   # no cost reported: book the list price so the cap still holds
+            led.add(seat='video', model=model, task=label, usd=round(cost, 4), s=round(time.time() - t0, 1), ok=True, note='estimated' if est else 'reported')
+            url = (st.get('unsigned_urls') or st.get('urls'))[0]
+            open(out, 'wb').write(urllib.request.urlopen(urllib.request.Request(url, headers=H), timeout=300).read()); log(label, 'done', f'${cost}'); return model
+        if st['status'] == 'failed':
+            led.add(seat='video', model=model, task=label, usd=float((st.get('usage') or {}).get('cost') or 0), s=round(time.time() - t0, 1), ok=False)
+            raise RuntimeError(f"{label}: {st.get('error')}")
+    raise RuntimeError(f'{label}: timed out')
+
+
 def main(bdir):
     spec = json.load(open(os.path.join(bdir, 'board.json')))
     outd = os.path.join(bdir, 'out'); os.makedirs(outd, exist_ok=True)
@@ -83,13 +120,32 @@ def main(bdir):
         if os.path.exists(out): return f['id'], 'kept'
         try:
             for m in [f['model'], BACKUP.get(f['model'])]:
-                if m and one(book, m, f['prompt'], aspect, out, f['id']):
+                if m and one(book, m, f['prompt'], f.get('aspect', aspect), out, f['id']):
                     im = Image.open(out).convert('RGB'); im.thumbnail((1920, 1920)); im.save(out[:-4] + '.jpg', quality=90)   # saved at once: a later failure never loses it
                     log(f['id'], 'done with', m); return f['id'], m
         except Exception as e: log(f['id'], 'stopped:', e)
         return f['id'], None
 
-    with cf.ThreadPoolExecutor(3) as ex: results = list(ex.map(job, spec['frames']))
+    with cf.ThreadPoolExecutor(3) as ex: results = list(ex.map(job, spec.get('frames', [])))
+    cut_session = None
+    for f in spec.get('frames', []):
+        src = os.path.join(outd, f['id'] + '.png')
+        if f.get('cutout') and os.path.exists(src) and not os.path.exists(src[:-4] + '.cut.png'):
+            try:
+                from rembg import remove, new_session
+                cut_session = cut_session or new_session('isnet-general-use')
+                cut = remove(Image.open(src).convert('RGB'), session=cut_session); bb = cut.getbbox()
+                (cut.crop(bb) if bb else cut).save(src[:-4] + '.cut.png'); log(f['id'], 'cut out')
+            except Exception as e: log(f['id'], 'cutout failed:', e)
+    clips = {}
+    for c in spec.get('clips', []):
+        frm = c['from']; img = os.path.join(outd, frm + '.png') if os.path.exists(os.path.join(outd, frm + '.png')) else os.path.join(bdir, frm)
+        out = os.path.join(outd, c['id'] + '.mp4')
+        if os.path.exists(out): clips[c['id']] = 'kept'; continue
+        if not os.path.exists(img): log(c['id'], 'no source still', img); clips[c['id']] = None; continue
+        try: clips[c['id']] = clip(led, c.get('model', 'google/veo-3.1-fast'), c['prompt'], img, int(c.get('seconds', 6)), out, c['id'])
+        except Exception as e: log(c['id'], 'clip stopped:', e); clips[c['id']] = None
+    results = list(results) + list(clips.items())
     after = key_usage(); log('key after:', after)
     spent = round(after['usage'] - before['usage'], 4) if 'usage' in after and 'usage' in before else None
     json.dump({'before': before, 'after': after, 'board_spent': spent, 'ledger_total': round(led.total, 4),
