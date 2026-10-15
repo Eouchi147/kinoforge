@@ -7,10 +7,6 @@
   "image": "google/gemini-nano-banana-2.1",
   "cap": 4.0
  },
- "steps": [
-  {
-   "treatment": "anthropic/claude-opus-5.5"
-  }
- ],
- "usd": 0.3052
+ "steps": [],
+ "usd": 0.4154
 }

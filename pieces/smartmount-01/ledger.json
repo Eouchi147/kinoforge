@@ -1,9 +1,10 @@
 {
  "cap": 4.0,
- "total": 0.41541,
+ "total": 0.57264,
  "by_seat": {
   "head": 0.30519,
-  "image": 0.11022
+  "image": 0.26745,
+  "eyes": 0
  },
  "calls": [
   {
@@ -55,6 +56,110 @@
    "task": "ref tv_mount",
    "usd": 0.03641,
    "s": 7.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-nano-banana-2.1",
+   "task": "ref living_room",
+   "usd": 0.03701,
+   "s": 8.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-nano-banana-2.1",
+   "task": "keyframe S1",
+   "usd": 0.04077,
+   "s": 13.8,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S1",
+   "usd": 0,
+   "s": 34.8,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "eyes",
+   "model": "anthropic/claude-haiku-5.5",
+   "task": "look S1",
+   "usd": 0,
+   "s": 5.9,
+   "ok": false,
+   "note": "400"
+  },
+  {
+   "seat": "eyes",
+   "model": "anthropic/claude-haiku-5.5",
+   "task": "look S1",
+   "usd": 0,
+   "s": 6.1,
+   "ok": false,
+   "note": "400"
+  },
+  {
+   "seat": "eyes",
+   "model": "z-ai/glm-5.3-flash",
+   "task": "look S1",
+   "usd": 0,
+   "s": 6.6,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-nano-banana-2.1",
+   "task": "keyframe S2",
+   "usd": 0.03852,
+   "s": 9.9,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S2",
+   "usd": 0,
+   "s": 26.8,
+   "ok": false,
+   "note": "KeyError"
+  },
+  {
+   "seat": "eyes",
+   "model": "anthropic/claude-haiku-5.5",
+   "task": "look S2",
+   "usd": 0,
+   "s": 3.7,
+   "ok": false,
+   "note": "400"
+  },
+  {
+   "seat": "eyes",
+   "model": "anthropic/claude-haiku-5.5",
+   "task": "look S2",
+   "usd": 0,
+   "s": 7.3,
+   "ok": false,
+   "note": "400"
+  },
+  {
+   "seat": "eyes",
+   "model": "z-ai/glm-5.3-flash",
+   "task": "look S2",
+   "usd": 0,
+   "s": 7.3,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-nano-banana-2.1",
+   "task": "keyframe S3",
+   "usd": 0.04093,
+   "s": 11.0,
    "ok": true
   }
  ]
