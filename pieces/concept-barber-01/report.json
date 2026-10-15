@@ -1,0 +1,66 @@
+{
+ "id": "concept-barber-01",
+ "tier": "standard",
+ "models": {
+  "video": "google/veo-3.1-fast",
+  "res": "1080p",
+  "image": "bytedance-seed/seedream-5-0-pro",
+  "cap": 10.0
+ },
+ "steps": [
+  {
+   "treatment": "google/gemini-4-argon"
+  }
+ ],
+ "usd": 1.3727,
+ "keyframes": {
+  "S1": {
+   "score": 8,
+   "problems": [
+    "Barber's hand anatomy slightly off: fingertips and fingernails are misshapen and the grip around the clipper reads unnaturally, with the fingers looking soft and partially merged.",
+    "Character mismatch: the reference barber wears a dark apron over the teal shirt, which is missing here.",
+    "Rim light on the face is a broad warm window wash rather than the crisp amber rim light described; eyes are not strongly rim-lit against deep teal shadow."
+   ]
+  },
+  "S2": {
+   "score": 7,
+   "problems": [
+    "Clipper is positioned on the cheek/jawline trimming beard stubble instead of gliding up the temple to create a skin fade line as scripted",
+    "Shot is a medium side-rear view rather than the scripted macro Dutch-tilt along the side of the head; forced perspective and barrel distortion are not evident",
+    "Hand holding the clipper has slightly soft/unnatural finger anatomy and smudged nail rendering"
+   ]
+  },
+  "S3": {
+   "score": 7,
+   "problems": [
+    "Camera is not extreme low angle as briefed \u2014 near eye-level/medium height, so the dramatic upward forced perspective and ceiling-heavy composition are weak",
+    "Barber's hands on the towel are muddled: finger count and grip are unclear where they merge with the white cloth",
+    "Client's facial features (nose, mouth, eye) are slightly distorted from this angle"
+   ]
+  },
+  "S4": {
+   "score": 8,
+   "problems": [
+    "White lather strip is painted along the razor blade instead of on the client's cheek line as specced",
+    "Razor blade silhouette is slightly lumpy/deformed near the tip and spine, reading as a painted smear rather than crisp steel",
+    "Razor is placed high on the cheekbone near the ear rather than along the jawline"
+   ]
+  },
+  "S5": {
+   "score": 7,
+   "problems": [
+    "Barber is posed mid-cut with scissors and comb rather than gripping the edge of the cape in mid-motion as the shot calls for",
+    "Client's hair reads as loose curls rather than a crisp fresh fade",
+    "Client's facial features look slightly distorted and asymmetrical (eye/jaw region)"
+   ]
+  },
+  "S6": {
+   "score": 7,
+   "problems": [
+    "Mirror shows the barber instead of the client's reflection \u2014 the client seated directly in front of the mirror is completely absent from the reflection, a spatial/story inconsistency with the described shot",
+    "Barber in the mirror crams scissors and comb into one hand, looking merged and awkward",
+    "Hand resting on the counter at the lower left of the mirror reads slightly detached from the barber's body"
+   ]
+  }
+ }
+}

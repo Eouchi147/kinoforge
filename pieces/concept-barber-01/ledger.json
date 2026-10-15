@@ -1,0 +1,232 @@
+{
+ "cap": 10.0,
+ "total": 1.37267,
+ "by_seat": {
+  "head": 0.02596,
+  "image": 1.33223,
+  "eyes": 0.01449
+ },
+ "calls": [
+  {
+   "seat": "head",
+   "model": "anthropic/claude-opus-5.5",
+   "task": "treatment",
+   "usd": 0,
+   "s": 60.6,
+   "ok": false,
+   "note": "ConnectionResetError"
+  },
+  {
+   "seat": "head",
+   "model": "google/gemini-4-argon",
+   "task": "treatment",
+   "usd": 0.02596,
+   "s": 27.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ref clippers",
+   "usd": 0.09,
+   "s": 89.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3-pro-image",
+   "task": "ref barber",
+   "usd": 0.13845,
+   "s": 18.4,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ref client",
+   "usd": 0.09,
+   "s": 77.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ref shop",
+   "usd": 0.09,
+   "s": 191.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S1",
+   "usd": 0.096,
+   "s": 120.3,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S1",
+   "usd": 0.001629,
+   "s": 28.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S2",
+   "usd": 0.099,
+   "s": 114.7,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S2",
+   "usd": 0.001788,
+   "s": 37.4,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S2 try 2",
+   "usd": 0.099,
+   "s": 105.4,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S2",
+   "usd": 0.001334,
+   "s": 17.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S3",
+   "usd": 0.096,
+   "s": 114.6,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S3",
+   "usd": 0.00138,
+   "s": 18.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S4",
+   "usd": 0.099,
+   "s": 119.8,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S4",
+   "usd": 0.0013,
+   "s": 17.0,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S4 try 2",
+   "usd": 0.099,
+   "s": 118.6,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S4",
+   "usd": 0.002108,
+   "s": 45.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3-pro-image",
+   "task": "keyframe S4 try 3",
+   "usd": 0.14378,
+   "s": 23.6,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S4",
+   "usd": 0.001278,
+   "s": 20.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S5",
+   "usd": 0.096,
+   "s": 132.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S5",
+   "usd": 0.001519,
+   "s": 23.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S6",
+   "usd": 0.096,
+   "s": 101.8,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S6",
+   "usd": 0,
+   "s": 5.9,
+   "ok": false,
+   "note": "ConnectionResetError"
+  },
+  {
+   "seat": "eyes",
+   "model": "anthropic/claude-haiku-5.5",
+   "task": "look S6",
+   "usd": 0,
+   "s": 9.6,
+   "ok": false,
+   "note": "ConnectionResetError"
+  },
+  {
+   "seat": "eyes",
+   "model": "z-ai/glm-5.3-flash",
+   "task": "look S6",
+   "usd": 0.002145,
+   "s": 20.7,
+   "ok": true,
+   "note": null
+  }
+ ]
+}

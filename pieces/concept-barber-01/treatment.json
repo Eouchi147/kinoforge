@@ -1,0 +1,142 @@
+{
+ "title": "The Ritual of Sharp",
+ "logline": "A kinetic, hyper-stylised plunge into the craft and rhythm of a neighbourhood barbershop fade and hot towel shave.",
+ "look": "Stylised painterly 3D with an anime-illustration finish: cel-like shading on sculpted 3D forms, hand-painted brush textures, crisp amber rim light, rich ambient occlusion and deep blacks. Bold complementary palette of saturated warm amber-orange against cool deep teal shadows. Ultra-wide 14mm and macro lenses with dramatic forced perspective, slight barrel distortion, volumetric god rays, floating dust motes, and crisp water spray frozen mid-air.",
+ "references": [
+  {
+   "id": "clippers",
+   "what": "product",
+   "prompt": "Stylised painterly 3D studio product render of a heavy vintage-modern cordless metal hair clipper and a matching folding straight razor with a matte black handle and brushed brass pivot. Hand-painted metallic texture, sharp cel-shaded highlights, completely blank smooth casing with no text, no logos, no markings, isolated on a neutral dark grey background."
+  },
+  {
+   "id": "barber",
+   "what": "character",
+   "prompt": "Stylised painterly 3D character portrait of an invented male barber in his early 30s, medium brown skin, sharp tapered haircut with a neatly sculpted beard, warm confident expression, wearing a modest dark teal heavy cotton work shirt with rolled sleeves and a plain black canvas barber apron with no logos or text, standing against a neutral grey background."
+  },
+  {
+   "id": "client",
+   "what": "character",
+   "prompt": "Stylised painterly 3D character portrait of an invented young man in his early 20s, light olive skin, thick dark wavy hair and short stubble, wearing a modest crew-neck charcoal sweater draped in a plain matte black barber cape with a brass clasp and no patterns or text, neutral grey background."
+  },
+  {
+   "id": "shop",
+   "what": "location",
+   "prompt": "Stylised painterly 3D interior of a classic Toronto neighbourhood barbershop. Vintage oxblood leather and chrome barber chair in the center, dark walnut wood panelling, tall arched window casting warm amber afternoon god rays through floating dust motes into deep teal shadows, large framed mirror, clean counter with plain amber glass spray bottles and folded white towels, no signs, no text, no posters with writing."
+  }
+ ],
+ "shots": [
+  {
+   "id": "S1",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.5,
+   "speed": "normal",
+   "refs": [
+    "clippers",
+    "barber",
+    "shop"
+   ],
+   "keyframe": "Stylised painterly 3D, ultra-wide 14mm extreme close-up with forced perspective. The brushed metal hair clipper sits inches from the lens, held by the barber's hand in the foreground; his focused eyes are framed in the background under warm orange rim light against deep teal barbershop shadows. Comb teeth frame the lower edge. No text or logos.",
+   "motion": "The barber's thumb snaps the brass switch and the clipper blades blur to life, kicking a tiny spark of light and a puff of fine hair dust toward the lens as the camera crash-zooms into the teeth.",
+   "transition": "cut"
+  },
+  {
+   "id": "S2",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 2.0,
+   "speed": "normal",
+   "refs": [
+    "clippers",
+    "barber",
+    "client",
+    "shop"
+   ],
+   "keyframe": "Stylised painterly 3D, macro Dutch-tilt angle along the side of the client's head. The metal clipper glides up the temple creating a crisp skin fade line, backlit by a golden sunbeam cutting through dark teal shadows. Fine hair clippings hang in the air like glowing embers. No text or logos.",
+   "motion": "The barber's hand executes a swift, rhythmic upward flick of the clippers while a black comb chases the blade in tight coordination; the camera tracks rapidly upward with the fade.",
+   "transition": "whip"
+  },
+  {
+   "id": "S3",
+   "seconds": 4,
+   "use_from": 0.2,
+   "use": 3.0,
+   "speed": "slow",
+   "refs": [
+    "barber",
+    "client",
+    "shop"
+   ],
+   "keyframe": "Stylised painterly 3D, extreme low angle looking up at the barber holding a steaming folded white towel with both hands above the reclined client in the vintage chair. Thick, luminous clouds of steam billow upward into golden god rays against a deep teal ceiling. No text or logos.",
+   "motion": "In slow motion, the barber pulls the hot towel taut with a crisp snap that sends droplets of water and a curling wave of glowing steam arcing toward the camera as the lens orbits smoothly around the chair.",
+   "transition": "flash"
+  },
+  {
+   "id": "S4",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 2.0,
+   "speed": "normal",
+   "refs": [
+    "clippers",
+    "barber",
+    "client",
+    "shop"
+   ],
+   "keyframe": "Stylised painterly 3D, hero macro insert on the matte black straight razor poised against the client's cheek line with a thin strip of white lather. A dark amber glass spray bottle sits blurred in the foreground framing the shot. Sharp orange rim light glints off the steel edge. No text or logos.",
+   "motion": "A fast push-in as the razor makes one clean, decisive downward stroke, carving a razor-sharp edge along the beard while an unseen atomizer mists fine water droplets across the beam of light.",
+   "transition": "cut"
+  },
+  {
+   "id": "S5",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 2.5,
+   "speed": "normal",
+   "refs": [
+    "barber",
+    "client",
+    "shop"
+   ],
+   "keyframe": "Stylised painterly 3D, wide dynamic low-angle shot inside the barbershop. The client sits upright in the leather chair with a crisp fresh fade and sculpted beard; the barber stands beside him gripping the edge of the black cape in mid-motion. Volumetric golden light floods the tall window. No text or logos.",
+   "motion": "The barber whips the black cape off in a dramatic billowing arc that sweeps across the foreground, revealing the client in his charcoal sweater as the camera whip-pans slightly to settle on the chair.",
+   "transition": "cut"
+  },
+  {
+   "id": "S6",
+   "seconds": 8,
+   "use_from": 0.0,
+   "use": 9.0,
+   "speed": "slow",
+   "refs": [
+    "barber",
+    "client",
+    "shop"
+   ],
+   "keyframe": "Stylised painterly 3D, calm medium composition framed over the client's shoulder looking into the clean walnut-framed barbershop mirror. The client's reflection shows his sharp skin fade and neat beard; the barber stands warmly in the background resting a hand on the chair back. Soft golden dust motes drift through teal and amber light. No text or logos.",
+   "motion": "The client turns his head slightly in the mirror, touches his clean jawline, and breaks into a relaxed, confident grin while the barber nods with a warm smile; the camera glides in a slow, steady dolly push toward the mirror and holds calm for the end card.",
+   "transition": "cut"
+  }
+ ],
+ "voiceover": [
+  {
+   "start": 2.0,
+   "text": "[warmly] Every line has a rhythm."
+  },
+  {
+   "start": 7.5,
+   "text": "Take thirty minutes for the chair."
+  },
+  {
+   "start": 13.0,
+   "text": "[confident] Walk out ready for the week."
+  }
+ ],
+ "voice": "liam",
+ "music": "Punchy instrumental hip-hop breakbeat at 114 BPM with crisp rimshots, deep warm sub-bass, rhythmic vinyl scratch textures, a spacious atmospheric drop during the slow-motion steam shot, and a clean warm Rhodes chord resolve at the end, no vocals.",
+ "end_card": {
+  "brand": "Kestrel Barber Co.",
+  "line": "Walk in. Walk out sharper.",
+  "cta": "Concept by Unmissed, AI-assisted"
+ }
+}
