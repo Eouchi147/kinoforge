@@ -16,10 +16,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(
 from agents import ask, Ledger, ROOT, API, KEY, OverBudget, AllFailed
 
 TIERS = {   # video model, resolution, keyframe model, per-piece cap
-    'draft':    {'video': 'google/veo-3.1-lite', 'res': '720p', 'image': 'google/gemini-nano-banana-2.1', 'cap': 4.0},
-    'standard': {'video': 'google/veo-3.1-fast', 'res': '1080p', 'image': 'google/gemini-nano-banana-2.1', 'cap': 9.0},
+    'draft':    {'video': 'google/veo-3.1-lite', 'res': '720p', 'image': 'bytedance-seed/seedream-5-0-pro', 'cap': 4.0},
+    'standard': {'video': 'google/veo-3.1-fast', 'res': '1080p', 'image': 'bytedance-seed/seedream-5-0-pro', 'cap': 9.0},
     'premium':  {'video': 'google/veo-3.1', 'res': '1080p', 'image': 'google/gemini-3-pro-image', 'cap': 12.0},
-    'kling':    {'video': 'kwaivgi/kling-v3.0-pro', 'res': '720p', 'image': 'google/gemini-nano-banana-2.1', 'cap': 9.0},
+    'kling':    {'video': 'kwaivgi/kling-v3.0-pro', 'res': '720p', 'image': 'bytedance-seed/seedream-5-0-pro', 'cap': 9.0},
 }
 PRICE = {'google/veo-3.1-lite': {'720p': 0.05, '1080p': 0.08}, 'google/veo-3.1-fast': {'720p': 0.10, '1080p': 0.12},
          'google/veo-3.1': {'720p': 0.40, '1080p': 0.40}, 'kwaivgi/kling-v3.0-pro': {'720p': 0.168}}
@@ -55,10 +55,12 @@ class Budget:
     def add(self, **c): self.led.add(**c)
 
 # ------------------------------------------------------------------ images
-IMAGE_BACKUPS = ['google/gemini-3.1-flash-image', 'bytedance-seed/seedream-5-0-pro', 'openai/gpt-image-2', 'black-forest-labs/flux-3-image']
+IMAGE_BACKUPS = ['openai/gpt-image-2', 'google/gemini-nano-banana-2.1', 'black-forest-labs/flux-3-image', 'google/gemini-3.1-flash-image']
+COOLDOWN = {}   # model -> time until which it is skipped (rate-limited)
 def image(B, model, prompt, refs, out, label):
     """One image; on rate limits or failures waits and retries, then falls through to backup models."""
     for m in [model] + [x for x in IMAGE_BACKUPS if x != model]:
+        if COOLDOWN.get(m, 0) > time.time(): continue
         try: return _image(B, m, prompt, refs, out, label)
         except AllFailed as e: log(label, f'{m} failed ({e}); next model')
     raise AllFailed(f'{label}: every image model failed')
@@ -81,7 +83,10 @@ def _image(B, model, prompt, refs, out, label):
             log(label, model, 'image error', e.code, e.read().decode(errors='ignore')[:160])
             if e.code == 402: raise OverBudget('key limit')
             if e.code in (400, 404): break
-            time.sleep(20 * (attempt + 1)); continue
+            if e.code == 429:
+                if attempt >= 1: COOLDOWN[model] = time.time() + 300; break
+                time.sleep(10); continue
+            time.sleep(10); continue
         except Exception as e: log(label, model, 'image error', type(e).__name__, str(e)[:160])
         time.sleep(5)
     raise AllFailed(f'{label}: no image from {model}')
@@ -331,7 +336,7 @@ def main(pdir):
         if not os.path.exists(o): image(B, T['image'], prompt, rr, o, f'keyframe {s["id"]}')
         ask_eyes = lambda path: look(B, f'look {s["id"]}', f'This still is the first frame of shot {s["id"]} of a premium commercial: "{s["keyframe"]}". The other images are the references it must match (characters, product, place, style). Score it 0-10 as a frame of a premium ad. List visible problems: wrong subject, anatomy (hands, faces), product or character not matching the references, style not matching, text or letters, weak composition, artefacts.', [path] + rr[:3])
         v = ask_eyes(o); best = (v['score'], o, v)
-        ladder = [T['image'], 'google/gemini-3-pro-image']            # retry, then the strongest image model
+        ladder = ['openai/gpt-image-2', 'google/gemini-3-pro-image']            # retry, then the strongest image model
         for k, mdl in enumerate(ladder):
             if best[0] >= 7: break
             alt = o.replace('.png', f'.try{k + 1}.png')
