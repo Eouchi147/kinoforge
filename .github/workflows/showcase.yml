@@ -6,6 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       films: { description: 'comma-separated ids (sc-clay,...) or "all"', default: 'all' }
+  schedule:
+    - cron: '*/20 * * * *'      # starts by itself once the OPENROUTER_API_KEY secret exists (then never again: films/showcase/started.txt)
 permissions:
   contents: write
   actions: write
@@ -17,9 +19,11 @@ jobs:
       - uses: actions/checkout@v4
       - id: p
         shell: python
-        env: { FILMS: '${{ github.event.inputs.films }}' }
+        env: { FILMS: '${{ github.event.inputs.films }}', HAS_KEY: '${{ secrets.OPENROUTER_API_KEY != '' }}', EVENT: '${{ github.event_name }}' }
         run: |
           import json, os, glob
+          if os.environ['EVENT'] == 'schedule' and (os.environ['HAS_KEY'] != 'true' or os.path.exists('films/showcase/started.txt')):
+              open(os.environ['GITHUB_OUTPUT'], 'a').write('films=[]\n'); print('waiting for the key' if os.environ['HAS_KEY'] != 'true' else 'already started'); raise SystemExit
           ids = sorted(os.path.basename(os.path.dirname(p)) for p in glob.glob('films/showcase/*/story.json'))
           want = [x.strip() for x in os.environ.get('FILMS', 'all').split(',') if x.strip()]
           if want and want != ['all']: ids = [i for i in ids if i in want]
@@ -27,6 +31,7 @@ jobs:
           open(os.environ['GITHUB_OUTPUT'], 'a').write('films=' + json.dumps(out) + '\n'); print(out)
   write:
     needs: plan
+    if: needs.plan.outputs.films != '[]'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     strategy: { fail-fast: false, matrix: { film: '${{ fromJson(needs.plan.outputs.films) }}' } }
@@ -60,7 +65,7 @@ jobs:
         with: { name: 'scene-${{ matrix.film.id }}', path: "proto/${{ matrix.film.id }}\nfilms/showcase/${{ matrix.film.id }}" }
   collect:
     needs: [plan, write]
-    if: always()
+    if: always() && needs.plan.outputs.films != '[]'
     runs-on: ubuntu-latest
     env: { GH_TOKEN: '${{ github.token }}' }
     steps:
@@ -88,6 +93,7 @@ jobs:
           print('ready:', [r['scene'] for r in ready])
           PY
           git config user.name "kinoforge-director"; git config user.email "director@kinoforge.local"
+          date -u > films/showcase/started.txt
           git add proto films/showcase render/queue/showcase.json
           git diff --cached --quiet || git commit -qm "showcase: scenes written by the scene agent"
           for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
