@@ -1,0 +1,160 @@
+{
+ "title": "From Road Salt to Mirror",
+ "logline": "A salt-grey winter car rolls into a dark bay and, in a burst of foam, water and light, comes back out looking like the first day.",
+ "look": "Stylised painterly 3D with an anime-illustration finish: sculpted 3D forms with cel-like shading, hand-painted textures, crisp rim light and rich ambient occlusion. Ultra-wide 14 to 18 mm lenses pushed right up close, forced perspective and slight barrel distortion. Extreme low angles, occasional top-down, Dutch tilts on tension beats. Foreground clutter of hoses, buckets, microfibre towels and polisher cables in layered planes. The light is a dark garage bay cut by one overhead hexagonal LED light bar and warm orange work lamps. Bold complementary palette: saturated teal and cold blue shadows against molten orange highlights, with deep inky blacks. Atmosphere everywhere: drifting mist, foam flecks, water droplets frozen mid-air, god rays through the open bay door, dust motes. Glossy specular reflections on paint, a high-contrast grade, gentle film grain. No text, no logos, no badges, no letters anywhere.",
+ "references": [
+  {
+   "id": "car",
+   "what": "product",
+   "prompt": "Stylised painterly 3D anime-finish render of a generic modern compact four-door sedan of no recognisable make, deep teal metallic paint with a mirror-gloss clear coat, smooth rounded hood, thin LED headlight strips, dark five-spoke alloy wheels, black window trim, tinted glass, completely badge-free grille and trunk, no license plates, smooth blank bumpers. Three-quarter front view on a seamless neutral mid-grey studio background with soft key light and crisp rim light. Cel-like shading, hand-painted texture, glossy specular highlights. No text, no logos, no emblems, no letters."
+  },
+  {
+   "id": "detailer",
+   "what": "character",
+   "prompt": "Stylised painterly 3D anime-finish character of an invented mobile car detailer, a man in his early thirties, warm brown skin, short neat black beard, calm focused eyes, short cropped hair under a charcoal knit beanie. He wears a modest long-sleeve dark navy work shirt buttoned to the collar, loose charcoal work trousers with knee pads, black rubber work boots, black nitrile gloves and a plain orange canvas apron. Full body, standing relaxed, neutral light-grey studio background, soft key light and crisp rim light, expressive and appealing proportions. No text, no logos, no patches, no letters."
+  },
+  {
+   "id": "bay",
+   "what": "location",
+   "prompt": "Stylised painterly 3D anime-finish environment of a dark, clean detailing bay at night in winter: polished charcoal epoxy floor with a central drain, one large hexagonal LED light bar overhead, warm orange work lamps on stands, coiled pressure-washer hoses, buckets, stacked microfibre towels, a rolling cart of unmarked bottles, an open roll-up door showing cold blue snowy night and drifting flakes. Mist hangs in the air, god rays through the doorway. Teal and orange palette, deep blacks. No text, no signs, no logos, no letters."
+  }
+ ],
+ "shots": [
+  {
+   "id": "S1",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.5,
+   "speed": "normal",
+   "refs": [
+    "car",
+    "bay"
+   ],
+   "keyframe": "Extreme floor-level ultra-wide 14 mm shot from inside the drain grate looking up: the salt-crusted front tyre of the teal sedan fills the upper frame, the whole car dull and grey with dried road salt streaks, headlights blazing teal-white straight down the lens, snow flakes and blue night behind it through the open bay door, the hexagonal light bar glowing above.",
+   "motion": "The car rolls forward directly over the camera, the tyre passing inches above the lens with grit falling off it, as the camera holds then tilts up to follow the dirty underside overhead.",
+   "transition": "cut"
+  },
+  {
+   "id": "S2",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 2.0,
+   "speed": "slow",
+   "refs": [
+    "car",
+    "detailer",
+    "bay"
+   ],
+   "keyframe": "Low Dutch-tilted ultra-wide shot at hood height: the detailer in the foreground right, gloved hands gripping a foam cannon pointed across the grey salt-dulled hood, orange work lamp rim-lighting his face, the light bar a teal glow behind.",
+   "motion": "In slow motion a thick white foam blast erupts from the cannon and blankets the hood, foam flecks spraying toward the lens while the camera pushes in fast along the stream.",
+   "transition": "flash"
+  },
+  {
+   "id": "S3",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.5,
+   "speed": "normal",
+   "refs": [
+    "car",
+    "detailer"
+   ],
+   "keyframe": "Macro hero insert on the wet teal door panel: a gloved hand presses a soft blue clay bar flat against the paint, droplets and lubricant sheen catching orange light, foreground blur of a dripping towel.",
+   "motion": "The clay bar glides across the panel in one firm stroke, lifting a faint trail of grit, the camera tracking alongside at the same speed.",
+   "transition": "cut"
+  },
+  {
+   "id": "S4",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 2.0,
+   "speed": "normal",
+   "refs": [
+    "car",
+    "detailer",
+    "bay"
+   ],
+   "keyframe": "Top-down ultra-wide shot over the hood: the detailer's gloved hands on an orbital polisher, its cable snaking through the foreground, a half-lit hood showing fine circular swirl marks under the hexagonal light bar reflection.",
+   "motion": "The polisher sweeps left to right in one pass, the swirl marks vanishing behind it to reveal deep glossy teal, the camera whip-tracking with the pad.",
+   "transition": "cut"
+  },
+  {
+   "id": "S5",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.5,
+   "speed": "normal",
+   "refs": [
+    "car",
+    "detailer"
+   ],
+   "keyframe": "Ultra-wide close shot from the back seat footwell looking up: the detailer leaning in through the open door, a steam wand in one hand, the fabric seat foreground, warm orange interior light against cold blue night through the windows.",
+   "motion": "A plume of steam rolls across the seat as he works the wand, the camera pushing up through the steam toward his focused face.",
+   "transition": "whip"
+  },
+  {
+   "id": "S6",
+   "seconds": 4,
+   "use_from": 1.0,
+   "use": 2.5,
+   "speed": "slow",
+   "refs": [
+    "car",
+    "bay"
+   ],
+   "keyframe": "Extreme low macro angle level with the freshly coated teal roof: a sheet of clean rinse water arcs in from the side, every droplet sharp, the light bar glowing above in reflection.",
+   "motion": "In slow motion the water hits the ceramic-coated paint and instantly bursts into perfect round beads that roll and leap off the edge, droplets flying past the lens as the camera drifts sideways.",
+   "transition": "flash"
+  },
+  {
+   "id": "S7",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "car",
+    "bay"
+   ],
+   "keyframe": "Low ultra-wide shot just above the hood surface: the clean teal hood fills the foreground like a black-teal lake, the hexagonal light bar reflected in it perfectly crisp and undistorted, mist hanging in the bay.",
+   "motion": "The camera orbits slowly across the hood, the reflection of the light bar sliding across the paint without a single ripple or swirl.",
+   "transition": "cut"
+  },
+  {
+   "id": "S8",
+   "seconds": 8,
+   "use_from": 1.0,
+   "use": 6.0,
+   "speed": "normal",
+   "refs": [
+    "car",
+    "detailer",
+    "bay"
+   ],
+   "keyframe": "Calm wide low-angle hero shot: the gleaming teal sedan in three-quarter front view centred in the dark bay, light bar overhead mirrored in its hood and roof, the detailer standing beside the front wheel holding a folded orange towel, cold blue snowy night through the open door behind, mist and soft god rays.",
+   "motion": "The detailer takes two slow steps back and lowers the towel, a small satisfied smile, while the camera eases back in a slow steady pull and the car holds still, glowing, with plenty of calm space for the end card.",
+   "transition": "cut"
+  }
+ ],
+ "voiceover": [
+  {
+   "start": 2.0,
+   "text": "[warmly] Winter is hard on a car."
+  },
+  {
+   "start": 7.2,
+   "text": "We come to you, and we take our time."
+  },
+  {
+   "start": 14.2,
+   "text": "[with a smile] So it feels new again."
+  }
+ ],
+ "voice": "chris",
+ "music": "Punchy modern electronic breakbeat at 120 BPM, no vocals: opens on a cold sub hit and ticking hi-hats under the dark bay, chopped drums and a gritty bass build through the foam, clay and polish montage with cuts on the beat, a big drop with a bright synth stab exactly on the slow-motion water beading at 8.5 s, then strips back to a warm sustained pad and soft kick for the calm hero shot, ending on a clean resolving chord under the end card.",
+ "end_card": {
+  "brand": "Mirrorline Detailing",
+  "line": "Your car. Like the first day.",
+  "cta": ""
+ }
+}

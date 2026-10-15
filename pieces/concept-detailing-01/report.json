@@ -1,0 +1,82 @@
+{
+ "id": "concept-detailing-01",
+ "tier": "standard",
+ "models": {
+  "video": "google/veo-3.1-fast",
+  "res": "1080p",
+  "image": "bytedance-seed/seedream-5-0-pro",
+  "cap": 10.0
+ },
+ "steps": [
+  {
+   "treatment": "anthropic/claude-opus-5.5"
+  }
+ ],
+ "usd": 1.5635,
+ "keyframes": {
+  "S1": {
+   "score": 7,
+   "problems": [
+    "The oversized wheel in the upper-left reads as a detached, floating tyre with no visible car body or lift supporting it; its tread texture is mushy and artefacted",
+    "The salt-crusted tyre should fill the upper frame centred above the camera; it is pushed to the left edge instead",
+    "Front bumper/grille of the teal sedan is muddy and indistinct, with warped panel shapes typical of generation artefacts"
+   ]
+  },
+  "S2": {
+   "score": 7,
+   "problems": [
+    "Camera is not at hood height or ultra-wide close-up: the detailer is mid-ground full-body instead of framed in the foreground right with forced perspective and barrel distortion",
+    "No visible Dutch tilt; the frame is straight and level",
+    "Spray wand/foam cannon points down at the front bumper rather than across the salt-dulled hood"
+   ]
+  },
+  "S3": {
+   "score": 8,
+   "problems": [
+    "Style leans photoreal CGI rather than the specified stylized painterly cel-shaded illustration finish; textures read photographic instead of hand-painted",
+    "Hand anatomy slightly malformed: the glove's fingers are blobby and merged, thumb and knuckle structure poorly resolved where it grips the clay bar",
+    "The overhead LED fixture reads as two awkwardly overlapping hexagons rather than a clean single hexagonal light bar, a visible artifact"
+   ]
+  },
+  "S4": {
+   "score": 8,
+   "problems": [
+    "Camera is a wide eye-level/high-angle establishing view rather than the specified top-down ultra-wide pushed close over the hood (minor angle deviation, but the tight macro feel of the shot is lost)",
+    "Gloved hands are slightly blobby: fingers merged/indistinct and hard to parse where they grip the polisher head",
+    "Orbital polisher body and backing pad are under-sculpted \u2014 the tool silhouette reads as an indistinct dark mass with a red disc rather than a clear machine"
+   ]
+  },
+  "S5": {
+   "score": 7,
+   "problems": [
+    "Detailer is not leaning in through the open door \u2014 he stands outside spraying the exterior car, so the core action of the shot (steam wand on the interior seat) is missing",
+    "Steam wand replaced by an exterior spray gun aimed at the car body",
+    "Camera is not the specified ultra-wide back-seat-footwell low angle looking up at the detailer; view reads more like a rear-seat side view toward the exterior"
+   ]
+  },
+  "S6": {
+   "score": 9,
+   "problems": [
+    "Rinse water reads as a turbulent foamy wave with excessive stray droplets rather than the intended clean arcing sheet",
+    "Hexagonal light reflection on the roof paint is fragmented and slightly misaligned with the overhead fixture",
+    "Background car and garage clutter on the left are slightly soft and indistinct against the crisp foreground"
+   ]
+  },
+  "S7": {
+   "score": 7,
+   "problems": [
+    "The product car in the mid-ground does not match the reference sedan: front end design, grille/light signature and wheel design all differ from the reference vehicle.",
+    "The hexagonal light bar reflection in the hood is soft, blurred and slightly broken/distorted instead of the intended perfectly crisp and undistorted reflection.",
+    "An ambiguous dark glossy mass intrudes in the bottom-right corner that reads as an unintended fragment of another car body, muddying the hood 'lake' foreground."
+   ]
+  },
+  "S8": {
+   "score": 7,
+   "problems": [
+    "Character mismatch: The detailer is missing the beanie present in the reference images and has different hair and facial features.",
+    "Action mismatch: The detailer is not holding a folded orange towel as specified; the towel is tucked into the apron pocket.",
+    "Style mismatch: The frame is too photorealistic/CG-digital, lacking the requested anime-illustration finish and cel-like shading."
+   ]
+  }
+ }
+}
