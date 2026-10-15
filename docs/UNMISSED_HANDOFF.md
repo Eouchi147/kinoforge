@@ -30,3 +30,21 @@ Path: (1) 4–5 portfolio ads this week → (2) studio "Build" button runs the a
 ## Where things are
 - Finished pieces: GitHub release `pieces` in Eouchi147/kinoforge, and sent to Sam in chat.
 - How the ad factory works: `harness/shots/factory.py`, engines menu `docs/ENGINES.md`, directions `harness/shots/directions/`.
+
+## Applied from the Unmissed chat's answers (15 Oct 2026)
+- Policy file `harness/shots/policies/unmissed.md`: claims allowed/banned, industries (restaurants and caterers without alcohol or pork,
+  auto repair and detailing, non-medical barbers and beauty; no clinics; real estate later), modest wardrobe, no dashes or "...",
+  no prices, no URL, AI label, Sam approves everything. The director reads it for every piece with `"policy": "unmissed"`.
+- Code guard on every spoken and written word: dashes and ellipses removed; lines with banned claims, prices, URLs, ratings or counts dropped.
+- Unmissed end card drawn in code: ink background, ring-and-node logo (#2f7df6 ring, #79b4ff node), Instrument Sans, tagline and second line, no URL.
+- Concept ads carry "Concept by Unmissed, AI-assisted" in the corner for the whole piece and on the end card.
+- Budget: standard tier capped at US$10 AI fees per ad; premium only when the client pays.
+- Smart Mount: internal test only, never shown as Unmissed portfolio or proof.
+- In production now (invented businesses, nothing real): Unmissed brand film, restaurant, detailing, barber concepts.
+
+## Client material: private storage (to set up before the first warm prospect's concept ad)
+The public kinoforge repo and its releases are for invented-business concepts and studio code only.
+Plan: a private repo (e.g. `Eouchi147/unmissed-productions`) holds client briefs, uploads and finished ads; its own workflow
+checks out the public studio code and runs the same factory; outputs go to that private repo's releases. Sam's steps when needed:
+create the private repo, add the OPENROUTER_API_KEY secret there. Private-repo runs use the account's monthly Actions minutes
+(about 30-60 minutes per ad, mostly waiting on the video models).
