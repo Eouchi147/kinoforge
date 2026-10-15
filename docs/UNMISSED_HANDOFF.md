@@ -39,10 +39,10 @@ Path: (1) 4–5 portfolio ads this week → (2) studio "Build" button runs the a
 - Unmissed end card drawn in code: ink background, ring-and-node logo (#2f7df6 ring, #79b4ff node), Instrument Sans, tagline and second line, no URL.
 - Concept ads carry "Concept by Unmissed, AI-assisted" in the corner for the whole piece and on the end card.
 - Budget: standard tier capped at US$10 AI fees per ad; premium only when the client pays.
-- Smart Mount: internal test only, never shown as Unmissed portfolio or proof.
+- Smart Mount: cleared by Sam (15 Oct) for public use, including as Unmissed portfolio.
 - In production now (invented businesses, nothing real): Unmissed brand film, restaurant, detailing, barber concepts.
 
-## Client material: private storage (to set up before the first warm prospect's concept ad)
+## Client material: private storage (PARKED by Sam on 15 Oct until there are paying clients; speed first)
 The public kinoforge repo and its releases are for invented-business concepts and studio code only.
 Plan: a private repo (e.g. `Eouchi147/unmissed-productions`) holds client briefs, uploads and finished ads; its own workflow
 checks out the public studio code and runs the same factory; outputs go to that private repo's releases. Sam's steps when needed:
