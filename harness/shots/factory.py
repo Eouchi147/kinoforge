@@ -340,12 +340,19 @@ def main(pdir):
             except AllFailed as e: log(e); continue
             v2 = ask_eyes(alt)
             if v2['score'] > best[0]: best = (v2['score'], alt, v2)
-        if best[1] != o: os.replace(best[1], o)
+        if best[1] != o:
+            os.replace(best[1], o)
+            for st in glob.glob(o.replace('.png', '.t*.jpg')): os.remove(st)    # the old still's thumbnails
         report.setdefault('keyframes', {})[s['id']] = {'score': best[0], 'problems': best[2]['problems'][:3]}
         kfs.append(o)
     save()
     sheet_kf = os.path.join(pdir, 'keyframes.jpg')
-    run(['ffmpeg', '-v', 'error', '-y', '-pattern_type', 'glob', '-i', os.path.join(pdir, 'work', 'kf-*.t768.jpg'), '-vf', f'scale=384:-2,tile=4x{math.ceil(len(kfs) / 4)}', '-frames:v', '1', sheet_kf]) if glob.glob(os.path.join(pdir, 'work', 'kf-*.t768.jpg')) else None
+    from PIL import Image, ImageDraw
+    th = [Image.open(thumb(k)) for k in kfs]; cw, ch = 384, int(384 * th[0].height / th[0].width); cols = 4
+    S_ = Image.new('RGB', (cw * cols, ch * math.ceil(len(th) / cols)), 'black'); dr = ImageDraw.Draw(S_)
+    for i, (im, s) in enumerate(zip(th, t['shots'])):
+        S_.paste(im.resize((cw, ch)), ((i % cols) * cw, (i // cols) * ch)); dr.text(((i % cols) * cw + 6, (i // cols) * ch + 4), f'{s["id"]} ({report["keyframes"].get(s["id"], {}).get("score", "?")})', fill='yellow')
+    S_.save(sheet_kf, quality=88)
     if brief.get('stop_after') == 'keyframes':
         log('stopped after keyframes for review (brief.stop_after)'); return
     def make_clip(s, kf):
