@@ -1,0 +1,91 @@
+{
+ "film": "sc-relic",
+ "duration": 90,
+ "takes": 3,
+ "profile": "A grave historian, deliberate and dry",
+ "persona": "A grave historian, deliberate and dry",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "Every king who wore it believed it was his.",
+   "start": 1.0,
+   "end": 6.0,
+   "tone": "grave, deliberate",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "The first held it for forty years.",
+   "start": 21.0,
+   "end": 25.0,
+   "tone": "dry",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "The second, for four.",
+   "start": 33.0,
+   "end": 37.5,
+   "tone": "dry, faster",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "The third, for a single night.",
+   "start": 45.0,
+   "end": 49.5,
+   "tone": "darker",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "The fourth never told us his name.",
+   "start": 59.0,
+   "end": 63.5,
+   "tone": "cold",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "Now it belongs to the glass, and to a child who will forget it by dinner.",
+   "start": 75.0,
+   "end": 82.5,
+   "tone": "wry",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N7",
+   "text": "Crowns outlive kings. That is all they do.",
+   "start": 84.5,
+   "end": 89.5,
+   "tone": "final, quiet",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "male, elderly, low pitch, british accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

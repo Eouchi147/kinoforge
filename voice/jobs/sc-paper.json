@@ -1,0 +1,80 @@
+{
+ "film": "sc-paper",
+ "duration": 90,
+ "takes": 3,
+ "profile": "An old sailor by the fire, slow and weathered, proud at the end",
+ "persona": "An old sailor by the fire, slow and weathered, proud at the end",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "On the edge of the world stood one light.",
+   "start": 1.0,
+   "end": 5.5,
+   "tone": "calm, storytelling",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "And one night, it went out.",
+   "start": 12.0,
+   "end": 15.5,
+   "tone": "hushed, ominous",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "One old man cannot be a lighthouse.",
+   "start": 23.0,
+   "end": 27.0,
+   "tone": "grave",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "But a village can.",
+   "start": 41.0,
+   "end": 44.5,
+   "tone": "rising hope",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "A lighthouse was never one flame. It was everyone who kept it.",
+   "start": 59.0,
+   "end": 65.0,
+   "tone": "proud, warm",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "Every window. Every night.",
+   "start": 83.0,
+   "end": 87.0,
+   "tone": "quiet, final",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "male, elderly, low pitch, british accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

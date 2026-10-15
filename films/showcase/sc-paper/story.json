@@ -1,0 +1,141 @@
+{
+ "id": "sc-paper",
+ "style": "Paper theatre",
+ "template": "p16-dragon-tale",
+ "title": "Every Window",
+ "channel": "family",
+ "fmt": "16:9",
+ "logline": "When the lighthouse goes dark, an old keeper wakes a whole village to become its light.",
+ "look": "Paper theatre on rods and pins, lamp-lit from below; storm blues and slate, warm amber windows that multiply until the frame glows.",
+ "narrator": [
+  "male, elderly, low pitch, british accent",
+  "An old sailor by the fire, slow and weathered, proud at the end"
+ ],
+ "music": "Low strings and timpani storm, a lone fiddle for the keeper; each lit window adds a voice until a full warm chorus of strings.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 6.0,
+   "dur": 6,
+   "direction": "EWS 24mm · slow push · iris in — a paper sea on rods, a lighthouse on a cliff sweeping its beam"
+  },
+  {
+   "start": 6.0,
+   "end": 11.0,
+   "dur": 5,
+   "direction": "MS 50mm · locked · cut — the old keeper winds the lamp; his paper cat watches"
+  },
+  {
+   "start": 11.0,
+   "end": 16.0,
+   "dur": 5,
+   "direction": "CU 85mm · hold · smash cut to dark — the lamp sputters and dies"
+  },
+  {
+   "start": 16.0,
+   "end": 22.0,
+   "dur": 6,
+   "direction": "EWS 24mm · pendulum sway · cut — far out, a small paper ship with one lantern pitches in the storm"
+  },
+  {
+   "start": 22.0,
+   "end": 28.0,
+   "dur": 6,
+   "direction": "MS 35mm · tracking down · cut on action — the keeper hurries down the spiral stairs, lantern in hand"
+  },
+  {
+   "start": 28.0,
+   "end": 34.0,
+   "dur": 6,
+   "direction": "WS 35mm · locked · cut — the sleeping village of paper houses, every window dark; he knocks"
+  },
+  {
+   "start": 34.0,
+   "end": 40.0,
+   "dur": 6,
+   "direction": "CU 85mm · hold · cut — one window lights: a girl with a candle"
+  },
+  {
+   "start": 40.0,
+   "end": 48.0,
+   "dur": 8,
+   "direction": "WS 35mm · slow truck right · cut — windows light one by one down the street; villagers step out with lanterns"
+  },
+  {
+   "start": 48.0,
+   "end": 58.0,
+   "dur": 10,
+   "direction": "WS 24mm · crane up · dissolve — a line of lanterns snakes up the cliff path"
+  },
+  {
+   "start": 58.0,
+   "end": 66.0,
+   "dur": 8,
+   "direction": "MS 50mm · push in · cut — at the top they raise their lanterns behind the great lens; it gathers them into one beam"
+  },
+  {
+   "start": 66.0,
+   "end": 74.0,
+   "dur": 8,
+   "direction": "EWS 24mm · beam sweep · cut — the beam crosses the sea; the ship turns away from the rocks"
+  },
+  {
+   "start": 74.0,
+   "end": 82.0,
+   "dur": 8,
+   "direction": "CU 85mm · hold · cut — the ship's captain lifts her lantern and waves back"
+  },
+  {
+   "start": 82.0,
+   "end": 90.0,
+   "dur": 8,
+   "direction": "EWS 24mm · slow pull back · iris out — dawn on the paper sea; every window in the village still lit"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 5.5,
+   "text": "On the edge of the world stood one light.",
+   "tone": "calm, storytelling"
+  },
+  {
+   "id": "N2",
+   "start": 12.0,
+   "end": 15.5,
+   "text": "And one night, it went out.",
+   "tone": "hushed, ominous"
+  },
+  {
+   "id": "N3",
+   "start": 23.0,
+   "end": 27.0,
+   "text": "One old man cannot be a lighthouse.",
+   "tone": "grave"
+  },
+  {
+   "id": "N4",
+   "start": 41.0,
+   "end": 44.5,
+   "text": "But a village can.",
+   "tone": "rising hope"
+  },
+  {
+   "id": "N5",
+   "start": 59.0,
+   "end": 65.0,
+   "text": "A lighthouse was never one flame. It was everyone who kept it.",
+   "tone": "proud, warm"
+  },
+  {
+   "id": "N6",
+   "start": 83.0,
+   "end": 87.0,
+   "text": "Every window. Every night.",
+   "tone": "quiet, final"
+  }
+ ]
+}

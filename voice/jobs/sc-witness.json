@@ -1,0 +1,80 @@
+{
+ "film": "sc-witness",
+ "duration": 90,
+ "takes": 3,
+ "profile": "An elderly widow, steady and loving, with a catch in the voice",
+ "persona": "An elderly widow, steady and loving, with a catch in the voice",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "He said he'd meet my train at midnight.",
+   "start": 1.0,
+   "end": 6.0,
+   "tone": "steady, loving",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "Trains don't stop here anymore.",
+   "start": 14.0,
+   "end": 18.0,
+   "tone": "matter-of-fact",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "They haven't since that night.",
+   "start": 27.0,
+   "end": 31.5,
+   "tone": "quiet",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "Some people wait for a long time.",
+   "start": 49.0,
+   "end": 53.5,
+   "tone": "tender",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "I come every year, so he has someone to wait for.",
+   "start": 65.0,
+   "end": 71.0,
+   "tone": "warm, a catch in the voice",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "One day I'll take the train. Not yet.",
+   "start": 83.0,
+   "end": 88.5,
+   "tone": "gentle smile",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "female, elderly, moderate pitch, british accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

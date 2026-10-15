@@ -1,0 +1,80 @@
+{
+ "film": "sc-terrain",
+ "duration": 90,
+ "takes": 3,
+ "profile": "A calm nature documentary narrator, wise and warm",
+ "persona": "A calm nature documentary narrator, wise and warm",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "Every river starts as something that couldn't hold on.",
+   "start": 1.0,
+   "end": 6.0,
+   "tone": "calm, warm",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "It never knows the way. It only knows down.",
+   "start": 17.0,
+   "end": 22.0,
+   "tone": "gentle",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "Mountains, forests, fields. It touches everything and keeps nothing.",
+   "start": 33.0,
+   "end": 39.0,
+   "tone": "wonder",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "When the land splits it, it doesn't argue. It goes both ways.",
+   "start": 49.0,
+   "end": 55.0,
+   "tone": "wry, warm",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "And at the end, it simply stops being a river.",
+   "start": 65.0,
+   "end": 70.0,
+   "tone": "quiet",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "It becomes the sky. Then, one day, the snow again.",
+   "start": 81.0,
+   "end": 87.5,
+   "tone": "peaceful, final",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "female, middle-aged, moderate pitch, american accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

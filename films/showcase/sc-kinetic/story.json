@@ -1,0 +1,177 @@
+{
+ "id": "sc-kinetic",
+ "style": "Kinetic",
+ "template": "p11-kinetic",
+ "title": "Ninety Seconds",
+ "channel": "family",
+ "fmt": "9:16",
+ "logline": "What happens in the next ninety seconds, and how to spend the ones you have left.",
+ "look": "Vertical kinetic typography: one bold typeface, eased type with overshoot, per-letter stagger; each idea its own colour field; a heartbeat pulse ties every card together.",
+ "narrator": [
+  "male, young adult, moderate pitch, american accent",
+  "Warm, conversational, a smile in the voice"
+ ],
+ "music": "Soft piano ostinato on a heartbeat kick; strings lift at \"Somewhere\"; everything drops to piano for the last line.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 5.5,
+   "dur": 5.5,
+   "direction": "type card · stagger in — \"IN THE NEXT 90 SECONDS\" on deep ink"
+  },
+  {
+   "start": 5.5,
+   "end": 12.0,
+   "dur": 6.5,
+   "direction": "type card · pulse — a heart beats; the number counts up to 100"
+  },
+  {
+   "start": 12.0,
+   "end": 19.0,
+   "dur": 7,
+   "direction": "type card · blink wipe — \"BLINK ×25\", letters blink shut"
+  },
+  {
+   "start": 19.0,
+   "end": 26.0,
+   "dur": 7,
+   "direction": "type card · bloom — \"~400 BABIES BORN\", tiny dots blooming across the field"
+  },
+  {
+   "start": 26.0,
+   "end": 34.0,
+   "dur": 8,
+   "direction": "type card · orbit — \"2,600 KM\", the words travel along a curved orbit around a sun"
+  },
+  {
+   "start": 34.0,
+   "end": 42.0,
+   "dur": 8,
+   "direction": "type card · streak — \"27,000,000 KM\", a beam of light streaks across"
+  },
+  {
+   "start": 42.0,
+   "end": 50.0,
+   "dur": 8,
+   "direction": "type card · handwriting — \"somewhere, a song is being written\""
+  },
+  {
+   "start": 50.0,
+   "end": 57.0,
+   "dur": 7,
+   "direction": "type card · fade apart — \"somewhere, someone is saying goodbye\", letters drift away"
+  },
+  {
+   "start": 57.0,
+   "end": 65.0,
+   "dur": 8,
+   "direction": "type card · tilt — \"and you're spending yours reading this\""
+  },
+  {
+   "start": 65.0,
+   "end": 73.0,
+   "dur": 8,
+   "direction": "type card · settle — \"seconds are made to be spent\""
+  },
+  {
+   "start": 73.0,
+   "end": 81.0,
+   "dur": 8,
+   "direction": "type card · warm glow — \"spend the next ones on someone you love\""
+  },
+  {
+   "start": 81.0,
+   "end": 90.0,
+   "dur": 9,
+   "direction": "type card · phone icon pulses — \"go on. call them.\" then fade out"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 0.5,
+   "end": 4.5,
+   "text": "In the next ninety seconds,",
+   "tone": "inviting"
+  },
+  {
+   "id": "N2",
+   "start": 6.0,
+   "end": 11.0,
+   "text": "your heart will beat about a hundred times.",
+   "tone": "warm, curious"
+  },
+  {
+   "id": "N3",
+   "start": 13.0,
+   "end": 17.5,
+   "text": "You'll blink around twenty five times.",
+   "tone": "light"
+  },
+  {
+   "id": "N4",
+   "start": 20.0,
+   "end": 25.0,
+   "text": "Nearly four hundred babies will be born.",
+   "tone": "wonder"
+  },
+  {
+   "id": "N5",
+   "start": 27.0,
+   "end": 33.0,
+   "text": "Earth will carry you two thousand six hundred kilometres around the Sun.",
+   "tone": "amazed"
+  },
+  {
+   "id": "N6",
+   "start": 35.0,
+   "end": 41.0,
+   "text": "A beam of light will cross twenty seven million kilometres.",
+   "tone": "awe"
+  },
+  {
+   "id": "N7",
+   "start": 44.0,
+   "end": 49.0,
+   "text": "Somewhere, a song is being written.",
+   "tone": "soft"
+  },
+  {
+   "id": "N8",
+   "start": 51.0,
+   "end": 56.0,
+   "text": "Somewhere, someone is saying goodbye.",
+   "tone": "tender"
+  },
+  {
+   "id": "N9",
+   "start": 59.0,
+   "end": 64.0,
+   "text": "And you're spending yours reading this.",
+   "tone": "playful"
+  },
+  {
+   "id": "N10",
+   "start": 68.0,
+   "end": 74.0,
+   "text": "That's fine. Seconds are made to be spent.",
+   "tone": "reassuring"
+  },
+  {
+   "id": "N11",
+   "start": 77.0,
+   "end": 83.0,
+   "text": "Just spend the next ones on someone you love.",
+   "tone": "heartfelt"
+  },
+  {
+   "id": "N12",
+   "start": 85.0,
+   "end": 89.0,
+   "text": "Go on. Call them.",
+   "tone": "gentle nudge"
+  }
+ ]
+}

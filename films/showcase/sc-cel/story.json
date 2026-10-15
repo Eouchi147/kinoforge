@@ -1,0 +1,134 @@
+{
+ "id": "sc-cel",
+ "style": "Cel",
+ "template": "p06-cel",
+ "title": "Smudge",
+ "channel": "family",
+ "fmt": "16:9",
+ "logline": "A tiny ink smudge nobody wanted in the comic becomes the only thing holding the story together.",
+ "look": "Bold cel shading, clean ink lines, primary colours; comic-page gutters as white void; smears, speed lines, impact frames, long holds.",
+ "narrator": [
+  "female, young adult, moderate pitch, american accent",
+  "Bright, playful comic-book narrator with comic timing"
+ ],
+ "music": "Brassy cartoon hero theme with snare; pizzicato for Smudge; a full-orchestra hit on the rescue; ends on a cheeky woodblock.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 4.0,
+   "dur": 4,
+   "direction": "CU 50mm · locked · cut — a blank comic page; a pen nib slams down (impact frame)"
+  },
+  {
+   "start": 4.0,
+   "end": 10.0,
+   "dur": 6,
+   "direction": "WS 35mm · locked · cut — inside a panel, Captain Bright poses heroically; in the white gutter, a tiny ink smudge with eyes: Smudge"
+  },
+  {
+   "start": 10.0,
+   "end": 16.0,
+   "dur": 6,
+   "direction": "MS 50mm · locked · cut — Smudge copies the hero's pose; an eraser swipes him off the panel edge (smear); he pops back"
+  },
+  {
+   "start": 16.0,
+   "end": 24.0,
+   "dur": 8,
+   "direction": "MS 35mm · whip pans · cut — the hero fights a cartoon villain; Smudge jumps in to help and is kicked out of frame"
+  },
+  {
+   "start": 24.0,
+   "end": 30.0,
+   "dur": 6,
+   "direction": "CU 85mm · long hold · cut — Smudge sits alone in the white gutter"
+  },
+  {
+   "start": 30.0,
+   "end": 36.0,
+   "dur": 6,
+   "direction": "WS 24mm · whip pan · smash cut — the villain's giant hook rips the page; a tear opens across the panels; the hero falls"
+  },
+  {
+   "start": 36.0,
+   "end": 42.0,
+   "dur": 6,
+   "direction": "CU 50mm · shake · cut — the hero dangles over the tear, slipping (impact frame)"
+  },
+  {
+   "start": 42.0,
+   "end": 50.0,
+   "dur": 8,
+   "direction": "MS 35mm · push in · cut — Smudge looks at the tear and stretches himself across it, a living stitch (squash and stretch)"
+  },
+  {
+   "start": 50.0,
+   "end": 58.0,
+   "dur": 8,
+   "direction": "WS 24mm · speed lines · cut — the hero runs across Smudge to safety and lands the final punch (impact frames)"
+  },
+  {
+   "start": 58.0,
+   "end": 66.0,
+   "dur": 8,
+   "direction": "CU 85mm · hold · cut — Smudge, thin as a line, exhausted, still holding the page together"
+  },
+  {
+   "start": 66.0,
+   "end": 76.0,
+   "dur": 10,
+   "direction": "MS 50mm · slow push · cut — the hero kneels and offers a hand; the panel border redraws around both of them"
+  },
+  {
+   "start": 76.0,
+   "end": 84.0,
+   "dur": 8,
+   "direction": "WS 35mm · locked · cut — the last panel: hero and Smudge posing together, Smudge tiny and proud"
+  },
+  {
+   "start": 84.0,
+   "end": 90.0,
+   "dur": 6,
+   "direction": "WS · page-turn wipe · cut to black — a fresh blank page; Smudge peeks in from the corner"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 4.5,
+   "end": 9.5,
+   "text": "Every page has a hero. This is not him.",
+   "tone": "playful, deadpan"
+  },
+  {
+   "id": "N2",
+   "start": 25.0,
+   "end": 29.5,
+   "text": "Smudge was the mistake nobody erased in time.",
+   "tone": "fond, a little sad"
+  },
+  {
+   "id": "N3",
+   "start": 43.0,
+   "end": 48.0,
+   "text": "But mistakes are very good at filling gaps.",
+   "tone": "sly, building"
+  },
+  {
+   "id": "N4",
+   "start": 67.0,
+   "end": 73.5,
+   "text": "Heroes save the story. Somebody has to hold it together.",
+   "tone": "warm, proud"
+  },
+  {
+   "id": "N5",
+   "start": 85.0,
+   "end": 89.0,
+   "text": "Turn the page. He's still there.",
+   "tone": "cheeky"
+  }
+ ]
+}

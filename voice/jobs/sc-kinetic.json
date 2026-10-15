@@ -1,0 +1,146 @@
+{
+ "film": "sc-kinetic",
+ "duration": 90,
+ "takes": 3,
+ "profile": "Warm, conversational, a smile in the voice",
+ "persona": "Warm, conversational, a smile in the voice",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "In the next ninety seconds,",
+   "start": 0.5,
+   "end": 4.5,
+   "tone": "inviting",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "your heart will beat about a hundred times.",
+   "start": 6.0,
+   "end": 11.0,
+   "tone": "warm, curious",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "You'll blink around twenty five times.",
+   "start": 13.0,
+   "end": 17.5,
+   "tone": "light",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "Nearly four hundred babies will be born.",
+   "start": 20.0,
+   "end": 25.0,
+   "tone": "wonder",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "Earth will carry you two thousand six hundred kilometres around the Sun.",
+   "start": 27.0,
+   "end": 33.0,
+   "tone": "amazed",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "A beam of light will cross twenty seven million kilometres.",
+   "start": 35.0,
+   "end": 41.0,
+   "tone": "awe",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N7",
+   "text": "Somewhere, a song is being written.",
+   "start": 44.0,
+   "end": 49.0,
+   "tone": "soft",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N8",
+   "text": "Somewhere, someone is saying goodbye.",
+   "start": 51.0,
+   "end": 56.0,
+   "tone": "tender",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N9",
+   "text": "And you're spending yours reading this.",
+   "start": 59.0,
+   "end": 64.0,
+   "tone": "playful",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N10",
+   "text": "That's fine. Seconds are made to be spent.",
+   "start": 68.0,
+   "end": 74.0,
+   "tone": "reassuring",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N11",
+   "text": "Just spend the next ones on someone you love.",
+   "start": 77.0,
+   "end": 83.0,
+   "tone": "heartfelt",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N12",
+   "text": "Go on. Call them.",
+   "start": 85.0,
+   "end": 89.0,
+   "tone": "gentle nudge",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "male, young adult, moderate pitch, american accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

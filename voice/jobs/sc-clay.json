@@ -1,0 +1,91 @@
+{
+ "film": "sc-clay",
+ "duration": 90,
+ "takes": 3,
+ "profile": "A warm grandmother telling a bedtime story, gentle smile in the voice",
+ "persona": "A warm grandmother telling a bedtime story, gentle smile in the voice",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "Pip made cups for the whole windowsill.",
+   "start": 1.0,
+   "end": 5.5,
+   "tone": "cosy, amused",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "And every cup she made was perfect.",
+   "start": 12.5,
+   "end": 17.5,
+   "tone": "proud, a little teasing",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "So when one broke, she did what perfect people do.",
+   "start": 37.0,
+   "end": 42.5,
+   "tone": "knowing, gentle",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "She hid it.",
+   "start": 45.0,
+   "end": 48.0,
+   "tone": "soft, a hint of sadness",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "In an old country, broken cups are mended with gold.",
+   "start": 58.0,
+   "end": 64.0,
+   "tone": "quiet wonder",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "The crack was not the end of the cup.",
+   "start": 73.0,
+   "end": 78.5,
+   "tone": "tender, slow",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N7",
+   "text": "It was the part that caught the morning.",
+   "start": 82.0,
+   "end": 88.0,
+   "tone": "warm, final",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "female, elderly, low pitch, british accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

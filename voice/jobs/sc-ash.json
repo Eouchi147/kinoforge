@@ -1,0 +1,80 @@
+{
+ "film": "sc-ash",
+ "duration": 90,
+ "takes": 3,
+ "profile": "A weary man confessing, low and close",
+ "persona": "A weary man confessing, low and close",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "When I was nine, I took a stone from this mountain.",
+   "start": 1.0,
+   "end": 6.5,
+   "tone": "low, confessional",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "They said the mountain would want it back.",
+   "start": 15.0,
+   "end": 20.0,
+   "tone": "grim",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "For thirty years, it rained ash on our town.",
+   "start": 31.0,
+   "end": 36.0,
+   "tone": "weary",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "So I am giving it back.",
+   "start": 45.0,
+   "end": 50.0,
+   "tone": "resolute",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "It was never the mountain's anger.",
+   "start": 69.0,
+   "end": 73.5,
+   "tone": "slow realisation",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "It was mine. And I could put it down.",
+   "start": 83.0,
+   "end": 89.0,
+   "tone": "released, quiet",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "male, middle-aged, low pitch, british accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

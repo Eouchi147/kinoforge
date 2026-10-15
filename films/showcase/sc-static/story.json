@@ -1,0 +1,147 @@
+{
+ "id": "sc-static",
+ "style": "Static",
+ "template": "p01-static",
+ "title": "Tape Thirteen",
+ "channel": "dark-corners",
+ "fmt": "16:9",
+ "logline": "Thirteen home videos from one house, each a different year, and in every one something stands a little closer to the camera.",
+ "look": "1990s camcorder VHS: soft chroma bleed, tracking lines, timestamp burn-in, tape dropouts, missed frames; sodium-orange interiors, green-black night.",
+ "narrator": [
+  "female, middle-aged, low pitch, american accent",
+  "Calm documentary investigator, unsettlingly matter-of-fact"
+ ],
+ "music": "No score. Room tone, tape hiss, a low sub hum that rises with each tape; a held silence before the last reveal; tape eject clunk.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 5.0,
+   "dur": 5,
+   "direction": "black · tracking noise · cut — timestamp OCT 14 1994 fades in; a living room birthday party"
+  },
+  {
+   "start": 5.0,
+   "end": 13.0,
+   "dur": 8,
+   "direction": "MS handheld · drift · cut — kids around a cake; in the background, a dark hallway doorway"
+  },
+  {
+   "start": 13.0,
+   "end": 17.0,
+   "dur": 4,
+   "direction": "tape fault · glitch cut"
+  },
+  {
+   "start": 17.0,
+   "end": 25.0,
+   "dur": 8,
+   "direction": "WS handheld · slow pan · cut — the backyard; at the tree line, a figure stands between the trees, barely visible"
+  },
+  {
+   "start": 25.0,
+   "end": 29.0,
+   "dur": 4,
+   "direction": "rewind fault · glitch cut"
+  },
+  {
+   "start": 29.0,
+   "end": 37.0,
+   "dur": 8,
+   "direction": "MS · tripod locked · cut — night, a kid's bedroom; the figure now stands in the doorway, closer"
+  },
+  {
+   "start": 37.0,
+   "end": 41.0,
+   "dur": 4,
+   "direction": "missed frames · abrupt step"
+  },
+  {
+   "start": 41.0,
+   "end": 49.0,
+   "dur": 8,
+   "direction": "CU handheld · cut — a mirror: the father filming; behind him, the figure"
+  },
+  {
+   "start": 49.0,
+   "end": 55.0,
+   "dur": 6,
+   "direction": "freeze frame · digital zoom · cut — pixelated zoom on the figure: it is holding a camcorder"
+  },
+  {
+   "start": 55.0,
+   "end": 63.0,
+   "dur": 8,
+   "direction": "WS · locked · hard cut — new timestamp OCT 15 2026; a dark room; the tape playing on an old TV"
+  },
+  {
+   "start": 63.0,
+   "end": 71.0,
+   "dur": 8,
+   "direction": "CU · slow push · cut — on the TV, the figure turns toward the lens"
+  },
+  {
+   "start": 71.0,
+   "end": 79.0,
+   "dur": 8,
+   "direction": "CU · slow push · cut — it walks toward the camera; static swells"
+  },
+  {
+   "start": 79.0,
+   "end": 85.0,
+   "dur": 6,
+   "direction": "CU · locked · cut — in the TV glass, a reflection: the figure standing behind the viewer, camcorder raised"
+  },
+  {
+   "start": 85.0,
+   "end": 90.0,
+   "dur": 5,
+   "direction": "black · cut — tape eject; text: TAPE 13 OF 13"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 5.5,
+   "text": "We found thirteen tapes in the house.",
+   "tone": "matter-of-fact"
+  },
+  {
+   "id": "N2",
+   "start": 18.0,
+   "end": 24.0,
+   "text": "Every tape is a different year. Same house.",
+   "tone": "flat, careful"
+  },
+  {
+   "id": "N3",
+   "start": 30.0,
+   "end": 35.0,
+   "text": "And in every tape, it's a little closer.",
+   "tone": "quiet, uneasy"
+  },
+  {
+   "id": "N4",
+   "start": 50.0,
+   "end": 54.5,
+   "text": "It isn't watching them.",
+   "tone": "slow realisation"
+  },
+  {
+   "id": "N5",
+   "start": 56.0,
+   "end": 59.5,
+   "text": "It's recording.",
+   "tone": "cold"
+  },
+  {
+   "id": "N6",
+   "start": 80.0,
+   "end": 84.5,
+   "text": "This is tape thirteen.",
+   "tone": "whisper-close"
+  }
+ ]
+}

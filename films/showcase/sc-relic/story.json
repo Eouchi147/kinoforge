@@ -1,0 +1,148 @@
+{
+ "id": "sc-relic",
+ "style": "Relic",
+ "template": "p05-relic",
+ "title": "The Crown",
+ "channel": "dark-corners",
+ "fmt": "16:9",
+ "logline": "An iron crown passes through four ages and four falls, and outlives every king who believed it was his.",
+ "look": "Hero-object cinematography: one raking key light in darkness, drifting dust; each age has its own palette (bronze torchlight, candle gold, gaslight red, electric blue-white), ending in cool museum light. Hero holds, speed ramps, impact flashes.",
+ "narrator": [
+  "male, elderly, low pitch, british accent",
+  "A grave historian, deliberate and dry"
+ ],
+ "music": "Deep taiko and low brass for each coronation; a metallic clang and silence for each fall; a choir pad that thins with every age; museum room tone at the end.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 8.0,
+   "dur": 8,
+   "direction": "ECU macro · slow orbit · fade in — the iron crown in darkness, one raking light, dust in the beam"
+  },
+  {
+   "start": 8.0,
+   "end": 14.0,
+   "dur": 6,
+   "direction": "CU 85mm · rise · cut — the crown rises into light (hero hold)"
+  },
+  {
+   "start": 14.0,
+   "end": 20.0,
+   "dur": 6,
+   "direction": "WS 35mm · locked · impact flash — age one: torches, bronze light, the crown set upon a throne"
+  },
+  {
+   "start": 20.0,
+   "end": 26.0,
+   "dur": 6,
+   "direction": "CU · speed ramp to slow motion · cut — it falls and rolls across stone; clang flash"
+  },
+  {
+   "start": 26.0,
+   "end": 32.0,
+   "dur": 6,
+   "direction": "WS 35mm · push · cut — age two: candles and gold; the crown rises again"
+  },
+  {
+   "start": 32.0,
+   "end": 38.0,
+   "dur": 6,
+   "direction": "CU · slow motion · cut — it falls, rolling through smoke"
+  },
+  {
+   "start": 38.0,
+   "end": 44.0,
+   "dur": 6,
+   "direction": "WS 35mm · push · cut — age three: gaslight and red banners; it rises"
+  },
+  {
+   "start": 44.0,
+   "end": 50.0,
+   "dur": 6,
+   "direction": "ECU · impact flash · cut — it falls; a jewel cracks and shatters"
+  },
+  {
+   "start": 50.0,
+   "end": 58.0,
+   "dur": 8,
+   "direction": "WS 35mm · newsreel flicker · cut — age four: harsh electric light; it rises"
+  },
+  {
+   "start": 58.0,
+   "end": 64.0,
+   "dur": 6,
+   "direction": "CU · long fall into darkness · cut — it drops out of frame; silence"
+  },
+  {
+   "start": 64.0,
+   "end": 74.0,
+   "dur": 10,
+   "direction": "WS 50mm · slow push · dissolve — a museum: the crown in a glass case; a child's reflection passes in the glass"
+  },
+  {
+   "start": 74.0,
+   "end": 84.0,
+   "dur": 10,
+   "direction": "CU 85mm · hold · cut — the crown, cracked and dulled; a small placard: CROWN OF AN UNKNOWN KING"
+  },
+  {
+   "start": 84.0,
+   "end": 90.0,
+   "dur": 6,
+   "direction": "CU · light fades · cut to black — the gallery light switches off"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 6.0,
+   "text": "Every king who wore it believed it was his.",
+   "tone": "grave, deliberate"
+  },
+  {
+   "id": "N2",
+   "start": 21.0,
+   "end": 25.0,
+   "text": "The first held it for forty years.",
+   "tone": "dry"
+  },
+  {
+   "id": "N3",
+   "start": 33.0,
+   "end": 37.5,
+   "text": "The second, for four.",
+   "tone": "dry, faster"
+  },
+  {
+   "id": "N4",
+   "start": 45.0,
+   "end": 49.5,
+   "text": "The third, for a single night.",
+   "tone": "darker"
+  },
+  {
+   "id": "N5",
+   "start": 59.0,
+   "end": 63.5,
+   "text": "The fourth never told us his name.",
+   "tone": "cold"
+  },
+  {
+   "id": "N6",
+   "start": 75.0,
+   "end": 82.5,
+   "text": "Now it belongs to the glass, and to a child who will forget it by dinner.",
+   "tone": "wry"
+  },
+  {
+   "id": "N7",
+   "start": 84.5,
+   "end": 89.5,
+   "text": "Crowns outlive kings. That is all they do.",
+   "tone": "final, quiet"
+  }
+ ]
+}

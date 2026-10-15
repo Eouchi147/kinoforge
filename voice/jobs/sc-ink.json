@@ -1,0 +1,80 @@
+{
+ "film": "sc-ink",
+ "duration": 90,
+ "takes": 3,
+ "profile": "Quiet, grief-worn, intimate, close to the microphone",
+ "persona": "Quiet, grief-worn, intimate, close to the microphone",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "For a year, he wrote to her every night.",
+   "start": 8.0,
+   "end": 13.0,
+   "tone": "quiet, intimate",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "And every night, he sent the letter up in fire.",
+   "start": 21.0,
+   "end": 26.0,
+   "tone": "heavy, slow",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "The fire never wrote back.",
+   "start": 35.0,
+   "end": 39.0,
+   "tone": "flat, empty",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "Until the night it did. One word.",
+   "start": 57.0,
+   "end": 62.5,
+   "tone": "hushed awe",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "She had only ever wanted him to rest.",
+   "start": 65.0,
+   "end": 70.5,
+   "tone": "tender, breaking",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "So he did.",
+   "start": 83.0,
+   "end": 86.5,
+   "tone": "peaceful, final",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "male, elderly, moderate pitch, american accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

@@ -1,0 +1,129 @@
+{
+ "id": "sc-terrain",
+ "style": "Terrain",
+ "template": "p12-terrain",
+ "title": "The River's Way",
+ "channel": "family",
+ "fmt": "16:9",
+ "logline": "One drop of meltwater travels from a glacier to the sea and back to the snow, and never once knows the way.",
+ "look": "Aerial relief landscape: snow and blue ice, green valleys, golden plains, a silver river; glides and banks, never clipping the land; soft haze for depth.",
+ "narrator": [
+  "female, middle-aged, moderate pitch, american accent",
+  "A calm nature documentary narrator, wise and warm"
+ ],
+ "music": "Airy strings and soft piano, water and wind beds; a fuller theme over the plains; a hush at the sea; the opening motif returns over the snow.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 8.0,
+   "dur": 8,
+   "direction": "EWS aerial · slow glide · fade in — glacier peaks at dawn; meltwater glints"
+  },
+  {
+   "start": 8.0,
+   "end": 16.0,
+   "dur": 8,
+   "direction": "aerial · glide down · cut — down a valley; a stream forms"
+  },
+  {
+   "start": 16.0,
+   "end": 24.0,
+   "dur": 8,
+   "direction": "aerial · bank right · cut — the river through a forest canyon"
+  },
+  {
+   "start": 24.0,
+   "end": 32.0,
+   "dur": 8,
+   "direction": "aerial · rise · cut — the river winds across a wide golden plain"
+  },
+  {
+   "start": 32.0,
+   "end": 40.0,
+   "dur": 8,
+   "direction": "aerial low · fast glide over water · cut — skimming the surface"
+  },
+  {
+   "start": 40.0,
+   "end": 48.0,
+   "dur": 8,
+   "direction": "aerial · bank left · cut — the river splits around an island; the camera follows one branch"
+  },
+  {
+   "start": 48.0,
+   "end": 56.0,
+   "dur": 8,
+   "direction": "aerial · glide · dissolve — the river through patchwork farmland"
+  },
+  {
+   "start": 56.0,
+   "end": 64.0,
+   "dur": 8,
+   "direction": "aerial high · slow push · cut — the delta spreads like the branches of a tree"
+  },
+  {
+   "start": 64.0,
+   "end": 72.0,
+   "dur": 8,
+   "direction": "aerial · push out · cut — the river meets the sea; waves"
+  },
+  {
+   "start": 72.0,
+   "end": 80.0,
+   "dur": 8,
+   "direction": "aerial · rise · dissolve — clouds form over the sea and drift inland"
+  },
+  {
+   "start": 80.0,
+   "end": 90.0,
+   "dur": 10,
+   "direction": "EWS aerial · slow glide · fade out — clouds over the glacier from the opening; snow begins to fall"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 6.0,
+   "text": "Every river starts as something that couldn't hold on.",
+   "tone": "calm, warm"
+  },
+  {
+   "id": "N2",
+   "start": 17.0,
+   "end": 22.0,
+   "text": "It never knows the way. It only knows down.",
+   "tone": "gentle"
+  },
+  {
+   "id": "N3",
+   "start": 33.0,
+   "end": 39.0,
+   "text": "Mountains, forests, fields. It touches everything and keeps nothing.",
+   "tone": "wonder"
+  },
+  {
+   "id": "N4",
+   "start": 49.0,
+   "end": 55.0,
+   "text": "When the land splits it, it doesn't argue. It goes both ways.",
+   "tone": "wry, warm"
+  },
+  {
+   "id": "N5",
+   "start": 65.0,
+   "end": 70.0,
+   "text": "And at the end, it simply stops being a river.",
+   "tone": "quiet"
+  },
+  {
+   "id": "N6",
+   "start": 81.0,
+   "end": 87.5,
+   "text": "It becomes the sky. Then, one day, the snow again.",
+   "tone": "peaceful, final"
+  }
+ ]
+}

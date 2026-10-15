@@ -1,0 +1,77 @@
+{
+ "runs": [
+  {
+   "job": "voice/jobs/sc-clay.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-paper.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-cel.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-ink.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-lantern.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-pixel.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-static.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-kinetic.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-relic.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-witness.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-ash.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/sc-terrain.json",
+   "engines": [
+    "omnivoice"
+   ]
+  }
+ ],
+ "note": "showcase: 12 films, one per style"
+}

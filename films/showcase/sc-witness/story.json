@@ -1,0 +1,135 @@
+{
+ "id": "sc-witness",
+ "style": "Witness",
+ "template": "p04-witness",
+ "title": "Platform Nine",
+ "channel": "dark-corners",
+ "fmt": "16:9",
+ "logline": "A man waits every night for a midnight train that never stops, until the morning shows who is really waiting for whom.",
+ "look": "Realistic night station in rain, sodium lamps and wet reflections, handheld documentary camera that lags behind the action; a hard cut to flat grey daylight and an overgrown, abandoned platform.",
+ "narrator": [
+  "female, elderly, moderate pitch, british accent",
+  "An elderly widow, steady and loving, with a catch in the voice"
+ ],
+ "music": "Rain, distant rail hum, a station clock tick; trains roar past with wind; a single piano phrase in daylight; a train finally hissing to a stop.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 7.0,
+   "dur": 7,
+   "direction": "WS 35mm handheld · slow drift · fade in — night platform, sodium lamps, rain; a man on a bench beside a suitcase"
+  },
+  {
+   "start": 7.0,
+   "end": 13.0,
+   "dur": 6,
+   "direction": "CU 85mm handheld · cut — the station clock at 11:58; the second hand ticks but never moves on"
+  },
+  {
+   "start": 13.0,
+   "end": 20.0,
+   "dur": 7,
+   "direction": "WS 24mm handheld shake · cut — a train roars through without stopping; light streaks, wind"
+  },
+  {
+   "start": 20.0,
+   "end": 26.0,
+   "dur": 6,
+   "direction": "MS 50mm handheld · cut — the man stands, watches it go, sits back down"
+  },
+  {
+   "start": 26.0,
+   "end": 32.0,
+   "dur": 6,
+   "direction": "WS 24mm · cut — another train, faster, does not stop"
+  },
+  {
+   "start": 32.0,
+   "end": 40.0,
+   "dur": 8,
+   "direction": "CU 85mm handheld · cut — his hands hold a wet ticket"
+  },
+  {
+   "start": 40.0,
+   "end": 48.0,
+   "dur": 8,
+   "direction": "WS 35mm · lamp flicker · cut — for a few frames the platform is overgrown and broken, then normal again"
+  },
+  {
+   "start": 48.0,
+   "end": 56.0,
+   "dur": 8,
+   "direction": "MS 50mm handheld · slow push · cut — he looks up at the clock: still 11:58"
+  },
+  {
+   "start": 56.0,
+   "end": 64.0,
+   "dur": 8,
+   "direction": "WS 35mm locked · hard cut to day — flat grey daylight: the platform abandoned, overgrown, the bench empty"
+  },
+  {
+   "start": 64.0,
+   "end": 72.0,
+   "dur": 8,
+   "direction": "MS 50mm handheld · cut — an old woman with flowers walks slowly to the bench"
+  },
+  {
+   "start": 72.0,
+   "end": 82.0,
+   "dur": 10,
+   "direction": "CU 85mm · hold · cut — she lays the flowers by a small plaque on the bench and sits where he sat"
+  },
+  {
+   "start": 82.0,
+   "end": 90.0,
+   "dur": 8,
+   "direction": "WS 35mm · locked · fade out — a train arrives and, for the first time, stops; doors open; she stays seated and smiles"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 6.0,
+   "text": "He said he'd meet my train at midnight.",
+   "tone": "steady, loving"
+  },
+  {
+   "id": "N2",
+   "start": 14.0,
+   "end": 18.0,
+   "text": "Trains don't stop here anymore.",
+   "tone": "matter-of-fact"
+  },
+  {
+   "id": "N3",
+   "start": 27.0,
+   "end": 31.5,
+   "text": "They haven't since that night.",
+   "tone": "quiet"
+  },
+  {
+   "id": "N4",
+   "start": 49.0,
+   "end": 53.5,
+   "text": "Some people wait for a long time.",
+   "tone": "tender"
+  },
+  {
+   "id": "N5",
+   "start": 65.0,
+   "end": 71.0,
+   "text": "I come every year, so he has someone to wait for.",
+   "tone": "warm, a catch in the voice"
+  },
+  {
+   "id": "N6",
+   "start": 83.0,
+   "end": 88.5,
+   "text": "One day I'll take the train. Not yet.",
+   "tone": "gentle smile"
+  }
+ ]
+}

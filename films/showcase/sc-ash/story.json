@@ -1,0 +1,135 @@
+{
+ "id": "sc-ash",
+ "style": "Ash Ascent",
+ "template": "p07-ash-ascent",
+ "title": "The Stone",
+ "channel": "dark-corners",
+ "fmt": "16:9",
+ "logline": "A man climbs a smoking volcano through falling ash to return the stone he stole from it as a boy.",
+ "look": "Black volcanic slopes under a blood-red sky, ash falling like snow, heavy footfalls kicking up ash on every contact; the ending clears to a cold blue dawn.",
+ "narrator": [
+  "male, middle-aged, low pitch, british accent",
+  "A weary man confessing, low and close"
+ ],
+ "music": "Low drones and slow war drums matched to footfalls, wind and ash hiss; a solo horn at the rim; the drums stop when the stone drops; a held string chord at dawn.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 8.0,
+   "dur": 8,
+   "direction": "EWS 24mm · slow push · fade in — a black volcano under a red sky, ash falling; a tiny figure at its foot"
+  },
+  {
+   "start": 8.0,
+   "end": 14.0,
+   "dur": 6,
+   "direction": "CU 85mm · hold · cut — a hand holds a smooth black stone"
+  },
+  {
+   "start": 14.0,
+   "end": 22.0,
+   "dur": 8,
+   "direction": "MS low 35mm · tracking · cut — boots step heavily; ash puffs up on every contact"
+  },
+  {
+   "start": 22.0,
+   "end": 30.0,
+   "dur": 8,
+   "direction": "WS 24mm · tracking · cut — he climbs into thickening ash and wind"
+  },
+  {
+   "start": 30.0,
+   "end": 36.0,
+   "dur": 6,
+   "direction": "CU 50mm · shake · cut — he slips and drops to one knee; an ash cloud bursts"
+  },
+  {
+   "start": 36.0,
+   "end": 44.0,
+   "dur": 8,
+   "direction": "MS 50mm · hold · cut — he rests, breathing, and looks at the stone"
+  },
+  {
+   "start": 44.0,
+   "end": 52.0,
+   "dur": 8,
+   "direction": "WS 24mm low angle · tracking · cut — he rises and climbs on"
+  },
+  {
+   "start": 52.0,
+   "end": 60.0,
+   "dur": 8,
+   "direction": "EWS 24mm · slow push · cut — the summit glows ahead"
+  },
+  {
+   "start": 60.0,
+   "end": 68.0,
+   "dur": 8,
+   "direction": "MS 35mm · locked · cut — at the crater rim, he holds the stone up"
+  },
+  {
+   "start": 68.0,
+   "end": 74.0,
+   "dur": 6,
+   "direction": "CU 85mm · locked · cut — he drops it into the crater; a small spark answers"
+  },
+  {
+   "start": 74.0,
+   "end": 82.0,
+   "dur": 8,
+   "direction": "WS 24mm · locked · dissolve — the ash stops falling; the red sky clears to dawn"
+  },
+  {
+   "start": 82.0,
+   "end": 90.0,
+   "dur": 8,
+   "direction": "EWS 24mm · slow pull back · fade out — he sits on the rim, very small, in the first sun"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 6.5,
+   "text": "When I was nine, I took a stone from this mountain.",
+   "tone": "low, confessional"
+  },
+  {
+   "id": "N2",
+   "start": 15.0,
+   "end": 20.0,
+   "text": "They said the mountain would want it back.",
+   "tone": "grim"
+  },
+  {
+   "id": "N3",
+   "start": 31.0,
+   "end": 36.0,
+   "text": "For thirty years, it rained ash on our town.",
+   "tone": "weary"
+  },
+  {
+   "id": "N4",
+   "start": 45.0,
+   "end": 50.0,
+   "text": "So I am giving it back.",
+   "tone": "resolute"
+  },
+  {
+   "id": "N5",
+   "start": 69.0,
+   "end": 73.5,
+   "text": "It was never the mountain's anger.",
+   "tone": "slow realisation"
+  },
+  {
+   "id": "N6",
+   "start": 83.0,
+   "end": 89.0,
+   "text": "It was mine. And I could put it down.",
+   "tone": "released, quiet"
+  }
+ ]
+}

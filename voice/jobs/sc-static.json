@@ -1,0 +1,80 @@
+{
+ "film": "sc-static",
+ "duration": 90,
+ "takes": 3,
+ "profile": "Calm documentary investigator, unsettlingly matter-of-fact",
+ "persona": "Calm documentary investigator, unsettlingly matter-of-fact",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "We found thirteen tapes in the house.",
+   "start": 1.0,
+   "end": 5.5,
+   "tone": "matter-of-fact",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "Every tape is a different year. Same house.",
+   "start": 18.0,
+   "end": 24.0,
+   "tone": "flat, careful",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "And in every tape, it's a little closer.",
+   "start": 30.0,
+   "end": 35.0,
+   "tone": "quiet, uneasy",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "It isn't watching them.",
+   "start": 50.0,
+   "end": 54.5,
+   "tone": "slow realisation",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "It's recording.",
+   "start": 56.0,
+   "end": 59.5,
+   "tone": "cold",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "This is tape thirteen.",
+   "start": 80.0,
+   "end": 84.5,
+   "tone": "whisper-close",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "female, middle-aged, low pitch, american accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

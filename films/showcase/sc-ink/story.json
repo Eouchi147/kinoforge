@@ -1,0 +1,135 @@
+{
+ "id": "sc-ink",
+ "style": "Ink Ember",
+ "template": "p02-ink-ember",
+ "title": "Letters to Ash",
+ "channel": "dark-corners",
+ "fmt": "16:9",
+ "logline": "A widowed calligrapher burns a letter to his wife every night, until the fire writes back.",
+ "look": "Sumi ink on rice paper, strokes that draw themselves, ink bleeding into wet paper; black, bone white and ember orange only; rising embers.",
+ "narrator": [
+  "male, elderly, moderate pitch, american accent",
+  "Quiet, grief-worn, intimate, close to the microphone"
+ ],
+ "music": "Solo cello and low drone, crackling fire; a single high bell when the embers write; the cello resolves at dawn.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 7.0,
+   "dur": 7,
+   "direction": "EWS · locked · fade in — black; one brush stroke draws a horizon; ink bleeds into mountains"
+  },
+  {
+   "start": 7.0,
+   "end": 14.0,
+   "dur": 7,
+   "direction": "MS 50mm · slow push · cut — an old calligrapher kneels at a low desk beside a brazier, writing"
+  },
+  {
+   "start": 14.0,
+   "end": 20.0,
+   "dur": 6,
+   "direction": "ECU macro · locked · cut — the brush forms a character; ink blooms into the paper"
+  },
+  {
+   "start": 20.0,
+   "end": 26.0,
+   "dur": 6,
+   "direction": "CU 85mm · hold · cut — he folds the letter and lays it in the brazier; embers rise"
+  },
+  {
+   "start": 26.0,
+   "end": 34.0,
+   "dur": 8,
+   "direction": "WS 24mm · tilt up · match cut on embers — embers drift into the night and for a moment draw the outline of a woman, then scatter"
+  },
+  {
+   "start": 34.0,
+   "end": 40.0,
+   "dur": 6,
+   "direction": "MS 50mm · locked · jump cuts — he writes again, faster, letter after letter; the brazier roars"
+  },
+  {
+   "start": 40.0,
+   "end": 46.0,
+   "dur": 6,
+   "direction": "CU 85mm · hold · cut — his hand trembles; the brush runs dry"
+  },
+  {
+   "start": 46.0,
+   "end": 56.0,
+   "dur": 10,
+   "direction": "EWS 24mm · slow tilt · cut — the embers gather into a single brush stroke that writes one character across the sky"
+  },
+  {
+   "start": 56.0,
+   "end": 64.0,
+   "dur": 8,
+   "direction": "CU 85mm · push in · cut — he reads it; a tear; the brazier dims"
+  },
+  {
+   "start": 64.0,
+   "end": 72.0,
+   "dur": 8,
+   "direction": "MS 50mm · locked · cut — he lays down the brush, leaves the last letter unburned, and opens the shutter: dawn"
+  },
+  {
+   "start": 72.0,
+   "end": 82.0,
+   "dur": 10,
+   "direction": "WS 35mm · slow drift · cut — plum blossoms draw themselves along a branch in morning light"
+  },
+  {
+   "start": 82.0,
+   "end": 90.0,
+   "dur": 8,
+   "direction": "EWS · locked · fade out — the opening horizon again, now with a rising sun"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 8.0,
+   "end": 13.0,
+   "text": "For a year, he wrote to her every night.",
+   "tone": "quiet, intimate"
+  },
+  {
+   "id": "N2",
+   "start": 21.0,
+   "end": 26.0,
+   "text": "And every night, he sent the letter up in fire.",
+   "tone": "heavy, slow"
+  },
+  {
+   "id": "N3",
+   "start": 35.0,
+   "end": 39.0,
+   "text": "The fire never wrote back.",
+   "tone": "flat, empty"
+  },
+  {
+   "id": "N4",
+   "start": 57.0,
+   "end": 62.5,
+   "text": "Until the night it did. One word.",
+   "tone": "hushed awe"
+  },
+  {
+   "id": "N5",
+   "start": 65.0,
+   "end": 70.5,
+   "text": "She had only ever wanted him to rest.",
+   "tone": "tender, breaking"
+  },
+  {
+   "id": "N6",
+   "start": 83.0,
+   "end": 86.5,
+   "text": "So he did.",
+   "tone": "peaceful, final"
+  }
+ ]
+}

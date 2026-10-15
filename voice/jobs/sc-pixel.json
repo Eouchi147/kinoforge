@@ -1,0 +1,80 @@
+{
+ "film": "sc-pixel",
+ "duration": 90,
+ "takes": 3,
+ "profile": "Calm noir narrator, low and measured",
+ "persona": "Calm noir narrator, low and measured",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "It was built to wait for one signal.",
+   "start": 1.0,
+   "end": 6.0,
+   "tone": "low, measured",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "Four thousand nights. Nothing.",
+   "start": 13.0,
+   "end": 17.5,
+   "tone": "flat, weary",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "Then the city began to go dark.",
+   "start": 27.0,
+   "end": 31.5,
+   "tone": "tense",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "A sentry guards what matters. It just had to decide what that was.",
+   "start": 47.0,
+   "end": 53.5,
+   "tone": "slow, resolute",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "And from the last lit window, someone answered.",
+   "start": 71.0,
+   "end": 77.0,
+   "tone": "quiet wonder",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "It had never been waiting for the sky.",
+   "start": 82.0,
+   "end": 87.5,
+   "tone": "soft, final",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "male, middle-aged, low pitch, american accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

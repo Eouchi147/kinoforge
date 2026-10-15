@@ -1,0 +1,80 @@
+{
+ "film": "sc-lantern",
+ "duration": 90,
+ "takes": 3,
+ "profile": "A gentle mother reading aloud at bedtime",
+ "persona": "A gentle mother reading aloud at bedtime",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "Every evening, someone had to light the road.",
+   "start": 1.0,
+   "end": 6.0,
+   "tone": "gentle storytelling",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "Tonight, it was her turn.",
+   "start": 14.0,
+   "end": 18.5,
+   "tone": "proud, light",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "But the wind does not care whose turn it is.",
+   "start": 28.0,
+   "end": 33.5,
+   "tone": "a little ominous",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "She could have kept climbing. She went back instead.",
+   "start": 41.0,
+   "end": 47.0,
+   "tone": "admiring",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "Because a light behind you is a road for someone else.",
+   "start": 57.0,
+   "end": 63.0,
+   "tone": "tender, slow",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N6",
+   "text": "And someone was coming home.",
+   "start": 83.0,
+   "end": 88.0,
+   "tone": "warm, final",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "female, middle-aged, moderate pitch, british accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

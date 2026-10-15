@@ -1,0 +1,69 @@
+{
+ "film": "sc-cel",
+ "duration": 90,
+ "takes": 3,
+ "profile": "Bright, playful comic-book narrator with comic timing",
+ "persona": "Bright, playful comic-book narrator with comic timing",
+ "lines": [
+  {
+   "id": "N1",
+   "text": "Every page has a hero. This is not him.",
+   "start": 4.5,
+   "end": 9.5,
+   "tone": "playful, deadpan",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "Smudge was the mistake nobody erased in time.",
+   "start": 25.0,
+   "end": 29.5,
+   "tone": "fond, a little sad",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N3",
+   "text": "But mistakes are very good at filling gaps.",
+   "start": 43.0,
+   "end": 48.0,
+   "tone": "sly, building",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N4",
+   "text": "Heroes save the story. Somebody has to hold it together.",
+   "start": 67.0,
+   "end": 73.5,
+   "tone": "warm, proud",
+   "wpm": [
+    105,
+    175
+   ]
+  },
+  {
+   "id": "N5",
+   "text": "Turn the page. He's still there.",
+   "start": 85.0,
+   "end": 89.0,
+   "tone": "cheeky",
+   "wpm": [
+    105,
+    175
+   ]
+  }
+ ],
+ "omni": {
+  "design": "female, young adult, moderate pitch, american accent",
+  "num_step": 24,
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
+}

@@ -1,0 +1,154 @@
+{
+ "id": "sc-clay",
+ "style": "Clay",
+ "template": "p10-clay",
+ "title": "Gold in the Cracks",
+ "channel": "family",
+ "fmt": "16:9",
+ "logline": "A thumb-sized potter hides the cup she broke, until the morning sun finds the crack.",
+ "look": "Windowsill workshop at night: warm tungsten lamp vs cold blue rain light; dawn turns everything honey-gold. Clay with fingerprints, stepped on 2s, face-replacement pops.",
+ "narrator": [
+  "female, elderly, low pitch, british accent",
+  "A warm grandmother telling a bedtime story, gentle smile in the voice"
+ ],
+ "music": "Solo celesta and pizzicato strings, rain on glass; a cello enters at the break; a warm string swell at dawn.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 6.0,
+   "dur": 6,
+   "direction": "ECU 100mm · rack focus glass to room · fade in — rain beads on a window; behind, a warm lamp and a tiny clay girl, Pip, asleep beside a thimble kiln"
+  },
+  {
+   "start": 6.0,
+   "end": 11.0,
+   "dur": 5,
+   "direction": "WS 35mm · locked · cut — the windowsill workshop: matchbox shelves of tiny clay cups; Pip wakes and stretches"
+  },
+  {
+   "start": 11.0,
+   "end": 18.0,
+   "dur": 7,
+   "direction": "MS 50mm · slow dolly in · cut — Pip throws a cup on a button-sized wheel, clay boiling, happy face pop"
+  },
+  {
+   "start": 18.0,
+   "end": 24.0,
+   "dur": 6,
+   "direction": "CU 85mm · hold · cut — she lifts her best cup to the lamp: perfect glossy blue"
+  },
+  {
+   "start": 24.0,
+   "end": 28.0,
+   "dur": 4,
+   "direction": "INSERT · locked · smash cut — lightning flash, the shelf shakes"
+  },
+  {
+   "start": 28.0,
+   "end": 31.0,
+   "dur": 3,
+   "direction": "CU 85mm · speed ramp to slow motion · cut — the blue cup tips and falls"
+  },
+  {
+   "start": 31.0,
+   "end": 36.0,
+   "dur": 5,
+   "direction": "ECU macro · locked · cut — a crack splits across it; all sound drops; Pip face pop to sad"
+  },
+  {
+   "start": 36.0,
+   "end": 44.0,
+   "dur": 8,
+   "direction": "MS 50mm · gentle drift · cut — Pip turns the crack to the wall and pushes the cup behind the others"
+  },
+  {
+   "start": 44.0,
+   "end": 51.0,
+   "dur": 7,
+   "direction": "WS 24mm high angle · locked · dissolve — night; Pip alone, very small, rain shadows crawling on the wall"
+  },
+  {
+   "start": 51.0,
+   "end": 57.0,
+   "dur": 6,
+   "direction": "CU 85mm · push in · cut — she opens a tiny pot of gold and dips a brush"
+  },
+  {
+   "start": 57.0,
+   "end": 66.0,
+   "dur": 9,
+   "direction": "ECU macro · slow dolly along the crack · cut — gold fills the seam, glinting"
+  },
+  {
+   "start": 66.0,
+   "end": 72.0,
+   "dur": 6,
+   "direction": "WS 35mm · locked · dissolve — dawn breaks through the window"
+  },
+  {
+   "start": 72.0,
+   "end": 80.0,
+   "dur": 8,
+   "direction": "CU 85mm · push in · cut — sunlight hits the cup; the gold seam blazes and throws a golden line across her face; she smiles"
+  },
+  {
+   "start": 80.0,
+   "end": 90.0,
+   "dur": 10,
+   "direction": "WS 35mm · slow pull back · cut — the mended cup stands at the front of the shelf; Pip asleep again in morning light; fade out"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 5.5,
+   "text": "Pip made cups for the whole windowsill.",
+   "tone": "cosy, amused"
+  },
+  {
+   "id": "N2",
+   "start": 12.5,
+   "end": 17.5,
+   "text": "And every cup she made was perfect.",
+   "tone": "proud, a little teasing"
+  },
+  {
+   "id": "N3",
+   "start": 37.0,
+   "end": 42.5,
+   "text": "So when one broke, she did what perfect people do.",
+   "tone": "knowing, gentle"
+  },
+  {
+   "id": "N4",
+   "start": 45.0,
+   "end": 48.0,
+   "text": "She hid it.",
+   "tone": "soft, a hint of sadness"
+  },
+  {
+   "id": "N5",
+   "start": 58.0,
+   "end": 64.0,
+   "text": "In an old country, broken cups are mended with gold.",
+   "tone": "quiet wonder"
+  },
+  {
+   "id": "N6",
+   "start": 73.0,
+   "end": 78.5,
+   "text": "The crack was not the end of the cup.",
+   "tone": "tender, slow"
+  },
+  {
+   "id": "N7",
+   "start": 82.0,
+   "end": 88.0,
+   "text": "It was the part that caught the morning.",
+   "tone": "warm, final"
+  }
+ ]
+}

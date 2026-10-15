@@ -1,0 +1,135 @@
+{
+ "id": "sc-lantern",
+ "style": "Lantern Road",
+ "template": "p03-lantern-road",
+ "title": "The Lantern Road",
+ "channel": "family",
+ "fmt": "16:9",
+ "logline": "Climbing to light the road home, a girl turns back to relight the lanterns the wind put out, and finds who was lost in the dark.",
+ "look": "Painterly storybook dusk: violet sky, indigo hills, a winding road of paper lanterns glowing amber; gentle paint boil; stars mirror the lanterns at the end.",
+ "narrator": [
+  "female, middle-aged, moderate pitch, british accent",
+  "A gentle mother reading aloud at bedtime"
+ ],
+ "music": "Harp and flute lullaby; wind noise rises with a low clarinet; strings bloom when the two lights meet.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 7.0,
+   "dur": 7,
+   "direction": "EWS 24mm · slow push · fade in — a dusk valley; a winding road of unlit lanterns climbs a hill"
+  },
+  {
+   "start": 7.0,
+   "end": 13.0,
+   "dur": 6,
+   "direction": "MS 50mm · locked · cut — a girl with a lantern leaves a cottage; her mother waves from the door"
+  },
+  {
+   "start": 13.0,
+   "end": 20.0,
+   "dur": 7,
+   "direction": "WS 35mm · tracking · cut — she walks uphill, lighting each roadside lantern from her flame"
+  },
+  {
+   "start": 20.0,
+   "end": 27.0,
+   "dur": 7,
+   "direction": "CU 85mm · hold · cut — a gust; her flame shivers"
+  },
+  {
+   "start": 27.0,
+   "end": 34.0,
+   "dur": 7,
+   "direction": "WS 35mm · locked · cut — behind her, the lanterns blow out one by one"
+  },
+  {
+   "start": 34.0,
+   "end": 40.0,
+   "dur": 6,
+   "direction": "CU 85mm · push in · cut — she shields her flame with both hands; it holds"
+  },
+  {
+   "start": 40.0,
+   "end": 48.0,
+   "dur": 8,
+   "direction": "WS 24mm low angle · tracking · cut — she turns and walks back down, relighting every lantern behind her"
+  },
+  {
+   "start": 48.0,
+   "end": 56.0,
+   "dur": 8,
+   "direction": "EWS 24mm · locked · dissolve — night; the road glows again; far below a small dark figure climbs toward her"
+  },
+  {
+   "start": 56.0,
+   "end": 64.0,
+   "dur": 8,
+   "direction": "MS 50mm · slow push · cut — they meet: her grandfather, his lantern dead; she lights it from hers"
+  },
+  {
+   "start": 64.0,
+   "end": 72.0,
+   "dur": 8,
+   "direction": "WS 35mm · tracking · cut — two lights walk up the hill together"
+  },
+  {
+   "start": 72.0,
+   "end": 82.0,
+   "dur": 10,
+   "direction": "EWS 24mm · crane up · dissolve — the whole road lit like a necklace of stars beneath the real stars"
+  },
+  {
+   "start": 82.0,
+   "end": 90.0,
+   "dur": 8,
+   "direction": "MS 50mm · locked · fade out — at the cottage door, grandfather hangs his lantern; the door closes on warm light"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 6.0,
+   "text": "Every evening, someone had to light the road.",
+   "tone": "gentle storytelling"
+  },
+  {
+   "id": "N2",
+   "start": 14.0,
+   "end": 18.5,
+   "text": "Tonight, it was her turn.",
+   "tone": "proud, light"
+  },
+  {
+   "id": "N3",
+   "start": 28.0,
+   "end": 33.5,
+   "text": "But the wind does not care whose turn it is.",
+   "tone": "a little ominous"
+  },
+  {
+   "id": "N4",
+   "start": 41.0,
+   "end": 47.0,
+   "text": "She could have kept climbing. She went back instead.",
+   "tone": "admiring"
+  },
+  {
+   "id": "N5",
+   "start": 57.0,
+   "end": 63.0,
+   "text": "Because a light behind you is a road for someone else.",
+   "tone": "tender, slow"
+  },
+  {
+   "id": "N6",
+   "start": 83.0,
+   "end": 88.0,
+   "text": "And someone was coming home.",
+   "tone": "warm, final"
+  }
+ ]
+}

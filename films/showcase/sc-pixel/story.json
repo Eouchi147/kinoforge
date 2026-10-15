@@ -1,0 +1,135 @@
+{
+ "id": "sc-pixel",
+ "style": "Pixel Vigil",
+ "template": "p13-pixel-vigil",
+ "title": "Signal",
+ "channel": "dark-corners",
+ "fmt": "16:9",
+ "logline": "A rooftop sentry robot waits four thousand nights for its maker's signal, until the city goes dark and it must choose what to guard.",
+ "look": "Rain-soaked pixel city, magenta and cyan neon against deep navy; whole-pixel moves, 8 to 12 fps cycles, hit-stop on every blackout; dawn in pale pink pixels.",
+ "narrator": [
+  "male, middle-aged, low pitch, american accent",
+  "Calm noir narrator, low and measured"
+ ],
+ "music": "Chiptune arpeggio over a synth pad and rain; each blackout a bit-crushed hit; a single square-wave melody when the window answers.",
+ "duration": 90,
+ "fps": 24,
+ "shots": [
+  {
+   "start": 0.0,
+   "end": 6.0,
+   "dur": 6,
+   "direction": "EWS · slow parallax · fade in — a rain city in pixels; on a rooftop antenna sits a small sentry robot"
+  },
+  {
+   "start": 6.0,
+   "end": 12.0,
+   "dur": 6,
+   "direction": "MS · locked · cut — its single eye scans; the antenna pings (8 fps cycle)"
+  },
+  {
+   "start": 12.0,
+   "end": 18.0,
+   "dur": 6,
+   "direction": "CU · locked · cut — the screen on its chest: WAITING — NIGHT 4000"
+  },
+  {
+   "start": 18.0,
+   "end": 26.0,
+   "dur": 8,
+   "direction": "WS · slow pan · cut — neon signs flicker across the skyline"
+  },
+  {
+   "start": 26.0,
+   "end": 32.0,
+   "dur": 6,
+   "direction": "WS · locked · hit-stop cuts — districts go dark one by one"
+  },
+  {
+   "start": 32.0,
+   "end": 38.0,
+   "dur": 6,
+   "direction": "CU · locked · cut — its battery icon drops to one bar"
+  },
+  {
+   "start": 38.0,
+   "end": 46.0,
+   "dur": 8,
+   "direction": "WS · slow push · cut — across the street, one window still lit: a child holding a toy robot, the lamp flickering"
+  },
+  {
+   "start": 46.0,
+   "end": 54.0,
+   "dur": 8,
+   "direction": "MS · locked · cut — the robot looks at its antenna, then at the window; it decides"
+  },
+  {
+   "start": 54.0,
+   "end": 62.0,
+   "dur": 8,
+   "direction": "WS · tracking down · hit-stop on sparks — it climbs down and plugs its own core cable into the building's line"
+  },
+  {
+   "start": 62.0,
+   "end": 70.0,
+   "dur": 8,
+   "direction": "CU · locked · cut — the window light steadies; the child presses a hand to the glass"
+  },
+  {
+   "start": 70.0,
+   "end": 78.0,
+   "dur": 8,
+   "direction": "MS · locked · cut — the robot's eye dims; the child blinks a toy flashlight at it: short, short, short"
+  },
+  {
+   "start": 78.0,
+   "end": 90.0,
+   "dur": 12,
+   "direction": "EWS · slow pull back · fade out — rain stops; pixel dawn; the robot dark, the little light still blinking at it"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "start": 1.0,
+   "end": 6.0,
+   "text": "It was built to wait for one signal.",
+   "tone": "low, measured"
+  },
+  {
+   "id": "N2",
+   "start": 13.0,
+   "end": 17.5,
+   "text": "Four thousand nights. Nothing.",
+   "tone": "flat, weary"
+  },
+  {
+   "id": "N3",
+   "start": 27.0,
+   "end": 31.5,
+   "text": "Then the city began to go dark.",
+   "tone": "tense"
+  },
+  {
+   "id": "N4",
+   "start": 47.0,
+   "end": 53.5,
+   "text": "A sentry guards what matters. It just had to decide what that was.",
+   "tone": "slow, resolute"
+  },
+  {
+   "id": "N5",
+   "start": 71.0,
+   "end": 77.0,
+   "text": "And from the last lit window, someone answered.",
+   "tone": "quiet wonder"
+  },
+  {
+   "id": "N6",
+   "start": 82.0,
+   "end": 87.5,
+   "text": "It had never been waiting for the sky.",
+   "tone": "soft, final"
+  }
+ ]
+}
