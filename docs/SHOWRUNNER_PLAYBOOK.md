@@ -4,6 +4,8 @@ This is the operating manual for the studio's AI director (the Showrunner on Ope
 this repo. It encodes how the films so far were actually made, including the mistakes that were caught. Follow it in
 order. Where it points to another document, that document is part of the rules.
 
+Engines available: `docs/ENGINES.md` (choose per film or shot).
+
 Read first: `docs/DIRECTORS_RULEBOOK.md` (§0 common sense + R-0-08 polish are blockers above everything),
 `harness/README.md` (scene contract), this file.
 

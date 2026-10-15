@@ -1,0 +1,13 @@
+{
+ "id": "smartmount-01",
+ "type": "ad",
+ "tier": "draft",
+ "direction": "voltage",
+ "duration": 20,
+ "end_card_s": 3,
+ "aspect": "16:9",
+ "brand": {"name": "Smart Mount", "what": "TV wall mounting and installation, done fast and clean: perfectly level, wires hidden, no mess", "proof": "4.8 stars on Google, hundreds of installs", "audience": "homeowners and renters who just bought a big TV and dread drilling into their wall", "site": "smartmount.ca"},
+ "idea": "Treat a TV install like an action-movie heist: a calm pro arrives, tools come out like weapons, the drill bites, the bracket locks, the TV glides onto the wall in slow motion, wires vanish, and the family drops onto the couch for movie night. Satisfying, funny, confident.",
+ "end_card": {"brand": "Smart Mount", "line": "Mounted right. The first time.", "cta": "Book at smartmount.ca"},
+ "notes": "Characters invented (an installer, a young family). No real people. The TV screen shows soft abstract colour, never text or recognisable content. No text or logos generated anywhere."
+}

@@ -1,0 +1,37 @@
+# KINOFORGE shot factory — one ad or short piece per run (OpenRouter: image, video, voice, music), capped spend.
+name: piece
+on:
+  workflow_dispatch:
+    inputs:
+      piece: { description: 'piece folder under pieces/, e.g. smartmount-01', required: true }
+permissions:
+  contents: write
+concurrency: { group: 'piece-${{ github.event.inputs.piece }}', cancel-in-progress: false }
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}', GH_TOKEN: '${{ github.token }}', P: '${{ github.event.inputs.piece }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.13' }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-inter > /dev/null && pip install -q numpy pillow
+      - name: make the piece
+        run: python3 harness/shots/factory.py pieces/$P
+      - name: publish
+        if: always()
+        run: |
+          gh release view pieces > /dev/null 2>&1 || gh release create pieces --title "pieces" --notes "Shot-factory test pieces (concept work, not published)." || true
+          cd pieces/$P
+          for f in $P.mp4 $P-9x16.mp4 contact.jpg; do [ -f "$f" ] && cp "$f" "/tmp/$P-${f#$P-}" ; done
+          [ -f $P.mp4 ] && gh release upload pieces $P.mp4 --clobber; [ -f $P-9x16.mp4 ] && gh release upload pieces $P-9x16.mp4 --clobber
+          [ -f contact.jpg ] && cp contact.jpg /tmp/$P-contact.jpg && gh release upload pieces /tmp/$P-contact.jpg --clobber
+          tar czf /tmp/$P-work.tgz work && gh release upload pieces /tmp/$P-work.tgz --clobber || true
+      - name: save the record
+        if: always()
+        run: |
+          git config user.name "kinoforge-director"; git config user.email "director@kinoforge.local"
+          git add pieces/$P/*.json || true
+          git diff --cached --quiet || git commit -qm "piece $P: treatment, ledger, report"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
