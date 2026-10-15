@@ -135,10 +135,19 @@ def music(B, prompt, out, label):
 # ------------------------------------------------------------------ review
 SCORE = {'type': 'object', 'additionalProperties': False, 'required': ['score', 'problems'], 'properties': {
     'score': {'type': 'number', 'description': '0-10 as a frame of a premium commercial'}, 'problems': {'type': 'array', 'items': {'type': 'string'}}}}
+def thumb(p, size=768):
+    """A small JPEG for the reviewers (big PNGs are refused by some providers)."""
+    from PIL import Image
+    o = p.rsplit('.', 1)[0] + f'.t{size}.jpg'
+    if not os.path.exists(o):
+        im = Image.open(p).convert('RGB'); im.thumbnail((size, size)); im.save(o, quality=85)
+    return o
+
 def look(B, label, prompt, images):
-    content = [{'type': 'text', 'text': prompt}] + [{'type': 'image_url', 'image_url': {'url': b64(p, 'image/jpeg' if p.endswith('.jpg') else 'image/png')}} for p in images]
+    prompt += '\nReply with ONLY a JSON object: {"score": <0-10>, "problems": ["..."]}.'
+    content = [{'type': 'text', 'text': prompt}] + [{'type': 'image_url', 'image_url': {'url': b64(thumb(p), 'image/jpeg')}} for p in images]
     try:
-        r, m = ask('eyes', [{'role': 'user', 'content': content}], SCORE, B.led, name='look', max_tokens=800, label=label); return r
+        r, m = ask('eyes', [{'role': 'user', 'content': content}], SCORE, B.led, name='look', max_tokens=4000, label=label); return r
     except Exception as e:
         log(label, 'eyes unavailable:', e); return {'score': 10, 'problems': []}
 
