@@ -60,3 +60,13 @@ export async function POST(req) {
     return Response.json({ error: e.message, code }, { status: code === 'no-key' ? 409 : 502 });
   }
 }
+
+// GET = a health check of the director (the opening turn), used to verify the model chain after changes.
+export async function GET() {
+  const t0 = Date.now();
+  try {
+    const convo = [{ role: 'system', content: SYSTEM }, { role: 'user', content: 'Hi. Greet me in one line and pitch three different film ideas as options: one family, one Dark Corners, one surprising.' }];
+    const { data, model } = await chat({ messages: convo, schema: SCHEMA, name: 'director_turn' });
+    return Response.json({ ok: true, ms: Date.now() - t0, model, data });
+  } catch (e) { return Response.json({ ok: false, ms: Date.now() - t0, code: e.code, error: e.message }, { status: 502 }); }
+}
