@@ -1,0 +1,358 @@
+{
+ "cap": 10.0,
+ "total": 2.34523,
+ "by_seat": {
+  "head": 0.11784,
+  "image": 2.20016,
+  "eyes": 0.02723
+ },
+ "calls": [
+  {
+   "seat": "head",
+   "model": "anthropic/claude-opus-5.5",
+   "task": "treatment",
+   "usd": 0.117843,
+   "s": 69.3,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ref owner",
+   "usd": 0.09,
+   "s": 91.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ref customer",
+   "usd": 0.09,
+   "s": 66.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ref phone",
+   "usd": 0.09,
+   "s": 84.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ref bakery",
+   "usd": 0.09,
+   "s": 56.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S1",
+   "usd": 0.093,
+   "s": 129.5,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S1",
+   "usd": 0.00105,
+   "s": 6.4,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S1 try 2",
+   "usd": 0.093,
+   "s": 126.5,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S1",
+   "usd": 0.001426,
+   "s": 26.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S2",
+   "usd": 0.096,
+   "s": 135.1,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S2",
+   "usd": 0.001593,
+   "s": 21.0,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S2 try 2",
+   "usd": 0.096,
+   "s": 127.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S2",
+   "usd": 0.001926,
+   "s": 43.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3-pro-image",
+   "task": "keyframe S2 try 3",
+   "usd": 0.14334,
+   "s": 22.9,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S2",
+   "usd": 0.001228,
+   "s": 7.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S3",
+   "usd": 0.093,
+   "s": 100.2,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S3",
+   "usd": 0.001508,
+   "s": 25.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S4",
+   "usd": 0.09,
+   "s": 108.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S4",
+   "usd": 0.001036,
+   "s": 19.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S5",
+   "usd": 0.09,
+   "s": 116.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S5",
+   "usd": 0.000993,
+   "s": 19.0,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S6",
+   "usd": 0.096,
+   "s": 121.3,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S6",
+   "usd": 0.001982,
+   "s": 40.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S7",
+   "usd": 0.096,
+   "s": 107.6,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S7",
+   "usd": 0.001891,
+   "s": 32.8,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S7 try 2",
+   "usd": 0.096,
+   "s": 120.7,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S7",
+   "usd": 0.001707,
+   "s": 30.7,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3-pro-image",
+   "task": "keyframe S7 try 3",
+   "usd": 0.14222,
+   "s": 22.3,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S7",
+   "usd": 0.001696,
+   "s": 34.4,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S8",
+   "usd": 0.096,
+   "s": 104.3,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S8",
+   "usd": 0.001459,
+   "s": 18.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S9",
+   "usd": 0.096,
+   "s": 107.4,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S9",
+   "usd": 0.002024,
+   "s": 44.3,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S9 try 2",
+   "usd": 0.096,
+   "s": 99.4,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S9",
+   "usd": 0.001399,
+   "s": 14.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S10",
+   "usd": 0.093,
+   "s": 97.6,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S10",
+   "usd": 0.001797,
+   "s": 42.0,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S10 try 2",
+   "usd": 0.093,
+   "s": 128.2,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S10",
+   "usd": 0.001305,
+   "s": 20.0,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3-pro-image",
+   "task": "keyframe S10 try 3",
+   "usd": 0.1416,
+   "s": 21.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S10",
+   "usd": 0.001202,
+   "s": 21.1,
+   "ok": true,
+   "note": null
+  }
+ ]
+}

@@ -1,0 +1,201 @@
+{
+ "title": "Flour and Midnight",
+ "logline": "A family bakery owner works with flour on her hands from dawn to close, while every late-night website enquiry is quietly answered in seconds, signed by her bakery.",
+ "look": "Photoreal premium commercial, natural skin texture and honest materials: floured hands, worn maple workbench, steel trays, crusty bread, enamel mugs. Shot on full-frame cinema camera with 35 to 85 mm primes at eye level or gently low, macro inserts at 100 mm, shallow depth of field with creamy bokeh. Soft motivated light only: cool blue dawn window light mixing with warm tungsten from the oven glow and pendant practicals by day; at night a single warm table lamp and the soft cool glow of a phone screen. Restrained palette of cream, flour white, warm wheat, walnut brown and deep ink shadows, with a quiet touch of soft blue in screen light. Fine natural film grain, gentle halation on highlights, clean low-contrast filmic grade, lifted blacks kept rich. Slow dolly-ins, gentle slider moves, locked-off hero frames; nothing jittery. No text, no letters, no logos, no signage anywhere; phone screens show only soft abstract rounded shapes and glowing bubbles.",
+ "references": [
+  {
+   "id": "owner",
+   "what": "character",
+   "prompt": "Full-body portrait of an invented woman in her mid-forties, the owner of a small family bakery, warm olive skin, kind tired eyes with fine smile lines, dark brown hair pulled back in a low bun under a plain cream cotton headscarf, no makeup look, small plain gold stud earrings. Modest wardrobe: long-sleeved charcoal henley with sleeves pushed to the forearms, long waxed-canvas apron in faded sage green tied at the waist, dark straight trousers, black work clogs. A light dusting of flour on her forearms and apron. Standing relaxed, neutral expression with a hint of warmth. Plain soft grey studio background, soft even key light, photoreal, no text, no logos."
+  },
+  {
+   "id": "customer",
+   "what": "character",
+   "prompt": "Full-body portrait of an invented woman in her early thirties, a neighbourhood customer, light brown skin, shoulder-length curly black hair, round tortoiseshell glasses, friendly open face. Modest wardrobe: oversized oatmeal knit sweater with long sleeves, long dark green wool coat, straight dark jeans, tan leather ankle boots, a soft rust-coloured scarf. Standing relaxed, gentle smile. Plain soft grey studio background, soft even key light, photoreal, no text, no logos."
+  },
+  {
+   "id": "phone",
+   "what": "product",
+   "prompt": "A modern smartphone with a slim matte graphite aluminium frame and rounded corners, in a well-worn soft sage silicone case with a faint flour smudge on one corner. The screen is on, showing only soft abstract UI: a rounded translucent card with a small glowing soft-blue circle at its top right, two pale grey rounded bars where text would be, a gentle deep-blue to light-blue gradient background. No readable text, no letters, no numbers, no icons, no logos. Product photographed alone, three-quarter angle, on a neutral light grey seamless background, soft diffused studio light, crisp macro detail, photoreal."
+  },
+  {
+   "id": "bakery",
+   "what": "location",
+   "prompt": "Interior of a small, warm, owner-run family bakery in an older Toronto storefront: worn maple workbench dusted with flour, tall steel rolling rack of proofing loaves, a black deck oven with a warm amber glow, white subway tile walls, open wooden shelves with linen-lined baskets of crusty bread and braided loaves, a glass pastry counter with simple cakes and buns, two brass pendant lamps, a front window with an old wooden door and a small brass bell, morning light streaming in. No signage, no lettering, no logos, no printed packaging, no menus. Photoreal, shallow depth of field, cinematic."
+  }
+ ],
+ "shots": [
+  {
+   "id": "S1",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 2.0,
+   "speed": "slow",
+   "refs": [
+    "owner",
+    "bakery"
+   ],
+   "keyframe": "Macro, 100 mm, low angle at bench height: two strong floured hands lifting a pale soft mound of dough above a worn maple workbench, a cloud of flour hanging in a shaft of cool blue dawn window light, warm amber oven glow blurred in the background, the owner's sage apron edge just visible. No text, no logos.",
+   "motion": "The hands fold and press the dough down onto the bench, flour bursting outward and drifting through the light beam in slow motion; camera holds locked-off with a tiny slider drift left.",
+   "transition": "cut"
+  },
+  {
+   "id": "S2",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "phone",
+    "owner",
+    "bakery"
+   ],
+   "keyframe": "50 mm, eye level: the phone in its sage case lying face-down on a wooden shelf between linen-lined bread baskets, sharp in the foreground; in soft focus behind, the owner at the workbench in full figure, head down, kneading. Warm pendant light, dawn blue in the window. No text, no logos.",
+   "motion": "The phone buzzes, vibrating a few millimetres across the wood and nudging a stray crumb; the owner keeps working, unaware; slow gentle dolly-in toward the phone.",
+   "transition": "cut"
+  },
+  {
+   "id": "S3",
+   "seconds": 6,
+   "use_from": 1.0,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "owner",
+    "bakery"
+   ],
+   "keyframe": "35 mm, eye level, symmetrical: the owner in full figure at the black deck oven, sliding a long wooden peel loaded with three round loaves into the amber glowing mouth, steel rack of proofing loaves beside her, warm light on her face. No text, no logos.",
+   "motion": "She slides the loaves in, pulls the peel back and turns smoothly toward the counter as a door bell swings in the background; gentle slider move right following her turn.",
+   "transition": "cut"
+  },
+  {
+   "id": "S4",
+   "seconds": 6,
+   "use_from": 1.0,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "customer"
+   ],
+   "keyframe": "50 mm, eye level: night, a cosy small apartment kitchen table lit by a single warm lamp, the customer seated in full figure in her oatmeal sweater, holding her own plain dark phone, its soft cool glow on her glasses, a mug of tea beside her, a dark window with blurred city lights behind. No text, no logos.",
+   "motion": "She types a short message with her thumb and sets the phone down on the table with a small hopeful breath; slow dolly-in.",
+   "transition": "dissolve"
+  },
+  {
+   "id": "S5",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "customer"
+   ],
+   "keyframe": "Macro, 85 mm: her plain dark phone lying on the wooden table beside the tea mug, screen dim, lamp light warm on the wood, her hand resting nearby softly out of focus. No text, no logos.",
+   "motion": "Within a moment the screen lights with a soft abstract reply bubble in pale blue and grey shapes, no readable text; her hand picks it up and lifts out of frame; camera holds locked-off.",
+   "transition": "cut"
+  },
+  {
+   "id": "S6",
+   "seconds": 6,
+   "use_from": 1.0,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "owner",
+    "phone",
+    "bakery"
+   ],
+   "keyframe": "50 mm, eye level: early morning in the bakery, cool blue window light, the owner in full figure at the workbench wiping floured hands on her apron, the phone in its sage case resting face-up beside a bowl of dough. No text, no logos.",
+   "motion": "She picks up the phone, the screen glowing with a soft abstract card and a small blue dot, and a slow warm smile spreads across her face; gentle slider push in.",
+   "transition": "dissolve"
+  },
+  {
+   "id": "S7",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "owner",
+    "phone",
+    "bakery"
+   ],
+   "keyframe": "85 mm, shallow focus over her shoulder: the owner's hands setting the phone face-down on the bench and reaching for a ball of dough, braided loaves in soft focus behind. No text, no logos.",
+   "motion": "She sets the phone down and goes straight back to shaping a loaf with practised rolling motions, calm and unhurried; camera holds, tiny drift left.",
+   "transition": "cut"
+  },
+  {
+   "id": "S8",
+   "seconds": 6,
+   "use_from": 1.0,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "owner",
+    "customer",
+    "bakery"
+   ],
+   "keyframe": "35 mm, eye level: midday at the glass pastry counter, the owner in full figure behind it handing a plain white cake box tied with cotton string to the customer in her green coat and rust scarf, warm window light pouring across both. No text, no logos, plain box.",
+   "motion": "The customer takes the box, both laugh warmly, and she turns and walks to the old wooden door, the brass bell swinging as she steps out into the light; slow dolly back.",
+   "transition": "cut"
+  },
+  {
+   "id": "S9",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 3.0,
+   "speed": "normal",
+   "refs": [
+    "phone",
+    "owner",
+    "bakery"
+   ],
+   "keyframe": "Macro, 100 mm: the phone in its sage case resting face-up on the floured maple counter beside a cooling loaf, screen dark, the owner's apron softly out of focus behind. No text, no logos.",
+   "motion": "The screen gently lights with a soft abstract card shape and a glowing blue dot, no readable text; the owner's floured fingertip taps it once; slow push in.",
+   "transition": "cut"
+  },
+  {
+   "id": "S10",
+   "seconds": 6,
+   "use_from": 0.5,
+   "use": 4.0,
+   "speed": "normal",
+   "refs": [
+    "owner",
+    "bakery"
+   ],
+   "keyframe": "35 mm, locked-off symmetrical hero: late golden afternoon, the quiet bakery seen from behind the workbench toward the front window, the owner in full figure in soft silhouette wiping down the counter, baskets of bread glowing in warm light, dust motes in the air. No text, no logos, no signage.",
+   "motion": "She finishes wiping, pauses, and looks out of the window with a content, quiet smile; the camera stays locked-off as the light slowly warms; calm frame for the end card.",
+   "transition": "dissolve"
+  }
+ ],
+ "voiceover": [
+  {
+   "start": 2.5,
+   "text": "[warmly] Your hands are busy. That is the job."
+  },
+  {
+   "start": 9.5,
+   "text": "Every website enquiry answered in seconds, day and night. Signed by you."
+  },
+  {
+   "start": 16,
+   "text": "You get the alert on your phone."
+  },
+  {
+   "start": 21.5,
+   "text": "Every customer marked done is asked for a review within 24 hours."
+  },
+  {
+   "start": 27,
+   "text": "[softly] See it working. Then decide."
+  }
+ ],
+ "voice": "matilda",
+ "music": "Warm intimate piano with soft felt-muted keys and a gentle string quartet, 84 BPM, no vocals. Opens sparse and tender with a single piano motif over room tone at dawn, adds low cello and soft pizzicato as the day gets busy, thins to a hushed solo piano for the night scene, then blooms gently with warm violins through the morning smile and the happy customer, resolving on a calm sustained major chord under the end card.",
+ "end_card": {
+  "brand": "Unmissed",
+  "line": "See it working. Then decide.",
+  "cta": "You own it. You approve it. We prove it."
+ }
+}

@@ -1,0 +1,98 @@
+{
+ "id": "unmissed-brand-01",
+ "tier": "standard",
+ "models": {
+  "video": "google/veo-3.1-fast",
+  "res": "1080p",
+  "image": "bytedance-seed/seedream-5-0-pro",
+  "cap": 10.0
+ },
+ "steps": [
+  {
+   "treatment": "anthropic/claude-opus-5.5"
+  }
+ ],
+ "usd": 2.3452,
+ "keyframes": {
+  "S1": {
+   "score": 8,
+   "problems": [
+    "Lower hand fingers appear blurred and partially fused into the dough, making finger count and grip anatomy hard to read",
+    "Dough reads as a large shapeless lump rather than a soft crafted mound, weak as a hero subject at this magnification",
+    "Background is busier and less creamy-bokeh than the premium macro look calls for; pendant lamps and rack lines are distracting behind the subject"
+   ]
+  },
+  "S2": {
+   "score": 7,
+   "problems": [
+    "The owner is only partially visible instead of the specified full figure in soft focus.",
+    "The phone is facing up and lit rather than lying face-down in its sage case as specified.",
+    "The wooden shelf is absent; the phone rests on the flour-dusted work surface instead."
+   ]
+  },
+  "S3": {
+   "score": 7,
+   "problems": [
+    "Composition is not symmetrical as requested",
+    "Not a full figure; the owner's legs are cropped at the bottom edge",
+    "Missing warm light on the face, which is currently in cool shadow"
+   ]
+  },
+  "S4": {
+   "score": 8,
+   "problems": [
+    "Hands holding the phone look slightly off: fingers appear fused and the thumbs are awkwardly shaped",
+    "Phone screen glow reads as a small icon-like shape rather than the specified soft abstract rounded shapes/bubbles",
+    "Brief called for only a mug of tea on the table; extra props (large loaf, steel tray, knife block with knives) clutter the hero frame"
+   ]
+  },
+  "S5": {
+   "score": 7,
+   "problems": [
+    "Hand anatomy looks off: fingers appear fused and knuckles/thumb structure is malformed",
+    "Hand is much sharper than the brief's softly out-of-focus resting hand",
+    "Frame is wider than the described macro insert and includes an extra mug, bread tray and flowers that clutter the intended tight phone/mug composition"
+   ]
+  },
+  "S6": {
+   "score": 7,
+   "problems": [
+    "Not full figure: the framing cuts her off at mid-thigh, while the reference character is shown head-to-toe standing; the required full-figure composition is lost",
+    "Action mismatch: she is wiping/holding a cloth in her hands rather than wiping floured hands on her apron",
+    "Bowl contains loose flour instead of the specified dough"
+   ]
+  },
+  "S7": {
+   "score": 6,
+   "problems": [
+    "Hands appear masculine (veiny, larger, tanned) and do not match the female owner in the reference",
+    "Wardrobe mismatch: light short sleeve visible instead of the reference dark grey henley and sage apron",
+    "Framing is much wider than the specified 85 mm over-the-shoulder shallow-focus shot; subject arms pushed to right edge with a large empty bench foreground, weakening composition"
+   ]
+  },
+  "S8": {
+   "score": 8,
+   "problems": [
+    "Owner is cropped at the knees rather than shown in full figure behind the counter as specified",
+    "Box string appears very faint/indistinct against the white box; could read as untied",
+    "Customer's hands on the box edge show slightly muddled finger shapes where they grip the box"
+   ]
+  },
+  "S9": {
+   "score": 7,
+   "problems": [
+    "Phone is propped/leaning at an angle against the loaf instead of resting face-up flat as specified",
+    "Phone case silhouette is distorted/melted-looking along the bottom edge, with an unrealistic port cutout area",
+    "Loaf is cut off at frame right, weakening the composition and making the 'cooling loaf' read as a crust blob"
+   ]
+  },
+  "S10": {
+   "score": 8.5,
+   "problems": [
+    "Owner's face and torso are more clearly lit than the described soft silhouette",
+    "Apron reads darker olive-grey than the sage green in the reference",
+    "Bread shapes on the upper shelves are slightly indistinct and dark"
+   ]
+  }
+ }
+}
