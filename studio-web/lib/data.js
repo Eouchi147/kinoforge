@@ -26,7 +26,7 @@ export const FILMS = [
 // The 12 style packs. `motion` = the style's own motion language (blueprint, "Style motion").
 export const STYLES = [
   { id: 'clay', name: 'Clay', media: 'p10-clay', motion: 'Stepped on 2s, clay boil, face-replacement pops', renderer: 'Blender', phase: 'Phase 2 · first' },
-  { id: 'paper', name: 'Paper theatre', media: 'p09-paper-kingdom', motion: 'Pins and rods only, pendulum swing, lamp-lit', renderer: 'Web canvas', phase: 'Phase 2 · first' },
+  { id: 'paper', name: 'Paper theatre', media: 'p16-paper-dragon', motion: 'Pins and rods only, pendulum swing, lamp-lit', renderer: 'Web canvas', phase: 'Phase 2 · first' },
   { id: 'cel', name: 'Cel', media: 'p06-cel', motion: 'Long holds, smears, impact frames', renderer: 'Web 3D toon', phase: 'Phase 3' },
   { id: 'ink-ember', name: 'Ink Ember', media: 'p02-ink-ember', motion: 'Strokes that draw on, ink bleed, rising embers', renderer: 'Web canvas', phase: 'Phase 3' },
   { id: 'lantern-road', name: 'Lantern Road', media: 'p03-lantern-road', motion: 'Slow storybook moves, painterly boil', renderer: 'Web 2.5D', phase: 'Phase 3' },
