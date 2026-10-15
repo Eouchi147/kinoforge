@@ -1,0 +1,18 @@
+{
+ "cap": 4.0,
+ "total": 0.09488,
+ "by_seat": {
+  "head": 0.09488
+ },
+ "calls": [
+  {
+   "seat": "head",
+   "model": "anthropic/claude-opus-5.5",
+   "task": "treatment",
+   "usd": 0.094879,
+   "s": 59.1,
+   "ok": true,
+   "note": null
+  }
+ ]
+}
