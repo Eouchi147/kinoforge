@@ -42,9 +42,16 @@ class Budget:
         self.led = Ledger(cap, os.path.join(pdir, 'ledger.json'))
         bf = os.path.join(ROOT, 'pieces', 'BUDGET.json'); self.total_cap = json.load(open(bf))['total_usd'] if os.path.exists(bf) else 50.0
         self.others = sum(json.load(open(p)).get('total', 0) for p in glob.glob(os.path.join(ROOT, 'pieces', '*', 'ledger.json')) if not p.startswith(pdir))
+    pending = 0.0
     def check(self, worst, what):
-        if not self.led.room(worst): raise OverBudget(f'{what}: the piece cap ${self.led.cap} would be passed (spent ${self.led.total:.2f})')
-        if self.others + self.led.total + worst > self.total_cap: raise OverBudget(f'{what}: the test budget ${self.total_cap} would be passed')
+        import threading
+        if not hasattr(self, '_lk'): self._lk = threading.Lock()
+        with self._lk:
+            if not self.led.room(worst + self.pending): raise OverBudget(f'{what}: the piece cap ${self.led.cap} would be passed (spent ${self.led.total:.2f}, booked ${self.pending:.2f})')
+            if self.others + self.led.total + self.pending + worst > self.total_cap: raise OverBudget(f'{what}: the test budget ${self.total_cap} would be passed')
+            self.pending += worst
+    def release(self, worst):
+        with self._lk: self.pending = max(0.0, self.pending - worst)
     def add(self, **c): self.led.add(**c)
 
 # ------------------------------------------------------------------ images
@@ -57,7 +64,7 @@ def image(B, model, prompt, refs, out, label):
     raise AllFailed(f'{label}: every image model failed')
 
 def _image(B, model, prompt, refs, out, label):
-    B.check(0.15, label)
+    B.check(0.15, label); B.release(0.15)
     content = [{'type': 'text', 'text': prompt}] + [{'type': 'image_url', 'image_url': {'url': b64(r)}} for r in refs]
     body = {'model': model, 'messages': [{'role': 'user', 'content': content}], 'modalities': ['image', 'text'], 'usage': {'include': True}}
     t0 = time.time()
@@ -82,7 +89,11 @@ def _image(B, model, prompt, refs, out, label):
 # ------------------------------------------------------------------ video
 def clip(B, tier, prompt, first_frame, dur, aspect, out, label, audio=True):
     T = TIERS[tier]; price = PRICE.get(T['video'], {}).get(T['res'], 0.4)
-    B.check(price * dur * 1.05, label)
+    worst = price * dur * 1.05; B.check(worst, label)
+    try: return _clip(B, T, price, prompt, first_frame, dur, aspect, out, label, audio)
+    finally: B.release(worst)
+
+def _clip(B, T, price, prompt, first_frame, dur, aspect, out, label, audio):
     body = {'model': T['video'], 'prompt': prompt, 'duration': dur, 'resolution': T['res'], 'aspect_ratio': aspect, 'generate_audio': audio,
             'frame_images': [{'type': 'image_url', 'image_url': {'url': b64(first_frame)}, 'frame_type': 'first_frame'}]}
     t0 = time.time()
@@ -108,7 +119,7 @@ def clip(B, tier, prompt, first_frame, dur, aspect, out, label, audio=True):
 
 # ------------------------------------------------------------------ sound
 def speech(B, text, voice, out, label):
-    B.check(0.05, label)
+    B.check(0.05, label); B.release(0.05)
     req = urllib.request.Request(API + '/audio/speech', data=json.dumps({'model': 'elevenlabs/eleven-v3', 'input': text, 'voice': voice, 'response_format': 'mp3'}).encode(), headers=H())
     t0 = time.time(); data = urllib.request.urlopen(req, timeout=180).read()
     B.add(seat='voice', model='elevenlabs/eleven-v3', task=label, usd=round(len(text) * 40 / 1e6, 5), s=round(time.time() - t0, 1), ok=True)
@@ -116,7 +127,7 @@ def speech(B, text, voice, out, label):
 
 def music(B, prompt, out, label):
     """Lyria 3 through chat completions; returns the file or None (the edit then uses the clips' own audio)."""
-    B.check(0.1, label)
+    B.check(0.1, label); B.release(0.1)
     body = {'model': 'google/lyria-3-clip-preview', 'messages': [{'role': 'user', 'content': prompt}], 'modalities': ['text', 'audio'], 'audio': {'format': 'wav'}, 'usage': {'include': True}}
     try:
         j = json.load(post('/chat/completions', body, 300)); m = j['choices'][0]['message']
@@ -324,20 +335,22 @@ def main(pdir):
             image(B, T['image'], prompt + '\nAvoid: ' + '; '.join(v['problems'][:5]), rr, o, f'keyframe {s["id"]} redo')
         kfs.append(o)
     save()
-    clips = []
-    for s, kf in zip(t['shots'], kfs):
+    def make_clip(s, kf):
         o = os.path.join(pdir, 'work', f'clip-{s["id"]}.mp4')
         mp = f'{s["motion"]}. {look_txt} Smooth, physically plausible motion; subjects keep their exact appearance; no text appears.'
-        if not os.path.exists(o):
-            try: clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]}')
-            except AllFailed as e: log('clip failed, one retry:', e); clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} retry')
-            fr = frames_of(o, 3, os.path.join(pdir, 'work'), f'chk-{s["id"]}')
-            v = look(B, f'check {s["id"]}', f'Three frames (start, middle, end) of one shot of a premium ad: "{s["motion"]}". Score 0-10. Problems: morphing, melting or deformed bodies or product, extra limbs, flicker, text, nonsense motion.', fr)
-            report['steps'].append({'clip': s['id'], 'score': v['score'], 'problems': v['problems']})
-            if v['score'] < 6 and B.led.room(PRICE.get(T['video'], {}).get(T['res'], 0.4) * s['seconds'] * 1.1):
-                log(f'{s["id"]} clip {v["score"]}: regenerate once'); os.rename(o, o + '.rejected.mp4')
-                clip(B, tier, mp + ' Avoid: ' + '; '.join(v['problems'][:4]), kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} redo')
-        clips.append(o); save()
+        if os.path.exists(o): return o, None
+        try: clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]}')
+        except AllFailed as e: log('clip failed, one retry:', e); clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} retry')
+        fr = frames_of(o, 3, os.path.join(pdir, 'work'), f'chk-{s["id"]}')
+        v = look(B, f'check {s["id"]}', f'Three frames (start, middle, end) of one shot of a premium ad: "{s["motion"]}". Score 0-10. Problems: morphing, melting or deformed bodies or product, extra limbs, flicker, text, nonsense motion.', fr)
+        if v['score'] < 6 and B.led.room(PRICE.get(T['video'], {}).get(T['res'], 0.4) * s['seconds'] * 1.1):
+            log(f'{s["id"]} clip {v["score"]}: regenerate once ({v["problems"][:2]})'); os.rename(o, o + '.rejected.mp4')
+            clip(B, tier, mp + ' Avoid: ' + '; '.join(v['problems'][:4]), kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} redo')
+        return o, {'clip': s['id'], 'score': v['score'], 'problems': v['problems']}
+    import concurrent.futures as cf
+    with cf.ThreadPoolExecutor(6) as ex:     # video jobs run in parallel at the provider; we only wait
+        results = list(ex.map(lambda p: make_clip(*p), zip(t['shots'], kfs)))
+    clips = [o for o, _ in results]; report['steps'] += [r for _, r in results if r]; save()
     vo = []
     voice = brief.get('voice') or t['voice']
     for i, line in enumerate(t['voiceover']):
