@@ -9,6 +9,7 @@ on:
       scenes: { description: 'scene dirs under proto/, comma-separated, or "all"', default: 'all' }
       w: { description: 'width', default: '1280' }
       h: { description: 'height', default: '720' }
+      queue: { description: 'a queue file under render/queue/ (overrides scenes)', default: '' }
   push:
     branches: [main]
     paths: ['render/queue/*.json']
@@ -32,6 +33,7 @@ jobs:
           INPUT_SCENES: ${{ github.event.inputs.scenes }}
           INPUT_W: ${{ github.event.inputs.w }}
           INPUT_H: ${{ github.event.inputs.h }}
+          INPUT_QUEUE: ${{ github.event.inputs.queue }}
         run: |
           python3 - <<'EOF' >> "$GITHUB_OUTPUT"
           import json, os, glob, subprocess, re, sys
@@ -61,13 +63,15 @@ jobs:
                   joins.append({**base, 'parts': parts, 'total': total})
               else:
                   jobs.append({**base, 'start': 0, 'end': -1, 'part': 0, 'parts': 1, 'name': scene})
+          if os.environ.get('INPUT_QUEUE'):
+              os.environ['INPUT_SCENES'] = ''
           if os.environ.get('INPUT_SCENES'):
               names = [s.strip() for s in os.environ['INPUT_SCENES'].split(',') if s.strip()]
               if names == ['all']: names = sorted(os.path.basename(p) for p in glob.glob('proto/p*'))
               for n in names: add(n, os.environ.get('INPUT_W') or 1280, os.environ.get('INPUT_H') or 720)
           else:
               changed = subprocess.run(['git', 'diff', '--name-only', 'HEAD~1', 'HEAD', '--', 'render/queue/'], capture_output=True, text=True).stdout.split()
-              files = [f for f in changed if f.endswith('.json') and os.path.exists(f)] or sorted(glob.glob('render/queue/*.json'))[-1:]
+              files = [os.environ['INPUT_QUEUE']] if os.environ.get('INPUT_QUEUE') else [f for f in changed if f.endswith('.json') and os.path.exists(f)] or sorted(glob.glob('render/queue/*.json'))[-1:]
               for f in files:
                   q = json.load(open(f))
                   for s in q.get('scenes', []):

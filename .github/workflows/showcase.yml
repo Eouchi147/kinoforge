@@ -1,0 +1,96 @@
+# KINOFORGE showcase — the scene agent writes each film from its story + style prototype (OpenRouter coder seat),
+# proves it renders, then all ready films go to the render lane. Narration runs separately (voice lane);
+# finish.yml joins picture and narration when both exist.
+name: showcase
+on:
+  workflow_dispatch:
+    inputs:
+      films: { description: 'comma-separated ids (sc-clay,...) or "all"', default: 'all' }
+permissions:
+  contents: write
+  actions: write
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs: { films: '${{ steps.p.outputs.films }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        shell: python
+        env: { FILMS: '${{ github.event.inputs.films }}' }
+        run: |
+          import json, os, glob
+          ids = sorted(os.path.basename(os.path.dirname(p)) for p in glob.glob('films/showcase/*/story.json'))
+          want = [x.strip() for x in os.environ.get('FILMS', 'all').split(',') if x.strip()]
+          if want and want != ['all']: ids = [i for i in ids if i in want]
+          out = [{'id': i, 'kind': 'blender' if os.path.exists('proto/' + json.load(open(f'films/showcase/{i}/story.json'))['template'] + '/blender.py') else 'web'} for i in ids]
+          open(os.environ['GITHUB_OUTPUT'], 'a').write('films=' + json.dumps(out) + '\n'); print(out)
+  write:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy: { fail-fast: false, matrix: { film: '${{ fromJson(needs.plan.outputs.films) }}' } }
+    name: write ${{ matrix.film.id }}
+    env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: 'npm', cache-dependency-path: harness/package-lock.json }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.13', cache: 'pip', cache-dependency-path: harness/requirements.txt }
+      - name: key
+        run: '[ -n "$OPENROUTER_API_KEY" ] || { echo "::error::OPENROUTER_API_KEY secret missing (Setup page, step 3)"; exit 1; }'
+      - name: tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q -r harness/requirements.txt pillow soundfile
+          npm ci --prefix harness --no-audit --no-fund
+      - name: browser
+        if: matrix.film.kind == 'web'
+        run: cd harness && npx playwright install --with-deps chromium > /dev/null
+      - name: blender
+        if: matrix.film.kind == 'blender'
+        run: |
+          sudo apt-get install -y -qq libegl1 libgl1 libglu1-mesa libxi6 libxkbcommon0 libxrender1 libxxf86vm1 libxfixes3 libsm6 libgomp1 > /dev/null
+          pip install -q bpy==5.2.2
+      - name: write the scene
+        run: python3 harness/director/scene_agent.py films/showcase/${{ matrix.film.id }}
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: 'scene-${{ matrix.film.id }}', path: "proto/${{ matrix.film.id }}\nfilms/showcase/${{ matrix.film.id }}" }
+  collect:
+    needs: [plan, write]
+    if: always()
+    runs-on: ubuntu-latest
+    env: { GH_TOKEN: '${{ github.token }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: art, pattern: 'scene-*' }
+      - name: commit the scenes and queue the renders
+        run: |
+          python3 - <<'PY'
+          import json, os, shutil, glob
+          ready = []
+          for a in sorted(glob.glob('art/scene-*')):
+              sid = a.split('scene-', 1)[1]
+              for sub in ('proto', 'films/showcase'):
+                  s = os.path.join(a, sub, sid)
+                  if os.path.isdir(s): shutil.copytree(s, os.path.join(sub, sid), dirs_exist_ok=True)
+              b = f'films/showcase/{sid}/build.json'
+              if os.path.exists(b) and json.load(open(b)).get('ok'):
+                  st = json.load(open(f'films/showcase/{sid}/story.json')); kind = json.load(open(b))['kind']
+                  w, h = (720, 1280) if st['fmt'] == '9:16' else (1280, 720)
+                  e = {'scene': sid, 'w': w, 'h': h, 'frames': int(st['duration'] * st['fps'])}
+                  e.update({'parts': 32, 'samples': 16} if kind == 'blender' else {'parts': 6})
+                  ready.append(e)
+          json.dump({'scenes': ready, 'fps': 24, 'note': 'showcase test films (not for publication)'}, open('render/queue/showcase.json', 'w'), indent=1)
+          print('ready:', [r['scene'] for r in ready])
+          PY
+          git config user.name "kinoforge-director"; git config user.email "director@kinoforge.local"
+          git add proto films/showcase render/queue/showcase.json
+          git diff --cached --quiet || git commit -qm "showcase: scenes written by the scene agent"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
+          if python3 -c "import json,sys; sys.exit(0 if json.load(open('render/queue/showcase.json'))['scenes'] else 1)"; then
+            gh workflow run render.yml -f queue=render/queue/showcase.json
+          fi

@@ -1,0 +1,37 @@
+# KINOFORGE finish — when a showcase film has both its rendered picture (gallery release) and its narration
+# (voice release), place the narration, duck the score under it, master to -14 LUFS and publish to the showcase release.
+name: finish
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [render, voice]
+    types: [completed]
+permissions:
+  contents: write
+concurrency: { group: finish, cancel-in-progress: false }
+jobs:
+  finish:
+    runs-on: ubuntu-latest
+    env: { GH_TOKEN: '${{ github.token }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.13' }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null && pip install -q numpy scipy soundfile
+      - name: join picture and narration
+        run: |
+          gh release view showcase > /dev/null 2>&1 || gh release create showcase --title "showcase" --notes "One test film per style (not for publication)." || true
+          have_g=$(gh release view gallery --json assets --jq '.assets[].name'); have_v=$(gh release view voice --json assets --jq '.assets[].name'); have_s=$(gh release view showcase --json assets --jq '.assets[].name' || true)
+          for d in films/showcase/sc-*/; do
+            id=$(basename $d)
+            echo "$have_s" | grep -qx "$id.mp4" && continue
+            echo "$have_g" | grep -qx "$id.mp4" || continue
+            echo "$have_v" | grep -qx "$id-omnivoice.zip" || continue
+            echo "finishing $id"; mkdir -p w/$id && cd w/$id
+            gh release download gallery -p "$id.mp4" --clobber && gh release download voice -p "$id-omnivoice.zip" --clobber && unzip -oq "$id-omnivoice.zip"
+            python3 ../../harness/voice/place.py ../../voice/jobs/$id.json $id-omnivoice narration.wav --max-shift 0.8 || { cd ../..; continue; }
+            ffmpeg -v error -y -i $id.mp4 -i narration.wav -filter_complex \
+              "[0:a]aresample=48000,volume=0.9[m];[1:a]aresample=48000,asplit[v1][v2];[m][v1]sidechaincompress=threshold=0.02:ratio=8:attack=15:release=450[d];[d][v2]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[a]" \
+              -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k "$id-final.mp4" && mv "$id-final.mp4" "$id.mp4" && gh release upload showcase "$id.mp4" --clobber
+            cd ../..
+          done
