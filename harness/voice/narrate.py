@@ -124,8 +124,14 @@ def omnivoice_engine():
     prompt = m.create_voice_clone_prompt(ref_audio=ref, ref_text=ref_text)
     def gen(line, take):
         torch.manual_seed(1000 * take + 17)
-        speed = float(line.get('speed', o.get('speed', 1.0))) * [1.0, 0.95, 1.05, 0.9][take % 4]
-        a = m.generate(text=line['text'], voice_clone_prompt=prompt, speed=speed, num_step=32)
+        # Pace by duration, not speed: OmniVoice's own estimate ran 180-250 wpm for a storyteller. Each take aims at a
+        # different point inside the line's target pace (mid, a touch slower, a touch faster, slower), never past its window.
+        lo, hi = line.get('wpm', [125, 155]); mid = (lo + hi) / 2
+        wpm = mid * [1.0, 0.93, 1.07, 0.87][take % 4]
+        words = len(re.findall(r"[A-Za-z0-9']+", line['text']))
+        dur = words * 60 / wpm + 0.2 + 0.35 * line['text'].count('...')    # + edge pads, + a breath per ellipsis
+        dur = min(dur, line['end'] - line['start'] - 0.25)
+        a = m.generate(text=line['text'], voice_clone_prompt=prompt, duration=dur, num_step=int(o.get('num_step', 32)))
         return to48(a[0], 24000)
     return gen
 

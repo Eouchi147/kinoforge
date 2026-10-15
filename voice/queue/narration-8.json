@@ -1,0 +1,11 @@
+{
+ "runs": [
+  {
+   "job": "voice/jobs/dragon-tale.json",
+   "engines": [
+    "omnivoice"
+   ]
+  }
+ ],
+ "note": "OmniVoice dragon, paced by duration at the storyteller's target pace"
+}
