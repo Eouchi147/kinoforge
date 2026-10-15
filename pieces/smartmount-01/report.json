@@ -4,9 +4,99 @@
  "models": {
   "video": "google/veo-3.1-lite",
   "res": "720p",
-  "image": "google/gemini-nano-banana-2.1",
+  "image": "bytedance-seed/seedream-5-0-pro",
   "cap": 4.0
  },
  "steps": [],
- "usd": 0.5726
+ "usd": 2.5053,
+ "keyframes": {
+  "S1": {
+   "score": 7,
+   "problems": [
+    "Camera angle does not match the brief: it is roughly eye/medium height, not an extreme low angle from the floor, and there is no Dutch tilt and barely any barrel distortion or forced perspective",
+    "The box does not 'loom huge' with forced perspective \u2014 it sits flat and parallel to camera; it also reads as a tall wardrobe/cabinet box rather than a wide flat TV box",
+    "The installer is not a backlit silhouette: he is front-filled and fully readable, so the blazing orange backlight effect is weakened"
+   ]
+  },
+  "S2": {
+   "score": 8,
+   "problems": [
+    "Object at the left edge (screen/device) shows faint markings that read as text or labels, violating the no-text rule",
+    "White paper scraps on the right and bottom contain small mark-like artefacts that could read as lettering",
+    "Glove fingers gripping the left latch are slightly fudged and merged, with less-defined knuckle/nail structure"
+   ]
+  },
+  "S3": {
+   "score": 7,
+   "problems": [
+    "Gloved hand anatomy is off: fingers are elongated and awkwardly splayed, thumb position reads strangely, suggesting too many/merged digits",
+    "Shot brief calls for an ultra-wide close shot along the wall with the hand as dominant foreground and the face soft/out of focus in the background; here the framing is a medium shot, the face is sharp and dominant, and there is little forced perspective or barrel distortion",
+    "Laser level device is only loosely resolved and reads more like an abstract gadget than a clean compact product hero"
+   ]
+  },
+  "S4": {
+   "score": 8,
+   "problems": [
+    "Orange glove has fuzzy fur-like texture rather than a work glove material as in the character reference",
+    "Lower hand/fingers are muddy and indistinct, weakly readable anatomy",
+    "Wall texture is painterly but less hand-painted/cel-like than the intended finish, leaning slightly photoreal in the plaster and dust"
+   ]
+  },
+  "S5": {
+   "score": 8,
+   "problems": [
+    "The TV is already floating/mounted on the wall in the background with no visible bracket arm, while the bracket is still being pressed into place \u2014 an installation-sequence inconsistency",
+    "The bracket shown (a rectangular plate with two large rectangular cutouts) does not clearly match the reference product, which is a solid wall plate with a U-shaped swing arm",
+    "Minor finger anatomy irregularities on the upper gripping hand (short, awkwardly foreshortened digits)"
+   ]
+  },
+  "S6": {
+   "score": 8,
+   "problems": [
+    "Daughter's hands gripping the cushion have few, stubby fingers with unclear anatomy",
+    "Mother's face reads slightly distorted/aged compared to the reference, smile and eyes a bit off-model",
+    "Parents are standing fully visible rather than crouching half-hidden behind the daughter, as the shot description calls for"
+   ]
+  },
+  "S7": {
+   "score": 8,
+   "problems": [
+    "Installer's hands gripping the TV edges have slightly malformed/melted fingers",
+    "Character is missing the brown/orange work gloves from the reference and the white shoulder stripe detail on the jacket",
+    "Character face reads distorted and unclear from this angle; features not matching the reference likeness"
+   ]
+  },
+  "S8": {
+   "score": 7,
+   "problems": [
+    "Product packaging on the right side contains visible text-like labels and printed markings, violating the no-text rule",
+    "Upper gloved hand has slightly fused, awkwardly posed fingers where they grip the cable bundle",
+    "Cable entry point in the wall reads as a dark blob rather than a neat small opening as described"
+   ]
+  },
+  "S9": {
+   "score": 8,
+   "problems": [
+    "The installer's face reads mostly frontally lit with warm light rather than distinctly orange rim-lit as specified",
+    "The level has three vials with multiple teal glows instead of a single centred glowing bubble vial, slightly breaking the intended hero detail",
+    "The dark TV mount/armature behind the screen reads as confusing clutter and is not clearly matching the reference mount design"
+   ]
+  },
+  "S10": {
+   "score": 8,
+   "problems": [
+    "Mother's outstretched hand has flattened, merged-looking fingers",
+    "Child's hands are indistinct and slightly malformed",
+    "Father's trailing foot/shoe is distorted and blends into the sofa edge"
+   ]
+  },
+  "S11": {
+   "score": 7,
+   "problems": [
+    "Child does not match reference: lighter skin tone, no two-puff hairstyle, and outfit is a plain light top instead of the orange dinosaur print sweater and teal leggings",
+    "Installer outfit does not match reference: blue denim jacket and jeans instead of the teal-green jacket with tool belt and holsters; tool belt missing",
+    "Father's hoodie lacks the reference's yellow side stripes and reads as a plain dark top"
+   ]
+  }
+ }
 }
