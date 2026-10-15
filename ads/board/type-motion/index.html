@@ -21,18 +21,17 @@ html, body { margin:0; background:#000; overflow:hidden; }
 #s2 { background:var(--dough); }
 #s2 .copy { position:absolute; left:150px; top:270px; font-weight:800; font-size:150px; line-height:.98; letter-spacing:-.03em; color:var(--char); }
 #s2 .copy .b { color:var(--ember); display:block; }
-#bread { position:absolute; left:1040px; top:300px; width:680px; height:540px; }
-#bread .disc { position:absolute; inset:0; border-radius:49% 51% 47% 53% / 52% 46% 54% 48%; overflow:hidden; background:radial-gradient(circle at 45% 40%, #f6e2b4 0%, #eccf93 55%, #d9a95e 85%, #b97a35 100%); box-shadow: inset -20px -30px 60px rgba(120,64,20,.30), inset 16px 20px 40px rgba(255,248,225,.5); }
-#bread .patch { position:absolute; border-radius:50%; background:radial-gradient(circle, rgba(196,120,44,.85), rgba(196,120,44,0) 70%); }
-#bread .fill { position:absolute; inset:-2px; border-radius:50%; background:var(--saffron); opacity:0; }
-#bread .shadow { position:absolute; left:40px; right:40px; bottom:-60px; height:70px; border-radius:50%; background:rgba(90,46,18,.28); filter:blur(18px); }
-#bread .spot { position:absolute; border-radius:50%; background:var(--crust); }
+#bread { position:absolute; left:1000px; top:230px; width:720px; height:620px; }
+#bread .shadow { position:absolute; left:110px; right:110px; bottom:10px; height:80px; border-radius:50%; background:rgba(90,46,18,.30); filter:blur(22px); }
+#bread img { position:absolute; left:50%; top:46%; width:640px; transform:translate(-50%, -50%); transform-origin:50% 70%; }
+#steam { position:absolute; left:0; top:0; width:720px; height:620px; pointer-events:none; }
+#steam .puff { position:absolute; width:190px; height:190px; margin:-95px 0 0 -95px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,.9), rgba(255,255,255,0) 66%); filter:blur(14px); }
 /* shot 3 */
 #s3 { background:var(--saffron); }
 #s3 .big { position:absolute; left:150px; top:150px; font-weight:900; font-size:300px; line-height:.88; letter-spacing:-.035em; color:var(--char); font-stretch:78%; white-space:nowrap; }
 #s3 .ph { position:absolute; left:0; top:0; }
-#s3 .seats { position:absolute; left:150px; right:150px; top:850px; height:60px; }
-#s3 .seat { position:absolute; top:0; width:56px; height:56px; border-radius:50%; background:var(--char); }
+#s3 .glasses { position:absolute; left:0; right:0; top:690px; height:360px; }
+#s3 .glass { position:absolute; bottom:24px; height:300px; transform-origin:50% 100%; filter:drop-shadow(0 18px 16px rgba(90,46,18,.28)); }
 /* shot 4 */
 #s4 { background:var(--char); }
 #s4 svg { position:absolute; left:50%; top:250px; margin-left:-70px; }
@@ -43,8 +42,8 @@ html, body { margin:0; background:#000; overflow:hidden; }
 <div id="stage">
   <div class="shot" id="s1"><div class="glow"></div><div class="pre">We light the</div><div class="fire" id="fire">fire</div><div class="fire back">fire</div><div class="post">early.</div></div>
   <div class="shot" id="s2"><div class="copy"><span class="a1">The bread</span><br><span class="a2">comes out</span><span class="b">breathing.</span></div>
-    <div id="bread"><div class="shadow"></div><div class="disc"></div><div class="fill"></div></div></div>
-  <div class="shot" id="s3"><div class="big"><div class="ph p1"><div class="r1">Bring</div><div class="r1b">everyone.</div></div><div class="ph p2"><div class="mk">We’ll make</div><div><span class="m"><span class="w room">room.</span></span></div></div></div><div class="seats"></div></div>
+    <div id="bread"><div class="shadow"></div><img id="breadImg" alt=""><div id="steam"></div></div></div>
+  <div class="shot" id="s3"><div class="big"><div class="ph p1"><div class="r1">Bring</div><div class="r1b">everyone.</div></div><div class="ph p2"><div class="mk">We’ll make</div><div><span class="m"><span class="w room">room.</span></span></div></div></div><div class="glasses"></div></div>
   <div class="shot" id="s4">
     <svg width="140" height="170" viewBox="0 0 140 170"><path id="arch" d="M14 160 V74 a56 56 0 0 1 112 0 V160" fill="none" stroke="#f2a31b" stroke-width="12" stroke-linecap="round"/><circle id="ember" cx="70" cy="120" r="20" fill="#e04a1f"/></svg>
     <div class="name">Saffron Hearth Kitchen</div><div class="line">Fire, bread, and a table for everyone.</div></div>
@@ -56,22 +55,23 @@ import { seg, lerp, ease, mulberry, words, letters, rise, show, fitStage } from 
 const $ = (s) => document.querySelector(s);
 const q = fitStage($('#stage'));
 const firePhoto = q.get('fire');   // optional: a photo shows through the letters instead of the heat gradient
+const breadPhoto = q.get('bread'), teaPhoto = q.get('tea');   // cut-out photos (transparent PNG)
 const S = { s1: $('#s1'), s2: $('#s2'), s3: $('#s3'), s4: $('#s4') };
 const pre = words($('#s1 .pre')), post = words($('#s1 .post')), fire = $('#fire'), fireBack = $('#s1 .back');
 const a1 = words($('#s2 .a1')), a2 = words($('#s2 .a2')), br = $('#s2 .b'); const brL = letters(br);
 const r1 = [...words($('#s3 .r1')), ...words($('#s3 .r1b'))], mk = words($('#s3 .mk')); const room = $('#s3 .room');
 const nameW = words($('#s4 .name')), lineW = words($('#s4 .line'));
 const arch = $('#arch'), emb = $('#ember'); const archLen = arch.getTotalLength(); arch.style.strokeDasharray = archLen;
-// flatbread blisters: fixed positions from a seeded random
-const rnd = mulberry(7); const spots = [];
-for (let k = 0; k < 9; k++) { const a = rnd() * 6.283, r = Math.sqrt(rnd()) * 200, s = 90 + rnd() * 120; const d = document.createElement('div'); d.className = 'patch'; Object.assign(d.style, { left: 340 + Math.cos(a) * r - s / 2 + 'px', top: 270 + Math.sin(a) * r * 0.8 - s / 2 + 'px', width: s + 'px', height: s * 0.8 + 'px' }); $('#bread .disc').appendChild(d); }
-for (let k = 0; k < 18; k++) { const a = rnd() * 6.283, r = Math.sqrt(rnd()) * 230, s = 7 + rnd() * 16; const d = document.createElement('div');
-  d.className = 'spot'; Object.assign(d.style, { left: 340 + Math.cos(a) * r * 1.1 - s / 2 + 'px', top: 270 + Math.sin(a) * r * 0.85 - s / 2 + 'px', width: s + 'px', height: s * (0.6 + rnd() * 0.5) + 'px', opacity: 0.45 + rnd() * 0.4, borderRadius: `${40 + rnd() * 20}% ${50 + rnd() * 20}%` });
-  d.dataset.t = (2.95 + k * 0.026 + rnd() * 0.08).toFixed(3); $('#bread .disc').appendChild(d); spots.push(d); }
-const seats = []; for (let k = 0; k < 9; k++) { const d = document.createElement('div'); d.className = 'seat'; $('#s3 .seats').appendChild(d); seats.push(d); }
+// the bread: a real photo, cut out; steam is soft light rising from it
+const breadImg = $('#breadImg'); if (breadPhoto) breadImg.src = breadPhoto;
+const rnd = mulberry(7); const puffs = [];
+for (let k = 0; k < 12; k++) { const d = document.createElement('div'); d.className = 'puff'; $('#steam').appendChild(d);
+  puffs.push({ d, t0: 3.0 + k * 0.16 + rnd() * 0.1, x: 360 + (rnd() - 0.5) * 300, drift: (rnd() - 0.5) * 120, life: 1.4 + rnd() * 0.5, sc: 0.7 + rnd() * 0.6 }); }
+// the table: six glasses, then room for one more
+const glasses = []; for (let k = 0; k < 7; k++) { const g = document.createElement('img'); g.className = 'glass'; if (teaPhoto) g.src = teaPhoto; $('#s3 .glasses').appendChild(g); glasses.push(g); }
 const wipe = $('#wipe');
 
-window.KF = { duration: 9.4, fps: 30, async render(i, t) {
+window.KF = { duration: 9.7, fps: 30, async render(i, t) {
   for (const k in S) show(S[k], false);
   wipe.style.display = 'none';
   // ---- shot 1: "We light the fire early."  0 to 2.5
@@ -94,44 +94,54 @@ window.KF = { duration: 9.4, fps: 30, async render(i, t) {
     $('#s1 .glow').style.opacity = 0.4 + 0.6 * ease.outCubic(seg(t, 0.5, 1.2)) + Math.sin(t * 11) * 0.05;
   }
   // wipe 1 -> 2: the dough panel slides up on the beat
-  if (t >= 2.25 && t < 2.75) { wipe.style.display = 'block'; wipe.style.background = 'var(--dough)'; const p = ease.inOutQuint(seg(t, 2.25, 2.5)); wipe.style.transform = `translateY(${(1 - p) * 100}%)`; }
+  if (t >= 2.25 && t < 2.75) { wipe.style.display = 'block'; wipe.style.clipPath = 'none'; wipe.style.background = 'var(--dough)'; const p = ease.inOutQuint(seg(t, 2.25, 2.5)); wipe.style.transform = `translateY(${(1 - p) * 100}%)`; }
   // ---- shot 2: "The bread comes out breathing."  2.5 to 5.0
   if (t >= 2.5 && t < 5.2) { show(S.s2, true);
     rise(a1, t, 2.55, { stagger: 0.07 }); rise(a2, t, 2.72, { stagger: 0.07 });
     const breath = t > 3.2 ? Math.sin((t - 3.2) * Math.PI * 2 / 1.0) : 0;
     brL.forEach((l, k) => { const p = ease.outExpo(seg(t, 3.0 + k * 0.035, 3.6 + k * 0.035)); l.style.transform = `translateY(${(1 - p) * 60}px)`; l.style.opacity = p; });
     br.style.fontStretch = (100 + 14 * Math.max(0, breath)) + '%'; br.style.letterSpacing = (0.004 + 0.02 * Math.max(0, breath)) + 'em';
-    const grow = ease.spring(seg(t, 2.62, 3.6), 0.42, 13);
-    const puff = 1 + 0.045 * breath;
-    $('#bread').style.transform = `scale(${grow * puff}, ${grow * (1 + 0.07 * breath)}) rotate(${(1 - grow) * -20}deg)`;
-    spots.forEach((d) => { const p = ease.outBack(seg(t, +d.dataset.t, +d.dataset.t + 0.25)); d.style.transform = `scale(${p})`; });
-    // the bread grows to fill the frame and becomes the next background
-    const zoom = ease.inExpo(seg(t, 4.65, 5.0));
-    if (zoom > 0) { $('#bread').style.transform = `scale(${lerp(grow * puff, 9, zoom)})`; }
-    $('#bread .fill').style.opacity = ease.inCubic(seg(t, 4.7, 4.95));
-    $('#s2 .copy').style.opacity = 1 - seg(t, 4.7, 4.9);
+    // the bread drops onto the table, lands with a little squash, then breathes
+    const land = ease.spring(seg(t, 2.6, 3.5), 0.45, 12);
+    const squash = Math.exp(-14 * Math.max(0, t - 2.95)) * Math.sin(Math.max(0, t - 2.95) * 26) * 0.05;
+    const puff = 0.03 * Math.max(0, breath);
+    breadImg.style.transform = `translate(-50%, ${-50 + (1 - land) * -150}%) rotate(${(1 - land) * -14}deg) scale(${1 + squash + puff}, ${1 - squash + puff * 1.6})`;
+    $('#bread .shadow').style.opacity = land; $('#bread .shadow').style.transform = `scaleX(${0.6 + 0.4 * land + puff})`;
+    puffs.forEach((p) => { const u = (t - p.t0) / p.life;
+      if (u <= 0 || u >= 1) { p.d.style.opacity = 0; return; }
+      p.d.style.opacity = Math.sin(u * Math.PI) * 0.55;
+      p.d.style.left = p.x + Math.sin(u * 3 + p.x) * 24 + p.drift * u + 'px'; p.d.style.top = 250 - u * 380 + 'px';
+      p.d.style.transform = `scale(${p.sc * (0.6 + u * 1.3)})`; });
+    $('#s2 .copy').style.opacity = 1;
   }
-  // ---- shot 3: "Bring everyone. We'll make room."  5.0 to 7.1
-  if (t >= 5.0 && t < 7.5) { show(S.s3, true);
+  // wipe 2 -> 3: a saffron circle opens out of the bread
+  if (t >= 4.65 && t < 5.05) { wipe.style.display = 'block'; wipe.style.background = 'var(--saffron)'; wipe.style.transform = 'none';
+    wipe.style.clipPath = `circle(${ease.inCubic(seg(t, 4.65, 5.0)) * 2300}px at 1360px 520px)`; }
+  // ---- shot 3: "Bring everyone. We'll make room."  5.0 to 7.6
+  if (t >= 5.0 && t < 7.65) { show(S.s3, true);
     rise(r1, t, 5.02, { stagger: 0.25, dur: 0.55, tOut: 5.78, outDur: 0.24 });
     rise(mk, t, 6.2, { stagger: 0.1, dur: 0.5 });
     rise([room], t, 6.36, { dur: 0.5 });
     room.style.fontStretch = lerp(62, 125, ease.inOutCubic(seg(t, 6.55, 7.1))) + '%';
-    const W = 1620, spread = ease.inOutCubic(seg(t, 6.55, 7.1));
-    seats.forEach((d, k) => { const p = ease.outBack(seg(t, 5.25 + k * 0.07, 5.5 + k * 0.07), 2.4);
-      const base = 300 + k * 72, wide = (k / 8) * (W - 56);
-      d.style.left = lerp(base, wide, spread) + 'px'; d.style.transform = `scale(${p})`; });
+    const spread = ease.inOutCubic(seg(t, 6.55, 7.05));
+    glasses.forEach((g, k) => { const gw = g.naturalWidth ? 300 * g.naturalWidth / g.naturalHeight : 150;
+      if (k < 6) { const p = ease.outBack(seg(t, 5.15 + k * 0.09, 5.45 + k * 0.09), 2.2);
+        const j = k < 3 ? k : k + 1; const x = lerp(960 + (k - 2.5) * 200, 960 + (j - 3) * 245, spread);
+        g.style.left = x - gw / 2 + 'px'; g.style.opacity = p > 0 ? 1 : 0; g.style.transform = `translateY(${(1 - Math.min(1, p)) * -90}px) scale(${Math.max(0, p)})`; }
+      else { const p = ease.spring(seg(t, 6.98, 7.5), 0.4, 14);   // one more guest
+        g.style.left = 960 - gw / 2 + 'px'; g.style.opacity = t > 6.98 ? 1 : 0; g.style.transform = `translateY(${(1 - p) * -520}px)`; } });
   }
   // wipe 3 -> 4: a diagonal charcoal panel
-  if (t >= 7.1 && t < 7.5) { wipe.style.display = 'block'; wipe.style.background = 'var(--char)'; const p = ease.inOutQuint(seg(t, 7.1, 7.35)); wipe.style.transform = `translateX(${(1 - p) * -120}%) skewX(-12deg) scaleX(1.3)`; }
+  if (t >= 7.35 && t < 7.75) { wipe.style.display = 'block'; wipe.style.clipPath = 'none'; wipe.style.background = 'var(--char)'; const p = ease.inOutQuint(seg(t, 7.35, 7.6)); wipe.style.transform = `translateX(${(1 - p) * -120}%) skewX(-12deg) scaleX(1.3)`; }
   // ---- shot 4: end card  7.2 to 9.2
-  if (t >= 7.35) { show(S.s4, true); t -= 0.15;
+  if (t >= 7.6) { show(S.s4, true); t -= 0.4;
     arch.style.strokeDashoffset = archLen * (1 - ease.inOutCubic(seg(t, 7.25, 7.85)));
     const e = ease.outBack(seg(t, 7.7, 8.0), 2.2); emb.setAttribute('r', 20 * e + Math.sin(t * 9) * 0.8 * e);
     rise(nameW, t, 7.45, { stagger: 0.08, dur: 0.7 }); rise(lineW, t, 7.85, { stagger: 0.035, dur: 0.6 });
   }
 } };
 await document.fonts.ready; await Promise.all([...document.fonts].map((f) => f.load().catch(() => {})));
-if (firePhoto) await new Promise((r) => { const im = new Image(); im.onload = im.onerror = r; im.src = firePhoto; });
+for (const src of [firePhoto, breadPhoto, teaPhoto].filter(Boolean)) await new Promise((r) => { const im = new Image(); im.onload = im.onerror = r; im.src = src; });
+await Promise.all([breadImg, ...glasses].map((im) => (im.src && !im.complete ? new Promise((r) => { im.onload = im.onerror = r; }) : null)));
 window.KF_READY = true;
 </script></body></html>
