@@ -80,7 +80,10 @@ def _image(B, model, prompt, refs, out, label):
                 url = imgs[0]['image_url']['url']; open(out, 'wb').write(base64.b64decode(url.split(',', 1)[1])); return out
             log(label, 'no image in reply', str(j['choices'][0]['message'].get('content'))[:200])
         except urllib.error.HTTPError as e:
-            log(label, model, 'image error', e.code, e.read().decode(errors='ignore')[:160])
+            msg = e.read().decode(errors='ignore')[:300]
+            if e.code == 404 and 'output modalities' in msg and body['modalities'] != ['image']:
+                body['modalities'] = ['image']; log(label, model, 'image-only output'); continue
+            log(label, model, 'image error', e.code, msg[:160])
             if e.code == 402: raise OverBudget('key limit')
             if e.code in (400, 404): COOLDOWN[model] = time.time() + 86400; break     # not usable this way: skip it for the run
             if e.code == 429:
@@ -335,6 +338,8 @@ def main(pdir):
         if applied.get(sid) != ver:
             for f_ in glob.glob(os.path.join(pdir, 'work', f'kf-{sid}.*')) + glob.glob(os.path.join(pdir, 'work', f'clip-{sid}.*')): os.remove(f_)
             applied[sid] = ver; log(f'{sid}: redo requested (v{ver})')
+            ks = os.path.join(pdir, 'work', 'kf-scores.json')
+            if os.path.exists(ks): d_ = json.load(open(ks)); d_.pop(sid, None); json.dump(d_, open(ks, 'w'))
     json.dump(applied, open(applied_p, 'w'))
     kfs = []
     for s in t['shots']:
@@ -342,6 +347,10 @@ def main(pdir):
         prompt = f'{s["keyframe"]}\nStyle: {look_txt}\nKeep every referenced subject exactly as in the reference images. Aspect {brief.get("aspect", "16:9")}. No text, no letters, no logos, no watermarks.'
         if not os.path.exists(o): image(B, T['image'], prompt, rr, o, f'keyframe {s["id"]}')
         ask_eyes = lambda path: look(B, f'look {s["id"]}', f'This still is the first frame of shot {s["id"]} of a premium commercial: "{s["keyframe"]}". The other images are the references it must match (characters, product, place, style). The intended look (judge against THIS, not against photorealism): {look_txt}\nScore it 0-10 as a frame of a premium ad in that look. List only visible problems: wrong subject, anatomy (hands, faces), product or character not matching the references, text or letters, weak composition, artefacts. Small differences in camera angle are minor.', [path] + rr[:3])
+        kfs_p = os.path.join(pdir, 'work', 'kf-scores.json'); kf_scores = json.load(open(kfs_p)) if os.path.exists(kfs_p) else {}
+        if s['id'] in (brief.get('accept_keyframes') or []) and s['id'] not in kf_scores: kf_scores[s['id']] = {'score': 'accepted', 'problems': []}
+        if s['id'] in kf_scores and os.path.exists(o):            # already reviewed and kept: never re-judge (reviews are noisy and retries cost money)
+            report.setdefault('keyframes', {})[s['id']] = kf_scores[s['id']]; kfs.append(o); continue
         v = ask_eyes(o); best = (v['score'], o, v)
         ladder = [T['image'], 'google/gemini-3-pro-image']            # retry, then the strongest image model
         for k, mdl in enumerate(ladder):
@@ -356,6 +365,7 @@ def main(pdir):
             os.replace(best[1], o)
             for st in glob.glob(o.replace('.png', '.t*.jpg')): os.remove(st)    # the old still's thumbnails
         report.setdefault('keyframes', {})[s['id']] = {'score': best[0], 'problems': best[2]['problems'][:3]}
+        kf_scores[s['id']] = report['keyframes'][s['id']]; json.dump(kf_scores, open(kfs_p, 'w'))
         kfs.append(o)
     save()
     sheet_kf = os.path.join(pdir, 'keyframes.jpg')
