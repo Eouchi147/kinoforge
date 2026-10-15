@@ -1,10 +1,12 @@
 {
  "cap": 6.0,
- "total": 2.79245,
+ "total": 5.37373,
  "by_seat": {
   "head": 0.30519,
-  "image": 2.46353,
-  "eyes": 0.02372
+  "image": 2.74853,
+  "eyes": 0.03577,
+  "video": 2.28,
+  "voice": 0.00424
  },
  "calls": [
   {
@@ -514,6 +516,324 @@
    "s": 15.6,
    "ok": true,
    "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S6",
+   "usd": 0.093,
+   "s": 103.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S6",
+   "usd": 0.001315,
+   "s": 31.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S10",
+   "usd": 0.093,
+   "s": 119.1,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S10",
+   "usd": 0.001084,
+   "s": 19.5,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "keyframe S11",
+   "usd": 0.099,
+   "s": 114.2,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S11",
+   "usd": 0.001466,
+   "s": 34.0,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S6",
+   "usd": 0.12,
+   "s": 48.2,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S4",
+   "usd": 0.12,
+   "s": 48.8,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S2",
+   "usd": 0.12,
+   "s": 49.1,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S5",
+   "usd": 0.12,
+   "s": 49.2,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S1",
+   "usd": 0.12,
+   "s": 49.7,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S3",
+   "usd": 0.12,
+   "s": 51.2,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S6",
+   "usd": 0.000669,
+   "s": 14.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S4",
+   "usd": 0.0007,
+   "s": 18.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S3",
+   "usd": 0.000763,
+   "s": 17.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S1",
+   "usd": 0.00076,
+   "s": 19.4,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S5",
+   "usd": 0.000747,
+   "s": 25.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S2",
+   "usd": 0.000778,
+   "s": 30.5,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S6 redo",
+   "usd": 0.12,
+   "s": 48.7,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S7",
+   "usd": 0.12,
+   "s": 50.3,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S8",
+   "usd": 0.12,
+   "s": 49.3,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S1 redo",
+   "usd": 0.12,
+   "s": 52.0,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S5 redo",
+   "usd": 0.12,
+   "s": 50.7,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S2 redo",
+   "usd": 0.12,
+   "s": 49.8,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S8",
+   "usd": 0.000616,
+   "s": 10.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S7",
+   "usd": 0.000754,
+   "s": 16.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S9",
+   "usd": 0.12,
+   "s": 48.1,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S10",
+   "usd": 0.12,
+   "s": 48.5,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S8 redo",
+   "usd": 0.12,
+   "s": 48.5,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S7 redo",
+   "usd": 0.12,
+   "s": 48.6,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S9",
+   "usd": 0.000793,
+   "s": 25.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S10",
+   "usd": 0.00073,
+   "s": 33.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S11",
+   "usd": 0.24,
+   "s": 79.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S11",
+   "usd": 0.000868,
+   "s": 19.3,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S10 redo",
+   "usd": 0.12,
+   "s": 51.5,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 0",
+   "usd": 0.00144,
+   "s": 0.9,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 1",
+   "usd": 0.00144,
+   "s": 1.2,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 2",
+   "usd": 0.00136,
+   "s": 1.0,
+   "ok": true
   }
  ]
 }
