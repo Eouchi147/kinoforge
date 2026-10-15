@@ -55,7 +55,7 @@ class Budget:
     def add(self, **c): self.led.add(**c)
 
 # ------------------------------------------------------------------ images
-IMAGE_BACKUPS = ['openai/gpt-image-2', 'google/gemini-nano-banana-2.1', 'black-forest-labs/flux-3-image', 'google/gemini-3.1-flash-image']
+IMAGE_BACKUPS = ['bytedance-seed/seedream-5-0-pro', 'google/gemini-3-pro-image', 'google/gemini-3.1-flash-image', 'qwen/qwen-image-3-pro', 'google/gemini-nano-banana-2.1']   # chat-capable image models only
 COOLDOWN = {}   # model -> time until which it is skipped (rate-limited)
 def image(B, model, prompt, refs, out, label):
     """One image; on rate limits or failures waits and retries, then falls through to backup models."""
@@ -82,7 +82,7 @@ def _image(B, model, prompt, refs, out, label):
         except urllib.error.HTTPError as e:
             log(label, model, 'image error', e.code, e.read().decode(errors='ignore')[:160])
             if e.code == 402: raise OverBudget('key limit')
-            if e.code in (400, 404): break
+            if e.code in (400, 404): COOLDOWN[model] = time.time() + 86400; break     # not usable this way: skip it for the run
             if e.code == 429:
                 if attempt >= 1: COOLDOWN[model] = time.time() + 300; break
                 time.sleep(10); continue
@@ -336,7 +336,7 @@ def main(pdir):
         if not os.path.exists(o): image(B, T['image'], prompt, rr, o, f'keyframe {s["id"]}')
         ask_eyes = lambda path: look(B, f'look {s["id"]}', f'This still is the first frame of shot {s["id"]} of a premium commercial: "{s["keyframe"]}". The other images are the references it must match (characters, product, place, style). Score it 0-10 as a frame of a premium ad. List visible problems: wrong subject, anatomy (hands, faces), product or character not matching the references, style not matching, text or letters, weak composition, artefacts.', [path] + rr[:3])
         v = ask_eyes(o); best = (v['score'], o, v)
-        ladder = ['openai/gpt-image-2', 'google/gemini-3-pro-image']            # retry, then the strongest image model
+        ladder = [T['image'], 'google/gemini-3-pro-image']            # retry, then the strongest image model
         for k, mdl in enumerate(ladder):
             if best[0] >= 7: break
             alt = o.replace('.png', f'.try{k + 1}.png')
