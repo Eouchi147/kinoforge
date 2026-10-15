@@ -1,0 +1,73 @@
+{
+ "cap": 1.5,
+ "total": 0.81801,
+ "by_seat": {
+  "image": 0.81801
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hero-1",
+   "usd": 0.09,
+   "s": 51.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "freeze-1",
+   "usd": 0.09,
+   "s": 61.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hero-2",
+   "usd": 0.09,
+   "s": 68.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "freeze-3",
+   "usd": 0.09,
+   "s": 49.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3-pro-image",
+   "task": "doc-1",
+   "usd": 0.13922,
+   "s": 17.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "flash-2",
+   "usd": 0.09,
+   "s": 51.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "flash-1",
+   "usd": 0.09,
+   "s": 60.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3-pro-image",
+   "task": "doc-3",
+   "usd": 0.13879,
+   "s": 18.9,
+   "ok": true
+  }
+ ]
+}

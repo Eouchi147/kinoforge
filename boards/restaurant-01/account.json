@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 8.090057137,
+  "limit": 50,
+  "remaining": 41.909942863
+ },
+ "after": {
+  "usage": 8.090057137,
+  "limit": 50,
+  "remaining": 41.909942863
+ },
+ "board_spent": 0.0,
+ "ledger_total": 0.818,
+ "frames": {
+  "hero-1": "bytedance-seed/seedream-5-0-pro",
+  "hero-2": "bytedance-seed/seedream-5-0-pro",
+  "freeze-1": "bytedance-seed/seedream-5-0-pro",
+  "freeze-3": "bytedance-seed/seedream-5-0-pro",
+  "flash-1": "bytedance-seed/seedream-5-0-pro",
+  "flash-2": "bytedance-seed/seedream-5-0-pro",
+  "doc-1": "google/gemini-3-pro-image",
+  "doc-3": "google/gemini-3-pro-image"
+ }
+}
