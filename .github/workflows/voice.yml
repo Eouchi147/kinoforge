@@ -66,6 +66,9 @@ jobs:
             pip install -q torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
             pip install -q chatterbox-tts
             python -m venv kvenv && kvenv/bin/pip install -q kokoro-onnx==0.6.1 soundfile
+          elif [ "$ENGINE" = "omnivoice" ]; then
+            pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+            pip install -q omnivoice
           elif [ "$ENGINE" = "kokoro" ]; then
             pip install -q torch --index-url https://download.pytorch.org/whl/cpu
             pip install -q kokoro-onnx==0.6.1

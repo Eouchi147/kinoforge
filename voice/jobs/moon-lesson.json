@@ -1,7 +1,7 @@
 {
  "film": "moon-lesson",
  "duration": 62.5,
- "takes": 3,
+ "takes": 4,
  "profile": "science explainer",
  "kokoro_ref": "af_heart",
  "persona": "A warm, bright, curious female science teacher in her thirties with a clear, friendly voice. She is delighted by the idea she is sharing and smiles as she talks; natural and conversational, never theatrical, never sing-song.",
@@ -224,5 +224,9 @@
    ],
    "exaggeration": 0.6
   }
- ]
+ ],
+ "omni": {
+  "ref_audio": "voice/refs/moon-voicestudio.wav",
+  "ref_text": "On the far side, opposite the Sun, you see all of it. Full moon."
+ }
 }

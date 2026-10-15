@@ -1,0 +1,17 @@
+{
+ "runs": [
+  {
+   "job": "voice/jobs/dragon-tale.json",
+   "engines": [
+    "omnivoice"
+   ]
+  },
+  {
+   "job": "voice/jobs/moon-lesson.json",
+   "engines": [
+    "omnivoice"
+   ]
+  }
+ ],
+ "note": "OmniVoice (VoiceStudio engine), directed line by line, checked take by take"
+}

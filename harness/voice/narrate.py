@@ -108,7 +108,28 @@ def qwen_clone_engine():
         return to48(w[0], sr2)
     return gen
 
-ENGINES = {'kokoro': kokoro_engine, 'chatterbox': chatterbox_engine, 'qwen-design': qwen_design_engine, 'qwen-clone': qwen_clone_engine}
+def omnivoice_engine():
+    """OmniVoice (k2-fsa), the engine inside VoiceStudio. Cloning is its most stable mode, so every line is cloned from one
+    reference: the job's own reference clip, or a designed voice (gender, age, pitch, accent) rendered once as the reference."""
+    import torch
+    from omnivoice import OmniVoice
+    m = OmniVoice.from_pretrained('k2-fsa/OmniVoice', device_map='cpu', dtype=torch.float32)
+    o = job.get('omni', {})
+    if o.get('ref_audio'):
+        ref, ref_text = o['ref_audio'], o.get('ref_text')
+    else:
+        torch.manual_seed(5)
+        a = m.generate(text=o.get('ref_text', REF_TEXT), instruct=o.get('design', 'male, elderly, low pitch, british accent'), num_step=32)
+        ref = os.path.join(OUT, 'reference.wav'); sf.write(ref, np.asarray(a[0], dtype=np.float32), 24000); ref_text = o.get('ref_text', REF_TEXT)
+    prompt = m.create_voice_clone_prompt(ref_audio=ref, ref_text=ref_text)
+    def gen(line, take):
+        torch.manual_seed(1000 * take + 17)
+        speed = float(line.get('speed', o.get('speed', 1.0))) * [1.0, 0.95, 1.05, 0.9][take % 4]
+        a = m.generate(text=line['text'], voice_clone_prompt=prompt, speed=speed, num_step=32)
+        return to48(a[0], 24000)
+    return gen
+
+ENGINES = {'omnivoice': omnivoice_engine, 'kokoro': kokoro_engine, 'chatterbox': chatterbox_engine, 'qwen-design': qwen_design_engine, 'qwen-clone': qwen_clone_engine}
 
 # ------------------------------------------------------------------ the take checker
 _asr = None

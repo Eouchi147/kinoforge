@@ -1,7 +1,7 @@
 {
  "film": "dragon-tale",
  "duration": 126.5,
- "takes": 3,
+ "takes": 4,
  "profile": "fable storyteller",
  "kokoro_ref": "bm_fable",
  "persona": "A warm, wise grandfather storyteller with a gentle, slightly husky British voice, telling a bedtime fable by the fire. Unhurried, with a soft smile in his voice and a twinkle on the funny parts; never theatrical, never booming.",
@@ -36,7 +36,7 @@
    "id": "L3",
    "text": "Everyone saw a monster. Only one small girl saw a broken wing.",
    "start": 83.33,
-   "end": 88.7,
+   "end": 89.6,
    "tone": "Tender and slower, a soft catch of feeling on 'a broken wing'.",
    "wpm": [
     105,
@@ -68,5 +68,9 @@
    ],
    "exaggeration": 0.55
   }
- ]
+ ],
+ "omni": {
+  "design": "male, elderly, low pitch, british accent",
+  "ref_text": "Long ago, when the hills were young, the lanterns of the valley were lit by hand, one by one, every single evening."
+ }
 }

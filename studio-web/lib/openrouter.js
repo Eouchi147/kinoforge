@@ -15,8 +15,11 @@ export async function bestModels({ needImages = false, maxPromptPerM = 6 } = {})
         && !m.expiration_date && !m.id.endsWith(':free') && price > 0 && price <= maxPromptPerM;
     });
     const score = (m) => m.benchmarks?.artificial_analysis?.intelligence_index ?? -1;
-    const ranked = ok.filter((m) => score(m) >= 0).sort((a, b) => score(b) - score(a)).map((m) => m.id);
-    cache = { at: Date.now(), models: ranked.length ? ranked.slice(0, 3) : FALLBACK };
+    const ranked = ok.filter((m) => score(m) >= 0 && !m.id.includes(':')).sort((a, b) => score(b) - score(a)).map((m) => m.id);
+    // fallbacks from different providers, so one provider's outage never stops the director
+    const pick = [], seen = new Set();
+    for (const id of ranked) { const p = id.split('/')[0]; if (!seen.has(p)) { pick.push(id); seen.add(p); } if (pick.length === 3) break; }
+    cache = { at: Date.now(), models: pick.length ? pick : FALLBACK };
   } catch { cache = { at: Date.now(), models: FALLBACK }; }
   return cache.models;
 }
