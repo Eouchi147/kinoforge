@@ -334,7 +334,7 @@ def main(pdir):
         o = os.path.join(pdir, 'work', f'kf-{s["id"]}.png'); rr = [refs[x] for x in s['refs'] if x in refs]
         prompt = f'{s["keyframe"]}\nStyle: {look_txt}\nKeep every referenced subject exactly as in the reference images. Aspect {brief.get("aspect", "16:9")}. No text, no letters, no logos, no watermarks.'
         if not os.path.exists(o): image(B, T['image'], prompt, rr, o, f'keyframe {s["id"]}')
-        ask_eyes = lambda path: look(B, f'look {s["id"]}', f'This still is the first frame of shot {s["id"]} of a premium commercial: "{s["keyframe"]}". The other images are the references it must match (characters, product, place, style). Score it 0-10 as a frame of a premium ad. List visible problems: wrong subject, anatomy (hands, faces), product or character not matching the references, style not matching, text or letters, weak composition, artefacts.', [path] + rr[:3])
+        ask_eyes = lambda path: look(B, f'look {s["id"]}', f'This still is the first frame of shot {s["id"]} of a premium commercial: "{s["keyframe"]}". The other images are the references it must match (characters, product, place, style). The intended look (judge against THIS, not against photorealism): {look_txt}\nScore it 0-10 as a frame of a premium ad in that look. List only visible problems: wrong subject, anatomy (hands, faces), product or character not matching the references, text or letters, weak composition, artefacts. Small differences in camera angle are minor.', [path] + rr[:3])
         v = ask_eyes(o); best = (v['score'], o, v)
         ladder = [T['image'], 'google/gemini-3-pro-image']            # retry, then the strongest image model
         for k, mdl in enumerate(ladder):
@@ -367,7 +367,7 @@ def main(pdir):
         try: clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]}')
         except AllFailed as e: log('clip failed, one retry:', e); clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} retry')
         fr = frames_of(o, 3, os.path.join(pdir, 'work'), f'chk-{s["id"]}')
-        v = look(B, f'check {s["id"]}', f'Three frames (start, middle, end) of one shot of a premium ad: "{s["motion"]}". Score 0-10. Problems: morphing, melting or deformed bodies or product, extra limbs, flicker, text, nonsense motion.', fr)
+        v = look(B, f'check {s["id"]}', f'Three frames (start, middle, end) of one shot of a premium ad in this look: {look_txt}\nThe shot: "{s["motion"]}". Score 0-10. Problems: morphing, melting or deformed bodies or product, extra limbs, flicker, text, nonsense motion.', fr)
         if v['score'] < 6 and B.led.room(PRICE.get(T['video'], {}).get(T['res'], 0.4) * s['seconds'] * 1.1):
             log(f'{s["id"]} clip {v["score"]}: regenerate once ({v["problems"][:2]})'); os.rename(o, o + '.rejected.mp4')
             clip(B, tier, mp + ' Avoid: ' + '; '.join(v['problems'][:4]), kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} redo')
