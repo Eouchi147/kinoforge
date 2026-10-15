@@ -48,7 +48,15 @@ class Budget:
     def add(self, **c): self.led.add(**c)
 
 # ------------------------------------------------------------------ images
+IMAGE_BACKUPS = ['google/gemini-3.1-flash-image', 'bytedance-seed/seedream-5-0-pro', 'openai/gpt-image-2', 'black-forest-labs/flux-3-image']
 def image(B, model, prompt, refs, out, label):
+    """One image; on rate limits or failures waits and retries, then falls through to backup models."""
+    for m in [model] + [x for x in IMAGE_BACKUPS if x != model]:
+        try: return _image(B, m, prompt, refs, out, label)
+        except AllFailed as e: log(label, f'{m} failed ({e}); next model')
+    raise AllFailed(f'{label}: every image model failed')
+
+def _image(B, model, prompt, refs, out, label):
     B.check(0.15, label)
     content = [{'type': 'text', 'text': prompt}] + [{'type': 'image_url', 'image_url': {'url': b64(r)}} for r in refs]
     body = {'model': model, 'messages': [{'role': 'user', 'content': content}], 'modalities': ['image', 'text'], 'usage': {'include': True}}
@@ -63,10 +71,13 @@ def image(B, model, prompt, refs, out, label):
                 url = imgs[0]['image_url']['url']; open(out, 'wb').write(base64.b64decode(url.split(',', 1)[1])); return out
             log(label, 'no image in reply', str(j['choices'][0]['message'].get('content'))[:200])
         except urllib.error.HTTPError as e:
-            log(label, 'image error', e.code, e.read().decode(errors='ignore')[:300])
+            log(label, model, 'image error', e.code, e.read().decode(errors='ignore')[:160])
             if e.code == 402: raise OverBudget('key limit')
+            if e.code in (400, 404): break
+            time.sleep(20 * (attempt + 1)); continue
+        except Exception as e: log(label, model, 'image error', type(e).__name__, str(e)[:160])
         time.sleep(5)
-    raise AllFailed(f'{label}: no image')
+    raise AllFailed(f'{label}: no image from {model}')
 
 # ------------------------------------------------------------------ video
 def clip(B, tier, prompt, first_frame, dur, aspect, out, label, audio=True):
