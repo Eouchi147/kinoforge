@@ -1,10 +1,10 @@
 {
  "cap": 4.0,
- "total": 0.57264,
+ "total": 0.78467,
  "by_seat": {
   "head": 0.30519,
-  "image": 0.26745,
-  "eyes": 0
+  "image": 0.47779,
+  "eyes": 0.00168
  },
  "calls": [
   {
@@ -160,6 +160,40 @@
    "task": "keyframe S3",
    "usd": 0.04093,
    "s": 11.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S1",
+   "usd": 0.000814,
+   "s": 20.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3.1-flash-image",
+   "task": "keyframe S1 try 2",
+   "usd": 0.06854,
+   "s": 12.5,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "look S1",
+   "usd": 0.000875,
+   "s": 24.5,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-3-pro-image",
+   "task": "keyframe S1 try 3",
+   "usd": 0.1418,
+   "s": 21.7,
    "ok": true
   }
  ]
