@@ -1,10 +1,12 @@
 {
  "cap": 10.0,
- "total": 1.41036,
+ "total": 8.25809,
  "by_seat": {
-  "head": 0.10481,
+  "head": 0.14187,
   "image": 1.293,
-  "eyes": 0.01254
+  "eyes": 0.01882,
+  "video": 6.8,
+  "voice": 0.0044
  },
  "calls": [
   {
@@ -215,6 +217,240 @@
    "task": "look S9",
    "usd": 0.001492,
    "s": 18.7,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S3",
+   "usd": 0.4,
+   "s": 109.4,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S5",
+   "usd": 0.4,
+   "s": 109.6,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S4",
+   "usd": 0.4,
+   "s": 109.7,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S2",
+   "usd": 0.4,
+   "s": 109.9,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S1",
+   "usd": 0.4,
+   "s": 111.2,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S6",
+   "usd": 0.4,
+   "s": 112.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S3",
+   "usd": 0.000596,
+   "s": 11.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S5",
+   "usd": 0.000723,
+   "s": 20.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S1",
+   "usd": 0.000817,
+   "s": 21.8,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S6",
+   "usd": 0.000705,
+   "s": 17.7,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S4",
+   "usd": 0.00062,
+   "s": 17.4,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S2",
+   "usd": 0.00074,
+   "s": 19.8,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S5 redo",
+   "usd": 0.4,
+   "s": 110.7,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S1 redo",
+   "usd": 0.4,
+   "s": 109.1,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S7",
+   "usd": 0.4,
+   "s": 110.9,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S3 redo",
+   "usd": 0.4,
+   "s": 126.2,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S4 redo",
+   "usd": 0.4,
+   "s": 109.4,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S2 redo",
+   "usd": 0.4,
+   "s": 110.3,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S7",
+   "usd": 0.000624,
+   "s": 11.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S8",
+   "usd": 0.4,
+   "s": 108.6,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S8",
+   "usd": 0.000624,
+   "s": 9.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S9",
+   "usd": 0.8,
+   "s": 140.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S9",
+   "usd": 0.000829,
+   "s": 19.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S9 redo",
+   "usd": 0.8,
+   "s": 157.1,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 0",
+   "usd": 0.00132,
+   "s": 1.8,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 1",
+   "usd": 0.0012,
+   "s": 0.9,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 2",
+   "usd": 0.00188,
+   "s": 1.5,
+   "ok": true
+  },
+  {
+   "seat": "head",
+   "model": "anthropic/claude-opus-5.5",
+   "task": "final review",
+   "usd": 0.037056,
+   "s": 18.2,
    "ok": true,
    "note": null
   }

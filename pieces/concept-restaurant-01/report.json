@@ -9,10 +9,112 @@
  },
  "steps": [
   {
-   "treatment": "anthropic/claude-opus-5.5"
+   "clip": "S1",
+   "score": 3,
+   "problems": [
+    "Product morphs abruptly from flat dough to an oversized burger-like bun rather than smoothly inflating",
+    "Blister/char spots render as nonsensical grey snowflake and blob shapes instead of realistic crust spotting",
+    "Background and props flicker between frames (floating copper pot and shelf items appear, shift or melt, upper-left background is distorted in the final frame)",
+    "Characters' silhouettes and hands change and blur across frames, indicating body deformity and ghosting",
+    "Flour dust lifting off the heated surface is largely absent despite being central to the described action",
+    "Lighting on the fire and crust is inconsistent between frames, with spark and ember elements popping in erratically"
+   ]
+  },
+  {
+   "clip": "S2",
+   "score": 3,
+   "problems": [
+    "Product morphing: the skewers and meat change shape and type between frames (poultry chunks become long dark kebab strips), so the product is not consistent",
+    "Character anatomy inconsistent and deformed: hands and arms shift, stretch and vanish across frames, with an extra/undefined hand shape near the grill in the middle frame",
+    "Large blue glassy artifact and distorted shape near the hand in the middle frame that reads as a nonsense object",
+    "Third frame loses the characters and the skewers-in-hand action entirely, breaking shot continuity instead of showing the jolt impact",
+    "Fire and sparks do not read as caused by the skewers hitting the coals; the flame grows unrelated to the action",
+    "General flicker/melting of the meat product and grill grates between frames",
+    "Objects in the foreground clutter morph (pots, bread basket, tea glass change between frames)"
+   ]
+  },
+  {
+   "clip": "S3",
+   "score": 5,
+   "problems": [
+    "Deformed, melting hand and warped fingers in the end frame (malformed hand silhouette at top of frame)",
+    "Inconsistent hand anatomy across frames (finger count and shape morph between shots)",
+    "Spice particle cascade flickers and loses coherence between middle and end frame",
+    "Slight smoke/steam shape popping in end frame",
+    "Minor barrel distortion of pan and background geometry inconsistent across frames"
+   ]
+  },
+  {
+   "clip": "S4",
+   "score": 3,
+   "problems": [
+    "Bread morphs into a smooth stone-like object in the end frame, losing all crust and texture (product deformation)",
+    "Extra disembodied hands appear at the left and right edges of the middle frame",
+    "Unexplained floating bread slabs at the frame corners in the middle frame (nonsense motion)",
+    "Inconsistent product shape/continuity across the three frames",
+    "Steam obscures the action so the tearing motion reads poorly and the push-in lacks clear continuity with the bread"
+   ]
+  },
+  {
+   "clip": "S5",
+   "score": 4,
+   "problems": [
+    "Camera is essentially static across all three frames \u2014 no orbiting motion is visible",
+    "Characters' hands and forearms morph and deform between frames, fingers look melted or merged",
+    "Disembodied hands entering from the frame edges have extra/unnatural fingers and appear abruptly rather than moving smoothly",
+    "Dishes (tagine, rice plate, bread) pop in or shift shape between frames instead of landing rhythmically with coherent motion",
+    "Foreground clutter and table items flicker and change identity between frames",
+    "Plating sequence lacks logical spatial continuity \u2014 items appear out of nowhere mid-frame"
+   ]
+  },
+  {
+   "clip": "S6",
+   "score": 7,
+   "problems": [
+    "Morphing of the grandfather's head and hair: frame 1 shows bald head with no hat, frames 2-3 show a knit cap and different hairline",
+    "Sudden appearance and reconfiguration of the table between frames (absent in frame 1, full tabletop in frames 2-3) causing staging inconsistency",
+    "Girl's arms/hands change drastically between frames (raised hands with open palms to hands flat on table) with inconsistent foreshortening",
+    "Grandfather's slapping action is not clearly readable across the frames; motion reads as posing changes rather than continuous gesture",
+    "Foreground props (jugs, kettles, bread) appear and shift position between frames, adding to the morphing/melting feel of the clutter layer",
+    "Facial proportions of the boy shift between frames (head size and hair volume differ)"
+   ]
+  },
+  {
+   "clip": "S7",
+   "score": 7,
+   "problems": [
+    "Camera is essentially static across frames; the specified tilt-up along the stream from glass to pot does not occur",
+    "The metal teapot deforms and morphs between frames (spout and body shape shift, appearing soft/melting in the second and third frames)",
+    "The tea stream changes shape and width inconsistently between frames rather than a coherent slow-motion arc",
+    "Glass and foam crown keep changing contour, suggesting melting product geometry",
+    "No slow-motion droplets frozen mid-air as described; floating motes flicker between frames"
+   ]
+  },
+  {
+   "clip": "S8",
+   "score": 7,
+   "problems": [
+    "Food contents subtly morph and rearrange between frames (e.g., apricots and meat pieces shift position/shape)",
+    "The lid becomes a blurred, deformed abstract shape in the middle frame instead of reading as rigid clay",
+    "Hand/arm abruptly disappears rather than following a plausible path out of frame",
+    "Background characters blur and slightly deform in the middle frame"
+   ]
+  },
+  {
+   "clip": "S9",
+   "score": 5,
+   "problems": [
+    "The grandmother's face and body morph noticeably between frames (features, head shape and clothing shift), lacking identity consistency",
+    "The grandfather's hands are deformed and partially melt into the flatbread in frames 2 and 3; fingers fuse and bend unnaturally",
+    "The flatbread deforms frame to frame, losing its baked texture and turning into an amorphous mass in the basket",
+    "The described action of the grandmother passing the flatbread to the girl is not clearly staged; her hands and the bread drift ambiguously rather than delivering to the girl",
+    "Little to no actual push-in is visible; framing stays near-identical across the three frames, so the camera move reads as almost static rather than a slow settle",
+    "Minor flicker in the table food items and foreground clutter between frames",
+    "No text or logos present, and no extra limbs detected"
+   ]
   }
  ],
- "usd": 1.4104,
+ "usd": 8.2581,
  "keyframes": {
   "S1": {
    "score": 8,
@@ -85,5 +187,22 @@
     "Child in the middle has unclear arm/hand separation against the table"
    ]
   }
+ },
+ "verdict": {
+  "by": "anthropic/claude-opus-5.5",
+  "verdict": "fix",
+  "score": 5,
+  "notes": [
+   "Mint tea pour reads as beer. The amber liquid sits in a tall pint glass with a foamy head, which on a brief that says 'no alcohol on screen' is a disqualifying misread. Re-render as pale green-gold tea in small decorated tea glasses, with fresh mint sprigs visible, a thin stream poured from height and no foam. Make it the hero slow-mo moment the brief asks for.",
+   "The first pour frame has an exploding splash that breaks the glass silhouette and looks chaotic rather than graceful. Replace it with a controlled, slow-motion arc.",
+   "Open flames burn in the foreground around the family dining table. They read as hazardous and nonsensical. Keep the fire in the oven and grill, and let the table glow from their warm light instead.",
+   "The windows show an old-world skyline of minarets and domes. The brand is a Toronto restaurant, so it reads as generic Orientalist pastiche. Use a warm Toronto street or neutral evening exterior, or frost the glass.",
+   "The end card text jumps from right-of-centre to left-of-centre between frames, and the left version sits over faces. Lock one position, give it a darkened or blurred plate behind it, and hold it steady for the full 3s.",
+   "'Concept by Unmissed, AI-assisted' appears twice on the end card, once in the corner and once under the tagline. Keep the corner label only.",
+   "The grill flare blows out to pure white and loses the skewers. Pull the highlights back so the meat and charcoal stay readable inside the burst, and make it clear the meat is lamb or chicken.",
+   "The steam-cloud shot over the stew is ambiguous: it is unclear what the cloud is coming from. Either clarify it as a tagine lid lift or cut it for a cleaner puffing-bread close-up in the clay oven, which the brief calls out and which is currently only shown already baked.",
+   "Keep the character designs consistent across shots: the young woman in the red hijab, the grandparents and the kids. Faces drift slightly between the kitchen and table shots.",
+   "Pacing reads mostly warm and mid-tempo. To land the 'voltage' direction, open harder with faster flare, spice and bread cuts, then contrast them with the slow pour."
+  ]
  }
 }
