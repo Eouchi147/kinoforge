@@ -6,8 +6,8 @@ export const STAGES = ['Idea', 'Story', 'Style', 'Animatic', 'Review', 'Render',
 export const FILMS = [
   {
     id: 'dragon-tale', title: 'The Dragon Who Couldn’t Fly', style: 'Paper theatre', length: '2:06', format: '16:9',
-    stage: 4, media: 'dragon-tale-v1', status: 'Prototype v1 · waiting on the narrator choice',
-    next: 'Pick the narrator on the Voices page (Gate A).',
+    stage: 4, media: 'dragon-tale-v1', status: 'Prototype v1 · new narrator ready to approve',
+    next: 'Watch it with the new narrator on the Voices page, then tap “Use this narrator” (Gate A).',
     logline: 'A dragon crashes into a tiny paper kingdom. Everyone sees a monster; one small girl sees a broken wing.',
   },
   {

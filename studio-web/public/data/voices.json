@@ -1,1 +1,7 @@
-{"films": []}
+{"films": [
+ {"id": "dragon-tale", "title": "The Dragon Who Couldn’t Fly",
+  "note": "One voice, designed with VoiceStudio’s engine: an elderly British storyteller. All 5 lines passed the checks: every word right, nothing repeated, 120 to 153 words a minute, the same voice from first line to last. Watch it in the film.",
+  "takes": [
+   {"id": "omnivoice-storyteller", "name": "The storyteller", "summary": "Warm, low, unhurried. Lines at 0:00, 0:13, 1:23 and the ending.", "src": "/media/voices/dragon-tale-omnivoice.mp4"}
+  ]}
+]}

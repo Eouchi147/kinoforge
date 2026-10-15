@@ -255,11 +255,12 @@ function Voices({ status }) {
             {f.takes.map((t) => (
               <div key={t.id} className="card" style={{ background: 'rgba(255,255,255,.05)', border: '1px solid var(--edge)' }}>
                 <b>{t.name}</b><p className="faint" style={{ margin: '4px 0 10px' }}>{t.summary}</p>
-                <audio controls preload="none" src={t.src} />
+                {t.src.endsWith('.mp4') ? <video controls playsInline preload="metadata" src={t.src} style={{ width: '100%', borderRadius: 12 }} /> : <audio controls preload="none" src={t.src} />}
                 <button className="btn ghost" style={{ marginTop: 10 }} onClick={() => choose(f.id, t.id)}>Use this narrator</button>
               </div>
             ))}
           </div>
+          <p className="faint" style={{ margin: '12px 0 0' }}>Not right? Tell the director what to change (older, warmer, a woman’s voice…) and it will design a new one.</p>
           {saved[f.id] && <p className="faint" role="status">{saved[f.id]}</p>}
         </motion.section>
       ))}
