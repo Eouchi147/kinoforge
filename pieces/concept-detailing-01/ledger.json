@@ -1,10 +1,12 @@
 {
  "cap": 10.0,
- "total": 1.56355,
+ "total": 7.61069,
  "by_seat": {
-  "head": 0.09785,
+  "head": 0.13295,
   "image": 1.44689,
-  "eyes": 0.01881
+  "eyes": 0.02659,
+  "video": 6.0,
+  "voice": 0.00428
  },
  "calls": [
   {
@@ -241,6 +243,223 @@
    "task": "look S8",
    "usd": 0.002731,
    "s": 58.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S3",
+   "usd": 0.4,
+   "s": 108.9,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S6",
+   "usd": 0.4,
+   "s": 111.0,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S1",
+   "usd": 0.4,
+   "s": 123.9,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S4",
+   "usd": 0.4,
+   "s": 124.4,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S2",
+   "usd": 0.4,
+   "s": 124.6,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S5",
+   "usd": 0.4,
+   "s": 125.8,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S3",
+   "usd": 0.000695,
+   "s": 16.4,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S6",
+   "usd": 0.000663,
+   "s": 12.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S5",
+   "usd": 0.000695,
+   "s": 14.5,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S1",
+   "usd": 0.000738,
+   "s": 17.3,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S4",
+   "usd": 0.000828,
+   "s": 25.4,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S2",
+   "usd": 0.000929,
+   "s": 23.7,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S3 redo",
+   "usd": 0.4,
+   "s": 109.3,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S6 redo",
+   "usd": 0.4,
+   "s": 108.8,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S5 redo",
+   "usd": 0.4,
+   "s": 108.7,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S1 redo",
+   "usd": 0.4,
+   "s": 109.4,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S4 redo",
+   "usd": 0.4,
+   "s": 109.6,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S7",
+   "usd": 0.4,
+   "s": 124.0,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S7",
+   "usd": 0.001398,
+   "s": 37.7,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S8",
+   "usd": 0.8,
+   "s": 142.6,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S7 redo",
+   "usd": 0.4,
+   "s": 110.5,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S8",
+   "usd": 0.001819,
+   "s": 56.6,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 0",
+   "usd": 0.00132,
+   "s": 0.8,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 1",
+   "usd": 0.00148,
+   "s": 0.9,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 2",
+   "usd": 0.00148,
+   "s": 0.9,
+   "ok": true
+  },
+  {
+   "seat": "head",
+   "model": "anthropic/claude-opus-5.5",
+   "task": "final review",
+   "usd": 0.035096,
+   "s": 19.0,
    "ok": true,
    "note": null
   }

@@ -9,10 +9,101 @@
  },
  "steps": [
   {
-   "treatment": "anthropic/claude-opus-5.5"
+   "clip": "S1",
+   "score": 4,
+   "problems": [
+    "Two or more car bodies coexist in the same frames \u2014 the vehicle identity morphs and duplicates between start, middle and end frames instead of one continuous car",
+    "The car is depicted floating/levitating overhead rather than rolling forward on the ground with its tyre passing inches above the lens \u2014 physics of the intended motion is wrong",
+    "Underside geometry is inconsistent and deformed between frames, with parts of a second vehicle visible beneath the underbody in the end frame (nonsense motion and anatomy)",
+    "No grit or debris seen falling from the tyre as specified; the key action beat of the shot is missing",
+    "Background garage clutter and vehicle positions shift between frames, indicating flicker and unstable scene continuity",
+    "Camera does not convincibly tilt up to follow the underside \u2014 the perspective jumps rather than tilts smoothly"
+   ]
+  },
+  {
+   "clip": "S2",
+   "score": 6,
+   "problems": [
+    "Mid frame: nonsensical dark oval holes/deformations appearing on the hood surface that melt away in the end frame, inconsistent detail warping across frames",
+    "End frame: front grille and bumper shapes are melted/deformed with irregular asymmetric openings, distorted product geometry",
+    "Foam coverage and hood contour morph between mid and end frames, inconsistent sculpted 3D forms",
+    "Minor hand/tool distortion around the foam cannon grip in the start frame",
+    "Foam blast stream continuity weakens into the push-in; camera appears to pass the stream without clear leading motion along it"
+   ]
+  },
+  {
+   "clip": "S3",
+   "score": 3,
+   "problems": [
+    "Hand and glove fingers morph and merge with the clay bar across frames, with distorted/extra finger shapes",
+    "An unexplained metallic artifact appears near the tool in the middle frame, melting into the panel",
+    "The clay bar and pad deform and change shape between frames instead of holding a rigid product form",
+    "Motion is nonsense: the panel shows a swirling circular trail rather than one firm linear stroke of grit, and the tool seems stuck while the surface rotates",
+    "Flickering, inconsistent foam/water reflections on the paint between frames break the tracked-camera continuity"
+   ]
+  },
+  {
+   "clip": "S4",
+   "score": 5,
+   "problems": [
+    "Polisher motion is inconsistent: the pad moves left from frame 1 to 2 then shifts back right in frame 3, so the single left-to-right sweep is not maintained",
+    "Swirl marks do not vanish behind the pad; concentric swirl patterns remain across the hood in all three frames",
+    "The overhead hexagonal LED reflection is drawn into the paint with strange concentric ring artifacts and seems to deform/duplicate between frames",
+    "Polisher pad and head deform noticeably between frames (shape and thickness change), reading as melting/morphing",
+    "The moving arm and forearm anatomy shifts and reshapes across frames",
+    "Background elements (tripod lights, shelf, cart) shift position/scale inconsistently, causing mild flicker and instability",
+    "Camera does not visibly whip-track with the pad; framing stays nearly static with only subtle drift"
+   ]
+  },
+  {
+   "clip": "S5",
+   "score": 5,
+   "problems": [
+    "Camera does not push up toward his focused face as directed; framing stays largely static inside the car",
+    "Background car morphs and melts across frames \u2014 front bumper/grille, headlights and wheel rims change shape and deformation",
+    "Wheels distort and flicker in frame 3, tires/rims not geometrically consistent",
+    "Steam plume grows in a slightly nonsensical way, blooming toward the camera rather than rolling across the seat",
+    "Subtle body/arm deformation of the worker between frames, glove and wand continuity shifts",
+    "Inconsistent background garage elements (walls, open bay) flicker between frames"
+   ]
+  },
+  {
+   "clip": "S6",
+   "score": 5,
+   "problems": [
+    "Water never forms clean round beads on the ceramic coat; instead it splashes chaotically and leaves large amorphous blobs and foam-like spheres floating in mid-air",
+    "Floating water blobs morph and change shape inconsistently between frames instead of reading as frozen droplets",
+    "Final frame shows smeared, melted-looking streaks on the paint surface rather than discrete beads rolling off the edge",
+    "Camera drift sideways is barely perceptible; framing is largely static across the three frames",
+    "No clear bead roll-off or droplets passing close to the lens as described in the shot"
+   ]
+  },
+  {
+   "clip": "S7",
+   "score": 4,
+   "problems": [
+    "The car morphs across the frames: front fascia, headlights, grille/hood sculpting and bumper geometry all change shape between start, middle and end \u2014 a critical flaw for a product shot",
+    "Wheels are inconsistent: dark multi-spoke rims in frames 1-2 turn into silver 5-spoke rims in frame 3",
+    "Camera motion does not match the brief: it reads as a slow pull-back/reposition rather than an orbit across the hood, and no light-bar reflection slides along the paint",
+    "Background vehicle and garage clutter (buckets, hoses, towels, wrenches) flicker and shift position/shape between frames",
+    "Ceiling LED fixture geometry changes between frames (segmented hex bars become plain strips)",
+    "Foreground hose texture/shape changes between frames (ribbed orange-striped hose becomes smooth black hose)"
+   ]
+  },
+  {
+   "clip": "S8",
+   "score": 6,
+   "problems": [
+    "Camera motion contradicts the brief: instead of a slow steady pull back, the car and subject grow larger and more centered across frames, reading as a push-in or lens widening.",
+    "Subtle car morphing: front end, headlight cluster and bumper detail change shape between frames, and the front wheel spoke design is inconsistent.",
+    "Headlight illumination flickers across frames \u2014 lit bright in frames 1-2, dimmer/oddly re-lit in frame 3.",
+    "The detailer's 'two slow steps back' barely reads: he is nearly static between frames 2 and 3, and his hands/arms are slightly muddled in frame 1.",
+    "Foreground clutter (buckets, hoses, bottles) shifts position and count between frames rather than holding as a layered plane.",
+    "Frame 3 lacks genuinely calm negative space for the end card \u2014 the composition is busy with hoses, buckets and the subject filling most of the frame."
+   ]
   }
  ],
- "usd": 1.5635,
+ "usd": 7.6107,
  "keyframes": {
   "S1": {
    "score": 7,
@@ -78,5 +169,23 @@
     "Style mismatch: The frame is too photorealistic/CG-digital, lacking the requested anime-illustration finish and cel-like shading."
    ]
   }
+ },
+ "verdict": {
+  "by": "anthropic/claude-opus-5.5",
+  "verdict": "fix",
+  "score": 5,
+  "notes": [
+   "The core idea is missing. The car is already glossy teal in frame 1, so there is no salt-grey winter 'before' state and no transformation. Open on a dull, salt-crusted, grey-filmed car rolling into a dark bay. Then hold the same car, same angle, at the reveal, so the payoff reads as before and after.",
+   "Frame 1 is incoherent: a wheel hangs upside down at top left and the space is confusing. Replace it with a clean establishing shot of the car entering the bay with headlights cutting through the dark.",
+   "Frame 3, the foam close-up, shows garbled letter-like artifacts on the hood ('BAUL\u2026'). That is a clear AI tell; regenerate it as clean foam texture with no glyphs.",
+   "Frames 7-8 are a chaotic crown splash on the hood, not water beading off ceramic coating. The brief asks for tight macro beads rolling off a hydrophobic surface. That shot sells the product; the explosion does not.",
+   "The polisher shot should show swirls disappearing in one pass: a split surface, hazy behind and mirror ahead. The current frame is just a hand on a polisher.",
+   "The steam/interior shot (frame 6) has steam aimed at the exterior from an interior POV, which is spatially confusing. Either commit to a clean interior deep-clean beat or cut it.",
+   "The light-bar reflection beat (frames 9-11) is the strongest material. Linger on a crisp, undistorted hexagon or light-bar reflection in the hood as the hero frame.",
+   "The ending inverts the brief. The detailer walks toward the camera, posing, instead of stepping back to admire the car. Restage it: he steps back into frame edge and the car is the hero.",
+   "The end-card text sits over a busy, foggy image, so 'Your car. Like the first day.' is low-contrast and small. Either darken or blur the plate or go straight to the black card. Also, the concept label appears both in the card body and as the corner label; keep only the corner label.",
+   "The look is crushed orange/teal with heavy haze on every frame, which feels generic and stock. Vary the lighting: start cold and grey, end crisp and clean-white, so the grade itself tells the salt-to-mirror story.",
+   "Check that no badges or logos appear on the car; the grille emblem area in frame 11 should be clearly blank."
+  ]
  }
 }
