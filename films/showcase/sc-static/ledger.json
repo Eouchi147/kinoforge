@@ -1,0 +1,41 @@
+{
+ "cap": 0.6,
+ "total": 0.19358,
+ "by_seat": {
+  "coder": 0.19358
+ },
+ "calls": [
+  {
+   "seat": "coder",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "write",
+   "usd": 0,
+   "s": 525.5,
+   "ok": false
+  },
+  {
+   "seat": "coder",
+   "model": "anthropic/claude-haiku-5.5",
+   "task": "write",
+   "usd": 0,
+   "s": 156.5,
+   "ok": false
+  },
+  {
+   "seat": "coder",
+   "model": "z-ai/glm-5.3-flash",
+   "task": "write",
+   "usd": 0.0195589,
+   "s": 197.3,
+   "ok": false
+  },
+  {
+   "seat": "coder",
+   "model": "z-ai/glm-5.3",
+   "task": "write",
+   "usd": 0.1740164,
+   "s": 294.7,
+   "ok": false
+  }
+ ]
+}

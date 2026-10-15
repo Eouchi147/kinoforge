@@ -1,0 +1,17 @@
+{
+ "id": "sc-paper",
+ "template": "p16-dragon-tale",
+ "kind": "web",
+ "writer": "xiaomi/mimo-v2.6-pro",
+ "repairs": [
+  [
+   "audio.py failed:\n/opt/hostedtoolcache/Python/3.13.16/x64/bin/python3: can't open file '/home/runner/work/kinoforge/kinoforge/proto/sc-paper/audio.py': [Errno 2] No such file or directory\n"
+  ]
+ ],
+ "eyes": null,
+ "ok": false,
+ "usd": 0.3062,
+ "problems": [
+  "audio.py failed:\n/opt/hostedtoolcache/Python/3.13.16/x64/bin/python3: can't open file '/home/runner/work/kinoforge/kinoforge/proto/sc-paper/audio.py': [Errno 2] No such file or directory\n"
+ ]
+}
