@@ -1,11 +1,11 @@
 {
  "cap": 6.0,
- "total": 5.37373,
+ "total": 5.73505,
  "by_seat": {
   "head": 0.30519,
   "image": 2.74853,
-  "eyes": 0.03577,
-  "video": 2.28,
+  "eyes": 0.03709,
+  "video": 2.64,
   "voice": 0.00424
  },
  "calls": [
@@ -833,6 +833,48 @@
    "task": "vo 2",
    "usd": 0.00136,
    "s": 1.0,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S6",
+   "usd": 0.12,
+   "s": 49.1,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S10",
+   "usd": 0.12,
+   "s": 50.5,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S6",
+   "usd": 0.000595,
+   "s": 10.8,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S10",
+   "usd": 0.000722,
+   "s": 16.3,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-lite",
+   "task": "clip S10 redo",
+   "usd": 0.12,
+   "s": 65.0,
    "ok": true
   }
  ]
