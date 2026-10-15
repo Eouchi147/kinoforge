@@ -226,7 +226,7 @@
   }
  ],
  "omni": {
-  "ref_audio": "voice/refs/moon-voicestudio.wav",
+  "ref_audio": "voice/refs/moon-voicestudio.flac",
   "ref_text": "On the far side, opposite the Sun, you see all of it. Full moon."
  }
 }
