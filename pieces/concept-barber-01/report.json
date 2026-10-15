@@ -7,11 +7,7 @@
   "image": "bytedance-seed/seedream-5-0-pro",
   "cap": 10.0
  },
- "steps": [
-  {
-   "treatment": "google/gemini-4-argon"
-  }
- ],
+ "steps": [],
  "usd": 1.3727,
  "keyframes": {
   "S1": {

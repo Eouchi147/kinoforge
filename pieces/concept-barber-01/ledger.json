@@ -1,10 +1,11 @@
 {
  "cap": 10.0,
- "total": 1.37267,
+ "total": 4.97618,
  "by_seat": {
   "head": 0.02596,
   "image": 1.33223,
-  "eyes": 0.01449
+  "eyes": 0.01801,
+  "video": 3.6
  },
  "calls": [
   {
@@ -227,6 +228,139 @@
    "s": 20.7,
    "ok": true,
    "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S4",
+   "usd": 0.4,
+   "s": 109.1,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S1",
+   "usd": 0.4,
+   "s": 110.5,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S2",
+   "usd": 0.4,
+   "s": 111.3,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S3",
+   "usd": 0.4,
+   "s": 111.5,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S6",
+   "usd": 0.0,
+   "s": 114.4,
+   "ok": false
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S5",
+   "usd": 0.4,
+   "s": 125.6,
+   "ok": true
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S4",
+   "usd": 0.000607,
+   "s": 13.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S1",
+   "usd": 0.000665,
+   "s": 14.8,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S3",
+   "usd": 0.000686,
+   "s": 15.7,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S2",
+   "usd": 0.00069,
+   "s": 31.5,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "eyes",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "check S5",
+   "usd": 0.00086,
+   "s": 31.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S4 redo",
+   "usd": 0.4,
+   "s": 110.6,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S1 redo",
+   "usd": 0.4,
+   "s": 110.5,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S6 retry",
+   "usd": 0.0,
+   "s": 126.6,
+   "ok": false
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S3 redo",
+   "usd": 0.4,
+   "s": 110.4,
+   "ok": true
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "clip S2 redo",
+   "usd": 0.4,
+   "s": 110.4,
+   "ok": true
   }
  ]
 }
