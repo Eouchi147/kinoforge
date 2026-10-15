@@ -1,0 +1,21 @@
+{
+ "before": {
+  "usage": 29.371240042,
+  "limit": 50,
+  "remaining": 20.628759958
+ },
+ "after": {
+  "usage": 29.461240042,
+  "limit": 50,
+  "remaining": 20.538759958
+ },
+ "board_spent": 0.09,
+ "ledger_total": 1.47,
+ "frames": {
+  "cut-bread": "bytedance-seed/seedream-5-0-pro",
+  "cut-tea": "bytedance-seed/seedream-5-0-pro",
+  "freeze-2": "bytedance-seed/seedream-5-0-pro",
+  "freeze-1-move": "google/veo-3.1-fast",
+  "freeze-2-move": "google/veo-3.1-fast"
+ }
+}
