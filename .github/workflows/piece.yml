@@ -23,7 +23,7 @@ jobs:
         run: |
           set -o pipefail
           gh release view pieces > /dev/null 2>&1 || gh release create pieces --title "pieces" --notes "Shot-factory test pieces (concept work, not published)." || true
-          ( while sleep 60; do [ -f /tmp/$P.log ] && gh release upload pieces /tmp/$P.log --clobber > /dev/null 2>&1; done ) &
+          ( n=0; while sleep 60; do n=$((1-n)); [ -f /tmp/$P.log ] && cp /tmp/$P.log /tmp/$P.live$n.log && gh release upload pieces /tmp/$P.live$n.log --clobber > /dev/null 2>&1; done ) &
           python3 -u harness/shots/factory.py pieces/$P 2>&1 | tee /tmp/$P.log
       - name: publish
         if: always()
