@@ -20,5 +20,11 @@
   "cta": "Book at smartmount.ca"
  },
  "notes": "Characters invented (an installer, a young family). No real people. The TV screen shows soft abstract colour, never text or recognisable content. No text or logos generated anywhere.",
- "stop_after": "keyframes"
+ "cap_usd": 6.0,
+ "clip_audio": false,
+ "redo_keyframes": {
+  "S6": 1,
+  "S10": 1,
+  "S11": 1
+ }
 }

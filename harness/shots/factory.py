@@ -329,6 +329,13 @@ def main(pdir):
         if not os.path.exists(o): image(B, T['image'], f'{r["prompt"]}\nStyle: {look_txt}\nA clean reference image. No text, no letters, no logos.', [], o, f'ref {r["id"]}')
         refs[r['id']] = o
     log('references', list(refs))
+    # fix notes: brief.redo_keyframes = {"S6": 1, ...}; each (shot, version) is redone exactly once
+    applied_p = os.path.join(pdir, 'work', 'redo.json'); applied = json.load(open(applied_p)) if os.path.exists(applied_p) else {}
+    for sid, ver in (brief.get('redo_keyframes') or {}).items():
+        if applied.get(sid) != ver:
+            for f_ in glob.glob(os.path.join(pdir, 'work', f'kf-{sid}.*')) + glob.glob(os.path.join(pdir, 'work', f'clip-{sid}.*')): os.remove(f_)
+            applied[sid] = ver; log(f'{sid}: redo requested (v{ver})')
+    json.dump(applied, open(applied_p, 'w'))
     kfs = []
     for s in t['shots']:
         o = os.path.join(pdir, 'work', f'kf-{s["id"]}.png'); rr = [refs[x] for x in s['refs'] if x in refs]
@@ -364,13 +371,14 @@ def main(pdir):
         o = os.path.join(pdir, 'work', f'clip-{s["id"]}.mp4')
         mp = f'{s["motion"]}. {look_txt} Smooth, physically plausible motion; subjects keep their exact appearance; no text appears.'
         if os.path.exists(o): return o, None
-        try: clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]}')
-        except AllFailed as e: log('clip failed, one retry:', e); clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} retry')
+        au = bool(brief.get('clip_audio', True))
+        try: clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]}', audio=au)
+        except AllFailed as e: log('clip failed, one retry:', e); clip(B, tier, mp, kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} retry', audio=au)
         fr = frames_of(o, 3, os.path.join(pdir, 'work'), f'chk-{s["id"]}')
         v = look(B, f'check {s["id"]}', f'Three frames (start, middle, end) of one shot of a premium ad in this look: {look_txt}\nThe shot: "{s["motion"]}". Score 0-10. Problems: morphing, melting or deformed bodies or product, extra limbs, flicker, text, nonsense motion.', fr)
         if v['score'] < 6 and B.led.room(PRICE.get(T['video'], {}).get(T['res'], 0.4) * s['seconds'] * 1.1):
             log(f'{s["id"]} clip {v["score"]}: regenerate once ({v["problems"][:2]})'); os.rename(o, o + '.rejected.mp4')
-            clip(B, tier, mp + ' Avoid: ' + '; '.join(v['problems'][:4]), kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} redo')
+            clip(B, tier, mp + ' Avoid: ' + '; '.join(v['problems'][:4]), kf, s['seconds'], brief.get('aspect', '16:9'), o, f'clip {s["id"]} redo', audio=bool(brief.get('clip_audio', True)))
         return o, {'clip': s['id'], 'score': v['score'], 'problems': v['problems']}
     import concurrent.futures as cf
     with cf.ThreadPoolExecutor(6) as ex:     # video jobs run in parallel at the provider; we only wait
