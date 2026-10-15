@@ -1,0 +1,16 @@
+{
+ "id": "smartmount-01",
+ "tier": "draft",
+ "models": {
+  "video": "google/veo-3.1-lite",
+  "res": "720p",
+  "image": "google/gemini-nano-banana-2.1",
+  "cap": 4.0
+ },
+ "steps": [
+  {
+   "treatment": "anthropic/claude-opus-5.5"
+  }
+ ],
+ "usd": 0.3052
+}

@@ -1,8 +1,9 @@
 {
  "cap": 4.0,
- "total": 0.18097,
+ "total": 0.41541,
  "by_seat": {
-  "head": 0.18097
+  "head": 0.30519,
+  "image": 0.11022
  },
  "calls": [
   {
@@ -22,6 +23,39 @@
    "s": 58.6,
    "ok": true,
    "note": null
+  },
+  {
+   "seat": "head",
+   "model": "anthropic/claude-opus-5.5",
+   "task": "treatment",
+   "usd": 0.124219,
+   "s": 75.8,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-nano-banana-2.1",
+   "task": "ref installer",
+   "usd": 0.03701,
+   "s": 9.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-nano-banana-2.1",
+   "task": "ref family",
+   "usd": 0.0368,
+   "s": 9.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "google/gemini-nano-banana-2.1",
+   "task": "ref tv_mount",
+   "usd": 0.03641,
+   "s": 7.9,
+   "ok": true
   }
  ]
 }

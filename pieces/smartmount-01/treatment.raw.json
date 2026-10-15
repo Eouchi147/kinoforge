@@ -1,5 +1,205 @@
 {
- "id": "installer",
- "what": "character",
- "prompt": "Full-body stylised painterly 3D character with anime-illustration finish, standing relaxed on a neutral mid-grey background: an invented installer, a man in his mid-thirties, warm brown skin, short neat black hair with a trimmed beard, calm half-smile, confident relaxed eyes; plain deep teal work shirt with rolled sleeves, charcoal work trousers, tan leather tool belt with a drill holster and a small bubble level, sturdy orange-soled work boots, small black wristwatch. Plain clothing with no logos, no text, no patches. Crisp rim light, cel-like shading, hand-painted texture."
+ "title": "The Install Job",
+ "logline": "A calm pro hangs a family's new TV like he's pulling off an action-movie heist: tools out, drill bites, bracket locks, the screen glides onto the wall, the wires vanish, and movie night begins.",
+ "look": "Stylised painterly 3D with an anime-illustration finish: sculpted 3D forms with cel-like two-tone shading, hand-painted textures on walls, wood and fabric, crisp rim light on every edge, rich ambient occlusion in corners. Bold complementary palette of saturated sunset orange against deep teal, with deep inky blacks in the shadows. Warm golden afternoon light rakes through a large window into a modern living room; cool teal fill in the shadows. The air is full of atmosphere: god rays, floating dust motes, drywall dust bursts frozen mid-air, the odd spark. Ultra-wide 14-18 mm lenses close to the subject with forced perspective and slight barrel distortion, extreme low angles, occasional top-down and Dutch tilts, layered foreground clutter of tools, cables and packaging for depth, macro hero inserts on decisive details. Punchy, high-contrast grade with lifted saturation, subtle film grain and gentle bloom on highlights. Characters are expressive, appealing and fully clothed. No text, letters, logos or labels anywhere; the TV screen shows only soft abstract colour gradients.",
+ "references": [
+  {
+   "id": "installer",
+   "what": "character",
+   "prompt": "Full-body character reference of an invented male TV installer in his mid-30s, stylised painterly 3D with anime-illustration finish, standing relaxed in a neutral three-quarter pose on a plain light grey background. Warm brown skin, short neat black beard, close-cropped hair, calm half-smile, confident heavy-lidded eyes. Deep teal zip work jacket with sleeves pushed to the forearms over a plain charcoal t-shirt, dark slim work trousers with knee panels, burnt-orange work gloves, scuffed tan work boots, a black tool belt with a drill holster. Clean, plain, unbranded clothing with no text, no logos and no patches. Crisp rim light, soft even studio fill, cel-like shading."
+  },
+  {
+   "id": "family",
+   "what": "character",
+   "prompt": "Full-body character reference of an invented young family standing side by side on a plain light grey background, stylised painterly 3D with anime-illustration finish. A woman in her early 30s with a curly auburn bob, freckles and a mustard knit sweater over jeans. A man in his early 30s, East Asian, wearing round glasses and a navy hoodie with joggers. Their daughter, about 7, with two puffy pigtails, wearing a bright orange dinosaur-print pyjama top, teal leggings and fluffy socks. All expressive and appealing, fully clothed, everything plain and unbranded with no text or logos. Soft even studio light with crisp rim light and cel-like shading."
+  },
+  {
+   "id": "tv_mount",
+   "what": "product",
+   "prompt": "Product reference of a large 75-inch ultra-thin flat-screen TV with a near-borderless matte black bezel. Its screen glows with a soft abstract orange-to-teal gradient, and behind it is a sleek low-profile matte black steel wall-mount bracket with two vertical arms and a horizontal rail with rounded edges. Shown floating on a plain neutral grey background, slightly angled to reveal the bracket and the TV's thin side profile. Stylised painterly 3D render with crisp rim light. No text, no logos, no buttons with markings, no labels."
+  },
+  {
+   "id": "living_room",
+   "what": "location",
+   "prompt": "A modern, cosy living room in stylised painterly 3D with anime-illustration finish. On one side is a large blank warm-white feature wall with nothing on it. Opposite it sits a deep teal velvet sofa with orange cushions, a low oak coffee table and a woven rug, with a big window on the side throwing golden afternoon god rays full of dust motes. Potted monstera plants and a few open moving boxes sit in the corner. The palette is orange sun against teal shadow, with deep blacks under the furniture. No text, no posters with writing, no logos anywhere."
+  }
+ ],
+ "shots": [
+  {
+   "id": "S1",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.5,
+   "speed": "normal",
+   "refs": [
+    "installer",
+    "living_room"
+   ],
+   "keyframe": "Extreme low angle from the floor with a 14 mm lens, an unopened TV box looming huge in the foreground on the left. In the open front doorway the installer stands as a full-body silhouette against blazing orange backlight, god rays and dust pouring around him, a heavy black tool case hanging from one hand. His teal jacket picks up a cool rim light, his face is calm, and the frame carries a slight Dutch tilt.",
+   "motion": "The installer steps forward over the threshold and swings the tool case down toward the lens, while the camera crash-zooms in on the case as it drops to the floor with a puff of dust.",
+   "transition": "fade_from_black"
+  },
+  {
+   "id": "S2",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.2,
+   "speed": "normal",
+   "refs": [
+    "installer"
+   ],
+   "keyframe": "Top-down ultra-wide view of a black tool case lying closed on a wooden floor, the installer's orange-gloved hands gripping both latches. Warm sunlight slashes across the frame and teal shadow fills the edges.",
+   "motion": "The latches flip and the lid snaps open, revealing a drill, a long level, a stud finder and drill bits nestled like weapons in foam. Light glints across the metal edges as the camera pushes down fast toward them.",
+   "transition": "flash"
+  },
+  {
+   "id": "S3",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.0,
+   "speed": "normal",
+   "refs": [
+    "installer",
+    "living_room"
+   ],
+   "keyframe": "Ultra-wide close shot along the blank warm-white wall, with the installer's gloved hand in the foreground pressing a compact laser level against the plaster. His calm face sits soft in the background, rim-lit in orange.",
+   "motion": "A thin glowing teal laser line snaps out across the whole wall in an instant as the camera whips along it, following the line to the far edge.",
+   "transition": "cut"
+  },
+  {
+   "id": "S4",
+   "seconds": 4,
+   "use_from": 0.8,
+   "use": 1.0,
+   "speed": "normal",
+   "refs": [
+    "installer"
+   ],
+   "keyframe": "Macro view of a drill bit tip touching the white wall exactly on the teal laser line, with the drill body huge and close in the foreground. The installer's orange glove grips the drill and backlit dust hangs in the air.",
+   "motion": "The bit spins and bites into the wall, and a burst of fine white dust sprays outward and glitters in the sunlight while the camera shakes with short handheld energy.",
+   "transition": "flash"
+  },
+  {
+   "id": "S5",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.2,
+   "speed": "normal",
+   "refs": [
+    "installer",
+    "tv_mount"
+   ],
+   "keyframe": "Extreme low angle looking up the wall at the matte black mount bracket being pressed flat against the plaster by two orange-gloved hands. Strong orange rim light runs along the steel edges, the background falls into teal shadow, and the frame has a Dutch tilt.",
+   "motion": "The final bolt is driven home and the bracket seats firmly with a tiny recoil, while the camera pushes in fast and stops dead on the impact.",
+   "transition": "cut"
+  },
+  {
+   "id": "S6",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.0,
+   "speed": "normal",
+   "refs": [
+    "family",
+    "living_room"
+   ],
+   "keyframe": "Ultra-wide close shot over the back of the teal sofa, with the daughter's wide eyes and pigtails peeking above the cushions in the foreground. Her parents crouch behind her, half-hidden and curious, all lit by warm window light.",
+   "motion": "The daughter's jaw drops in delight and she clutches the cushion, while the parents lean in behind her as the camera nudges in slightly.",
+   "transition": "cut"
+  },
+  {
+   "id": "S7",
+   "seconds": 4,
+   "use_from": 1.0,
+   "use": 2.5,
+   "speed": "slow",
+   "refs": [
+    "installer",
+    "tv_mount",
+    "living_room"
+   ],
+   "keyframe": "Low wide angle from beside the sofa, looking up at the installer lifting the huge ultra-thin TV toward the bracket on the wall. The TV is caught mid-air in his steady hands, its dark screen catching an orange reflection of the window, with god rays and drifting dust filling the space between it and the wall.",
+   "motion": "In slow motion the TV glides up and settles onto the bracket with perfect smoothness, as dust motes swirl in its wake and the camera orbits slowly around in a low arc.",
+   "transition": "flash"
+  },
+  {
+   "id": "S8",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.2,
+   "speed": "normal",
+   "refs": [
+    "installer",
+    "tv_mount"
+   ],
+   "keyframe": "Macro view of the wall just below the mounted TV, where loose black cables dangle and the installer's orange-gloved fingers guide them toward a small neat opening in the plaster. The scene is lit by warm side light against teal shadow.",
+   "motion": "The cables zip into the wall and vanish in one smooth pull, and a flush white cover plate presses into place, leaving a perfectly clean wall as the camera tilts up fast to the TV's edge.",
+   "transition": "cut"
+  },
+  {
+   "id": "S9",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.2,
+   "speed": "normal",
+   "refs": [
+    "installer",
+    "tv_mount"
+   ],
+   "keyframe": "Ultra-wide close shot with a slim level resting on top of the mounted TV in the foreground, its bubble vial glowing teal and centred perfectly. Behind it the installer's calm face is rim-lit in orange, one eyebrow slightly raised.",
+   "motion": "The installer taps the level once with a gloved finger, the bubble holds dead centre, and he gives a small satisfied nod while the camera pushes in on the bubble.",
+   "transition": "cut"
+  },
+  {
+   "id": "S10",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.5,
+   "speed": "normal",
+   "refs": [
+    "family",
+    "living_room"
+   ],
+   "keyframe": "Low angle from the rug in front of the teal sofa, with a bowl of popcorn in the foreground on the coffee table. The family stands at the edge of the frame mid-leap toward the couch in full body, laughing, with golden light behind them.",
+   "motion": "All three flop onto the sofa together, the cushions bounce, and popcorn flies up and hangs in the air, while the camera tilts up with handheld energy.",
+   "transition": "whip"
+  },
+  {
+   "id": "S11",
+   "seconds": 8,
+   "use_from": 0.5,
+   "use": 6.7,
+   "speed": "normal",
+   "refs": [
+    "family",
+    "installer",
+    "tv_mount",
+    "living_room"
+   ],
+   "keyframe": "A calm, symmetrical wide hero shot of the living room at dusk. The huge TV hangs perfectly level on the clean wall with no visible cables, its screen glowing a soft abstract orange-to-teal gradient that washes the room. The family is cuddled on the teal sofa under a blanket with popcorn, while the installer stands full-body in the doorway at the side, backlit, tool case in hand.",
+   "motion": "The installer gives a small two-finger salute and steps out of frame, and the family settles in as the camera slowly pushes in, the abstract screen colours drifting gently. The last seconds hold still and calm with space at the centre of the frame.",
+   "transition": "cut"
+  }
+ ],
+ "voiceover": [
+  {
+   "start": 2.0,
+   "text": "[confidently] You bought the big TV."
+  },
+  {
+   "start": 7.2,
+   "text": "[with a smile] Leave the wall to us."
+  },
+  {
+   "start": 14.0,
+   "text": "Four point eight stars. Zero mess."
+  }
+ ],
+ "voice": "chris",
+ "music": "A punchy hip-hop breakbeat trailer cue at 110 BPM with no vocals. It opens on a deep sub-bass hit and a tense riser over the hook, then builds into an escalating montage of tight breakbeat drums, chopped brass stabs, record scratches synced to the drill, and a heavy snare on every impact flash. A half-time drop with a big boom and a shimmering pad lands on the slow-motion TV glide, then the beat snaps back for the wires and the couch flop. It resolves into a warm, laid-back lo-fi groove with soft Rhodes chords and a final satisfying button hit on the end card. The mood moves from swaggering heist tension to a confident, funny, cosy payoff.",
+ "end_card": {
+  "brand": "Smart Mount",
+  "line": "Mounted right. The first time.",
+  "cta": "Book at smartmount.ca"
+ }
 }
