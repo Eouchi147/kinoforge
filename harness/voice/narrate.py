@@ -68,7 +68,7 @@ def chatterbox_engine():
     from chatterbox.tts import ChatterboxTTS
     torch.manual_seed(0)
     m = ChatterboxTTS.from_pretrained(device='cpu')
-    ref = kokoro_reference(os.path.join(OUT, 'reference.wav'), REF_TEXT)
+    ref = os.environ.get('KF_REF') or kokoro_reference(os.path.join(OUT, 'reference.wav'), REF_TEXT)
     def gen(line, take):
         torch.manual_seed(1000 * take + 7)
         ex = float(line.get('exaggeration', 0.5)) + [0.0, 0.1, -0.08][take % 3]

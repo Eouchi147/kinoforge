@@ -1,0 +1,17 @@
+{
+ "runs": [
+  {
+   "job": "voice/jobs/dragon-tale.json",
+   "engines": [
+    "chatterbox"
+   ]
+  },
+  {
+   "job": "voice/jobs/moon-lesson.json",
+   "engines": [
+    "chatterbox"
+   ]
+  }
+ ],
+ "note": "Gate A A/B: Chatterbox re-run"
+}
