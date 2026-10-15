@@ -128,7 +128,7 @@ function Director({ status, go }) {
     const r = await fetch('/api/film', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ brief, transcript: msgs }) });
     const j = await r.json(); setSaved(j.saved ? `Saved as films/${j.id}. The build agent picks it up from here.` : j.code === 'no-github' ? 'Connect GitHub on the Setup page so the studio can save and build films.' : j.error);
   }
-  const lastStep = [...msgs].reverse().find((m) => m.step)?.step;
+  const lastStep = [...msgs].reverse().find((m) => m.step && / /.test(m.step) && m.step.length > 15)?.step;   // only real sentences, never internal tokens
   const nextForSam = !status ? 'Checking the studio…' : !status.openrouter ? 'Connect the director’s brain: add your OpenRouter key (Setup, 4 short steps).' : saved ? saved : ready ? 'The story is ready. Tap “Build this film”.' : lastStep || 'Talk with the director. Tap an answer or type your own.';
 
   return (

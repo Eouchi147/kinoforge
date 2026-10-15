@@ -46,6 +46,18 @@ Hard rules (the studio's rulebook):
 - A hook in the first 3 seconds, beats linked by "but" or "therefore", a clear ending image.
 Reply only with the JSON object.`;
 
+// Free models sometimes return internal tokens ("choose_concept") or stray shapes; keep only what Sam should see.
+function clean(d = {}) {
+  const sentence = (s) => typeof s === 'string' && / /.test(s.trim()) && s.trim().length > 15 ? s.trim() : null;
+  return {
+    say: typeof d.say === 'string' ? d.say.trim() : '',
+    options: Array.isArray(d.options) ? d.options.filter((o) => typeof o === 'string' && o.trim()).slice(0, 4) : [],
+    brief: d.brief && typeof d.brief === 'object' ? d.brief : null,
+    ready: d.ready === true,
+    step_for_sam: sentence(d.step_for_sam),
+  };
+}
+
 export async function POST(req) {
   const { messages = [], brief = null } = await req.json();
   const convo = [{ role: 'system', content: SYSTEM }];
@@ -54,7 +66,7 @@ export async function POST(req) {
   if (!messages.length) convo.push({ role: 'user', content: 'Hi. Greet me in one line and pitch three different film ideas as options: one family, one Dark Corners, one surprising.' });
   try {
     const { data, model } = await chat({ messages: convo, schema: SCHEMA, name: 'director_turn' });
-    return Response.json({ ...data, model });
+    return Response.json({ ...clean(data), model });
   } catch (e) {
     const code = e.code || 'error';
     return Response.json({ error: e.message, code }, { status: code === 'no-key' ? 409 : 502 });
@@ -67,6 +79,6 @@ export async function GET() {
   try {
     const convo = [{ role: 'system', content: SYSTEM }, { role: 'user', content: 'Hi. Greet me in one line and pitch three different film ideas as options: one family, one Dark Corners, one surprising.' }];
     const { data, model } = await chat({ messages: convo, schema: SCHEMA, name: 'director_turn' });
-    return Response.json({ ok: true, ms: Date.now() - t0, model, data });
+    return Response.json({ ok: true, ms: Date.now() - t0, model, data: clean(data) });
   } catch (e) { return Response.json({ ok: false, ms: Date.now() - t0, code: e.code, error: e.message }, { status: 502 }); }
 }
