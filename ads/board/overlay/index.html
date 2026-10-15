@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Overlay: AI still with code type</title>
+<style>
+@font-face { font-family: Archivo; src: url(/ads/fonts/Archivo.ttf) format('truetype'); font-weight: 100 900; font-stretch: 62% 125%; }
+@font-face { font-family: Mono; src: url(/ads/fonts/JetBrainsMono.ttf) format('truetype'); font-weight: 100 800; }
+html, body { margin:0; overflow:hidden; background:#000; }
+#stage { position:absolute; width:1920px; height:1080px; overflow:hidden; font-family:Archivo, sans-serif; background-size:cover; background-position:center; }
+.t { position:absolute; white-space:pre-line; }
+.label { position:absolute; right:56px; bottom:44px; font:500 19px/1 Mono, monospace; letter-spacing:.01em; }
+</style></head><body><div id="stage"><div class="t" id="t"></div><div class="label" id="lab">Concept by Unmissed, AI-assisted</div></div>
+<script>
+const q = new URLSearchParams(location.search), st = document.getElementById('stage'), t = document.getElementById('t');
+st.style.backgroundImage = `url(${q.get('img')})`;
+const v = q.get('v');
+if (v === 'flash') { t.textContent = 'Bread.\nGrill.\nTea.'; Object.assign(t.style, { left: '150px', top: '230px', font: '900 230px/0.86 Archivo', fontStretch: '72%', letterSpacing: '-.03em', color: '#16110c' }); document.getElementById('lab').style.color = 'rgba(22,17,12,.6)'; }
+if (v === 'hero') { t.textContent = 'The bread comes out\nbreathing.'; Object.assign(t.style, { left: '150px', bottom: '120px', font: '800 96px/0.98 Archivo', letterSpacing: '-.025em', color: '#f3e5c8' }); document.getElementById('lab').style.color = 'rgba(243,229,200,.6)'; }
+if (v === 'doc') { t.textContent = 'Every round of bread,\nby hand, since dawn.'; Object.assign(t.style, { left: '110px', top: '96px', font: '700 72px/1.02 Archivo', letterSpacing: '-.02em', color: '#f3e5c8', textShadow: '0 2px 30px rgba(0,0,0,.5)' }); document.getElementById('lab').style.color = 'rgba(243,229,200,.6)'; }
+window.KF = { duration: 1, render() {} };
+document.fonts.ready.then(() => Promise.all([...document.fonts].map((f) => f.load().catch(() => {})))).then(() => { const im = new Image(); im.onload = im.onerror = () => { window.KF_READY = true; }; im.src = q.get('img'); });
+</script></body></html>

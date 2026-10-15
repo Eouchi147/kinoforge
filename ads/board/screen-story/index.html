@@ -1,0 +1,149 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Screen Story: Unmissed</title>
+<style>
+@font-face { font-family: Inst; src: url(/ads/fonts/InstrumentSans.ttf) format('truetype'); font-weight: 400 700; font-stretch: 75% 100%; }
+@font-face { font-family: Mono; src: url(/ads/fonts/JetBrainsMono.ttf) format('truetype'); font-weight: 100 800; }
+:root { --ink:#101014; --bg:#f4f5f7; --white:#fff; --muted:#565b66; --blue:#2f5fd0; --g1:#0b3b8f; --g2:#2f7df6; --g3:#79b4ff; --violet:#8c6eff; }
+html, body { margin:0; background:#000; overflow:hidden; }
+#stage { position:absolute; width:1920px; height:1080px; overflow:hidden; background:var(--bg); font-family:Inst, sans-serif; color:var(--ink); }
+.m { display:inline-block; overflow:hidden; vertical-align:top; padding:0 .02em .16em; margin-bottom:-.16em; }
+.w { display:inline-block; will-change:transform; }
+.glow { position:absolute; left:930px; top:90px; width:900px; height:900px; border-radius:50%; background:radial-gradient(circle, rgba(121,180,255,.45), rgba(121,180,255,0) 65%); }
+.copy { position:absolute; left:150px; top:0; width:960px; }
+.copy .big { font-weight:600; font-size:82px; line-height:1.0; letter-spacing:-.03em; }
+.copy .small { margin-top:34px; font-weight:500; font-size:36px; line-height:1.25; color:var(--muted); letter-spacing:-.01em; }
+.pill { position:absolute; left:150px; top:700px; padding:14px 22px 14px 18px; border-radius:999px; background:var(--white); box-shadow:0 18px 40px -18px rgba(16,16,20,.35); font:500 22px/1 Mono, monospace; color:var(--ink); white-space:nowrap; display:flex; align-items:center; gap:12px; z-index:5; }
+.pill .dot { width:12px; height:12px; border-radius:50%; background:var(--g2); }
+.rig { position:absolute; left:1150px; top:130px; width:400px; height:820px; perspective:2400px; transform-origin:190px 330px; }
+.phone { position:absolute; inset:0; border-radius:66px; background:#0c0c0f; box-shadow: 0 80px 120px -40px rgba(16,16,20,.45), 0 30px 50px -30px rgba(16,16,20,.35), inset 0 0 0 2px #2c2c33, inset 0 0 0 7px #0c0c0f, inset 0 0 0 8px #3a3a42; transform-style:preserve-3d; }
+.screen { position:absolute; left:12px; top:12px; width:376px; height:796px; border-radius:54px; overflow:hidden; background:var(--white); }
+.island { position:absolute; left:50%; top:12px; width:118px; height:34px; margin-left:-59px; border-radius:20px; background:#000; z-index:20; }
+.sheen { position:absolute; inset:0; border-radius:54px; background:linear-gradient(115deg, rgba(255,255,255,.0) 40%, rgba(255,255,255,.16) 48%, rgba(255,255,255,0) 56%); z-index:19; pointer-events:none; }
+.view { position:absolute; inset:0; }
+/* chat view */
+.hdr { position:absolute; left:0; right:0; top:0; height:128px; border-bottom:1px solid #e7e9ee; display:flex; align-items:flex-end; gap:12px; padding:0 20px 16px; box-sizing:border-box; background:#fff; z-index:3; }
+.av { width:44px; height:44px; border-radius:50%; background:#f2a31b; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; color:#16110c; }
+.ht { font-weight:600; font-size:18px; letter-spacing:-.01em; } .hs { font-size:14px; color:var(--muted); margin-top:2px; }
+.thread { position:absolute; left:16px; right:16px; top:150px; }
+.stamp { text-align:center; font:500 13px/1 Mono, monospace; color:#8a8f99; margin:6px 0 14px; }
+.b { position:relative; max-width:276px; padding:13px 16px; border-radius:22px; font-size:17px; line-height:1.32; margin-bottom:12px; transform-origin:100% 100%; }
+.b.me { margin-left:auto; background:var(--blue); color:#fff; border-bottom-right-radius:8px; }
+.b.them { background:#eef0f3; color:var(--ink); border-bottom-left-radius:8px; transform-origin:0 100%; }
+.b .sig { display:block; margin-top:8px; font-size:13px; font-weight:600; color:var(--muted); }
+.typing { display:inline-flex; gap:6px; padding:16px 18px; background:#eef0f3; border-radius:22px; border-bottom-left-radius:8px; }
+.typing i { width:9px; height:9px; border-radius:50%; background:#9aa0aa; display:block; }
+.input { position:absolute; left:16px; right:16px; bottom:34px; height:50px; border-radius:25px; background:#f1f2f5; display:flex; align-items:center; padding:0 18px; font-size:16px; color:#8a8f99; box-sizing:border-box; }
+.input .typed { color:var(--ink); } .input .caret { display:inline-block; width:2px; height:20px; background:var(--blue); margin-left:1px; vertical-align:middle; }
+/* lock view */
+.lock { background:radial-gradient(120% 80% at 30% 0%, #2f7df6 0%, #0b3b8f 55%, #071f4d 100%); color:#fff; }
+.lock .time { position:absolute; left:0; right:0; top:120px; text-align:center; font-weight:500; font-size:96px; letter-spacing:-.03em; font-stretch:88%; }
+.lock .date { position:absolute; left:0; right:0; top:96px; text-align:center; font-weight:500; font-size:19px; opacity:.9; }
+.note { position:absolute; left:14px; right:14px; padding:14px 16px; border-radius:24px; background:rgba(255,255,255,.88); color:var(--ink); display:flex; gap:12px; box-shadow:0 10px 30px -12px rgba(0,0,0,.4); }
+.note .ic { flex:none; width:40px; height:40px; border-radius:11px; background:var(--ink); display:flex; align-items:center; justify-content:center; }
+.note .nt { font-weight:600; font-size:15px; display:flex; justify-content:space-between; } .note .nt span { font-weight:500; color:#6b7080; font-size:13px; }
+.note .nb { font-size:15px; line-height:1.3; margin-top:3px; }
+/* end card */
+.end { position:absolute; inset:0; background:var(--ink); color:#fff; z-index:30; }
+.end svg { position:absolute; left:50%; top:270px; margin-left:-60px; }
+.end .name { position:absolute; left:0; right:0; top:420px; text-align:center; font-weight:650; font-size:132px; letter-spacing:-.035em; }
+.end .tag { position:absolute; left:0; right:0; top:600px; text-align:center; font-weight:500; font-size:48px; letter-spacing:-.015em; }
+.end .tag2 { position:absolute; left:0; right:0; top:676px; text-align:center; font-weight:500; font-size:30px; color:#9ea3ad; }
+</style></head><body>
+<div id="stage">
+  <div class="glow"></div>
+  <div class="copy" id="c1" style="top:330px"><div class="big"><div class="l">It’s 11:42 pm.</div><div class="l">Someone asks about</div><div class="l">catering for 40.</div></div></div>
+  <div class="copy" id="c2" style="top:350px"><div class="big"><div class="l">Answered in seconds,</div><div class="l">day and night.</div></div><div class="small"><div class="l">Signed by your business. Not by us.</div></div></div>
+  <div class="copy" id="c3" style="top:350px"><div class="big"><div class="l">You hear about it</div><div class="l">on your phone.</div></div><div class="small"><div class="l">One polite follow-up. Then it’s your call.</div></div></div>
+  <div class="copy" id="c4" style="top:420px"><div class="big"><div class="l">In English and French.</div></div></div>
+  <div class="pill" id="pill"><span class="dot"></span><span id="pt">0:00</span></div>
+  <div class="rig"><div class="phone" id="phone"><div class="screen">
+    <div class="view" id="chat">
+      <div class="hdr"><div class="av">SH</div><div><div class="ht">Saffron Hearth Kitchen</div><div class="hs" id="hs">Catering enquiry</div></div></div>
+      <div class="thread">
+        <div class="stamp">Thursday 11:42 pm</div>
+        <div class="b me" id="q">Hi! Can you cater for 40 people this Saturday?</div>
+        <div class="typing" id="typing"><i></i><i></i><i></i></div>
+        <div class="b them" id="a">Yes, we can. Here are our catering menus and the Saturday times we have open.<span class="sig">Saffron Hearth Kitchen</span></div>
+        <div class="b me" id="qfr" style="display:none">Bonjour ! C’est possible pour 40 personnes samedi ?</div>
+        <div class="b them" id="afr" style="display:none">Oui, avec plaisir. Voici nos menus traiteur et nos horaires de samedi.<span class="sig">Saffron Hearth Kitchen</span></div>
+      </div>
+      <div class="input"><span class="typed" id="typed"></span><span class="caret" id="caret"></span><span id="ph">Type a message</span></div>
+    </div>
+    <div class="view lock" id="lock"><div class="date">Thursday 15 October</div><div class="time">11:42</div>
+      <div class="note" id="n1" style="top:330px"><div class="ic"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="8.5" fill="none" stroke="#2f7df6" stroke-width="3"/><circle cx="17.25" cy="5.64" r="2.6" fill="#79b4ff"/></svg></div><div><div class="nt">Unmissed <span>now</span></div><div class="nb">New catering enquiry: 40 guests, Saturday. We replied with your menus.</div></div></div>
+      <div class="note" id="n2" style="top:456px"><div class="ic"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="8.5" fill="none" stroke="#2f7df6" stroke-width="3"/><circle cx="17.25" cy="5.64" r="2.6" fill="#79b4ff"/></svg></div><div><div class="nt">Unmissed <span>now</span></div><div class="nb">If they go quiet, we send one polite follow-up tomorrow.</div></div></div>
+    </div>
+    <div class="sheen" id="sheen"></div><div class="island"></div>
+  </div></div></div>
+  <div class="end" id="end">
+    <svg width="120" height="120" viewBox="0 0 120 120"><circle id="ring" cx="60" cy="60" r="44" fill="none" stroke="#2f7df6" stroke-width="10" transform="rotate(-90 60 60)"/><circle id="node" cx="82" cy="21.9" r="12" fill="#79b4ff"/></svg>
+    <div class="name"><span class="l">Unmissed</span></div>
+    <div class="tag"><span class="l">See it working. Then decide.</span></div>
+    <div class="tag2"><span class="l">You own it. You approve it. We prove it.</span></div>
+  </div>
+</div>
+<script type="module">
+import { seg, lerp, ease, words, rise, show, fitStage } from '/ads/lib/motion.js';
+const $ = (s) => document.querySelector(s);
+fitStage($('#stage'));
+const grp = (id) => [...document.querySelectorAll(`#${id} .l`)].map((el) => words(el));
+const C1 = grp('c1'), C2 = grp('c2'), C3 = grp('c3'), C4 = grp('c4');
+const E = [...document.querySelectorAll('#end .l')].map((el) => words(el));
+const lines = (G, t, tIn, tOut) => G.forEach((ws, k) => rise(ws, t, tIn + k * 0.1, { stagger: 0.045, dur: 0.75, tOut: tOut == null ? null : tOut + k * 0.04, outDur: 0.3 }));
+const ring = $('#ring'), node = $('#node'); const RL = 2 * Math.PI * 44; ring.style.strokeDasharray = RL;
+const Q = 'Hi! Can you cater for 40 people this Saturday?';
+const pop = (el, p, dy = 18) => { el.style.opacity = Math.min(1, p * 1.6); el.style.transform = `translateY(${(1 - p) * dy}px) scale(${lerp(0.86, 1, p)})`; };
+
+window.KF = { duration: 10.6, fps: 30, async render(i, t) {
+  // ---- copy on the left
+  show($('#c1'), t < 3.2); lines(C1, t, 0.25, 2.75);
+  show($('#c2'), t > 2.9 && t < 5.9); lines(C2, t, 3.0, 5.45);
+  show($('#c3'), t > 5.6 && t < 7.9); lines(C3, t, 5.75, 7.45);
+  show($('#c4'), t > 7.6 && t < 8.9); lines(C4, t, 7.75, 8.75);
+  // ---- the phone: rises in, turns between scenes
+  const inP = ease.outExpo(seg(t, 0.0, 1.1));
+  const turn = ease.inOutCubic(seg(t, 5.3, 5.95)), back = ease.inOutCubic(seg(t, 7.45, 8.0));
+  const ry = lerp(-26, -13, inP) + turn * 24 - back * 20, rx = lerp(20, 5, inP) - turn * 2, rz = lerp(-4, 1.2, inP) - turn * 2.2;
+  const float = Math.sin(t * 1.3) * 6;
+  $('#phone').style.transform = `translateY(${(1 - inP) * 900 + float}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
+  const push = ease.inOutCubic(seg(t, 2.35, 3.2)) * (1 - ease.inOutCubic(seg(t, 4.95, 5.5)));   // the camera leans in on the answer
+  $('.rig').style.transform = `scale(${1 + push * 0.3}) translateX(${push * -30}px)`;
+  $('#sheen').style.backgroundPosition = `${ry * 6}px 0`;
+  // ---- screens: chat, then lock screen, then chat in French
+  const lockOn = t >= 5.62 && t < 7.72;
+  show($('#chat'), !lockOn); show($('#lock'), lockOn);
+  const fr = t >= 7.72;
+  // typing the question
+  const typedN = Math.round(Q.length * seg(t, 0.75, 1.55));
+  $('#typed').textContent = t < 1.62 ? Q.slice(0, typedN) : '';
+  $('#ph').style.display = (t < 0.75 || t >= 1.62) ? 'inline' : 'none';
+  $('#caret').style.opacity = (t > 0.7 && t < 1.62) ? (Math.floor(t * 4) % 2 ? 1 : 0.15) : 0;
+  pop($('#q'), ease.outBack(seg(t, 1.62, 1.92), 1.6));
+  // business is typing, then the answer lands
+  const typingOn = t >= 1.95 && t < 2.55;
+  $('#typing').style.display = typingOn ? 'inline-flex' : 'none';
+  [...$('#typing').children].forEach((d, k) => { d.style.transform = `translateY(${-Math.max(0, Math.sin((t * 9) - k * 0.9)) * 5}px)`; });
+  $('#a').style.display = t >= 2.55 && !fr ? 'block' : 'none';
+  pop($('#a'), ease.outBack(seg(t, 2.55, 2.9), 1.6));
+  $('#q').style.display = fr ? 'none' : 'block';
+  // French exchange
+  $('#qfr').style.display = fr ? 'block' : 'none'; $('#afr').style.display = fr && t >= 8.15 ? 'block' : 'none';
+  pop($('#qfr'), ease.outBack(seg(t, 7.8, 8.05), 1.6)); pop($('#afr'), ease.outBack(seg(t, 8.15, 8.45), 1.6));
+  $('#hs').textContent = fr ? 'Demande traiteur' : 'Catering enquiry';
+  // lock screen notifications
+  pop($('#n1'), ease.outBack(seg(t, 5.95, 6.3), 1.4), -30); pop($('#n2'), ease.outBack(seg(t, 6.6, 6.95), 1.4), -30);
+  // ---- the timer pill: counts while the customer waits, then says it plainly
+  const pillOn = t > 1.7 && t < 5.2;
+  const pp = ease.outBack(seg(t, 1.7, 2.0), 1.8) * (1 - ease.inCubic(seg(t, 4.9, 5.2)));
+  $('#pill').style.opacity = pillOn ? Math.min(1, pp * 1.5) : 0; $('#pill').style.transform = `scale(${pillOn ? pp : 0})`;
+  const secs = Math.min(4, Math.floor(seg(t, 1.7, 2.55) * 4.99));
+  $('#pt').textContent = t < 2.6 ? `0:0${secs}` : 'Answered in seconds';
+  // ---- end card: ink grows out of the phone
+  const endP = ease.inOutCubic(seg(t, 8.75, 9.2));
+  show($('#end'), endP > 0); $('#end').style.clipPath = `circle(${endP * 125}% at 1330px 540px)`;
+  ring.style.strokeDashoffset = RL * (1 - ease.inOutCubic(seg(t, 9.0, 9.6)));
+  node.setAttribute('r', 12 * ease.outBack(seg(t, 9.5, 9.8), 2.6));
+  E.forEach((ws, k) => rise(ws, t, 9.15 + k * 0.18, { stagger: 0.05, dur: 0.75 }));
+} };
+await document.fonts.ready; await Promise.all([...document.fonts].map((f) => f.load().catch(() => {})));
+window.KF_READY = true;
+</script></body></html>

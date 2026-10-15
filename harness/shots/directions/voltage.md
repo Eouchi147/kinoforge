@@ -1,3 +1,6 @@
+> RETIRED for business ads (15 Oct 2026): Sam rejected the stylised cartoon-3D look as unsellable to business owners.
+> Use hero, freeze, flash, documentary, type-motion or screen-story. Keep this file only for stylised films later.
+
 # Voltage — kinetic, stylised, action-forward direction
 (Studied from the direction craft of stylised AI-animation creators Sam admires: the camera language, rhythm and colour.
 Never their characters, worlds, scenes or adult content. Everything here is original and brand-safe.)

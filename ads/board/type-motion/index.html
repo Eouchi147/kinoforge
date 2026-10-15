@@ -14,6 +14,7 @@ html, body { margin:0; background:#000; overflow:hidden; }
 #s1 .pre { position:absolute; left:150px; top:170px; font-weight:500; font-size:66px; color:var(--dough); font-stretch:100%; }
 #s1 .fire { position:absolute; left:110px; top:250px; font-weight:900; font-size:700px; line-height:.86; letter-spacing:-.035em; white-space:nowrap;
   color:transparent; -webkit-background-clip:text; background-clip:text; transform-origin:30% 70%; }
+#s1 .back { -webkit-background-clip:border-box; background:none; color:rgba(242,163,27,.18); mix-blend-mode:screen; }
 #s1 .post { position:absolute; left:1560px; top:800px; font-weight:500; font-size:66px; color:var(--saffron); }
 #s1 .glow { position:absolute; inset:0; background:radial-gradient(60% 50% at 40% 75%, rgba(224,74,31,.28), transparent 70%); }
 /* shot 2 */
@@ -40,7 +41,7 @@ html, body { margin:0; background:#000; overflow:hidden; }
 .wipe { position:absolute; inset:0; z-index:40; }
 </style></head><body>
 <div id="stage">
-  <div class="shot" id="s1"><div class="glow"></div><div class="pre">We light the</div><div class="fire">fire</div><div class="post">early.</div></div>
+  <div class="shot" id="s1"><div class="glow"></div><div class="pre">We light the</div><div class="fire" id="fire">fire</div><div class="fire back">fire</div><div class="post">early.</div></div>
   <div class="shot" id="s2"><div class="copy"><span class="a1">The bread</span><br><span class="a2">comes out</span><span class="b">breathing.</span></div>
     <div id="bread"><div class="shadow"></div><div class="disc"></div><div class="fill"></div></div></div>
   <div class="shot" id="s3"><div class="big"><div class="ph p1"><div class="r1">Bring</div><div class="r1b">everyone.</div></div><div class="ph p2"><div class="mk">We’ll make</div><div><span class="m"><span class="w room">room.</span></span></div></div></div><div class="seats"></div></div>
@@ -56,7 +57,7 @@ const $ = (s) => document.querySelector(s);
 const q = fitStage($('#stage'));
 const firePhoto = q.get('fire');   // optional: a photo shows through the letters instead of the heat gradient
 const S = { s1: $('#s1'), s2: $('#s2'), s3: $('#s3'), s4: $('#s4') };
-const pre = words($('#s1 .pre')), post = words($('#s1 .post')), fire = $('#s1 .fire');
+const pre = words($('#s1 .pre')), post = words($('#s1 .post')), fire = $('#fire'), fireBack = $('#s1 .back');
 const a1 = words($('#s2 .a1')), a2 = words($('#s2 .a2')), br = $('#s2 .b'); const brL = letters(br);
 const r1 = [...words($('#s3 .r1')), ...words($('#s3 .r1b'))], mk = words($('#s3 .mk')); const room = $('#s3 .room');
 const nameW = words($('#s4 .name')), lineW = words($('#s4 .line'));
@@ -70,7 +71,7 @@ for (let k = 0; k < 18; k++) { const a = rnd() * 6.283, r = Math.sqrt(rnd()) * 2
 const seats = []; for (let k = 0; k < 9; k++) { const d = document.createElement('div'); d.className = 'seat'; $('#s3 .seats').appendChild(d); seats.push(d); }
 const wipe = $('#wipe');
 
-window.KF = { duration: 9.2, fps: 30, async render(i, t) {
+window.KF = { duration: 9.4, fps: 30, async render(i, t) {
   for (const k in S) show(S[k], false);
   wipe.style.display = 'none';
   // ---- shot 1: "We light the fire early."  0 to 2.5
@@ -85,8 +86,10 @@ window.KF = { duration: 9.2, fps: 30, async render(i, t) {
     fire.style.transform = `translate(${shake}px, ${shake * 0.4}px) scale(${sc})`;
     const flow = t * 60;
     fire.style.backgroundImage = firePhoto ? `url(${firePhoto})` : `radial-gradient(40% 60% at ${45 + Math.sin(t * 2.1) * 8}% ${110 - (flow % 140)}%, #ffd27a, transparent 70%), radial-gradient(50% 70% at ${60 + Math.cos(t * 1.7) * 10}% ${150 - ((flow + 70) % 140)}%, #ffb23b, transparent 70%), linear-gradient(0deg, #e04a1f 0%, #f2a31b 55%, #ffd98a 100%)`;
-    fire.style.backgroundSize = firePhoto ? 'cover' : '';
-    fire.style.backgroundPosition = firePhoto ? `${50 + seg(t, 0.5, 2.6) * 6}% ${55 - seg(t, 0.5, 2.6) * 8}%` : '';
+    fire.style.backgroundSize = firePhoto ? '112% auto' : '';
+    fireBack.style.display = firePhoto ? 'block' : 'none';
+    for (const k of ['fontStretch', 'opacity', 'transform']) fireBack.style[k] = fire.style[k];
+    fire.style.backgroundPosition = firePhoto ? `${46 + seg(t, 0.5, 2.6) * 6}% ${44 - seg(t, 0.5, 2.6) * 8}%` : '';
     rise(post, t, 1.45, { dur: 0.6 });
     $('#s1 .glow').style.opacity = 0.4 + 0.6 * ease.outCubic(seg(t, 0.5, 1.2)) + Math.sin(t * 11) * 0.05;
   }
@@ -109,20 +112,20 @@ window.KF = { duration: 9.2, fps: 30, async render(i, t) {
     $('#s2 .copy').style.opacity = 1 - seg(t, 4.7, 4.9);
   }
   // ---- shot 3: "Bring everyone. We'll make room."  5.0 to 7.1
-  if (t >= 5.0 && t < 7.35) { show(S.s3, true);
-    rise(r1, t, 5.02, { stagger: 0.25, dur: 0.55, tOut: 5.95, outDur: 0.28 });
-    rise(mk, t, 6.08, { stagger: 0.1, dur: 0.5 });
-    rise([room], t, 6.25, { dur: 0.5 });
-    room.style.fontStretch = lerp(62, 125, ease.inOutCubic(seg(t, 6.45, 7.0))) + '%';
-    const W = 1620, spread = ease.inOutCubic(seg(t, 6.45, 7.0));
+  if (t >= 5.0 && t < 7.5) { show(S.s3, true);
+    rise(r1, t, 5.02, { stagger: 0.25, dur: 0.55, tOut: 5.78, outDur: 0.24 });
+    rise(mk, t, 6.2, { stagger: 0.1, dur: 0.5 });
+    rise([room], t, 6.36, { dur: 0.5 });
+    room.style.fontStretch = lerp(62, 125, ease.inOutCubic(seg(t, 6.55, 7.1))) + '%';
+    const W = 1620, spread = ease.inOutCubic(seg(t, 6.55, 7.1));
     seats.forEach((d, k) => { const p = ease.outBack(seg(t, 5.25 + k * 0.07, 5.5 + k * 0.07), 2.4);
       const base = 300 + k * 72, wide = (k / 8) * (W - 56);
       d.style.left = lerp(base, wide, spread) + 'px'; d.style.transform = `scale(${p})`; });
   }
   // wipe 3 -> 4: a diagonal charcoal panel
-  if (t >= 6.95 && t < 7.35) { wipe.style.display = 'block'; wipe.style.background = 'var(--char)'; const p = ease.inOutQuint(seg(t, 6.95, 7.2)); wipe.style.transform = `translateX(${(1 - p) * -120}%) skewX(-12deg) scaleX(1.3)`; }
+  if (t >= 7.1 && t < 7.5) { wipe.style.display = 'block'; wipe.style.background = 'var(--char)'; const p = ease.inOutQuint(seg(t, 7.1, 7.35)); wipe.style.transform = `translateX(${(1 - p) * -120}%) skewX(-12deg) scaleX(1.3)`; }
   // ---- shot 4: end card  7.2 to 9.2
-  if (t >= 7.2) { show(S.s4, true);
+  if (t >= 7.35) { show(S.s4, true); t -= 0.15;
     arch.style.strokeDashoffset = archLen * (1 - ease.inOutCubic(seg(t, 7.25, 7.85)));
     const e = ease.outBack(seg(t, 7.7, 8.0), 2.2); emb.setAttribute('r', 20 * e + Math.sin(t * 9) * 0.8 * e);
     rise(nameW, t, 7.45, { stagger: 0.08, dur: 0.7 }); rise(lineW, t, 7.85, { stagger: 0.035, dur: 0.6 });

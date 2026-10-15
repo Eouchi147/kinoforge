@@ -11,8 +11,11 @@ Path: (1) 4–5 portfolio ads this week → (2) studio "Build" button runs the a
 
 ## What the studio delivers (target, once the current tests pass)
 - 15–30 s premium ads, 16:9 master + 9:16 social cut, voiceover, original score, brand end card (logo and text set in code, never AI-drawn).
-- Directions: **Voltage** (kinetic, stylised 3D/anime look, beat-cut, extreme angles) and **Classic** (premium photoreal). More can be added.
-- One human checkpoint: Sam approves the stills (2 minutes) before any video money is spent.
+- Looks (15 Oct, after Sam rejected the stylised cartoon look): **Hero Close-ups** (photoreal product and food, no people), **Freeze Frame**
+  (high-speed studio), **Flash Editorial** (hard-flash on colour, social), **Documentary** (people, riskiest), and two built in code with no AI fees:
+  **Type in Motion** (kinetic typography) and **Screen Story** (product UI on a phone; the look for Unmissed's own ad).
+- Rule: a style board of stills first; Sam picks the look before any video money is spent.
+- Human checkpoints: Sam picks the look from a style board, then approves the stills, before any video money is spent.
 - Production cost (AI fees): roughly $3–10 per ad at draft/standard quality, up to ~$15 premium. Turnaround target: same day to 48 h.
 - Status today: pipeline in testing (first piece: Smart Mount ad, in progress). Expect the first portfolio pieces within days, not hours.
 

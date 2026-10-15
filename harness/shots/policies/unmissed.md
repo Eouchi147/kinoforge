@@ -28,5 +28,8 @@ BRAND (Unmissed's own pieces)
 - Colours: ink #101014, background #f4f5f7, white #ffffff, muted #565b66, action blue #2f5fd0; gradient #0b3b8f #2f7df6 #79b4ff; violet #8c6eff in the mark only.
 - Type: Instrument Sans 400-700 (JetBrains Mono for small labels). Logo: a ring with a small node at about 1 o'clock (ring #2f7df6, node #79b4ff, on #101014), drawn in code.
 
+LOOKS: photoreal or code-built motion design only. No stylised 3D, cartoon or anime looks. Sam picks the direction from a style board
+  (stills) before any video money is spent. Prefer shots without people; AI people only in the documentary direction, checked frame by frame.
+
 ALWAYS: the platform AI label on realistic AI content; Sam approves before anything is sent or published.
 Client material (briefs, photos, logos, finished client ads) never goes into the public kinoforge repo or its releases.
