@@ -10,7 +10,7 @@ against its script for repeated / missing words, pace, pauses, tone vs genre.
 Models are picked live from OpenRouter's model list (best published intelligence index that accepts the senses needed).
 Needs OPENROUTER_API_KEY in the environment.
 """
-import sys, os, json, base64, urllib.request, time
+import sys, os, json, base64, urllib.request, urllib.error, time
 
 API = 'https://openrouter.ai/api/v1'
 RULES = """Rules (the studio's core rule, a blocker above all others):
@@ -32,16 +32,26 @@ def get(url, key=None):
     req = urllib.request.Request(url, headers={'Authorization': f'Bearer {key}'} if key else {})
     return json.load(urllib.request.urlopen(req, timeout=60))
 
-def pick(modality, n=2, max_price=6.0):
-    """Best models that accept `modality`, one per provider."""
+BUDGET = os.environ.get('KF_BUDGET', 'free')            # free (default while building) | low | best
+
+def pick(modality, n=2, max_price=None):
+    """Best models that accept `modality`, one per provider, within the budget. Free models are ranked by the published
+    intelligence index of their paid twin when they carry none themselves."""
+    max_price = max_price or {'free': 0, 'low': 1.0, 'best': 6.0}.get(BUDGET, 0)
     data = get(f'{API}/models')['data']
+    idx = {m['id']: ((m.get('benchmarks') or {}).get('artificial_analysis') or {}).get('intelligence_index') for m in data}
     ok = []
     for m in data:
         ins = m.get('architecture', {}).get('input_modalities', []) or []
         params = m.get('supported_parameters', []) or []
         price = float(m.get('pricing', {}).get('prompt') or 0) * 1e6
         score = ((m.get('benchmarks') or {}).get('artificial_analysis') or {}).get('intelligence_index')
-        if modality in ins and ('structured_outputs' in params or 'response_format' in params) and not m.get('expiration_date') and ':' not in m['id'] and 0 < price <= max_price and score is not None:
+        if modality not in ins or m.get('expiration_date'): continue
+        if BUDGET == 'free':
+            if not m['id'].endswith(':free'): continue
+            score = score if score is not None else idx.get(m['id'][:-5]) or 0
+            ok.append((score, m['id']))
+        elif ('structured_outputs' in params or 'response_format' in params) and ':' not in m['id'] and 0 < price <= max_price and score is not None:
             ok.append((score, m['id']))
     out, seen = [], set()
     for _, mid in sorted(ok, reverse=True):
@@ -50,13 +60,30 @@ def pick(modality, n=2, max_price=6.0):
         if len(out) == n: break
     return out
 
+def _json(text):
+    """The first complete JSON object in a reply (models without strict schemas wrap it in prose or fences)."""
+    dec = json.JSONDecoder(); i = text.find('{')
+    while i != -1:
+        try: return dec.raw_decode(text, i)[0]
+        except ValueError: i = text.find('{', i + 1)
+    raise ValueError('no JSON object in reply')
+
 def ask(model, content, key, schema, name):
-    body = {'model': model, 'messages': [{'role': 'user', 'content': content}], 'max_tokens': 3000,
-            'response_format': {'type': 'json_schema', 'json_schema': {'name': name, 'strict': True, 'schema': schema}}, 'provider': {'require_parameters': True}}
-    req = urllib.request.Request(f'{API}/chat/completions', data=json.dumps(body).encode(), headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json', 'X-Title': 'KINOFORGE judge'})
-    for attempt in range(3):
+    """Strict JSON schema first; if the model or its provider cannot do that, the schema goes into the prompt instead."""
+    strict = {'response_format': {'type': 'json_schema', 'json_schema': {'name': name, 'strict': True, 'schema': schema}}, 'provider': {'require_parameters': True}}
+    loose_content = content + [{'type': 'text', 'text': 'Reply with ONLY one JSON object matching this JSON schema, nothing else:\n' + json.dumps(schema)}]
+    err = None
+    for attempt in range(4):
+        body = {'model': model, 'max_tokens': 3000, **(strict if attempt < 2 else {}),
+                'messages': [{'role': 'user', 'content': content if attempt < 2 else loose_content}]}
+        req = urllib.request.Request(f'{API}/chat/completions', data=json.dumps(body).encode(), headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json', 'X-Title': 'KINOFORGE judge'})
         try:
-            j = json.load(urllib.request.urlopen(req, timeout=300)); return json.loads(j['choices'][0]['message']['content']), j.get('model', model)
+            j = json.load(urllib.request.urlopen(req, timeout=300)); return _json(j['choices'][0]['message']['content']), j.get('model', model)
+        except urllib.error.HTTPError as e:
+            err = e
+            if e.code == 429: time.sleep(20 * (attempt + 1))       # free tier rate limit: wait, then retry
+            elif e.code in (400, 404): continue                     # no strict-schema support: skip to the loose attempt
+            else: time.sleep(5 * (attempt + 1))
         except Exception as e:
             err = e; time.sleep(5 * (attempt + 1))
     raise err
@@ -69,9 +96,13 @@ def eyes(story_path, sheets, key):
               f'Each tile is labelled with its frame number (24 fps). Style notes and story:\n{story}\n\n{RULES}\n\n'
               'Report only real problems, concretely (frames, what is wrong, which rule, severity, and the fix). Do not report things that are only unclear because of sampling. verdict = "fix" if any critical or major finding.')
     content = [{'type': 'text', 'text': prompt}] + [{'type': 'image_url', 'image_url': {'url': b64(s, 'image/jpeg')}} for s in sheets]
-    models = pick('image'); reports = []
-    for m in models:
-        r, used = ask(m, content, key, FINDINGS, 'eyes_review'); r['model'] = used; reports.append(r)
+    models = pick('image', n=3); reports = []; failed = []
+    for m in models:                                    # up to 3 candidates so a failing free model does not end the review
+        if len(reports) == 2: break
+        try:
+            r, used = ask(m, content, key, FINDINGS, 'eyes_review'); r['model'] = used; r.setdefault('findings', []); reports.append(r)
+        except Exception as e: failed.append(f'{m}: {e}')
+    if not reports: raise RuntimeError('no judge answered: ' + '; '.join(failed))
     # consensus: a blocker needs two judges, or one critical
     blockers = []
     for i, r in enumerate(reports):
@@ -80,7 +111,9 @@ def eyes(story_path, sheets, key):
             others = [o for j, o in enumerate(reports) if j != i]
             agreed = any(any(g['rule'] == f['rule'] and g['severity'] != 'minor' and set(_frames(g['frames'])) & set(_frames(f['frames'])) for g in o['findings']) for o in others)
             if agreed or f['severity'] == 'critical': blockers.append(dict(f, judge=r['model'], agreed=agreed))
-    return {'judges': reports, 'blockers': blockers, 'verdict': 'fix' if blockers else 'pass'}
+    # a lone judge cannot form consensus, so its major findings count too
+    if len(reports) == 1: blockers = [dict(f, judge=reports[0]['model'], agreed=False) for f in reports[0]['findings'] if f.get('severity') != 'minor']
+    return {'judges': reports, 'failed': failed, 'blockers': blockers, 'verdict': 'fix' if blockers else 'pass'}
 
 def _frames(s):
     import re

@@ -81,7 +81,8 @@ paper. Build the world first, then shots, then performance, then sound.
 1. Contact sheets: one tile per ~4 s plus every shot's first and last frame, plus a key-moments sheet (each beat's
    cause and effect).
 2. Eyes: `python3 harness/review/judge.py eyes films/<id>/STORY.md sheets/*.jpg --out review.json` (two vision
-   judges, different providers; blockers need agreement or a critical rating).
+   judges, different providers; blockers need agreement or a critical rating). `KF_BUDGET=free|low|best` picks the
+   judges' price tier (free while building); free judges fall back to schema-in-prompt JSON and retry on rate limits.
 3. Ears: `python3 harness/review/judge.py ears voice/jobs/<id>.json narration.wav`.
 4. Motion: `harness/motion/check.py` on every character performance.
 5. Route each finding to the step that caused it, fix, re-render only what changed, re-judge. Log every pass in
