@@ -34,7 +34,9 @@ def post(path, body, timeout=600):
 def get(url, timeout=120):
     return urllib.request.urlopen(urllib.request.Request(url, headers=H()), timeout=timeout)
 def b64(path, mime='image/png'): return f'data:{mime};base64,' + base64.b64encode(open(path, 'rb').read()).decode()
-def run(cmd): r = subprocess.run(cmd, capture_output=True, text=True); assert r.returncode == 0, r.stderr[-1500:]; return r
+def run(cmd):
+    if cmd and cmd[0] == 'ffmpeg' and '-nostdin' not in cmd: cmd = ['ffmpeg', '-nostdin'] + cmd[1:]
+    r = subprocess.run(cmd, capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=900); assert r.returncode == 0, r.stderr[-1500:]; return r
 
 class Budget:
     """The piece's ledger plus the whole test budget across pieces."""
@@ -101,7 +103,17 @@ def clip(B, tier, prompt, first_frame, dur, aspect, out, label, audio=True):
     try: return _clip(B, T, price, prompt, first_frame, dur, aspect, out, label, audio)
     finally: B.release(worst)
 
+def fit_aspect(path, aspect):
+    """Centre-crop a still to the exact aspect (16:9 or 9:16) so the video model never letterboxes it."""
+    from PIL import Image
+    im = Image.open(path); w, h = im.size; ta = 9 / 16 if aspect == '9:16' else 16 / 9
+    if abs(w / h - ta) < 0.01: return path
+    if w / h > ta: nw = int(h * ta); box = ((w - nw) // 2, 0, (w - nw) // 2 + nw, h)
+    else: nh = int(w / ta); box = (0, (h - nh) // 2, w, (h - nh) // 2 + nh)
+    out = path.replace('.png', f'.{aspect.replace(":", "x")}.png'); im.crop(box).save(out); return out
+
 def _clip(B, T, price, prompt, first_frame, dur, aspect, out, label, audio):
+    first_frame = fit_aspect(first_frame, aspect)
     body = {'model': T['video'], 'prompt': prompt, 'duration': dur, 'resolution': T['res'], 'aspect_ratio': aspect, 'generate_audio': audio,
             'frame_images': [{'type': 'image_url', 'image_url': {'url': b64(first_frame)}, 'frame_type': 'first_frame'}]}
     t0 = time.time()
@@ -134,22 +146,29 @@ def speech(B, text, voice, out, label):
     open(out, 'wb').write(data); return out
 
 def music(B, prompt, out, label):
-    """Lyria 3 through chat completions; returns the file or None (the edit then uses the clips' own audio)."""
+    """Lyria 3 score. Tries the known request shapes in turn; returns the file, or None (the edit then uses the clips' own audio)."""
     B.check(0.1, label); B.release(0.1)
-    body = {'model': 'google/lyria-3-clip-preview', 'messages': [{'role': 'user', 'content': prompt}], 'modalities': ['text', 'audio'], 'audio': {'format': 'wav'}, 'usage': {'include': True}}
-    try:
-        j = json.load(post('/chat/completions', body, 300)); m = j['choices'][0]['message']
-        B.add(seat='music', model='google/lyria-3-clip-preview', task=label, usd=float((j.get('usage') or {}).get('cost') or 0.04), s=0, ok=True)
-        a = m.get('audio') or {}
-        data = a.get('data') if isinstance(a, dict) else None
-        if not data:
+    shapes = [{'modalities': ['audio']}, {'modalities': ['text', 'audio']}, {'modalities': ['audio'], 'audio': {'format': 'mp3'}}, {'modalities': ['text', 'audio'], 'audio': {'format': 'wav'}}]
+    for model in ['google/lyria-3-clip-preview', 'google/lyria-3-pro-preview']:
+        for extra in shapes:
+            body = {'model': model, 'messages': [{'role': 'user', 'content': prompt}], 'usage': {'include': True}, **extra}
+            try:
+                j = json.load(post('/chat/completions', body, 300)); m = j['choices'][0]['message']
+            except urllib.error.HTTPError as e:
+                log('music', model, extra, e.code, e.read().decode(errors='ignore')[:200]); continue
+            except Exception as e:
+                log('music', model, extra, type(e).__name__, str(e)[:120]); continue
+            B.add(seat='music', model=model, task=label, usd=float((j.get('usage') or {}).get('cost') or 0.04), s=0, ok=True)
+            data = None; a_ = m.get('audio')
+            if isinstance(a_, dict): data = a_.get('data')
             for part in (m.get('content') if isinstance(m.get('content'), list) else []):
-                if isinstance(part, dict) and part.get('type') in ('input_audio', 'audio', 'output_audio'):
-                    data = (part.get('input_audio') or part.get('audio') or {}).get('data') or part.get('data')
-        if not data: log('music: no audio in reply; keys', list(m.keys())); return None
-        raw = base64.b64decode(data.split(',', 1)[-1]); open(out, 'wb').write(raw); return out
-    except Exception as e:
-        log('music failed:', e); return None
+                if isinstance(part, dict): data = data or (part.get('input_audio') or part.get('audio') or {}).get('data') or part.get('data')
+            for att in (m.get('audio_outputs') or m.get('files') or []):
+                if isinstance(att, dict): data = data or att.get('data')
+            if not data: log('music: reply had no audio; message keys', list(m.keys()), str(m)[:300]); continue
+            raw = base64.b64decode(data.split(',', 1)[-1]); ext = '.mp3' if raw[:3] == b'ID3' or raw[:2] == b'\xff\xfb' else '.wav'
+            o = out.rsplit('.', 1)[0] + ext; open(o, 'wb').write(raw); log('music:', model, extra, len(raw), 'bytes'); return o
+    return None
 
 # ------------------------------------------------------------------ review
 SCORE = {'type': 'object', 'additionalProperties': False, 'required': ['score', 'problems'], 'properties': {
@@ -298,9 +317,13 @@ def edit(pdir, t, brief, clips, vo_files, music_file):
     for s, c in zip(t['shots'], clips):
         o = os.path.join(pdir, 'work', f'n-{s["id"]}.mp4')
         has_a = bool(run(['ffprobe', '-v', 'error', '-select_streams', 'a', '-show_entries', 'stream=index', '-of', 'csv=p=0', c]).stdout.strip())
-        src = ['-i', c] if has_a else ['-i', c, '-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo']
-        run(['ffmpeg', '-v', 'error', '-y', *src, '-t', str(s['seconds']), '-map', '0:v', '-map', '0:a' if has_a else '1:a', '-vf', f'scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h},fps=24,format=yuv420p',
-             '-af', 'aresample=48000', '-c:v', 'libx264', '-crf', '16', '-preset', 'medium', '-c:a', 'aac', '-ar', '48000', '-ac', '2', o]); norm.append(o)
+        slow = s.get('speed') == 'slow'; use = float(s.get('use', s['seconds'])); src_len = use * (0.67 if slow else 1.0)
+        clip_in = ['-ss', f"{float(s.get('use_from', 0)):.3f}", '-t', f'{src_len:.3f}', '-i', c]          # trim on input: only the used seconds are decoded
+        src = clip_in if has_a else clip_in + ['-f', 'lavfi', '-t', f'{use:.3f}', '-i', 'anullsrc=r=48000:cl=stereo']
+        vf = ('setpts=PTS/0.67,' if slow else '') + f'scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h},fps=24,format=yuv420p'
+        af = ('atempo=0.67,' if slow and has_a else '') + 'aresample=48000,apad'
+        run(['ffmpeg', '-v', 'error', '-y', *src, '-map', '0:v', '-map', '0:a' if has_a else '1:a', '-vf', vf, '-af', af, '-t', f'{use:.3f}',
+             '-c:v', 'libx264', '-crf', '16', '-preset', 'medium', '-c:a', 'aac', '-ar', '48000', '-ac', '2', o]); norm.append(o)
     # join: cuts are hard; a dissolve overlaps 0.5 s
     v_in = ''.join(f'-i {n} ' for n in norm).split()
     fc = [f'[{k}:v]fps=24,settb=AVTB,setpts=PTS-STARTPTS[p{k}];[{k}:a]asettb=AVTB,asetpts=PTS-STARTPTS[q{k}]' for k in range(len(norm))]
@@ -378,6 +401,10 @@ def main(pdir):
             applied[sid] = ver; log(f'{sid}: redo requested (v{ver})')
             ks = os.path.join(pdir, 'work', 'kf-scores.json')
             if os.path.exists(ks): d_ = json.load(open(ks)); d_.pop(sid, None); json.dump(d_, open(ks, 'w'))
+    for sid, ver in (brief.get('redo_clips') or {}).items():
+        if applied.get('clip-' + sid) != ver:
+            for f_ in glob.glob(os.path.join(pdir, 'work', f'clip-{sid}.*')): os.remove(f_)
+            applied['clip-' + sid] = ver; log(f'{sid}: clip redo requested (v{ver})')
     json.dump(applied, open(applied_p, 'w'))
     kfs = []
     for s in t['shots']:
