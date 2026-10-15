@@ -1,0 +1,64 @@
+# KINOFORGE director — the build agent. When Sam approves a brief in the web studio (films/<id>/brief.json), the head
+# director plans the film, the crew drafts every stage, the deputy reviews, the head signs off (capped loops, capped
+# money), and the narration is sent to the voice lane. Everything lands back in films/<id>/.
+name: director
+on:
+  workflow_dispatch:
+    inputs:
+      film: { description: 'film folder, e.g. films/the-lamp', required: true }
+  push:
+    branches: [main]
+    paths: ['films/*/brief.json']
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: director-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: which films
+        id: f
+        run: |
+          if [ -n "${{ github.event.inputs.film }}" ]; then films="${{ github.event.inputs.film }}"
+          else films=$(git diff --name-only HEAD~1 HEAD -- 'films/*/brief.json' | xargs -r -n1 dirname | sort -u | tr '\n' ' '); fi
+          echo "films=$films" >> "$GITHUB_OUTPUT"; echo "films: $films"
+      - name: key present
+        run: |
+          if [ -z "$OPENROUTER_API_KEY" ]; then
+            echo "::error::The OPENROUTER_API_KEY secret is missing. In the web studio: Setup, then 'Link the director to GitHub'."; exit 1; fi
+      - name: direct
+        run: |
+          for f in ${{ steps.f.outputs.films }}; do python3 harness/director/showrunner.py "$f" || echo "::warning::$f stopped (see status.json)"; done
+      - name: save the work
+        if: always()
+        run: |
+          git config user.name "kinoforge-director"; git config user.email "director@kinoforge.local"
+          git add films voice/jobs || true
+          git diff --cached --quiet && exit 0
+          git commit -m "director: pre-production for ${{ steps.f.outputs.films }}"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
+      - name: narration
+        if: success()
+        run: |
+          for f in ${{ steps.f.outputs.films }}; do
+            id=$(basename "$f")
+            state=$(python3 -c "import json;print(json.load(open('$f/status.json')).get('state',''))" 2>/dev/null)
+            if [ "$state" = "ready" ] && [ -f "voice/jobs/$id.json" ]; then
+              q="voice/queue/director-$id.json"
+              printf '{"runs":[{"job":"voice/jobs/%s.json","engines":["omnivoice"]}],"note":"narration from the director"}\n' "$id" > "$q"
+              git add "$q" && git commit -qm "director: narration for $id" && for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
+              gh workflow run voice.yml -f queue="$q"
+            fi
+          done

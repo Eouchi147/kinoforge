@@ -298,12 +298,46 @@ function Renders() {
 }
 
 // ------------------------------------------------------------------ Setup: one key at a time
+function BuildKey() {
+  return (
+    <motion.section className="card glass" style={{ marginTop: 18 }} {...appear(3)}>
+      <h2>3. The build director (GitHub)</h2>
+      <p className="quiet" style={{ margin: '6px 0 0' }}>When you tap “Build this film”, the director plans and writes the film on GitHub’s machines. It needs its own OpenRouter key, with its own spending limit, so builds can never spend more than you allow.</p>
+      <ol className="steps">
+        <li><div>Open <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noreferrer">openrouter.ai/settings/keys</a>, tap <b>Create key</b>. Name: <code className="copy">KINOFORGE builds</code>. Credit limit: <b>3</b>. Create, then copy the key.</div></li>
+        <li><div>Open <a href="https://github.com/Eouchi147/kinoforge/settings/secrets/actions/new" target="_blank" rel="noreferrer">the repo’s new secret page</a>. Name: <code className="copy">OPENROUTER_API_KEY</code>. Secret: paste the key. Tap <b>Add secret</b>.</div></li>
+        <li><div>Tell me “builds linked”.</div></li>
+      </ol>
+    </motion.section>
+  );
+}
+
+function Spend({ status }) {
+  const a = status?.account, c = status?.caps, seats = status?.seats || {}; const n = (id) => (id || '—').split('/').pop();
+  if (!status?.openrouter) return null;
+  return (
+    <motion.section className="card glass refract" style={{ marginBottom: 18 }} {...appear(1)}>
+      <h2>Money</h2>
+      <dl>
+        <div style={{ display: 'contents' }}><dt>Left on the studio key</dt><dd>{a?.remaining != null ? `$${a.remaining.toFixed(2)} of $${(a.limit ?? 0).toFixed(2)}` : 'no limit set'}</dd></div>
+        {a?.today != null && <div style={{ display: 'contents' }}><dt>Spent today</dt><dd>${a.today.toFixed(3)} (stops at ${c?.day_usd})</dd></div>}
+        <div style={{ display: 'contents' }}><dt>Caps</dt><dd>${c?.turn_usd} per message, ${c?.film_usd} per film, ${c?.day_usd} per day, {c?.max_loops} review loops</dd></div>
+        <div style={{ display: 'contents' }}><dt>Head</dt><dd>{n(seats.head?.[0])}: plans, talks with you, final review</dd></div>
+        <div style={{ display: 'contents' }}><dt>Deputy</dt><dd>{n(seats.deputy?.[0])}: reviews every step</dd></div>
+        <div style={{ display: 'contents' }}><dt>Crew</dt><dd>{(seats.crew || []).slice(0, 3).map(n).join(', ')}: drafts in parallel</dd></div>
+        <div style={{ display: 'contents' }}><dt>Backup</dt><dd>{(seats.free || []).slice(0, 2).map(n).join(', ')} (free)</dd></div>
+      </dl>
+    </motion.section>
+  );
+}
+
 function Setup({ status }) {
   const vercelEnv = 'https://vercel.com/samkeamy-7230s-projects/kinoforge-studio/settings/environment-variables';
   const S = ({ ok }) => <span className={'chip' + (ok ? ' on' : '')}><i className={'dot ' + (ok ? 'ok' : '')} />{ok ? 'Connected' : 'Not connected yet'}</span>;
   return (
     <>
-      <motion.div className="page-head" {...appear(0)}><div><h1>Setup</h1><p className="lede">Two keys give the director its brain and its hands. Do the first one now; the second when it asks.</p></div></motion.div>
+      <motion.div className="page-head" {...appear(0)}><div><h1>Setup</h1><p className="lede">The director’s brain, its hands, and what it may spend.</p></div></motion.div>
+      <Spend status={status} />
       <motion.section className="card glass refract" style={{ marginBottom: 18 }} {...appear(1)}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}><h2>1. The director’s brain (OpenRouter)</h2><S ok={status?.openrouter} /></div>
         <ol className="steps">
@@ -324,6 +358,7 @@ function Setup({ status }) {
           <li><div>Tell me “GitHub added”.</div></li>
         </ol>
       </motion.section>
+      <BuildKey />
     </>
   );
 }
