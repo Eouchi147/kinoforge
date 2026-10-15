@@ -169,7 +169,10 @@ def treatment(B, brief, tier):
             f'"slow" shots play at 2/3 speed, so they need use x 0.67 s of source. The used times add up to {brief["duration"]} s; the last {brief.get("end_card_s", 3)} s of the last shot carry the end card '
             f'(make that shot calm and at least {brief.get("end_card_s", 3) + 1} s). Aspect {brief.get("aspect", "16:9")}. Voiceover: about 2.5 words per second, first 1.5 s clear. Music: give a tempo in BPM.')
     t, m = ask('head', [{'role': 'system', 'content': sys_p}, {'role': 'user', 'content': user}], TREAT, B.led, name='treatment', max_tokens=4000, label='treatment')
+    json.dump(t, open(os.path.join(ROOT, 'pieces', brief['id'], 'treatment.raw.json'), 'w'), indent=1)
     for s in t['shots']:
+        s.setdefault('speed', 'normal'); s.setdefault('transition', 'cut'); s.setdefault('refs', [])
+        s['seconds'] = int(round(float(s.get('seconds') or durs[0]))); s['use'] = float(s.get('use') or s['seconds']); s['use_from'] = float(s.get('use_from') or 0)
         need = s['use_from'] + s['use'] * (0.67 if s['speed'] == 'slow' else 1.0)
         s['seconds'] = min([d for d in durs if d >= need] or [max(durs)], key=lambda d: abs(d - max(s['seconds'], need)))
         s['use_from'] = max(0.0, min(s['use_from'], s['seconds'] - s['use'] * (0.67 if s['speed'] == 'slow' else 1.0)))
@@ -337,5 +340,7 @@ def main(pdir):
     save(); log(f'done: {final}  ${B.led.total:.2f}')
 
 if __name__ == '__main__':
+    import traceback
     try: main(sys.argv[1])
     except OverBudget as e: print('STOPPED (budget):', e); sys.exit(2)
+    except Exception: traceback.print_exc(); sys.exit(1)

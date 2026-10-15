@@ -20,7 +20,7 @@ jobs:
       - name: resume earlier work (paid steps are never redone)
         run: gh release download pieces -p "$P-work.tgz" -D /tmp 2>/dev/null && tar xzf /tmp/$P-work.tgz -C pieces/$P || echo "fresh start"
       - name: make the piece
-        run: python3 harness/shots/factory.py pieces/$P
+        run: set -o pipefail; python3 -u harness/shots/factory.py pieces/$P 2>&1 | tee /tmp/$P.log
       - name: publish
         if: always()
         run: |
@@ -30,6 +30,7 @@ jobs:
           [ -f $P.mp4 ] && gh release upload pieces $P.mp4 --clobber; [ -f $P-9x16.mp4 ] && gh release upload pieces $P-9x16.mp4 --clobber
           [ -f contact.jpg ] && cp contact.jpg /tmp/$P-contact.jpg && gh release upload pieces /tmp/$P-contact.jpg --clobber
           tar czf /tmp/$P-work.tgz work && gh release upload pieces /tmp/$P-work.tgz --clobber || true
+          [ -f /tmp/$P.log ] && gh release upload pieces /tmp/$P.log --clobber || true
       - name: save the record
         if: always()
         run: |
