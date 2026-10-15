@@ -1,0 +1,26 @@
+{
+ "type": "ad",
+ "tier": "standard",
+ "policy": "unmissed",
+ "aspect": "16:9",
+ "end_card_s": 3,
+ "clip_audio": false,
+ "stop_after": "keyframes",
+ "direction": "voltage",
+ "duration": 20,
+ "corner_label": "Concept by Unmissed, AI-assisted",
+ "concept_label": "Concept by Unmissed, AI-assisted",
+ "brand": {
+  "name": "Saffron Hearth Kitchen",
+  "what": "an invented family-run Middle Eastern and North African grill and bakery in Toronto: charcoal grill, fresh flatbread from a clay oven, slow-cooked lamb and chicken, mint tea",
+  "audience": "families and friends looking for a warm sit-down meal or catering"
+ },
+ "idea": "Fire and bread. Kinetic close-ups of flatbread puffing in the clay oven, skewers hitting the charcoal with a flare, spices falling in slow motion, a family table filling up, laughter, mint tea poured from height. End on the whole family table.",
+ "end_card": {
+  "brand": "Saffron Hearth Kitchen",
+  "line": "Fire, bread, and a table for everyone.",
+  "cta": ""
+ },
+ "notes": "No alcohol and no pork anywhere on screen. Modest wardrobe. Invented business, no real people.",
+ "id": "concept-restaurant-01"
+}

@@ -1,0 +1,26 @@
+{
+ "type": "ad",
+ "tier": "standard",
+ "policy": "unmissed",
+ "aspect": "16:9",
+ "end_card_s": 3,
+ "clip_audio": false,
+ "stop_after": "keyframes",
+ "direction": "voltage",
+ "duration": 20,
+ "corner_label": "Concept by Unmissed, AI-assisted",
+ "concept_label": "Concept by Unmissed, AI-assisted",
+ "brand": {
+  "name": "Mirrorline Detailing",
+  "what": "an invented mobile car detailing studio in Toronto: foam wash, clay bar, paint correction, ceramic coating, interior deep clean",
+  "audience": "car owners who want their car to look new again"
+ },
+ "idea": "From road salt to mirror. A tired winter-grey car rolls into a dark bay; foam cannon in slow motion, water beading off fresh ceramic coating, a polisher sweeping away swirls in one pass, the light bar reflecting perfectly in the hood. End on the gleaming car and the detailer stepping back.",
+ "end_card": {
+  "brand": "Mirrorline Detailing",
+  "line": "Your car. Like the first day.",
+  "cta": ""
+ },
+ "notes": "Invented business and people, modest wardrobe. Cars are generic, no real car brand badges or logos visible.",
+ "id": "concept-detailing-01"
+}

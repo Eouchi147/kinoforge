@@ -1,0 +1,40 @@
+{
+ "type": "ad",
+ "tier": "standard",
+ "policy": "unmissed",
+ "aspect": "16:9",
+ "end_card_s": 3,
+ "clip_audio": false,
+ "stop_after": "keyframes",
+ "direction": "classic",
+ "duration": 30,
+ "end_card_style": {
+  "bg": "#101014",
+  "fg": "#ffffff",
+  "muted": "#a9aeb9",
+  "accent": "#2f7df6",
+  "node": "#79b4ff",
+  "font": "Instrument Sans",
+  "logo": "ring-node"
+ },
+ "brand": {
+  "name": "Unmissed",
+  "what": "The AI front desk for owner-run businesses",
+  "audience": "owners of small, owner-run businesses in Toronto who are too busy serving customers to answer every enquiry"
+ },
+ "idea": "A day and a night in the life of a busy owner (invent the business: a family bakery). Hands in dough, phone buzzing unseen. A late-night website enquiry is answered in seconds, signed by the bakery. The owner sees the alert on their phone the next morning, smiles, and keeps working. A customer leaves happy; a polite review request arrives. Calm, warm, human. The technology stays invisible: we see its effect on a real-feeling day.",
+ "allowed_claims": [
+  "every website enquiry answered in seconds, day and night, signed by the business",
+  "the owner alerted on their phone, and one polite follow-up",
+  "every customer marked done asked for a review within 24 hours",
+  "English and French",
+  "the owner owns every account and approves what goes live"
+ ],
+ "end_card": {
+  "brand": "Unmissed",
+  "line": "See it working. Then decide.",
+  "cta": "You own it. You approve it. We prove it."
+ },
+ "notes": "Invented people, modest wardrobe. Phone screens show soft abstract UI shapes, never readable text. No prices, no URL, no testimonials, no numbers of clients.",
+ "id": "unmissed-brand-01"
+}

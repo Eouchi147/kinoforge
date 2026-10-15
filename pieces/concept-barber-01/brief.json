@@ -1,0 +1,26 @@
+{
+ "type": "ad",
+ "tier": "standard",
+ "policy": "unmissed",
+ "aspect": "16:9",
+ "end_card_s": 3,
+ "clip_audio": false,
+ "stop_after": "keyframes",
+ "direction": "voltage",
+ "duration": 20,
+ "corner_label": "Concept by Unmissed, AI-assisted",
+ "concept_label": "Concept by Unmissed, AI-assisted",
+ "brand": {
+  "name": "Kestrel Barber Co.",
+  "what": "an invented neighbourhood barbershop in Toronto: skin fades, beard sculpting, hot towel shaves",
+  "audience": "men and teens who want a sharp cut and a good chair"
+ },
+ "idea": "The ritual of a fresh cut. Clippers buzzing in extreme close-up, a fade blending line by line, the hot towel steam rising in slow motion, a straight razor edge-up, the cape whipped off, the client checks the mirror and grins. Confident, rhythmic, clean.",
+ "end_card": {
+  "brand": "Kestrel Barber Co.",
+  "line": "Walk in. Walk out sharper.",
+  "cta": ""
+ },
+ "notes": "Invented business and people, modest wardrobe, non-medical grooming only. No real brands of clippers or products visible.",
+ "id": "concept-barber-01"
+}

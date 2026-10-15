@@ -17,7 +17,7 @@ from agents import ask, Ledger, ROOT, API, KEY, OverBudget, AllFailed
 
 TIERS = {   # video model, resolution, keyframe model, per-piece cap
     'draft':    {'video': 'google/veo-3.1-lite', 'res': '720p', 'image': 'bytedance-seed/seedream-5-0-pro', 'cap': 4.0},
-    'standard': {'video': 'google/veo-3.1-fast', 'res': '1080p', 'image': 'bytedance-seed/seedream-5-0-pro', 'cap': 9.0},
+    'standard': {'video': 'google/veo-3.1-fast', 'res': '1080p', 'image': 'bytedance-seed/seedream-5-0-pro', 'cap': 10.0},
     'premium':  {'video': 'google/veo-3.1', 'res': '1080p', 'image': 'google/gemini-3-pro-image', 'cap': 12.0},
     'kling':    {'video': 'kwaivgi/kling-v3.0-pro', 'res': '720p', 'image': 'bytedance-seed/seedream-5-0-pro', 'cap': 9.0},
 }
