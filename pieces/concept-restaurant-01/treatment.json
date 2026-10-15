@@ -1,0 +1,177 @@
+{
+ "title": "Fire and Bread",
+ "logline": "A kinetic rush of charcoal flare, puffing flatbread and falling spice builds to a slow-motion mint tea pour and settles on a family table full of food and laughter at Saffron Hearth Kitchen.",
+ "look": "Stylised painterly 3D with an anime-illustration finish: cel-like shading on sculpted 3D forms, hand-painted textures on clay, bread crust, brass and wood, crisp warm rim light, rich ambient occlusion and deep blacks. Ultra-wide 14 to 18 mm lenses placed right up close for forced perspective and slight barrel distortion, extreme low angles, occasional top-down, foreground clutter of skewers, copper pots, tea glasses and bread baskets framing the subject in layered planes. Lighting is fire-driven: saturated ember orange and saffron gold key light against cool teal and deep blue shadow from evening windows, god rays cutting through oven smoke, floating sparks, flour dust and spice motes suspended in the air. Grade is high contrast and rich, warm highlights, teal shadows, glowing embers, appetising and inviting. Characters are invented, expressive and appealing, in modest full-coverage clothing. No text, no logos, no letters anywhere.",
+ "references": [
+  {
+   "id": "bread",
+   "what": "product",
+   "prompt": "The signature flatbread of the house, alone on a neutral warm grey background: a round, hand-stretched flatbread about 30 cm across, puffed high in the centre like a pillow, blistered golden-brown and charred leopard spots from a clay oven, dusted with flour at the edges, scattered sesame seeds and black nigella seeds on top, a faint glossy sheen of olive oil, a thin wisp of steam rising. Stylised painterly 3D, cel-like shading, hand-painted crust texture, crisp warm rim light. No text, no logos."
+  },
+  {
+   "id": "teapot",
+   "what": "product",
+   "prompt": "A traditional North African mint tea set alone on a neutral warm grey background: a polished silver-brass teapot with a domed lid, curved long spout and engraved geometric patterning, beside three small clear tea glasses with hand-painted gold and teal geometric bands, each glass holding amber tea with a sprig of fresh green mint. Stylised painterly 3D, cel-like shading, crisp rim light, rich reflections. No text, no logos, no letters in the patterns."
+  },
+  {
+   "id": "family",
+   "what": "character",
+   "prompt": "An invented multigenerational family of six standing together on a neutral warm grey background, full bodies visible, stylised painterly 3D with an anime-illustration finish, expressive and appealing faces: a grandmother in her seventies with a soft round face, laugh lines and a deep teal headscarf with a long-sleeved saffron-coloured dress; a grandfather with a short white beard, a cream knit cap and a long-sleeved olive tunic; a mother in her thirties with a burgundy headscarf and a long-sleeved navy dress; a father in his thirties with a short dark beard, a charcoal apron over a long-sleeved white shirt, forearms dusted with flour; a girl around nine with two dark braids in a long-sleeved mustard sweater and long skirt; a boy around six with curly hair in a long-sleeved teal shirt and trousers. Modest clothing, warm rim light. No text, no logos."
+  },
+  {
+   "id": "hearth",
+   "what": "location",
+   "prompt": "The interior of an invented family-run Middle Eastern and North African grill and bakery at evening: a large domed clay oven glowing orange at the back wall, a long open charcoal grill with glowing embers, hanging copper pots, terracotta tiles, wooden shelves of spice jars and bread baskets, brass lanterns casting patterned light, a long wooden family table in the foreground, tall windows showing a cool teal-blue dusk outside. Stylised painterly 3D with hand-painted textures, god rays through drifting smoke, floating sparks and dust motes. No people, no text, no signs, no logos."
+  }
+ ],
+ "shots": [
+  {
+   "id": "S1",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.5,
+   "speed": "normal",
+   "refs": [
+    "bread",
+    "hearth"
+   ],
+   "keyframe": "Impossible angle from inside the domed clay oven, 14 mm ultra-wide looking out through the round oven mouth: the curved glowing clay walls fill the frame edges in ember orange, a flat disc of raw dough sits on the hot stone floor in the immediate foreground, beyond the oven mouth the father's floured hands and a long wooden peel silhouetted against the cool teal kitchen. Sparks float in the air, heat shimmer, deep black shadows in the dome.",
+   "motion": "Fast push-in toward the dough as it inflates in real time, the centre ballooning into a puffed golden pillow, blistering and spotting dark, flour lifting off the surface in the heat.",
+   "transition": "fade_from_black"
+  },
+  {
+   "id": "S2",
+   "seconds": 4,
+   "use_from": 1.0,
+   "use": 1.2,
+   "speed": "normal",
+   "refs": [
+    "hearth"
+   ],
+   "keyframe": "Extreme low angle from grill level, 16 mm, the camera almost touching the bed of glowing charcoal: in the foreground a row of glowing embers, above them the father's hand lowering four metal skewers of marinated chicken and minced lamb kofta, dark teal shadow behind, sparks rising.",
+   "motion": "The skewers slap down onto the grate and fat hits the coals, a burst of orange flame flares up toward the lens, sparks spray outward, handheld camera jolts with the impact.",
+   "transition": "flash"
+  },
+  {
+   "id": "S3",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 2.0,
+   "speed": "slow",
+   "refs": [
+    "hearth"
+   ],
+   "keyframe": "Top-down macro, 18 mm, over a dark cast-iron pan of sizzling sliced lamb: a hand above pinches saffron threads, red sumac, golden cumin and green dried mint, the spice dust lit by a single god ray through smoke, teal shadows around the pan's edge.",
+   "motion": "In slow motion the spices fall from the open fingers in a glittering cascade of red, gold and green particles, tumbling through the light shaft and landing on the sizzling meat with tiny puffs of steam; the camera slowly drifts down with the fall.",
+   "transition": "cut"
+  },
+  {
+   "id": "S4",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.2,
+   "speed": "normal",
+   "refs": [
+    "bread",
+    "family"
+   ],
+   "keyframe": "Close ultra-wide, 14 mm, the grandmother's weathered hands fill the frame holding the fresh puffed flatbread, her teal headscarf and smiling face soft behind, sesame and nigella seeds sharp, warm rim light from the oven.",
+   "motion": "She tears the bread open in one motion, a thick plume of steam bursts out toward the lens, the crust crackles; quick push-in on the steam.",
+   "transition": "cut"
+  },
+  {
+   "id": "S5",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 2.0,
+   "speed": "normal",
+   "refs": [
+    "hearth",
+    "bread",
+    "family"
+   ],
+   "keyframe": "Low angle from tabletop height, 16 mm, on the long wooden family table: foreground clutter of a bread basket of puffed flatbread, a bowl of hummus with olive oil, tabbouleh and pickles, mid-ground the mother and father leaning in placing a big platter of grilled chicken and kofta skewers, brass lanterns above, teal windows behind.",
+   "motion": "Orbit around the table as dishes land one after another in rhythm: the skewer platter, a clay tagine, a plate of rice with almonds, hands reaching in from every side, the table filling in seconds.",
+   "transition": "whip"
+  },
+  {
+   "id": "S6",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.5,
+   "speed": "normal",
+   "refs": [
+    "family",
+    "hearth"
+   ],
+   "keyframe": "Extreme low angle, 14 mm, looking up past the edge of the table: the grandfather mid-laugh with head tipped back, the girl with braids beside him clapping, the boy leaning on his shoulder, warm lantern light on their faces, teal dusk window behind, slight Dutch tilt.",
+   "motion": "The whole group bursts into laughter, the grandfather slaps the table, the boy nearly topples into him and grins; handheld energy with a quick push-in.",
+   "transition": "cut"
+  },
+  {
+   "id": "S7",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 3.0,
+   "speed": "slow",
+   "refs": [
+    "teapot",
+    "family"
+   ],
+   "keyframe": "Low wide angle, 16 mm, from beside a small tea glass on the table: in the foreground the empty patterned glass with a mint sprig, above it the mother holding the silver-brass teapot raised high above her head, the long spout pointing down, lanterns and warm light behind her, steam beginning to rise.",
+   "motion": "In slow motion a long amber ribbon of mint tea arcs from the high spout down into the glass, a crown of golden foam blooming at the surface, droplets frozen mid-air catching the firelight; the camera tilts up the stream from glass to pot.",
+   "transition": "flash"
+  },
+  {
+   "id": "S8",
+   "seconds": 4,
+   "use_from": 0.5,
+   "use": 1.3,
+   "speed": "normal",
+   "refs": [
+    "hearth",
+    "family"
+   ],
+   "keyframe": "Close top-down, 18 mm, over a terracotta tagine on the table, the father's hand gripping the conical lid's knob, a ring of slow-cooked lamb with apricots and almonds just visible at the edge, warm amber light.",
+   "motion": "He lifts the lid in one quick motion, a cloud of fragrant steam rolls up and past the lens revealing glistening lamb; fast crash zoom in.",
+   "transition": "cut"
+  },
+  {
+   "id": "S9",
+   "seconds": 8,
+   "use_from": 0.5,
+   "use": 6.3,
+   "speed": "normal",
+   "refs": [
+    "family",
+    "hearth",
+    "bread",
+    "teapot"
+   ],
+   "keyframe": "Calm hero wide, 18 mm, slightly low from the end of the long wooden table: the whole invented family of six seated together around a full spread of flatbread, skewers, tagine, salads and mint tea glasses, the glowing domed clay oven and charcoal grill behind them, brass lanterns overhead, cool teal dusk in the windows, soft smoke and floating embers, everyone relaxed and smiling, passing bread to one another.",
+   "motion": "A slow, steady push-in along the table as the grandmother passes the flatbread to the girl and the family settles into warm conversation; embers drift gently, the camera settles and holds still for the final seconds, leaving calm space in the upper frame.",
+   "transition": "whip"
+  }
+ ],
+ "voiceover": [
+  {
+   "start": 2.0,
+   "text": "[warmly] We light the fire early."
+  },
+  {
+   "start": 6.2,
+   "text": "The bread comes out breathing."
+  },
+  {
+   "start": 13.8,
+   "text": "[with a smile] Bring everyone. We'll make room."
+  }
+ ],
+ "voice": "sarah",
+ "music": "Punchy modern breakbeat at 110 BPM fused with North African and Middle Eastern percussion: darbuka, riq and frame drum layered over a tight hip-hop kick and snare, a plucked oud riff and handclaps. Opens with a single ember-crackle hit and a darbuka roll, builds fast through the montage with cuts landing on the beat, a big drop at the mint tea slow-motion pour around 9.4 s with a deep bass hit and a soaring oud line, then strips back to warm oud, soft hand drum and a sustained pad for the calm family table and end card, resolving on a gentle final chord. No vocals.",
+ "end_card": {
+  "brand": "Saffron Hearth Kitchen",
+  "line": "Fire, bread, and a table for everyone.",
+  "cta": "Concept by Unmissed, AI-assisted"
+ }
+}

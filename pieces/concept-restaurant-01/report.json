@@ -1,0 +1,89 @@
+{
+ "id": "concept-restaurant-01",
+ "tier": "standard",
+ "models": {
+  "video": "google/veo-3.1-fast",
+  "res": "1080p",
+  "image": "bytedance-seed/seedream-5-0-pro",
+  "cap": 10.0
+ },
+ "steps": [
+  {
+   "treatment": "anthropic/claude-opus-5.5"
+  }
+ ],
+ "usd": 1.4104,
+ "keyframes": {
+  "S1": {
+   "score": 8,
+   "problems": [
+    "Father's left hand on the peel handle has distorted finger anatomy and the grip reads oddly",
+    "Mother's hands are blurred/indistinct with unclear finger structure",
+    "Foreground dough reads as topped/par-baked with seeds rather than a plain flat disc of raw dough"
+   ]
+  },
+  "S2": {
+   "score": 9,
+   "problems": [
+    "Camera angle is slightly higher than the extreme grill-level spec, though still low and cinematic",
+    "Minor: the skewers and coals clutter the lower third heavily, slightly obscuring the charcoal ember row in the extreme foreground"
+   ]
+  },
+  "S3": {
+   "score": 7,
+   "problems": [
+    "Camera is a shallow-DOF three-quarter view, not the specified top-down macro 18 mm; no wide-angle barrel distortion or forced perspective, reads as a long-lens macro",
+    "Finish is smooth photoreal gradient shading and realistic PBR textures, lacking the cel-like flat shading, hand-painted clay/brass treatment and anime-illustration finish of the intended look",
+    "Pan is teal-blue enamel with a pale interior, not a dark cast-iron pan as scripted"
+   ]
+  },
+  "S4": {
+   "score": 8,
+   "problems": [
+    "Foreground hands show anatomical distortion: fingers are swollen, fused-looking and inconsistently shaped, especially the left hand's thumb and the right hand's grip on the bread",
+    "Bread filling the center reads more like a puffed dome than the flatbread silhouette in the product reference",
+    "Camera is not at the extreme low angle described in the shot brief; framing is closer to a straight-on medium close-up"
+   ]
+  },
+  "S5": {
+   "score": 8,
+   "problems": [
+    "The food on the hero platter reads as dark, indistinct blobs \u2014 grilled chicken and kofta are not clearly legible, hurting the appetising product read",
+    "The father's hands/fingers blur and partially merge with the platter rim",
+    "Foreground skewers in the lower left are muddy dark shapes with little form or texture"
+   ]
+  },
+  "S6": {
+   "score": 8,
+   "problems": [
+    "Camera is near eye-level rather than the specified extreme low angle looking up past the table edge, with no visible barrel distortion or forced perspective",
+    "Grandfather's head is upright, not tipped back as specified",
+    "No noticeable Dutch tilt"
+   ]
+  },
+  "S7": {
+   "score": 7,
+   "problems": [
+    "Teapot is not raised high above the mother's head as the shot describes; it is held at shoulder/chest level and the spout points toward the glass rather than downward",
+    "Mother's gripping hand on the teapot handle shows slightly muddy, unnatural finger shapes at this scale",
+    "Foreground glass appears empty with no steam or liquid beginning to pour, weakening the 'steam beginning to rise' action beat"
+   ]
+  },
+  "S8": {
+   "score": 8,
+   "problems": [
+    "Camera is an elevated 3/4 view rather than the intended close top-down; tagine reads more side-on than plan view",
+    "The lamb with apricots and almonds is fully revealed instead of just visible at the edge of the frame, undercutting the lid-lift reveal moment",
+    "Fingertips where the hand grips the knob look slightly fused/soft in detail, a subtle anatomy/merge artefact on close inspection"
+   ]
+  },
+  "S9": {
+   "score": 8,
+   "problems": [
+    "Product mismatch: the reference flatbread is a puffed, sesame-studded round loaf; the bread in frame is plain stacked flatbreads without the sesame/charred-dome hero look",
+    "Hands are soft and slightly merged where the man and grandmother pass bread, fingers not crisply resolved",
+    "Child in the middle has unclear arm/hand separation against the table"
+   ]
+  }
+ }
+}
