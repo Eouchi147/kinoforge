@@ -5,7 +5,6 @@
  "aspect": "16:9",
  "end_card_s": 3,
  "clip_audio": false,
- "stop_after": "keyframes",
  "direction": "voltage",
  "duration": 20,
  "corner_label": "Concept by Unmissed, AI-assisted",
