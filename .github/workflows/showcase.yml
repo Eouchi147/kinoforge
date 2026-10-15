@@ -6,8 +6,6 @@ on:
   workflow_dispatch:
     inputs:
       films: { description: 'comma-separated ids (sc-clay,...) or "all"', default: 'all' }
-  schedule:
-    - cron: '*/20 * * * *'      # starts by itself once the OPENROUTER_API_KEY secret exists (then never again: films/showcase/started.txt)
 permissions:
   contents: write
   actions: write
