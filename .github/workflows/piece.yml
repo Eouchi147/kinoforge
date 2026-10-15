@@ -33,6 +33,7 @@ jobs:
           for f in $P.mp4 $P-9x16.mp4 contact.jpg; do [ -f "$f" ] && cp "$f" "/tmp/$P-${f#$P-}" ; done
           [ -f $P.mp4 ] && gh release upload pieces $P.mp4 --clobber; [ -f $P-9x16.mp4 ] && gh release upload pieces $P-9x16.mp4 --clobber
           [ -f contact.jpg ] && cp contact.jpg /tmp/$P-contact.jpg && gh release upload pieces /tmp/$P-contact.jpg --clobber
+          [ -f keyframes.jpg ] && cp keyframes.jpg /tmp/$P-keyframes.jpg && gh release upload pieces /tmp/$P-keyframes.jpg --clobber
           tar czf /tmp/$P-work.tgz work && gh release upload pieces /tmp/$P-work.tgz --clobber || true
           [ -f /tmp/$P.log ] && gh release upload pieces /tmp/$P.log --clobber || true
       - name: save the record

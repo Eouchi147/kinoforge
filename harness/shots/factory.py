@@ -329,12 +329,25 @@ def main(pdir):
         o = os.path.join(pdir, 'work', f'kf-{s["id"]}.png'); rr = [refs[x] for x in s['refs'] if x in refs]
         prompt = f'{s["keyframe"]}\nStyle: {look_txt}\nKeep every referenced subject exactly as in the reference images. Aspect {brief.get("aspect", "16:9")}. No text, no letters, no logos, no watermarks.'
         if not os.path.exists(o): image(B, T['image'], prompt, rr, o, f'keyframe {s["id"]}')
-        v = look(B, f'look {s["id"]}', f'This still is the first frame of shot {s["id"]} of a premium commercial: "{s["keyframe"]}". Score it as a frame of a premium ad. List visible problems: wrong subject, anatomy, product deformed vs reference, text or letters, ugly composition, artefacts.', [o] + rr[:2])
-        if v['score'] < 7:
-            log(f'{s["id"]} keyframe {v["score"]}: redo ({v["problems"][:3]})')
-            image(B, T['image'], prompt + '\nAvoid: ' + '; '.join(v['problems'][:5]), rr, o, f'keyframe {s["id"]} redo')
+        ask_eyes = lambda path: look(B, f'look {s["id"]}', f'This still is the first frame of shot {s["id"]} of a premium commercial: "{s["keyframe"]}". The other images are the references it must match (characters, product, place, style). Score it 0-10 as a frame of a premium ad. List visible problems: wrong subject, anatomy (hands, faces), product or character not matching the references, style not matching, text or letters, weak composition, artefacts.', [path] + rr[:3])
+        v = ask_eyes(o); best = (v['score'], o, v)
+        ladder = [T['image'], 'google/gemini-3-pro-image']            # retry, then the strongest image model
+        for k, mdl in enumerate(ladder):
+            if best[0] >= 7: break
+            alt = o.replace('.png', f'.try{k + 1}.png')
+            log(f'{s["id"]} keyframe {best[0]}: try {k + 2} with {mdl.split("/")[-1]} ({best[2]["problems"][:2]})')
+            try: image(B, mdl, prompt + '\nFix these problems from the previous attempt: ' + '; '.join(best[2]['problems'][:5]), rr, alt, f'keyframe {s["id"]} try {k + 2}')
+            except AllFailed as e: log(e); continue
+            v2 = ask_eyes(alt)
+            if v2['score'] > best[0]: best = (v2['score'], alt, v2)
+        if best[1] != o: os.replace(best[1], o)
+        report.setdefault('keyframes', {})[s['id']] = {'score': best[0], 'problems': best[2]['problems'][:3]}
         kfs.append(o)
     save()
+    sheet_kf = os.path.join(pdir, 'keyframes.jpg')
+    run(['ffmpeg', '-v', 'error', '-y', '-pattern_type', 'glob', '-i', os.path.join(pdir, 'work', 'kf-*.t768.jpg'), '-vf', f'scale=384:-2,tile=4x{math.ceil(len(kfs) / 4)}', '-frames:v', '1', sheet_kf]) if glob.glob(os.path.join(pdir, 'work', 'kf-*.t768.jpg')) else None
+    if brief.get('stop_after') == 'keyframes':
+        log('stopped after keyframes for review (brief.stop_after)'); return
     def make_clip(s, kf):
         o = os.path.join(pdir, 'work', f'clip-{s["id"]}.mp4')
         mp = f'{s["motion"]}. {look_txt} Smooth, physically plausible motion; subjects keep their exact appearance; no text appears.'
