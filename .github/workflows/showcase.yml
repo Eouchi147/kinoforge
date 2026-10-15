@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: p
         shell: python
-        env: { FILMS: '${{ github.event.inputs.films }}', HAS_KEY: '${{ secrets.OPENROUTER_API_KEY != '' }}', EVENT: '${{ github.event_name }}' }
+        env: { FILMS: '${{ github.event.inputs.films }}', HAS_KEY: "${{ secrets.OPENROUTER_API_KEY != '' }}", EVENT: '${{ github.event_name }}' }
         run: |
           import json, os, glob
           if os.environ['EVENT'] == 'schedule' and (os.environ['HAS_KEY'] != 'true' or os.path.exists('films/showcase/started.txt')):
