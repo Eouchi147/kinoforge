@@ -121,7 +121,7 @@ function Director({ status, go }) {
       const j = await r.json();
       if (!r.ok) throw Object.assign(new Error(j.error), { code: j.code });
       setMsgs([...next, { role: 'assistant', content: j.say, step: j.step_for_sam }]); setOptions(j.options || []); setBrief(j.brief); setReady(Boolean(j.ready));
-    } catch (e) { setErr(e.code === 'credits' ? 'Your OpenRouter balance is empty. Add credits on the Setup page, then try again.' : e.code === 'no-key' ? null : 'The director could not answer just now. Send your message again.'); }
+    } catch (e) { setErr(e.code === 'limit' ? 'Today’s free messages are used up. They reset tomorrow; or add $10 once on OpenRouter to get 1,000 a day.' : e.code === 'credits' ? 'This model needs credits. The studio is set to free models, so try again in a moment.' : e.code === 'no-key' ? null : 'The director could not answer just now. Send your message again.'); }
     setBusy(false);
   }
   async function build() {
@@ -129,7 +129,7 @@ function Director({ status, go }) {
     const j = await r.json(); setSaved(j.saved ? `Saved as films/${j.id}. The build agent picks it up from here.` : j.code === 'no-github' ? 'Connect GitHub on the Setup page so the studio can save and build films.' : j.error);
   }
   const lastStep = [...msgs].reverse().find((m) => m.step)?.step;
-  const nextForSam = !status ? 'Checking the studio…' : !status.openrouter ? 'Connect the director’s brain: add your OpenRouter key (Setup, 5 short steps).' : saved ? saved : ready ? 'The story is ready. Tap “Build this film”.' : lastStep || 'Talk with the director. Tap an answer or type your own.';
+  const nextForSam = !status ? 'Checking the studio…' : !status.openrouter ? 'Connect the director’s brain: add your OpenRouter key (Setup, 4 short steps).' : saved ? saved : ready ? 'The story is ready. Tap “Build this film”.' : lastStep || 'Talk with the director. Tap an answer or type your own.';
 
   return (
     <>
@@ -140,7 +140,7 @@ function Director({ status, go }) {
         <motion.section className="convo glass refract" {...appear(1)} aria-label="Conversation with the director">
           <div className="thread" ref={thread} aria-live="polite">
             {!connected && status && (
-              <div className="msg ai">I’m the studio’s director. I need my brain connected before we talk: it takes five short steps on the Setup page, and I’ll be ready the moment you finish.</div>
+              <div className="msg ai">I’m the studio’s director. I need my brain connected before we talk: it takes four short steps on the Setup page, and I’ll be ready the moment you finish.</div>
             )}
             {msgs.map((m, i) => (
               <motion.div key={i} className={'msg ' + (m.role === 'user' ? 'me' : 'ai')} initial={{ opacity: 0, y: 8, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.4, ease }}>{m.content}</motion.div>
@@ -174,7 +174,7 @@ function Director({ status, go }) {
             </dl>
             {!!msgs.length && <button className="btn ghost" style={{ marginTop: 16 }} onClick={() => { setMsgs([]); setBrief(null); setOptions([]); setReady(false); setSaved(null); }}>Start a new film</button>}
           </motion.div>
-          {status?.openrouter && status?.models?.length > 0 && <p className="faint" style={{ margin: '0 6px' }}>Thinking with {status.models[0]}, the strongest model on OpenRouter right now.</p>}
+          {status?.openrouter && status?.models?.length > 0 && <p className="faint" style={{ margin: '0 6px' }}>Thinking with {status.models[0]}{status.budget === 'free' ? ', the strongest free model on OpenRouter right now' : ''}.</p>}
         </aside>
       </div>
     </>
@@ -304,7 +304,6 @@ function Setup({ status }) {
         <ol className="steps">
           <li><div>Open <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noreferrer">openrouter.ai/settings/keys</a> and sign in.</div></li>
           <li><div>Tap <b>Create key</b>, name it <code className="copy">KINOFORGE</code>, and copy the key.</div></li>
-          <li><div>Open <a href="https://openrouter.ai/settings/credits" target="_blank" rel="noreferrer">Credits</a> and add <b>$20</b>. That covers about two films.</div></li>
           <li><div>Open the <a href={vercelEnv} target="_blank" rel="noreferrer">studio’s settings on Vercel</a>, tap <b>Add</b>. Name: <code className="copy">OPENROUTER_API_KEY</code>. Value: paste the key. Tap <b>Save</b>.</div></li>
           <li><div>Tell me “key added” in our chat. I redeploy the studio and the director wakes up.</div></li>
         </ol>
