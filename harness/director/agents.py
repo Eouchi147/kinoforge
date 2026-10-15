@@ -85,11 +85,11 @@ class Ledger:
 
 
 def parse_json(text):
+    """The outermost complete JSON object in a reply. A truncated reply raises instead of yielding a nested fragment."""
     dec = json.JSONDecoder(); t = str(text or ''); i = t.find('{')
-    while i != -1:
-        try: return dec.raw_decode(t, i)[0]
-        except ValueError: i = t.find('{', i + 1)
-    raise ValueError('no JSON object in the reply')
+    if i == -1: raise ValueError('no JSON object in the reply')
+    try: return dec.raw_decode(t, i)[0]
+    except ValueError: raise ValueError('the JSON in the reply is incomplete (truncated?)')
 
 
 def _cached(messages, model):
