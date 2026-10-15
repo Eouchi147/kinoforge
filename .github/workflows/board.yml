@@ -1,0 +1,34 @@
+# Style board: a few stills per direction (images only, never video), so Sam picks a look before any video money is spent.
+# Dispatch with the board id (boards/<id>/board.json). Stills go to the "boards" release; the ledger and account usage are committed.
+name: board
+on:
+  workflow_dispatch:
+    inputs:
+      board: { description: 'board id under boards/', required: true }
+permissions:
+  contents: write
+concurrency: { group: 'board-${{ inputs.board }}', cancel-in-progress: false }
+jobs:
+  stills:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env: { B: '${{ inputs.board }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q pillow
+      - name: generate stills
+        env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}' }
+        run: set -o pipefail; python harness/shots/board.py boards/$B 2>&1 | tee boards/$B/board.log
+      - name: publish
+        if: always()
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          gh release view boards > /dev/null 2>&1 || gh release create boards --title "boards" --notes "Style boards: stills per direction, for Sam to choose a look before any video is made." || true
+          for f in boards/$B/out/*.jpg; do [ -f "$f" ] && cp "$f" "boards/$B/out/$B-$(basename $f)"; done
+          gh release upload boards boards/$B/out/$B-*.jpg --clobber || true
+          cp boards/$B/board.log boards/$B/$B-board.log && gh release upload boards boards/$B/$B-board.log --clobber || true
+          git config user.name "kinoforge-bot"; git config user.email "bot@users.noreply.github.com"
+          git add boards/$B/ledger.json boards/$B/account.json 2>/dev/null || true
+          git commit -qm "board $B: ledger" && (git pull -q --rebase && git push -q) || true
