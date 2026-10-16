@@ -1,0 +1,45 @@
+{
+ "cap": 1.9,
+ "total": 1.6,
+ "by_seat": {
+  "video": 1.6
+ },
+ "calls": [
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "ns-1-move",
+   "usd": 0.4,
+   "s": 94.2,
+   "ok": true,
+   "note": "reported"
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "ns-2-move",
+   "usd": 0.4,
+   "s": 92.8,
+   "ok": true,
+   "note": "reported"
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "ns-3-move",
+   "usd": 0.4,
+   "s": 107.8,
+   "ok": true,
+   "note": "reported"
+  },
+  {
+   "seat": "video",
+   "model": "google/veo-3.1-fast",
+   "task": "ns-4-move",
+   "usd": 0.4,
+   "s": 95.0,
+   "ok": true,
+   "note": "reported"
+  }
+ ]
+}

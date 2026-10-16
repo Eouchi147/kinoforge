@@ -1,0 +1,20 @@
+{
+ "before": {
+  "usage": 35.025852007,
+  "limit": 50,
+  "remaining": 14.974147993000003
+ },
+ "after": {
+  "usage": 35.029332007,
+  "limit": 50,
+  "remaining": 14.970667993
+ },
+ "board_spent": 0.0035,
+ "ledger_total": 1.6,
+ "frames": {
+  "ns-1-move": "google/veo-3.1-fast",
+  "ns-2-move": "google/veo-3.1-fast",
+  "ns-3-move": "google/veo-3.1-fast",
+  "ns-4-move": "google/veo-3.1-fast"
+ }
+}
