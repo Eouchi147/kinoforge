@@ -1,0 +1,15 @@
+{
+ "voice": "roger",
+ "lines": [
+  {
+   "text": "Unmissed.",
+   "file": "audio/vo/line0.mp3",
+   "dur": 1.228
+  },
+  {
+   "text": "A premium presence. An AI front desk.",
+   "file": "audio/vo/line1.mp3",
+   "dur": 3.474
+  }
+ ]
+}

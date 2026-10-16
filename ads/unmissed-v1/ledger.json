@@ -1,0 +1,77 @@
+{
+ "cap": 0.6,
+ "total": 0.04755,
+ "by_seat": {
+  "music": 0.04,
+  "voice": 0.00696,
+  "ears": 0.00059
+ },
+ "calls": [
+  {
+   "seat": "music",
+   "model": "google/lyria-3-clip-preview",
+   "task": "music",
+   "usd": 0.04,
+   "s": 11.9,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo brian 0",
+   "usd": 0.00084,
+   "s": 0.6,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo brian 1",
+   "usd": 0.00148,
+   "s": 1.1,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo eric 0",
+   "usd": 0.00084,
+   "s": 1.1,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo eric 1",
+   "usd": 0.00148,
+   "s": 1.3,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo roger 0",
+   "usd": 0.00084,
+   "s": 2.4,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo roger 1",
+   "usd": 0.00148,
+   "s": 1.0,
+   "ok": true
+  },
+  {
+   "seat": "ears",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "voice casting",
+   "usd": 0.000594,
+   "s": 15.5,
+   "ok": true,
+   "note": null
+  }
+ ]
+}

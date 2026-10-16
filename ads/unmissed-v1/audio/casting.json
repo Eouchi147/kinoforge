@@ -1,0 +1,22 @@
+{
+ "scores": [
+  {
+   "voice": "brian",
+   "score": 2,
+   "note": "Robotic cadence and stiff pacing undercut the premium brief; lacks warmth and natural flow"
+  },
+  {
+   "voice": "eric",
+   "score": 4,
+   "note": "More human than Brian but still somewhat disjointed between phrases; moderate warmth and confidence; clear but not luxurious"
+  },
+  {
+   "voice": "roger",
+   "score": 9,
+   "note": "Smooth, deep, and confident delivery with natural pacing and premium warmth; strong clarity and ideal fit for a luxury tech brand sign-off"
+  }
+ ],
+ "best": "roger",
+ "why": "Roger delivers the deepest, warmest, and most naturally confident read, with smooth phrasing and clear articulation that feel like a genuine luxury tech commercial sign-off.",
+ "model": "xiaomi/mimo-v2.6-pro"
+}
