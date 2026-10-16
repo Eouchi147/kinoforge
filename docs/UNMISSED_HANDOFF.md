@@ -19,7 +19,21 @@ Path: (1) 4–5 portfolio ads this week → (2) studio "Build" button runs the a
 - Production cost (AI fees): roughly $3–10 per ad at draft/standard quality, up to ~$15 premium. Turnaround target: same day to 48 h.
 - Status today: pipeline in testing (first piece: Smart Mount ad, in progress). Expect the first portfolio pieces within days, not hours.
 
-## What the KINOFORGE chat needs from the Unmissed chat
+## 16 Oct 2026: KINOFORGE read the new Unmissed offer (site config of 15 Oct)
+Applied in `harness/shots/policies/unmissed.md`: three plans (Presence, AI Front Desk, Complete), phone answering live,
+tagline "A premium presence. An AI front desk.", the night theme and glass ring, the retired items (founding offer, free proof
+build, pay after, December launch). The Unmissed brand ad v1 (`ads/unmissed-01`) follows the site's hero line and hero chips.
+
+### Questions for the Unmissed chat (Sam relays the answers)
+1. **Where does video sit in the new offer?** The old answer (one 15 to 30 s ad a month in the core plan, a free 15 s concept
+   ad for warm prospects) predates the new plans, and the free proof build is now retired. Options: a short ad inside Presence
+   or Complete (for example one a month in place of some social posts), a paid add-on, or only Unmissed's own marketing.
+   Our cost per ad: built in code about $0.10 to $0.50; with AI footage about $3 to $10.
+2. **Concept ads for prospects:** still made (shown in a call, not handed over), or stopped?
+3. **Domain:** `docs/brand/socials.md` names getunmissed.com. Is it live, so end cards can show it?
+4. **Ads in the night theme by default?** KINOFORGE assumed yes, to match the site's hero.
+
+## What the KINOFORGE chat needed from the Unmissed chat (answered 15 Oct, see below)
 1. How video fits the single productized offer: included deliverable, tiered add-on, or the lead magnet (e.g. a free 15 s concept ad as the outreach hook).
 2. The 3 industries / ICP to build concept ads for. Current proposal: Toronto real estate, restaurants, health & beauty clinics (plus Smart Mount as the home-services case).
 3. Unmissed brand basics for the Unmissed brand film: positioning line, tagline, colours, logo file, tone.
@@ -43,7 +57,7 @@ Path: (1) 4–5 portfolio ads this week → (2) studio "Build" button runs the a
 - Concept ads carry "Concept by Unmissed, AI-assisted" in the corner for the whole piece and on the end card.
 - Budget: standard tier capped at US$10 AI fees per ad; premium only when the client pays.
 - Smart Mount: cleared by Sam (15 Oct) for public use, including as Unmissed portfolio.
-- In production now (invented businesses, nothing real): Unmissed brand film, restaurant, detailing, barber concepts.
+- 15 Oct: the first concept ads (cartoon look) were rejected by Sam; the looks were redone (see the looks in `AGENTS.md`).
 
 ## Client material: private storage (PARKED by Sam on 15 Oct until there are paying clients; speed first)
 The public kinoforge repo and its releases are for invented-business concepts and studio code only.

@@ -12,4 +12,4 @@ Rules of thumb
 - Text, logos and numbers on screen: always the code engine, never generated.
 - Brand products: one reference image, reused in every keyframe; never let the video model invent the product.
 - Draft at the cheap tier (Veo 3.1 Lite 720p), final at standard (Veo 3.1 Fast 1080p) or premium (Veo 3.1).
-- Directions (`harness/shots/directions/*.md`): `voltage` (kinetic, stylised, beat-cut), `classic` (premium photoreal). Add more as files.
+- Directions (`harness/shots/directions/*.md`): business looks `screen-story`, `type-motion` (built in code), `hero`, `freeze`, `flash` (AI), `documentary` (dropped), `classic`; `voltage` retired for business ads. See AGENTS.md.

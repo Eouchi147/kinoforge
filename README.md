@@ -1,5 +1,7 @@
 # KINOFORGE
 
+> **Taking over this project? Read [`AGENTS.md`](AGENTS.md) first**, then [`docs/STATUS.md`](docs/STATUS.md). Since 15 Oct 2026 the studio's focus is premium short ads for Unmissed; the anthology below is the long-term film side.
+
 **A procedural cinema framework for directed, deterministic, CPU-rendered animation.**
 Every clip is code: a shot list with motivations, a camera rig, procedural materials and particles, a film-finishing pass
 (grade, halation, grain, letterbox, CRT/pixel/halftone/painterly modes), and a synthesised soundtrack placed from a cue sheet.
