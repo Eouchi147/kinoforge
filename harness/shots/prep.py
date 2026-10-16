@@ -96,7 +96,9 @@ def main(adir):
         for k, line in enumerate(P['dialogue']):
             dst = os.path.join(out, 'dialogue', f'line{k}.mp3'); os.makedirs(os.path.dirname(dst), exist_ok=True)
             speech(B, line['text'], line['voice'], dst, f'dialogue {k}')
-            segs, _ = wm.transcribe(dst, word_timestamps=True, language='en')
+            import librosa   # decode ourselves: newer PyAV breaks faster-whisper's own decoder
+            pcm, _sr = librosa.load(dst, sr=16000, mono=True)
+            segs, _ = wm.transcribe(pcm, word_timestamps=True, language='en')
             words = [{'w': w.word.strip(), 'start': round(w.start, 3), 'end': round(w.end, 3)} for s in segs for w in (s.words or [])]
             lines.append({'who': line['who'], 'voice': line['voice'], 'text': plain(line['text']), 'file': f'audio/dialogue/line{k}.mp3',
                           'dur': round(dur_of(dst), 3), 'words': words})
