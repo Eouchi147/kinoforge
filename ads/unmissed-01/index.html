@@ -1,0 +1,250 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Unmissed: the AI front desk ad</title>
+<!-- Unmissed brand ad, built in code (no AI fees). Look: the Unmissed site's night theme and its glass ring ("the catch").
+     Story follows the offer of 15 Oct 2026: a premium presence and an AI front desk. Scenes match the site's hero chips:
+     call answered, booked into the calendar, missed call texted back, review request sent, then the premium presence.
+     Timings here must match ad.json (voice lines and sound effects). -->
+<style>
+@font-face { font-family: Inst; src: url(/ads/fonts/InstrumentSans.ttf) format('truetype'); font-weight: 400 700; font-stretch: 75% 100%; }
+@font-face { font-family: Mono; src: url(/ads/fonts/JetBrainsMono.ttf) format('truetype'); font-weight: 100 800; }
+:root { --bg:#05070f; --glow:#0b1530; --glow-mid:#070c1c; --ink:#f4f6fb; --ink2:#c3cad8; --ink3:#98a1b5; --accent:#79b4ff; --blue:#2f7df6; --deep:#0b3b8f; --violet:#8c6eff; --ok:#5ad69a; --bad:#ff8f8f;
+  --scr:#0a0f1e; --card:#121a33; --card2:#18213f; --line:rgba(255,255,255,.08); }
+html, body { margin:0; background:#000; overflow:hidden; }
+#stage { position:absolute; width:1920px; height:1080px; overflow:hidden; font-family:Inst, sans-serif; color:var(--ink);
+  background-color:var(--bg); background-image:radial-gradient(110% 75% at 64% 48%, var(--glow) 0%, var(--glow-mid) 48%, var(--bg) 100%); }
+.m { display:inline-block; overflow:hidden; vertical-align:top; padding:0 .02em .16em; margin-bottom:-.16em; }
+.w { display:inline-block; will-change:transform; }
+/* the glass ring: one full hairline, a travelling highlight, and the node at one o'clock (the logo's own mark) */
+#ring { position:absolute; width:820px; height:820px; left:0; top:0; margin:-410px 0 0 -410px; pointer-events:none; }
+#ring .hair { position:absolute; inset:0; border-radius:50%; border:1.5px solid rgba(121,180,255,.22); }
+#ring .sweep { position:absolute; inset:-6px; border-radius:50%;
+  -webkit-mask:radial-gradient(circle, transparent 0 400px, #000 402px 414px, transparent 416px); mask:radial-gradient(circle, transparent 0 400px, #000 402px 414px, transparent 416px);
+  filter:drop-shadow(0 0 18px rgba(121,180,255,.75)); }
+#ring .halo { position:absolute; inset:-80px; border-radius:50%; background:radial-gradient(circle, rgba(121,180,255,0) 52%, rgba(121,180,255,.10) 58%, rgba(121,180,255,0) 66%); }
+#ring .node { position:absolute; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; background:#79b4ff; box-shadow:0 0 22px 6px rgba(121,180,255,.7); }
+.copy { position:absolute; left:150px; top:0; width:940px; }
+.copy .big { font-weight:600; font-size:72px; line-height:1.02; letter-spacing:-.03em; }
+.copy .small { margin-top:30px; font-weight:500; font-size:32px; line-height:1.3; color:var(--ink3); letter-spacing:-.005em; }
+#c1 { left:0; width:1920px; text-align:center; }
+#c1 .big { font-size:96px; }
+.demo { position:absolute; left:150px; bottom:64px; font:500 18px/1 Mono, monospace; color:var(--ink3); letter-spacing:.01em; }
+/* the phone */
+.rig { position:absolute; left:1150px; top:130px; width:400px; height:820px; perspective:2400px; transform-origin:330px 200px; }
+.phone { position:absolute; inset:0; border-radius:66px; background:#0b0d14; box-shadow: 0 90px 130px -40px rgba(0,0,0,.75), 0 0 0 1px rgba(121,180,255,.12), inset 0 0 0 2px #2a2f3d, inset 0 0 0 7px #0b0d14, inset 0 0 0 8px #3a4152; }
+.screen { position:absolute; left:12px; top:12px; width:376px; height:796px; border-radius:54px; overflow:hidden; background:var(--scr); }
+.island { position:absolute; left:50%; top:12px; width:118px; height:34px; margin-left:-59px; border-radius:20px; background:#000; z-index:20; }
+.sheen { position:absolute; inset:0; border-radius:54px; background:linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.10) 48%, rgba(255,255,255,0) 56%); z-index:19; pointer-events:none; }
+.view { position:absolute; inset:0; visibility:hidden; }
+.bar { position:absolute; left:28px; right:28px; top:18px; display:flex; justify-content:space-between; font-weight:600; font-size:15px; color:var(--ink); z-index:21; }
+/* call */
+#call .who { position:absolute; left:0; right:0; top:96px; text-align:center; }
+#call .av { width:84px; height:84px; margin:0 auto 14px; border-radius:50%; background:#f2a31b; color:#16110c; font-weight:700; font-size:28px; display:flex; align-items:center; justify-content:center; position:relative; }
+#call .av i { position:absolute; inset:0; border-radius:50%; border:2px solid rgba(242,163,27,.7); }
+#call .nm { font-weight:600; font-size:22px; letter-spacing:-.01em; }
+#call .st { font-size:15px; color:var(--ink3); margin-top:6px; }
+#call .st b { color:var(--accent); font-weight:600; }
+.tx { position:absolute; left:16px; right:16px; top:262px; display:flex; flex-direction:column; gap:10px; }
+.b { max-width:290px; padding:12px 15px; border-radius:20px; font-size:16px; line-height:1.32; transform-origin:0 100%; }
+.b .who2 { display:block; font:600 11px/1 Mono, monospace; letter-spacing:.02em; color:var(--accent); margin-bottom:6px; }
+.b.ai { background:var(--card); border:1px solid rgba(121,180,255,.18); border-bottom-left-radius:6px; }
+.b.cu { align-self:flex-end; background:var(--blue); color:#fff; border-bottom-right-radius:6px; transform-origin:100% 100%; }
+.b.cu .who2 { color:rgba(255,255,255,.75); }
+#call .end { position:absolute; left:50%; bottom:46px; width:64px; height:64px; margin-left:-32px; border-radius:50%; background:#e5484d; }
+#call .end::after { content:""; position:absolute; left:18px; top:28px; width:28px; height:9px; border-radius:6px; background:#fff; }
+/* booked */
+#booked .day { position:absolute; left:24px; top:96px; font-weight:600; font-size:26px; letter-spacing:-.01em; }
+#booked .day span { display:block; font-size:15px; font-weight:500; color:var(--ink3); margin-top:4px; }
+#booked .grid { position:absolute; left:24px; right:24px; top:170px; }
+#booked .hr { height:58px; border-top:1px solid var(--line); font:500 12px/1 Mono, monospace; color:#5f6880; padding-top:6px; }
+#booked .ev { position:absolute; left:58px; right:0; top:120px; height:104px; border-radius:14px; background:rgba(47,125,246,.22); border-left:4px solid var(--blue); padding:12px 14px; box-sizing:border-box; transform-origin:50% 0; }
+#booked .ev b { display:block; font-size:17px; font-weight:600; } #booked .ev span { font-size:14px; color:var(--ink2); }
+#booked .ok { position:absolute; right:12px; top:12px; width:26px; height:26px; border-radius:50%; background:var(--ok); }
+#booked .ok::after { content:""; position:absolute; left:8px; top:5px; width:7px; height:12px; border:solid #05230f; border-width:0 3px 3px 0; transform:rotate(45deg); }
+.note { position:absolute; left:12px; right:12px; top:56px; padding:13px 15px; border-radius:22px; background:rgba(28,36,64,.92); border:1px solid rgba(121,180,255,.18); display:flex; gap:12px; box-shadow:0 18px 40px -16px rgba(0,0,0,.7); z-index:15; }
+.note .ic { flex:none; width:38px; height:38px; border-radius:10px; background:#05070f; display:flex; align-items:center; justify-content:center; }
+.note .nt { font-weight:600; font-size:14px; display:flex; justify-content:space-between; } .note .nt span { font-weight:500; color:var(--ink3); font-size:12px; }
+.note .nb { font-size:14px; line-height:1.3; margin-top:3px; color:var(--ink2); }
+/* texts */
+.thdr { position:absolute; left:0; right:0; top:58px; height:96px; border-bottom:1px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
+.thdr .av2 { width:40px; height:40px; border-radius:50%; background:#3a4152; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; }
+.thdr .n2 { font-size:13px; color:var(--ink3); }
+.sms { position:absolute; left:16px; right:16px; top:172px; display:flex; flex-direction:column; gap:10px; }
+.sys { align-self:center; font:500 12px/1 Mono, monospace; color:var(--ink3); padding:8px 0 2px; }
+.sys.miss { color:var(--bad); }
+.b.biz { align-self:flex-end; background:var(--blue); color:#fff; border-bottom-right-radius:6px; transform-origin:100% 100%; }
+.b.biz .sig { display:block; margin-top:6px; font-size:12px; font-weight:600; color:rgba(255,255,255,.75); }
+.b.them { background:var(--card2); border-bottom-left-radius:6px; }
+.chip { align-self:flex-end; margin-top:-4px; padding:9px 14px; border-radius:14px; background:#fff; color:#0b1020; font-weight:600; font-size:14px; }
+.sent { align-self:flex-end; font-size:12px; color:var(--ink3); }
+/* presence: the client's own website, then their Google profile */
+#web { background:#16110c; }
+#web .hero { position:absolute; left:0; right:0; top:0; height:430px; background-size:cover; background-position:50% 40%; }
+#web .hero::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(22,17,12,.25) 0%, rgba(22,17,12,0) 40%, rgba(22,17,12,.95) 100%); }
+#web .nav { position:absolute; left:22px; right:22px; top:62px; display:flex; justify-content:space-between; font-weight:600; font-size:13px; color:#f3e5c8; z-index:2; }
+#web .t1 { position:absolute; left:22px; right:22px; top:330px; font-weight:700; font-size:34px; line-height:1.0; letter-spacing:-.02em; color:#f3e5c8; z-index:2; }
+#web .t2 { position:absolute; left:22px; right:22px; top:410px; font-size:15px; color:#e8d4ad; z-index:2; }
+#web .cta { position:absolute; left:22px; top:452px; padding:13px 20px; border-radius:999px; background:#f2a31b; color:#16110c; font-weight:700; font-size:15px; }
+#web .gp { position:absolute; left:14px; right:14px; top:540px; padding:16px; border-radius:20px; background:#fff; color:#202124; box-shadow:0 20px 40px -18px rgba(0,0,0,.8); }
+#web .gp .g1 { font-size:18px; font-weight:600; } #web .gp .g2 { font-size:13px; color:#5f6368; margin-top:4px; }
+#web .gp .g3 { font-size:13px; margin-top:8px; } #web .gp .g3 b { color:#188038; font-weight:600; }
+#web .gp .acts { display:flex; gap:8px; margin-top:12px; } #web .gp .acts span { flex:1; text-align:center; padding:9px 0; border-radius:999px; border:1px solid #dadce0; color:#1a73e8; font-size:13px; font-weight:600; }
+/* end card */
+.endc { position:absolute; inset:0; z-index:30; visibility:hidden; background-color:var(--bg); background-image:radial-gradient(90% 70% at 50% 42%, var(--glow) 0%, var(--glow-mid) 50%, var(--bg) 100%); }
+.endc svg { position:absolute; left:50%; top:236px; margin-left:-70px; filter:drop-shadow(0 0 22px rgba(121,180,255,.45)); }
+.endc .name { position:absolute; left:0; right:0; top:410px; text-align:center; font-weight:650; font-size:136px; letter-spacing:-.04em; }
+.endc .tag { position:absolute; left:0; right:0; top:596px; text-align:center; font-weight:500; font-size:50px; letter-spacing:-.018em; }
+.endc .tag2 { position:absolute; left:0; right:0; top:676px; text-align:center; font-weight:500; font-size:30px; color:var(--ink3); }
+.endc .ai { position:absolute; left:0; right:0; bottom:60px; text-align:center; font:500 18px/1 Mono, monospace; color:#6f7890; letter-spacing:.01em; }
+</style></head><body>
+<div id="stage">
+  <div id="ring"><div class="halo"></div><div class="hair"></div><div class="sweep"></div><div class="node"></div></div>
+
+  <div class="copy" id="c1" style="top:400px"><div class="big"><div class="l">Your business is losing</div><div class="l">customers in the gaps.</div></div></div>
+  <div class="copy" id="c2" style="top:350px"><div class="big"><div class="l">Every call answered,</div><div class="l">day and night.</div></div><div class="small"><div class="l">In your business’s name.</div><div class="l">It always says it is an AI.</div></div></div>
+  <div class="copy" id="c3" style="top:370px"><div class="big"><div class="l">Booked into</div><div class="l">your calendar.</div></div><div class="small"><div class="l">The summary is on your phone</div><div class="l">before the call has cooled.</div></div></div>
+  <div class="copy" id="c4" style="top:400px"><div class="big"><div class="l">Missed a call?</div><div class="l">Texted back in seconds.</div></div></div>
+  <div class="copy" id="c5" style="top:400px"><div class="big"><div class="l">Every finished job,</div><div class="l">asked for a review.</div></div></div>
+  <div class="copy" id="c6" style="top:400px"><div class="big"><div class="l">And a premium presence,</div><div class="l">everywhere they look.</div></div></div>
+  <div class="demo" id="demo">Demo with an invented business</div>
+
+  <div class="rig" id="rig"><div class="phone" id="phone"><div class="screen">
+    <div class="bar"><span id="clock">21:47</span><span>5G</span></div>
+    <div class="view" id="call">
+      <div class="who"><div class="av">SH<i id="pulse"></i></div><div class="nm">Saffron Hearth Kitchen</div><div class="st" id="cst">Incoming call</div></div>
+      <div class="tx">
+        <div class="b ai" id="t1"><span class="who2">AI front desk</span>Hi, you’ve reached Saffron Hearth Kitchen. I’m the AI assistant, and this call is recorded. How can I help?</div>
+        <div class="b cu" id="t2"><span class="who2">Caller</span>Can you cater for 40 people this Saturday?</div>
+        <div class="b ai" id="t3"><span class="who2">AI front desk</span>Yes, we can. Noon works. I’ll book it for you now.</div>
+      </div>
+      <div class="end"></div>
+    </div>
+    <div class="view" id="booked">
+      <div class="day">Saturday 17 October<span>Saffron Hearth Kitchen calendar</span></div>
+      <div class="grid"><div class="hr">10:00</div><div class="hr">11:00</div><div class="hr">12:00</div><div class="hr">13:00</div><div class="hr">14:00</div><div class="hr">15:00</div><div class="hr">16:00</div><div class="hr">17:00</div>
+        <div class="ev" id="ev"><b>Catering for 40</b><span>12:00 to 14:00, booked by the AI front desk</span><div class="ok" id="ok"></div></div></div>
+      <div class="note" id="sum"><div class="ic"><svg width="24" height="24" viewBox="0 0 26 26"><circle cx="13" cy="13" r="8.5" fill="none" stroke="#2f7df6" stroke-width="3"/><circle cx="17.25" cy="5.64" r="2.6" fill="#79b4ff"/></svg></div><div><div class="nt">Call summary <span>now</span></div><div class="nb">Catering for 40 on Saturday at noon. Booked. Caller wants a vegetarian option.</div></div></div>
+    </div>
+    <div class="view" id="texts">
+      <div class="thdr"><div class="av2">JM</div><div class="n2">Jordan M.</div></div>
+      <div class="sms">
+        <div class="sys miss" id="miss">Missed call, 18:32</div>
+        <div class="b biz" id="s1">Sorry we missed your call. This is Saffron Hearth Kitchen’s AI assistant. How can we help?<span class="sig">Saffron Hearth Kitchen</span></div>
+        <div class="b them" id="s2">Do you have a table for 6 tonight?</div>
+        <div class="b biz" id="s3">Yes, 7:30 is free. Shall I book it?<span class="sig">Saffron Hearth Kitchen</span></div>
+      </div>
+    </div>
+    <div class="view" id="review">
+      <div class="thdr"><div class="av2">AK</div><div class="n2">Amira K.</div></div>
+      <div class="sms">
+        <div class="sys">Today 21:05</div>
+        <div class="b biz" id="r1">Thank you for coming to Saffron Hearth Kitchen tonight. Would you leave us a Google review? It helps a small kitchen a lot.<span class="sig">Saffron Hearth Kitchen</span></div>
+        <div class="chip" id="r2">Leave a review</div>
+        <div class="sent" id="r3">Sent</div>
+      </div>
+    </div>
+    <div class="view" id="web">
+      <div class="hero" id="webhero"></div>
+      <div class="nav"><span>Saffron Hearth</span><span>Menu&nbsp;&nbsp; Catering&nbsp;&nbsp; Visit</span></div>
+      <div class="t1">Fire, bread, and a table for everyone.</div>
+      <div class="t2">Charcoal grill and clay-oven bread in Toronto.</div>
+      <div class="cta">Book a table</div>
+      <div class="gp" id="gp"><div class="g1">Saffron Hearth Kitchen</div><div class="g2">Middle Eastern restaurant in Toronto</div><div class="g3"><b>Open</b> until 11 pm</div><div class="acts"><span>Call</span><span>Directions</span><span>Menu</span></div></div>
+    </div>
+    <div class="sheen" id="sheen"></div><div class="island"></div>
+  </div></div></div>
+
+  <div class="endc" id="endc">
+    <svg width="140" height="140" viewBox="0 0 140 140"><circle id="lring" cx="70" cy="70" r="50" fill="none" stroke="#2f7df6" stroke-width="11" transform="rotate(-90 70 70)"/><circle id="lnode" cx="95" cy="26.7" r="13" fill="#79b4ff"/></svg>
+    <div class="name"><span class="l">Unmissed</span></div>
+    <div class="tag"><span class="l">A premium presence. An AI front desk.</span></div>
+    <div class="tag2"><span class="l">Built for you, run for you, paid monthly.</span></div>
+    <div class="ai">Made with AI, checked by a person</div>
+  </div>
+</div>
+<script type="module">
+import { seg, lerp, ease, words, rise, show, fitStage } from '/ads/lib/motion.js';
+const $ = (s) => document.querySelector(s);
+const q = fitStage($('#stage'));
+$('#webhero').style.backgroundImage = `url(${q.get('photo') || '/ads/unmissed-01/media/bread-oven.jpg'})`;
+const grp = (id) => [...document.querySelectorAll(`#${id} .l`)].map((el) => words(el));
+const C = { c1: grp('c1'), c2: grp('c2'), c3: grp('c3'), c4: grp('c4'), c5: grp('c5'), c6: grp('c6') };
+const E = [...document.querySelectorAll('#endc .l')].map((el) => words(el));
+const lines = (G, t, tIn, tOut) => G.forEach((ws, k) => rise(ws, t, tIn + k * 0.1, { stagger: 0.045, dur: 0.75, tOut: tOut == null ? null : tOut + k * 0.04, outDur: 0.3 }));
+const pop = (el, p, dy = 16) => { el.style.opacity = Math.min(1, Math.max(0, p) * 1.6); el.style.transform = `translateY(${(1 - p) * dy}px) scale(${lerp(0.86, 1, Math.max(0, p))})`; };
+const lring = $('#lring'), lnode = $('#lnode'); const RL = 2 * Math.PI * 50; lring.style.strokeDasharray = RL;
+const ring = $('#ring'), sweep = $('#ring .sweep'), node = $('#ring .node');
+// scene windows (seconds): keep in step with ad.json
+const S = { hook: [0, 3.2], call: [3.2, 8.0], booked: [8.0, 11.5], texts: [11.5, 14.6], review: [14.6, 17.6], web: [17.6, 21.2], end: [21.2, 25.6] };
+const VIEWS = ['call', 'booked', 'texts', 'review', 'web'];
+
+window.KF = { duration: 25.6, fps: 30, async render(i, t) {
+  // ---- the ring: centred and wide for the hook, then it catches the phone and stays around it
+  const toPhone = ease.inOutCubic(seg(t, 2.6, 3.6));
+  const cx = lerp(960, 1350, toPhone), cy = 540, sc = lerp(1.32, 1.0, toPhone) * (1 + 0.012 * Math.sin(t * 1.4));
+  ring.style.left = cx + 'px'; ring.style.top = cy + 'px'; ring.style.transform = `scale(${sc})`;
+  ring.style.opacity = (1 - ease.inCubic(seg(t, 20.9, 21.3))) * ease.outCubic(seg(t, 0, 0.8));
+  const a = 40 + t * 38;
+  sweep.style.background = `conic-gradient(from ${a}deg, rgba(121,180,255,0) 0deg, rgba(121,180,255,.95) 50deg, rgba(140,110,255,.55) 95deg, rgba(121,180,255,0) 170deg, rgba(121,180,255,.28) 250deg, rgba(121,180,255,0) 330deg)`;
+  const na = (60 - 90) * Math.PI / 180;   // one o'clock
+  node.style.left = 410 + 408 * Math.cos(na) + 'px'; node.style.top = 410 + 408 * Math.sin(na) + 'px';
+  node.style.transform = `scale(${0.85 + 0.15 * Math.sin(t * 3)})`;
+
+  // ---- copy on the left
+  show($('#c1'), t < 3.4); lines(C.c1, t, 0.3, 2.85);
+  show($('#c2'), t > 3.3 && t < 8.1); lines(C.c2, t, 3.45, 7.7);
+  show($('#c3'), t > 7.9 && t < 11.6); lines(C.c3, t, 8.15, 11.2);
+  show($('#c4'), t > 11.4 && t < 14.7); lines(C.c4, t, 11.65, 14.3);
+  show($('#c5'), t > 14.5 && t < 17.7); lines(C.c5, t, 14.75, 17.3);
+  show($('#c6'), t > 17.5 && t < 21.3); lines(C.c6, t, 17.75, 20.85);
+  $('#demo').style.opacity = ease.outCubic(seg(t, 3.5, 4.0)) * (1 - seg(t, 20.8, 21.1));
+
+  // ---- the phone rises into the ring, turns a little between scenes, leans in on what matters
+  const inP = ease.outExpo(seg(t, 2.9, 4.0));
+  const sw = (t0) => ease.inOutCubic(seg(t, t0 - 0.3, t0 + 0.3));
+  const ry = lerp(-26, -12, inP) + 10 * Math.sin(sw(8.0) * Math.PI) - 10 * Math.sin(sw(11.5) * Math.PI) + 10 * Math.sin(sw(14.6) * Math.PI) - 10 * Math.sin(sw(17.6) * Math.PI);
+  const rx = lerp(18, 4, inP), rz = lerp(-4, 1, inP), float = Math.sin(t * 1.3) * 6;
+  const out = ease.inCubic(seg(t, 20.9, 21.3));
+  $('#phone').style.transform = `translateY(${(1 - inP) * 900 + float + out * 60}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
+  $('#phone').style.opacity = 1 - out;
+  const lean = (a0, a1, b0, b1) => ease.inOutCubic(seg(t, a0, a1)) * (1 - ease.inOutCubic(seg(t, b0, b1)));
+  const push = Math.max(lean(4.6, 5.4, 7.5, 8.0), lean(12.0, 12.6, 14.1, 14.6), lean(15.0, 15.6, 17.1, 17.6));
+  $('#rig').style.transform = `scale(${1 + push * 0.18})`;
+  $('#sheen').style.backgroundPosition = `${ry * 6}px 0`;
+
+  // ---- which screen is on
+  const cur = t < S.booked[0] ? 'call' : t < S.texts[0] ? 'booked' : t < S.review[0] ? 'texts' : t < S.web[0] ? 'review' : 'web';
+  VIEWS.forEach((v) => show($('#' + v), v === cur));
+  $('#clock').textContent = cur === 'call' || cur === 'booked' ? '21:47' : cur === 'texts' ? '18:33' : '21:05';
+
+  // call: ringing, answered, the live transcript
+  const answered = t >= 3.95;
+  $('#cst').innerHTML = answered ? `<b>AI front desk</b> on the call, 0:${String(Math.min(59, Math.floor((t - 3.95) * 1.6))).padStart(2, '0')}` : 'Incoming call';
+  const ringP = (t * 1.6) % 1; $('#pulse').style.transform = `scale(${1 + ringP * (answered ? 0 : 0.7)})`; $('#pulse').style.opacity = answered ? 0 : 1 - ringP;
+  pop($('#t1'), ease.outBack(seg(t, 4.25, 4.6), 1.5)); pop($('#t2'), ease.outBack(seg(t, 5.55, 5.9), 1.5)); pop($('#t3'), ease.outBack(seg(t, 6.55, 6.9), 1.5));
+
+  // booked: the event lands, the check pops, the summary drops in
+  const evP = ease.spring(seg(t, 8.25, 9.0), 0.5, 14); $('#ev').style.transform = `scaleY(${Math.max(0, evP)})`; $('#ev').style.opacity = t > 8.25 ? 1 : 0;
+  $('#ok').style.transform = `scale(${ease.outBack(seg(t, 8.85, 9.15), 2.4)})`;
+  pop($('#sum'), ease.outBack(seg(t, 9.4, 9.8), 1.4), -40);
+
+  // texts: missed call, texted back in seconds, the customer answers
+  pop($('#miss'), ease.outCubic(seg(t, 11.6, 11.9)), 6); pop($('#s1'), ease.outBack(seg(t, 12.1, 12.45), 1.5)); pop($('#s2'), ease.outBack(seg(t, 12.95, 13.3), 1.5)); pop($('#s3'), ease.outBack(seg(t, 13.6, 13.95), 1.5));
+
+  // review request
+  pop($('#r1'), ease.outBack(seg(t, 15.0, 15.35), 1.5)); pop($('#r2'), ease.outBack(seg(t, 15.5, 15.8), 1.8)); pop($('#r3'), ease.outCubic(seg(t, 16.0, 16.3)), 6);
+
+  // the premium presence: the site scrolls in, the Google profile rises over it
+  $('#webhero').style.transform = `scale(${1.12 - 0.08 * ease.outCubic(seg(t, 17.6, 21))})`;
+  pop($('#gp'), ease.outBack(seg(t, 18.6, 19.05), 1.3), 60);
+
+  // ---- end card: the night opens from the ring, the logo draws, the words rise
+  const endP = ease.inOutCubic(seg(t, 21.05, 21.55)); show($('#endc'), endP > 0);
+  $('#endc').style.clipPath = `circle(${endP * 120}% at 1350px 540px)`;
+  lring.style.strokeDashoffset = RL * (1 - ease.inOutCubic(seg(t, 21.4, 22.1)));
+  lnode.setAttribute('r', 13 * ease.outBack(seg(t, 22.0, 22.3), 2.6));
+  E.forEach((ws, k) => rise(ws, t, 21.75 + k * 0.32, { stagger: 0.05, dur: 0.8 }));
+  $('#endc .ai').style.opacity = ease.outCubic(seg(t, 23.2, 23.8));
+} };
+await document.fonts.ready; await Promise.all([...document.fonts].map((f) => f.load().catch(() => {})));
+await new Promise((r) => { const im = new Image(); im.onload = im.onerror = r; im.src = q.get('photo') || '/ads/unmissed-01/media/bread-oven.jpg'; });
+window.KF_READY = true;
+</script></body></html>

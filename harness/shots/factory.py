@@ -146,28 +146,41 @@ def speech(B, text, voice, out, label):
     open(out, 'wb').write(data); return out
 
 def music(B, prompt, out, label):
-    """Lyria 3 score. Tries the known request shapes in turn; returns the file, or None (the edit then uses the clips' own audio)."""
-    B.check(0.1, label); B.release(0.1)
-    shapes = [{'modalities': ['audio']}, {'modalities': ['text', 'audio']}, {'modalities': ['audio'], 'audio': {'format': 'mp3'}}, {'modalities': ['text', 'audio'], 'audio': {'format': 'wav'}}]
+    """Lyria 3 score. OpenRouter only returns audio output as a stream (stream: true): the base64 pieces arrive in
+    choices[0].delta.audio.data and are joined, then decoded. Returns the file, or None (the edit then has no score)."""
+    B.check(0.12, label); B.release(0.12)
     for model in ['google/lyria-3-clip-preview', 'google/lyria-3-pro-preview']:
-        for extra in shapes:
-            body = {'model': model, 'messages': [{'role': 'user', 'content': prompt}], 'usage': {'include': True}, **extra}
+        for fmt in ['wav', 'mp3', 'pcm16']:
+            body = {'model': model, 'messages': [{'role': 'user', 'content': prompt}], 'modalities': ['text', 'audio'],
+                    'audio': {'format': fmt}, 'stream': True, 'usage': {'include': True}}
+            pieces, cost, t0 = [], 0.0, time.time()
             try:
-                j = json.load(post('/chat/completions', body, 300)); m = j['choices'][0]['message']
+                with post('/chat/completions', body, 600) as r:
+                    for raw in r:
+                        line = raw.decode(errors='ignore').strip()
+                        if not line.startswith('data:'): continue
+                        data = line[5:].strip()
+                        if data == '[DONE]': break
+                        try: ev = json.loads(data)
+                        except ValueError: continue
+                        if ev.get('usage'): cost = float(ev['usage'].get('cost') or 0)
+                        for ch in ev.get('choices') or []:
+                            a_ = (ch.get('delta') or {}).get('audio') or {}
+                            if a_.get('data'): pieces.append(a_['data'])
             except urllib.error.HTTPError as e:
-                log('music', model, extra, e.code, e.read().decode(errors='ignore')[:200]); continue
+                log('music', model, fmt, e.code, e.read().decode(errors='ignore')[:200]); continue
             except Exception as e:
-                log('music', model, extra, type(e).__name__, str(e)[:120]); continue
-            B.add(seat='music', model=model, task=label, usd=float((j.get('usage') or {}).get('cost') or 0.04), s=0, ok=True)
-            data = None; a_ = m.get('audio')
-            if isinstance(a_, dict): data = a_.get('data')
-            for part in (m.get('content') if isinstance(m.get('content'), list) else []):
-                if isinstance(part, dict): data = data or (part.get('input_audio') or part.get('audio') or {}).get('data') or part.get('data')
-            for att in (m.get('audio_outputs') or m.get('files') or []):
-                if isinstance(att, dict): data = data or att.get('data')
-            if not data: log('music: reply had no audio; message keys', list(m.keys()), str(m)[:300]); continue
-            raw = base64.b64decode(data.split(',', 1)[-1]); ext = '.mp3' if raw[:3] == b'ID3' or raw[:2] == b'\xff\xfb' else '.wav'
-            o = out.rsplit('.', 1)[0] + ext; open(o, 'wb').write(raw); log('music:', model, extra, len(raw), 'bytes'); return o
+                log('music', model, fmt, type(e).__name__, str(e)[:160]); continue
+            if not pieces: log('music', model, fmt, 'stream had no audio'); continue
+            raw = base64.b64decode(''.join(pieces))
+            B.add(seat='music', model=model, task=label, usd=round(cost or 0.08, 4), s=round(time.time() - t0, 1), ok=True, note=None if cost else 'estimated')
+            if raw[:4] == b'RIFF': ext = '.wav'
+            elif raw[:3] == b'ID3' or raw[:1] == b'\xff': ext = '.mp3'
+            else:   # bare PCM: Lyria is 48 kHz stereo, 16-bit
+                import wave, io as _io
+                buf = _io.BytesIO(); w = wave.open(buf, 'wb'); w.setnchannels(2); w.setsampwidth(2); w.setframerate(48000); w.writeframes(raw); w.close()
+                raw, ext = buf.getvalue(), '.wav'
+            o = out.rsplit('.', 1)[0] + ext; open(o, 'wb').write(raw); log('music:', model, fmt, len(raw), 'bytes'); return o
     return None
 
 # ------------------------------------------------------------------ review

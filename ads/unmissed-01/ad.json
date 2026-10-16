@@ -1,0 +1,28 @@
+{
+ "_": "Unmissed brand ad, built in code (harness/shots/codead.py). Offer of 15 Oct 2026: a premium presence and an AI front desk. Voice timings must match the scene windows in index.html.",
+ "id": "unmissed-01",
+ "scene": "ads/unmissed-01",
+ "w": 1920, "h": 1080, "fps": 30,
+ "cap_usd": 0.5,
+ "voice": "sarah",
+ "vo": [
+  {"start": 0.5,  "text": "Your business is losing customers in the gaps."},
+  {"start": 3.6,  "text": "Every call answered, day and night, in your business's name."},
+  {"start": 8.2,  "text": "Booked into your calendar. The summary, straight to your phone."},
+  {"start": 11.7, "text": "Missed a call? Texted back in seconds."},
+  {"start": 14.7, "text": "Every finished job, asked for a review."},
+  {"start": 17.7, "text": "And a premium presence, everywhere customers look you up."},
+  {"start": 21.7, "text": "Unmissed. A premium presence. An AI front desk."}
+ ],
+ "music": {"prompt": "Instrumental only, no vocals. 26 seconds. Minimal modern electronic for a premium tech brand film: warm soft synth pads, a gentle pulsing bass at 100 BPM, light glassy plucks and subtle clean hi-hats. Calm and confident, never busy, room for a voiceover. A small lift at 21 seconds, then resolve on a clean warm chord and ring out.", "gain_db": -15},
+ "sfx": [
+  {"t": 3.25, "kind": "ring"}, {"t": 3.6, "kind": "ring"},
+  {"t": 3.95, "kind": "click"},
+  {"t": 4.25, "kind": "pop"}, {"t": 5.55, "kind": "pop"}, {"t": 6.55, "kind": "pop"},
+  {"t": 8.0, "kind": "whoosh"}, {"t": 8.85, "kind": "check"}, {"t": 9.4, "kind": "chime"},
+  {"t": 11.5, "kind": "whoosh"}, {"t": 12.1, "kind": "pop"}, {"t": 12.95, "kind": "pop"}, {"t": 13.6, "kind": "pop"},
+  {"t": 14.6, "kind": "whoosh"}, {"t": 15.0, "kind": "pop"}, {"t": 16.0, "kind": "check"},
+  {"t": 17.6, "kind": "whoosh"}, {"t": 18.6, "kind": "pop"},
+  {"t": 21.05, "kind": "whoosh"}, {"t": 22.0, "kind": "chime"}
+ ]
+}

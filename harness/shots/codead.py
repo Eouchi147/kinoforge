@@ -1,0 +1,117 @@
+"""codead.py — an ad built in code: render the scene, voice it, score it, add UI sounds, mix it.
+
+    python3 harness/shots/codead.py ads/<id>            (needs OPENROUTER_API_KEY, node + Playwright, ffmpeg, numpy)
+
+ads/<id>/ad.json:
+    {"id", "scene": "ads/<id>", "w", "h", "fps", "cap_usd",
+     "voice": "sarah", "vo": [{"start": s, "text": "..."}],          ElevenLabs v3 through OpenRouter, one file per line
+     "music": {"prompt": "...", "gain_db": -15},                       Lyria 3 through OpenRouter (streamed); skipped if it fails
+     "sfx": [{"t": s, "kind": "ring|click|pop|whoosh|check|chime"}]}  synthesised here, no files, no licences
+The picture comes from the scene page (HTML/CSS, see harness/dom-render.cjs): no AI fees, no AI glitches.
+Writes ads/<id>/out/<id>.mp4 (16:9 master), <id>-sheet.jpg (contact sheet), stems, and ads/<id>/ledger.json.
+Money: every paid call is booked against cap_usd and the whole test budget (pieces/BUDGET.json) first.
+"""
+import os, sys, json, subprocess, math, wave
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from factory import speech, music, Budget, run, log, ROOT
+
+SR = 48000
+
+
+def dur_of(p):
+    return float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', p], capture_output=True, text=True).stdout.strip() or 0)
+
+
+def synth(kind, np):
+    """Short, quiet interface sounds. Returns a mono float array at 48 kHz."""
+    t = lambda d: np.arange(int(SR * d)) / SR
+    if kind == 'ring':
+        x = t(0.42); env = np.minimum(1, x / 0.01) * np.exp(-x * 4)
+        return 0.10 * env * (np.sin(2 * np.pi * 659 * x) + 0.7 * np.sin(2 * np.pi * 831 * x)) * (0.75 + 0.25 * np.sin(2 * np.pi * 18 * x))
+    if kind == 'click':
+        x = t(0.03); return 0.25 * np.exp(-x * 220) * np.sin(2 * np.pi * 2400 * x)
+    if kind == 'pop':
+        x = t(0.12); f = 1300 - 700 * np.minimum(1, x / 0.06); ph = 2 * np.pi * np.cumsum(f) / SR
+        return 0.16 * np.minimum(1, x / 0.003) * np.exp(-x * 38) * np.sin(ph)
+    if kind == 'whoosh':
+        x = t(0.45); rng = np.random.default_rng(7); n = rng.standard_normal(len(x))
+        k = 60; n = np.convolve(n, np.ones(k) / k, mode='same')            # soften the noise
+        return 0.22 * np.sin(np.pi * x / x[-1]) ** 2 * n
+    if kind == 'check':
+        a, b = t(0.09), t(0.16)
+        s1 = 0.10 * np.exp(-a * 25) * np.sin(2 * np.pi * 880 * a); s2 = 0.10 * np.exp(-b * 14) * np.sin(2 * np.pi * 1320 * b)
+        return np.concatenate([s1, s2])
+    if kind == 'chime':
+        x = t(1.4); env = np.minimum(1, x / 0.004) * np.exp(-x * 3.2)
+        return 0.09 * env * (np.sin(2 * np.pi * 1047 * x) + 0.5 * np.sin(2 * np.pi * 1568 * x) + 0.25 * np.sin(2 * np.pi * 2093 * x))
+    raise ValueError(kind)
+
+
+def write_wav(path, mono, np):
+    st = np.clip(np.stack([mono, mono], 1), -1, 1); w = wave.open(path, 'wb')
+    w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((st * 32767).astype('<i2').tobytes()); w.close()
+
+
+def main(adir):
+    import numpy as np
+    ad = json.load(open(os.path.join(adir, 'ad.json'))); aid = ad['id']
+    out = os.path.join(adir, 'out'); os.makedirs(out, exist_ok=True)
+    B = Budget(adir, float(ad.get('cap_usd', 0.5)))
+
+    # 1. picture: the scene page, frame by frame
+    rdir = os.path.join(out, 'render')
+    r = subprocess.run(['node', os.path.join(ROOT, 'harness', 'dom-render.cjs'), ad['scene'], '--w', str(ad.get('w', 1920)), '--h', str(ad.get('h', 1080)), '--out', rdir],
+                       cwd=ROOT, capture_output=True, text=True, timeout=3000)
+    print(r.stdout[-800:], r.stderr[-800:]); assert r.returncode == 0, 'render failed'
+    pic = os.path.join(rdir, os.path.basename(ad['scene'].rstrip('/')) + '.mp4'); D = dur_of(pic); log('picture', pic, f'{D:.2f}s')
+
+    # 2. voice: one file per line; a line that would run into the next is gently sped up (at most 12%)
+    vo = []
+    for k, line in enumerate(ad.get('vo', [])):
+        mp3 = speech(B, line['text'], ad.get('voice', 'sarah'), os.path.join(out, f'vo{k}.mp3'), f'vo {k}')
+        wav = os.path.join(out, f'vo{k}.wav'); run(['ffmpeg', '-v', 'error', '-y', '-i', mp3, '-ar', str(SR), '-ac', '2', wav])
+        room = (ad['vo'][k + 1]['start'] if k + 1 < len(ad['vo']) else D) - line['start'] - 0.15; d = dur_of(wav)
+        if d > room > 0:
+            tempo = min(1.12, d / room); fast = wav[:-4] + '.fit.wav'
+            run(['ffmpeg', '-v', 'error', '-y', '-i', wav, '-filter:a', f'atempo={tempo:.3f}', fast]); wav = fast
+            log(f'vo {k}: {d:.2f}s in a {room:.2f}s gap, sped up x{tempo:.2f}')
+        vo.append((line['start'], wav)); log(f'vo {k}: {dur_of(wav):.2f}s at {line["start"]}s')
+
+    # 3. score (optional: the ad still works on voice and sound design alone)
+    mus = None
+    if ad.get('music'):
+        try: mus = music(B, ad['music']['prompt'], os.path.join(out, 'music.wav'), 'music')
+        except Exception as e: log('music failed:', e)
+    log('music:', mus or 'none')
+
+    # 4. interface sounds
+    fx = np.zeros(int(SR * (D + 2)))
+    for c in ad.get('sfx', []):
+        s = synth(c['kind'], np); i0 = int(c['t'] * SR); fx[i0:i0 + len(s)] += s[:len(fx) - i0]
+    fxw = os.path.join(out, 'sfx.wav'); write_wav(fxw, fx, np)
+
+    # 5. mix: voice on top, the score ducked under it, sounds underneath, mastered to -14 LUFS for social platforms
+    ins = ['-i', pic]; fl = []; n = 1
+    for start, wav in vo:
+        ins += ['-i', wav]; ms = int(start * 1000); fl.append(f'[{n}:a]adelay={ms}|{ms}[v{n}]'); n += 1
+    vlabels = ''.join(f'[v{i}]' for i in range(1, n))
+    fl.append(f'{vlabels}amix=inputs={len(vo)}:normalize=0:duration=longest,apad=whole_dur={D:.3f},atrim=0:{D:.3f},asplit=2[vo][vokey]')
+    ins += ['-i', fxw]; fx_i = n; n += 1
+    fl.append(f'[{fx_i}:a]atrim=0:{D:.3f},volume=-3dB[fx]')
+    if mus:
+        ins += ['-i', mus]; m_i = n; n += 1; g = float(ad['music'].get('gain_db', -15))
+        fl.append(f'[{m_i}:a]aformat=sample_rates={SR}:channel_layouts=stereo,atrim=0:{D:.3f},afade=t=in:d=0.4,afade=t=out:st={max(0, D - 2.2):.2f}:d=2.2,volume={g}dB[m]')
+        fl.append('[m][vokey]sidechaincompress=threshold=0.02:ratio=5:attack=30:release=400[md]')
+        fl.append('[vo][md][fx]amix=inputs=3:normalize=0:duration=longest[mix]')
+    else:
+        fl.append('[vokey]anullsink'); fl.append('[vo][fx]amix=inputs=2:normalize=0:duration=longest[mix]')
+    fl.append(f'[mix]loudnorm=I=-14:TP=-1.5:LRA=11,atrim=0:{D:.3f}[a]')
+    final = os.path.join(out, f'{aid}.mp4')
+    run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(fl), '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '256k',
+         '-ar', str(SR), '-t', f'{D:.3f}', '-movflags', '+faststart', final])
+    run(['ffmpeg', '-v', 'error', '-y', '-i', final, '-vf', 'fps=0.6,scale=480:-2,tile=4x4:padding=4:color=white', '-frames:v', '1', os.path.join(out, f'{aid}-sheet.jpg')])
+    log('done', final, f'{dur_of(final):.2f}s', f'| spent ${B.led.total:.3f} of ${B.led.cap}')
+
+
+if __name__ == '__main__':
+    main(sys.argv[1].rstrip('/'))
