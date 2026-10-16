@@ -1,0 +1,39 @@
+{
+ "_": "Smart Mount brand for the social lane. Colours and fonts are lifted from the live site (smartmount repo, cities/toronto/index.html :root) and the card press (tools/cards.js), not invented. Cleared by Sam for public use on 15 Oct 2026. Words here go on screen and into captions: no dashes, no ellipses, no prices, ratings, counts or results.",
+ "id": "smartmount",
+ "name": "Smart Mount",
+ "site": "smartmount.ca",
+ "area": "Toronto",
+ "cta": "Book online",
+ "logo": "logo-mark.svg",
+ "mark_build": { "_": "indices of the drawable parts of logo-mark.svg (circle ground; wall plate and arm; screen, glass and landscape) for the end-card assembly, which ends exactly on the original drawing", "ground": [0], "mount": [1, 2], "screen": [3, 4, 5], "centre": [256, 256] },
+ "colors": {
+  "navy": "#0E1526",
+  "navy2": "#10151F",
+  "ink": "#FAFAFC",
+  "ink2": "#A8B4C8",
+  "ink3": "#6C7789",
+  "blue": "#3C78D8",
+  "blueDeep": "#2E63BE",
+  "bluePale": "#8FB4EE",
+  "blueTint": "#EAF1FB",
+  "paper": "#FAFAFC",
+  "card": "#FFFFFF",
+  "line": "#E7E7EC",
+  "mut": "#6C6C72",
+  "night": "#0A0B0D",
+  "gold": "#F5A623",
+  "ok": "#1E8E3E"
+ },
+ "fonts": {
+  "display": { "family": "Inter Tight", "file": "/social/fonts/InterTight.ttf", "weight": "100 900" },
+  "text": { "family": "Inter", "file": "/social/fonts/Inter.ttf", "weight": "100 900" },
+  "mono": { "family": "JetBrains Mono", "file": "/ads/fonts/JetBrainsMono.ttf", "weight": "100 800" }
+ },
+ "hashtags": ["#SmartMount", "#TVMounting", "#Toronto", "#TVWallMount", "#HomeTips", "#TorontoHomes", "#HomeImprovement", "#TVInstallation"],
+ "captions": {
+  "sign": "Smart Mount, Toronto.",
+  "cta": "Book online at smartmount.ca",
+  "youtube_suffix": " | Smart Mount"
+ }
+}

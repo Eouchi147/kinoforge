@@ -41,9 +41,10 @@ Another AI must be able to read these four files and carry on without asking any
 | `docs/UNMISSED_HANDOFF.md` | Sync page with the Unmissed chat (offer, claims, brand, open questions) |
 | `docs/ENGINES.md` | Engines menu: which tool makes what, at what cost |
 | `ads/` | **Ads built in code.** `ads/lib/motion.js` (easing, masked word reveals), `ads/fonts/` (OFL fonts), `ads/board/*` (style-board scenes), `ads/<id>/` (one ad: `index.html` scene + `ad.json` voice, music and sound cues) |
+| `social/` | **Phone-format (9:16) social videos built in code** (Unmissed's Social Autopilot): `lib/` (stage, brief rules, captions in code, batch and safe-zone checks), `templates/<t>/` (A `card-motion`, B `bento`, C `type-motion`), `clients/<client>/` (brand.json, logo, real photos), `batches/<client>/<batch>/batch.json`, `fonts/` (Inter, Inter Tight, OFL). Workflow `social.yml`; read `social/README.md` |
 | `boards/<id>/` | Style boards: `board.json` (stills to generate, optional cutouts and short clips), cost records |
 | `pieces/<id>/` | AI-footage ads made by the shot factory: `brief.json`, `treatment.json`, cost records |
-| `harness/shots/` | `factory.py` (AI-footage ads), `board.py` (style boards), `codead.py` (code ads), `directions/*.md` (the looks), `policies/unmissed.md` (claims and brand rules) |
+| `harness/shots/` | `factory.py` (AI-footage ads), `board.py` (style boards), `codead.py` (code ads), `social.py` (social videos: batch music, mix, cover, ledger), `directions/*.md` (the looks), `policies/unmissed.md` (claims and brand rules) |
 | `harness/dom-render.cjs` | Renders an HTML/CSS scene frame by frame in headless Chromium, then ffmpeg makes the MP4 |
 | `harness/render.cjs` | Same idea for canvas/WebGL scenes (the anthology prototypes) |
 | `harness/director/` | The multi-agent director (head, deputy, crew seats on OpenRouter) for films |
@@ -103,7 +104,7 @@ Decided on 15 Oct 2026 after Sam rejected the stylised cartoon-3D look as "AI sl
 ## Accounts and services
 
 - **GitHub** `Eouchi147/kinoforge` (public, free Actions minutes). Secret: `OPENROUTER_API_KEY` (the "build" key, $50 limit).
-  Releases: `ads`, `boards`, `pieces` (business work); `gallery`, `voice`, `showcase`, `motion`, `logs` (film work).
+  Releases: `ads`, `boards`, `pieces`, `social` (business work); `gallery`, `voice`, `showcase`, `motion`, `logs` (film work).
 - **OpenRouter** (all AI calls). Images: `bytedance-seed/seedream-5-0-pro` (about $0.09, image-only output),
   `google/gemini-3-pro-image` (about $0.14). Video: `google/veo-3.1-fast` (1080p, $0.10/s without audio), `veo-3.1-lite`,
   `veo-3.1`, `kwaivgi/kling-v3.0-pro`. Voice: `elevenlabs/eleven-v3` via `/audio/speech`. Music: `google/lyria-3-clip-preview`

@@ -49,6 +49,32 @@ commit that touches that workflow file (a blank line is enough), wait about 20 s
 - **Writing a scene:** a fixed 1920x1080 stage; `window.KF = { duration, fps, render(i, t) }` sets every style from `t`
   (no CSS transitions); set `window.KF_READY = true` after fonts and images load. Use `ads/lib/motion.js`
   (`seg`, `ease`, `words`, `rise`). Keep scene windows and `ad.json` timings in step.
+- **Other sizes:** `fitStage(stage, { w, h })` scales the stage uniformly to the render size (`--w`/`--h`); a different
+  aspect is letterboxed, never stretched. A 9:16 version needs its own layout (see the social lane below). Never measure
+  the stage before the fonts load (an early `offsetWidth` read shifts glyph rasterization).
+
+### `social.yml`: phone-format (9:16) social videos from templates
+- **What:** renders a batch of short videos for TikTok, Instagram Reels, YouTube Shorts and Facebook Reels from code
+  templates (`social/templates/<template>/`), one runner per video. Three looks so far: `card-motion` (A, the client's own
+  card in motion), `bento` (B), `type-motion` (C). Everything about the lane: `social/README.md`.
+- **Input:** `batch` = folder under `social/batches/` (for example `smartmount/2026-12`) holding `batch.json`: `client`,
+  `batch`, `render` (`sub` = motion-blur sub-frames), optional `music` (`enabled`, `prompt`, `cap_usd`, `gain_db`,
+  `offset_s`) and `videos` (`id`, `template`, `card` with eyebrow, title, body, fact, `photo`, `platforms`, optional
+  `figure`). Optional `only` = comma-separated video ids.
+- **Steps:** plan (`social/lib/check.mjs`: words, house style, photos, templates, captions; music made once by
+  `harness/shots/social.py music` and committed with `ledger.json`); per video: captions (`social/lib/captions.mjs`, code,
+  no AI), safe-zone check (`social/lib/safecheck.mjs`, fails if a word enters the top 10%, bottom 20% or right 12%),
+  render (`harness/dom-render.cjs`, 1080x1920, 30 fps), mix and cover (`social.py finish`: -14 LUFS, or a silent track);
+  ledger job commits the render records.
+- **Output:** release `social`: `<client>-<batch>-<id>.mp4`, `-cover.jpg`, `-captions.json` (TikTok, Instagram, YouTube title
+  and description, Facebook, the AI disclosure note). Committed: `social/batches/<client>/<batch>/audio/music.mp3`,
+  `ledger.json` (`calls` with costs, `renders`). Nothing is posted: Sam approves first.
+- **Cost:** pictures free; music about $0.04 to $0.08 once per batch (cap in `batch.json`); runner time about 3 to 5 minutes
+  per video (Chromium setup plus the render), so about 40 to 60 job-minutes for 12 videos (see the minute limit in
+  `docs/CI-PURPOSE.md`).
+- **Local, free:** `node social/lib/check.mjs social/batches/<client>/<batch>`; stills: `node harness/dom-render.cjs
+  social/templates/<t> --w 1080 --h 1920 --stills 0.5,3,7 --stills-only --param brief=/social/batches/<client>/<batch>/batch.json
+  --param id=<video id>` (`--param guides=1` shows the platform zones); `node social/lib/safecheck.mjs social/templates/<t>`.
 
 ### `board.yml`: a style board
 - **What:** generates stills per look so Sam can choose before any video money is spent. Optional: background removal

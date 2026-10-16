@@ -1,0 +1,114 @@
+# Social videos (9:16 phone format) built in code from templates: social/templates/<template>/ driven by a batch,
+# social/batches/<client>/<batch>/batch.json (a list of videos: id, template, the card's words, photo, platforms).
+# One runner per video. Free except the optional music: one Lyria clip per batch, booked against the batch's cap.
+#   plan:   checks the batch (words, house style, photos, templates, captions); makes the batch's music once if asked and
+#           commits it with the ledger; hands the music to the video jobs.
+#   video:  captions in code (no AI), the safe-zone check, the render (harness/dom-render.cjs, 1080x1920, 30 fps), the mix
+#           (-14 LUFS, or a silent track), the cover; uploads <client>-<batch>-<id>.mp4, -cover.jpg, -captions.json to
+#           the release "social".
+#   ledger: one commit adding a record of every render to social/batches/<client>/<batch>/ledger.json.
+# Nothing is posted anywhere: Sam approves every video first.
+name: social
+on:
+  workflow_dispatch:
+    inputs:
+      batch: { description: 'batch folder under social/batches/, for example smartmount/2026-12', required: true }
+      only: { description: 'optional: video ids to render, comma-separated (default: every video in the batch)', required: false, default: '' }
+permissions:
+  contents: write
+concurrency: { group: 'social-${{ inputs.batch }}', cancel-in-progress: false }
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs: { videos: '${{ steps.s.outputs.videos }}' }
+    env: { B: '${{ inputs.batch }}', ONLY: '${{ inputs.only }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: check the batch
+        id: s
+        run: |
+          set -o pipefail
+          node social/lib/check.mjs "social/batches/$B" --only "$ONLY" --matrix matrix.json
+          echo "videos=$(cat matrix.json)" >> "$GITHUB_OUTPUT"
+      - name: music for the batch (once; skipped when it exists or is off)
+        env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}' }
+        run: set -o pipefail; python harness/shots/social.py music "social/batches/$B" 2>&1 | tee music.log
+      - uses: actions/upload-artifact@v4
+        with: { name: music, path: 'social/batches/${{ inputs.batch }}/audio/music.mp3', if-no-files-found: ignore, retention-days: 3 }
+      - name: commit the music and the ledger
+        run: |
+          git config user.name "kinoforge-bot"; git config user.email "bot@users.noreply.github.com"
+          [ -f "social/batches/$B/audio/music.mp3" ] && git add "social/batches/$B/audio/music.mp3"
+          [ -f "social/batches/$B/ledger.json" ] && git add "social/batches/$B/ledger.json"
+          git commit -qm "social $B: music and ledger" || exit 0
+          for i in 1 2 3 4 5; do git pull -q --rebase && git push -q && break; sleep $((RANDOM % 7 + 3)); done
+  video:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy: { fail-fast: false, matrix: { v: '${{ fromJSON(needs.plan.outputs.videos) }}' } }
+    env: { B: '${{ inputs.batch }}', ID: '${{ matrix.v.id }}', TPL: '${{ matrix.v.template }}', NAME: '${{ matrix.v.name }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: 'npm', cache-dependency-path: harness/package-lock.json }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: renderer
+        run: |
+          npm ci --prefix harness --no-audit --no-fund
+          cd harness && npx playwright install --with-deps chromium > /dev/null
+      - name: the batch's music, if any
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: { name: music, path: 'social/batches/${{ inputs.batch }}/audio' }
+      - name: captions (built in code from the brief, no AI)
+        run: node social/lib/captions.mjs "social/batches/$B" "$ID" --out "out/social/$NAME-captions.json"
+      - name: safe-zone check (no word under the platforms' buttons or captions)
+        run: node social/lib/safecheck.mjs "social/templates/$TPL" --brief "/social/batches/$B/batch.json" --id "$ID" --json "out/social/$NAME-safe.json"
+      - name: render 1080x1920, 30 fps
+        run: |
+          set -o pipefail
+          SUB=$(python3 -c "import json;print(int((json.load(open('social/batches/$B/batch.json')).get('render') or {}).get('sub',1)))")
+          node harness/dom-render.cjs "social/templates/$TPL" --w 1080 --h 1920 --fps 30 --sub "$SUB" --out "out/social/$ID" \
+            --param "brief=/social/batches/$B/batch.json" --param "id=$ID" 2>&1 | tee "out/social/$NAME-render.log"
+      - name: mix (-14 LUFS) and cover
+        run: set -o pipefail; python harness/shots/social.py finish "social/batches/$B" "$ID" "out/social/$ID/$TPL.mp4" out/social 2>&1 | tee -a "out/social/$NAME-render.log"
+      - name: publish
+        if: always()
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          gh release view social > /dev/null 2>&1 || gh release create social --title "social" --notes "Social videos (9:16) built in code from templates and real photos, with captions per platform. Waiting for Sam's approval; nothing here is posted automatically." || true
+          for f in "out/social/$NAME.mp4" "out/social/$NAME-cover.jpg" "out/social/$NAME-captions.json"; do [ -f "$f" ] && gh release upload social "$f" --clobber || true; done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: 'render-${{ matrix.v.id }}', path: 'out/social/${{ matrix.v.name }}-render.json', if-no-files-found: ignore, retention-days: 3 }
+  ledger:
+    needs: [plan, video]
+    if: always() && needs.plan.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env: { B: '${{ inputs.batch }}' }
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ github.ref }}' }   # the branch tip, so the plan job's music and ledger commit is included
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: { pattern: 'render-*', path: renders, merge-multiple: true }
+      - name: record the renders and commit
+        run: |
+          mkdir -p renders
+          python harness/shots/social.py ledger "social/batches/$B" renders
+          git config user.name "kinoforge-bot"; git config user.email "bot@users.noreply.github.com"
+          git add "social/batches/$B/ledger.json"
+          git commit -qm "social $B: render records" || exit 0
+          for i in 1 2 3 4 5; do git pull -q --rebase && git push -q && break; sleep $((RANDOM % 7 + 3)); done

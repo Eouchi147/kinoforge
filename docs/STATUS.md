@@ -1,4 +1,4 @@
-# Status (updated 16 Oct 2026, 17:45 UTC)
+# Status (updated 16 Oct 2026, 20:40 UTC)
 
 ## Handover
 On 16 Oct Sam moved all building into one new Claude chat, project "Unmissed with studio". KINOFORGE becomes the content
@@ -6,9 +6,20 @@ engine inside Unmissed; Sam's approval is the only human step. **Start with `doc
 what works, how to start a job, costs per content type, money, decisions, open problems, recommendation.
 
 ## Focus
-Premium short video ads for Unmissed and its clients, to bring in money. Films and channels are parked.
+Premium short video ads for Unmissed and its clients, to bring in money. Films and channels are parked. New since 16 Oct:
+the **social lane** (`social/`, workflow `social.yml`) for Unmissed's Social Autopilot (12 short videos a month per
+client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toronto opening in December).
 
 ## Done
+- **Social lane built (16 Oct, not yet run on GitHub):** three 9:16 templates from the same brief (Smart Mount card
+  tip-height, real photo `rattan.webp`): A `card-motion` (Smart Mount's own card brought to life, 12.4 s), B `bento`
+  (Unmissed's Bento language in Smart Mount colours, 14.0 s), C `type-motion` (kinetic type over the real photo, 13.6 s).
+  Every word inside the phone safe zone (checked every 0.05 to 0.1 s by `social/lib/safecheck.mjs`). Captions per
+  platform built in code (`social/lib/captions.mjs`). First batch `social/batches/smartmount/2026-12/batch.json`: 12
+  videos (6 tips, 6 teach cards, English), look A until Sam picks. Style board rendered locally (key frames, contact sheets,
+  540x960 check videos) and handed to the main chat for Sam (not in the repo; any local render recreates it, see
+  `social/README.md`). `fitStage()` in `ads/lib/motion.js` now scales uniformly (a 9:16 stage no
+  longer stretches); every existing ad renders exactly as before (40 stills compared).
 - Six business looks shown on style boards (private Claude page "Restaurant Ad Looks"); verdicts in `AGENTS.md`.
 - Five Unmissed ad directions built music first and rendered (`ads/unmissed-v1` to `-v5`, release `ads`, page
   "Unmissed Ad Directions"). Sam's verdicts (16 Oct): **Bento (v5) loved, the chosen direction**; The Call (v3) loved but
@@ -21,6 +32,9 @@ Premium short video ads for Unmissed and its clients, to bring in money. Films a
 - Nothing. No Actions run, no paid call, no agent.
 
 ## Waiting on Sam
+- **Pick one look for Smart Mount's social videos** from the style board: A Card in motion, B Bento, or C Type in Motion.
+  Then approve the December batch (12 videos, list in `social/batches/smartmount/2026-12/batch.json`) before it is rendered,
+  and every video before it is posted. Music: on (one Lyria clip for the batch, about $0.04 to $0.08, cap $0.20) or silent.
 - How to get natural voices (paid audition of other voice models, a human voice, or a mix); whether The Call's AI
   receptionist must sound like Unmissed's live phone agent.
 - Bento next steps (new voice, polish, 9:16 layout, French).
@@ -28,6 +42,8 @@ Premium short video ads for Unmissed and its clients, to bring in money. Films a
 - The four Unmissed questions in `docs/UNMISSED_HANDOFF.md`.
 
 ## Next (in order, for the new chat)
+0. Social lane: once the branch is on `main`, Sam's look is set in the batch (`"template"` on each video) and he approves,
+   dispatch `social.yml` with `batch=smartmount/2026-12` (try `only=v01-tip-height` first); check the release `social`.
 1. Natural voices, then Bento polish, its 9:16 layout and a French version.
 2. Job contract between Unmissed's admin and the engine (dispatch, signed callbacks, private outputs).
 3. Bento as a brief-driven template, so a client ad needs no coding session.
@@ -37,3 +53,5 @@ Premium short video ads for Unmissed and its clients, to bring in money. Films a
 - Build key ($50 limit, GitHub secret): last read $35.03 on 16 Oct about 04:33 (lags); about $2.40 came after it.
   Estimated $12 to $13 left. Sum of all ledgers: $36.29.
 - Studio key ($5 limit, Vercel): $4.91 used, $0.09 left (read 16 Oct 17:22).
+- The social lane cost nothing so far (built and checked locally, no paid call). Its only paid call is the optional batch
+  music (Lyria), booked against the batch's cap when `social.yml` runs.

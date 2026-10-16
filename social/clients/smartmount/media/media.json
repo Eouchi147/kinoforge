@@ -1,0 +1,16 @@
+{
+ "_": "Real Smart Mount install photos (phone photos of finished jobs, cleared by Sam for public use on 15 Oct 2026), copied from the smartmount repo (shared/g/j/ and shared/g/ring-*.webp). tv = the television's box [x0, y0, x1, y1] as fractions of the photo, checked by eye in smartmount tools/cards.photos.js; templates frame every crop from it so the screen is never cropped or covered. level.webp has no television: its box is the hand, the bracket and the laser line. stoneblue.webp was left out: its screen shows third-party app logos. Never add AI images here (the smartmount hero-*.webp files are excluded for that reason).",
+ "photos": [
+  { "file": "rattan.webp",     "w": 1400, "h": 1050, "tv": [0.30, 0.29, 0.65, 0.56], "room": "TV over a floating rattan shelf, plain wall, door on the right" },
+  { "file": "whitebrick.webp", "w": 1050, "h": 1400, "tv": [0.15, 0.17, 0.84, 0.47], "room": "TV over a white brick fireplace, soundbar on the mantel" },
+  { "file": "level.webp",      "w": 700,  "h": 1400, "tv": [0.15, 0.32, 0.78, 0.50], "room": "a hand levelling a wall bracket against a laser line (no TV)" },
+  { "file": "ring-7.webp",     "w": 750,  "h": 1000, "tv": [0.22, 0.35, 0.83, 0.63], "room": "TV over a white fireplace mantel" },
+  { "file": "console.webp",    "w": 1400, "h": 1050, "tv": [0.29, 0.07, 0.62, 0.39], "room": "TV over a white console, wires in a paintable channel" },
+  { "file": "lamplit.webp",    "w": 1400, "h": 1050, "tv": [0.23, 0.09, 0.60, 0.44], "room": "living room with a lamp, a leather chair and a console" },
+  { "file": "darkmantel.webp", "w": 1400, "h": 1050, "tv": [0.38, 0.37, 0.72, 0.67], "room": "TV over a dark wood mantel" },
+  { "file": "alcove.webp",     "w": 1400, "h": 1050, "tv": [0.27, 0.23, 0.70, 0.71], "room": "TV on a full motion mount, angled off a plain wall" },
+  { "file": "blueover.webp",   "w": 1400, "h": 1050, "tv": [0.33, 0.27, 0.72, 0.62], "room": "TV switched on (blue setup screen) over a fireplace" },
+  { "file": "warmwall.webp",   "w": 1400, "h": 1050, "tv": [0.20, 0.24, 0.68, 0.66], "room": "large TV on a plain wall, window reflected in the screen" },
+  { "file": "ring-2.webp",     "w": 750,  "h": 1000, "tv": [0.16, 0.15, 0.73, 0.42], "room": "TV over a wooden fireplace, clear floor and rug" }
+ ]
+}

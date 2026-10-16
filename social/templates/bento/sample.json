@@ -1,0 +1,17 @@
+{
+ "_": "Sample brief for the style board: Smart Mount card tip-height, words exactly as in smartmount tools/cards.data.js. figure \"height\" draws the measured diagram in the fact tile (eye level seated = the screen's centre, 42 inches from the floor).",
+ "client": "smartmount",
+ "template": "bento",
+ "id": "sample-tip-height",
+ "card": {
+  "name": "tip-height",
+  "eyebrow": "The most common mistake",
+  "tone": "teach",
+  "title": "Your TV is too high.",
+  "body": "Eye level means the centre of the screen, sitting down.",
+  "fact": ["42\"", "to the centre, seated"]
+ },
+ "photo": "rattan.webp",
+ "figure": "height",
+ "platforms": ["tiktok", "instagram", "youtube", "facebook"]
+}

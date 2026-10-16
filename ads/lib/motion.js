@@ -38,8 +38,17 @@ export function rise(spans, t, tIn, { stagger = 0.06, dur = 0.7, tOut = null, ou
   });
 }
 export const show = (el, on) => { el.style.visibility = on ? 'visible' : 'hidden'; };
-export function fitStage(stage) {
-  const q = new URLSearchParams(location.search); const w = +q.get('w') || 1920, h = +q.get('h') || 1080;
-  stage.style.transform = `scale(${w / 1920}, ${h / 1080})`; stage.style.transformOrigin = '0 0';
+// Scale the fixed stage to the render size (?w=&h= from dom-render) uniformly, so it never stretches. The stage's design
+// size is `size` ({ w, h }), else the stage's data-w / data-h attributes, else 1920x1080 (every ad). It is never measured:
+// reading offsetWidth here forces a layout before the fonts load and shifts glyph rasterization (found 16 Oct 2026).
+// Same aspect: a plain scale (16:9 ads at 1920x1080 or 960x540 render pixel for pixel as before). Other aspect: letterboxed
+// and centred, because another shape needs its own layout (a 16:9 ad is not a 9:16 video; social/templates are 1080x1920).
+export function fitStage(stage, size = {}) {
+  const q = new URLSearchParams(location.search);
+  const sw = size.w || +stage.dataset.w || 1920, sh = size.h || +stage.dataset.h || 1080;
+  const w = +q.get('w') || sw, h = +q.get('h') || sh;
+  const s = Math.min(w / sw, h / sh), x = (w - sw * s) / 2, y = (h - sh * s) / 2;
+  stage.style.transform = (Math.abs(x) > 0.01 || Math.abs(y) > 0.01 ? `translate(${x}px, ${y}px) ` : '') + `scale(${s})`;
+  stage.style.transformOrigin = '0 0';
   return q;
 }

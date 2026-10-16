@@ -1,0 +1,17 @@
+/* social/lib/stage.css: shared by every 9:16 social template (fixed 1080x1920 stage, scaled by fitStage). */
+html, body { margin: 0; overflow: hidden; background: #000; }
+* { box-sizing: border-box; }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased; font-kerning: normal; }
+/* masked words and lines: the inner span travels 135% so descenders never peek out of the mask */
+.m { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .05em .2em; margin: 0 -.05em -.2em; }
+.w { display: inline-block; will-change: transform; }
+.ln { display: block; overflow: hidden; padding: 0 .05em .18em; margin: 0 -.05em -.18em; }
+.ln > span { display: inline-block; will-change: transform; }
+/* tabular figures for counting numbers (no jitter while counting). !important because a later `font:` shorthand resets
+   font-variant-numeric, which silently turned this off in every template (found by the safe-zone check, 16 Oct 2026) */
+.tnum { font-variant-numeric: tabular-nums !important; }
+/* review overlay (?guides=1): where platform buttons and captions sit; no word may enter the red */
+#guides { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; z-index: 999; }
+#guides i { position: absolute; background: rgba(255, 30, 90, .22); }
+#guides b { position: absolute; border: 3px dashed rgba(255, 30, 90, .95); }

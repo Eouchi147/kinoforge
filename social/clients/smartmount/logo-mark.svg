@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Smart Mount">
+  <!-- SMART MOUNT, the small-size mark.
+       Distilled from the 3D brand render: same circle ground, same charcoal
+       mount, same blue landscape on the screen. The render itself is an
+       avatar and a cover asset; at 24 pixels it turns to mush, so this is
+       the version that survives a favicon and a nav bar.
+
+       The first draft put the screen on a stand and it read as a desk
+       monitor, which is the opposite of what this business does. The wall
+       plate and the arm are the whole point: this is a screen ON A WALL.
+
+       ONE FILE. The header, the favicon and every app icon are generated
+       from this. Change the brand here and it changes everywhere. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F4EFE4"/>
+      <stop offset="1" stop-color="#BFD8F0"/>
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="256" fill="url(#sky)"/>
+  <!-- the wall plate and the arm: what makes it mounted rather than standing -->
+  <rect x="96" y="150" width="36" height="212" rx="16" fill="#2E3338"/>
+  <rect x="126" y="238" width="70" height="34" rx="8" fill="#2E3338"/>
+  <!-- the screen -->
+  <rect x="186" y="140" width="230" height="178" rx="24" fill="#2E3338"/>
+  <rect x="212" y="166" width="178" height="126" rx="9" fill="#2E63BE"/>
+  <!-- one horizon, two peaks: the only detail that still reads at 24px -->
+  <path d="M212 276 L266 218 L300 252 L340 208 L390 258 V283 a9 9 0 0 1-9 9 H221 a9 9 0 0 1-9-9 Z" fill="#9CC4EE"/>
+</svg>
