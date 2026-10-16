@@ -1,10 +1,10 @@
 {
  "cap": 0.5,
- "total": 0.10945,
+ "total": 0.1649,
  "by_seat": {
-  "voice": 0.028,
-  "music": 0.08,
-  "ears": 0.00145
+  "voice": 0.04192,
+  "music": 0.12,
+  "ears": 0.00298
  },
  "calls": [
   {
@@ -143,6 +143,96 @@
    "task": "listen to the mix",
    "usd": 0.001452,
    "s": 43.8,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 0",
+   "usd": 0.00184,
+   "s": 1.9,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 1",
+   "usd": 0.0024,
+   "s": 1.8,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 2",
+   "usd": 0.00252,
+   "s": 1.2,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 3",
+   "usd": 0.00152,
+   "s": 1.7,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 4",
+   "usd": 0.00156,
+   "s": 0.9,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 5",
+   "usd": 0.00228,
+   "s": 1.1,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 6",
+   "usd": 0.00036,
+   "s": 0.5,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 7",
+   "usd": 0.00076,
+   "s": 1.5,
+   "ok": true
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "vo 8",
+   "usd": 0.00068,
+   "s": 0.9,
+   "ok": true
+  },
+  {
+   "seat": "music",
+   "model": "google/lyria-3-clip-preview",
+   "task": "music",
+   "usd": 0.04,
+   "s": 10.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "ears",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "listen to the mix",
+   "usd": 0.001526,
+   "s": 41.5,
    "ok": true,
    "note": null
   }
