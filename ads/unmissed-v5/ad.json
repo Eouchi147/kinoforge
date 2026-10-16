@@ -1,0 +1,46 @@
+{
+ "_": "Bento: Unmissed brand ad (offer of 15 Oct 2026). Claims only in the site's words (harness/shots/policies/unmissed.md). No em/en dashes, no ellipsis on screen.",
+ "id": "unmissed-v5",
+ "scene": "ads/unmissed-v5",
+ "w": 1920,
+ "h": 1080,
+ "fps": 30,
+ "cap_usd": 0.6,
+ "prep": {
+  "music": {
+   "prompt": "Instrumental only, no vocals, no guitar. 118 BPM. Bright, upbeat, premium modern electronic pop for a product launch video: crisp claps on 2 and 4, a warm bouncy bass, sparkling plucks, optimistic and clean like an Apple product video. A short build in the first 2 seconds, full energy after, a playful short stop around 12 seconds, then a final confident hit around 16 seconds."
+  },
+  "voice_brief": "a bright, warm, upbeat and natural narrator for a modern product launch, smiling but never cheesy",
+  "voice_cast": [
+   "jessica",
+   "laura",
+   "liam"
+  ],
+  "vo": [
+   {
+    "text": "[upbeat] Calls, answered."
+   },
+   {
+    "text": "Leads, followed up."
+   },
+   {
+    "text": "Reviews, asked for."
+   },
+   {
+    "text": "A website that looks the part."
+   },
+   {
+    "text": "All built for you, and run for you."
+   },
+   {
+    "text": "Unmissed. A premium presence. An AI front desk."
+   }
+  ]
+ },
+ "render": {
+  "sub": 4
+ },
+ "post": {
+  "grain": 5
+ }
+}

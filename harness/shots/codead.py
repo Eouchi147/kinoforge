@@ -28,6 +28,15 @@ def synth(kind, np):
     if kind == 'ring':
         x = t(0.42); env = np.minimum(1, x / 0.01) * np.exp(-x * 4)
         return 0.10 * env * (np.sin(2 * np.pi * 659 * x) + 0.7 * np.sin(2 * np.pi * 831 * x)) * (0.75 + 0.25 * np.sin(2 * np.pi * 18 * x))
+    if kind == 'impact':   # a deep, clean hit for a drop or a logo slam
+        x = t(1.2); f = 46 + 60 * np.exp(-x * 18); ph = 2 * np.pi * np.cumsum(f) / SR
+        return 0.55 * np.minimum(1, x / 0.004) * np.exp(-x * 3.5) * np.sin(ph)
+    if kind == 'tick':
+        x = t(0.025); return 0.12 * np.exp(-x * 400) * np.sin(2 * np.pi * 3200 * x)
+    if kind == 'riser':   # 1.5 s of soft noise rising into a cut
+        x = t(1.5); rng = np.random.default_rng(3); n = rng.standard_normal(len(x))
+        for k in (40, 40): n = np.convolve(n, np.ones(k) / k, mode='same')
+        n = n / (np.abs(n).max() + 1e-9); return 0.14 * (x / x[-1]) ** 2.5 * n
     if kind == 'click':
         x = t(0.03); return 0.25 * np.exp(-x * 220) * np.sin(2 * np.pi * 2400 * x)
     if kind == 'pop':
@@ -61,14 +70,19 @@ def main(adir):
 
     # 1. picture: the scene page, frame by frame
     rdir = os.path.join(out, 'render')
-    r = subprocess.run(['node', os.path.join(ROOT, 'harness', 'dom-render.cjs'), ad['scene'], '--w', str(ad.get('w', 1920)), '--h', str(ad.get('h', 1080)), '--out', rdir],
-                       cwd=ROOT, capture_output=True, text=True, timeout=3000)
+    sub = int((ad.get('render') or {}).get('sub', 1))   # subframes per frame, averaged: real motion blur
+    r = subprocess.run(['node', os.path.join(ROOT, 'harness', 'dom-render.cjs'), ad['scene'], '--w', str(ad.get('w', 1920)), '--h', str(ad.get('h', 1080)), '--out', rdir,
+                        '--sub', str(sub)], cwd=ROOT, capture_output=True, text=True, timeout=5400)
     print(r.stdout[-800:], r.stderr[-800:]); assert r.returncode == 0, 'render failed'
     pic = os.path.join(rdir, os.path.basename(ad['scene'].rstrip('/')) + '.mp4'); D = dur_of(pic); log('picture', pic, f'{D:.2f}s')
 
     # 2. voice: one file per line; a line that would run into the next is gently sped up (at most 12%)
-    vo = []
-    for k, line in enumerate(ad.get('vo', [])):
+    vo = []; A = ad.get('audio')
+    if A:   # music-first ads: audio was made by prep.py and the scene was timed to it; reuse the files, no new fees
+        for item in A.get('vo', []) + A.get('dialogue', []):
+            wav = os.path.join(out, os.path.basename(item['file'])[:-4] + f"-{int(item['start'] * 1000)}.wav")
+            run(['ffmpeg', '-v', 'error', '-y', '-i', os.path.join(adir, item['file']), '-ar', str(SR), '-ac', '2', wav]); vo.append((item['start'], wav))
+    for k, line in enumerate([] if A else ad.get('vo', [])):
         mp3 = speech(B, line['text'], ad.get('voice', 'sarah'), os.path.join(out, f'vo{k}.mp3'), f'vo {k}')
         wav = os.path.join(out, f'vo{k}.wav'); run(['ffmpeg', '-v', 'error', '-y', '-i', mp3, '-ar', str(SR), '-ac', '2', wav])
         room = (ad['vo'][k + 1]['start'] if k + 1 < len(ad['vo']) else D) - line['start'] - 0.15; d = dur_of(wav)
@@ -80,7 +94,10 @@ def main(adir):
 
     # 3. score (optional: the ad still works on voice and sound design alone)
     mus = None
-    if ad.get('music'):
+    if A and A.get('music'):
+        mus = os.path.join(out, 'music_cut.wav'); off = float(A.get('music_offset', 0))
+        run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{off:.3f}', '-i', os.path.join(adir, A['music']), '-ar', str(SR), '-ac', '2', mus])
+    elif ad.get('music'):
         try: mus = music(B, ad['music']['prompt'], os.path.join(out, 'music.wav'), 'music')
         except Exception as e: log('music failed:', e)
     log('music:', mus or 'none')
@@ -96,19 +113,25 @@ def main(adir):
     for start, wav in vo:
         ins += ['-i', wav]; ms = int(start * 1000); fl.append(f'[{n}:a]adelay={ms}|{ms}[v{n}]'); n += 1
     vlabels = ''.join(f'[v{i}]' for i in range(1, n))
-    fl.append(f'{vlabels}amix=inputs={len(vo)}:normalize=0:duration=longest,apad=whole_dur={D:.3f},atrim=0:{D:.3f},asplit=2[vo][vokey]')
+    if vo: fl.append(f'{vlabels}amix=inputs={len(vo)}:normalize=0:duration=longest,apad=whole_dur={D:.3f},atrim=0:{D:.3f},asplit=2[vo][vokey]')
+    else: fl.append(f'anullsrc=r={SR}:cl=stereo,atrim=0:{D:.3f},asplit=2[vo][vokey]')
     ins += ['-i', fxw]; fx_i = n; n += 1
     fl.append(f'[{fx_i}:a]atrim=0:{D:.3f},volume=-3dB[fx]')
     if mus:
-        ins += ['-i', mus]; m_i = n; n += 1; g = float(ad['music'].get('gain_db', -15))
-        fl.append(f'[{m_i}:a]aformat=sample_rates={SR}:channel_layouts=stereo,atrim=0:{D:.3f},afade=t=in:d=0.4,afade=t=out:st={max(0, D - 2.2):.2f}:d=2.2,volume={g}dB[m]')
-        fl.append('[m][vokey]sidechaincompress=threshold=0.05:ratio=3:attack=40:release=500[md]')
+        ins += ['-i', mus]; m_i = n; n += 1
+        g = float((A or {}).get('music_gain_db', (ad.get('music') or {}).get('gain_db', -15))); fo = float((A or {}).get('music_fade_s', 2.2))
+        fl.append(f'[{m_i}:a]aformat=sample_rates={SR}:channel_layouts=stereo,atrim=0:{D:.3f},afade=t=in:d=0.05,afade=t=out:st={max(0, D - fo):.2f}:d={fo:.2f},volume={g}dB[m]')
+        ratio = float((A or {}).get('duck_ratio', 3))
+        fl.append(f'[m][vokey]sidechaincompress=threshold=0.05:ratio={ratio}:attack=40:release=500[md]')
         fl.append('[vo][md][fx]amix=inputs=3:normalize=0:duration=longest[mix]')
     else:
         fl.append('[vokey]anullsink'); fl.append('[vo][fx]amix=inputs=2:normalize=0:duration=longest[mix]')
     fl.append(f'[mix]loudnorm=I=-14:TP=-1.5:LRA=11,atrim=0:{D:.3f}[a]')
     final = os.path.join(out, f'{aid}.mp4')
-    run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(fl), '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '256k',
+    grain = int((ad.get('post') or {}).get('grain', 0))
+    vcodec = ['-c:v', 'copy'] if not grain else ['-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p']
+    if grain: fl.append(f'[0:v]noise=alls={grain}:allf=t[vid]')
+    run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(fl), '-map', '[vid]' if grain else '0:v', '-map', '[a]', *vcodec, '-c:a', 'aac', '-b:a', '256k',
          '-ar', str(SR), '-t', f'{D:.3f}', '-movflags', '+faststart', final])
     run(['ffmpeg', '-v', 'error', '-y', '-i', final, '-vf', 'fps=0.6,scale=480:-2,tile=4x4:padding=4:color=white', '-frames:v', '1', os.path.join(out, f'{aid}-sheet.jpg')])
     listen(B, final, ad, out)
@@ -125,7 +148,7 @@ def listen(B, final, ad, out):
     import base64
     from agents import ask
     mp3 = os.path.join(out, 'listen.mp3'); run(['ffmpeg', '-v', 'error', '-y', '-i', final, '-vn', '-ac', '1', '-b:a', '96k', mp3])
-    script = ' | '.join(f"{l['start']}s: {l['text']}" for l in ad.get('vo', []))
+    script = ' | '.join(f"{l['start']}s: {l.get('text', '')}" for l in ((ad.get('audio') or {}).get('vo', []) + (ad.get('audio') or {}).get('dialogue', [])) or ad.get('vo', []))
     msg = [{'role': 'user', 'content': [
         {'type': 'text', 'text': 'You are a strict audio supervisor for premium TV and social ads. Listen to this finished ad mix. '
          'Transcribe the voiceover with timestamps. Judge: the voice (clear, natural, warm, any glitches or mispronunciations, rushed?), '

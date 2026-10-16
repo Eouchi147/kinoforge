@@ -1,0 +1,47 @@
+{
+ "_": "The Call: Unmissed brand ad (offer of 15 Oct 2026). Claims only in the site's words (harness/shots/policies/unmissed.md). No em/en dashes, no ellipsis on screen.",
+ "id": "unmissed-v3",
+ "scene": "ads/unmissed-v3",
+ "w": 1920,
+ "h": 1080,
+ "fps": 30,
+ "cap_usd": 0.6,
+ "prep": {
+  "music": {
+   "prompt": "Instrumental only, no vocals, no guitar. 100 BPM. Minimal, warm, modern electronic. Very sparse and quiet for the first 15 seconds so a phone conversation can sit on top: a soft pulse and gentle pads only. Then it opens up with a confident beat and bright synth chords for the final 6 seconds, ending on a clean final hit."
+  },
+  "dialogue": [
+   {
+    "who": "ai",
+    "voice": "matilda",
+    "text": "Hi, you've reached Saffron Hearth Kitchen. I'm the AI assistant, and this call is recorded. How can I help?"
+   },
+   {
+    "who": "caller",
+    "voice": "chris",
+    "text": "[casual] Hey! Do you do catering? Forty people, this Saturday."
+   },
+   {
+    "who": "ai",
+    "voice": "matilda",
+    "text": "We do. Noon is open on Saturday. Shall I book it for you?"
+   },
+   {
+    "who": "caller",
+    "voice": "chris",
+    "text": "[relieved] Perfect. Yes, please."
+   },
+   {
+    "who": "ai",
+    "voice": "matilda",
+    "text": "Done. You'll get a text to confirm. Have a great night!"
+   }
+  ]
+ },
+ "render": {
+  "sub": 4
+ },
+ "post": {
+  "grain": 5
+ }
+}

@@ -1,0 +1,46 @@
+{
+ "_": "Night Shift: Unmissed brand ad (offer of 15 Oct 2026). Claims only in the site's words (harness/shots/policies/unmissed.md). No em/en dashes, no ellipsis on screen.",
+ "id": "unmissed-v4",
+ "scene": "ads/unmissed-v4",
+ "w": 1920,
+ "h": 1080,
+ "fps": 30,
+ "cap_usd": 0.6,
+ "prep": {
+  "music": {
+   "prompt": "Instrumental only, no vocals, no guitar. 72 BPM. Cinematic, intimate, premium film score: soft muted felt piano notes over warm analog pads and a faint rain-like texture, quiet and nocturnal for the first 12 seconds, then a gentle warm swell as morning comes, resolving on a calm, hopeful major chord around 19 seconds and ringing out."
+  },
+  "voice_brief": "an intimate, warm, low and slow cinematic narrator, almost a whisper, like a premium film trailer at night",
+  "voice_cast": [
+   "brian",
+   "bill",
+   "eric"
+  ],
+  "vo": [
+   {
+    "text": "[softly] You closed at nine."
+   },
+   {
+    "text": "[softly] Your customers didn't."
+   },
+   {
+    "text": "At nine forty-seven, someone called."
+   },
+   {
+    "text": "Your AI front desk answered. In your name. And booked them in."
+   },
+   {
+    "text": "Unmissed."
+   },
+   {
+    "text": "A premium presence. An AI front desk."
+   }
+  ]
+ },
+ "render": {
+  "sub": 4
+ },
+ "post": {
+  "grain": 5
+ }
+}

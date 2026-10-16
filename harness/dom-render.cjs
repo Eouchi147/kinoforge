@@ -14,12 +14,13 @@ const { start, ROOT } = require('./server.cjs');
 
 const args = process.argv.slice(2);
 const scene = args[0];
-const opt = { w: 1920, h: 1080, fps: 30, stills: [], params: [], out: null, only: false };
+const opt = { w: 1920, h: 1080, fps: 30, stills: [], params: [], out: null, only: false, sub: 1 };
 for (let i = 1; i < args.length; i++) {
   const a = args[i], next = () => args[++i];
   if (a === '--w') opt.w = +next(); else if (a === '--h') opt.h = +next(); else if (a === '--fps') opt.fps = +next();
   else if (a === '--out') opt.out = next(); else if (a === '--stills') opt.stills = next().split(',').map(Number);
   else if (a === '--stills-only') opt.only = true; else if (a === '--param') opt.params.push(next());
+  else if (a === '--sub') opt.sub = Math.max(1, +next());
   else { console.error('unknown option', a); process.exit(2); }
 }
 const name = path.basename(scene.replace(/\/$/, ''));
@@ -30,7 +31,8 @@ fs.rmSync(framesDir, { recursive: true, force: true }); fs.mkdirSync(framesDir, 
 (async () => {
   const t0 = Date.now();
   const { server, port } = await start(0);
-  const browser = await chromium.launch({ headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage', '--font-render-hinting=none', '--force-color-profile=srgb'] });
+  const browser = await chromium.launch({ headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage', '--font-render-hinting=none', '--force-color-profile=srgb',
+    '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'] });   // WebGL scenes (Three.js) render on the CPU
   const page = await browser.newPage({ viewport: { width: opt.w, height: opt.h }, deviceScaleFactor: 1 });
   page.on('console', (m) => console.log('[page]', m.text()));
   page.on('pageerror', (e) => console.error('[pageerror]', e.message));
@@ -43,11 +45,16 @@ fs.rmSync(framesDir, { recursive: true, force: true }); fs.mkdirSync(framesDir, 
   const shot = async (t, file, type) => { await page.evaluate(async ({ i, t }) => { await KF.render(i, t); }, { i: Math.round(t * fps), t }); await page.screenshot({ path: file, type, ...(type === 'jpeg' ? { quality: 94 } : {}) }); };
   for (const t of opt.stills) await shot(t, path.join(outDir, `${name}-${t.toFixed(2)}.png`), 'png');
   if (!opt.only) {
-    const total = Math.round(dur * fps);
-    for (let i = 0; i < total; i++) await shot(i / fps, path.join(framesDir, String(i).padStart(5, '0') + '.jpg'), 'jpeg');
+    // --sub N: N sub-frames per frame, averaged into one (real motion blur, like a film camera's open shutter)
+    const S = opt.sub, total = Math.round(dur * fps * S), t1 = Date.now();
+    for (let i = 0; i < total; i++) {
+      await shot(i / (fps * S), path.join(framesDir, String(i).padStart(6, '0') + '.jpg'), 'jpeg');
+      if ((i + 1) % (fps * S * 2) === 0) console.log(`frame ${i + 1}/${total}  ${((Date.now() - t1) / (i + 1)).toFixed(0)} ms each`);
+    }
     const mp4 = path.join(outDir, name + '.mp4');
-    const r = spawnSync('ffmpeg', ['-nostdin', '-y', '-loglevel', 'error', '-framerate', String(fps), '-i', path.join(framesDir, '%05d.jpg'),
-      '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', mp4], { stdio: 'inherit' });
+    const vf = S > 1 ? [`tmix=frames=${S}`, `select='eq(mod(n\\,${S})\\,${S - 1})'`, `setpts=N/(${fps}*TB)`].join(',') : 'null';
+    const r = spawnSync('ffmpeg', ['-nostdin', '-y', '-loglevel', 'error', '-framerate', String(fps * S), '-i', path.join(framesDir, '%06d.jpg'),
+      '-vf', vf, '-r', String(fps), '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', mp4], { stdio: 'inherit' });
     if (r.status !== 0) { console.error('ffmpeg failed'); process.exit(1); }
     console.log('wrote', mp4, `${total} frames`);
   }

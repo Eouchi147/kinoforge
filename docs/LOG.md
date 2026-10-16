@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 16 Oct 2026
+- Sam: Unmissed ad v4 "really bad quality", voice not great; wants dynamic, modern, premium, directed and orchestrated, and at least 5 different versions. Response: music-first pipeline (`prep.py`: Lyria score + beat map, voice casting by an audio model, Whisper word timings), motion blur (`dom-render --sub`), film grain, WebGL in the renderer, `codead.yml` modes prep/render with several ads per run. Five versions specced: `ads/unmissed-v1` Manifesto, `v2` The Catch (3D), `v3` The Call (dialogue + kinetic captions), `v4` Night Shift (AI footage, board `unmissed-night`), `v5` Bento (day theme).
 - `unmissed-01` v4 delivered to Sam (27.6 s, 16:9, -14 LUFS). Listening check (Gemini 3.7 Flash): no problems. Total for the four runs: $0.223.
 - `unmissed-01` v3 ($0.056): the listening check now finds the score on-brief, sounds pleasant, mix excellent; one problem: "An AI front desk" blurred into "and AI". v4: sign-off lines spaced 1.5 to 2 s apart (no speed-up), "A.I." spelled out for the voice, ad 27.6 s.
 - `unmissed-01` v2 ($0.109 incl. the listening check): the check (MiMo v2.6 Pro) heard a clear voice, a good balance, but a guitar-led score off-brief, bright pops and chimes, and a rushed sign-off. v3: score re-briefed (no guitar, synth keynote), softer interface sounds, the sign-off split into three timed lines.

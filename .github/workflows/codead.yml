@@ -1,30 +1,51 @@
-# Ads built in code (harness/shots/codead.py): the scene is rendered frame by frame in headless Chromium (no AI fees),
-# then voiced (ElevenLabs via OpenRouter), scored (Lyria via OpenRouter) and mixed. Dispatch with the ad id (ads/<id>/ad.json).
-# The finished ad goes to the "ads" release; the cost record (ads/<id>/ledger.json) is committed.
+# Ads built in code. Two modes, one or several ads per dispatch (comma-separated ids under ads/):
+#   prep   (harness/shots/prep.py): music first (Lyria) with its beat map, the narrator cast from candidate voices
+#          (ElevenLabs, an audio model scores the reels), dialogue with word timestamps (Whisper). Files are committed to
+#          ads/<id>/audio/ so the scene can be timed to them.
+#   render (harness/shots/codead.py): the scene rendered frame by frame in headless Chromium (optional motion blur),
+#          mixed with the prepared audio (or generated on the spot for older ads), checked by an audio model.
+# Outputs: release "ads" (<id>.mp4, sheet, listening notes); cost records ads/<id>/ledger.json committed.
 name: codead
 on:
   workflow_dispatch:
     inputs:
-      ad: { description: 'ad id under ads/', required: true }
+      ad: { description: 'ad id(s) under ads/, comma-separated', required: true }
+      mode: { description: 'prep or render', default: 'render' }
 permissions:
   contents: write
-concurrency: { group: 'codead-${{ inputs.ad }}', cancel-in-progress: false }
 jobs:
-  ad:
+  plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    env: { A: '${{ inputs.ad }}' }
+    outputs: { ads: '${{ steps.s.outputs.ads }}' }
+    steps:
+      - id: s
+        run: echo "ads=$(echo '${{ inputs.ad }}' | python3 -c "import sys,json; print(json.dumps([a.strip() for a in sys.stdin.read().split(',') if a.strip()]))")" >> $GITHUB_OUTPUT
+  ad:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy: { fail-fast: false, matrix: { ad: '${{ fromJSON(needs.plan.outputs.ads) }}' } }
+    env: { A: '${{ matrix.ad }}', MODE: '${{ inputs.mode }}' }
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '22', cache: 'npm', cache-dependency-path: harness/package-lock.json }
-      - run: npm ci --prefix harness --no-audit --no-fund
-      - run: cd harness && npx playwright install --with-deps chromium > /dev/null
-      - run: sudo apt-get install -y -qq ffmpeg > /dev/null
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
-      - run: pip install -q numpy pillow
+      - run: sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: tools for prep
+        if: inputs.mode == 'prep'
+        run: pip install -q numpy librosa soundfile faster-whisper
+      - name: tools for render
+        if: inputs.mode != 'prep'
+        run: |
+          pip install -q numpy pillow
+          npm ci --prefix harness --no-audit --no-fund
+          cd harness && npx playwright install --with-deps chromium > /dev/null
+      - name: prep the audio
+        if: inputs.mode == 'prep'
+        env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}' }
+        run: set -o pipefail; python harness/shots/prep.py ads/$A 2>&1 | tee ads/$A/prep.log
       - name: build the ad
+        if: inputs.mode != 'prep'
         env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}' }
         run: set -o pipefail; python harness/shots/codead.py ads/$A 2>&1 | tee ads/$A/codead.log
       - name: publish
@@ -32,8 +53,10 @@ jobs:
         env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
         run: |
           gh release view ads > /dev/null 2>&1 || gh release create ads --title "ads" --notes "Finished ads built in code (picture rendered in Chromium, voice and score via OpenRouter)." || true
-          for f in ads/$A/out/$A.mp4 ads/$A/out/$A-sheet.jpg ads/$A/out/$A-listen.json ads/$A/out/music.mp3 ads/$A/out/music.wav ads/$A/codead.log; do [ -f "$f" ] && gh release upload ads "$f" --clobber || true; done
+          for f in ads/$A/out/$A.mp4 ads/$A/out/$A-sheet.jpg ads/$A/out/$A-listen.json ads/$A/codead.log; do [ -f "$f" ] && gh release upload ads "$f" --clobber || true; done
+          [ -f ads/$A/prep.log ] && cp ads/$A/prep.log ads/$A/$A-prep.log && gh release upload ads ads/$A/$A-prep.log --clobber || true
           git config user.name "kinoforge-bot"; git config user.email "bot@users.noreply.github.com"
           [ -f ads/$A/ledger.json ] && git add ads/$A/ledger.json
-          git commit -qm "ad $A: ledger" && (git pull -q --rebase && git push -q) || true
-
+          [ -d ads/$A/audio ] && git add ads/$A/audio
+          git commit -qm "ad $A: $MODE outputs" || exit 0
+          for i in 1 2 3 4 5; do git pull -q --rebase && git push -q && break; sleep $((RANDOM % 7 + 3)); done

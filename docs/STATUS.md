@@ -19,7 +19,7 @@ approving on his phone, (3) first 2 or 3 clients through Unmissed, (4) films lat
 - Handover docs: `AGENTS.md`, `CLAUDE.md`, `docs/WORKFLOWS.md`, this file, `docs/LOG.md`.
 
 ## Running now
-- Nothing. Unmissed ad v4 is finished and with Sam (release `ads`: `unmissed-01.mp4`). Four runs cost $0.223 in all.
+- Five new Unmissed versions (Sam rejected v4 of `unmissed-01`): audio prep for `unmissed-v1` to `v5` (`codead.yml` mode prep), Night Shift stills (`board.yml` unmissed-night). Budget for the five: about $3.
 
 ## Waiting on Sam
 - Watch Unmissed ad v4 and say yes or what to change.
