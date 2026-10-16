@@ -43,6 +43,7 @@ html, body { margin:0; background:#000; overflow:hidden; }
 #orbJM .body { position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle at 36% 30%, #ffffff 0%, #e6ebf6 60%, #cfd7e8 100%); display:flex; align-items:center; justify-content:center; color:#0b1020; font-weight:650; font-size:54px; letter-spacing:-.02em; }
 #orbJM .rp { border-color:#ffffff; }
 #caps { position:absolute; inset:0; }
+#wave { position:absolute; left:380px; top:842px; width:1160px; height:120px; }
 #sig { position:absolute; left:860px; top:257px; width:200px; height:2px; background:linear-gradient(90deg, rgba(121,180,255,0), rgba(190,210,255,.22) 25%, rgba(190,210,255,.22) 75%, rgba(255,255,255,0)); }
 #sig i { position:absolute; left:0; top:-2px; width:46px; height:6px; border-radius:3px; opacity:0; background:linear-gradient(90deg, rgba(255,255,255,0), #fff); box-shadow:0 0 14px 2px rgba(180,210,255,.7); }
 .pg { position:absolute; left:0; width:1920px; visibility:hidden; text-align:center; }
@@ -99,6 +100,7 @@ html, body { margin:0; background:#000; overflow:hidden; }
       <div class="orb" id="orbAI"><i class="rp"></i><i class="rp"></i><i class="rp"></i><i class="rp"></i><i class="rp"></i><div class="body"></div><div class="node" id="aiNode"></div></div>
       <div class="orb" id="orbJM"><i class="rp"></i><i class="rp"></i><i class="rp"></i><i class="rp"></i><i class="rp"></i><div class="body">JM</div></div>
       <div id="chip"><div class="mg">SH</div><div><div class="nm">Saffron Hearth Kitchen</div><div class="sb"><i></i>AI front desk</div></div><div class="dv"></div><div class="tm" id="timer">0:00</div></div>
+      <canvas id="wave" width="1160" height="120"></canvas>
       <div id="caps"></div>
       <div id="card">
         <div class="ct"><svg width="84" height="84" viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="14" width="48" height="42" rx="9"/><path d="M8 27h48M20 7v12M44 7v12"/><path id="ck1" d="M21 42l8 8 15-16" stroke-width="6"/></svg></div>
@@ -287,6 +289,13 @@ function draw(t) {
       el.style.transform = r[1] === 'ai' ? `translate3d(${(e * 154).toFixed(1)}px,0,0)` : `translate3d(${((1 - e) * 154).toFixed(1)}px,0,0) scaleX(-1)`; el.style.transformOrigin = '50% 50%';
       el.style.background = r[1] === 'ai' ? 'linear-gradient(90deg, rgba(121,180,255,0), #9cc4ff)' : 'linear-gradient(90deg, rgba(255,255,255,0), #fff)'; });
     $('#sig').style.opacity = (ease.outCubic(c01((t - (ans + 0.3)) / 0.4)) * (0.5 + 0.5 * lt)).toFixed(3); }
+  // the live voice, drawn from the real level of each line: it scrolls left, and the booking card takes its place on "Done."
+  { const cv = $('#wave'), g = cv.getContext('2d'), N = 77, STEP = 15, cE2 = ease.outExpo(c01((t - C.done) / 0.2));
+    g.clearRect(0, 0, 1160, 120); cv.style.opacity = (ease.outCubic(c01((t - (ans + 0.6)) / 0.5)) * (1 - c01(cE2 * 1.4))).toFixed(3);
+    if (cE2 < 0.7) for (let i = 0; i < N; i++) { const tau = t - (N - 1 - i) * 0.026, lv = tau > 0 ? levelAt(tau) : { who: null, v: 0 }; const x = 12 + i * STEP;
+      const h = 6 + 96 * lv.v, edge = Math.sin(Math.PI * (i + 0.5) / N), a = (0.18 + 0.62 * lv.v) * Math.pow(edge, 0.7);
+      g.fillStyle = lv.who === 'caller' ? `rgba(255,255,255,${a.toFixed(3)})` : `rgba(121,180,255,${a.toFixed(3)})`;
+      g.beginPath(); g.roundRect(x, 60 - h / 2, 7, h, 3.5); g.fill(); } }
   $('#demo').style.opacity = (ease.outCubic(c01((t - (ans + 0.5)) / 0.4)) * (1 - c01((t - (C.s3_out - 0.02)) / 0.1))).toFixed(3);
   const demoCol = t < C.s1 ? [152, 161, 181] : t < C.s2 + 0.03 ? [255, 255, 255] : t < C.s3 ? [11, 16, 32] : [210, 224, 255];
   $('#demo').style.color = `rgb(${demoCol.join(',')})`; $('#demo').style.opacity = ($('#demo').style.opacity * (t >= C.s1 && t < C.s2 + 0.03 ? 0.82 : t >= C.s2 + 0.03 && t < C.s3 ? 0.62 : 1)).toFixed(3);
@@ -395,5 +404,5 @@ async function boot() {
   window.KF = { duration: AD.duration, fps: AD.fps || 30, async render(i, t) { draw(t); } };
   window.KF_READY = true;
 }
-boot();
+boot().catch((e) => { console.error('boot failed', e && e.message); });
 </script></body></html>
