@@ -129,7 +129,7 @@ def main(adir):
     fl.append(f'[mix]loudnorm=I=-14:TP=-1.5:LRA=11,atrim=0:{D:.3f}[a]')
     final = os.path.join(out, f'{aid}.mp4')
     grain = int((ad.get('post') or {}).get('grain', 0))
-    vcodec = ['-c:v', 'copy'] if not grain else ['-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p']
+    vcodec = ['-c:v', 'copy'] if not grain else ['-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-maxrate', '14M', '-bufsize', '28M', '-pix_fmt', 'yuv420p']   # grain is incompressible: cap the bitrate (v1 came out at 72 Mbps)
     if grain: fl.append(f'[0:v]noise=alls={grain}:allf=t[vid]')
     run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(fl), '-map', '[vid]' if grain else '0:v', '-map', '[a]', *vcodec, '-c:a', 'aac', '-b:a', '256k',
          '-ar', str(SR), '-t', f'{D:.3f}', '-movflags', '+faststart', final])
