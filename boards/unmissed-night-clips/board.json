@@ -1,0 +1,16 @@
+{
+ "_": "Night Shift (Unmissed version 4): four 4 s clips from the approved stills (checked by Claude, 16 Oct). Veo 3.1 Fast 1080p, no audio, $0.40 each.",
+ "cap_usd": 1.9,
+ "aspect": "16:9",
+ "frames": [],
+ "clips": [
+  {"id": "ns-1-move", "from": "in/ns-1.jpg", "model": "google/veo-3.1-fast", "seconds": 4,
+   "prompt": "Very slow, smooth cinematic push-in through the empty restaurant at night toward the rain-streaked front window; rain runs down the glass, the blurred city lights outside flicker softly, the pendant lamp glows steadily. Only the camera and the rain move. Photoreal, no people, no text, nothing new appears."},
+  {"id": "ns-2-move", "from": "in/ns-2.jpg", "model": "google/veo-3.1-fast", "seconds": 4,
+   "prompt": "The smartphone lying on the wooden counter lights up brighter as a call comes in and vibrates gently against the wood, its glow pulsing softly on the wood grain, then the glow steadies. Very slow push-in. The background bokeh shimmers slightly. Photoreal. The screen content stays blurred and unreadable. No people, no hands, no text, nothing new appears."},
+  {"id": "ns-3-move", "from": "in/ns-3.jpg", "model": "google/veo-3.1-fast", "seconds": 4,
+   "prompt": "Rain drops slide slowly down the window glass and new drops land, the city bokeh lights shimmer and drift softly behind, the warm lamp reflection glows. Locked-off camera with gentle focus breathing. Photoreal, no people, no text, nothing new appears."},
+  {"id": "ns-4-move", "from": "in/ns-4.jpg", "model": "google/veo-3.1-fast", "seconds": 4,
+   "prompt": "Slow, smooth sideways dolly through the empty restaurant at dawn; golden sunlight beams through the front window, dust floats and drifts in the light, the light slowly grows warmer. Only the camera, the dust and the light move. Photoreal, no people, no text, nothing new appears."}
+ ]
+}
