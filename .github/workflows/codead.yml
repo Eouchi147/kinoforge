@@ -36,3 +36,4 @@ jobs:
           git config user.name "kinoforge-bot"; git config user.email "bot@users.noreply.github.com"
           [ -f ads/$A/ledger.json ] && git add ads/$A/ledger.json
           git commit -qm "ad $A: ledger" && (git pull -q --rebase && git push -q) || true
+
