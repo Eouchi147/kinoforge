@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 16 Oct 2026
+- `unmissed-01` v2 ($0.109 incl. the listening check): the check (MiMo v2.6 Pro) heard a clear voice, a good balance, but a guitar-led score off-brief, bright pops and chimes, and a rushed sign-off. v3: score re-briefed (no guitar, synth keynote), softer interface sounds, the sign-off split into three timed lines.
 - `unmissed-01` first full run ($0.054): picture, voice and Lyria music all worked; loudness -14 LUFS. Fixes for v2: score was buried (gain -15 to -10 dB, gentler ducking), whoosh sounded like hiss (darker, quieter), last line no longer sped up (end card 1 s longer). New automatic listening check: an audio model transcribes and critiques the mix (`<id>-listen.json`).
 - `codead.yml` was not registered by GitHub until a push touched the file itself; noted in WORKFLOWS. First real run of `unmissed-01` started.
 - Handover docs added: `AGENTS.md` (read first), `CLAUDE.md`, `docs/WORKFLOWS.md`, `docs/STATUS.md`, this log. Rule from Sam: every change updates STATUS and LOG.

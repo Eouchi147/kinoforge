@@ -31,8 +31,8 @@ def synth(kind, np):
     if kind == 'click':
         x = t(0.03); return 0.25 * np.exp(-x * 220) * np.sin(2 * np.pi * 2400 * x)
     if kind == 'pop':
-        x = t(0.12); f = 1300 - 700 * np.minimum(1, x / 0.06); ph = 2 * np.pi * np.cumsum(f) / SR
-        return 0.16 * np.minimum(1, x / 0.003) * np.exp(-x * 38) * np.sin(ph)
+        x = t(0.12); f = 820 - 380 * np.minimum(1, x / 0.06); ph = 2 * np.pi * np.cumsum(f) / SR
+        return 0.09 * np.minimum(1, x / 0.006) * np.exp(-x * 34) * np.sin(ph)   # a soft, round pop (the listening check found the first one sharp)
     if kind == 'whoosh':
         x = t(0.5); rng = np.random.default_rng(7); n = rng.standard_normal(len(x))
         for k in (90, 90, 90): n = np.convolve(n, np.ones(k) / k, mode='same')   # three box filters: a soft, dark air movement, not hiss
@@ -40,11 +40,11 @@ def synth(kind, np):
         return 0.10 * np.sin(np.pi * x / x[-1]) ** 2 * n
     if kind == 'check':
         a, b = t(0.09), t(0.16)
-        s1 = 0.10 * np.exp(-a * 25) * np.sin(2 * np.pi * 880 * a); s2 = 0.10 * np.exp(-b * 14) * np.sin(2 * np.pi * 1320 * b)
+        s1 = 0.06 * np.exp(-a * 25) * np.sin(2 * np.pi * 660 * a); s2 = 0.06 * np.exp(-b * 14) * np.sin(2 * np.pi * 990 * b)
         return np.concatenate([s1, s2])
     if kind == 'chime':
-        x = t(1.4); env = np.minimum(1, x / 0.004) * np.exp(-x * 3.2)
-        return 0.09 * env * (np.sin(2 * np.pi * 1047 * x) + 0.5 * np.sin(2 * np.pi * 1568 * x) + 0.25 * np.sin(2 * np.pi * 2093 * x))
+        x = t(1.4); env = np.minimum(1, x / 0.01) * np.exp(-x * 3.2)
+        return 0.06 * env * (np.sin(2 * np.pi * 784 * x) + 0.4 * np.sin(2 * np.pi * 1175 * x) + 0.12 * np.sin(2 * np.pi * 1568 * x))
     raise ValueError(kind)
 
 

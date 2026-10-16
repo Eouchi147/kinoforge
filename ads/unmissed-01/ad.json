@@ -33,12 +33,20 @@
    "text": "And a premium presence, everywhere customers look you up."
   },
   {
-   "start": 21.5,
-   "text": "Unmissed. A premium presence. An AI front desk."
+   "start": 21.6,
+   "text": "Unmissed."
+  },
+  {
+   "start": 22.75,
+   "text": "A premium presence."
+  },
+  {
+   "start": 24.0,
+   "text": "An AI front desk."
   }
  ],
  "music": {
-  "prompt": "Instrumental only, no vocals. 26 seconds. Minimal modern electronic for a premium tech brand film: warm soft synth pads, a gentle pulsing bass at 100 BPM, light glassy plucks and subtle clean hi-hats. Calm and confident, never busy, room for a voiceover. A small lift at 21 seconds, then resolve on a clean warm chord and ring out.",
+  "prompt": "Instrumental only, no vocals, no acoustic guitar, no ukulele, no piano. 27 seconds. Sleek minimal electronic score for a premium technology brand film, like a product keynote: soft analog synth pads, a deep warm sub-bass pulse at 100 BPM, crisp quiet electronic percussion, glassy arpeggiated synth plucks. Calm, confident, modern, never busy, leaving room for a voiceover. A gentle lift at 21 seconds, then resolve on one clean wide synth chord that rings out to the end.",
   "gain_db": -10
  },
  "sfx": [
