@@ -1,4 +1,4 @@
-# Status (updated 16 Oct 2026, 03:30 UTC)
+# Status (updated 16 Oct 2026, 03:45 UTC)
 
 ## Focus
 Premium short video ads for Unmissed and its clients, to bring in money. Films and channels are parked until then.
@@ -19,15 +19,15 @@ approving on his phone, (3) first 2 or 3 clients through Unmissed, (4) films lat
 - Handover docs: `AGENTS.md`, `CLAUDE.md`, `docs/WORKFLOWS.md`, this file, `docs/LOG.md`.
 
 ## Running now
-- `codead.yml` for `unmissed-01`, v2 (louder score, softer whooshes, longer end card, listening check). v1 cost $0.054.
+- Nothing. Unmissed ad v4 is finished and with Sam (release `ads`: `unmissed-01.mp4`). Four runs cost $0.223 in all.
 
 ## Waiting on Sam
-- Watch Unmissed ad v1 and say yes or what to change.
+- Watch Unmissed ad v4 and say yes or what to change.
 - The Unmissed chat should decide where video sits in the new offer (Presence, AI Front Desk, Complete): the free concept
   ad was retired with the free proof build (the free audit is now the only free thing). See `docs/UNMISSED_HANDOFF.md`.
 
 ## Next (in order)
-1. Check `unmissed-01` frame by frame and by ear; fix; deliver to Sam with the cost.
+1. Sam's notes on `unmissed-01`, then a French version if wanted (the site is bilingual).
 2. A 9:16 version of the Unmissed ad laid out for phones (not a blurred-fill crop).
 3. Restaurant portfolio ad: Type in Motion as the spine, Hero Close-ups and the good Freeze Frame clip as inserts,
    a Flash Editorial 9:16 social cut. Budget under $5.
