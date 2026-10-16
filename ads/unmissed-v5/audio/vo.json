@@ -1,0 +1,35 @@
+{
+ "voice": "jessica",
+ "lines": [
+  {
+   "text": "Calls, answered.",
+   "file": "audio/vo/line0.mp3",
+   "dur": 1.646
+  },
+  {
+   "text": "Leads, followed up.",
+   "file": "audio/vo/line1.mp3",
+   "dur": 1.724
+  },
+  {
+   "text": "Reviews, asked for.",
+   "file": "audio/vo/line2.mp3",
+   "dur": 1.959
+  },
+  {
+   "text": "A website that looks the part.",
+   "file": "audio/vo/line3.mp3",
+   "dur": 1.724
+  },
+  {
+   "text": "All built for you, and run for you.",
+   "file": "audio/vo/line4.mp3",
+   "dur": 2.116
+  },
+  {
+   "text": "Unmissed. A premium presence. An AI front desk.",
+   "file": "audio/vo/line5.mp3",
+   "dur": 4.911
+  }
+ ]
+}

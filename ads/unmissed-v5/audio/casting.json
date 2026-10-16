@@ -1,0 +1,22 @@
+{
+ "scores": [
+  {
+   "voice": "jessica",
+   "score": 36,
+   "note": "Bright, warm, and genuinely smiling without tipping into cheese. Natural, human phrasing on the staccato list \u2014 'Calls. Answered.' lands conversational rather than robotic. Confident, modern, and premium; best fit for the brief."
+  },
+  {
+   "voice": "laura",
+   "score": 35,
+   "note": "Natural and human with excellent clarity and steady confidence. Warmth is genuine but the delivery sits a touch more neutral/efficient than bright and upbeat; slightly less smile in the voice than jessica."
+  },
+  {
+   "voice": "liam",
+   "score": 33,
+   "note": "Clear, confident, and human with good pacing. Tends toward a measured, grounded read rather than bright and upbeat; warmth is present but the smiling, energetic launch tone is less pronounced."
+  }
+ ],
+ "best": "jessica",
+ "why": "Jessica delivers the brief most precisely: warm and bright, upbeat, naturally human on the fragmented list copy, confident, and smiling throughout without ever sounding cheesy or salesy \u2014 the strongest match for a modern product launch narrator.",
+ "model": "xiaomi/mimo-v2.6-pro"
+}
