@@ -1,116 +1,61 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Unmissed: Night Shift</title>
 <!-- Unmissed v4 "Night Shift": a short film in code. An invented restaurant after closing, rain, a phone lights up, the AI front desk
-     answers and books, dawn, end card. Real-looking AI footage (media/ns-*.webm, one still) graded and framed in 2.39:1 letterbox,
-     dark glass UI cards drawn in code, small type. Every style is a pure function of t, read against ./ad.json (cues, vo starts).
-     Video frames: each clip is fetched as a Blob (the dev server has no range requests, so a plain src cannot seek), never played;
-     render(i, t) sets currentTime and waits for 'seeked'. If a clip cannot seek, its first-frame still is used with a code push-in.
-     Motion: this page is a frame source for the renderer; nothing animates on its own, so reduced-motion settings have nothing to
-     tame. Colour: teal shadows, amber highlights (SVG filters on the video layer). No em or en dashes anywhere. -->
+     answers and books, dawn, end card. Real-looking AI footage (media/ns-*.webm, one still) graded, framed in 2.39:1 letterbox, lit with
+     soft glows, dark glass UI cards drawn in code, small type. Every style is a pure function of t, read against ./ad.json (cues, vo).
+
+     How it is built, and why: the picture (footage, grade, light, vignette, glass, bars, end card art) is painted on ONE 2D canvas each
+     frame; the type and the card text are plain HTML on top. A DOM stack of full-frame filters and blends took 4 to 15 s per frame in the
+     software renderer; the canvas costs well under 1 s. The footage stays in <video> elements that are never played: render(i, t) sets
+     currentTime, waits for 'seeked', and copies the frame once per footage frame (a 24 fps clip serves several sub-frames of motion blur).
+     Each clip is fetched as a Blob first: the dev server has no range requests, so a plain src cannot seek. If a clip cannot seek, its
+     first-frame still is used with a code push-in (window.KF_FALLBACK lists those shots).
+
+     Grade: teal in the shadows, amber in the highlights (per-shot curves), applied per pixel. Motion: this page is a frame source for the
+     renderer, nothing animates on its own, so reduced-motion settings have nothing to tame. No em or en dashes anywhere. -->
 <style>
 @font-face { font-family: Inst; src: url(/ads/fonts/InstrumentSans.ttf) format('truetype'); font-weight: 400 700; font-stretch: 75% 100%; }
 @font-face { font-family: Mono; src: url(/ads/fonts/JetBrainsMono.ttf) format('truetype'); font-weight: 100 800; }
-:root { --bg:#05070f; --glow:#0b1530; --glow-mid:#070c1c; --ink:#f4f6fb; --ink2:#c3cad8; --ink3:#98a1b5; --accent:#79b4ff; --blue:#2f7df6; --ok:#5ad69a; }
+:root { --bg:#05070f; --ink:#f4f6fb; --ink2:#c3cad8; --ink3:#98a1b5; --accent:#79b4ff; --blue:#2f7df6; --ok:#5ad69a; }
 html, body { margin:0; background:#000; overflow:hidden; }
 #stage { position:absolute; left:0; top:0; width:1920px; height:1080px; overflow:hidden; background:#000; font-family:Inst, sans-serif; color:var(--ink); }
+#film { position:absolute; left:0; top:0; width:1920px; height:1080px; display:block; }
+#srcs { position:absolute; left:0; top:0; width:2px; height:2px; overflow:hidden; opacity:0; pointer-events:none; }
 .m { display:inline-block; overflow:hidden; vertical-align:top; padding:0 .02em .16em; margin-bottom:-.16em; }
 .w { display:inline-block; will-change:transform; }
 
-/* ---- picture */
-#film { position:absolute; inset:0; }
-.shot { position:absolute; inset:0; visibility:hidden; }
-.cam { position:absolute; left:0; top:0; width:1920px; height:1080px; will-change:transform; }
-.vid, .still { position:absolute; left:0; top:0; width:1920px; height:1080px; object-fit:cover; display:block; background:#05070f; }
-.glow { position:absolute; pointer-events:none; mix-blend-mode:screen; }
-#vig { position:absolute; inset:0; pointer-events:none;
-  background:radial-gradient(120% 100% at 50% 50%, rgba(0,0,0,0) 48%, rgba(2,4,10,.62) 100%); }
-#bt, #bb { position:absolute; left:0; width:1920px; background:#000; }
-#bt { top:0; } #bb { bottom:0; }
-#flash { position:absolute; inset:0; pointer-events:none; opacity:0; mix-blend-mode:screen;
-  background:radial-gradient(70% 80% at 80% 24%, rgba(255,226,176,.95) 0%, rgba(255,190,120,.55) 38%, rgba(255,170,90,0) 72%); }
-#dip { position:absolute; inset:0; background:#000; opacity:0; pointer-events:none; }
-
-/* ---- the phone lights up (shot 2) */
-#scr { position:absolute; left:0; top:0; width:1920px; height:1080px; pointer-events:none; }
-#scr polygon { fill:#060911; }
-.ripple { position:absolute; left:0; top:0; width:760px; height:292px; margin:-146px 0 0 -380px; border-radius:50%; border:2px solid rgba(121,180,255,.9); opacity:0; pointer-events:none; box-shadow:0 0 30px rgba(121,180,255,.5), inset 0 0 30px rgba(121,180,255,.25); }
-
-/* ---- glass UI */
-#ui { position:absolute; inset:0; pointer-events:none; }
-.glass { position:absolute; box-sizing:border-box; border-radius:22px; display:flex; align-items:center; gap:22px; padding:0 30px 0 26px; opacity:0; visibility:hidden;
-  background:linear-gradient(135deg, rgba(16,26,52,.66), rgba(8,13,30,.56)); border:1px solid rgba(121,180,255,.82);
-  -webkit-backdrop-filter:blur(24px) saturate(1.35); backdrop-filter:blur(24px) saturate(1.35);
-  box-shadow:0 34px 90px -24px rgba(0,0,0,.8), 0 0 0 1px rgba(121,180,255,.07), inset 0 1px 0 rgba(255,255,255,.12); }
+/* card text sits on the canvas glass; the card box and transform are shared with the canvas drawing */
+.glass { position:absolute; box-sizing:border-box; display:flex; align-items:center; gap:22px; padding:0 30px 0 26px; opacity:0; visibility:hidden; transform-origin:50% 50%; }
 .glass .ic { position:relative; flex:none; width:64px; height:64px; }
 .glass .ic svg { position:absolute; inset:0; overflow:visible; }
-.glass .tx .big { font-weight:600; font-size:56px; line-height:1; letter-spacing:-.025em; font-variant-numeric:tabular-nums; }
-.glass .tx .mid { font-weight:600; font-size:31px; line-height:1.16; letter-spacing:-.012em; }
+.glass .tx .big { font-weight:600; font-size:58px; line-height:1; letter-spacing:-.025em; font-variant-numeric:tabular-nums; }
+.glass .tx .mid { font-weight:600; font-size:33px; line-height:1.16; letter-spacing:-.012em; }
 .glass .tx .mid b { color:var(--accent); font-weight:600; }
-.glass .tx .sm { margin-top:9px; font:500 18px/1 Mono, monospace; letter-spacing:.02em; color:var(--ink3); }
-#cA { left:430px; top:352px; width:440px; height:140px; }
-#cB { left:430px; top:352px; width:640px; height:140px; }
-#cC { left:150px; top:430px; width:690px; height:140px; }
-#lead { position:absolute; inset:0; width:1920px; height:1080px; pointer-events:none; overflow:visible; }
-#lead path { fill:none; stroke:rgba(121,180,255,.75); stroke-width:1.5; }
-#lead circle { fill:#79b4ff; }
+.glass .tx .sm { margin-top:10px; font:500 20px/1 Mono, monospace; letter-spacing:.02em; color:var(--ink3); }
+#cA { left:430px; top:352px; width:460px; height:140px; }
+#cB { left:430px; top:352px; width:460px; height:140px; }
+#cC { left:150px; top:430px; width:570px; height:140px; }
 
-/* ---- small type inside the frame */
-.sup { position:absolute; left:112px; top:790px; visibility:hidden; font-weight:500; font-size:52px; line-height:1.12; letter-spacing:-.012em; color:rgba(255,255,255,.93); white-space:nowrap;
-  text-shadow:0 2px 28px rgba(0,0,0,.6), 0 0 2px rgba(0,0,0,.35); }
-#demo { position:absolute; left:112px; top:904px; font:500 17px/1 Mono, monospace; letter-spacing:.02em; color:rgba(244,246,251,.58); opacity:0; }
+/* small type inside the frame */
+.sup { position:absolute; left:112px; top:792px; visibility:hidden; font-weight:500; font-size:52px; line-height:1.12; letter-spacing:-.012em; color:rgba(255,255,255,.93); white-space:nowrap; }
+#demo { position:absolute; left:112px; top:906px; font:500 17px/1 Mono, monospace; letter-spacing:.02em; color:rgba(244,246,251,.62); opacity:0; }
 
-/* ---- end card (night palette, full frame) */
-#endc { position:absolute; inset:0; visibility:hidden; background-color:var(--bg);
-  background-image:radial-gradient(85% 70% at 50% 44%, var(--glow) 0%, var(--glow-mid) 52%, var(--bg) 100%); }
-#endc .halo { position:absolute; left:960px; top:420px; width:1200px; height:1200px; margin:-600px 0 0 -600px; border-radius:50%;
-  background:radial-gradient(circle, rgba(121,180,255,0) 40%, rgba(121,180,255,.07) 48%, rgba(121,180,255,0) 60%); }
-#endc .bigring { position:absolute; left:960px; top:420px; width:900px; height:900px; margin:-450px 0 0 -450px; border-radius:50%; border:1.5px solid rgba(121,180,255,.14); }
-#endc .sweep { position:absolute; left:960px; top:420px; width:918px; height:918px; margin:-459px 0 0 -459px; border-radius:50%;
-  -webkit-mask:radial-gradient(circle, transparent 0 449px, #000 451px 459px, transparent 461px); mask:radial-gradient(circle, transparent 0 449px, #000 451px 459px, transparent 461px);
-  filter:drop-shadow(0 0 14px rgba(121,180,255,.6)); }
-#endc svg { position:absolute; left:960px; top:420px; width:170px; height:170px; margin:-85px 0 0 -85px; overflow:visible; filter:drop-shadow(0 0 26px rgba(121,180,255,.5)); }
-#endc .name { position:absolute; left:0; right:0; top:538px; text-align:center; font-weight:650; font-size:124px; line-height:1.05; letter-spacing:-.04em; }
+/* end card type (the art is on the canvas) */
+#endc { position:absolute; inset:0; visibility:hidden; }
+#endc .name { position:absolute; left:0; right:0; top:462px; text-align:center; font-weight:650; font-size:124px; line-height:1.05; letter-spacing:-.04em; }
 #endc .tag { position:absolute; left:0; right:0; text-align:center; font-weight:500; font-size:46px; line-height:1.2; letter-spacing:-.015em; color:var(--ink2); }
 #endc .ai { position:absolute; left:0; right:0; bottom:58px; text-align:center; font:500 18px/1 Mono, monospace; color:#7a849b; letter-spacing:.02em; opacity:0; }
 </style></head><body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <!-- the grade: lift where the footage is thin, then teal in the shadows and amber in the highlights -->
-  <filter id="g1" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="gamma" amplitude="1.2" exponent=".80" offset=".006"/><feFuncG type="gamma" amplitude="1.2" exponent=".80" offset=".008"/><feFuncB type="gamma" amplitude="1.2" exponent=".78" offset=".014"/></feComponentTransfer>
-    <feComponentTransfer><feFuncR type="table" tableValues="0 .20 .46 .76 1"/><feFuncG type="table" tableValues="0 .25 .51 .77 .99"/><feFuncB type="table" tableValues=".02 .31 .56 .75 .94"/></feComponentTransfer></filter>
-  <filter id="g2" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="gamma" amplitude="1.08" exponent=".88" offset=".004"/><feFuncG type="gamma" amplitude="1.08" exponent=".88" offset=".006"/><feFuncB type="gamma" amplitude="1.08" exponent=".86" offset=".012"/></feComponentTransfer>
-    <feComponentTransfer><feFuncR type="table" tableValues="0 .21 .49 .79 1"/><feFuncG type="table" tableValues="0 .25 .51 .77 .98"/><feFuncB type="table" tableValues=".02 .30 .53 .73 .92"/></feComponentTransfer></filter>
-  <filter id="g3" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="gamma" amplitude="1.05" exponent=".9" offset="0"/><feFuncG type="gamma" amplitude="1.05" exponent=".9" offset=".004"/><feFuncB type="gamma" amplitude="1.05" exponent=".88" offset=".01"/></feComponentTransfer>
-    <feComponentTransfer><feFuncR type="table" tableValues="0 .20 .48 .79 1"/><feFuncG type="table" tableValues="0 .24 .50 .77 .98"/><feFuncB type="table" tableValues=".02 .31 .54 .72 .90"/></feComponentTransfer></filter>
-  <filter id="g5" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="gamma" amplitude="1.18" exponent=".82" offset=".004"/><feFuncG type="gamma" amplitude="1.18" exponent=".82" offset=".008"/><feFuncB type="gamma" amplitude="1.18" exponent=".80" offset=".016"/></feComponentTransfer>
-    <feComponentTransfer><feFuncR type="table" tableValues="0 .19 .47 .79 1"/><feFuncG type="table" tableValues="0 .25 .52 .78 .98"/><feFuncB type="table" tableValues=".03 .33 .57 .73 .90"/></feComponentTransfer></filter>
-  <filter id="g4" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="table" tableValues=".01 .24 .53 .82 1"/><feFuncG type="table" tableValues="0 .23 .50 .79 .99"/><feFuncB type="table" tableValues=".03 .27 .47 .68 .86"/></feComponentTransfer></filter>
-</defs></svg>
-
 <div id="stage">
-  <div id="film">
-    <div class="shot" id="s1"><div class="cam"><video class="vid" id="v1" muted preload="auto" playsinline></video><img class="still" id="i1" alt="" style="display:none"></div></div>
-    <div class="shot" id="s3"><div class="cam"><video class="vid" id="v3" muted preload="auto" playsinline></video><img class="still" id="i3" alt="" style="display:none">
-      <div class="glow" id="lampglow" style="left:610px;top:-20px;width:700px;height:640px;background:radial-gradient(closest-side, rgba(255,184,96,.75), rgba(255,160,70,.25) 55%, rgba(255,150,60,0))"></div></div></div>
-    <div class="shot" id="s2"><div class="cam" id="cam2"><video class="vid" id="v2" muted preload="auto" playsinline></video><img class="still" id="i2" alt="" style="display:none">
-      <svg id="scr" viewBox="0 0 1920 1080"><defs><filter id="sblur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="2.2"/></filter></defs><polygon id="scrpoly" points="791,687 1097,598 1228,636 908,735" filter="url(#sblur)"/></svg>
-      <div class="glow" id="phoneglow" style="left:520px;top:420px;width:980px;height:480px;background:radial-gradient(closest-side, rgba(150,200,255,.70), rgba(120,170,255,.22) 52%, rgba(100,150,255,0))"></div>
-      <div class="ripple" id="rp1" style="left:1010px;top:670px"></div><div class="ripple" id="rp2" style="left:1010px;top:670px"></div></div></div>
-    <div class="shot" id="s5"><div class="cam" id="cam5"><img class="still" id="i5" alt="" src="media/ns-5.jpg">
-      <div class="glow" id="lamp5" style="left:665px;top:30px;width:560px;height:520px;background:radial-gradient(closest-side, rgba(255,205,140,.75), rgba(255,170,90,.22) 55%, rgba(255,150,70,0))"></div></div></div>
-    <div class="shot" id="s4"><div class="cam" id="cam4"><video class="vid" id="v4" muted preload="auto" playsinline></video><img class="still" id="i4" alt="" style="display:none"></div></div>
-    <div id="flash"></div>
-    <div id="vig"></div>
-    <div id="ui">
-      <svg id="lead" viewBox="0 0 1920 1080"><path id="lA" d="M0 0"/><path id="lC" d="M0 0"/><circle id="dA" r="5" cx="0" cy="0"/><circle id="dC" r="5" cx="0" cy="0"/></svg>
-      <div class="glass" id="cA"><div class="ic"><svg viewBox="0 0 64 64"><circle id="pA" cx="32" cy="32" r="18" fill="none" stroke="#79b4ff" stroke-width="2"/><circle cx="32" cy="32" r="18" fill="none" stroke="#2f7df6" stroke-width="6.5"/><circle cx="41.0" cy="16.4" r="5.4" fill="#79b4ff"/></svg></div>
-        <div class="tx"><div class="big">21:47</div><div class="sm">Incoming call</div></div></div>
-      <div class="glass" id="cB"><div class="ic"><svg viewBox="0 0 64 64"><circle id="rB" cx="32" cy="32" r="18" fill="none" stroke="#2f7df6" stroke-width="6.5" transform="rotate(-90 32 32)"/><circle id="nB" cx="41.0" cy="16.4" r="5.4" fill="#79b4ff"/></svg></div>
-        <div class="tx"><div class="mid">Answered by your<br>AI front desk</div></div></div>
-      <div class="glass" id="cC"><div class="ic"><svg viewBox="0 0 64 64"><circle id="kC" cx="32" cy="32" r="26" fill="#5ad69a"/><path id="ckC" d="M20 33 L29 42 L45 23" fill="none" stroke="#05230f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="tx"><div class="mid"><b>Booked:</b> catering for 40,<br>Saturday 12:00</div><div class="sm">Saffron Hearth Kitchen calendar</div></div></div>
-    </div>
-    <div id="dip"></div>
-  </div>
-  <div id="bt"></div><div id="bb"></div>
+  <canvas id="film" width="1920" height="1080"></canvas>
+  <div id="srcs"><video id="v1" muted preload="auto" playsinline></video><video id="v3" muted preload="auto" playsinline></video><video id="v2" muted preload="auto" playsinline></video><video id="v4" muted preload="auto" playsinline></video></div>
+
+  <div class="glass" id="cA"><div class="ic"><svg viewBox="0 0 64 64"><circle id="pA" cx="32" cy="32" r="18" fill="none" stroke="#79b4ff" stroke-width="2"/><circle cx="32" cy="32" r="18" fill="none" stroke="#2f7df6" stroke-width="6.5"/><circle cx="41.0" cy="16.4" r="5.4" fill="#79b4ff"/></svg></div>
+    <div class="tx"><div class="big">21:47</div><div class="sm">Incoming call</div></div></div>
+  <div class="glass" id="cB"><div class="ic"><svg viewBox="0 0 64 64"><circle id="rB" cx="32" cy="32" r="18" fill="none" stroke="#2f7df6" stroke-width="6.5" transform="rotate(-90 32 32)"/><circle id="nB" cx="41.0" cy="16.4" r="5.4" fill="#79b4ff"/></svg></div>
+    <div class="tx"><div class="mid">Answered by your<br>AI front desk</div></div></div>
+  <div class="glass" id="cC"><div class="ic"><svg viewBox="0 0 64 64"><circle id="kC" cx="32" cy="32" r="26" fill="#5ad69a"/><path id="ckC" d="M20 33 L29 42 L45 23" fill="none" stroke="#05230f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="tx"><div class="mid"><b>Booked:</b> catering for 40,<br>Saturday 12:00</div><div class="sm">Saffron Hearth Kitchen calendar</div></div></div>
+
   <div class="sup" id="sp0">You closed at nine.</div>
   <div class="sup" id="sp1">Your customers didn’t.</div>
   <div class="sup" id="sp2">At nine forty-seven, someone called.</div>
@@ -118,11 +63,9 @@ html, body { margin:0; background:#000; overflow:hidden; }
   <div id="demo">Demo with an invented business</div>
 
   <div id="endc">
-    <div class="halo"></div><div class="bigring" id="bigring"></div><div class="sweep" id="sweep"></div>
-    <svg viewBox="0 0 140 140"><circle id="lring" cx="70" cy="70" r="50" fill="none" stroke="#2f7df6" stroke-width="11" transform="rotate(-90 70 70)"/><circle id="lnode" cx="95" cy="26.7" r="13" fill="#79b4ff"/></svg>
     <div class="name" id="ename"><span class="l">Unmissed</span></div>
-    <div class="tag" id="etag1" style="top:722px"><span class="l">A premium presence.</span></div>
-    <div class="tag" id="etag2" style="top:782px"><span class="l">An AI front desk.</span></div>
+    <div class="tag" id="etag1" style="top:640px"><span class="l">A premium presence.</span></div>
+    <div class="tag" id="etag2" style="top:700px"><span class="l">An AI front desk.</span></div>
     <div class="ai" id="eai">Made with AI, checked by a person</div>
   </div>
 </div>
@@ -132,209 +75,298 @@ const $ = (s) => document.querySelector(s);
 const q = fitStage($('#stage'));
 const AD = await (await fetch('./ad.json')).json();
 const C = AD.cues, DUR = AD.duration, VO = AD.audio.vo;
-const BAR = 138;                                   // 2.39:1 letterbox on the 1080 stage
-const FPSV = 24;                                   // footage frame rate
+const W = 1920, H = 1080, BAR = 138, FPSV = 24;
+const cv = $('#film'), ctx = cv.getContext('2d', { willReadFrequently: true, alpha: false });
+const mk = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return [c, c.getContext('2d', { willReadFrequently: true })]; };
+const [cvS, ctxS] = mk(), [cvT, ctxT] = mk();      // second shot (dissolves), snapshot for the glass blur
 
-// ---- footage: fetch as Blobs so the clips are seekable, never play them
+// ---------------------------------------------------------------- footage
 const CLIPS = { s1: 'ns-1', s3: 'ns-3', s2: 'ns-2', s4: 'ns-4' };
-const vids = {}, stills = {}; let fallback = [];
+const vids = {}, stills = {}, FC = {}; const fallback = [];
+const FORCE_STILL = q.get('stills') === '1';
 async function loadClip(id, name) {
-  const v = $('#v' + id.slice(1)), im = $('#i' + id.slice(1));
-  stills[id] = im; im.src = `media/${name}.jpg`;
+  const v = $('#v' + id.slice(1)); const im = new Image(); stills[id] = im; im.src = `media/${name}.jpg`;
+  const [c, x] = mk(); FC[id] = { canvas: c, ctx: x, f: -1 };
   try {
+    if (FORCE_STILL) throw new Error('forced');
     const blob = await (await fetch(`media/${name}.webm`)).blob();
     const url = URL.createObjectURL(blob);
     await new Promise((res, rej) => { v.addEventListener('loadeddata', res, { once: true }); v.addEventListener('error', () => rej(new Error('video error')), { once: true }); v.src = url; v.load(); });
-    // prove the clip really seeks (a clip that snaps back to 0 cannot be used)
-    await new Promise((res) => { const to = setTimeout(res, 3000); v.addEventListener('seeked', () => { clearTimeout(to); res(); }, { once: true }); v.currentTime = 1.5; });
+    await new Promise((res) => { const to = setTimeout(res, 4000); v.addEventListener('seeked', () => { clearTimeout(to); res(); }, { once: true }); v.currentTime = 1.5; });   // a clip that snaps back to 0 cannot seek
     if (Math.abs(v.currentTime - 1.5) > 0.05) throw new Error('clip does not seek');
     vids[id] = v;
-  } catch (e) { console.log('video fallback to still for', id, String(e.message || e)); fallback.push(id); vids[id] = null; v.style.display = 'none'; im.style.display = 'block'; }
+  } catch (e) { console.log('video fallback to still for', id, String(e.message || e)); fallback.push(id); vids[id] = null; }
 }
 await Promise.all(Object.entries(CLIPS).map(([id, name]) => loadClip(id, name)));
-const imgOk = (im) => im.complete && im.naturalWidth ? Promise.resolve() : new Promise((r) => { im.onload = im.onerror = r; });
-await Promise.all([...Object.values(stills), $('#i5')].map(imgOk));
-window.KF_FALLBACK = fallback;
+const still5 = new Image(); still5.src = 'media/ns-5.jpg';
+const imgOk = (im) => (im.complete && im.naturalWidth ? Promise.resolve() : new Promise((r) => { im.onload = im.onerror = r; }));
+await Promise.all([...Object.values(stills), still5].map(imgOk));
+window.KF_FALLBACK = fallback; window.KF_FRAMES = FC;
 
-function seekVideo(v, tClip) {
-  const f = Math.max(0, Math.min(94, Math.floor(tClip * FPSV + 1e-6)));
-  const target = (f + 0.35) / FPSV;                // inside frame f, so every sub-frame of a frame shows the same picture
-  if (Math.abs(v.currentTime - target) < 1e-4) return Promise.resolve(false);
+function seekVideo(v, target) {
+  if (Math.abs(v.currentTime - target) < 1e-4) return Promise.resolve();
   return new Promise((res) => {
     let done = false;
-    const fin = () => { if (done) return; done = true; clearTimeout(to); v.removeEventListener('seeked', fin); res(true); };
+    const fin = () => { if (done) return; done = true; clearTimeout(to); v.removeEventListener('seeked', fin); res(); };
     const to = setTimeout(fin, 2500);
     v.addEventListener('seeked', fin);
     v.currentTime = target;
   });
 }
+// the picture for a clip at clip-time tc: copied once per footage frame into a cache canvas, then reused by every sub-frame
+async function clipFrame(id, tc) {
+  const c = FC[id]; const f = Math.max(0, Math.min(94, Math.floor(clamp(tc, 0, 3.95) * FPSV + 1e-6)));
+  if (!vids[id]) { if (c.f !== -2) { c.ctx.drawImage(stills[id], 0, 0, W, H); c.f = -2; } return c.canvas; }
+  if (c.f !== f) { await seekVideo(vids[id], (f + 0.35) / FPSV); c.ctx.drawImage(vids[id], 0, 0, W, H); c.f = f; }
+  return c.canvas;
+}
 
-// ---- small helpers
+// ---------------------------------------------------------------- grade
+// per shot: gamma lift, then teal-shadow / amber-highlight curves (5-point tables for R, G, B), contrast, saturation
+const GR = {
+  s1: { amp: 1.10, g: [.86, .86, .84], off: [.004, .006, .008], tab: [[0, .19, .45, .76, 1], [0, .27, .53, .78, .99], [.02, .27, .50, .70, .90]], con: 1.07, sat: 1.06 },
+  s2: { amp: 1.04, g: [.90, .90, .89], off: [.003, .005, .008], tab: [[0, .20, .48, .79, 1], [0, .26, .52, .78, .98], [.02, .27, .49, .69, .88]], con: 1.07, sat: 1.06 },
+  s3: { amp: 1.03, g: [.92, .92, .91], off: [0, .004, .008], tab: [[0, .19, .47, .79, 1], [0, .25, .51, .78, .98], [.02, .28, .51, .69, .88]], con: 1.07, sat: 1.12 },
+  s5: { amp: 1.10, g: [.88, .88, .87], off: [.003, .006, .010], tab: [[0, .19, .46, .78, 1], [0, .27, .53, .79, .98], [.03, .30, .52, .70, .88]], con: 1.07, sat: 1.05 },
+  s4: { amp: 1.0, g: [1, 1, 1], off: [0, 0, 0], tab: [[.01, .24, .53, .82, 1], [0, .23, .50, .79, .99], [.03, .27, .47, .68, .86]], con: 1.05, sat: 1.10 },
+};
+const LUT = [new Uint8ClampedArray(256), new Uint8ClampedArray(256), new Uint8ClampedArray(256)];
+function lutFor(gr, bright) {
+  for (let c = 0; c < 3; c++) {
+    const tab = gr.tab[c], n = tab.length - 1, L = LUT[c];
+    for (let i = 0; i < 256; i++) {
+      let y = clamp(gr.amp * Math.pow(i / 255, gr.g[c]) + gr.off[c]);
+      const pos = y * n, k = Math.min(n - 1, Math.floor(pos)); y = tab[k] + (tab[k + 1] - tab[k]) * (pos - k);
+      y = (y * bright - 0.5) * gr.con + 0.5; L[i] = clamp(y) * 255;
+    }
+  }
+}
+function grade(cx, gr, bright, sat = 1) {
+  lutFor(gr, bright); const s = gr.sat * sat;
+  const y0 = BAR, hh = H - 2 * BAR; const id = cx.getImageData(0, y0, W, hh); const d = id.data; const [lr, lg, lb] = LUT; const n = d.length;
+  for (let i = 0; i < n; i += 4) {
+    const r = lr[d[i]], g = lg[d[i + 1]], b = lb[d[i + 2]]; const l = r * 0.2126 + g * 0.7152 + b * 0.0722;
+    d[i] = l + (r - l) * s; d[i + 1] = l + (g - l) * s; d[i + 2] = l + (b - l) * s;
+  }
+  cx.putImageData(id, 0, y0);
+}
+
+// ---------------------------------------------------------------- helpers
 const px = (n) => n.toFixed(2) + 'px';
+const inOutQuad = (p) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
 const pulse = (t, t0, k) => (t >= t0 ? Math.exp(-(t - t0) * k) : 0);
 const punch = (t, t0, amp, dur = 0.42) => (t >= t0 ? amp * (1 - ease.outExpo(seg(t, t0, t0 + dur))) : 0);
-const cam = (el, o, s, tx = 0, ty = 0, rot = 0) => { el.style.transformOrigin = `${o[0]}px ${o[1]}px`; el.style.transform = `translate3d(${px(tx)}, ${px(ty)}, 0) scale(${s.toFixed(5)}) rotate(${rot.toFixed(3)}deg)`; };
-const camPt = (o, s, tx, ty, x, y) => [o[0] + s * (x - o[0]) + tx, o[1] + s * (y - o[1]) + ty];   // where a point of the shot lands on the stage
 const flick = (t, k) => 1 + k * (0.5 * Math.sin(t * 17.3 + 1.1) + 0.3 * Math.sin(t * 41.7 + 0.3) + 0.2 * Math.sin(t * 7.3 + 2.0) + 0.35 * Math.max(0, Math.sin(t * 2.9 + 0.6) - 0.82) * 6);
-const set = (el, o) => { for (const k in o) el.style[k] = o[k]; };
+const camPt = (o, s, tx, ty, x, y) => [o[0] + s * (x - o[0]) + tx, o[1] + s * (y - o[1]) + ty];   // where a point of a shot lands on the stage
+const applyCam = (cx, k) => { cx.translate(k.o[0] + k.tx, k.o[1] + k.ty); cx.scale(k.s, k.s); cx.translate(-k.o[0], -k.o[1]); };
+function radial(cx, x, y, rx, ry, stops, alpha, comp = 'screen') {
+  cx.save(); cx.globalAlpha = clamp(alpha, 0, 1); cx.globalCompositeOperation = comp; cx.translate(x, y); cx.scale(1, ry / rx);
+  const g = cx.createRadialGradient(0, 0, 0, 0, 0, rx); for (const [o, c] of stops) g.addColorStop(o, c);
+  cx.fillStyle = g; cx.fillRect(-rx, -rx, 2 * rx, 2 * rx); cx.restore();
+}
+const rrect = (cx, x, y, w, h, r) => { cx.beginPath(); cx.roundRect(x, y, w, h, r); };
 
-const SHOT = { s1: $('#s1'), s3: $('#s3'), s2: $('#s2'), s5: $('#s5'), s4: $('#s4') };
+// shot timeline and cameras
 const dissolveEnd = C.dawn_dissolve + 1.3;
+const PHONE = [1007, 663], PLATES = [1060, 598], O5 = [950, 540];
+const CAM = {
+  s1: (t) => { const p = seg(t, C.open, C.cut_rain); return { o: [940, 400], s: 1.0 + 0.075 * ease.inOutCubic(p), tx: -26 * p, ty: 0 }; },
+  s3: (t) => { const p = seg(t, C.cut_rain, C.cut_phone); return { o: [960, 300], s: 1.0 + punch(t, C.cut_rain, 0.085) + 0.05 * p, tx: 8 * p, ty: -6 * p }; },
+  s2: (t) => { const p = seg(t, C.cut_phone, C.cut_kitchen); return { o: PHONE, s: 1.0 + punch(t, C.cut_phone, 0.06) + 0.085 * ease.inOutCubic(p), tx: 0, ty: 0 }; },
+  s5: (t) => { const p = seg(t, C.cut_kitchen, dissolveEnd); return { o: O5, s: 1.0 + punch(t, C.cut_kitchen, 0.06) + 0.13 * ease.inOutCubic(seg(t, C.cut_kitchen, C.dawn_dissolve + 0.6)), tx: -34 * p, ty: -8 * p }; },
+  s4: (t) => { const u = t - C.dawn_dissolve; return { o: [1280, 420], s: 1.0 + 0.05 * ease.outCubic(seg(u, 0, 3.6)) + 0.05 * (1 - ease.outCubic(seg(t, C.dawn_hit, C.dawn_hit + 1.8))), tx: -18 * seg(u, 0, 3.6), ty: 0 }; },
+};
+
+// paint one shot (media, in-picture edits, grade, its own lights) onto a canvas context
+async function paintShot(cx, id, t) {
+  cx.save(); cx.beginPath(); cx.rect(0, BAR, W, H - 2 * BAR); cx.clip();
+  cx.fillStyle = '#000'; cx.fillRect(0, 0, W, H);
+  const k = CAM[id](t);
+  let src, bright = 1, sat = 1;
+  if (id === 's1') {
+    src = await clipFrame('s1', t - C.open);
+    bright = 0.25 + 0.95 * ease.outCubic(seg(t, C.open, C.open + 1.5));
+  } else if (id === 's3') {
+    src = await clipFrame('s3', t - C.cut_rain);
+    const hit = pulse(t, C.cut_rain, 6.5) + 0.55 * pulse(t, 3.38, 7) + 0.45 * pulse(t, 4.64, 7);
+    bright = 1.0 + 0.30 * hit;
+  } else if (id === 's2') {
+    src = await clipFrame('s2', (t - C.cut_phone) * 0.79);
+    bright = 0.72 + 0.28 * ease.outCubic(seg(t, C.phone_glow, C.phone_glow + 0.35));
+  } else if (id === 's5') {
+    src = still5;
+    const f = flick(t, 0.07); const dim = 1 - 0.12 * seg(t, C.dawn_dissolve - 0.3, C.dawn_dissolve + 0.2);
+    bright = f * dim * (1 + 0.28 * pulse(t, C.cut_kitchen, 5));
+  } else {
+    src = await clipFrame('s4', t - C.dawn_dissolve);
+    const flood = pulse(t, C.dawn_hit, 1.9); bright = 1 + 0.30 * flood; sat = 1 + 0.08 * flood;
+  }
+  cx.save(); applyCam(cx, k); cx.imageSmoothingEnabled = true; cx.imageSmoothingQuality = 'low'; cx.drawImage(src, 0, 0, W, H);
+  if (id === 's2') {   // the phone screen is dark until the first buzz, a second pulse half a second later, then lit
+    const on1 = ease.outExpo(seg(t, C.phone_glow, C.phone_glow + 0.16));
+    const dipA = 0.55 * (1 - ease.outCubic(seg(t, C.phone_glow + 0.26, C.phone_glow + 0.42))) * ease.inCubic(seg(t, C.phone_glow + 0.16, C.phone_glow + 0.3));
+    const dark = t < C.phone_glow ? 0.93 : Math.max(0.30, clamp(1 - on1, 0, 1) * 0.93 + dipA);   // a lit screen keeps a floor of 0.30 so it never clips to white
+    if (dark > 0.004) { cx.filter = 'blur(2.2px)'; cx.fillStyle = `rgba(8,16,34,${dark.toFixed(3)})`; cx.beginPath(); cx.moveTo(791, 687); cx.lineTo(1097, 598); cx.lineTo(1228, 636); cx.lineTo(908, 735); cx.closePath(); cx.fill(); cx.filter = 'none'; }
+  }
+  cx.restore();
+  grade(cx, GR[id], bright, sat);
+  // lights, after the grade, in the shot's own camera space
+  cx.save(); applyCam(cx, k);
+  if (id === 's3') {
+    const hit = pulse(t, C.cut_rain, 6.5) + 0.55 * pulse(t, 3.38, 7) + 0.45 * pulse(t, 4.64, 7);
+    radial(cx, 960, 300, 360, 330, [[0, 'rgba(255,184,96,.75)'], [0.55, 'rgba(255,160,70,.25)'], [1, 'rgba(255,150,60,0)']], 0.10 + 0.55 * hit);
+  } else if (id === 's2') {
+    const on1 = ease.outExpo(seg(t, C.phone_glow, C.phone_glow + 0.16));
+    const breathe = 0.5 + 0.5 * Math.sin((t - C.phone_glow) * 6.6);
+    const ans = ease.outCubic(seg(t, C.answered, C.answered + 0.5));
+    const lit = t < C.phone_glow ? 0 : on1 * (0.85 + 0.15 * breathe) * (1 - 0.35 * ans) + 0.5 * pulse(t, C.phone_glow, 5);
+    radial(cx, 1010, 665, 490, 240, [[0, 'rgba(150,200,255,.70)'], [0.52, 'rgba(120,170,255,.22)'], [1, 'rgba(100,150,255,0)']], lit * 0.5);
+    const rip = (t0, dur, amp) => {   // a thin ring on the counter plane, expanding: call waves, then the answer (the catch)
+      const p = seg(t, t0, t0 + dur); if (p <= 0 || p >= 1) return; const e = ease.outCubic(p), sc = 0.35 + 1.5 * e;
+      cx.save(); cx.globalAlpha = (1 - p) * 0.85 * amp; cx.strokeStyle = 'rgba(121,180,255,.95)'; cx.lineWidth = 2.2; cx.shadowColor = 'rgba(121,180,255,.7)'; cx.shadowBlur = 22;
+      cx.beginPath(); cx.ellipse(1010, 670, 380 * sc, 146 * sc, 0, 0, Math.PI * 2); cx.stroke(); cx.restore();
+    };
+    rip(C.phone_glow + 0.04, 1.3, 0.7); rip(C.answered, 1.5, 1.0);
+  } else if (id === 's5') {
+    const f = flick(t, 0.07);
+    radial(cx, 945, 293, 290, 270, [[0, 'rgba(255,205,140,.75)'], [0.55, 'rgba(255,170,90,.22)'], [1, 'rgba(255,150,70,0)']], clamp(0.55 * f * f - 0.25 + 0.30 * pulse(t, C.cut_kitchen, 5), 0, 1));
+  }
+  cx.restore(); cx.restore();
+}
+
+// ---------------------------------------------------------------- end card art
+const lering = { cx: 960, cy: 352, r: 60.7, lw: 13.4, nr: 15.8 };
+function paintEnd(cx, t) {
+  cx.save(); cx.fillStyle = '#05070f'; cx.fillRect(0, 0, W, H);
+  radial(cx, 960, 500, 1100, 760, [[0, '#0b1530'], [0.52, '#070c1c'], [1, '#05070f']], 1, 'source-over');
+  const e = t - C.end; const ap = ease.outCubic(seg(t, C.logo_ring + 0.2, C.logo_ring + 1.4));
+  const brk = (1 + 0.012 * Math.sin(t * 1.4)) * (0.94 + 0.06 * ease.outExpo(seg(t, C.logo_ring, C.logo_ring + 1.8)));
+  radial(cx, 960, 480, 600 * brk, 600 * brk, [[0.40, 'rgba(121,180,255,0)'], [0.48, 'rgba(121,180,255,.07)'], [0.60, 'rgba(121,180,255,0)']], ap, 'source-over');
+  cx.save(); cx.globalAlpha = ap;
+  cx.strokeStyle = 'rgba(121,180,255,.14)'; cx.lineWidth = 1.5; cx.beginPath(); cx.arc(960, 480, 400 * brk, 0, Math.PI * 2); cx.stroke();
+  const a0 = (40 + e * 34) * Math.PI / 180; const g = cx.createConicGradient(a0, 960, 480);
+  [[0, 'rgba(121,180,255,0)'], [50 / 360, 'rgba(121,180,255,.9)'], [95 / 360, 'rgba(140,110,255,.5)'], [170 / 360, 'rgba(121,180,255,0)'], [250 / 360, 'rgba(121,180,255,.26)'], [330 / 360, 'rgba(121,180,255,0)'], [1, 'rgba(121,180,255,0)']].forEach(([o, c]) => g.addColorStop(o, c));
+  cx.strokeStyle = g; cx.lineWidth = 7; cx.shadowColor = 'rgba(121,180,255,.6)'; cx.shadowBlur = 14; cx.beginPath(); cx.arc(960, 480, 404 * brk, 0, Math.PI * 2); cx.stroke(); cx.restore();
+  // the logo: the ring draws clockwise from the top, the node pops at one o'clock
+  const rp = ease.inOutCubic(seg(t, C.logo_ring, C.logo_ring + 0.75)); const L = lering;
+  cx.save(); cx.shadowColor = 'rgba(121,180,255,.5)'; cx.shadowBlur = 26;
+  if (rp > 0.001) { cx.strokeStyle = '#2f7df6'; cx.lineWidth = L.lw; cx.beginPath(); cx.arc(L.cx, L.cy, L.r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * rp); cx.stroke(); }
+  const nr = L.nr * ease.outBack(seg(t, C.node, C.node + 0.3), 2.8);
+  if (nr > 0.1) { cx.fillStyle = '#79b4ff'; cx.beginPath(); cx.arc(L.cx + L.r * Math.cos(-Math.PI / 3), L.cy + L.r * Math.sin(-Math.PI / 3), nr, 0, Math.PI * 2); cx.fill(); }
+  cx.restore(); cx.restore();
+}
+
+// ---------------------------------------------------------------- glass
+function glass(cx, snap, g) {
+  if (g.a <= 0.004) return;
+  const cxm = g.x + g.w / 2, cym = g.y + g.h / 2;
+  const place = () => { cx.translate(cxm + g.tx, cym + g.ty); cx.scale(g.sx, g.sy); cx.translate(-cxm, -cym); };
+  cx.save(); cx.globalAlpha = g.a; place();
+  cx.shadowColor = 'rgba(0,0,0,.6)'; cx.shadowBlur = 54; cx.shadowOffsetY = 28; cx.fillStyle = '#0a1022'; rrect(cx, g.x, g.y, g.w, g.h, 22); cx.fill();
+  cx.shadowColor = 'transparent'; cx.shadowBlur = 0; cx.shadowOffsetY = 0;
+  cx.save(); rrect(cx, g.x, g.y, g.w, g.h, 22); cx.clip();
+  cx.filter = 'blur(20px) saturate(1.35)'; const pad = 44; cx.drawImage(snap, g.x - pad, g.y - pad, g.w + 2 * pad, g.h + 2 * pad, g.x - pad, g.y - pad, g.w + 2 * pad, g.h + 2 * pad); cx.filter = 'none';
+  const gr = cx.createLinearGradient(g.x, g.y, g.x + g.w * 0.6, g.y + g.h); gr.addColorStop(0, 'rgba(18,30,60,.70)'); gr.addColorStop(1, 'rgba(8,13,30,.60)'); cx.fillStyle = gr; cx.fillRect(g.x, g.y, g.w, g.h);
+  const hl = cx.createLinearGradient(0, g.y, 0, g.y + 26); hl.addColorStop(0, 'rgba(255,255,255,.10)'); hl.addColorStop(1, 'rgba(255,255,255,0)'); cx.fillStyle = hl; cx.fillRect(g.x, g.y, g.w, 26);
+  cx.restore();
+  cx.strokeStyle = 'rgba(121,180,255,.85)'; cx.lineWidth = 1; rrect(cx, g.x + 0.5, g.y + 0.5, g.w - 1, g.h - 1, 21.5); cx.stroke();
+  cx.restore();
+}
+function leader(cx, x0, y0, x1, y1, p, dotA) {
+  if (p <= 0.001) return;
+  cx.save(); cx.strokeStyle = 'rgba(121,180,255,.78)'; cx.lineWidth = 1.5; cx.beginPath(); cx.moveTo(x0, y0); cx.lineTo(x0 + (x1 - x0) * p, y0 + (y1 - y0) * p); cx.stroke();
+  if (dotA > 0.01) { cx.globalAlpha = dotA; cx.fillStyle = '#79b4ff'; cx.shadowColor = 'rgba(121,180,255,.9)'; cx.shadowBlur = 14; cx.beginPath(); cx.arc(x1, y1, 5, 0, Math.PI * 2); cx.fill(); }
+  cx.restore();
+}
+
+// ---------------------------------------------------------------- type elements
 const sup = [$('#sp0'), $('#sp1'), $('#sp2'), $('#sp3')].map((el) => ({ el, w: words(el) }));
-const SUPT = [[VO[0].start + 0.2, 2.5], [VO[1].start + 0.14, 4.2], [VO[2].start + 0.05, 8.1], [VO[3].start + 2.05, 11.55]];
-const lring = $('#lring'), lnode = $('#lnode'); const RL = 2 * Math.PI * 50; lring.style.strokeDasharray = RL;
+const SUPT = [[VO[0].start + 0.2, 2.3], [VO[1].start + 0.14, 4.2], [VO[2].start + 0.05, 8.1], [VO[3].start + 2.05, 11.55]];
 const ename = words($('#ename .l')), etag1 = words($('#etag1 .l')), etag2 = words($('#etag2 .l'));
 const rB = $('#rB'); const RB = 2 * Math.PI * 18; rB.style.strokeDasharray = RB;
 const ckC = $('#ckC'); const CK = 60; ckC.style.strokeDasharray = CK;
-const sweep = $('#sweep');
-// the phone screen in shot 2 (stage px), the plates in shot 5, and the glass anchors
-const PHONE = [1007, 663], PLATES = [1060, 598], O5 = [950, 540];
+const cA = $('#cA'), cB = $('#cB'), cC = $('#cC');
+const setCard = (el, vis, g) => { show(el, vis && g.a > 0.004); el.style.opacity = clamp(g.a, 0, 1).toFixed(3); el.style.transform = `translate3d(${px(g.tx)}, ${px(g.ty)}, 0) scale(${g.sx.toFixed(4)}, ${g.sy.toFixed(4)})`; };
 
 window.KF = { duration: DUR, fps: 30, async render(i, t) {
-  const seeks = [];
   const bar = BAR + 26 * (1 - ease.outExpo(seg(t, 0, 1.6)));
-  $('#bt').style.height = $('#bb').style.height = px(bar);
-
-  // which shot is on
   const on = { s1: t < C.cut_rain, s3: t >= C.cut_rain && t < C.cut_phone, s2: t >= C.cut_phone && t < C.cut_kitchen, s5: t >= C.cut_kitchen && t < dissolveEnd, s4: t >= C.dawn_dissolve && t < C.end };
-  for (const k in SHOT) show(SHOT[k], on[k]);
-  const clipT = (id, t0, rate) => clamp((t - t0) * rate, 0, 3.95);
+  const isEnd = t >= C.end - 0.01;
 
-  // ---------- shot 1: the empty room. Light comes up on the first hit, a slow push-in
-  {
-    const u = t - C.open, p = seg(t, C.open, C.cut_rain);
-    const rise1 = ease.outCubic(seg(t, C.open, C.open + 1.5));
-    SHOT.s1.style.opacity = ease.outExpo(seg(t, C.open, C.open + 0.55));
-    cam($('#s1 .cam'), [940, 400], 1.0 + 0.075 * ease.inOutCubic(p) + 0.0, -26 * p, 0);
-    const v = vids.s1 || $('#i1'); v.style.filter = `url(#g1) brightness(${(0.25 + 0.95 * rise1).toFixed(3)}) contrast(1.06) saturate(1.12)`;
-    if (vids.s1 && on.s1) seeks.push(seekVideo(vids.s1, clipT('s1', C.open, 1.0)));
-  }
-  // ---------- shot 3: rain on the glass. Punch on the hit, the lamp breathes on the beats
-  {
-    const u = t - C.cut_rain, p = seg(t, C.cut_rain, C.cut_phone);
-    const hit = pulse(t, C.cut_rain, 6.5) + 0.55 * pulse(t, 3.38, 7) + 0.45 * pulse(t, 4.64, 7);
-    cam($('#s3 .cam'), [960, 300], 1.0 + punch(t, C.cut_rain, 0.085) + 0.05 * p, 8 * p, -6 * p);
-    const v = vids.s3 || $('#i3'); v.style.filter = `url(#g3) brightness(${(1.0 + 0.30 * hit).toFixed(3)}) contrast(1.07) saturate(1.16)`;
-    $('#lampglow').style.opacity = (0.10 + 0.55 * hit).toFixed(3);
-    if (vids.s3 && on.s3) seeks.push(seekVideo(vids.s3, clipT('s3', C.cut_rain, 1.0)));
-  }
-  // ---------- shot 2: the phone. It wakes on the hit (dark screen, then two buzz pulses), then breathes
-  {
-    const u = t - C.cut_phone, p = seg(t, C.cut_phone, C.cut_kitchen);
-    const o = PHONE, s = 1.0 + punch(t, C.cut_phone, 0.06) + 0.085 * ease.inOutCubic(p);
-    cam($('#cam2'), o, s, 0, 0);
-    // screen darkness: off until the first buzz at phone_glow, a second pulse 0.5 s later, then steady
-    const on1 = ease.outExpo(seg(t, C.phone_glow, C.phone_glow + 0.16));
-    const dipA = 0.55 * (1 - ease.outCubic(seg(t, C.phone_glow + 0.26, C.phone_glow + 0.42))) * ease.inCubic(seg(t, C.phone_glow + 0.16, C.phone_glow + 0.3));
-    const dark = t < C.phone_glow ? 0.93 : clamp(1 - on1, 0, 1) * 0.93 + dipA;
-    $('#scrpoly').style.opacity = dark.toFixed(3);
-    const breathe = 0.5 + 0.5 * Math.sin((t - C.phone_glow) * 6.6);
-    const ans = ease.outCubic(seg(t, C.answered, C.answered + 0.5));
-    const lit = t < C.phone_glow ? 0 : (1 - dark) * (0.85 + 0.15 * breathe) * (1 - 0.35 * ans) + 0.5 * pulse(t, C.phone_glow, 5);
-    $('#phoneglow').style.opacity = clamp(lit, 0, 1.2).toFixed(3);
-    // video exposure: the room is dim until the phone wakes, then settles
-    const v = vids.s2 || $('#i2'); v.style.filter = `url(#g2) brightness(${(0.72 + 0.28 * ease.outCubic(seg(t, C.phone_glow, C.phone_glow + 0.35))).toFixed(3)}) contrast(1.06) saturate(1.1)`;
-    // ripples from the phone: two soft call waves, then the answer ring (the catch)
-    const rip = (el, t0, dur, big) => { const k = seg(t, t0, t0 + dur); el.style.opacity = (k > 0 && k < 1 ? (1 - k) * 0.85 * big : 0).toFixed(3); el.style.transform = `scale(${(0.35 + 1.5 * ease.outCubic(k)).toFixed(3)}) `; };
-    rip($('#rp1'), C.phone_glow + 0.04, 1.3, 0.7); rip($('#rp2'), C.answered, 1.5, 1.0);
-    if (vids.s2 && on.s2) seeks.push(seekVideo(vids.s2, clipT('s2', C.cut_phone, 0.79)));
-  }
-  // ---------- shot 5: the kitchen pass (still). A slow push and a living light
-  {
-    const p = seg(t, C.cut_kitchen, dissolveEnd);
-    const s = 1.0 + punch(t, C.cut_kitchen, 0.06) + 0.13 * ease.inOutCubic(seg(t, C.cut_kitchen, C.dawn_dissolve + 0.6));
-    const tx = -34 * p, ty = -8 * p;
-    cam($('#cam5'), O5, s, tx, ty);
-    const f = flick(t, 0.07);
-    const dim = 1 - 0.12 * seg(t, C.dawn_dissolve - 0.3, C.dawn_dissolve + 0.2);
-    $('#i5').style.filter = `url(#g5) brightness(${(f * dim * (1 + 0.28 * pulse(t, C.cut_kitchen, 5))).toFixed(3)}) contrast(1.07) saturate(1.1)`;
-    $('#lamp5').style.opacity = clamp(0.55 * f * f - 0.25 + 0.30 * pulse(t, C.cut_kitchen, 5), 0, 1).toFixed(3);
-  }
-  // ---------- shot 4: dawn. A slow cross-dissolve, then the warm major arrives and the light floods in
-  {
-    const dd = ease.inOutCubic(seg(t, C.dawn_dissolve, dissolveEnd));
-    SHOT.s4.style.opacity = dd.toFixed(3);
-    const u = t - C.dawn_dissolve;
+  // ---------- the picture
+  if (!isEnd) {
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+    const base = on.s1 ? 's1' : on.s3 ? 's3' : on.s2 ? 's2' : 's5';
+    if (!(on.s4 && t >= dissolveEnd)) await paintShot(ctx, base, t);
+    if (on.s4) {
+      const dd = inOutQuad(seg(t, C.dawn_dissolve, dissolveEnd));
+      if (dd >= 0.999) await paintShot(ctx, 's4', t);
+      else { await paintShot(ctxS, 's4', t); ctx.save(); ctx.globalAlpha = dd; ctx.drawImage(cvS, 0, 0); ctx.restore(); }
+    }
+    if (on.s1) { const o = ease.outExpo(seg(t, C.open, C.open + 0.55)); ctx.fillStyle = `rgba(0,0,0,${(1 - o).toFixed(3)})`; ctx.fillRect(0, BAR, W, H - 2 * BAR); }
+    // light: the dawn flare on the hit, vignette, lower-third scrim
     const flood = pulse(t, C.dawn_hit, 1.9);
-    cam($('#cam4'), [1280, 420], 1.0 + 0.05 * ease.outCubic(seg(u, 0, 3.6)) + 0.05 * (1 - ease.outCubic(seg(t, C.dawn_hit, C.dawn_hit + 1.8))), -18 * seg(u, 0, 3.6), 0);
-    const v = vids.s4 || $('#i4'); v.style.filter = `url(#g4) brightness(${(1 + 0.30 * flood).toFixed(3)}) contrast(1.05) saturate(${(1.12 + 0.1 * flood).toFixed(3)})`;
-    $('#flash').style.opacity = clamp(0.5 * flood * ease.inOutCubic(seg(t, C.dawn_hit - 0.08, C.dawn_hit + 0.08)), 0, 1).toFixed(3);
-    if (vids.s4 && on.s4) seeks.push(seekVideo(vids.s4, clipT('s4', C.dawn_dissolve, 1.0)));
-  }
-  // ---------- the dip into the end card
-  const dipP = ease.inCubic(seg(t, C.dip, C.end - 0.02));
-  $('#dip').style.opacity = dipP.toFixed(3);
+    if (t >= C.dawn_hit - 0.1 && t < C.end) {
+      const fl = flood * ease.inOutCubic(seg(t, C.dawn_hit - 0.06, C.dawn_hit + 0.06));
+      radial(ctx, 1536, 260, 1200, 760, [[0, 'rgba(255,230,184,.98)'], [0.38, 'rgba(255,192,122,.60)'], [1, 'rgba(255,170,90,0)']], 0.8 * fl);
+      ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = `rgba(255,208,150,${(0.14 * fl).toFixed(3)})`; ctx.fillRect(0, 0, W, H); ctx.restore();
+    }
+    ctx.save(); ctx.translate(960, 540); ctx.scale(1, 760 / 1300); const vg = ctx.createRadialGradient(0, 0, 0, 0, 0, 1300);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(0.45, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(2,4,10,.62)'); ctx.fillStyle = vg; ctx.fillRect(-1300, -1300, 2600, 2600); ctx.restore();
+    const sc = ctx.createLinearGradient(0, 690, 0, H - BAR); sc.addColorStop(0, 'rgba(2,4,10,0)'); sc.addColorStop(1, 'rgba(2,4,10,.50)'); ctx.fillStyle = sc; ctx.fillRect(0, 690, W, H - BAR - 690);
 
-  // ---------- glass UI
-  const pa = (t0, d) => ease.outExpo(seg(t, t0, t0 + d));
-  {
-    const driftA = [-16 * seg(t, C.card_in, C.cut_kitchen), -7 * seg(t, C.card_in, C.cut_kitchen)];
-    // card A: incoming call. Slides in on the glow, flips away on the answer
-    const aIn = pa(C.card_in, 0.7), aOut = ease.inCubic(seg(t, C.flip, C.answered - 0.02));
-    const A = $('#cA'); const aVis = t >= C.card_in && t < C.answered;
-    show(A, aVis); A.style.opacity = (aIn * (1 - 0.0)).toFixed(3);
-    A.style.transform = `translate3d(${px(driftA[0] + (1 - aIn) * -26)}, ${px(driftA[1] + (1 - aIn) * 14)}, 0) perspective(1100px) rotateX(${(-90 * aOut).toFixed(2)}deg) scale(${(0.94 + 0.06 * aIn).toFixed(4)})`;
-    A.style.filter = `blur(${((1 - aIn) * 6).toFixed(2)}px)`;
+    // ---------- glass UI (backdrop is a snapshot of the picture so far)
+    const pa = (t0, d) => ease.outExpo(seg(t, t0, t0 + d));
+    const drift = [-16 * seg(t, C.card_in, C.cut_kitchen), -7 * seg(t, C.card_in, C.cut_kitchen)];
+    const aIn = pa(C.card_in, 0.7), aOut = seg(t, C.flip, C.answered - 0.02);
+    const gA = { x: 430, y: 352, w: 460, h: 140, a: (t >= C.card_in && t < C.answered ? aIn : 0), tx: drift[0] + (1 - aIn) * -26, ty: drift[1] + (1 - aIn) * 14, sx: 0.94 + 0.06 * aIn, sy: (0.94 + 0.06 * aIn) * Math.max(0.0001, Math.cos(aOut * Math.PI / 2)) };
+    const bIn = ease.outBack(seg(t, C.answered, C.answered + 0.34), 1.1);
+    const gB = { x: 430, y: 352, w: 460, h: 140, a: (t >= C.answered && t < C.cut_kitchen ? clamp(bIn * 1.4, 0, 1) : 0), tx: drift[0], ty: drift[1], sx: 1, sy: Math.max(0.0001, Math.sin(clamp(bIn, 0, 1) * Math.PI / 2)) };
+    const cIn = pa(C.booked, 0.65), cOut = ease.inCubic(seg(t, C.dawn_dissolve - 0.2, C.dawn_dissolve + 0.2));
+    const dC = [10 * seg(t, C.cut_kitchen, dissolveEnd), 0];
+    const gC = { x: 150, y: 430, w: 570, h: 140, a: (t >= C.booked && t < C.dawn_dissolve + 0.25 ? cIn * (1 - cOut) : 0), tx: dC[0] + (1 - cIn) * 30, ty: dC[1] + (1 - cIn) * 10, sx: 0.95 + 0.05 * cIn, sy: 0.95 + 0.05 * cIn };
+    if (gA.a > 0.004 || gB.a > 0.004 || gC.a > 0.004) ctxT.drawImage(cv, 0, 0);
+    // leaders first (under the glass)
+    const k2 = CAM.s2(t), ph = camPt(k2.o, k2.s, 0, 0, PHONE[0] - 18, PHONE[1] - 26);
+    const lp = ease.inOutCubic(seg(t, C.card_in + 0.2, C.card_in + 0.9)) * (1 - ease.inCubic(seg(t, C.cut_kitchen - 0.25, C.cut_kitchen)));
+    const sxA = 852 + drift[0], syA = 492 + drift[1];
+    if (t >= C.card_in && t < C.cut_kitchen) leader(ctx, sxA, syA, ph[0], ph[1], lp, (lp - 0.85) * 6.6);
+    const k5 = CAM.s5(t), pp = camPt(k5.o, k5.s, k5.tx, k5.ty, PLATES[0] - 20, PLATES[1] - 30);
+    const lc = ease.inOutCubic(seg(t, C.booked + 0.2, C.booked + 0.85)) * (1 - cOut);
+    if (t >= C.booked && t < C.dawn_dissolve + 0.25) leader(ctx, 700 + dC[0], 570, pp[0], pp[1], lc, (lc - 0.85) * 6.6);
+    glass(ctx, cvT, gA); glass(ctx, cvT, gB); glass(ctx, cvT, gC);
+    setCard(cA, t >= C.card_in && t < C.answered, gA); setCard(cB, t >= C.answered && t < C.cut_kitchen, gB); setCard(cC, t >= C.booked && t < C.dawn_dissolve + 0.25, gC);
     $('#pA').style.opacity = (0.5 * (1 - ((t * 1.25) % 1))).toFixed(3); $('#pA').setAttribute('r', (18 + 16 * ((t * 1.25) % 1)).toFixed(2));
-    // card B: answered by your AI front desk. Flips up on the chime
-    const B = $('#cB'); const bIn = ease.outBack(seg(t, C.answered, C.answered + 0.34), 1.1); const bVis = t >= C.answered && t < C.cut_kitchen + 0.0;
-    show(B, bVis); B.style.opacity = clamp(bIn * 1.4, 0, 1).toFixed(3);
-    B.style.transform = `translate3d(${px(driftA[0])}, ${px(driftA[1])}, 0) perspective(1100px) rotateX(${(90 * (1 - clamp(bIn, 0, 1.05))).toFixed(2)}deg)`;
     rB.style.strokeDashoffset = (RB * (1 - ease.inOutCubic(seg(t, C.answered + 0.1, C.answered + 0.8)))).toFixed(2);
     $('#nB').setAttribute('r', (5.4 * ease.outBack(seg(t, C.answered + 0.7, C.answered + 0.95), 2.4)).toFixed(2));
-    // leader from card to the phone
-    const lp = ease.inOutCubic(seg(t, C.card_in + 0.2, C.card_in + 0.9)) * (1 - ease.inCubic(seg(t, C.cut_kitchen - 0.25, C.cut_kitchen)));
-    const ph = camPt(PHONE, 1.0 + punch(t, C.cut_phone, 0.06) + 0.085 * ease.inOutCubic(seg(t, C.cut_phone, C.cut_kitchen)), 0, 0, PHONE[0] - 18, PHONE[1] - 26);
-    const sx = 870 + driftA[0], sy = 458 + driftA[1];
-    $('#lA').setAttribute('d', `M${sx.toFixed(1)} ${sy.toFixed(1)} L${(sx + (ph[0] - sx) * lp).toFixed(1)} ${(sy + (ph[1] - sy) * lp).toFixed(1)}`);
-    $('#dA').setAttribute('cx', ph[0].toFixed(1)); $('#dA').setAttribute('cy', ph[1].toFixed(1)); $('#dA').style.opacity = clamp((lp - 0.85) * 6.6, 0, 1).toFixed(3);
-    // card C: booked
-    const driftC = [10 * seg(t, C.cut_kitchen, dissolveEnd), 0];
-    const cIn = pa(C.booked, 0.65), cOut = ease.inCubic(seg(t, C.dawn_dissolve - 0.2, C.dawn_dissolve + 0.2));
-    const Cc = $('#cC'); show(Cc, t >= C.booked && t < C.dawn_dissolve + 0.25);
-    Cc.style.opacity = (cIn * (1 - cOut)).toFixed(3);
-    Cc.style.transform = `translate3d(${px(driftC[0] + (1 - cIn) * 30)}, ${px(driftC[1] + (1 - cIn) * 10)}, 0) scale(${(0.95 + 0.05 * cIn).toFixed(4)})`;
-    Cc.style.filter = `blur(${((1 - cIn) * 6).toFixed(2)}px)`;
     ckC.style.strokeDashoffset = (CK * (1 - ease.outCubic(seg(t, C.booked + 0.1, C.booked + 0.42)))).toFixed(2);
     $('#kC').setAttribute('r', (26 * ease.outBack(seg(t, C.booked + 0.04, C.booked + 0.3), 1.8)).toFixed(2));
-    // leader to the plates (tracks the push)
-    const s5 = 1.0 + punch(t, C.cut_kitchen, 0.06) + 0.13 * ease.inOutCubic(seg(t, C.cut_kitchen, C.dawn_dissolve + 0.6));
-    const pp = camPt(O5, s5, -34 * seg(t, C.cut_kitchen, dissolveEnd), -8 * seg(t, C.cut_kitchen, dissolveEnd), PLATES[0] - 20, PLATES[1] - 30);
-    const cx0 = 840 + driftC[0], cy0 = 506;
-    const lc = ease.inOutCubic(seg(t, C.booked + 0.2, C.booked + 0.85)) * (1 - cOut);
-    $('#lC').setAttribute('d', `M${cx0.toFixed(1)} ${cy0} L${(cx0 + (pp[0] - cx0) * lc).toFixed(1)} ${(cy0 + (pp[1] - cy0) * lc).toFixed(1)}`);
-    $('#dC').setAttribute('cx', pp[0].toFixed(1)); $('#dC').setAttribute('cy', pp[1].toFixed(1)); $('#dC').style.opacity = clamp((lc - 0.85) * 6.6, 0, 1).toFixed(3);
+
+    // ---------- letterbox and the dip
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, bar); ctx.fillRect(0, H - bar, W, bar);
+    const dipP = ease.inCubic(seg(t, C.dip, C.end - 0.02));
+    if (dipP > 0.002) { ctx.fillStyle = `rgba(0,0,0,${dipP.toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
+  } else {
+    paintEnd(ctx, t);
+    const fo = ease.inCubic(seg(t, C.fade_out + 1.6, DUR)); if (fo > 0.002) { ctx.fillStyle = `rgba(0,0,0,${fo.toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
+    setCard(cA, false, { a: 0, tx: 0, ty: 0, sx: 1, sy: 1 }); setCard(cB, false, { a: 0, tx: 0, ty: 0, sx: 1, sy: 1 }); setCard(cC, false, { a: 0, tx: 0, ty: 0, sx: 1, sy: 1 });
   }
 
   // ---------- supers (small, lower left) and the demo label
   sup.forEach((sp, k) => {
-    const [a, b] = SUPT[k]; const vis = t >= a - 0.02 && t < b + 0.3;
-    show(sp.el, vis);
+    const [a, b] = SUPT[k]; show(sp.el, !isEnd && t >= a - 0.02 && t < b + 0.3);
     rise(sp.w, t, a, { stagger: 0.05, dur: 0.85 });
     sp.el.style.opacity = (1 - ease.inCubic(seg(t, b, b + 0.28))).toFixed(3);
   });
-  $('#demo').style.opacity = (0.9 * ease.outCubic(seg(t, 1.0, 1.5)) * (1 - ease.inCubic(seg(t, C.dip, C.end - 0.1)))).toFixed(3);
+  $('#demo').style.opacity = (isEnd ? 0 : 0.9 * ease.outCubic(seg(t, 1.0, 1.5)) * (1 - ease.inCubic(seg(t, C.dip, C.end - 0.1)))).toFixed(3);
 
-  // ---------- end card: night palette, the ring draws, the node pops, the wordmark, the tagline
-  {
-    const e = $('#endc'); show(e, t >= C.end - 0.01);
-    const rp = ease.inOutCubic(seg(t, C.logo_ring, C.logo_ring + 0.75));
-    lring.style.strokeDashoffset = (RL * (1 - rp)).toFixed(2);
-    lnode.setAttribute('r', (13 * ease.outBack(seg(t, C.node, C.node + 0.3), 2.8)).toFixed(2));
-    $('#endc svg').style.opacity = ease.outCubic(seg(t, C.logo_ring - 0.02, C.logo_ring + 0.12)).toFixed(3);
-    const brk = 1 + 0.012 * Math.sin(t * 1.4);
-    $('#bigring').style.opacity = (ease.outCubic(seg(t, C.logo_ring + 0.2, C.logo_ring + 1.4))).toFixed(3); $('#bigring').style.transform = `scale(${(brk * (0.94 + 0.06 * ease.outExpo(seg(t, C.logo_ring, C.logo_ring + 1.8)))).toFixed(4)})`;
-    sweep.style.opacity = (ease.outCubic(seg(t, C.logo_ring + 0.2, C.logo_ring + 1.4))).toFixed(3);
-    sweep.style.background = `conic-gradient(from ${(40 + (t - C.end) * 34).toFixed(1)}deg, rgba(121,180,255,0) 0deg, rgba(121,180,255,.9) 50deg, rgba(140,110,255,.5) 95deg, rgba(121,180,255,0) 170deg, rgba(121,180,255,.26) 250deg, rgba(121,180,255,0) 330deg)`;
-    rise(ename, t, C.wordmark, { stagger: 0.05, dur: 0.95 });
-    rise(etag1, t, C.tagline, { stagger: 0.16, dur: 0.85 });
-    rise(etag2, t, C.tagline_2, { stagger: 0.14, dur: 0.85 });
-    $('#eai').style.opacity = (0.95 * ease.outCubic(seg(t, C.ai_label, C.ai_label + 0.7))).toFixed(3);
-    e.style.opacity = (1 - ease.inCubic(seg(t, C.fade_out + 1.6, DUR))).toFixed(3) ;
-  }
-
-  await Promise.all(seeks);
-  if (seeks.length) await new Promise((r) => requestAnimationFrame(() => r()));
+  // ---------- end card type
+  const ec = $('#endc'); show(ec, isEnd);
+  rise(ename, t, C.wordmark, { stagger: 0.05, dur: 0.95 });
+  rise(etag1, t, C.tagline, { stagger: 0.16, dur: 0.85 });
+  rise(etag2, t, C.tagline_2, { stagger: 0.14, dur: 0.85 });
+  $('#eai').style.opacity = (0.95 * ease.outCubic(seg(t, C.ai_label, C.ai_label + 0.7))).toFixed(3);
+  ec.style.opacity = (1 - ease.inCubic(seg(t, C.fade_out + 1.6, DUR))).toFixed(3);
 } };
 
 await document.fonts.ready; await Promise.all([...document.fonts].map((f) => f.load().catch(() => {})));
