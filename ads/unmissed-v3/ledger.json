@@ -1,0 +1,27 @@
+{
+ "cap": 0.6,
+ "total": 0.04428,
+ "by_seat": {
+  "music": 0.04,
+  "voice": 0.00428
+ },
+ "calls": [
+  {
+   "seat": "music",
+   "model": "google/lyria-3-clip-preview",
+   "task": "music",
+   "usd": 0.04,
+   "s": 10.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v3",
+   "task": "dialogue 0",
+   "usd": 0.00428,
+   "s": 2.8,
+   "ok": true
+  }
+ ]
+}
