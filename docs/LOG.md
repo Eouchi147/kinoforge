@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 16 Oct 2026
+- Board `site-samples-v1` done in 4 minutes: 12 stills, US$0.81 by the account (ledger 1.08 booked; the build key has about US$11.59 left of US$50). `hs-mechanical` is discarded (its piping would not pass a tradesperson's eye); the other 11 go to Unmissed's template previews.
 - Board `site-samples-v1` dispatched: 12 AI stills (cap US$1.50) as sample photos for Unmissed's website template library v1 (the owner approved building it now); previews only, never shown as a client's work.
 - Sam stopped the Smart Mount videos (17:32 Toronto) after watching the check videos: "they are not good, especially because the photo you used is a bad job photo, I'd rather have something with no copyrights or even AI generated, I need a clean professional look on everything." Nothing dispatched, rendered on GitHub or posted; $0 spent. The install photos are marked do-not-use in media.json and the batch note.
 - Smart Mount's December batch: Sam asked for a mix of the three looks ("I can't decide, I need a mix of the 3"), so each look carries four videos, alternating in posting order (B: v01, v05, v08, v12; A: v02, v04, v06, v10; C: v03, v07, v09, v11). The safe check already covered all 12 under every look. Nothing rendered or posted yet; music waits on Sam.

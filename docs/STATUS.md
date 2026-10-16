@@ -13,7 +13,8 @@ client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toro
 ## Done
 - **Board `site-samples-v1` (16 Oct, for Unmissed's website template library):** 12 AI stills (Seedream 5 Pro, cap
   US$1.50, about US$0.09 each) for two invented sample businesses, used only in the template previews, marked Sample
-  and AI-generated there; no people, no text, no logos; anything that looks like poor workmanship is discarded.
+  and AI-generated there; no people, no text, no logos; anything that looks like poor workmanship is discarded. Done:
+  US$0.81 spent; `hs-mechanical` discarded; 11 stills in the `boards` release.
 - **Social lane built (16 Oct, not yet run on GitHub):** three 9:16 templates from the same brief (Smart Mount card
   tip-height, real photo `rattan.webp`): A `card-motion` (Smart Mount's own card brought to life, 12.4 s), B `bento`
   (Unmissed's Bento language in Smart Mount colours, 14.4 s), C `type-motion` (kinetic type over the real photo, 13.6 s).
