@@ -19,7 +19,7 @@ approving on his phone, (3) first 2 or 3 clients through Unmissed, (4) films lat
 - Handover docs: `AGENTS.md`, `CLAUDE.md`, `docs/WORKFLOWS.md`, this file, `docs/LOG.md`.
 
 ## Running now
-- Render of `unmissed-v2` (The Catch). v1, v3, v4, v5 are rendered (release `ads`).
+- Nothing. All five Unmissed directions are rendered (release `ads`) and on the private Claude page "Unmissed Ad Directions" (https://claude.ai/artifact/6zvTkrN7mpTTCQZc3i99bN).
 
 ## Waiting on Sam
 - Pick one or two of the five Unmissed directions (page "Unmissed Ad Directions"): v1 Manifesto (kinetic type, 16 s),
@@ -36,7 +36,7 @@ approving on his phone, (3) first 2 or 3 clients through Unmissed, (4) films lat
 5. Wire the web studio's Build button to `board.yml`, `codead.yml` and `piece.yml` with a phone approval step.
 
 ## Money (OpenRouter build key, $50 limit)
-- About $30.85 used before the Unmissed ad run (key usage read $29.37 before style board round 2, which cost $1.47).
-- Of that: about $29 on the first five ad tests in the rejected cartoon look; about $3.10 on the two style-board rounds.
-- The key's usage figure updates late; per-call costs in the ledgers are the reliable figure.
+- Key usage read $35.03 at 04:21 UTC on 16 Oct (before the Night Shift footage). Earlier per-run records had undercounted by about $4.
+- This round (five directions): prep about $0.30, Night Shift stills $0.45 and clips $1.60, listening checks about $0.05. About $2.40.
+- About $12 to $13 left. The key's usage figure updates late; read it before a run.
 - Web studio key (Vercel): $5 limit, about $2 used.

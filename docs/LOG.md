@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 16 Oct 2026
+- v2 The Catch rendered (18.2 s, listening check: no problems). All five on the page "Unmissed Ad Directions"; waiting for Sam's pick. Round cost about $2.40.
 - All five scenes built (builder agents, reviewed by Claude): v2 is Three.js (MSAA off on SwiftShader for speed), v4 draws footage on a canvas and loads clips as Blobs (the dev server has no Range requests, so plain video seeking snapped to 0). Listening checks: v3 and v5 no problems; v1 weak ducking and a blip under the tagline; v4 interface sounds too quiet. Page "Unmissed Ad Directions" built with 720p previews.
 - v1 Manifesto, v3 The Call, v5 Bento built by builder agents to the prepared audio and reviewed (contact sheets); renders dispatched. v1 render OK (16 s, -13.2 LUFS) but 72 Mbps because grain is incompressible: codead now caps the bitrate (crf 20, max 14 Mbps). v3 uses a score delayed by 3 bars (`music_late.mp3`); v5 uses a score cut on whole bars (`music_edit.mp3`).
 - Prep results: voices cast by the audio model: v1 roger (9/10), v2 river (9), v4 eric (7.9), v5 jessica. v3 dialogue failed (faster-whisper vs new PyAV); fixed by decoding with librosa. Beat tracker halves or doubles some tempos (v1 found 61.5 for a 124 track, v4 143.5 for 72): builders subdivide. Night Shift stills good (5 for $0.45); 4 clips dispatched.
