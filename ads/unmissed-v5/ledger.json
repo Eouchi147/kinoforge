@@ -1,10 +1,10 @@
 {
  "cap": 0.6,
- "total": 0.0616,
+ "total": 0.06464,
  "by_seat": {
   "music": 0.04,
   "voice": 0.021,
-  "ears": 0.0006
+  "ears": 0.00364
  },
  "calls": [
   {
@@ -166,6 +166,24 @@
    "task": "voice casting",
    "usd": 0.000597,
    "s": 21.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "ears",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "listen to the mix",
+   "usd": 0,
+   "s": 67.4,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "ears",
+   "model": "google/gemini-3.7-flash",
+   "task": "listen to the mix",
+   "usd": 0.003044,
+   "s": 7.4,
    "ok": true,
    "note": null
   }
