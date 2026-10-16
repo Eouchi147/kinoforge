@@ -22,7 +22,20 @@ commit that touches that workflow file (a blank line is enough), wait about 20 s
 
 ## Business ads
 
-### `codead.yml`: an ad built in code
+### `codead.yml`: an ad built in code (music first)
+- **Two modes, one or several ads per run** (`ad` = comma-separated ids, `mode` = `prep` or `render`):
+  1. `prep` (`harness/shots/prep.py`): makes the score (Lyria) and its beat map (`audio/music.json`: bpm, beats, a downbeat
+     guess, a 0.1 s energy curve, the biggest rise), casts the narrator (every voice in `prep.voice_cast` reads every line,
+     an audio model scores the reels, `audio/casting.json`), records dialogue with Whisper word timings (`audio/dialogue.json`).
+     Files are committed to `ads/<id>/audio/`. About $0.05 to $0.07 per ad.
+  2. Write the scene to that audio: `ads/<id>/index.html` reads `./ad.json` (its `cues`, `duration`, and `audio` block with
+     `music_offset`, gains, voice/dialogue start times) so picture and sound share one timeline. Beat trackers often halve or
+     double the tempo: check the grid (librosa with `start_bpm`) before timing cuts.
+  3. `render` (`harness/shots/codead.py`): renders the scene (motion blur from `render.sub` sub-frames, film grain from
+     `post.grain`), mixes the prepared audio (ducking, -14 LUFS), runs the listening check. About $0.01 per ad.
+- **Older single-step ads** (like `unmissed-01`) still work: without an `audio` block, voice and music are generated during render.
+
+### (previous description of the single-step mode)
 - **What:** renders `ads/<id>/index.html` frame by frame (Chromium), adds voice, music and interface sounds, mixes to -14 LUFS.
 - **Input:** `ad` = the folder name under `ads/`. The folder holds `index.html` (the scene) and `ad.json`:
   `voice` (an ElevenLabs voice name), `vo` (lines with start times), `music.prompt`, `sfx` (cue times and kinds:
