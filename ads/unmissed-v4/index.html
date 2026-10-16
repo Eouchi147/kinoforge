@@ -79,6 +79,7 @@ const W = 1920, H = 1080, BAR = 138, FPSV = 24;
 const cv = $('#film'), ctx = cv.getContext('2d', { willReadFrequently: true, alpha: false });
 const mk = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return [c, c.getContext('2d', { willReadFrequently: true })]; };
 const [cvS, ctxS] = mk(), [cvT, ctxT] = mk();      // second shot (dissolves), snapshot for the glass blur
+const cvB = document.createElement('canvas'); cvB.width = 480; cvB.height = 201; const ctxB = cvB.getContext('2d', { willReadFrequently: true });   // bloom, drawn small
 
 // ---------------------------------------------------------------- footage
 const CLIPS = { s1: 'ns-1', s3: 'ns-3', s2: 'ns-2', s4: 'ns-4' };
@@ -100,7 +101,7 @@ async function loadClip(id, name) {
 await Promise.all(Object.entries(CLIPS).map(([id, name]) => loadClip(id, name)));
 const still5 = new Image(); still5.src = 'media/ns-5.jpg';
 const imgOk = (im) => (im.complete && im.naturalWidth ? Promise.resolve() : new Promise((r) => { im.onload = im.onerror = r; }));
-await Promise.all([...Object.values(stills), still5].map(imgOk));
+await Promise.all(Object.values(stills).concat([still5]).map(imgOk));
 window.KF_FALLBACK = fallback; window.KF_FRAMES = FC;
 
 function seekVideo(v, target) {
@@ -149,6 +150,13 @@ function grade(cx, gr, bright, sat = 1) {
     d[i] = l + (r - l) * s; d[i + 1] = l + (g - l) * s; d[i + 2] = l + (b - l) * s;
   }
   cx.putImageData(id, 0, y0);
+}
+
+// halation: the brightest parts of the picture, blurred wide, added back (done at a quarter size, so it is cheap)
+function bloom(cx, amt) {
+  if (amt <= 0.004) return;
+  ctxB.save(); ctxB.clearRect(0, 0, 480, 201); ctxB.filter = 'brightness(.62) contrast(2.3) blur(6px)'; ctxB.drawImage(cx.canvas, 0, BAR, W, H - 2 * BAR, 0, 0, 480, 201); ctxB.restore();
+  cx.save(); cx.globalCompositeOperation = 'screen'; cx.globalAlpha = clamp(amt, 0, 1); cx.imageSmoothingEnabled = true; cx.imageSmoothingQuality = 'low'; cx.drawImage(cvB, 0, 0, 480, 201, 0, BAR, W, H - 2 * BAR); cx.restore();
 }
 
 // ---------------------------------------------------------------- helpers
@@ -210,6 +218,7 @@ async function paintShot(cx, id, t) {
   }
   cx.restore();
   grade(cx, GR[id], bright, sat);
+  bloom(cx, { s1: 0.55, s3: 0.45, s2: 0.5, s5: 0.6, s4: 0.4 }[id]);
   // lights, after the grade, in the shot's own camera space
   cx.save(); applyCam(cx, k);
   if (id === 's3') {
@@ -369,6 +378,6 @@ window.KF = { duration: DUR, fps: 30, async render(i, t) {
   ec.style.opacity = (1 - ease.inCubic(seg(t, C.fade_out + 1.6, DUR))).toFixed(3);
 } };
 
-await document.fonts.ready; await Promise.all([...document.fonts].map((f) => f.load().catch(() => {})));
+await document.fonts.ready; await Promise.all(Array.from(document.fonts).map((f) => f.load().catch(() => {})));
 window.KF_READY = true;
 </script></body></html>
