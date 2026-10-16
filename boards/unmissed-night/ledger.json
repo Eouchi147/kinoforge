@@ -1,0 +1,49 @@
+{
+ "cap": 2.6,
+ "total": 0.45,
+ "by_seat": {
+  "image": 0.45
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ns-1",
+   "usd": 0.09,
+   "s": 41.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ns-3",
+   "usd": 0.09,
+   "s": 44.4,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ns-2",
+   "usd": 0.09,
+   "s": 55.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ns-4",
+   "usd": 0.09,
+   "s": 41.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ns-5",
+   "usd": 0.09,
+   "s": 58.6,
+   "ok": true
+  }
+ ]
+}

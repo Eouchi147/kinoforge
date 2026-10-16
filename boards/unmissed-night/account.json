@@ -1,0 +1,21 @@
+{
+ "before": {
+  "usage": 35.025852007,
+  "limit": 50,
+  "remaining": 14.974147993000003
+ },
+ "after": {
+  "usage": 35.025852007,
+  "limit": 50,
+  "remaining": 14.974147993000003
+ },
+ "board_spent": 0.0,
+ "ledger_total": 0.45,
+ "frames": {
+  "ns-1": "bytedance-seed/seedream-5-0-pro",
+  "ns-2": "bytedance-seed/seedream-5-0-pro",
+  "ns-3": "bytedance-seed/seedream-5-0-pro",
+  "ns-4": "bytedance-seed/seedream-5-0-pro",
+  "ns-5": "bytedance-seed/seedream-5-0-pro"
+ }
+}
