@@ -19,15 +19,16 @@ approving on his phone, (3) first 2 or 3 clients through Unmissed, (4) films lat
 - Handover docs: `AGENTS.md`, `CLAUDE.md`, `docs/WORKFLOWS.md`, this file, `docs/LOG.md`.
 
 ## Running now
-- Five new Unmissed versions (Sam rejected v4 of `unmissed-01`): audio prep for `unmissed-v1` to `v5` (`codead.yml` mode prep), Night Shift stills (`board.yml` unmissed-night). Budget for the five: about $3.
+- Render of `unmissed-v2` (The Catch). v1, v3, v4, v5 are rendered (release `ads`).
 
 ## Waiting on Sam
-- Watch Unmissed ad v4 and say yes or what to change.
-- The Unmissed chat should decide where video sits in the new offer (Presence, AI Front Desk, Complete): the free concept
-  ad was retired with the free proof build (the free audit is now the only free thing). See `docs/UNMISSED_HANDOFF.md`.
+- Pick one or two of the five Unmissed directions (page "Unmissed Ad Directions"): v1 Manifesto (kinetic type, 16 s),
+  v2 The Catch (3D ring, 18 s), v3 The Call (real call + captions, 27 s), v4 Night Shift (cinematic footage, 23 s),
+  v5 Bento (bright tiles, 18 s). `unmissed-01` v4 was rejected ("really bad quality").
+- The Unmissed chat should decide where video sits in the new offer (see `docs/UNMISSED_HANDOFF.md`).
 
 ## Next (in order)
-1. Sam's notes on `unmissed-01`, then a French version if wanted (the site is bilingual).
+1. Polish the chosen direction (sound balance: the listening checks flagged weak ducking in v1 and quiet interface sounds in v4), then its 9:16 phone layout and a French version if wanted.
 2. A 9:16 version of the Unmissed ad laid out for phones (not a blurred-fill crop).
 3. Restaurant portfolio ad: Type in Motion as the spine, Hero Close-ups and the good Freeze Frame clip as inserts,
    a Flash Editorial 9:16 social cut. Budget under $5.
