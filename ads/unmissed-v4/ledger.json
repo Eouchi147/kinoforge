@@ -1,10 +1,10 @@
 {
  "cap": 0.6,
- "total": 0.06507,
+ "total": 0.06669,
  "by_seat": {
   "music": 0.04,
   "voice": 0.02436,
-  "ears": 0.00071
+  "ears": 0.00233
  },
  "calls": [
   {
@@ -166,6 +166,15 @@
    "task": "voice casting",
    "usd": 0.000714,
    "s": 20.3,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "ears",
+   "model": "xiaomi/mimo-v2.6-pro",
+   "task": "listen to the mix",
+   "usd": 0.001616,
+   "s": 62.6,
    "ok": true,
    "note": null
   }
