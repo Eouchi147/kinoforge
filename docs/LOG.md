@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 16 Oct 2026
+- `unmissed-01` first full run ($0.054): picture, voice and Lyria music all worked; loudness -14 LUFS. Fixes for v2: score was buried (gain -15 to -10 dB, gentler ducking), whoosh sounded like hiss (darker, quieter), last line no longer sped up (end card 1 s longer). New automatic listening check: an audio model transcribes and critiques the mix (`<id>-listen.json`).
 - `codead.yml` was not registered by GitHub until a push touched the file itself; noted in WORKFLOWS. First real run of `unmissed-01` started.
 - Handover docs added: `AGENTS.md` (read first), `CLAUDE.md`, `docs/WORKFLOWS.md`, `docs/STATUS.md`, this log. Rule from Sam: every change updates STATUS and LOG.
 - Unmissed ad v1 built in code (`ads/unmissed-01`), following the new Unmissed offer of 15 Oct (Presence, AI Front Desk, Complete; phone answering live) and the site's night theme. New pipeline `codead.yml` / `harness/shots/codead.py`: render, ElevenLabs voice, Lyria score, synthesised interface sounds, sidechain ducking, -14 LUFS.

@@ -19,8 +19,7 @@ approving on his phone, (3) first 2 or 3 clients through Unmissed, (4) films lat
 - Handover docs: `AGENTS.md`, `CLAUDE.md`, `docs/WORKFLOWS.md`, this file, `docs/LOG.md`.
 
 ## Running now
-- `codead.yml` for `unmissed-01` (first run with real voice and music). If dispatch returns 404, the workflow was not yet
-  registered: push a commit and dispatch again.
+- `codead.yml` for `unmissed-01`, v2 (louder score, softer whooshes, longer end card, listening check). v1 cost $0.054.
 
 ## Waiting on Sam
 - Watch Unmissed ad v1 and say yes or what to change.

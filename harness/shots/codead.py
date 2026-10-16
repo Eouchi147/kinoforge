@@ -34,9 +34,10 @@ def synth(kind, np):
         x = t(0.12); f = 1300 - 700 * np.minimum(1, x / 0.06); ph = 2 * np.pi * np.cumsum(f) / SR
         return 0.16 * np.minimum(1, x / 0.003) * np.exp(-x * 38) * np.sin(ph)
     if kind == 'whoosh':
-        x = t(0.45); rng = np.random.default_rng(7); n = rng.standard_normal(len(x))
-        k = 60; n = np.convolve(n, np.ones(k) / k, mode='same')            # soften the noise
-        return 0.22 * np.sin(np.pi * x / x[-1]) ** 2 * n
+        x = t(0.5); rng = np.random.default_rng(7); n = rng.standard_normal(len(x))
+        for k in (90, 90, 90): n = np.convolve(n, np.ones(k) / k, mode='same')   # three box filters: a soft, dark air movement, not hiss
+        n = n / (np.abs(n).max() + 1e-9)
+        return 0.10 * np.sin(np.pi * x / x[-1]) ** 2 * n
     if kind == 'check':
         a, b = t(0.09), t(0.16)
         s1 = 0.10 * np.exp(-a * 25) * np.sin(2 * np.pi * 880 * a); s2 = 0.10 * np.exp(-b * 14) * np.sin(2 * np.pi * 1320 * b)
@@ -101,7 +102,7 @@ def main(adir):
     if mus:
         ins += ['-i', mus]; m_i = n; n += 1; g = float(ad['music'].get('gain_db', -15))
         fl.append(f'[{m_i}:a]aformat=sample_rates={SR}:channel_layouts=stereo,atrim=0:{D:.3f},afade=t=in:d=0.4,afade=t=out:st={max(0, D - 2.2):.2f}:d=2.2,volume={g}dB[m]')
-        fl.append('[m][vokey]sidechaincompress=threshold=0.02:ratio=5:attack=30:release=400[md]')
+        fl.append('[m][vokey]sidechaincompress=threshold=0.05:ratio=3:attack=40:release=500[md]')
         fl.append('[vo][md][fx]amix=inputs=3:normalize=0:duration=longest[mix]')
     else:
         fl.append('[vokey]anullsink'); fl.append('[vo][fx]amix=inputs=2:normalize=0:duration=longest[mix]')
@@ -110,7 +111,33 @@ def main(adir):
     run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(fl), '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '256k',
          '-ar', str(SR), '-t', f'{D:.3f}', '-movflags', '+faststart', final])
     run(['ffmpeg', '-v', 'error', '-y', '-i', final, '-vf', 'fps=0.6,scale=480:-2,tile=4x4:padding=4:color=white', '-frames:v', '1', os.path.join(out, f'{aid}-sheet.jpg')])
+    listen(B, final, ad, out)
     log('done', final, f'{dur_of(final):.2f}s', f'| spent ${B.led.total:.3f} of ${B.led.cap}')
+
+
+LISTEN = {'type': 'object', 'additionalProperties': False, 'required': ['transcript', 'voice', 'music', 'sounds', 'mix', 'problems'],
+          'properties': {'transcript': {'type': 'string'}, 'voice': {'type': 'string'}, 'music': {'type': 'string'}, 'sounds': {'type': 'string'},
+                         'mix': {'type': 'string'}, 'problems': {'type': 'array', 'items': {'type': 'string'}}}}
+
+
+def listen(B, final, ad, out):
+    """An audio model listens to the finished mix and writes notes (a check before Sam hears it; cents)."""
+    import base64
+    from agents import ask
+    mp3 = os.path.join(out, 'listen.mp3'); run(['ffmpeg', '-v', 'error', '-y', '-i', final, '-vn', '-ac', '1', '-b:a', '96k', mp3])
+    script = ' | '.join(f"{l['start']}s: {l['text']}" for l in ad.get('vo', []))
+    msg = [{'role': 'user', 'content': [
+        {'type': 'text', 'text': 'You are a strict audio supervisor for premium TV and social ads. Listen to this finished ad mix. '
+         'Transcribe the voiceover with timestamps. Judge: the voice (clear, natural, warm, any glitches or mispronunciations, rushed?), '
+         'the music (audible under the voice? fits a premium tech brand? any artefacts?), the interface sound effects (pleasant or harsh?), '
+         'and the mix balance. List concrete problems with timestamps; an empty list if none. The intended script is: ' + script},
+        {'type': 'input_audio', 'input_audio': {'data': base64.b64encode(open(mp3, 'rb').read()).decode(), 'format': 'mp3'}}]}]
+    try:
+        notes, model = ask('ears', msg, LISTEN, B.led, name='listen', max_tokens=1800, label='listen to the mix')
+        notes['model'] = model; json.dump(notes, open(os.path.join(out, f"{ad['id']}-listen.json"), 'w'), indent=1)
+        log('listened:', model, '| problems:', notes['problems'])
+    except Exception as e:
+        log('listen check failed:', str(e)[:300])
 
 
 if __name__ == '__main__':

@@ -32,7 +32,7 @@ jobs:
         env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
         run: |
           gh release view ads > /dev/null 2>&1 || gh release create ads --title "ads" --notes "Finished ads built in code (picture rendered in Chromium, voice and score via OpenRouter)." || true
-          for f in ads/$A/out/$A.mp4 ads/$A/out/$A-sheet.jpg ads/$A/codead.log; do [ -f "$f" ] && gh release upload ads "$f" --clobber || true; done
+          for f in ads/$A/out/$A.mp4 ads/$A/out/$A-sheet.jpg ads/$A/out/$A-listen.json ads/$A/out/music.mp3 ads/$A/out/music.wav ads/$A/codead.log; do [ -f "$f" ] && gh release upload ads "$f" --clobber || true; done
           git config user.name "kinoforge-bot"; git config user.email "bot@users.noreply.github.com"
           [ -f ads/$A/ledger.json ] && git add ads/$A/ledger.json
           git commit -qm "ad $A: ledger" && (git pull -q --rebase && git push -q) || true

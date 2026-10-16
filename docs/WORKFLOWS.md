@@ -27,7 +27,7 @@ commit that touches that workflow file (a blank line is enough), wait about 20 s
 - **Input:** `ad` = the folder name under `ads/`. The folder holds `index.html` (the scene) and `ad.json`:
   `voice` (an ElevenLabs voice name), `vo` (lines with start times), `music.prompt`, `sfx` (cue times and kinds:
   ring, click, pop, whoosh, check, chime), `cap_usd`.
-- **Output:** release `ads`: `<id>.mp4` (16:9 master), `<id>-sheet.jpg`, `codead.log`. Cost record `ads/<id>/ledger.json` is committed.
+- **Output:** release `ads`: `<id>.mp4` (16:9 master), `<id>-sheet.jpg`, `<id>-listen.json` (an audio model's transcript and notes on voice, music, sounds and mix), the music stem, `codead.log`. Cost record `ads/<id>/ledger.json` is committed.
 - **Cost:** picture free; voice about $0.002 per line; music about $0.05 to $0.08. About 6 minutes per run.
 - **Code:** `harness/shots/codead.py`, `harness/dom-render.cjs`, `ads/lib/motion.js`.
 - **Local preview (free):** `cd harness && npm ci && npx playwright install chromium && cd ..` then

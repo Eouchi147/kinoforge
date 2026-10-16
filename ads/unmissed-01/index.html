@@ -173,10 +173,10 @@ const pop = (el, p, dy = 16) => { el.style.opacity = Math.min(1, Math.max(0, p) 
 const lring = $('#lring'), lnode = $('#lnode'); const RL = 2 * Math.PI * 50; lring.style.strokeDasharray = RL;
 const ring = $('#ring'), sweep = $('#ring .sweep'), node = $('#ring .node');
 // scene windows (seconds): keep in step with ad.json
-const S = { hook: [0, 3.2], call: [3.2, 8.0], booked: [8.0, 11.5], texts: [11.5, 14.6], review: [14.6, 17.6], web: [17.6, 21.2], end: [21.2, 25.6] };
+const S = { hook: [0, 3.2], call: [3.2, 8.0], booked: [8.0, 11.5], texts: [11.5, 14.6], review: [14.6, 17.6], web: [17.6, 21.2], end: [21.2, 26.6] };
 const VIEWS = ['call', 'booked', 'texts', 'review', 'web'];
 
-window.KF = { duration: 25.6, fps: 30, async render(i, t) {
+window.KF = { duration: 26.6, fps: 30, async render(i, t) {
   // ---- the ring: centred and wide for the hook, then it catches the phone and stays around it
   const toPhone = ease.inOutCubic(seg(t, 2.6, 3.6));
   const cx = lerp(960, 1350, toPhone), cy = 540, sc = lerp(1.32, 1.0, toPhone) * (1 + 0.012 * Math.sin(t * 1.4));
