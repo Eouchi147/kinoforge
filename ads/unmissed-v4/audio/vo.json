@@ -1,0 +1,35 @@
+{
+ "voice": "eric",
+ "lines": [
+  {
+   "text": "You closed at nine.",
+   "file": "audio/vo/line0.mp3",
+   "dur": 1.802
+  },
+  {
+   "text": "Your customers didn't.",
+   "file": "audio/vo/line1.mp3",
+   "dur": 1.306
+  },
+  {
+   "text": "At nine forty-seven, someone called.",
+   "file": "audio/vo/line2.mp3",
+   "dur": 2.508
+  },
+  {
+   "text": "Your AI front desk answered. In your name. And booked them in.",
+   "file": "audio/vo/line3.mp3",
+   "dur": 3.971
+  },
+  {
+   "text": "Unmissed.",
+   "file": "audio/vo/line4.mp3",
+   "dur": 2.116
+  },
+  {
+   "text": "A premium presence. An AI front desk.",
+   "file": "audio/vo/line5.mp3",
+   "dur": 3.239
+  }
+ ]
+}

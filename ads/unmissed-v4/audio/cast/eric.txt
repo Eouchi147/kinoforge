@@ -1,0 +1,6 @@
+file '/home/runner/work/kinoforge/kinoforge/ads/unmissed-v4/audio/cast/eric/line0.mp3'
+file '/home/runner/work/kinoforge/kinoforge/ads/unmissed-v4/audio/cast/eric/line1.mp3'
+file '/home/runner/work/kinoforge/kinoforge/ads/unmissed-v4/audio/cast/eric/line2.mp3'
+file '/home/runner/work/kinoforge/kinoforge/ads/unmissed-v4/audio/cast/eric/line3.mp3'
+file '/home/runner/work/kinoforge/kinoforge/ads/unmissed-v4/audio/cast/eric/line4.mp3'
+file '/home/runner/work/kinoforge/kinoforge/ads/unmissed-v4/audio/cast/eric/line5.mp3'

@@ -1,0 +1,22 @@
+{
+ "scores": [
+  {
+   "voice": "brian",
+   "score": 5.8,
+   "note": "Even and clear, but the line breaks read staccato ('In your name. And booked them in.'), which lands slightly mechanical. Mid-range pitch, cool rather than warm \u2014 closer to a corporate explainer than a night-time film trailer. Not low, not slow, not whispered."
+  },
+  {
+   "voice": "bill",
+   "score": 6.1,
+   "note": "Most natural and conversational of the three in terms of phrasing, but it's bright, brisk and promo-announcer in energy. Reads as a product spot, not an intimate whisper. Clarity is strong; pitch and pace fight the brief outright."
+  },
+  {
+   "voice": "eric",
+   "score": 7.9,
+   "note": "Lowest and softest delivery, genuinely breathy and close to a whisper \u2014 the only reel that sits in the right register. Deliberate slow pacing, and the held pause before 'Unmissed' gives it trailer-narrative weight. Slight loss of edge on the quieter words, but the brief asks for intimacy over punch."
+  }
+ ],
+ "best": "eric",
+ "why": "Eric is the only read that is actually low, slow, close and warm \u2014 the cinematic whisper register the brief calls for. Brian is serviceable but cold and choppy; Bill is warm-ish but far too bright and fast for a premium night-time trailer read.",
+ "model": "xiaomi/mimo-v2.6-pro"
+}
