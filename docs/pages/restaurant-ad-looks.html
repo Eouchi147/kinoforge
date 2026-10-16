@@ -1,0 +1,150 @@
+<title>Restaurant Ad Looks</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one calm column, a screening-room board; each look is a block with its media first, then three plain facts. */
+:root {
+  --paper: #eceef1; --card: #ffffff; --ink: #15171b; --soft: #5a606a; --line: #d6dae0; --accent: #2f5fd0; --accent-ink: #ffffff; --warn: #9a4a10;
+  --font: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #121418; --card: #1b1e23; --ink: #eceef1; --soft: #a2a8b2; --line: #2b3037; --accent: #7fa4ff; --accent-ink: #0d1424; --warn: #f0a868; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #121418; --card: #1b1e23; --ink: #eceef1; --soft: #a2a8b2; --line: #2b3037; --accent: #7fa4ff; --accent-ink: #0d1424; --warn: #f0a868; color-scheme: dark; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 72px; display: grid; gap: 56px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+h1 { font-size: clamp(34px, 6vw, 60px); line-height: 1.02; font-weight: 600; }
+h2 { font-size: clamp(26px, 3.6vw, 36px); line-height: 1.08; font-weight: 600; }
+p { margin: 0; max-width: 64ch; }
+.lead { font-size: clamp(18px, 2.2vw, 21px); color: var(--soft); }
+header { display: grid; gap: 18px; }
+.cost { font-size: 15px; color: var(--soft); font-variant-numeric: tabular-nums; }
+.pick { background: var(--card); border-radius: 18px; padding: 24px; display: grid; gap: 12px; border: 1px solid var(--line); }
+.pick h2 { font-size: 22px; }
+.pick p { color: var(--ink); }
+.pick .how { color: var(--soft); font-size: 15px; }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+nav a { display: inline-block; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 500; }
+nav a:hover, nav a:focus-visible { border-color: var(--accent); color: var(--accent); }
+a:focus-visible, video:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.look { display: grid; gap: 18px; scroll-margin-top: 24px; }
+.look-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.fee { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--accent); }
+.media { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+.media > :first-child { grid-column: 1 / -1; }
+.media img, .media video { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; border-radius: 12px; background: var(--line); }
+.media.one { grid-template-columns: 1fr; }
+.media.freeze { grid-template-columns: 1fr; }
+.pick dl { font-size: 16px; }
+figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+figcaption { font-size: 14px; color: var(--soft); }
+dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; font-size: 16px; }
+dt { color: var(--soft); }
+dd { margin: 0; min-width: 0; }
+.note { font-size: 15px; color: var(--warn); }
+.tag { font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); vertical-align: middle; margin-left: 8px; letter-spacing: 0.01em; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
+footer { font-size: 15px; color: var(--soft); display: grid; gap: 8px; }
+@media (max-width: 560px) { .media { grid-template-columns: 1fr; } dl { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 8px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Six ways to make the same restaurant ad</h1>
+    <p class="lead">Saffron Hearth Kitchen is invented. Same food, same words, different looks. Round 2 follows your notes: real photos in Type in Motion, and Freeze Frame in motion.</p>
+    <p class="cost">AI fees for this board so far: about $3.10 ($1.65 for round 1, $1.47 for round 2, of which $1.20 was the two video clips). Type in Motion and Screen Story are built in code and cost nothing to render.</p>
+  </header>
+
+  <section class="pick" aria-labelledby="pick-h">
+    <h2 id="pick-h">Where we are</h2>
+    <dl>
+      <dt>Screen Story</dt><dd>Chosen. This becomes the Unmissed ad.</dd>
+      <dt>Type in Motion</dt><dd>Upgraded: the drawn bread and the dots are now real photos, cut out and animated.</dd>
+      <dt>Freeze Frame</dt><dd>Now in motion. One clip works, one warps; details below.</dd>
+      <dt>Flash Editorial</dt><dd>Kept.</dd>
+      <dt>Hero Close-ups</dt><dd>Your call: in or out?</dd>
+      <dt>Documentary</dt><dd>Dropped.</dd>
+    </dl>
+  </section>
+
+  <nav aria-label="Looks on this board">
+    <ul>
+      <li><a href="#type">Type in Motion</a></li>
+      <li><a href="#screen">Screen Story</a></li>
+      <li><a href="#hero">Hero Close-ups</a></li>
+      <li><a href="#freeze">Freeze Frame</a></li>
+      <li><a href="#flash">Flash Editorial</a></li>
+    </ul>
+  </nav>
+
+  <section class="look" id="type" aria-labelledby="type-h">
+    <div class="look-head"><h2 id="type-h">Type in Motion <span class="tag">Built in code</span></h2><span class="fee">$0 to $0.50 per ad</span></div>
+    <p>Bold words in the restaurant's own colours, moving on the beat. Round 2: the bread is a real photo with its background removed. It drops onto the table, settles and breathes, with steam rising. The dots are now real tea glasses, sliding apart to make room for one more. Sound comes later; this preview is silent.</p>
+    <div class="media one"><video src="media/type-motion-v2.mp4" poster="media/type-motion-v2-poster.jpg" autoplay muted loop playsinline controls preload="metadata" aria-label="Type in Motion, round 2, 10 seconds"></video></div>
+    <dl>
+      <dt>Best for</dt><dd>Every industry. Offers, openings, announcements, and the first and last seconds of any ad.</dd>
+      <dt>Watch out</dt><dd>On its own it shows little food. Strongest mixed with Hero Close-ups.</dd>
+    </dl>
+  </section>
+  <hr>
+
+  <section class="look" id="screen" aria-labelledby="screen-h">
+    <div class="look-head"><h2 id="screen-h">Screen Story <span class="tag">Built in code</span></h2><span class="fee">$0 per ad</span></div>
+    <p>The product working on a real phone: a late-night catering enquiry answered in seconds, the owner alerted, English and French. The natural look for Unmissed's own ad.</p>
+    <div class="media one"><video src="media/screen-story.mp4" poster="media/screen-story-poster.jpg" autoplay muted loop playsinline controls preload="metadata" aria-label="Screen Story preview, 10 seconds"></video></div>
+    <dl>
+      <dt>Best for</dt><dd>Unmissed. Any client with online booking, ordering or enquiries to show.</dd>
+      <dt>Watch out</dt><dd>Needs real screens to show. Says little about food or craft on its own.</dd>
+    </dl>
+  </section>
+  <hr>
+
+  <section class="look" id="hero" aria-labelledby="hero-h">
+    <div class="look-head"><h2 id="hero-h">Hero Close-ups</h2><span class="fee">About $3 to $4 per ad</span></div>
+    <p>Dark, premium food photography with no people. Bread, fire and steam up close. AI video handles materials like these far better than faces and hands.</p>
+    <div class="media">
+      <figure><img src="media/hero-type.jpg" alt="Flatbread puffing in a glowing clay oven, with the line The bread comes out breathing set in cream type" loading="lazy"><figcaption>With the words set in code</figcaption></figure>
+      <figure><img src="media/hero-1.jpg" alt="Flatbread blistering inside a clay oven above glowing embers" loading="lazy"></figure>
+      <figure><img src="media/hero-2.jpg" alt="Kofta skewers over charcoal as a flame flares up" loading="lazy"></figure>
+    </div>
+    <dl>
+      <dt>Best for</dt><dd>Restaurants. Detailing: water beading on paint, foam, polish. Barbers: razor, hot towel, pomade.</dd>
+      <dt>Watch out</dt><dd>Low risk. Every clip still gets checked for melting shapes before it goes in.</dd>
+    </dl>
+  </section>
+  <hr>
+
+  <section class="look" id="freeze" aria-labelledby="freeze-h">
+    <div class="look-head"><h2 id="freeze-h">Freeze Frame</h2><span class="fee">About $2 to $3 per ad</span></div>
+    <p>High-speed studio shots: ingredients bursting and frozen in mid-air, then a slow drift around the moment. Round 2: two 6 second clips made from the stills, $0.60 each.</p>
+    <div class="media freeze">
+      <figure><video src="media/freeze-2-move.mp4" poster="media/freeze-2-move-poster.jpg" autoplay muted loop playsinline controls preload="metadata" aria-label="Torn flatbread with flour and steam, 6 seconds"></video><figcaption>Torn bread: holds its shape. The steam, flour and oil move; the bread stays real. This is what the look should be.</figcaption></figure>
+      <figure><video src="media/freeze-1-move.mp4" poster="media/freeze-1-move-poster.jpg" muted loop playsinline controls preload="metadata" aria-label="Spices and rice bursting from a copper pot, 6 seconds"></video><figcaption>Spice burst: the start and the end work, but in the middle the rice turns into a solid block rising out of the pot. I wouldn't use that part.</figcaption></figure>
+    </div>
+    <dl>
+      <dt>Best for</dt><dd>Short, dramatic moments in any ad: spices, a tea splash, car foam, barber tools.</dd>
+      <dt>Watch out</dt><dd>Very dramatic. Best as two or three bursts, not a whole ad.</dd>
+    </dl>
+  </section>
+  <hr>
+
+  <section class="look" id="flash" aria-labelledby="flash-h">
+    <div class="look-head"><h2 id="flash-h">Flash Editorial</h2><span class="fee">About $1 to $2 per ad</span></div>
+    <p>Hard-flash food on bold colour backgrounds, like a modern food magazine. Mostly still photos moved and cut in code, very fast.</p>
+    <div class="media">
+      <figure><img src="media/flash-type.jpg" alt="Skewers, flatbread and hummus on saffron yellow with the words Bread. Grill. Tea." loading="lazy"><figcaption>With the words set in code</figcaption></figure>
+      <figure><img src="media/flash-1.jpg" alt="Top-down plate of chicken skewers, flatbread and hummus on yellow" loading="lazy"></figure>
+      <figure><img src="media/flash-2.jpg" alt="A glass of mint tea on a red background with a hard shadow" loading="lazy"></figure>
+    </div>
+    <dl>
+      <dt>Best for</dt><dd>Instagram and TikTok (9:16), cafes and restaurants, beauty products.</dd>
+      <dt>Watch out</dt><dd>Feels social and trendy rather than cinematic.</dd>
+    </dl>
+  </section>
+
+  <footer>
+    <p>Every still was made from a written brief by AI image models. The words, logo and end cards are set in code, never drawn by AI. Concept pieces carry "Concept by Unmissed, AI-assisted".</p>
+  </footer>
+</div>

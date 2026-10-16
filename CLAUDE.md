@@ -1,6 +1,7 @@
 # KINOFORGE (for Claude Code sessions)
 
-Read `AGENTS.md` first (what the project is, the rules, the map), then `docs/STATUS.md` (where things stand).
+Read `docs/HANDOVER-2026-10-16.md` first (handover to the "Unmissed with studio" chat), then `AGENTS.md` (the rules, the
+map), then `docs/STATUS.md` (where things stand).
 
 Every change: update `docs/STATUS.md` and add a dated line to `docs/LOG.md` in the same commit; update
 `docs/WORKFLOWS.md` when a process changes. Sam asked for this so any AI can take over seamlessly.

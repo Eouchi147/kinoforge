@@ -1,0 +1,156 @@
+<title>KINOFORGE Anthology Prototypes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a screening room. One column of cards on a dark stage; the project's own "Ink & Ember" palette from the Director's Rulebook. */
+  :root {
+    --bg: #0f1117; --panel: #161a24; --line: #2a3140; --fg: #d9cfbc; --muted: #9aa3b2; --accent: #c98a2e; --accent-ink: #1a1206; --teal: #1f4e5a; --chip: #1c2230;
+    --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif; --body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif; --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --bg: #f3efe7; --panel: #ffffff; --line: #d8d2c4; --fg: #1b1915; --muted: #5d5a52; --accent: #9a6418; --accent-ink: #fff8ec; --teal: #1f4e5a; --chip: #ebe5d8; color-scheme: light; } }
+  :root[data-theme="light"] { --bg: #f3efe7; --panel: #ffffff; --line: #d8d2c4; --fg: #1b1915; --muted: #5d5a52; --accent: #9a6418; --accent-ink: #fff8ec; --teal: #1f4e5a; --chip: #ebe5d8; color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.5; padding-block: 32px 64px; padding-inline: 20px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  header { display: grid; gap: 14px; margin-bottom: 28px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-family: var(--display); font-weight: 600; font-size: clamp(34px, 5vw, 56px); line-height: 1.02; margin: 0; text-wrap: balance; letter-spacing: 0.01em; }
+  .lede { max-width: 66ch; color: var(--muted); font-size: 17px; margin: 0; }
+  .stats { display: flex; flex-wrap: wrap; gap: 10px 28px; font-family: var(--mono); font-size: 13px; color: var(--muted); }
+  .stats b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 22px; }
+  .filters button { font: 500 12.5px var(--mono); letter-spacing: 0.04em; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--chip); color: var(--fg); cursor: pointer; }
+  .filters button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .filters button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 22px; }
+  .card { display: grid; grid-template-rows: auto 1fr; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; }
+  .card[hidden] { display: none; }
+  .card.flag { grid-column: 1 / -1; }
+  .card.flag .media { aspect-ratio: 16 / 9; }
+  .media { background: #000; aspect-ratio: 16 / 9; width: 100%; display: grid; place-items: center; }
+  .media.tall { aspect-ratio: 16 / 9; }
+  video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
+  .body { padding: 14px 16px 16px; display: grid; gap: 8px; align-content: start; }
+  .top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; }
+  .id { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  h2 { font-family: var(--display); font-weight: 600; font-size: 26px; margin: 0; line-height: 1.1; }
+  .lane { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-left: auto; }
+  .log { margin: 0; }
+  .meta { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .meta b { color: var(--fg); font-weight: 600; }
+  .links { display: flex; flex-wrap: wrap; gap: 14px; font-family: var(--mono); font-size: 12.5px; margin-top: 4px; }
+  .links a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  .links a:hover, .links a:focus-visible { border-bottom-color: var(--accent); outline: none; }
+  .pending { color: var(--muted); font-family: var(--mono); font-size: 13px; padding: 24px; text-align: center; }
+  footer { margin-top: 36px; color: var(--muted); font-size: 14px; max-width: 70ch; }
+  footer a { color: var(--accent); }
+  @media (max-width: 480px) { h2 { font-size: 22px; } .lane { margin-left: 0; } }
+  @media (prefers-reduced-motion: no-preference) { .filters button { transition: background .15s ease, color .15s ease; } }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">KINOFORGE · 14 style prototypes · 13–14 October 2026</div>
+    <h1>One pipeline, fourteen looks, no generated video.</h1>
+    <p class="lede">Every clip here is directed code: a shot list with motivations, a camera rig, procedural materials, a finish pass, and a soundtrack placed from a cue sheet, rendered on GitHub's free runners. Watch with sound. Each card says what the clip proves and where it is still weak.</p>
+    <div class="stats"><span><b>14</b> prototypes</span><span><b>6–12 s</b> each</span><span><b>$0</b> rendering</span><span><b>~95</b> runner-minutes total</span><span><b>0</b> stock assets</span></div>
+  </header>
+  <div class="filters" role="group" aria-label="Filter by lane">
+    <button type="button" data-lane="all" aria-pressed="true">All lanes</button>
+    <button type="button" data-lane="dark" aria-pressed="false">Dark storytelling</button>
+    <button type="button" data-lane="epic" aria-pressed="false">Epic cinematic</button>
+    <button type="button" data-lane="characters" aria-pressed="false">Characters &amp; comedy</button>
+    <button type="button" data-lane="edutainment" aria-pressed="false">Edutainment</button>
+    <button type="button" data-lane="craft" aria-pressed="false">Craft</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <footer>
+    Source and rendered originals: <a href="https://github.com/Eouchi147/kinoforge">github.com/Eouchi147/kinoforge</a> (the <a href="https://github.com/Eouchi147/kinoforge/releases/tag/gallery">gallery release</a> holds the full-quality files). Each scene's NOTES.md carries its shot list, colour script, sound plan and QC log. Reviewed against the Director's Rulebook in <code>docs/</code>.
+  </footer>
+</div>
+<script>
+  const CLIPS = [
+    { id: 'p03', slug: 'p03-lantern-road', title: 'The Lantern Road', lane: 'dark', laneLabel: 'dark history · flagship', len: '12 s', flag: true,
+      log: 'At dusk a traveler climbs a mountain road; lanterns light one by one as he passes, and the village gate lights last.',
+      proves: '2.5D painted multiplane with correct parallax, visible brushwork, a colour script that warms shot by shot, feet that plant.',
+      weak: 'terraces read as bands; the left of the last frame is flat.' },
+    { id: 'p01', slug: 'p01-static', title: 'Static', lane: 'dark', laneLabel: 'analog horror', len: '10 s',
+      log: 'A 1990s security tape at 02:14. The timestamp stutters, a tracking band rolls, and when it clears the far door is open.',
+      proves: 'the cheapest high-dread format: a continuity-change scare, a VHS pass, sound locked to the picture frames.',
+      weak: 'the figure is too clean against the window; the band noise is too regular.' },
+    { id: 'p02', slug: 'p02-ink-ember', title: 'Ink & Ember', lane: 'dark', laneLabel: 'motion comic noir', len: '10 s',
+      log: 'A courier crosses a rain city to deliver a sealed letter she must not read.',
+      proves: 'comic-page grammar with parallax inside panels, halftone shadows, one red accent, an ink-blot wipe.',
+      weak: 'the hood is one flat mass; rooftops are generic blocks.' },
+    { id: 'p04', slug: 'p04-witness', title: 'Witness', lane: 'dark', laneLabel: 'Blender Cycles · cinema look', len: '6 s',
+      log: '1628: a quill falters and stops; focus racks to the candle; torches come down the lane through leaded glass.',
+      proves: 'path-traced candlelight, f/2 rack focus, volumetric haze, a 10-frame head turn with anticipation, all on CPU.',
+      weak: 'face and hands are primitive blobs; heavy: 32 samples across 8 runners.' },
+    { id: 'p05', slug: 'p05-relic', title: 'Relic', lane: 'epic', laneLabel: 'trailer grammar', len: '10 s',
+      log: 'A pilgrim reaches a buried monolith in a cavern cathedral as its runes ignite.',
+      proves: 'the game-trailer phase map in ten seconds: cold open, crane reveal, push-in turn, silence, title with hit and tag.',
+      weak: 'the stone reads as plaster under the close-up.' },
+    { id: 'p06', slug: 'p06-cel', title: 'Cel', lane: 'epic', laneLabel: 'cel-shaded storm', len: '10 s',
+      log: 'A lighthouse keeper’s daughter climbs the tower in a storm, pushes the lever, and the beam sweeps the sea.',
+      proves: 'anime-style 3D: clean outlines, hue-shifted shadows, a character on 2s with a wind-up, thunder on the lightning frame.',
+      weak: 'flat tower walls, visible joints, repeating clouds.' },
+    { id: 'p07', slug: 'p07-ash-ascent', title: 'Ash Ascent', lane: 'epic', laneLabel: 'Blender Cycles · awe', len: '6 s',
+      log: 'Pre-dawn over a volcanic highland; the sun breaks the volcano and floods a sea of cloud; a tiny rider lifts his staff.',
+      proves: 'awe by scale (rider about 20 px tall), a physically based sky, a mesh-bounded cloud volume that keeps Cycles fast.',
+      weak: 'the volcano is a clean cone; the reaction only reads at full size.' },
+    { id: 'p13', slug: 'p13-pixel-vigil', title: 'Pixel Vigil', lane: 'epic', laneLabel: 'pixel-art cinematic', len: '10 s',
+      log: 'On a neon rooftop in the rain a watcher waits; one amber window lights across the street.',
+      proves: 'a true 320-px grid, 18–25 colours, moves snapped to art pixels, a head turn with anticipation.',
+      weak: 'the last cut changes angle only 14°.' },
+    { id: 'p08', slug: 'p08-two-chairs', title: 'Two Chairs', lane: 'characters', laneLabel: 'dialogue comedy', len: '12 s',
+      log: 'Rémi rehearsed a speech for three weeks. Bo asks what happened.',
+      proves: 'two original rigs, Kokoro voices with Rhubarb lip-sync, the rule of three with an 18-frame beat and a deadpan hold.',
+      weak: 'Bo’s singles leave the left half empty; the TTS reads “And?” falling.' },
+    { id: 'p09', slug: 'p09-paper-kingdom', title: 'Paper Kingdom', lane: 'characters', laneLabel: 'cut-paper theatre', len: '10 s',
+      log: 'A paper king sends his army at a paper dragon; a child’s hands fold the dragon into a bird.',
+      proves: 'fibre-edged silhouettes, shadows from one backlight, puppets on 2s, three folds held six frames each.',
+      weak: 'the middle fold is a shape swap; the bottom of the wides is dark.' },
+    { id: 'p10', slug: 'p10-clay', title: 'Clay', lane: 'characters', laneLabel: 'Blender claymation', len: '6 s',
+      log: 'A proud clay snail admires its shell; an apple flattens it; it reinflates in three boings, dignified.',
+      proves: 'stop-motion clay on 2s with per-pose jitter, thumb-print bump, volume-preserving squash, the gag timed by the rulebook.',
+      weak: 'the apple’s shadow cue is soft.' },
+    { id: 'p11', slug: 'p11-kinetic', title: 'Kinetic', lane: 'edutainment', laneLabel: '9:16 hook', len: '8 s', tall: true,
+      log: '1628, Bamberg. A mayor was executed for witchcraft. His last letter survived, written in secret, with a broken hand.',
+      proves: 'the Shorts hook machine: safe zones verified on every frame, snappy type with holds, a pattern interrupt at 3 s.',
+      weak: 'small italic lines are marginal at 180×320.' },
+    { id: 'p12', slug: 'p12-terrain', title: 'Terrain', lane: 'edutainment', laneLabel: 'relief-map explainer', len: '10 s',
+      log: 'The last route of a lost expedition inks itself across an engraved relief map as the camera descends into the pass.',
+      proves: 'a drawn map on real terrain under a low sun, ink-bleed dashes, projected labels, one eased motivated move.',
+      weak: 'contour layer-cake in the last shot.' },
+    { id: 'p14', slug: 'p14-finishing', title: 'Finishing', lane: 'craft', laneLabel: 'raw vs finished', len: '10 s',
+      log: 'The Relic shot raw and finished, with a moving wipe: grade, halation, grain, vignette, chromatic edge, scope, sound.',
+      proves: 'how much of the “film” feel is one finish pass applied to every shot of a project.',
+      weak: 'it is a demonstration, not a scene.' },
+  ];
+  const SRC = { 'p01-static': '/_blob/5d50676c0dce83428103deb6ad26991e', 'p02-ink-ember': '/_blob/e056cd9493ffc6e0953082e38f830736', 'p03-lantern-road': '/_blob/4ed9bdff915ff95f7f80c6ba79b3179c', 'p05-relic': '/_blob/7082ec9a20c34e3c4a6855ded32e031d', 'p06-cel': '/_blob/b3a0cdb9d1416b0d6c842969537ae473', 'p08-two-chairs': '/_blob/154d7068501c1eb9fec6a48962b26b78', 'p09-paper-kingdom': '/_blob/778ced9ee146076f6712aa1673144b95', 'p11-kinetic': '/_blob/b123d8dfc699a437b376f9403cdb5e8a', 'p12-terrain': '/_blob/24aa47d77008d6e8770e05f714282e36', 'p13-pixel-vigil': '/_blob/7bb0d797c79da2e7bc009ae5a697d713', 'p14-finishing': '/_blob/4dd55af381bc323d7921969beb687ddb', 'p04-witness': '/_blob/ce3ebe738f677e5fe9710e5458912ed9', 'p07-ash-ascent': '/_blob/13ba983c9800e749787efc50d2a5d66c', 'p10-clay': '/_blob/b877838b92e572185be68b1bce6b1e75' };
+  const grid = document.getElementById('grid');
+  for (const c of CLIPS) {
+    const card = document.createElement('article'); card.className = 'card' + (c.flag ? ' flag' : ''); card.dataset.lane = c.lane; card.id = c.slug;
+    const src = SRC[c.slug];
+    const media = src ? `<video controls preload="metadata" playsinline src="${src}" aria-label="${c.title}"></video>` : `<div class="pending">rendering on GitHub’s runners… see the gallery release</div>`;
+    card.innerHTML = `<div class="media${c.tall ? ' tall' : ''}">${media}</div>
+      <div class="body">
+        <div class="top"><span class="id">${c.id} · ${c.len}</span><h2>${c.title}</h2><span class="lane">${c.laneLabel}</span></div>
+        <p class="log">${c.log}</p>
+        <p class="meta"><b>Proves</b> ${c.proves}</p>
+        <p class="meta"><b>Still weak</b> ${c.weak}</p>
+        <div class="links"><a href="https://github.com/Eouchi147/kinoforge/releases/download/gallery/${c.slug}.mp4">full quality</a><a href="https://github.com/Eouchi147/kinoforge/blob/main/proto/${c.slug}/NOTES.md">shot list &amp; notes</a><a href="https://github.com/Eouchi147/kinoforge/tree/main/proto/${c.slug}">scene code</a></div>
+      </div>`;
+    grid.appendChild(card);
+  }
+  const buttons = [...document.querySelectorAll('.filters button')];
+  function setLane(lane) {
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lane === lane)));
+    for (const card of grid.children) card.hidden = !(lane === 'all' || card.dataset.lane === lane);
+    try { localStorage.setItem('kf-lane', lane); } catch (e) {}
+  }
+  buttons.forEach(b => b.addEventListener('click', () => setLane(b.dataset.lane)));
+  let saved = 'all'; try { saved = localStorage.getItem('kf-lane') || 'all'; } catch (e) {}
+  setLane(saved);
+  // pause every other video when one starts playing
+  grid.addEventListener('play', (e) => { for (const v of grid.querySelectorAll('video')) if (v !== e.target) v.pause(); }, true);
+</script>

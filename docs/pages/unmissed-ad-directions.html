@@ -1,0 +1,95 @@
+<title>Unmissed Ad Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a screening room in the Unmissed night palette; one column, each direction is a film card with its notes beside or under it. */
+:root {
+  --bg: #05070f; --panel: #0b1122; --ink: #f4f6fb; --soft: #a3abbd; --line: rgba(255,255,255,.10); --accent: #79b4ff; --blue: #2f7df6;
+  --font: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 44px 80px; display: grid; gap: 52px; }
+header { display: grid; gap: 16px; }
+h1 { margin: 0; font-size: clamp(34px, 6vw, 62px); line-height: 1.02; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; }
+h2 { margin: 0; font-size: clamp(26px, 3.4vw, 34px); line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; }
+p { margin: 0; max-width: 66ch; }
+.lead { font-size: clamp(18px, 2.2vw, 21px); color: var(--soft); }
+.meta { font-size: 15px; color: var(--soft); font-variant-numeric: tabular-nums; }
+.film { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 22px 28px; align-items: start; }
+.film video { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; display: block; border-radius: 14px; background: #000; border: 1px solid var(--line); }
+.notes { display: grid; gap: 12px; min-width: 0; }
+.notes .tag { font-size: 14px; color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 16px; }
+dt { color: var(--soft); } dd { margin: 0; min-width: 0; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
+.how { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: grid; gap: 10px; }
+.how strong { color: var(--ink); }
+a { color: var(--accent); }
+a:focus-visible, video:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 760px) { .film { grid-template-columns: 1fr; } dl { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 8px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Five directions for the Unmissed ad</h1>
+    <p class="lead">Same message, five ways to make it. Each one was built music first: every cut and word lands on the beat. Watch with sound, then tell me which one (or which two) to take to final.</p>
+    <p class="meta">All five: 16 to 27 seconds, 16:9. Voices were auditioned by an audio AI and the best take kept. These previews are 720p; the 1080p masters are in the repo's "ads" release.</p>
+  </header>
+
+  <section class="how">
+    <p><strong>What happens after you pick:</strong> I polish that one (sound balance, any timing you want changed), then make the 9:16 phone version laid out for Reels and TikTok, and a French version if you want it.</p>
+  </section>
+
+  <section class="film" id="v1" aria-labelledby="h1v">
+    <video src="media/v1.mp4" poster="media/v1.jpg" controls playsinline preload="metadata" aria-label="Manifesto, 16 seconds"></video>
+    <div class="notes">
+      <span class="tag">1 of 5, 16 s</span>
+      <h2 id="h1v">Manifesto</h2>
+      <p>Huge kinetic words, music-led. Four cold lines (9:47 PM, the phone rings, nobody picks up), then the drop: one word per beat. Voice only on the sign-off.</p>
+      <dl><dt>Feels</dt><dd>Bold, fast, Nike-style.</dd><dt>Best for</dt><dd>Reels and TikTok hooks, sound-off viewing.</dd><dt>Weak spot</dt><dd>Says little about how it works.</dd></dl>
+    </div>
+  </section>
+  <hr>
+  <section class="film" id="v2" aria-labelledby="h2v">
+    <video src="media/v2.mp4" poster="media/v2.jpg" controls playsinline preload="metadata" aria-label="The Catch, 18 seconds"></video>
+    <div class="notes">
+      <span class="tag">2 of 5, 18 s</span>
+      <h2 id="h2v">The Catch</h2>
+      <p>3D. Calls, messages and leads stream through dark space; some slip through the gaps until the glass ring forms and catches every one. The ring becomes the logo, like the site's hero.</p>
+      <dl><dt>Feels</dt><dd>Premium tech launch, calm and cinematic.</dd><dt>Best for</dt><dd>The brand film, YouTube, the site.</dd><dt>Weak spot</dt><dd>Abstract: no business shown.</dd></dl>
+    </div>
+  </section>
+  <hr>
+  <section class="film" id="v3" aria-labelledby="h3v">
+    <video src="media/v3.mp4" poster="media/v3.jpg" controls playsinline preload="metadata" aria-label="The Call, 27 seconds"></video>
+    <div class="notes">
+      <span class="tag">3 of 5, 27 s</span>
+      <h2 id="h3v">The Call</h2>
+      <p>You hear a real-sounding late-night call between a customer and the AI front desk, and read it as giant captions, word by word. It books the job on the call. Then three supers on the beat.</p>
+      <dl><dt>Feels</dt><dd>Proof, not a pitch. "See it working."</dd><dt>Best for</dt><dd>Converting owners who doubt AI can handle a call.</dd><dt>Weak spot</dt><dd>The longest; slower start.</dd></dl>
+    </div>
+  </section>
+  <hr>
+  <section class="film" id="v4" aria-labelledby="h4v">
+    <video src="media/v4.mp4" poster="media/v4.jpg" controls playsinline preload="metadata" aria-label="Night Shift, 23 seconds"></video>
+    <div class="notes">
+      <span class="tag">4 of 5, 23 s</span>
+      <h2 id="h4v">Night Shift</h2>
+      <p>A short film. An empty restaurant after closing, rain, a phone lighting up on the counter. "You closed at nine. Your customers didn't." Answered, booked, then morning light. Real-looking AI footage.</p>
+      <dl><dt>Feels</dt><dd>Emotional, cinematic, quiet.</dd><dt>Best for</dt><dd>Restaurants and any owner who goes home tired.</dd><dt>Weak spot</dt><dd>Costs about $2 in footage per new version.</dd></dl>
+    </div>
+  </section>
+  <hr>
+  <section class="film" id="v5" aria-labelledby="h5v">
+    <video src="media/v5.mp4" poster="media/v5.jpg" controls playsinline preload="metadata" aria-label="Bento, 18 seconds"></video>
+    <div class="notes">
+      <span class="tag">5 of 5, 18 s</span>
+      <h2 id="h5v">Bento</h2>
+      <p>Bright, Apple-style. A grid of live tiles (calls answered, leads followed up, reviews asked for, the website, the Google profile) with the camera whipping between them on the beat.</p>
+      <dl><dt>Feels</dt><dd>Clean, optimistic, product launch.</dd><dt>Best for</dt><dd>Explaining everything the plans include.</dd><dt>Weak spot</dt><dd>Lots on screen; small text on phones.</dd></dl>
+    </div>
+  </section>
+</div>
