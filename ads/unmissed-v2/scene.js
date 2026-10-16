@@ -1,5 +1,5 @@
-// "The Catch" (Unmissed v2): the scene. window.__dbg = { renderer, scene, camera, composer, bloom, rt, ring, dust, cards };
-window.KF = { duration, fps: 30, render(i, t) }; KF_READY after fonts, textures and ad.json.
+// "The Catch" (Unmissed v2): the scene.
+// window.KF = { duration, fps: 30, render(i, t) }; KF_READY after fonts, textures and ad.json.
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
