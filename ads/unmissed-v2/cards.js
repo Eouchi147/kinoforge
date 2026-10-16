@@ -3,6 +3,8 @@
 import * as THREE from 'three';
 
 export const CARD_W = 3.2, CARD_H = 1.2;
+const MX = 64, MY = 32, TW = 1024, TH = 384;   // the card art is 1024 x 384; the texture adds a soft glow margin around it
+export const PLANE_W = CARD_W * (TW + 2 * MX) / TW, PLANE_H = CARD_H * (TH + 2 * MY) / TH;
 export const KINDS = {
   call:    { title: 'Incoming call', line: '21:47', icon: 'phone', tone: '#79b4ff', tag: 'now' },
   message: { title: 'New message', line: 'table for 6 tonight?', icon: 'chat', tone: '#79b4ff', tag: 'now' },
@@ -27,9 +29,12 @@ function rr(ctx, x, y, w, h, r) {
 }
 
 export function cardTexture(kind, renderer) {
-  const K = KINDS[kind], W = 1024, H = 384, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const K = KINDS[kind], W = TW, H = TH, c = document.createElement('canvas'); c.width = W + 2 * MX; c.height = H + 2 * MY;
   const g = c.getContext('2d');
-  g.clearRect(0, 0, W, H);
+  g.clearRect(0, 0, c.width, c.height); g.translate(MX, MY);
+  // soft outer glow (baked, so one quad per card): shadow of the card shape, with the inside cut out again
+  g.save(); g.shadowColor = K.tone === '#ff6b6b' ? 'rgba(255,90,90,.55)' : 'rgba(70,140,255,.6)'; g.shadowBlur = 46; g.fillStyle = '#000'; rr(g, 6, 6, W - 12, H - 12, 56); g.fill();
+  g.globalCompositeOperation = 'destination-out'; g.shadowBlur = 0; g.shadowColor = 'transparent'; rr(g, 6, 6, W - 12, H - 12, 56); g.fill(); g.restore();
   // glass body: #0b1122 at about 90%, a faint diagonal sheen, a 1 px #79b4ff edge (3 px in texture space)
   rr(g, 6, 6, W - 12, H - 12, 56);
   const body = g.createLinearGradient(0, 0, W, H); body.addColorStop(0, 'rgba(18,28,52,.93)'); body.addColorStop(0.55, 'rgba(11,17,34,.92)'); body.addColorStop(1, 'rgba(8,13,28,.92)');
@@ -58,7 +63,7 @@ export function cardTexture(kind, renderer) {
   g.fillText(K.line, tx, 250);
   g.fillStyle = K.tone === '#ff6b6b' ? '#ff9a9a' : '#98a1b5'; g.font = '500 30px Mono, monospace';
   g.textAlign = 'right'; g.fillText(K.tag, W - 64, 82); g.textAlign = 'left';
-  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8; tex.generateMipmaps = true;
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4; tex.generateMipmaps = true;
   tex.minFilter = THREE.LinearMipmapLinearFilter; return tex;
 }
 
@@ -75,12 +80,10 @@ export function radialTexture(stops) {
   g.fillStyle = gr; g.fillRect(0, 0, S, S); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 
-// One card: a mesh (its own material, so opacity is per card) and a soft glow plane behind it.
-export function makeCard(kind, tex, glowTex, geo, glowGeo) {
+// One card: a single textured quad (own material, so opacity is per card). The glow is baked into the texture.
+export function makeCard(kind, tex, geo) {
   const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, fog: true, side: THREE.DoubleSide });
   const mesh = new THREE.Mesh(geo, mat); mesh.frustumCulled = false;
-  const gm = new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, depthWrite: false, fog: true, blending: THREE.AdditiveBlending, opacity: 0.22 });
-  const glow = new THREE.Mesh(glowGeo, gm); glow.position.z = -0.03; glow.frustumCulled = false; mesh.add(glow);
-  mesh.userData = { kind, mat, gm };
+  mesh.userData = { kind, mat };
   return mesh;
 }

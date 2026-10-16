@@ -40,11 +40,13 @@ void main(){
   float ang = vT.x * 6.2831853;
   float sw = pow(0.5 + 0.5 * cos(ang - uSweep), 4.0);                    // a highlight that travels round the ring
   vec3 deep = vec3(0.012, 0.07, 0.30), blue = vec3(0.18, 0.49, 1.0), accent = vec3(0.47, 0.71, 1.0);
-  vec3 body = (deep * (0.35 + 0.65 * nv) + rfr * vec3(0.10, 0.22, 0.55) * 0.55) * uBody;      // dark blue glass, a little refracted light
-  vec3 rim = mix(blue, accent, sw) * pow(1.0 - nv, 2.2) * (0.55 + 1.1 * sw) * uBody;           // rim light, never white
+  vec3 body = (deep * (0.30 + 0.70 * nv) + rfr * vec3(0.10, 0.22, 0.55) * 0.40) * uBody;      // dark blue glass, a little refracted light
+  vec3 rim = mix(blue, accent, sw) * pow(1.0 - nv, 1.7) * (0.5 + 1.2 * sw) * uBody;           // rim light, never white
   float core = pow(nv, 36.0);                                              // the thin refracted line down the middle of the tube
-  vec3 col = body + rim + refl * F * 0.9 * uBody + accent * core * (0.18 + 0.7 * sw) * uBody;
-  col *= 0.35 + uEnergy * 0.5;
+  vec3 rd = reflect(-Vw, Nw);
+  float glint = pow(max(dot(rd, normalize(vec3(0.55, 0.85, 0.55))), 0.0), 120.0) + 0.6 * pow(max(dot(rd, normalize(vec3(-0.7, -0.6, 0.5))), 0.0), 90.0);   // crisp softbox glints: the glass tell
+  vec3 col = body + rim + refl * F * 0.9 * uBody + accent * core * (0.18 + 0.7 * sw) * uBody + vec3(0.85, 0.93, 1.0) * glint * 1.4 * uBody;
+  col *= (0.35 + uEnergy * 0.5) * smoothstep(0.0, 0.16, nv);   // feather the silhouette (no MSAA)
   float head = exp(-max(uDraw - vT.x, 0.0) * 55.0) * step(vT.x, uDraw) * step(uDraw, 0.999);
   col += uHair * vec3(0.47, 0.71, 1.0) * (0.55 + 2.2 * head);
   gl_FragColor = vec4(col, 1.0);
