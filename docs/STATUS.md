@@ -36,10 +36,11 @@ client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toro
 - Nothing. No Actions run, no paid call, no agent.
 
 ## Waiting on Sam
-- **Smart Mount's December videos:** look decided on 16 Oct (a mix of A, B and C, four each). Waiting on: music (one
-  AI instrumental clip for the batch, about $0.04 to $0.08, cap $0.20, or silent; Unmissed's gate S6 says no music we do
-  not hold a licence for until it is settled), then Sam approves every video before it is posted. Posting also waits for
-  smartmount.ca to come back (parked since 13 Oct until the business is registered).
+- **Smart Mount's videos: STOPPED by Sam on 16 Oct 2026 (17:32 Toronto)** after he watched the check videos: "they are not
+  good, especially because the photo you used is a bad job photo". The install photos in
+  `social/clients/smartmount/media/` must not be used again. If the lane restarts, it uses imagery with no copyright
+  problem (made in code, licence-free stock, or AI-generated with each platform's AI label) and "a clean professional
+  look on everything", shown to Sam on a new style board first. Nothing was rendered on GitHub, nothing posted, $0 spent.
 - How to get natural voices (paid audition of other voice models, a human voice, or a mix); whether The Call's AI
   receptionist must sound like Unmissed's live phone agent.
 - Bento next steps (new voice, polish, 9:16 layout, French).
@@ -47,9 +48,7 @@ client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toro
 - The four Unmissed questions in `docs/UNMISSED_HANDOFF.md`.
 
 ## Next (in order, for the new chat)
-0. Social lane: on `main` since 16 Oct, looks set in the batch. Once Sam answers on music, dispatch `social.yml` with
-   `batch=smartmount/2026-12` and `only=v01-tip-height,v02-teach-arc,v03-tip-studs` (one video per look, about 15 runner
-   minutes: the last 30 days hold about 2,550, the cap is 3,000); check the release `social`; the other nine after 1 Nov.
+0. Social lane: stopped by Sam on 16 Oct (see Waiting on Sam). Do not dispatch `social.yml`; restart only when he asks.
 1. Natural voices, then Bento polish, its 9:16 layout and a French version.
 2. Job contract between Unmissed's admin and the engine (dispatch, signed callbacks, private outputs).
 3. Bento as a brief-driven template, so a client ad needs no coding session.
