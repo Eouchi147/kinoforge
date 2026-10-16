@@ -30,5 +30,158 @@
  },
  "post": {
   "grain": 5
- }
+ },
+ "duration": 16.0,
+ "grid": {
+  "bpm": 124,
+  "beat_s": 0.48387,
+  "drop": 5.89,
+  "note": "ad time = music time minus music_offset; the drop attack is at 19.29 s in music.mp3 and beats fall every beat_s from it"
+ },
+ "cues": {
+  "clock": 0.084,
+  "rings": 1.535,
+  "nobody": 2.987,
+  "dim": 3.471,
+  "next": 4.438,
+  "next2": 4.922,
+  "next3": 5.164,
+  "whip": 5.406,
+  "drop": 5.89,
+  "answered": 6.374,
+  "booked": 6.858,
+  "texted": 7.342,
+  "followed": 7.825,
+  "review": 8.309,
+  "day": 8.793,
+  "night": 9.277,
+  "name": 9.761,
+  "ringdraw": 10.245,
+  "logo": 10.729,
+  "tag1": 12.07,
+  "tag2": 13.96,
+  "label": 11.3,
+  "end": 16.0
+ },
+ "audio": {
+  "music": "audio/music.mp3",
+  "music_offset": 13.4,
+  "music_gain_db": -4,
+  "duck_ratio": 2,
+  "music_fade_s": 1.2,
+  "vo": [
+   {
+    "file": "audio/vo/line0.mp3",
+    "start": 10.729,
+    "text": "Unmissed."
+   },
+   {
+    "file": "audio/vo/line1.mp3",
+    "start": 11.98,
+    "text": "A premium presence. An AI front desk."
+   }
+  ]
+ },
+ "sfx": [
+  {
+   "t": 0.084,
+   "kind": "tick"
+  },
+  {
+   "t": 0.325,
+   "kind": "tick"
+  },
+  {
+   "t": 0.567,
+   "kind": "tick"
+  },
+  {
+   "t": 0.809,
+   "kind": "tick"
+  },
+  {
+   "t": 1.051,
+   "kind": "tick"
+  },
+  {
+   "t": 1.293,
+   "kind": "tick"
+  },
+  {
+   "t": 1.535,
+   "kind": "ring"
+  },
+  {
+   "t": 2.019,
+   "kind": "ring"
+  },
+  {
+   "t": 2.503,
+   "kind": "ring"
+  },
+  {
+   "t": 4.39,
+   "kind": "riser"
+  },
+  {
+   "t": 5.22,
+   "kind": "whoosh"
+  },
+  {
+   "t": 5.89,
+   "kind": "impact"
+  },
+  {
+   "t": 6.17,
+   "kind": "whoosh"
+  },
+  {
+   "t": 6.654,
+   "kind": "check"
+  },
+  {
+   "t": 6.67,
+   "kind": "whoosh"
+  },
+  {
+   "t": 7.158,
+   "kind": "check"
+  },
+  {
+   "t": 7.482,
+   "kind": "pop"
+  },
+  {
+   "t": 7.63,
+   "kind": "whoosh"
+  },
+  {
+   "t": 8.125,
+   "kind": "click"
+  },
+  {
+   "t": 8.559,
+   "kind": "chime"
+  },
+  {
+   "t": 9.13,
+   "kind": "whoosh"
+  },
+  {
+   "t": 9.57,
+   "kind": "whoosh"
+  },
+  {
+   "t": 10.05,
+   "kind": "whoosh"
+  },
+  {
+   "t": 10.729,
+   "kind": "impact"
+  },
+  {
+   "t": 10.829,
+   "kind": "pop"
+  }
+ ]
 }

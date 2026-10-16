@@ -1,0 +1,451 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Unmissed v1: Manifesto</title>
+<!-- Unmissed brand ad, version 1 "Manifesto": kinetic typography cut to the score (see TREATMENT.md and ads/UNMISSED_DIRECTION.md).
+     Built in code, no AI fees. Every time comes from ./ad.json (cues, duration, beat grid), so picture and sound share one timeline.
+     Ad time = music time minus audio.music_offset. Beat n (counted from the drop) is at drop + n * grid.beat_s.
+     Cuts and hits are snapped to whole frames (30 fps) so no frame is a half-blended mix of two shots. -->
+<style>
+@font-face { font-family: Inst; src: url(/ads/fonts/InstrumentSans.ttf) format('truetype'); font-weight: 400 700; font-stretch: 75% 100%; }
+@font-face { font-family: Mono; src: url(/ads/fonts/JetBrainsMono.ttf) format('truetype'); font-weight: 100 800; }
+:root { --bg:#05070f; --glow:#0b1530; --glow2:#070c1c; --ink:#f4f6fb; --ink2:#c3cad8; --ink3:#98a1b5; --accent:#79b4ff; --blue:#2f7df6; --deep:#0b3b8f; --alert:#ff6b6b; }
+html, body { margin:0; background:#000; overflow:hidden; }
+#stage { position:absolute; left:0; top:0; width:1920px; height:1080px; overflow:hidden; background:var(--bg); font-family:Inst, sans-serif; color:var(--ink); }
+#cam { position:absolute; left:0; top:0; width:1920px; height:1080px; transform-origin:960px 540px; will-change:transform; }
+.shot { position:absolute; left:0; top:0; width:1920px; height:1080px; visibility:hidden; will-change:transform; }
+.field { position:absolute; left:-200px; top:-200px; width:2320px; height:1480px; }
+.night { background-color:var(--bg); background-image:radial-gradient(60% 70% at 52% 50%, var(--glow) 0%, var(--glow2) 52%, var(--bg) 100%); }
+.ink { background:var(--bg); } .blue { background:var(--blue); } .white { background:#fff; }
+/* masked headline: each line rises out of its own mask; the block scale-punches */
+.hl { position:absolute; left:0; top:0; white-space:nowrap; font-weight:700; font-stretch:75%; letter-spacing:-.04em; word-spacing:.09em; line-height:.9; font-size:100px; will-change:transform; }
+.hl.c { text-align:center; } .hl.r { text-align:right; }
+.hl.mono { font-family:Mono, monospace; font-weight:500; font-stretch:100%; letter-spacing:-.03em; }
+.hl.wide { font-stretch:88%; font-weight:600; letter-spacing:-.035em; }
+.ln { display:block; overflow:hidden; padding:.14em .07em .24em; margin:-.14em -.07em -.24em; }
+.in { display:block; will-change:transform; }
+.gl { position:absolute; left:0; top:0; will-change:transform; }
+.gl svg { display:block; overflow:visible; }
+.abs { position:absolute; left:0; top:0; will-change:transform; }
+.lab { position:absolute; left:0; top:0; font:500 34px/1 Mono, monospace; letter-spacing:-.01em; white-space:nowrap; }
+.full { position:absolute; left:0; top:0; width:1920px; height:1080px; }
+#flash { position:absolute; left:0; top:0; width:1920px; height:1080px; background:#fff; opacity:0; pointer-events:none; }
+.tag { position:absolute; left:0; width:1920px; text-align:center; font-weight:500; font-stretch:100%; letter-spacing:-.022em; white-space:nowrap; line-height:1; }
+.caret { display:inline-block; width:0; height:.82em; border-left:.07em solid var(--accent); margin-right:-.07em; vertical-align:-.08em; }
+#ailabel { position:absolute; left:0; width:1920px; text-align:center; top:980px; font:500 28px/1 Mono, monospace; color:var(--ink3); letter-spacing:.005em; }
+</style></head><body>
+<div id="stage">
+ <div id="cam">
+
+  <!-- 1  9:47 PM -->
+  <div class="shot" id="s1"><div class="field night"></div><div class="abs pulse" style="left:160px;top:90px;width:1600px;height:900px;background:radial-gradient(closest-side, rgba(47,125,246,.34), rgba(47,125,246,0));opacity:0"></div>
+   <div class="abs" id="hr1" style="left:140px;top:520px;width:1640px;height:2px;background:rgba(152,161,181,.55);transform-origin:0 50%"></div>
+  </div>
+
+  <!-- 2  The phone rings. -->
+  <div class="shot" id="s2"><div class="field night"></div><div class="abs pulse" style="left:160px;top:90px;width:1600px;height:900px;background:radial-gradient(closest-side, rgba(47,125,246,.34), rgba(47,125,246,0));opacity:0"></div>
+   <svg class="full" id="rg2" viewBox="0 0 1920 1080" fill="none" stroke="#79b4ff"><circle id="r2a" cx="960" cy="330" r="10"/><circle id="r2b" cx="960" cy="330" r="10"/><circle id="r2c" cx="960" cy="330" r="10"/></svg>
+  </div>
+
+  <!-- 3  Nobody picks up. -->
+  <div class="shot" id="s3"><div class="field night"></div><div class="abs pulse" style="left:160px;top:90px;width:1600px;height:900px;background:radial-gradient(closest-side, rgba(47,125,246,.34), rgba(47,125,246,0));opacity:0"></div></div>
+
+  <!-- 4  They call the next place. -->
+  <div class="shot" id="s4"><div class="field night"></div><div class="abs pulse" style="left:160px;top:90px;width:1600px;height:900px;background:radial-gradient(closest-side, rgba(47,125,246,.34), rgba(47,125,246,0));opacity:0"></div>
+   <div class="abs" id="s4in" style="left:0;top:0;width:1920px;height:1080px"></div>
+   <div class="abs" id="blade" style="left:0;top:539px;width:1920px;height:3px;background:#79b4ff;box-shadow:0 0 30px 6px rgba(121,180,255,.7);transform-origin:50% 50%"></div>
+  </div>
+
+  <!-- 5  the drop: Not anymore. -->
+  <div class="shot" id="s5"><div class="field ink"></div>
+   <div class="abs" id="bloom" style="left:260px;top:-60px;width:1400px;height:1200px;background:radial-gradient(closest-side, rgba(47,125,246,.55), rgba(47,125,246,0));"></div>
+   <svg class="full" viewBox="0 0 1920 1080" fill="none" stroke="#2f7df6"><circle id="shk1" cx="960" cy="540" r="10"/><circle id="shk2" cx="960" cy="540" r="10"/></svg>
+   <div class="abs" id="streak" style="left:-200px;top:534px;width:2320px;height:12px;background:linear-gradient(90deg, rgba(121,180,255,0), #cfe3ff 30%, #fff 50%, #cfe3ff 70%, rgba(121,180,255,0));box-shadow:0 0 40px 10px rgba(121,180,255,.6);transform-origin:50% 50%"></div>
+  </div>
+
+  <!-- 6  Answered. -->
+  <div class="shot" id="s6"><div class="field blue"></div>
+   <svg class="full" viewBox="0 0 1920 1080" fill="none" stroke="#fff"><circle id="a1" cx="960" cy="250" r="10"/><circle id="a2" cx="960" cy="250" r="10"/></svg>
+  </div>
+
+  <!-- 7  Booked. -->
+  <div class="shot" id="s7"><div class="field white"></div><div class="abs" id="grid7" style="left:0;top:0;width:1920px;height:1080px"></div></div>
+
+  <!-- 8  Texted back. -->
+  <div class="shot" id="s8"><div class="field ink"></div></div>
+
+  <!-- 9  Followed up. -->
+  <div class="shot" id="s9"><div class="field blue"></div></div>
+
+  <!-- 10  Review asked. -->
+  <div class="shot" id="s10"><div class="field white"></div></div>
+
+  <!-- 11  Day and night. (white field, then the black field wipes across) -->
+  <div class="shot" id="s11"><div class="field white"></div><div id="dayL" class="full"></div>
+   <div id="nightL" class="full" style="overflow:visible"><div class="field ink" style="left:0;top:0;width:1920px;height:1080px"></div></div>
+   <div class="abs" id="edge" style="left:0;top:-200px;width:6px;height:1480px;background:#2f7df6;box-shadow:0 0 40px 8px rgba(47,125,246,.8)"></div>
+  </div>
+
+  <!-- 12  In your name. -->
+  <div class="shot" id="s12"><div class="field blue"></div></div>
+
+  <!-- 13  end card -->
+  <div class="shot" id="s13"><div class="field" id="endbg" style="background-color:#05070f;background-image:radial-gradient(54% 62% at 50% 38%, #0b1530 0%, #070c1c 52%, #05070f 100%)"></div>
+   <div class="abs" id="halo" style="left:0;top:0;width:900px;height:900px;border-radius:50%;background:radial-gradient(closest-side, rgba(47,125,246,.42), rgba(47,125,246,0))"></div>
+   <div class="tag" id="tg1" style="top:628px;font-size:92px;color:#f4f6fb"></div>
+   <div class="tag" id="tg2" style="top:746px;font-size:92px;color:#c3cad8"></div>
+   <div id="ailabel">Made with AI, checked by a person</div>
+  </div>
+
+  <!-- the logo ring: one element that travels from the white ring of "In your name." to the end card lockup -->
+  <svg class="full" id="ringsvg" viewBox="0 0 1920 1080" fill="none" style="visibility:hidden">
+   <circle id="rc" pathLength="1" stroke-linecap="round"/>
+   <circle id="rh" pathLength="1" stroke-linecap="round" style="filter:drop-shadow(0 0 12px rgba(121,180,255,.9))"/>
+   <circle id="rb" fill="none"/>
+   <circle id="rn" style="filter:drop-shadow(0 0 16px rgba(121,180,255,.9))"/>
+  </svg>
+ </div>
+ <div id="flash"></div>
+</div>
+
+<script type="module">
+import { seg, lerp, ease, clamp, show, fitStage, mulberry } from '/ads/lib/motion.js';
+const $ = (s) => document.querySelector(s);
+const q = fitStage($('#stage'));
+
+// ---- the timeline: one source of truth shared with the sound mix
+const AD = await (await fetch('./ad.json')).json();
+const CU = AD.cues, DUR = AD.duration, P = AD.grid.beat_s, F = 1 / 30;
+const Q = (x) => Math.round(x * 30) / 30;                    // snap to a whole frame
+const T = {}; for (const k in CU) T[k] = Q(CU[k]);
+const Bx = (n) => CU.drop + n * P;                           // beat n counted from the drop (exact)
+const QB = (n) => Q(Bx(n));
+const EPS = 1e-4;
+const decay = (t, t0, d) => (t < t0 - EPS ? 0 : 1 - ease.outExpo(seg(t, t0, t0 + d)));   // 1 at the hit, 0 after d seconds
+const tween = (t, a, b, e = ease.outExpo) => e(seg(t, a, b));
+
+// ---- building blocks
+function HL(parent, lines, cls = '', style = {}) {
+  const h = document.createElement('div'); h.className = 'hl ' + cls; Object.assign(h.style, style);
+  h.innerHTML = lines.map((l) => `<span class="ln"><span class="in">${l}</span></span>`).join('');
+  parent.appendChild(h); h._in = Array.from(h.querySelectorAll('.in')); return h;
+}
+function fit(h, w, max = 9999) { h.style.fontSize = '100px'; const w0 = h.offsetWidth; h.style.fontSize = Math.min(max, 100 * w / w0) + 'px'; }
+function place(h, x, y, ax = 0, ay = 0) { const w = h.offsetWidth, hh = h.offsetHeight; h.style.left = (x - ax * w) + 'px'; h.style.top = (y - ay * hh) + 'px'; h.style.transformOrigin = `${ax * 100}% ${ay * 100}%`; }
+function slam(h, t, t0, { dur = 0.2, stagger = 0.045, from = 1.15, pdur = 5 * F, dx = 0, y0 = 135 } = {}) {   // masked rise + scale punch (1.15 to 1 in 5 frames, expo-out)
+  h._in.forEach((el, k) => { const p = ease.outExpo(seg(t, t0 + k * stagger, t0 + k * stagger + dur)); el.style.transform = `translate3d(${(1 - p) * dx}px,${(1 - p) * y0}%,0)`; });
+  h.style.transform = `scale(${lerp(from, 1, ease.outExpo(seg(t, t0, t0 + pdur)))})`;
+}
+function glyph(parent, vb, inner, w, x, y, extra = '') {
+  const d = document.createElement('div'); d.className = 'gl'; d.style.cssText = `width:${w}px;height:${w}px;left:${x}px;top:${y}px;${extra}`;
+  d.innerHTML = `<svg viewBox="${vb}" width="${w}" height="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`; parent.appendChild(d); return d;
+}
+const draw = (el, p) => { el.style.strokeDasharray = '1 1'; el.style.strokeDashoffset = String(1 - clamp(p)); el.style.opacity = p > 0 ? '1' : '0'; };
+const star = (cx, cy, R, r) => Array.from({ length: 10 }, (_, k) => { const a = -Math.PI / 2 + k * Math.PI / 5, rr = k % 2 ? r : R; return `${(cx + rr * Math.cos(a)).toFixed(2)},${(cy + rr * Math.sin(a)).toFixed(2)}`; }).join(' ');
+const HANDSET = 'M16 30 C16 20 24 12 33 14 L41 16 C47 18 49 24 47 30 L43 38 C49 49 53 53 62 57 L70 53 C76 51 82 54 84 60 L86 68 C88 78 80 86 70 86 C38 84 18 64 16 30 Z';
+const CALENDAR = 'M24 24 H76 A10 10 0 0 1 86 34 V76 A10 10 0 0 1 76 86 H24 A10 10 0 0 1 14 76 V34 A10 10 0 0 1 24 24 Z';
+const BUBBLE = 'M24 16 H76 A12 12 0 0 1 88 28 V58 A12 12 0 0 1 76 70 H50 L30 88 V70 H24 A12 12 0 0 1 12 58 V28 A12 12 0 0 1 24 16 Z';
+
+const el = {}; ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13'].forEach((k) => (el[k] = $('#' + k)));
+const H = {};   // headlines
+
+// ---- 1 clock
+H.time = HL(el.s1, ['9<span id="colon">:</span>47 PM'], 'mono', { color: '#c3cad8' });
+$('#colon').style.display = 'inline-block';
+const fTicks = Array.from({ length: 60 }, (_, k) => { const a = k * 6 * Math.PI / 180, l = k % 5 ? 9 : 20; return `<line x1="${(Math.sin(a) * (98 - l)).toFixed(1)}" y1="${(-Math.cos(a) * (98 - l)).toFixed(1)}" x2="${(Math.sin(a) * 98).toFixed(1)}" y2="${(-Math.cos(a) * 98).toFixed(1)}" stroke="#98a1b5" stroke-opacity="${k % 5 ? .38 : .8}" stroke-width="${k % 5 ? 2 : 3}"/>`; }).join('');
+const face = glyph(el.s1, '-110 -110 220 220', fTicks + '<g id="hand"><line x1="0" y1="18" x2="0" y2="-82" stroke="#79b4ff" stroke-width="4"/><circle r="7" fill="#79b4ff" stroke="none"/></g>', 330, 1390, 110);
+const ph1 = glyph(el.s1, '0 0 100 100', `<path d="${HANDSET}" stroke="#98a1b5" stroke-width="5"/><path d="M62 24 Q76 26 80 40 M66 10 Q92 14 94 42" stroke="#79b4ff" stroke-width="5" class="vib"/>`, 160, 1400, 690);
+
+// ---- 2 the phone rings
+const ph2 = glyph(el.s2, '0 0 100 100', `<path d="${HANDSET}" stroke="#f4f6fb" stroke-width="4.5"/>`, 230, 845, 215);
+H.rings = HL(el.s2, ['The phone rings.'], 'wide c', { color: '#f4f6fb' });
+
+// ---- 3 nobody picks up
+H.nob = HL(el.s3, ['Nobody', 'picks up.'], 'wide', { color: '#f4f6fb' });
+const dotRow = document.createElement('div'); dotRow.className = 'abs'; dotRow.style.cssText = 'left:1330px;top:215px;width:700px;height:80px';
+dotRow.innerHTML = '<div id="rdot" style="position:absolute;left:0;top:14px;width:40px;height:40px;border-radius:50%;background:#ff6b6b"></div><div id="rpulse" style="position:absolute;left:0;top:14px;width:40px;height:40px;border-radius:50%;border:3px solid #ff6b6b"></div><div class="lab" id="rlab" style="left:72px;top:14px;color:#ff6b6b;font-size:44px">Missed call</div>';
+el.s3.appendChild(dotRow);
+
+// ---- 4 they call the next place
+const s4in = $('#s4in');
+H.n1 = HL(s4in, ['They call'], 'wide r', { color: '#f4f6fb' }); H.n2 = HL(s4in, ['the next'], 'wide r', { color: '#f4f6fb' }); H.n3 = HL(s4in, ['place.'], 'wide r', { color: '#98a1b5' });
+const arrow4 = glyph(s4in, '0 0 200 40', '<path id="a4l" pathLength="1" d="M6 20 H186" stroke="#79b4ff" stroke-width="5"/><path id="a4h" pathLength="1" d="M164 4 L190 20 L164 36" stroke="#79b4ff" stroke-width="5"/>', 760, 300, 735);
+arrow4.style.height = '152px'; arrow4.firstChild.setAttribute('height', 152); arrow4.firstChild.setAttribute('width', 760);
+
+// ---- 5 the drop
+H.not = HL(el.s5, ['Not', 'anymore.'], '', { color: '#2f7df6', textShadow: '0 0 70px rgba(47,125,246,.55)' });
+
+// ---- 6 answered
+H.ans = HL(el.s6, ['Answered.'], 'c', { color: '#fff' });
+const gAns = glyph(el.s6, '0 0 100 100', `<path id="gah" pathLength="1" d="${HANDSET}" stroke="#fff" stroke-width="5"/><g id="gab"><circle cx="76" cy="26" r="20" fill="#fff" stroke="none"/><path id="gat" pathLength="1" d="M66.5 26.5 L73.5 33.5 L86 19" stroke="#2f7df6" stroke-width="6"/></g>`, 260, 830, 120);
+
+// ---- 7 booked
+H.bk = HL(el.s7, ['Booked.'], 'r', { color: '#05070f' });
+const gCal = glyph(el.s7, '0 0 100 100', `<path id="gcb" pathLength="1" d="${CALENDAR}" stroke="#05070f" stroke-width="5"/><path id="gch" pathLength="1" d="M14 44 H86" stroke="#05070f" stroke-width="5"/><path id="gc1" pathLength="1" d="M33 10 V30" stroke="#05070f" stroke-width="5"/><path id="gc2" pathLength="1" d="M67 10 V30" stroke="#05070f" stroke-width="5"/><path id="gct" pathLength="1" d="M31 66 L44 78 L70 52" stroke="#2f7df6" stroke-width="8"/>`, 300, 130, 120);
+$('#grid7').innerHTML = Array.from({ length: 8 }, (_, k) => `<div style="position:absolute;left:${k * 240}px;top:0;width:2px;height:1080px;background:rgba(5,7,15,.07)"></div>`).join('') + Array.from({ length: 5 }, (_, k) => `<div style="position:absolute;left:0;top:${k * 270}px;width:1920px;height:2px;background:rgba(5,7,15,.07)"></div>`).join('');
+
+// ---- 8 texted back
+H.tx = HL(el.s8, ['Texted', '<span style="margin-left:2.1em">back.</span>'], '', { color: '#f4f6fb' });
+const gBub = glyph(el.s8, '0 0 100 100', `<path d="${BUBBLE}" fill="#2f7df6" stroke="#2f7df6" stroke-width="3"/><circle class="dt" cx="34" cy="43" r="5.5" fill="#fff" stroke="none"/><circle class="dt" cx="50" cy="43" r="5.5" fill="#fff" stroke="none"/><circle class="dt" cx="66" cy="43" r="5.5" fill="#fff" stroke="none"/>`, 300, 1400, 110);
+
+// ---- 9 followed up
+H.fu = HL(el.s9, ['Followed up.'], 'c', { color: '#05070f' });
+const gArr = glyph(el.s9, '0 0 400 200', '<path id="gap" pathLength="1" d="M20 170 C130 175 250 140 330 40" stroke="#fff" stroke-width="13"/><path id="gah2" pathLength="1" d="M276 34 L338 28 L346 92" stroke="#fff" stroke-width="13"/>', 1000, 690, 590);
+gArr.style.height = '500px'; gArr.firstChild.setAttribute('height', 500); gArr.firstChild.setAttribute('width', 1000);
+
+// ---- 10 review asked
+H.rv = HL(el.s10, ['Review', 'asked.'], 'c', { color: '#05070f' });
+const gStar = glyph(el.s10, '0 0 100 100', `<polygon id="gsp" pathLength="1" points="${star(50, 54, 44, 18)}" stroke="#2f7df6" stroke-width="5.5"/><g id="gsr" stroke="#2f7df6" stroke-width="5"><path d="M50 -2 V-12"/><path d="M92 14 L100 6"/><path d="M8 14 L0 6"/></g>`, 270, 1490, 560);
+
+// ---- 11 day and night (two layers; the black one wipes across)
+const dayL = $('#dayL'), nightL = $('#nightL');
+H.dayT = HL(dayL, ['<span class="w1">Day</span> <span class="w2">and</span> <span class="w3">night.</span>'], 'c', { color: '#05070f' });
+H.nightT = HL(nightL, ['<span class="w1">Day</span> <span class="w2">and</span> <span class="w3">night.</span>'], 'c', { color: '#fff' });
+const sunI = '<g id="sun"><circle cx="50" cy="50" r="19" stroke="#05070f" stroke-width="6"/>' + Array.from({ length: 8 }, (_, k) => { const a = k * Math.PI / 4; return `<path d="M${(50 + 31 * Math.cos(a)).toFixed(1)} ${(50 + 31 * Math.sin(a)).toFixed(1)} L${(50 + 42 * Math.cos(a)).toFixed(1)} ${(50 + 42 * Math.sin(a)).toFixed(1)}" stroke="#05070f" stroke-width="6"/>`; }).join('') + '</g>';
+const gSun = glyph(dayL, '0 0 100 100', sunI, 330, 795, 80);
+const moonI = '<defs><mask id="mm"><rect x="-20" y="-20" width="140" height="140" fill="#fff"/><circle id="bite" cx="64" cy="38" r="26" fill="#000"/></mask></defs><g id="moon"><circle cx="46" cy="54" r="30" fill="#fff" stroke="none" mask="url(#mm)"/></g><g id="stars" fill="#79b4ff" stroke="none"><circle cx="82" cy="22" r="3.4"/><circle cx="70" cy="12" r="2.2"/><circle cx="90" cy="40" r="2.2"/></g>';
+const gMoon = glyph(nightL, '0 0 100 100', moonI, 330, 795, 80);
+
+// ---- 12 in your name
+H.nm1 = HL(el.s12, ['In your'], 'c', { color: '#fff' }); H.nm2 = HL(el.s12, ['name.'], 'c', { color: '#fff' });
+
+// ---- 13 end card
+H.un = HL(el.s13, ['Unmissed'], '', { color: '#f4f6fb', fontWeight: '700', fontStretch: '100%', letterSpacing: '-.045em' });
+const TAG1 = 'A premium presence.', TAG2 = 'An AI front desk.';
+const tg1 = $('#tg1'), tg2 = $('#tg2');
+
+// ---- fonts first, then measure everything
+await document.fonts.ready; await Promise.all(Array.from(document.fonts).map((f) => f.load().catch(() => {})));
+await document.fonts.load('700 100px Inst'); await document.fonts.load('500 100px Inst'); await document.fonts.load('500 100px Mono');
+fit(H.time, 1180); place(H.time, 140, 870, 0, 1);
+fit(H.rings, 1260); place(H.rings, 960, 700, .5, .5);
+fit(H.nob, 1180); place(H.nob, 140, 150, 0, 0);
+for (const h of [H.n1, H.n2, H.n3]) h.style.fontSize = '100px';
+fit(H.n1, 1000, 280); const fs4 = H.n1.style.fontSize; [H.n2, H.n3].forEach((h) => (h.style.fontSize = fs4));
+place(H.n1, 1800, 150, 1, 0); place(H.n2, 1800, 150 + parseFloat(fs4) * 0.92, 1, 0); place(H.n3, 1800, 150 + parseFloat(fs4) * 1.84, 1, 0);
+fit(H.not, 1320); place(H.not, 120, 540, 0, .5);
+fit(H.ans, 1480); place(H.ans, 960, 690, .5, .5);
+fit(H.bk, 1320); place(H.bk, 1824, 985, 1, 1);
+fit(H.tx, 1700); place(H.tx, 120, 140, 0, 0);
+fit(H.fu, 1500); place(H.fu, 960, 380, .5, .5);
+fit(H.rv, 1000); place(H.rv, 960, 590, .5, .5);
+fit(H.dayT, 1660); place(H.dayT, 960, 660, .5, .5);
+fit(H.nightT, 1660); place(H.nightT, 960, 660, .5, .5);
+fit(H.nm1, 1180); place(H.nm1, 960, 560, .5, .5); fit(H.nm2, 760); place(H.nm2, 960, 560, .5, .5);
+// end-card lockup: ring + wordmark, centred
+const RL = 100, SWL = 22, GAP = 64, RB = 465;
+fit(H.un, 1180); const wU = H.un.offsetWidth, ringOuter = 2 * RL + SWL, lockW = ringOuter + GAP + wU, lockX = 960 - lockW / 2;
+const LX = lockX + ringOuter / 2, LY = 400; place(H.un, lockX + ringOuter + GAP, LY, 0, .5);
+const halo = $('#halo'); halo.style.left = (LX - 450) + 'px'; halo.style.top = (LY - 450) + 'px';
+const arrowLine = $('#a4l'), arrowHead = $('#a4h');
+
+// ---- helpers per frame
+const handOf = $('#hand');
+const rc = $('#rc'), rh = $('#rh'), rb = $('#rb'), rn = $('#rn'), ringsvg = $('#ringsvg');
+const camEl = $('#cam'), flash = $('#flash');
+const WINS = [['s1', 0, T.rings], ['s2', T.rings, T.nobody], ['s3', T.nobody, T.next], ['s4', T.next, T.drop], ['s5', T.drop, T.answered], ['s6', T.answered, T.booked],
+  ['s7', T.booked, T.texted], ['s8', T.texted, T.followed], ['s9', T.followed, T.review], ['s10', T.review, T.day], ['s11', T.day, T.name], ['s12', T.name, T.logo], ['s13', T.logo, DUR + 1]];
+const PUSH = { s6: [1920, 0], s7: [0, 1080], s9: [0, -1080] }, PUSH_DUR = 0.2, IRIS = { s12: 7 * F };   // s12 opens as a circle from the centre, over the black night   // whip pushes: the new field shoves the old one off
+const rnd = mulberry(7);
+
+// ---- camera: slow accelerating push through the build, then one move per shot, plus shakes on the big hits
+const CAMS = {   // per shot: scale, x, y, roll (start, end) and a scale punch that relaxes in 0.22 s
+  s5: { s: [1.0, 1.03], x: [0, 0], y: [0, 0], r: [0, 0], p: 0.13 },
+  s6: { s: [1.0, 1.045], x: [34, -22], y: [0, 0], r: [-.9, 0], p: 0.05 },
+  s7: { s: [1.05, 1.0], x: [0, 0], y: [26, -16], r: [.5, 0], p: 0.04 },
+  s8: { s: [1.0, 1.05], x: [-34, 12], y: [0, 12], r: [0, -.6], p: 0.07 },
+  s9: { s: [1.06, 1.0], x: [24, -30], y: [-16, 10], r: [0, 0], p: 0.04 },
+  s10: { s: [1.0, 1.045], x: [0, 0], y: [14, -14], r: [.7, 0], p: 0.09 },
+  s11: { s: [1.0, 1.06], x: [-30, 30], y: [0, 0], r: [0, 0], p: 0.04 },
+  s12: { s: [1.0, 1.05], x: [0, 0], y: [0, 0], r: [0, 0], p: 0.08 },
+  s13: { s: [1.0, 1.075], x: [-6, 10], y: [0, -8], r: [0, 0], p: 0.11 },
+};
+function shake(t, t0, d, amp, seed = 1) {
+  if (t < t0 - EPS || t > t0 + d) return [0, 0, 0];
+  const u = (t - t0) / d, a = amp * (1 - u), w = 2 * Math.PI * (t - t0);
+  return [a * Math.sin(w * 17 + seed), a * .8 * Math.sin(w * 23 + seed * 2.1), a * .03 * Math.sin(w * 13 + seed * .7)];
+}
+function camera(t) {
+  let s, x, y, r;
+  if (t < T.drop) {
+    const p = t / T.drop;
+    s = 1 + 0.07 * p * p; x = -30 * p; y = 8 * Math.sin(t * 0.8); r = 0.5 * p;
+    for (const n of [-9, -8, -7]) s += 0.014 * decay(t, QB(n), 0.28);
+    for (const tt of [T.next, T.next2, T.next3]) s += 0.012 * decay(t, tt, 0.25);
+    s += 0.05 * ease.inExpo(seg(t, T.drop - 0.30, T.drop));
+  } else {
+    const cur = WINS.filter(([id, a, b]) => CAMS[id] && t >= a - EPS && t < b - EPS)[0] || WINS.filter(([id]) => CAMS[id])[0];
+    const [id, a, b] = cur, c = CAMS[id], u = seg(t, a, Math.min(b, id === 's13' ? DUR : b));
+    s = lerp(c.s[0], c.s[1], u) + c.p * decay(t, a, 0.22); x = lerp(c.x[0], c.x[1], u); y = lerp(c.y[0], c.y[1], u); r = lerp(c.r[0], c.r[1], u);
+    if (id === 's11') s += 0.05 * decay(t, T.night, 0.2);
+    if (id === 's12') s += 0.035 * decay(t, T.ringdraw, 0.25);
+  }
+  for (const [t0, d, amp, sd] of [[T.drop, 0.13, 26, 1], [QB(.5), 0.07, 8, 3], [T.logo, 0.13, 17, 5], [T.answered, 0.07, 7, 9], [T.texted, 0.07, 7, 11], [T.review, 0.07, 7, 13]]) {
+    const k = shake(t, t0, d, amp, sd); x += k[0]; y += k[1]; r += k[2];
+  }
+  return { s, x, y, r };
+}
+
+// ---- the shots
+const R = {};
+R.s1 = (t) => {
+  slam(H.time, t, T.clock, { from: 1, dur: .3, pdur: .01 });
+  $('#hr1').style.transform = `scaleX(${tween(t, T.clock + .03, T.clock + .65)})`;
+  const u = ((t - CU.clock) / P) % 1; $('#colon').style.opacity = u < .5 ? '1' : '.1';
+  face.style.opacity = tween(t, T.clock + .1, T.clock + .35, ease.outCubic);
+  const m = (t - CU.clock) / (P / 2), k = Math.max(0, Math.floor(m)), f = clamp(m - k);
+  handOf.setAttribute('transform', `rotate(${282 + 6 * k + 6 * ease.outBack(clamp(f * 2.2), 3)})`);
+  const v = Math.min(1, .35 + (t - CU.clock) * .5);
+  ph1.style.opacity = tween(t, T.clock + .25, T.clock + .5, ease.outCubic);
+  ph1.style.transform = `translate(${3.4 * v * Math.sin(t * 2 * Math.PI * 19)}px, ${2.6 * v * Math.sin(t * 2 * Math.PI * 23 + 1)}px) rotate(${3 * v * Math.sin(t * 2 * Math.PI * 17)}deg)`;
+  ph1.querySelector('.vib').style.opacity = String(.35 + .65 * (Math.sin(t * 2 * Math.PI * 9) > 0));
+};
+R.s2 = (t) => {
+  slam(H.rings, t, T.rings, { dur: .22, from: 1.12 });
+  const hit = [-9, -8, -7].map((n) => QB(n));
+  ['r2a', 'r2b', 'r2c'].forEach((id, k) => { const p = seg(t, hit[k], hit[k] + 1.0), e = ease.outCubic(p); const c = $('#' + id); c.setAttribute('r', 100 + 900 * e); c.setAttribute('stroke-width', 5 * (1 - p) + 1); c.style.opacity = t < hit[k] - EPS ? 0 : .95 * (1 - p); });
+  let a = 0, sc = 1; hit.forEach((h) => { if (t >= h - EPS) { const u = t - h; a += 11 * Math.sin(u * 2 * Math.PI * 14) * Math.exp(-u * 7); sc += .16 * decay(t, h, .25); } });
+  ph2.style.transform = `rotate(${a}deg) scale(${sc})`; ph2.style.opacity = tween(t, T.rings, T.rings + .1, ease.outCubic);
+};
+R.s3 = (t) => {
+  slam(H.nob, t, T.nobody, { dur: .22, from: 1.12 });
+  const d = seg(t, T.dim, T.next - .04), de = ease.inOutCubic(d);
+  H.nob.style.filter = `blur(${26 * de}px)`; H.nob.style.opacity = String(1 - .7 * de);
+  H.nob.style.transform = `translateY(${120 * ease.inCubic(d)}px) scale(${lerp(1.12, 1, ease.outExpo(seg(t, T.nobody, T.nobody + 5 * F))) * (1 + .03 * de)})`;
+  const dt = tween(t, T.nobody + .2, T.nobody + .45, (p) => ease.outBack(p, 2.2));
+  $('#rdot').style.transform = `scale(${dt})`; $('#rlab').style.opacity = String(tween(t, T.nobody + .3, T.nobody + .45, ease.outCubic));
+  const pp = ((t - T.nobody) / P) % 1; $('#rpulse').style.transform = `scale(${1 + 1.6 * pp})`; $('#rpulse').style.opacity = t < T.nobody + .2 ? 0 : String(.8 * (1 - pp));
+};
+R.s4 = (t) => {
+  slam(H.n1, t, T.next, { dur: .2 }); slam(H.n2, t, T.next2, { dur: .2 }); slam(H.n3, t, T.next3, { dur: .2 });
+  draw(arrowLine, tween(t, T.next3 + .06, T.next3 + .3, ease.outCubic)); draw(arrowHead, tween(t, T.next3 + .22, T.next3 + .34, ease.outCubic));
+  const w = seg(t, T.whip, T.whip + .17), wp = ease.inExpo(w);   // whip off to the right
+  $('#s4in').style.transform = `translate3d(${2700 * wp}px,0,0) skewX(${-16 * wp}deg)`; $('#s4in').style.filter = `blur(${12 * wp}px)`; $('#s4in').style.opacity = w >= 1 ? '0' : '1';
+  const bl = seg(t, QB(-.5), T.drop); const b = $('#blade'); b.style.opacity = t < QB(-.5) - EPS ? '0' : '1'; b.style.transform = `scaleX(${ease.inExpo(bl)}) scaleY(${.4 + .6 * bl})`;
+};
+R.s5 = (t) => {
+  const t0 = T.drop + F;
+  slam(H.not, t, t0, { dur: .13, stagger: .02, from: 1.22, pdur: 6 * F, y0: 0 });
+  const k2 = QB(.5); const kick = decay(t, k2, .12);   // second hit on the half beat
+  H.not.style.transform += ` scale(${1 + .045 * kick})`;
+  H.not.style.color = t >= k2 - EPS && t < k2 + 2 * F ? '#fff' : '#2f7df6';
+  { const sp = seg(t, t0 - F, t0 + 9 * F); $('#streak').style.opacity = t < t0 - F - EPS ? '0' : String(1 - ease.inCubic(sp)); $('#streak').style.transform = `scaleY(${.3 + 2.4 * ease.outExpo(sp)}) scaleX(${1 + .15 * sp})`; }
+  $('#bloom').style.opacity = String(.5 + .5 * decay(t, t0, .4) + .3 * kick);
+  ['shk1', 'shk2'].forEach((id, k) => { const p = seg(t, t0 + k * .06, t0 + k * .06 + .5), c = $('#' + id); c.setAttribute('r', 120 + 1500 * ease.outExpo(p)); c.setAttribute('stroke-width', 6 * (1 - p) + .5); c.style.opacity = t < t0 ? 0 : String(.8 * (1 - p)); });
+};
+R.s6 = (t) => {
+  const t0 = T.answered + F;
+  slam(H.ans, t, t0, { dur: .17 });
+  const hp = tween(t, t0 + .03, t0 + .3, ease.outCubic); draw($('#gah'), hp);
+  $('#gab').style.transformOrigin = '76px 26px'; $('#gab').style.transform = `scale(${tween(t, t0 + .24, t0 + .42, (p) => ease.outBack(p, 3))})`; draw($('#gat'), tween(t, t0 + .3, t0 + .45, ease.outCubic));
+  gAns.style.transform = `scale(${lerp(1.15, 1, ease.outExpo(seg(t, t0, t0 + 5 * F)))})`; gAns.style.transformOrigin = '50% 50%';
+  ['a1', 'a2'].forEach((id, k) => { const p = seg(t, t0 + .14 + k * .08, t0 + .14 + k * .08 + .5), c = $('#' + id); c.setAttribute('r', 150 + 330 * ease.outCubic(p)); c.setAttribute('stroke-width', 5 * (1 - p) + .5); c.style.opacity = t < t0 + .14 ? 0 : String(.55 * (1 - p)); });
+};
+R.s7 = (t) => {
+  const t0 = T.booked + F;
+  slam(H.bk, t, t0, { dur: .18, from: 1.15 });
+  draw($('#gcb'), tween(t, t0 + .02, t0 + .26, ease.outCubic)); draw($('#gch'), tween(t, t0 + .1, t0 + .26, ease.outCubic)); draw($('#gc1'), tween(t, t0 + .14, t0 + .24, ease.outCubic)); draw($('#gc2'), tween(t, t0 + .16, t0 + .26, ease.outCubic)); draw($('#gct'), tween(t, t0 + .24, t0 + .4, ease.outCubic));
+  gCal.style.transform = `scale(${lerp(1.15, 1, ease.outExpo(seg(t, t0, t0 + 5 * F)))})`;
+  $('#grid7').style.opacity = String(tween(t, t0, t0 + .3, ease.outCubic));
+};
+R.s8 = (t) => {
+  const t0 = T.texted;
+  slam(H.tx, t, t0, { dur: .17, stagger: .06, from: 1.12, dx: 0 });
+  H.tx._in[1].style.transform += ` translateX(${(1 - ease.outExpo(seg(t, t0 + .06, t0 + .26))) * 500}px)`;
+  gBub.style.transform = `scale(${tween(t, t0 + .1, t0 + .34, (p) => ease.outBack(p, 2.4))})`;
+  gBub.querySelectorAll('.dt').forEach((c, k) => { const ph = (t - t0) * 7 - k * .6; c.setAttribute('cy', 43 - 7 * Math.max(0, Math.sin(ph * Math.PI)) ); });
+};
+R.s9 = (t) => {
+  const t0 = T.followed + F;
+  slam(H.fu, t, t0, { dur: .17 });
+  draw($('#gap'), tween(t, t0 + .04, t0 + .34, ease.outCubic)); draw($('#gah2'), tween(t, t0 + .26, t0 + .4, ease.outCubic));
+};
+R.s10 = (t) => {
+  const t0 = T.review;
+  slam(H.rv, t, t0, { dur: .17, stagger: .05, from: 1.15 });
+  draw($('#gsp'), tween(t, t0 + .04, t0 + .34, ease.outCubic));
+  const rs = tween(t, t0 + .3, t0 + .42, ease.outCubic); $('#gsr').style.opacity = String(rs * (1 - tween(t, t0 + .42, t0 + .5, ease.outCubic)));
+  gStar.style.transform = `rotate(${(1 - ease.outExpo(seg(t, t0, t0 + .3))) * -30}deg) scale(${lerp(1.12, 1, ease.outExpo(seg(t, t0, t0 + 5 * F)))})`;
+};
+R.s11 = (t) => {
+  const t0 = T.day;
+  slam(H.dayT, t, t0, { dur: .2, from: 1.12 });
+  const wp = ease.inOutQuint(seg(t, T.night, T.night + 7 * F)), X = 1920 * (1 - wp);
+  nightL.style.clipPath = `inset(-200px -200px -200px ${X}px)`; $('#edge').style.left = X + 'px'; $('#edge').style.opacity = String(t < T.night - EPS || wp >= 1 ? 0 : 1);
+  H.nightT._in[0].style.transform = 'none'; H.nightT.style.transform = `scale(${lerp(1.06, 1, ease.outExpo(seg(t, T.night, T.night + 6 * F)))})`;
+  const dim = (cls, a) => H.dayT.querySelector(cls).style.opacity = String(a), dim2 = (cls, a) => H.nightT.querySelector(cls).style.opacity = String(a);
+  dim('.w1', 1); dim('.w2', .3); dim('.w3', .3); dim2('.w1', .3); dim2('.w2', .3); dim2('.w3', 1);
+  gSun.style.transform = `rotate(${(t - t0) * 40}deg) scale(${lerp(1.2, 1, ease.outExpo(seg(t, t0, t0 + .17)))})`;
+  gMoon.style.transform = `scale(${lerp(1.2, 1, ease.outExpo(seg(t, T.night, T.night + .17)))})`;
+  $('#bite').setAttribute('cx', lerp(110, 64, ease.outExpo(seg(t, T.night, T.night + .3))));
+  $('#stars').style.opacity = String(tween(t, T.night + .15, T.night + .35, ease.outCubic));
+};
+R.s12 = (t) => {
+  const two = t >= T.ringdraw - EPS; H.nm1.style.visibility = two ? 'hidden' : 'visible'; H.nm2.style.visibility = two ? 'visible' : 'hidden';
+  slam(H.nm1, t, T.name, { dur: .17, from: 1.15 }); slam(H.nm2, t, T.ringdraw, { dur: .17, from: 1.18 });
+};
+const V1 = AD.audio.vo[1].start;   // the tagline types in with the voice: word times measured from audio/vo/line1.mp3 (file time + its start)
+const TY1 = [[V1 + .09, 0], [V1 + .21, 2], [V1 + .36, 2], [V1 + .88, 10], [V1 + 1.02, 10], [V1 + 1.55, 19]], TY2 = [[V1 + 1.98, 0], [V1 + 2.14, 3], [V1 + 2.6, 6], [V1 + 2.72, 6], [V1 + 2.92, 12], [V1 + 3.0, 12], [V1 + 3.38, 17]];
+const keyed = (t, K) => { if (t <= K[0][0]) return 0; for (let i = 1; i < K.length; i++) if (t <= K[i][0]) return lerp(K[i - 1][1], K[i][1], seg(t, K[i - 1][0], K[i][0])); return K[K.length - 1][1]; };
+function typed(node, str, n, caretOn) {
+  const k = Math.floor(n + 1e-6), key = k + ':' + caretOn; if (node._k === key) return; node._k = key;
+  node.innerHTML = `${str.slice(0, k)}${caretOn ? '<i class="caret"></i>' : ''}<span style="visibility:hidden">${str.slice(k)}</span>`;
+}
+R.s13 = (t) => {
+  const t0 = T.logo, w0 = t0 + 2 * F;
+  slam(H.un, t, w0, { dur: .2, from: 1.15 });
+  // wordmark light sweep: one pass on the first voice line, one on the tagline
+  const sA = t0 + .27, sB = CU.tag2 - .66, sweepP = t < sB - .5 ? seg(t, sA, sA + .8) : seg(t, sB, sB + .8), sweepOn = (t > sA && t < sA + .8) || (t > sB && t < sB + .8), pos = lerp(-40, 140, ease.inOutCubic(sweepP));
+  const un = H.un._in[0];
+  un.style.backgroundImage = sweepOn ? `linear-gradient(105deg, #f4f6fb ${pos - 24}%, #ffffff ${pos - 8}%, #9cc8ff ${pos}%, #f4f6fb ${pos + 16}%)` : 'none';
+  un.style.webkitBackgroundClip = sweepOn ? 'text' : 'border-box'; un.style.backgroundClip = sweepOn ? 'text' : 'border-box'; un.style.webkitTextFillColor = sweepOn ? 'transparent' : '';
+  // halo breathes on every beat
+  let hb = 0; for (let n = 10; n < 24; n++) { const tb = Bx(n); if (t >= tb - EPS && t < tb + 1) hb = Math.max(hb, decay(t, tb, .45) * (n === 10 ? 1 : .45)); }
+  halo.style.opacity = String(.35 + .65 * hb * (1 - .0) + .25 * tween(t, t0, t0 + .8)); halo.style.transform = `scale(${1 + .12 * hb})`;
+  // tagline types in with the voice
+  const n1 = keyed(t, TY1), n2 = keyed(t, TY2);
+  typed(tg1, TAG1, n1, n1 > 0 && n1 < TAG1.length + 4 && t < CU.tag2 - .05); typed(tg2, TAG2, n2, n2 > 0 && (n2 < TAG2.length || ((t - (V1 + 3.38)) < 1.0 && Math.floor((t - (V1 + 3.38)) / .25) % 2 === 0)));
+  tg1.style.opacity = n1 > 0 ? '1' : '0'; tg2.style.opacity = n2 > 0 ? '1' : '0';
+  $('#ailabel').style.opacity = String(tween(t, CU.label, CU.label + .5, ease.outCubic) * .95);
+};
+
+function renderRing(t) {
+  if (t < T.ringdraw - EPS) { ringsvg.style.visibility = 'hidden'; return; }
+  ringsvg.style.visibility = 'visible';
+  let r, cx, cy, sw, col, p, nodeS = 0, ho = 0;
+  if (t < T.logo - EPS) {
+    r = RB; cx = 960; cy = 560; sw = 18; col = '#fff'; p = ease.outExpo(seg(t, T.ringdraw, T.ringdraw + .78 * P));
+  } else {
+    const k = ease.outExpo(seg(t, T.logo, T.logo + 4 * F));
+    r = lerp(RB, RL, k); cx = lerp(960, LX, k); cy = lerp(560, LY, k); sw = lerp(18, SWL, k); col = '#2f7df6'; p = 1;
+    nodeS = ease.outBack(seg(t, T.logo + 3 * F, T.logo + 3 * F + .24), 3.2); ho = 1;
+  }
+  rc.setAttribute('cx', cx); rc.setAttribute('cy', cy); rc.setAttribute('r', r); rc.setAttribute('stroke', col); rc.setAttribute('stroke-width', sw);
+  rc.setAttribute('transform', `rotate(-90 ${cx} ${cy})`); rc.style.strokeDasharray = '1 1'; rc.style.strokeDashoffset = String(1 - p); rc.style.opacity = p > 0 ? '1' : '0';
+  // travelling highlight on the finished logo ring
+  const ph = (t - T.logo) * .42;
+  rh.setAttribute('cx', cx); rh.setAttribute('cy', cy); rh.setAttribute('r', r); rh.setAttribute('stroke', '#a9d0ff'); rh.setAttribute('stroke-width', sw * .5);
+  rh.setAttribute('transform', `rotate(-90 ${cx} ${cy})`); rh.style.strokeDasharray = '.13 .87'; rh.style.strokeDashoffset = String(-ph); rh.style.opacity = ho ? String(tween(t, T.logo + .5, T.logo + .9, ease.outCubic) * .9) : '0';
+  const nr = r * .26 * Math.max(0, nodeS);
+  rn.setAttribute('cx', cx + r * .5); rn.setAttribute('cy', cy - r * .866); rn.setAttribute('r', nr); rn.setAttribute('fill', '#79b4ff'); rn.style.opacity = nodeS > 0 ? '1' : '0';
+  // impact ring from the node when it pops
+  const ip = seg(t, T.logo + 3 * F, T.logo + 3 * F + .5);
+  rb.setAttribute('cx', cx + r * .5); rb.setAttribute('cy', cy - r * .866); rb.setAttribute('r', 20 + 260 * ease.outExpo(ip)); rb.setAttribute('stroke', '#79b4ff'); rb.setAttribute('stroke-width', 5 * (1 - ip) + .5); rb.style.opacity = ho && ip > 0 && ip < 1 ? String(.8 * (1 - ip)) : '0';
+}
+
+window.KF = { duration: DUR, fps: 30, async render(i, t) {
+  const c = camera(t); camEl.style.transform = `translate3d(${c.x}px,${c.y}px,0) rotate(${c.r}deg) scale(${c.s})`;
+  WINS.forEach(([id, a, b], k) => {
+    const nx = WINS[k + 1] && PUSH[WINS[k + 1][0]], e = el[id];
+    const hold = nx ? PUSH_DUR : (IRIS[WINS[k + 1] && WINS[k + 1][0]] || 0);
+    const vis = t >= a - EPS && t < b + hold - EPS; show(e, vis); if (!vis) return;
+    let dx = 0, dy = 0; const pe = PUSH[id];
+    if (pe) { const p = ease.outExpo(seg(t, a, a + PUSH_DUR)); dx += (1 - p) * pe[0]; dy += (1 - p) * pe[1]; }
+    if (nx) { const p = ease.outExpo(seg(t, b, b + PUSH_DUR)); dx -= p * nx[0]; dy -= p * nx[1]; }
+    e.style.transform = `translate3d(${dx}px,${dy}px,0)`;
+    if (IRIS[id]) { const ip = seg(t, a, a + IRIS[id]); e.style.clipPath = ip >= 1 ? 'none' : `circle(${(ease.outExpo(ip) * 1500).toFixed(1)}px at 960px 540px)`; }
+    R[id](t);
+  });
+  if (t < T.drop) { let hb = 0; for (let n = -12; n < 0; n++) hb = Math.max(hb, decay(t, QB(n), .42)); const pv = (.18 + .5 * hb) * (.55 + .45 * t / T.drop); document.querySelectorAll('.pulse').forEach((e) => (e.style.opacity = String(pv))); }
+  renderRing(t);
+  flash.style.opacity = t >= T.drop - EPS && t < T.drop + F - EPS ? '1' : '0';
+} };
+window.KF_READY = true;
+</script></body></html>
