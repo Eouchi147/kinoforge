@@ -15,8 +15,8 @@ gh api repos/Eouchi147/kinoforge/releases/tags/<release> --jq '.assets[] | "\(.i
 gh api -H "Accept: application/octet-stream" repos/Eouchi147/kinoforge/releases/assets/<id> > <file>
 ```
 
-A new workflow file is only registered after GitHub processes a push that contains it. If dispatching gives 404, push
-another commit and try again.
+A new workflow file is only registered after GitHub processes a push that changes it. If dispatching gives 404, push a
+commit that touches that workflow file (a blank line is enough), wait about 20 seconds, then dispatch again.
 
 ---
 
