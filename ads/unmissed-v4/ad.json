@@ -42,5 +42,90 @@
  },
  "post": {
   "grain": 5
- }
+ },
+ "duration": 22.9,
+ "cues": {
+  "_": "Ad time in seconds. Each cut lands on a transient of the score (music time minus music_offset): 8.098 s -> cut_rain, 10.612 -> cut_phone, 15.610 -> cut_kitchen, 18.936 -> dawn_hit (warm major arrival after a breath), 22.280 -> end.",
+  "open": 0.05,
+  "cut_rain": 2.55,
+  "cut_phone": 5.06,
+  "phone_glow": 5.06,
+  "card_in": 5.42,
+  "flip": 8.2,
+  "answered": 8.4,
+  "cut_kitchen": 10.06,
+  "booked": 11.7,
+  "dawn_dissolve": 13.15,
+  "dawn_hit": 13.39,
+  "dip": 16.3,
+  "end": 16.73,
+  "logo_ring": 16.76,
+  "wordmark": 16.82,
+  "node": 17.4,
+  "tagline": 19.2,
+  "tagline_2": 20.98,
+  "ai_label": 20.3,
+  "fade_out": 20.9
+ },
+ "audio": {
+  "music": "audio/music.mp3",
+  "music_offset": 5.55,
+  "music_gain_db": -8,
+  "duck_ratio": 3,
+  "music_fade_s": 2.0,
+  "vo": [
+   {
+    "file": "audio/vo/line0.mp3",
+    "start": 0.62,
+    "text": "You closed at nine."
+   },
+   {
+    "file": "audio/vo/line1.mp3",
+    "start": 2.6,
+    "text": "Your customers didn't."
+   },
+   {
+    "file": "audio/vo/line2.mp3",
+    "start": 5.7,
+    "text": "At nine forty-seven, someone called."
+   },
+   {
+    "file": "audio/vo/line3.mp3",
+    "start": 8.45,
+    "text": "Your AI front desk answered. In your name. And booked them in."
+   },
+   {
+    "file": "audio/vo/line4.mp3",
+    "start": 16.8,
+    "text": "Unmissed."
+   },
+   {
+    "file": "audio/vo/line5.mp3",
+    "start": 19.2,
+    "text": "A premium presence. An AI front desk."
+   }
+  ]
+ },
+ "sfx": [
+  {
+   "t": 5.08,
+   "kind": "ring"
+  },
+  {
+   "t": 5.6,
+   "kind": "ring"
+  },
+  {
+   "t": 8.4,
+   "kind": "chime"
+  },
+  {
+   "t": 11.8,
+   "kind": "check"
+  },
+  {
+   "t": 16.76,
+   "kind": "impact"
+  }
+ ]
 }

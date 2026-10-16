@@ -1,0 +1,453 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Unmissed v5: Bento</title>
+<!-- Unmissed brand ad "Bento": an Apple-style product film in the site's day theme. A bento grid of six live-UI tiles on a big plane;
+     the camera (one transform on the plane) whips and punches into each tile on the beat, pulls back, the tiles collapse into the ring logo.
+     Every style is a pure function of t. All timings come from ./ad.json (cues, 118 BPM grid), so picture and sound share one timeline.
+     Demo business is invented (Saffron Hearth Kitchen). No prices, no URLs, no ratings, no dashes. -->
+<style>
+@font-face { font-family: Inst; src: url(/ads/fonts/InstrumentSans.ttf) format('truetype'); font-weight: 400 700; font-stretch: 75% 100%; }
+@font-face { font-family: Mono; src: url(/ads/fonts/JetBrainsMono.ttf) format('truetype'); font-weight: 100 800; }
+:root { --bg:#f4f6fa; --ink:#0b1020; --ink2:#3d4658; --ink3:#5f6a82; --acc:#2456c9; --soft:#e7eeff; --blue:#2f7df6; --node:#79b4ff; --ok:#12804a; --okbg:#dff5e8; --line:rgba(11,16,32,.08); }
+html, body { margin:0; background:#f4f6fa; overflow:hidden; }
+* { box-sizing:border-box; }
+i, u, b, em { font-style:normal; text-decoration:none; }
+#stage { position:absolute; left:0; top:0; width:1920px; height:1080px; overflow:hidden; font-family:Inst, sans-serif; color:var(--ink);
+  background-image:radial-gradient(circle at 3px 3px, rgba(36,86,201,.17) 2.4px, rgba(36,86,201,0) 3.3px), radial-gradient(closest-side, rgba(47,125,246,.17), rgba(47,125,246,0)), radial-gradient(closest-side, rgba(121,180,255,.26), rgba(121,180,255,0)), radial-gradient(closest-side, rgba(255,255,255,.95), rgba(255,255,255,0)), radial-gradient(95% 85% at 50% 42%, #fbfcff 0%, #f4f6fa 58%, #edf1f9 100%);
+  background-repeat:repeat, no-repeat, no-repeat, no-repeat, no-repeat; text-rendering:geometricPrecision; }
+.m { display:inline-block; overflow:hidden; vertical-align:top; padding:0 .03em .18em; margin-bottom:-.18em; }
+.w { display:inline-block; will-change:transform; }
+#cam { position:absolute; left:0; top:0; width:1920px; height:1080px; perspective:2300px; perspective-origin:50% 50%; overflow:hidden; }
+#plane { position:absolute; left:0; top:0; width:3200px; height:2000px; transform-origin:0 0; transform-style:preserve-3d; }
+/* tiles */
+.tile { position:absolute; background:#fff; border-radius:40px; overflow:hidden; transform-origin:50% 100%;
+  box-shadow:0 30px 60px -30px rgba(23,43,99,.30), 0 14px 26px -14px rgba(23,43,99,.12), 0 0 0 1px rgba(23,43,99,.05); }
+.tile .in { position:absolute; left:0; top:0; right:0; bottom:0; }
+.tile .rim { position:absolute; left:0; top:0; right:0; bottom:0; border-radius:40px; box-shadow:inset 0 0 0 4px #2456c9; opacity:0; pointer-events:none; }
+.kick { position:absolute; left:48px; top:44px; display:flex; align-items:center; gap:12px; font:600 20px/1 Mono, monospace; letter-spacing:.09em; text-transform:uppercase; color:var(--acc); }
+.kick i { width:10px; height:10px; border-radius:50%; background:var(--acc); }
+.ttl { position:absolute; left:48px; top:80px; right:36px; font:650 60px/1.04 Inst, sans-serif; letter-spacing:-.035em; color:var(--ink); white-space:nowrap; }
+.panel { position:absolute; background:#f4f6fa; border-radius:32px; }
+/* 1 calls */
+#c1 .av { position:absolute; left:36px; top:36px; width:104px; height:104px; border-radius:50%; background:#dbe6ff; display:flex; align-items:center; justify-content:center; }
+#c1 .av b { font:650 38px/1 Inst; color:var(--acc); letter-spacing:-.02em; }
+#c1 .av u { position:absolute; left:0; top:0; right:0; bottom:0; border-radius:50%; border:3px solid rgba(36,86,201,.55); }
+#c1 .nm { position:absolute; left:164px; top:42px; font:650 40px/1.05 Inst; letter-spacing:-.025em; }
+#c1 .st { position:absolute; left:164px; top:100px; font:500 26px/1.2 Inst; color:var(--ink2); white-space:nowrap; }
+#c1 .okp { position:absolute; left:164px; top:94px; display:flex; align-items:center; gap:10px; padding:9px 20px 9px 10px; border-radius:30px; background:var(--okbg); color:var(--ok); font:650 28px/1 Inst; white-space:nowrap; transform-origin:0 50%; }
+#c1 .okp svg { width:34px; height:34px; }
+#c1 .tm { position:absolute; right:36px; top:52px; font:600 38px/1 Mono, monospace; color:var(--ink); }
+#c1 .btns { position:absolute; left:36px; top:262px; width:600px; height:96px; }
+#c1 .dec { position:absolute; left:0; top:0; width:96px; height:96px; border-radius:50%; background:#ffe1e1; }
+#c1 .dec i { position:absolute; left:26px; top:41px; width:44px; height:14px; border-radius:8px; background:#d93a3a; }
+#c1 .answer { position:absolute; left:120px; top:0; width:480px; height:96px; border-radius:48px; background:#16a05d; color:#fff; display:flex; align-items:center; justify-content:center; gap:16px; font:650 36px/1 Inst; letter-spacing:-.01em; box-shadow:0 14px 28px -12px rgba(22,160,93,.7); }
+#c1 .answer svg { width:38px; height:38px; fill:#fff; }
+#c1 .live { position:absolute; left:36px; top:168px; width:600px; height:250px; }
+#c1 .wave { position:absolute; left:0; top:0; width:600px; height:60px; display:flex; align-items:center; gap:10px; }
+#c1 .wave i { width:9px; border-radius:5px; background:var(--acc); }
+#c1 .say { position:absolute; left:0; top:84px; width:600px; font:500 30px/1.28 Inst; color:var(--ink); letter-spacing:-.01em; }
+#c1 .say span { opacity:0; }
+/* 2 leads */
+#t2 .col { position:absolute; top:196px; width:288px; height:440px; border-radius:28px; background:#f4f6fa; }
+#t2 .col h4 { position:absolute; left:22px; top:18px; margin:0; font:650 24px/1 Inst; color:var(--ink2); display:flex; align-items:center; gap:10px; letter-spacing:-.01em; }
+#t2 .col h4 i { width:12px; height:12px; border-radius:50%; background:#9db4ea; }
+#t2 .col.bk h4 i { background:#16a05d; }
+#t2 .lead { position:absolute; left:0; top:0; width:256px; height:112px; border-radius:24px; background:#fff; box-shadow:0 12px 24px -12px rgba(23,43,99,.36), 0 0 0 1.5px rgba(23,43,99,.06); }
+#t2 .lead .la { position:absolute; left:16px; top:16px; width:48px; height:48px; border-radius:50%; background:#dbe6ff; color:var(--acc); font:650 20px/48px Inst; text-align:center; }
+#t2 .lead .ln { position:absolute; left:76px; top:14px; font:650 26px/1.1 Inst; letter-spacing:-.02em; white-space:nowrap; }
+#t2 .lead .lr { position:absolute; left:76px; top:46px; font:500 20px/1.1 Inst; color:var(--ink2); white-space:nowrap; }
+#t2 .lead .lc { position:absolute; left:16px; top:76px; height:26px; padding:0 12px; border-radius:13px; background:#eaf0ff; color:var(--acc); font:600 17px/26px Mono, monospace; white-space:nowrap; letter-spacing:-.01em; }
+#t2 .lead.bk .lc { background:var(--okbg); color:var(--ok); }
+/* 3 reviews */
+#t3 .chat { left:44px; top:196px; width:632px; height:440px; }
+#t3 .who { position:absolute; left:24px; top:22px; display:flex; align-items:center; gap:14px; }
+#t3 .who i { width:52px; height:52px; border-radius:50%; background:#dbe6ff; color:var(--acc); font:650 20px/52px Inst; text-align:center; }
+#t3 .who b { font:650 28px/1 Inst; letter-spacing:-.02em; }
+#t3 .done { position:absolute; left:0; right:0; top:96px; text-align:center; }
+#t3 .done span { display:inline-block; padding:9px 18px; border-radius:20px; background:#fff; font:500 21px/1 Inst; color:var(--ink2); }
+#t3 .bub { position:absolute; right:24px; top:146px; width:430px; padding:20px 26px 22px; border-radius:30px 30px 8px 30px; background:var(--acc); color:#fff; font:600 33px/1.2 Inst; letter-spacing:-.015em; transform-origin:100% 100%; }
+#t3 .sent { position:absolute; right:30px; top:290px; display:flex; align-items:center; gap:8px; font:650 22px/1 Inst; color:var(--ok); transform-origin:100% 50%; }
+#t3 .sent svg { width:26px; height:26px; }
+#t3 .comp { position:absolute; left:20px; right:20px; bottom:20px; height:84px; border-radius:42px; background:#fff; box-shadow:0 0 0 1.5px rgba(11,16,32,.09); }
+#t3 .tx { position:absolute; left:30px; top:0; right:90px; line-height:84px; font:500 25px/84px Inst; color:var(--ink); white-space:nowrap; overflow:hidden; letter-spacing:-.01em; }
+#t3 .tx em { display:inline-block; width:3px; height:34px; background:var(--acc); vertical-align:middle; margin-left:3px; }
+#t3 .snd { position:absolute; right:10px; top:10px; width:64px; height:64px; border-radius:50%; background:var(--acc); display:flex; align-items:center; justify-content:center; }
+#t3 .snd svg { width:30px; height:30px; }
+/* 4 website */
+#t4 .br { position:absolute; left:44px; top:190px; width:1012px; height:486px; border-radius:26px; background:#fff; overflow:hidden; box-shadow:0 0 0 2px rgba(11,16,32,.09), 0 24px 48px -28px rgba(23,43,99,.35); }
+#t4 .bar { position:absolute; left:0; top:0; right:0; height:54px; background:#f1f3f8; border-bottom:1px solid rgba(11,16,32,.07); display:flex; align-items:center; gap:10px; padding:0 20px; z-index:3; }
+#t4 .bar i { width:14px; height:14px; border-radius:50%; }
+#t4 .bar span { margin-left:18px; font:500 20px/1 Inst; color:var(--ink3); }
+#t4 .vp { position:absolute; left:0; top:54px; width:1012px; height:432px; overflow:hidden; background:#fbf6ee; }
+#t4 .pg { position:absolute; left:0; top:0; width:1012px; height:900px; }
+#t4 .hero { position:absolute; left:0; top:0; width:1012px; height:360px; overflow:hidden; background:#150c06; }
+#t4 .hero img { position:absolute; left:190px; top:-170px; width:1240px; height:697px; transform-origin:30% 50%; }
+#t4 .hero .shade { position:absolute; left:0; top:0; right:0; bottom:0; background:linear-gradient(90deg, rgba(21,12,6,1) 0%, rgba(21,12,6,.93) 28%, rgba(21,12,6,.55) 52%, rgba(21,12,6,.05) 100%); }
+#t4 .nav { position:absolute; left:40px; right:40px; top:26px; display:flex; justify-content:space-between; align-items:center; font:650 26px/1 Inst; color:#f6e7c8; letter-spacing:-.01em; }
+#t4 .nav span { font:500 24px/1 Inst; color:#e9d6b0; }
+#t4 .h1 { position:absolute; left:40px; top:92px; width:640px; font:650 58px/1.04 Inst; letter-spacing:-.035em; color:#fff6e4; }
+#t4 .sub { position:absolute; left:40px; top:230px; width:660px; font:500 26px/1.25 Inst; color:#ecd9b4; white-space:nowrap; }
+#t4 .cta { position:absolute; left:40px; top:284px; height:62px; padding:0 30px; border-radius:31px; background:#f2a31b; color:#1a0f08; font:700 26px/62px Inst; transform-origin:0 50%; }
+#t4 .sec { position:absolute; left:0; top:360px; width:1012px; height:500px; background:#fbf6ee; }
+#t4 .sec h3 { position:absolute; left:40px; top:30px; margin:0; font:700 40px/1 Inst; letter-spacing:-.03em; color:#2a1a0e; }
+#t4 .dish { position:absolute; top:96px; width:300px; height:206px; border-radius:22px; background:#fff; box-shadow:0 10px 24px -14px rgba(60,35,10,.4), 0 0 0 1px rgba(60,35,10,.06); overflow:hidden; }
+#t4 .dish .sw { position:absolute; left:0; top:0; right:0; height:108px; }
+#t4 .dish b { position:absolute; left:20px; top:126px; font:700 27px/1.1 Inst; color:#2a1a0e; letter-spacing:-.02em; white-space:nowrap; }
+#t4 .dish span { position:absolute; left:20px; top:162px; font:500 21px/1 Inst; color:#7a5a3a; white-space:nowrap; }
+/* 5 google profile */
+#t5 .gp { position:absolute; left:44px; top:190px; width:672px; height:486px; border-radius:28px; background:#fff; overflow:hidden; box-shadow:0 0 0 2px rgba(11,16,32,.08), 0 24px 48px -28px rgba(23,43,99,.35); }
+#t5 .ph { position:absolute; left:0; top:0; width:672px; height:170px; overflow:hidden; background:#150c06; }
+#t5 .ph img { position:absolute; left:-20px; top:-110px; width:760px; height:427px; transform-origin:50% 50%; }
+#t5 .gn { position:absolute; left:30px; top:190px; font:650 37px/1.05 Inst; letter-spacing:-.03em; white-space:nowrap; }
+#t5 .gc { position:absolute; left:30px; top:240px; font:500 24px/1.1 Inst; color:var(--ink2); white-space:nowrap; }
+#t5 .go { position:absolute; left:30px; top:282px; font:500 30px/1.1 Inst; color:var(--ink); white-space:nowrap; transform-origin:0 50%; }
+#t5 .go b { color:var(--ok); font-weight:700; }
+#t5 .pills { position:absolute; left:30px; top:344px; width:612px; height:84px; }
+#t5 .pill { position:absolute; top:0; width:192px; height:84px; border-radius:42px; border:2.5px solid #c5d3f3; color:var(--acc); background:#fff; display:flex; align-items:center; justify-content:center; gap:10px; font:650 27px/1 Inst; letter-spacing:-.01em; }
+#t5 .pill svg { width:30px; height:30px; fill:none; stroke:var(--acc); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+#t5 .pill svg.fill { fill:var(--acc); stroke:none; }
+/* 6 plan */
+#t6 .row { position:absolute; left:44px; width:532px; height:124px; border-radius:32px; background:#f4f6fa; }
+#t6 .row .cb { position:absolute; left:26px; top:26px; width:72px; height:72px; border-radius:50%; border:3px solid #c5cfe6; background:#fff; }
+#t6 .row .cf { position:absolute; left:26px; top:26px; width:72px; height:72px; border-radius:50%; background:var(--acc); display:flex; align-items:center; justify-content:center; }
+#t6 .row .cf svg { width:40px; height:40px; }
+#t6 .row .lb { position:absolute; left:124px; top:0; line-height:124px; font:650 42px/124px Inst; letter-spacing:-.03em; color:var(--ink); white-space:nowrap; }
+/* stage furniture */
+#demo { position:absolute; left:48px; bottom:20px; padding:9px 16px 8px; border-radius:20px; background:rgba(255,255,255,.88); box-shadow:0 0 0 1px rgba(11,16,32,.06); font:500 18px/1 Mono, monospace; color:var(--ink3); letter-spacing:.005em; }
+#orb { position:absolute; left:0; top:0; width:700px; height:700px; margin:-350px 0 0 -350px; border-radius:50%; background:radial-gradient(closest-side, rgba(47,125,246,.55), rgba(47,125,246,.18) 55%, rgba(47,125,246,0)); opacity:0; }
+#flash { position:absolute; left:0; top:0; width:1500px; height:1500px; margin:-750px 0 0 -750px; border-radius:50%; background:radial-gradient(closest-side, rgba(255,255,255,1), rgba(255,255,255,.85) 30%, rgba(255,255,255,0)); opacity:0; }
+#ripple { position:absolute; left:0; top:0; width:300px; height:300px; margin:-150px 0 0 -150px; border-radius:50%; border:4px solid rgba(36,86,201,.55); opacity:0; }
+.shard { position:absolute; left:0; top:0; border-radius:6px; opacity:0; }
+#logo { position:absolute; left:0; top:0; width:300px; height:300px; margin:-150px 0 0 -150px; overflow:visible; opacity:0; }
+#word { position:absolute; left:0; width:1920px; text-align:center; top:496px; font:650 160px/1 Inst; letter-spacing:-.045em; color:var(--ink); visibility:hidden; }
+.tag { position:absolute; left:0; width:1920px; text-align:center; font:560 58px/1.1 Inst; letter-spacing:-.025em; color:var(--ink); visibility:hidden; }
+#tag1 { top:696px; } #tag2 { top:772px; color:var(--acc); }
+#ai { position:absolute; left:0; width:1920px; text-align:center; bottom:52px; font:500 20px/1 Mono, monospace; color:var(--ink3); letter-spacing:.01em; opacity:0; }
+</style></head><body>
+<div id="stage">
+  <div id="cam"><div id="plane">
+
+    <!-- 1 calls -->
+    <div class="tile" id="t1" style="left:320px;top:280px;width:760px;height:680px"><div class="in">
+      <div class="kick"><i></i>AI front desk</div><div class="ttl">Calls, answered.</div>
+      <div class="panel" id="c1" style="left:44px;top:200px;width:672px;height:436px">
+        <div class="av"><b>JM</b><u id="avr1"></u><u id="avr2"></u></div>
+        <div class="nm">Jordan M.</div>
+        <div class="st" id="st1">Incoming call, 9:47 pm</div>
+        <div class="okp" id="okp"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="17" fill="#16a05d"/><path id="okt" d="M9.5 17.5l5.2 5.2 9.8-10.4" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="30"/></svg>Answered</div>
+        <div class="tm" id="tm">0:00</div>
+        <div class="btns" id="btns"><div class="dec"><i></i></div><div class="answer" id="answer"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Answer</div></div>
+        <div class="live" id="live"><div class="wave" id="wave"></div><div class="say" id="say">Thanks for calling Saffron Hearth Kitchen. I’m an AI assistant, and this call is recorded.</div></div>
+      </div>
+    </div><div class="rim"></div></div>
+
+    <!-- 2 leads -->
+    <div class="tile" id="t2" style="left:1120px;top:280px;width:1000px;height:680px"><div class="in">
+      <div class="kick"><i></i>AI front desk</div><div class="ttl">Leads, followed up.</div>
+      <div class="col" style="left:44px"><h4><i></i>New</h4></div>
+      <div class="col" style="left:356px"><h4><i></i>Followed up</h4></div>
+      <div class="col bk" style="left:668px"><h4><i></i>Booked</h4></div>
+      <div class="lead" id="ld0"><div class="la">MR</div><div class="ln">Maya R.</div><div class="lr">Catering for 40</div><div class="lc">Website chat</div></div>
+      <div class="lead" id="ld1"><div class="la">DO</div><div class="ln">Daniel O.</div><div class="lr">Table for 8</div><div class="lc">Missed call</div></div>
+      <div class="lead" id="ld2"><div class="la">PS</div><div class="ln">Priya S.</div><div class="lr">Birthday dinner</div><div class="lc">Text message</div></div>
+    </div><div class="rim"></div></div>
+
+    <!-- 3 reviews -->
+    <div class="tile" id="t3" style="left:2160px;top:280px;width:720px;height:680px"><div class="in">
+      <div class="kick"><i></i>AI front desk</div><div class="ttl">Reviews, asked for.</div>
+      <div class="panel chat">
+        <div class="who"><i>AK</i><b>Amira K.</b></div>
+        <div class="done"><span>Visit marked done, 9:55 pm</span></div>
+        <div class="bub" id="bub">Would you leave us a Google review?</div>
+        <div class="sent" id="sent"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="17" fill="#16a05d"/><path id="snt" d="M9.5 17.5l5.2 5.2 9.8-10.4" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="30"/></svg>Sent</div>
+        <div class="comp"><div class="tx" id="tx"></div><div class="snd" id="snd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div></div>
+      </div>
+    </div><div class="rim"></div></div>
+
+    <!-- 4 website -->
+    <div class="tile" id="t4" style="left:320px;top:1000px;width:1100px;height:720px"><div class="in">
+      <div class="kick"><i></i>Premium presence</div><div class="ttl">A website that looks the part.</div>
+      <div class="br">
+        <div class="bar"><i style="background:#ff6159"></i><i style="background:#ffbd2e"></i><i style="background:#28c840"></i><span>Saffron Hearth Kitchen</span></div>
+        <div class="vp"><div class="pg" id="pg">
+          <div class="hero"><img id="heroimg" alt="" src=""><div class="shade"></div>
+            <div class="nav"><b>Saffron Hearth</b><span>Menu&nbsp;&nbsp;&nbsp;Catering&nbsp;&nbsp;&nbsp;Visit</span></div>
+            <div class="h1" id="h1">Fire, bread, and a table for everyone.</div>
+            <div class="sub" id="hsub">Charcoal grill and clay-oven bread in Toronto.</div>
+            <div class="cta" id="cta">Book a table</div>
+          </div>
+          <div class="sec"><h3>From the oven</h3>
+            <div class="dish" id="d0" style="left:40px"><div class="sw" style="background:radial-gradient(circle at 50% 120%, #f6c46a 0%, #e59a3a 38%, #b5651d 70%, #7a3f12 100%)"></div><b>Clay-oven bread</b><span>Baked to order</span></div>
+            <div class="dish" id="d1" style="left:356px"><div class="sw" style="background:radial-gradient(circle at 70% 130%, #ffb46b 0%, #d4662a 40%, #8a2b12 75%, #3a1208 100%)"></div><b>Charcoal grill</b><span>Cooked over fire</span></div>
+            <div class="dish" id="d2" style="left:672px"><div class="sw" style="background:radial-gradient(circle at 30% 130%, #e8d9a0 0%, #b9a35a 42%, #6e6a2e 76%, #2f3016 100%)"></div><b>Catering for groups</b><span>Order for the table</span></div>
+          </div>
+        </div></div>
+      </div>
+    </div><div class="rim"></div></div>
+
+    <!-- 5 google profile -->
+    <div class="tile" id="t5" style="left:1460px;top:1000px;width:760px;height:720px"><div class="in">
+      <div class="kick"><i></i>Premium presence</div><div class="ttl">Your Google profile.</div>
+      <div class="gp" id="gp">
+        <div class="ph"><img id="phimg" alt="" src=""></div>
+        <div class="gn">Saffron Hearth Kitchen</div>
+        <div class="gc">Middle Eastern restaurant in Toronto</div>
+        <div class="go" id="go"><b>Open</b> until 11 pm</div>
+        <div class="pills">
+          <div class="pill" id="pl0" style="left:0"><svg class="fill" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Call</div>
+          <div class="pill" id="pl1" style="left:210px"><svg viewBox="0 0 24 24"><path d="M12 2.5l9.5 9.5-9.5 9.5L2.5 12z"/><path d="M8.5 15v-3a1.5 1.5 0 011.5-1.5h5M13 7.5l2.5 3-2.5 3"/></svg>Directions</div>
+          <div class="pill" id="pl2" style="left:420px"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menu</div>
+        </div>
+      </div>
+    </div><div class="rim"></div></div>
+
+    <!-- 6 the plan -->
+    <div class="tile" id="t6" style="left:2260px;top:1000px;width:620px;height:720px"><div class="in">
+      <div class="kick"><i></i>The plan</div><div class="ttl">How it works</div>
+      <div class="row" id="r0" style="top:206px"><div class="cb"></div><div class="cf"><svg viewBox="0 0 40 40"><path d="M9 21l8 8 14-16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40"/></svg></div><div class="lb">Built for you</div></div>
+      <div class="row" id="r1" style="top:350px"><div class="cb"></div><div class="cf"><svg viewBox="0 0 40 40"><path d="M9 21l8 8 14-16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40"/></svg></div><div class="lb">Run for you</div></div>
+      <div class="row" id="r2" style="top:494px"><div class="cb"></div><div class="cf"><svg viewBox="0 0 40 40"><path d="M9 21l8 8 14-16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40"/></svg></div><div class="lb">Paid monthly</div></div>
+    </div><div class="rim"></div></div>
+  </div></div>
+
+  <div id="demo">Demo with an invented business</div>
+  <div id="orb"></div>
+  <div id="ripple"></div>
+  <svg id="logo" viewBox="0 0 300 300">
+    <circle id="lring" cx="150" cy="150" r="100" fill="none" stroke="#2456c9" stroke-width="22" stroke-linecap="butt" transform="rotate(-90 150 150)"/>
+    <circle id="lcomet" cx="150" cy="150" r="100" fill="none" stroke="#79b4ff" stroke-width="22" stroke-linecap="round" transform="rotate(-90 150 150)" opacity="0"/>
+    <circle id="lnode" cx="200" cy="63.4" r="26" fill="#79b4ff"/>
+  </svg>
+  <div id="flash"></div>
+  <div id="word">Unmissed</div>
+  <div class="tag" id="tag1">A premium presence.</div>
+  <div class="tag" id="tag2">An AI front desk.</div>
+  <div id="ai">Made with AI, checked by a person</div>
+</div>
+<svg width="0" height="0" style="position:absolute"><filter id="mb" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur id="mbb" stdDeviation="0 0"/></filter></svg>
+
+<script type="module">
+import { seg, lerp, ease, words, rise, fitStage, clamp } from '/ads/lib/motion.js';
+const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+const q = fitStage($('#stage'));
+const AD = await (await fetch('./ad.json')).json();
+const C = AD.cues, DUR = AD.duration, P = C.beat, D0 = C.drop, W = C.whip;
+const B = (k) => D0 + k * P;                     // the beat grid (118 BPM): drop = beat 0
+const PHOTO = q.get('photo') || '/ads/unmissed-01/media/bread-oven.jpg';
+$('#heroimg').src = PHOTO; $('#phimg').src = PHOTO;
+
+// ---------- easing helpers
+const bez = (x1, y1, x2, y2) => { const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+  const X = (s) => ((ax * s + bx) * s + cx) * s, Y = (s) => ((ay * s + by) * s + cy) * s;
+  return (x) => { if (x <= 0) return 0; if (x >= 1) return 1; let lo = 0, hi = 1, s = x; for (let i = 0; i < 28; i++) { const v = X(s); if (Math.abs(v - x) < 1e-5) break; if (v < x) lo = s; else hi = s; s = (lo + hi) / 2; } return Y(s); }; };
+const WHIP = bez(0.78, 0, 0.12, 1), GLIDE = bez(0.55, 0, 0.12, 1), SOFT = bez(0.4, 0, 0.2, 1);
+const smooth = (x, a, b) => { const p = clamp((x - a) / (b - a)); return p * p * (3 - 2 * p); };
+const inBack = (p, s = 1.3) => p * p * ((s + 1) * p - s);
+const pulse = (t, t0, amp, rate) => (t < t0 ? 0 : amp * Math.exp(-rate * (t - t0)));
+const set = (el, t, o = 1) => { el.style.transform = t; el.style.opacity = o; };
+const pad = (n) => String(n).padStart(2, '0');
+
+// ---------- the camera: states on the plane (centre x, y in plane px; zoom s; tilt rx, ry; roll rz)
+const ST = (x, y, s, rx = 0, ry = 0, rz = 0) => ({ x, y, s, rx, ry, rz });
+const cam = {
+  b0: ST(1740, 1090, 0.56, 15, -9, -5), b1: ST(1540, 940, 0.62, 8, -4, -2),
+  c1a: ST(700, 628, 1.34, 2, -3, 0), c1b: ST(716, 634, 1.42, -1, 2, 0),
+  c2a: ST(1608, 624, 1.36, 1, 3, 0), c2b: ST(1632, 630, 1.42, -1, -2, 0),
+  c3a: ST(2512, 624, 1.32, 1, -3, 0), c3b: ST(2532, 630, 1.40, -1, 2, 0),
+  wa: ST(860, 1362, 1.18, 1, -3, 0), wb: ST(1290, 1372, 0.94, -1, 2, 0),
+  oa: ST(1600, 1016, 0.63, 7, 3, -0.8), ob: ST(1600, 1016, 0.665, 1.5, -1, 0.4), oc: ST(1600, 1016, 0.70, 0, 0, 0),
+};
+const SEGS = [
+  { t0: 0, t1: C.punch, a: cam.b0, b: cam.b1, e: SOFT },
+  { t0: C.punch, t1: C.calls, a: cam.b1, b: cam.c1a, e: WHIP, whip: 1 },
+  { t0: C.calls, t1: C.leads - W, a: cam.c1a, b: cam.c1b, e: ease.outCubic },
+  { t0: C.leads - W, t1: C.leads, a: cam.c1b, b: cam.c2a, e: WHIP, whip: 1 },
+  { t0: C.leads, t1: C.reviews - W, a: cam.c2a, b: cam.c2b, e: ease.outCubic },
+  { t0: C.reviews - W, t1: C.reviews, a: cam.c2b, b: cam.c3a, e: WHIP, whip: 1 },
+  { t0: C.reviews, t1: C.web - W, a: cam.c3a, b: cam.c3b, e: ease.outCubic },
+  { t0: C.web - W, t1: C.web, a: cam.c3b, b: cam.wa, e: WHIP, whip: 1 },
+  { t0: C.web, t1: C.pull, a: cam.wa, b: cam.wb, e: SOFT },
+  { t0: C.pull, t1: C.overview, a: cam.wb, b: cam.oa, e: GLIDE },
+  { t0: C.overview, t1: C.collapse, a: cam.oa, b: cam.ob, e: SOFT },
+  { t0: C.collapse, t1: C.hit, a: cam.ob, b: cam.oc, e: ease.inOutCubic },
+];
+const ARRIVE = [[C.calls, 0.075], [C.leads, 0.055], [C.reviews, 0.055], [C.web, 0.05]];
+function camAt(t) {
+  let sg = SEGS[SEGS.length - 1], p = 1;
+  for (const g of SEGS) if (t <= g.t1) { sg = g; p = clamp((t - g.t0) / (g.t1 - g.t0)); break; }
+  const e = sg.e(p), a = sg.a, b = sg.b;
+  let x = lerp(a.x, b.x, e), y = lerp(a.y, b.y, e), s = a.s * Math.pow(b.s / a.s, e);
+  let rx = lerp(a.rx, b.rx, e), ry = lerp(a.ry, b.ry, e), rz = lerp(a.rz, b.rz, e);
+  if (sg.whip) {   // a whip dips out a little, banks into the move and yaws with it
+    const bell = Math.sin(Math.PI * Math.min(1, p * 1.08)), dir = Math.sign(b.x - a.x) || 1;
+    s *= 1 - 0.20 * bell; rz += -dir * 3.6 * bell; ry += -dir * 7 * bell; rx += 2.5 * bell;
+  }
+  // landings punch in (expo-out) and every beat of the full section breathes a little
+  let k = 0; for (const [ta, amp] of ARRIVE) k += pulse(t, ta, amp, 13);
+  if (t >= D0 && t < B(16)) { const kk = Math.floor((t - D0) / P); k += pulse(t, B(kk), 0.012, 9); }
+  return { x, y, s: s * (1 + k), rx, ry, rz };
+}
+
+// ---------- build the little DOM bits that are repeated
+const wave = $('#wave'); for (let i = 0; i < 31; i++) wave.appendChild(document.createElement('i'));
+const waveBars = [...wave.children];
+const say = $('#say'); say.innerHTML = say.textContent.split(' ').map((w) => `<span>${w}</span>`).join(' '); const sayW = [...say.children];
+const h1w = words($('#h1')); const wordSp = words($('#word')); const tag1w = words($('#tag1')); const tag2w = words($('#tag2'));
+const TX = 'Would you leave us a Google review?';
+const tiles = [1, 2, 3, 4, 5, 6].map((n) => ({ el: $('#t' + n), inn: $('#t' + n + ' .in'), rim: $('#t' + n + ' .rim') }));
+const TC = [[700, 620], [1620, 620], [2520, 620], [870, 1360], [1840, 1360], [2570, 1360]];   // tile centres on the plane
+const TZ = [34, 0, 34, 0, 22, -14];
+const FLIP_ORDER = [0, 3, 1, 4, 2, 5];                                   // ripple left to right
+const ROT = [-18, 12, 22, -14, 16, -20];
+const shards = []; { const colors = ['#2456c9', '#79b4ff', '#ffffff', '#dbe6ff', '#2f7df6', '#ffffff']; const st = $('#stage');
+  for (let i = 0; i < 14; i++) { const d = document.createElement('div'); d.className = 'shard'; const sz = 16 + (i * 7) % 20; d.style.width = sz + 'px'; d.style.height = (sz * (0.6 + (i % 3) * 0.25)) + 'px';
+    d.style.background = colors[i % 6]; d.style.boxShadow = '0 6px 14px -6px rgba(23,43,99,.45)'; st.insertBefore(d, $('#flash')); shards.push({ d, a: (i / 14) * Math.PI * 2 + (i % 2) * 0.2, r: 330 + (i * 53) % 240, sp: 120 + (i * 37) % 240 }); } }
+
+// layout of the pipeline (plane px inside tile 2)
+const COLX = [44, 356, 668], SLOTY = [196 + 58, 196 + 58 + 124, 196 + 58 + 248];
+const LEADS = [
+  { el: $('#ld0'), land: 3.08, steps: [[B(5.5), 1, 0], [B(6.5), 2, 0]] },
+  { el: $('#ld1'), land: 3.20, steps: [[B(6), 1, 1], [B(6.5), 1, 0]] },
+  { el: $('#ld2'), land: 3.32, steps: [[B(6.5), 0, 0]] },
+];
+const CTX = { logoY: 360 };
+
+const F = { fps: 30 };
+window.KF = { duration: DUR, fps: 30, async render(i, t) {
+  const cm = camAt(t);
+
+  // ---- camera onto the plane, backdrop parallax, motion blur from the camera's own speed
+  $('#plane').style.transform = `translate3d(960px,540px,0) rotateX(${cm.rx}deg) rotateY(${cm.ry}deg) rotateZ(${cm.rz}deg) scale(${cm.s}) translate3d(${-cm.x}px,${-cm.y}px,0)`;
+  const sf = Math.sqrt(cm.s), fx = (X) => 960 + (X - cm.x * 0.8) * sf, fy = (Y) => 540 + (Y - cm.y * 0.8) * sf;   // far layer: parallax at 0.8 speed, half the zoom
+  $('#stage').style.backgroundSize = `${80 * sf}px ${80 * sf}px, ${2100 * sf}px ${2100 * sf}px, ${2400 * sf}px ${2400 * sf}px, ${1800 * sf}px ${1500 * sf}px, 100% 100%`;
+  $('#stage').style.backgroundPosition = `${fx(0)}px ${fy(0)}px, ${fx(-300)}px ${fy(-500)}px, ${fx(1700)}px ${fy(700)}px, ${fx(900)}px ${fy(300)}px, 0 0`;
+  { const d = 0.012, c0 = camAt(t - d), c1 = camAt(t + d), s0 = (c0.s + c1.s) / 2;
+    const vx = Math.abs(c1.x - c0.x) / (2 * d) * s0, vy = Math.abs(c1.y - c0.y) / (2 * d) * s0;           // screen px per second of the plane under the lens
+    const iso = (Math.abs(Math.log(c1.s / c0.s)) * 520 + Math.abs(c1.rz - c0.rz) * 0.01745 * 520 + Math.abs(c1.ry - c0.ry) * 0.01745 * 300) / (2 * d);
+    const kx = vx + 0.5 * iso, ky = vy + 0.5 * iso, L = (kx + ky) / 30;      // px per frame
+    const k = L > 16 ? Math.min(30, (L - 16) * 0.09) : 0, sx = k * kx / (kx + ky + 1e-6), sy = k * ky / (kx + ky + 1e-6);
+    $('#mbb').setAttribute('stdDeviation', `${sx.toFixed(2)} ${sy.toFixed(2)}`); $('#cam').style.filter = k > 0.4 ? 'url(#mb)' : 'none'; }
+
+  // ---- which tile is awake: the one near the middle of the frame (everything wakes in the overview)
+  const ovBoost = smooth(0.80 - cm.s, 0, 0.10);
+  const collapsing = t >= C.collapse;
+  tiles.forEach((tl, j) => {
+    const sx = 960 + (TC[j][0] - cm.x) * cm.s, sy = 540 + (TC[j][1] - cm.y) * cm.s;
+    const d = Math.hypot(sx - 960, (sy - 540) * 1.15);
+    const focus = Math.max(ovBoost, 1 - smooth(d, 560, 1020));
+    tl.inn.style.opacity = (0.16 + 0.84 * focus).toFixed(3);
+    tl.focus = focus;
+    // flip-in during the build, collapse into the logo at the end
+    const fi = FLIP_ORDER.indexOf(j), land = C.flip[fi], fp = clamp((t - (land - 0.2)) / 0.56);
+    const pb = ease.outBack(fp, 1.5);
+    let tr = `translateZ(${TZ[j]}px) perspective(1800px) rotateX(${(1 - pb) * 72}deg) translateY(${(1 - pb) * 110}px) scale(${0.88 + 0.12 * pb})`, op = clamp(fp * 6);
+    if (collapsing) {
+      const cp = clamp((t - (C.collapse + [0, 0.04, 0.08, 0.02, 0.06, 0.10][j])) / 0.50), pp = inBack(cp, 1.25);
+      const Tx = cm.x, Ty = cm.y - (540 - CTX.logoY) / cm.s;
+      tr = `translateZ(${TZ[j]}px) translate(${(Tx - TC[j][0]) * pp}px,${(Ty - TC[j][1]) * pp}px) rotate(${ROT[j] * pp}deg) scale(${1 - 0.93 * pp})`;
+      op = 1 - smooth(cp, 0.82, 1.0); tl.el.style.borderRadius = (40 + 120 * cp) + 'px';
+    }
+    tl.el.style.transform = tr; tl.el.style.opacity = op; tl.el.style.visibility = op <= 0.001 ? 'hidden' : 'visible';
+    // an accent rim breathes on the beat while the tile is the one in focus (or the plan ticks)
+    const kk = Math.max(0, Math.floor((t - D0) / P)), beatP = Math.exp(-6 * (t - B(kk)));
+    tl.rim.style.opacity = (focus > 0.6 && t > D0 && t < B(16) ? 0.06 + 0.30 * beatP : 0) * focus;
+  });
+
+  // ---- 1 calls: rings, the answer button presses itself, timer runs, tick, the AI speaks
+  { const tp = B(1.5), tk = B(2), ans = t >= tp;
+    const rp = (t * 1.7) % 1; [$('#avr1'), $('#avr2')].forEach((r, n) => { const u = (rp + n * 0.5) % 1; r.style.transform = `scale(${1 + u * 0.55})`; r.style.opacity = ans ? 0 : (1 - u) * 0.9; });
+    const press = seg(t, tp - 0.02, tp + 0.07), rel = seg(t, tp + 0.07, tp + 0.2);
+    const wig = ans ? 1 : 1 + 0.03 * Math.sin(t * 14);
+    $('#answer').style.transform = `scale(${wig * (1 - 0.07 * press + 0.07 * rel)})`;
+    const out = ease.inCubic(seg(t, tp + 0.08, tp + 0.28));
+    $('#btns').style.opacity = 1 - out; $('#btns').style.transform = `translateY(${out * 24}px)`;
+    $('#st1').style.opacity = 1 - seg(t, tp, tp + 0.08);
+    const op = ease.outBack(seg(t, tp + 0.05, tp + 0.30), 2.2); $('#okp').style.opacity = clamp(op * 2); $('#okp').style.transform = `scale(${Math.max(0, op)})`;
+    $('#okt').style.strokeDashoffset = 30 * (1 - ease.outCubic(seg(t, tk - 0.1, tk + 0.1)));
+    const tmv = Math.max(0, Math.floor((t - tp) * 4)); $('#tm').textContent = `0:${pad(tmv)}`; $('#tm').style.opacity = ans ? 1 : 0;
+    $('#live').style.opacity = ease.outCubic(seg(t, tp + 0.16, tp + 0.36)); $('#live').style.transform = `translateY(${(1 - ease.outCubic(seg(t, tp + 0.16, tp + 0.4))) * 26}px)`;
+    waveBars.forEach((bar, n) => { const env = Math.sin(Math.PI * (n + 0.5) / waveBars.length); const hh = ans ? 8 + 46 * env * Math.abs(Math.sin(t * 9 + n * 0.55) * 0.6 + Math.sin(t * 5.3 + n * 1.3) * 0.4) : 8; bar.style.height = hh + 'px'; bar.style.opacity = ans ? 1 : 0; });
+    sayW.forEach((s, n) => { s.style.opacity = clamp((t - (tk + 0.1 + n * 0.045)) / 0.1); });
+  }
+
+  // ---- 2 leads: cards land in New, are followed up, one is booked
+  LEADS.forEach((L, n) => {
+    let col = 0, row = n, mv = 0, px, py;
+    const lp = ease.outBack(clamp((t - L.land) / 0.36), 1.6);
+    px = COLX[0] + 16; py = SLOTY[row] + 0;
+    L.steps.forEach(([ts, c, r], si) => { const p = ease.spring(clamp((t - ts) / 0.55), 0.55, 15); const prev = si === 0 ? [0, row] : [L.steps[si - 1][1], L.steps[si - 1][2]];
+      if (t >= ts - 0.001) { px = lerp(COLX[prev[0]] + 16, COLX[c] + 16, p); py = lerp(SLOTY[prev[1]], SLOTY[r], p); } });
+    const booked = n === 0 && t >= L.steps[1][0] + 0.12;
+    L.el.classList.toggle('bk', booked);
+    const lc = L.el.querySelector('.lc'); if (n === 0) lc.textContent = booked ? 'Booked' : (t >= L.steps[0][0] + 0.12 ? 'Followed up' : 'Website chat'); if (n === 1) lc.textContent = t >= L.steps[0][0] + 0.12 ? 'Followed up' : 'Missed call';
+    L.el.style.transform = `translate(${px}px,${py + (1 - lp) * -90}px) scale(${0.9 + 0.1 * Math.min(1, lp)})`; L.el.style.opacity = clamp((t - L.land) / 0.12);
+  });
+
+  // ---- 3 reviews: the text types itself, sends, a "Sent" tick
+  { const ts = B(10), tsn = B(10.5);
+    const chars = Math.floor(TX.length * ease.outCubic(seg(t, C.reviews + 0.06, ts - 0.12)) + 0.001);
+    $('#tx').innerHTML = t < ts ? TX.slice(0, chars) + '<em style="opacity:' + (Math.floor(t * 3) % 2 ? 0.2 : 1) + '"></em>' : '';
+    const press = seg(t, ts - 0.03, ts + 0.06), rel = seg(t, ts + 0.06, ts + 0.2); $('#snd').style.transform = `scale(${1 - 0.14 * press + 0.14 * rel})`;
+    const bp = ease.outBack(seg(t, ts + 0.02, ts + 0.42), 1.5);
+    $('#bub').style.opacity = clamp(bp * 3); $('#bub').style.transform = `translateY(${(1 - bp) * 210}px) scale(${0.82 + 0.18 * bp})`;
+    const sp = ease.outBack(seg(t, tsn, tsn + 0.3), 2.0); $('#sent').style.opacity = clamp(sp * 2); $('#sent').style.transform = `scale(${Math.max(0, sp)})`;
+    $('#snt').style.strokeDashoffset = 30 * (1 - ease.outCubic(seg(t, tsn + 0.05, tsn + 0.25)));
+  }
+
+  // ---- 4 website: headline rises, call to action, the page scrolls to the menu cards
+  { const t0 = C.web - 0.06;
+    rise(h1w, t, t0, { stagger: 0.05, dur: 0.7 });
+    const sp = ease.outExpo(seg(t, t0 + 0.28, t0 + 0.9)); $('#hsub').style.opacity = sp; $('#hsub').style.transform = `translateY(${(1 - sp) * 16}px)`;
+    const cp = ease.outBack(seg(t, B(13), B(13) + 0.35), 2.2); $('#cta').style.opacity = clamp(cp * 2); $('#cta').style.transform = `scale(${0.7 + 0.3 * Math.min(1.1, cp)})`;
+    const scr = ease.inOutCubic(seg(t, 8.0, 8.72)); $('#pg').style.transform = `translateY(${-225 * scr}px)`;
+    $('#heroimg').style.transform = `scale(${1 + 0.07 * seg(t, C.web - 0.3, 8.9)})`;
+    [0, 1, 2].forEach((n) => { const dp = ease.outBack(seg(t, 8.3 + n * 0.1, 8.7 + n * 0.1), 1.4); const d = $('#d' + n); d.style.opacity = clamp(dp * 2.5); d.style.transform = `translateY(${(1 - dp) * 50}px)`; });
+  }
+
+  // ---- 5 google profile: the card rises, "Open until 11 pm", three buttons pop on the half beats
+  { const gp = ease.outBack(seg(t, C.web + 0.08, C.web + 0.55), 1.2); $('#gp').style.opacity = clamp(gp * 3); $('#gp').style.transform = `translateY(${(1 - gp) * 70}px)`;
+    $('#phimg').style.transform = `scale(${1.08 - 0.08 * ease.outCubic(seg(t, C.web, C.web + 1.6))})`;
+    const op = ease.outBack(seg(t, B(13), B(13) + 0.3), 2.0); $('#go').style.opacity = clamp(op * 2); $('#go').style.transform = `scale(${0.8 + 0.2 * Math.min(1.1, op)})`;
+    [B(13.5), B(14), B(14.5)].forEach((ts, n) => { const p = ease.outBack(seg(t, ts, ts + 0.32), 2.4); const el = $('#pl' + n); el.style.opacity = clamp(p * 2.5); el.style.transform = `scale(${0.6 + 0.4 * Math.min(1.12, p)})`; });
+  }
+
+  // ---- 6 plan: three ticks on the beat (the last one is the pay-off before the collapse)
+  [C.tick1, C.tick2, C.tick3].forEach((ts, n) => {
+    const row = $('#r' + n), cf = row.querySelector('.cf'), pth = cf.querySelector('path');
+    const p = ease.outBack(seg(t, ts, ts + 0.30), 2.4); cf.style.transform = `scale(${Math.max(0, p)})`; cf.style.opacity = clamp(p * 3);
+    pth.style.strokeDashoffset = 40 * (1 - ease.outCubic(seg(t, ts + 0.08, ts + 0.3)));
+    const tint = smooth(t, ts, ts + 0.25); row.style.background = `rgb(${lerp(244, 231, tint)},${lerp(246, 238, tint)},${lerp(250, 255, tint)})`;
+    row.style.transform = `scale(${1 + 0.035 * Math.exp(-9 * Math.max(0, t - ts)) * (t >= ts ? 1 : 0)})`;
+  });
+  if (t > C.tick1) { const tp6 = Math.max(0, ...[C.tick1, C.tick2, C.tick3].filter((x) => x <= t)); tiles[5].rim.style.opacity = 0.2 + 0.8 * Math.exp(-5 * (t - tp6)) * (t < C.collapse ? 1 : 0.3); }
+  if (t >= C.collapse) tiles.forEach((tl) => { tl.rim.style.opacity = 0; });
+
+  // ---- furniture: the demo label, then the logo hit
+  $('#demo').style.opacity = ease.outCubic(seg(t, 0.3, 0.7)) * (1 - ease.inCubic(seg(t, C.collapse - 0.25, C.collapse + 0.05)));
+  const H = C.hit, endP = t - H;
+  const cons = ease.inOutCubic(seg(t, C.collapse + 0.25, H));
+  const orb = $('#orb'); orb.style.left = '960px'; orb.style.top = CTX.logoY + 'px'; orb.style.opacity = (0.9 * smooth(t, C.collapse + 0.1, H) * (1 - smooth(t, H, H + 0.4))).toFixed(3); orb.style.transform = `scale(${0.3 + 0.7 * cons + 0.5 * Math.max(0, endP)})`;
+  const logo = $('#logo'); logo.style.left = '960px'; logo.style.top = CTX.logoY + 'px';
+  const RL = 2 * Math.PI * 100; const ring = $('#lring'); ring.style.strokeDasharray = RL; ring.style.strokeDashoffset = RL * (1 - ease.inOutCubic(seg(t, C.collapse + 0.15, H)));
+  logo.style.opacity = clamp((t - (C.collapse + 0.12)) / 0.15);
+  const beatE = (() => { const kk = Math.max(0, Math.floor((t - H) / P)); return t >= H ? Math.exp(-7 * (t - (H + kk * P))) : 0; })();
+  const lsc = t < H ? lerp(0.8, 1.0, cons) : 1 + 0.17 * Math.exp(-14 * endP) + 0.016 * beatE;
+  logo.style.transform = `scale(${lsc}) rotate(${t < H ? -20 * (1 - cons) : 0}deg)`;
+  const np = ease.outBack(seg(t, H - 0.01, H + 0.30), 2.6); $('#lnode').setAttribute('r', (26 * Math.max(0, np)).toFixed(2));
+  const cm2 = $('#lcomet'); const arc = RL * 0.16; cm2.style.strokeDasharray = `${arc} ${RL}`; cm2.style.strokeDashoffset = -(((t - H) * 0.34) % 1) * RL; cm2.setAttribute('opacity', (0.55 * smooth(t, H + 0.6, H + 1.0)).toFixed(3));
+  const rp2 = seg(t, H, H + 0.85); const rip = $('#ripple'); rip.style.left = '960px'; rip.style.top = CTX.logoY + 'px'; rip.style.opacity = t >= H ? 0.6 * (1 - ease.outCubic(rp2)) : 0; rip.style.transform = `scale(${0.85 + 1.9 * ease.outExpo(rp2)})`;
+  const fl = $('#flash'); fl.style.left = '960px'; fl.style.top = CTX.logoY + 'px'; fl.style.opacity = t >= H ? 0.95 * Math.exp(-11 * endP) : 0; fl.style.transform = `scale(${0.6 + 0.5 * ease.outCubic(seg(t, H, H + 0.4))})`;
+  shards.forEach((s) => { const u = seg(t, H, H + 1.0), r = 120 + s.r * ease.outExpo(u); s.d.style.left = (960 + Math.cos(s.a) * r - 12) + 'px'; s.d.style.top = (CTX.logoY + Math.sin(s.a) * r * 0.82 - 8) + 'px';
+    s.d.style.transform = `rotate(${s.sp * u * (s.a > 3 ? -1 : 1)}deg) scale(${1 - 0.5 * u})`; s.d.style.opacity = t >= H ? 1 - smooth(u, 0.35, 1) : 0; });
+  // wordmark, tagline in two beats of the voice, small AI line
+  $('#word').style.visibility = t >= H ? 'visible' : 'hidden'; rise(wordSp, t, H + 0.03, { dur: 0.8 });
+  $('#word').style.letterSpacing = (-0.045 - 0.03 * (1 - ease.outExpo(seg(t, H, H + 0.9)))) + 'em';
+  $('#tag1').style.visibility = t >= C.end_text1 - 0.05 ? 'visible' : 'hidden'; rise(tag1w, t, C.end_text1 - 0.04, { dur: 0.75 });
+  $('#tag2').style.visibility = t >= C.end_text2 - 0.05 ? 'visible' : 'hidden'; rise(tag2w, t, C.end_text2 - 0.04, { dur: 0.75 });
+  $('#ai').style.opacity = ease.outCubic(seg(t, 16.1, 16.7));
+} };
+
+await document.fonts.ready;
+await Promise.all(['650 60px Inst', '500 26px Inst', '700 26px Inst', '600 20px Mono', '500 19px Mono'].map((f) => document.fonts.load(f).catch(() => {})));
+await new Promise((r) => { const im = new Image(); im.onload = im.onerror = r; im.src = PHOTO; });
+await Promise.all([$('#heroimg'), $('#phimg')].map((im) => (im.decode ? im.decode().catch(() => {}) : Promise.resolve())));
+window.KF_READY = true;
+</script></body></html>

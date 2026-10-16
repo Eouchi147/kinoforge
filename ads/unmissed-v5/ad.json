@@ -42,5 +42,236 @@
  },
  "post": {
   "grain": 5
- }
+ },
+ "duration": 18.0,
+ "cues": {
+  "_": "Seconds on the ad timeline. beat = 60/118 BPM; drop = the score's energy arrival; b(k) = drop + k*beat. The scene derives every micro-timing from these.",
+  "drop": 1.25,
+  "beat": 0.50847,
+  "flip": [
+   0.17,
+   0.295,
+   0.42,
+   0.545,
+   0.67,
+   0.795
+  ],
+  "punch": 0.64,
+  "calls": 1.25,
+  "leads": 3.284,
+  "reviews": 5.318,
+  "web": 7.352,
+  "whip": 0.4,
+  "pull": 8.877,
+  "stop": 9.386,
+  "overview": 9.75,
+  "tick1": 9.894,
+  "tick2": 10.911,
+  "tick3": 11.419,
+  "collapse": 11.675,
+  "hit": 12.436,
+  "end_text1": 13.737,
+  "end_text2": 15.527,
+  "end": 18.0
+ },
+ "audio": {
+  "_": "music_edit.mp3 is audio/music.mp3 with two beat-aligned cuts so the score's full-energy section fits an 18 s ad: orig 7.356 to 11.389 s (8 beats, 2 bars) and orig 20.067 to 21.048 s (2 beats) are removed, each with a 35 ms equal-power cross-fade inside a pre-kick gap, chords stay on the 2-beat grid. Without the edit the logo hit would land at 17.6 s and the ad would run about 24 s. music_offset is into the edited file (the file is identical to music.mp3 up to the first cut).",
+  "music": "audio/music_edit.mp3",
+  "music_offset": 4.6,
+  "music_gain_db": -5,
+  "duck_ratio": 2.5,
+  "music_fade_s": 1.2,
+  "music_edit": {
+   "source": "audio/music.mp3",
+   "crossfade_s": 0.035,
+   "segments": [
+    [
+     0,
+     7.3563
+    ],
+    [
+     11.3886,
+     20.0666
+    ],
+    [
+     21.0484,
+     null
+    ]
+   ]
+  },
+  "vo": [
+   {
+    "file": "audio/vo/line0.mp3",
+    "start": 1.11,
+    "text": "Calls, answered."
+   },
+   {
+    "file": "audio/vo/line1.mp3",
+    "start": 3.254,
+    "text": "Leads, followed up."
+   },
+   {
+    "file": "audio/vo/line2.mp3",
+    "start": 5.278,
+    "text": "Reviews, asked for."
+   },
+   {
+    "file": "audio/vo/line3.mp3",
+    "start": 7.272,
+    "text": "A website that looks the part."
+   },
+   {
+    "file": "audio/vo/line4.mp3",
+    "start": 9.496,
+    "text": "All built for you, and run for you."
+   },
+   {
+    "file": "audio/vo/line5.mp3",
+    "start": 12.376,
+    "text": "Unmissed. A premium presence. An AI front desk."
+   }
+  ]
+ },
+ "sfx": [
+  {
+   "t": 0.17,
+   "kind": "pop"
+  },
+  {
+   "t": 0.295,
+   "kind": "pop"
+  },
+  {
+   "t": 0.42,
+   "kind": "pop"
+  },
+  {
+   "t": 0.545,
+   "kind": "pop"
+  },
+  {
+   "t": 0.6,
+   "kind": "whoosh"
+  },
+  {
+   "t": 0.67,
+   "kind": "pop"
+  },
+  {
+   "t": 0.795,
+   "kind": "pop"
+  },
+  {
+   "t": 1.27,
+   "kind": "ring"
+  },
+  {
+   "t": 1.65,
+   "kind": "ring"
+  },
+  {
+   "t": 2.013,
+   "kind": "click"
+  },
+  {
+   "t": 2.267,
+   "kind": "check"
+  },
+  {
+   "t": 2.75,
+   "kind": "whoosh"
+  },
+  {
+   "t": 3.22,
+   "kind": "tick"
+  },
+  {
+   "t": 3.34,
+   "kind": "tick"
+  },
+  {
+   "t": 3.46,
+   "kind": "tick"
+  },
+  {
+   "t": 4.047,
+   "kind": "tick"
+  },
+  {
+   "t": 4.301,
+   "kind": "tick"
+  },
+  {
+   "t": 4.555,
+   "kind": "check"
+  },
+  {
+   "t": 4.78,
+   "kind": "whoosh"
+  },
+  {
+   "t": 6.335,
+   "kind": "click"
+  },
+  {
+   "t": 6.355,
+   "kind": "pop"
+  },
+  {
+   "t": 6.589,
+   "kind": "check"
+  },
+  {
+   "t": 6.81,
+   "kind": "whoosh"
+  },
+  {
+   "t": 7.86,
+   "kind": "pop"
+  },
+  {
+   "t": 8.114,
+   "kind": "tick"
+  },
+  {
+   "t": 8.369,
+   "kind": "tick"
+  },
+  {
+   "t": 8.623,
+   "kind": "tick"
+  },
+  {
+   "t": 8.8,
+   "kind": "whoosh"
+  },
+  {
+   "t": 9.894,
+   "kind": "check"
+  },
+  {
+   "t": 10.911,
+   "kind": "check"
+  },
+  {
+   "t": 10.95,
+   "kind": "riser"
+  },
+  {
+   "t": 11.419,
+   "kind": "check"
+  },
+  {
+   "t": 11.6,
+   "kind": "whoosh"
+  },
+  {
+   "t": 12.436,
+   "kind": "impact"
+  },
+  {
+   "t": 12.526,
+   "kind": "chime"
+  }
+ ]
 }

@@ -38,9 +38,152 @@
   ]
  },
  "render": {
-  "sub": 4
+  "sub": 2
  },
  "post": {
   "grain": 5
- }
+ },
+ "duration": 18.2,
+ "cues": {
+  "open": 0.0,
+  "calls": 0.58,
+  "messages": 1.904,
+  "leads": 3.251,
+  "gaps": 4.574,
+  "gapsWord": 5.85,
+  "ringDraw": 6.25,
+  "ringForm": 7.895,
+  "orbit": 8.5,
+  "ignite": 10.565,
+  "logo": 11.238,
+  "tagline": 13.235,
+  "tagline2": 14.65,
+  "tail": 16.1,
+  "end": 18.2
+ },
+ "audio": {
+  "music": "audio/music.mp3",
+  "music_offset": 0,
+  "music_gain_db": -7,
+  "duck_ratio": 3,
+  "music_fade_s": 1.5,
+  "vo": [
+   {
+    "file": "audio/vo/line0.mp3",
+    "start": 0.43,
+    "text": "Calls."
+   },
+   {
+    "file": "audio/vo/line1.mp3",
+    "start": 1.834,
+    "text": "Messages."
+   },
+   {
+    "file": "audio/vo/line2.mp3",
+    "start": 3.156,
+    "text": "Leads."
+   },
+   {
+    "file": "audio/vo/line3.mp3",
+    "start": 4.484,
+    "text": "Some slip through the gaps."
+   },
+   {
+    "file": "audio/vo/line4.mp3",
+    "start": 7.805,
+    "text": "Unmissed answers every one, day and night."
+   },
+   {
+    "file": "audio/vo/line5.mp3",
+    "start": 12.95,
+    "text": "A premium presence. An AI front desk."
+   }
+  ]
+ },
+ "sfx": [
+  {
+   "t": 0.3,
+   "kind": "whoosh"
+  },
+  {
+   "t": 1.62,
+   "kind": "whoosh"
+  },
+  {
+   "t": 2.97,
+   "kind": "whoosh"
+  },
+  {
+   "t": 4.75,
+   "kind": "whoosh"
+  },
+  {
+   "t": 5.15,
+   "kind": "whoosh"
+  },
+  {
+   "t": 5.55,
+   "kind": "whoosh"
+  },
+  {
+   "t": 6.35,
+   "kind": "riser"
+  },
+  {
+   "t": 7.895,
+   "kind": "chime"
+  },
+  {
+   "t": 9.62,
+   "kind": "pop"
+  },
+  {
+   "t": 9.734,
+   "kind": "pop"
+  },
+  {
+   "t": 9.847,
+   "kind": "pop"
+  },
+  {
+   "t": 9.961,
+   "kind": "pop"
+  },
+  {
+   "t": 10.074,
+   "kind": "pop"
+  },
+  {
+   "t": 10.188,
+   "kind": "pop"
+  },
+  {
+   "t": 10.302,
+   "kind": "pop"
+  },
+  {
+   "t": 10.35,
+   "kind": "whoosh"
+  },
+  {
+   "t": 10.415,
+   "kind": "pop"
+  },
+  {
+   "t": 10.529,
+   "kind": "pop"
+  },
+  {
+   "t": 10.565,
+   "kind": "impact"
+  },
+  {
+   "t": 11.238,
+   "kind": "chime"
+  },
+  {
+   "t": 13.235,
+   "kind": "tick"
+  }
+ ]
 }

@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Unmissed v2: The Catch</title>
+<!-- "The Catch": notification cards stream through dark space, some slip through the gaps, a glass ring forms and catches
+     every one, then becomes the logo. Three.js on the render harness (headless Chromium, SwiftShader). Everything is a pure
+     function of t. Timings are read from ./ad.json (cues, audio, sfx) so picture and sound share one timeline. -->
+<script type="importmap">{"imports":{"three":"/harness/node_modules/three/build/three.module.js","three/addons/":"/harness/node_modules/three/examples/jsm/"}}</script>
+<style>
+@font-face { font-family: Inst; src: url(/ads/fonts/InstrumentSans.ttf) format('truetype'); font-weight: 400 700; font-stretch: 75% 100%; }
+@font-face { font-family: Mono; src: url(/ads/fonts/JetBrainsMono.ttf) format('truetype'); font-weight: 100 800; }
+:root { --bg:#05070f; --ink:#f4f6fb; --ink2:#c3cad8; --ink3:#98a1b5; --accent:#79b4ff; --blue:#2f7df6; }
+html, body { margin:0; background:#000; overflow:hidden; }
+#stage { position:absolute; width:1920px; height:1080px; overflow:hidden; font-family:Inst, sans-serif; color:var(--ink); background:var(--bg); }
+#gl { position:absolute; inset-inline-start:0; top:0; width:1920px; height:1080px; display:block; }
+#vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(120% 95% at 50% 46%, rgba(5,7,15,0) 52%, rgba(2,3,8,.62) 100%); }
+#fade { position:absolute; inset:0; background:#000; pointer-events:none; }
+.m { display:inline-block; overflow:hidden; vertical-align:top; padding:0 .04em .18em; margin-bottom:-.18em; }
+.w { display:inline-block; will-change:transform; }
+#gaps { position:absolute; inset-inline-start:124px; bottom:128px; font-weight:400; font-size:268px; line-height:.92; letter-spacing:-.055em; color:var(--ink3); white-space:nowrap; }
+.endc > * { position:absolute; inset-inline:0; text-align:center; }
+#name { top:468px; font-weight:650; font-size:158px; line-height:1.02; letter-spacing:-.045em; }
+.tag { font-weight:500; font-size:58px; line-height:1.1; letter-spacing:-.02em; }
+#tag1 { top:670px; color:var(--ink); }
+#tag2 { top:748px; color:var(--accent); }
+#ai { bottom:58px; font:500 22px/1 Mono, monospace; color:#7d869b; letter-spacing:.01em; }
+</style></head><body>
+<div id="stage">
+  <canvas id="gl"></canvas>
+  <div id="vig"></div>
+  <div id="gaps"><span class="l">the gaps.</span></div>
+  <div class="endc">
+    <div id="name"><span class="l">Unmissed</span></div>
+    <div id="tag1" class="tag"><span class="l">A premium presence.</span></div>
+    <div id="tag2" class="tag"><span class="l">An AI front desk.</span></div>
+    <div id="ai">Made with AI, checked by a person</div>
+  </div>
+  <div id="fade"></div>
+</div>
+<script type="module" src="./scene.js"></script>
+</body></html>
