@@ -24,11 +24,11 @@ test('the fact counts up only when counting means something', () => {
 test('house style: no em dash, no en dash, no "..." or ellipsis', () => {
   assert.equal(styleProblems('Your TV is too high.').length, 0);
   assert.equal(styleProblems('In wall power - rated kit').length, 0);   // a hyphen is allowed
-  for (const bad of ['a — b', 'a – b', 'wait...', 'wait…']) assert.equal(styleProblems(bad).length, 1, bad);
+  for (const bad of ['a \u2014 b', 'a \u2013 b', 'wait...', 'wait\u2026']) assert.equal(styleProblems(bad).length, 1, bad);
 });
 
-test('safe box: top 10%, bottom 20%, right 12% of 1080x1920', () => {
-  assert.deepEqual(safeBox(), { x0: 72, x1: 950, y0: 192, y1: 1536 });
+test('safe box is rule R-2-08: x 0.11 to 0.78, y 0.15 to 0.65 of 1080x1920', () => {
+  assert.deepEqual(safeBox(), { x0: 119, x1: 842, y0: 288, y1: 1248 });
 });
 
 test('a batch entry resolves to a full brief; an unknown id is refused', () => {
@@ -50,9 +50,14 @@ test('every video in the first batch passes the brief rules and fits every platf
   }
 });
 
-test('captions use only the card and the brand, and say how the video was made', () => {
+test('captions open with the hook on its own line and use only the card and the brand', () => {
+  for (const v of batch.videos) {
+    const c = captions(resolveVideo(batch, v.id), brand, { music: 'ai' });
+    for (const p of ['tiktok', 'instagram', 'facebook']) assert.equal(c[p].caption.split('\n')[0], v.card.title, `${v.id} ${p}`);
+    assert.ok(c.tiktok.caption.split('\n')[0].length <= LIMITS.tiktok.firstLine);
+  }
   const c = captions(resolveVideo(batch, 'v01-tip-height'), brand, { music: 'none' });
-  assert.match(c.tiktok.caption, /^Your TV is too high\. Eye level means the centre of the screen, sitting down\. 42" to the centre, seated\./);
+  assert.match(c.tiktok.caption, /^Your TV is too high\.\nEye level means the centre of the screen, sitting down\. 42" to the centre, seated\./);
   assert.match(c.instagram.caption, /Book online at smartmount\.ca/);
   assert.equal(c.youtube.title, 'Your TV is too high. | Smart Mount');
   assert.equal(c.disclosure.ai_label, false);

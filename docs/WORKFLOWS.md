@@ -63,12 +63,14 @@ commit that touches that workflow file (a blank line is enough), wait about 20 s
   `figure`). Optional `only` = comma-separated video ids.
 - **Steps:** plan (`social/lib/check.mjs`: words, house style, photos, templates, captions; music made once by
   `harness/shots/social.py music` and committed with `ledger.json`); per video: captions (`social/lib/captions.mjs`, code,
-  no AI), safe-zone check (`social/lib/safecheck.mjs`, fails if a word enters the top 10%, bottom 20% or right 12%),
+  no AI), safe-zone check (`social/lib/safecheck.mjs`, every frame: fails if a word, number, URL or logo mark leaves rule
+  R-2-08's box, x 0.11 to 0.78 and y 0.15 to 0.65 of the frame; the one constant is `SAFE` in `social/lib/brief.mjs`),
   render (`harness/dom-render.cjs`, 1080x1920, 30 fps), mix and cover (`social.py finish`: -14 LUFS, or a silent track);
   ledger job commits the render records.
 - **Output:** release `social`: `<client>-<batch>-<id>.mp4`, `-cover.jpg`, `-captions.json` (TikTok, Instagram, YouTube title
   and description, Facebook, the AI disclosure note). Committed: `social/batches/<client>/<batch>/audio/music.mp3`,
-  `ledger.json` (`calls` with costs, `renders`). Nothing is posted: Sam approves first.
+  `ledger.json` (`calls` with costs, `renders`). Nothing is posted by the lane. Posting gate (`social/README.md`): nothing
+  before Sam approves the batch, and nothing for Smart Mount while smartmount.ca is parked (smartmount `api/_parked.js`).
 - **Cost:** pictures free; music about $0.04 to $0.08 once per batch (cap in `batch.json`); runner time about 3 to 5 minutes
   per video (Chromium setup plus the render), so about 40 to 60 job-minutes for 12 videos (see the minute limit in
   `docs/CI-PURPOSE.md`).

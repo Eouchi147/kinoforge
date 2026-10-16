@@ -116,36 +116,45 @@ export const stageScale = (el) => { const st = el.closest('#stage'); return st ?
 // Review overlay: the platform zones in red, the word-safe box dashed.
 export function guides(stage) {
   const g = document.createElement('div'); g.id = 'guides';
-  const z = [[0, 0, FRAME.w, SAFE.y0], [0, SAFE.y1, FRAME.w, FRAME.h - SAFE.y1], [SAFE.x1, SAFE.y0, FRAME.w - SAFE.x1, SAFE.y1 - SAFE.y0]];
+  const z = [[0, 0, FRAME.w, SAFE.y0], [0, SAFE.y1, FRAME.w, FRAME.h - SAFE.y1], [0, SAFE.y0, SAFE.x0, SAFE.y1 - SAFE.y0], [SAFE.x1, SAFE.y0, FRAME.w - SAFE.x1, SAFE.y1 - SAFE.y0]];
   g.innerHTML = z.map(([x, y, w, h]) => `<i style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"></i>`).join('') +
     `<b style="left:${SAFE.x0}px;top:${SAFE.y0}px;width:${SAFE.x1 - SAFE.x0}px;height:${SAFE.y1 - SAFE.y0}px"></b>`;
   stage.appendChild(g);
 }
 
-// Every piece of text visible right now, in stage px (opacity, visibility and overflow masks taken into account).
-// harness-side checker: social/lib/safecheck.cjs steps through a video and flags any word outside SAFE.
+// How visible an element is right now: the product of its ancestors' opacity and the box their overflow masks leave
+// (clip-path is ignored, so the answer errs on the side of "visible"). null when it is not displayed at all.
+function seen(el, stage, sr) {
+  let op = 1, clip = { l: sr.left, t: sr.top, r: sr.right, b: sr.bottom };
+  for (let e = el; e && e !== document.body; e = e.parentElement) {
+    const cs = getComputedStyle(e);
+    if (cs.display === 'none') return null;
+    op *= parseFloat(cs.opacity);
+    if (cs.overflow !== 'visible' || cs.overflowX !== 'visible' || cs.overflowY !== 'visible') {
+      const r = e.getBoundingClientRect(); clip = { l: Math.max(clip.l, r.left), t: Math.max(clip.t, r.top), r: Math.min(clip.r, r.right), b: Math.min(clip.b, r.bottom) };
+    }
+    if (e === stage) break;
+  }
+  return getComputedStyle(el).visibility === 'hidden' || op < 0.04 ? null : { op, clip };
+}
+// Everything that must stay in the safe zone and is visible right now, in stage px: every piece of text (words, numbers,
+// URLs) and every element tagged data-safe (logo marks; faces would be tagged the same way; our photos have none).
+// social/lib/safecheck.mjs steps through a video frame by frame and flags anything outside SAFE.
 export function visibleText(stage) {
   const sr = stage.getBoundingClientRect(), k = sr.width / FRAME.w, out = [];
+  const push = (text, kind, op, r, clip) => {
+    const l = Math.max(r.left, clip.l), t = Math.max(r.top, clip.t), rr = Math.min(r.right, clip.r), b = Math.min(r.bottom, clip.b);
+    if (rr - l > 1 && b - t > 1) out.push({ text, kind, op: +op.toFixed(2), x0: (l - sr.left) / k, y0: (t - sr.top) / k, x1: (rr - sr.left) / k, y1: (b - sr.top) / k });
+  };
   const tw = document.createTreeWalker(stage, NodeFilter.SHOW_TEXT);
   for (let n = tw.nextNode(); n; n = tw.nextNode()) {
     if (!n.textContent.trim() || n.parentElement.closest('#guides,svg,style,script')) continue;
-    let op = 1, clip = { l: sr.left, t: sr.top, r: sr.right, b: sr.bottom }, hidden = false;
-    for (let e = n.parentElement; e && e !== document.body; e = e.parentElement) {
-      const cs = getComputedStyle(e);
-      if (cs.display === 'none' || (e === n.parentElement && cs.visibility === 'hidden')) { hidden = true; break; }
-      op *= parseFloat(cs.opacity);
-      if (cs.overflow !== 'visible' || cs.overflowX !== 'visible' || cs.overflowY !== 'visible') {
-        const r = e.getBoundingClientRect(); clip = { l: Math.max(clip.l, r.left), t: Math.max(clip.t, r.top), r: Math.min(clip.r, r.right), b: Math.min(clip.b, r.bottom) };
-      }
-      if (e === stage) break;
-    }
-    if (hidden || op < 0.04 || getComputedStyle(n.parentElement).visibility === 'hidden') continue;
+    const v = seen(n.parentElement, stage, sr); if (!v) continue;
     const rg = document.createRange(); rg.selectNodeContents(n);
-    for (const r of rg.getClientRects()) {
-      const l = Math.max(r.left, clip.l), t = Math.max(r.top, clip.t), rr = Math.min(r.right, clip.r), b = Math.min(r.bottom, clip.b);
-      if (rr - l > 1 && b - t > 1) out.push({ text: n.textContent.trim().slice(0, 48), op: +op.toFixed(2),
-        x0: (l - sr.left) / k, y0: (t - sr.top) / k, x1: (rr - sr.left) / k, y1: (b - sr.top) / k });
-    }
+    for (const r of rg.getClientRects()) push(n.textContent.trim().slice(0, 48), 'text', v.op, r, v.clip);
+  }
+  for (const el of stage.querySelectorAll('[data-safe]')) {
+    const v = seen(el, stage, sr); if (v) push(`[${el.dataset.safe} ${el.id || el.className}]`, el.dataset.safe, v.op, el.getBoundingClientRect(), v.clip);
   }
   return out;
 }

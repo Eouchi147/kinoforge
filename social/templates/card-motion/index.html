@@ -1,59 +1,61 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Social look A: Card in motion</title>
 <!-- Look A, "Card in motion": the client's own social card (Smart Mount tools/cards.js: photo band bleeding into a flat navy
-     panel, blue eyebrow, white title, the fact set as a figure) brought to life for a 9:16 phone video. The photo pushes in
-     slowly; eyebrow, title, body and fact rise in; the fact counts up; the panel rises over the photo into the end card
-     (mark, site, area). Words stay inside the phone safe zone (social/lib/brief.mjs SAFE). Every style is a pure function of t.
-     Brief: ?brief=<batch.json>&id=<video> or ./sample.json. Words come only from the brief and brand.json, never invented. -->
+     panel, blue eyebrow, white title, the fact set as a figure, the footer with mark, address and locality) brought to life
+     for a 9:16 phone video. The photo pushes in slowly; eyebrow, title, body and fact rise in; the fact counts up; the panel
+     rises over the photo into the end card (mark, site, area). Every word, number, URL and logo mark sits inside the R-2-08
+     safe zone (social/lib/brief.mjs SAFE: the middle band); the bottom 35% is a quiet continuation of the navy panel.
+     Every style is a pure function of t. Brief: ?brief=<batch.json>&id=<video> or ./sample.json. Words come only from the
+     brief and brand.json, never invented. -->
 <link rel="stylesheet" href="/social/lib/stage.css">
 <style>
 #stage { background: var(--navy); color: var(--ink); font-family: var(--text); }
 #flag { position: absolute; left: 0; top: 0; width: 1080px; height: 12px; background: var(--blue); transform-origin: 0 50%; z-index: 8; }
-#band { position: absolute; left: 0; top: 0; width: 1080px; height: 1000px; overflow: hidden; }
+#band { position: absolute; left: 0; top: 0; width: 1080px; height: 700px; overflow: hidden; }
 #zoom { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
 #wash { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: var(--navy); opacity: .06; }
 #eyeline { position: absolute; left: 0; width: 1080px; height: 5px; margin-top: -2.5px; transform-origin: 0 50%; opacity: 0; }
-#ctr { position: absolute; width: 54px; height: 54px; margin: -27px 0 0 -27px; border-radius: 50%; border: 5px solid #fff; box-shadow: 0 0 0 2px rgba(0,0,0,.12), 0 8px 24px rgba(0,0,0,.35); opacity: 0; }
-#ctr i { position: absolute; left: 50%; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%; background: #fff; }
+#ctr { position: absolute; width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 50%; border: 5px solid #fff; box-shadow: 0 0 0 2px rgba(0,0,0,.12), 0 8px 24px rgba(0,0,0,.35); opacity: 0; }
+#ctr i { position: absolute; left: 50%; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #fff; }
 #panel { position: absolute; left: 0; width: 1080px; background: var(--navy); }
-#fade { position: absolute; left: 0; width: 1080px; bottom: 100%; height: 360px; pointer-events: none; }
-/* the card's footer (hairline, mark, address, locality), at the bottom of the phone safe zone */
-#foot { position: absolute; left: 72px; width: 878px; height: 76px; display: flex; align-items: center; justify-content: space-between; z-index: 5; }
-#foot .rule { position: absolute; left: 0; right: 0; top: -14px; height: 1px; transform-origin: 0 50%; }
-#foot .who { display: flex; align-items: center; gap: 16px; font: 700 31px/1 var(--text); letter-spacing: -.01em; color: var(--ink); white-space: nowrap; }
-#foot .mk { width: 58px; height: 58px; flex: none; }
-#foot .where { font: 500 27px/1 var(--text); color: var(--ink3); white-space: nowrap; }
-#copy { position: absolute; left: 72px; width: 878px; z-index: 4; }
-#eyebrow { font: 700 30px/1.1 var(--text); letter-spacing: .17em; text-transform: uppercase; color: var(--blue); white-space: nowrap; }
-#title { margin: 26px 0 0; font: 800 100px/1.0 var(--display); letter-spacing: -.032em; color: var(--ink); text-wrap: balance; }
-#body { margin: 30px 0 0; font: 400 42px/1.38 var(--text); color: var(--ink2); max-width: 760px; text-wrap: balance; }
-#fact { margin: 38px 0 0; position: relative; display: flex; align-items: baseline; gap: 22px; padding-left: 30px; }
-#fact .bar { position: absolute; left: 0; top: 4px; bottom: 2px; width: 8px; background: var(--blue); transform-origin: 50% 100%; }
-#fact .num { font: 800 96px/1 var(--display); letter-spacing: -.02em; color: var(--ink); white-space: nowrap; }
-#fact .lab { font: 500 36px/1.2 var(--text); color: var(--ink2); white-space: nowrap; }
+#fade { position: absolute; left: 0; width: 1080px; bottom: 100%; height: 200px; pointer-events: none; }
+/* the card's footer (hairline, mark, address, locality), on the bottom edge of the safe zone */
+#foot { position: absolute; width: 723px; height: 58px; display: flex; align-items: center; justify-content: space-between; z-index: 5; }
+#foot .rule { position: absolute; left: 0; right: 0; top: -16px; height: 1px; transform-origin: 0 50%; }
+#foot .who { display: flex; align-items: center; gap: 14px; font: 700 29px/1 var(--text); letter-spacing: -.01em; color: var(--ink); white-space: nowrap; }
+#foot .mk { width: 52px; height: 52px; flex: none; }
+#foot .where { font: 500 26px/1 var(--text); color: var(--ink3); white-space: nowrap; }
+#copy { position: absolute; width: 723px; z-index: 4; }
+#eyebrow { font: 700 28px/1.1 var(--text); letter-spacing: .17em; text-transform: uppercase; color: var(--blue); white-space: nowrap; }
+#title { margin: 22px 0 0; font: 800 92px/1.0 var(--display); letter-spacing: -.032em; color: var(--ink); text-wrap: balance; }
+#body { margin: 26px 0 0; font: 400 38px/1.36 var(--text); color: var(--ink2); max-width: 700px; text-wrap: balance; }
+#fact { margin: 32px 0 0; position: relative; display: flex; align-items: baseline; gap: 18px; padding-left: 26px; width: max-content; }
+#fact .bar { position: absolute; left: 0; top: 4px; bottom: 2px; width: 7px; background: var(--blue); transform-origin: 50% 100%; }
+#fact .num { font: 800 84px/1 var(--display); letter-spacing: -.02em; color: var(--ink); white-space: nowrap; }
+#fact .lab { font: 500 32px/1.2 var(--text); color: var(--ink2); white-space: nowrap; }
 #end { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 6; pointer-events: none; }
-#eglow { position: absolute; left: 540px; top: 690px; width: 1100px; height: 1100px; margin: -550px 0 0 -550px; border-radius: 50%; }
-#emark { position: absolute; left: 410px; top: 540px; width: 260px; height: 260px; opacity: 0; }
-#emark svg { overflow: visible; filter: drop-shadow(0 22px 34px rgba(0,0,0,.55)); }
-#esite { position: absolute; left: 0; width: 1080px; top: 858px; text-align: center; font: 800 100px/1.05 var(--display); letter-spacing: -.035em; color: var(--ink); }
-#erule { position: absolute; left: 500px; top: 1000px; width: 80px; height: 6px; border-radius: 3px; background: var(--blue); transform-origin: 50% 50%; }
-#earea { position: absolute; left: 0; width: 1080px; top: 1038px; text-align: center; font: 500 46px/1.2 var(--text); letter-spacing: .02em; color: var(--ink2); }
+#eglow { position: absolute; left: 540px; top: 640px; width: 1000px; height: 1000px; margin: -500px 0 0 -500px; border-radius: 50%; }
+#emark { position: absolute; left: 430px; top: 500px; width: 220px; height: 220px; opacity: 0; }
+#emark svg { overflow: visible; filter: drop-shadow(0 20px 32px rgba(0,0,0,.55)); }
+#esite { position: absolute; left: 0; width: 1080px; top: 768px; text-align: center; font: 800 88px/1.05 var(--display); letter-spacing: -.035em; color: var(--ink); }
+#erule { position: absolute; left: 504px; top: 900px; width: 72px; height: 6px; border-radius: 3px; background: var(--blue); transform-origin: 50% 50%; }
+#earea { position: absolute; left: 0; width: 1080px; top: 934px; text-align: center; font: 500 44px/1.2 var(--text); letter-spacing: .02em; color: var(--ink2); }
 </style></head><body>
 <div id="stage">
   <div id="band"><div id="zoom"><img id="ph" alt=""><div id="eyeline"></div><div id="ctr"><i></i></div></div><div id="wash"></div></div>
   <div id="panel"><div id="fade"></div></div>
-  <div id="foot"><i class="rule"></i><span class="who"><span class="mk" id="footmark"></span><span id="footsite"></span></span><span class="where" id="footarea"></span></div>
+  <div id="foot"><i class="rule"></i><span class="who"><span class="mk" id="footmark" data-safe="mark"></span><span id="footsite"></span></span><span class="where" id="footarea"></span></div>
   <div id="copy">
     <div id="eyebrow"></div>
     <h1 id="title"></h1>
     <div id="body"></div>
     <div id="fact"><i class="bar"></i><span class="num tnum" id="num"></span><span class="lab" id="lab"></span></div>
   </div>
-  <div id="end"><div id="eglow"></div><div id="emark"></div><div id="esite"></div><i id="erule"></i><div id="earea"></div></div>
+  <div id="end"><div id="eglow"></div><div id="emark" data-safe="mark"></div><div id="esite"></div><i id="erule"></i><div id="earea"></div></div>
   <div id="flag"></div>
 </div>
 <script type="module">
 import { seg, lerp, ease, clamp, rise } from '/ads/lib/motion.js';
-import { boot, SAFE, markSVG, markBuilder, framePhoto, placeImg, maskWords, maskLines, fitFont } from '/social/lib/stage.js';
+import { boot, SAFE, markSVG, markBuilder, framePhoto, placeImg, maskWords, maskLines, fitFont, textBottom } from '/social/lib/stage.js';
 import { parseFact, factAt } from '/social/lib/brief.mjs';
 const $ = (s) => document.querySelector(s);
 try {
@@ -61,7 +63,7 @@ try {
   const { card, brand, photo, tpl } = S;
   const DUR = +(S.brief.duration || tpl.duration);
   const rgba = (hex, a) => { const h = hex.replace('#', ''); return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`; };
-  const NAVY = brand.colors.navy;
+  const NAVY = brand.colors.navy, COLW = SAFE.x1 - SAFE.x0;   // the text column is the safe zone's width (723 px)
 
   // ---------- words (only from the brief and the brand)
   $('#eyebrow').textContent = card.eyebrow || '';
@@ -73,32 +75,45 @@ try {
   $('#footsite').textContent = brand.site; $('#footarea').textContent = brand.area; $('#esite').textContent = brand.site; $('#earea').textContent = brand.area;
   $('#footmark').innerHTML = markSVG(S.logo); $('#emark').innerHTML = markSVG(S.logo);
   $('#foot .rule').style.background = rgba(brand.colors.ink2, 0.22);
-  const FOOT = SAFE.y1 - 76; $('#foot').style.top = FOOT + 'px';
-  $('#fade').style.background = `linear-gradient(to bottom, ${rgba(NAVY, 0)} 0%, ${rgba(NAVY, 0.55)} 42%, ${NAVY} 100%)`;
+  const copy = $('#copy'), foot = $('#foot');
+  copy.style.left = foot.style.left = SAFE.x0 + 'px';
+  const FOOT = SAFE.y1 - 58; foot.style.top = FOOT + 'px';   // the footer's bottom edge is the safe zone's bottom edge
+  $('#fade').style.background = `linear-gradient(to bottom, ${rgba(NAVY, 0)} 0%, ${rgba(NAVY, 0.55)} 45%, ${NAVY} 100%)`;
 
-  // ---------- fit: the title in two lines at most, then the band gives way before the type does (as the card press does)
-  const title = $('#title'), copy = $('#copy'), body = $('#body');
-  fitFont($('#eyebrow'), 22, 30, () => $('#eyebrow').scrollWidth <= 878, 'eyebrow');
-  fitFont(title, 76, 100, () => title.offsetHeight <= parseFloat(title.style.fontSize) * 2.05 && title.scrollWidth <= 878, 'title');
-  let BAND = 1000; const LIMIT = FOOT - 44;   // the copy ends above the footer's hairline
-  const layout = (band) => { copy.style.top = (band + 34) + 'px'; return band + 34 + copy.offsetHeight; };
-  while (layout(BAND) > LIMIT && BAND > 820) BAND -= 10;
+  // ---------- fit: title in two lines at most, the fact row in the column; then the photo band gives way before the type
+  // does (as the card press does), down to a band that still reads as a room; the copy ends above the footer's hairline
+  const title = $('#title'), body = $('#body');
+  fitFont($('#eyebrow'), 20, 28, () => $('#eyebrow').scrollWidth <= COLW, 'eyebrow');
+  fitFont(title, 64, 92, () => title.offsetHeight <= parseFloat(title.style.fontSize) * 2.05 && title.scrollWidth <= COLW, 'title');
+  if (fact) {
+    const nb = 84, lb = 32, row = $('#fact');
+    for (let k = 0; k <= 10 && row.scrollWidth > COLW; k++) { $('#num').style.fontSize = nb * (1 - 0.03 * k) + 'px'; $('#lab').style.fontSize = lb * (1 - 0.03 * k) + 'px'; }
+    if (row.scrollWidth > COLW) throw new Error('the fact does not fit the column: shorten its words');
+  }
+  const LIMIT = FOOT - 42, layout = (band) => { copy.style.top = (band + 30) + 'px'; return band + 30 + Math.max(copy.offsetHeight, textBottom(copy)); };
+  let BAND = 720;
+  while (layout(BAND) > LIMIT && BAND > 480) BAND -= 10;
   if (layout(BAND) > LIMIT) {   // still long: the body and the title shrink a little (at most 12%)
-    const tb = parseFloat(title.style.fontSize), bb = 42;
+    const tb = parseFloat(title.style.fontSize), bb = 38;
     for (let k = 1; k <= 6 && layout(BAND) > LIMIT; k++) { title.style.fontSize = tb * (1 - 0.02 * k) + 'px'; body.style.fontSize = bb * (1 - 0.02 * k) + 'px'; }
   }
   if (layout(BAND) > LIMIT) throw new Error('copy too long for the 9:16 card: shorten the words rather than shrinking the type');
-  $('#band').style.height = BAND + 'px'; $('#fade').style.height = Math.round(BAND * 0.36) + 'px';   // the card's fade, riding on the panel's top edge
+  const FADE = Math.round(BAND * 0.28);
+  $('#band').style.height = BAND + 'px'; $('#fade').style.height = FADE + 'px';   // the card's fade, riding on the panel's top edge
 
-  // ---------- the photo, framed so the TV sits in the clear part of the band (below the platform tabs, above the fade)
+  // ---------- the photo: the TV sits in the clear part of the band, below the platform's top tabs, above the fade
   const img = $('#ph'); img.src = photo.url;
-  const F = framePhoto(photo, 1080, BAND, { ay: (SAFE.y0 + 0.62 * BAND) / 2 / BAND, cap: 1.33 });
+  const clearTop = 130, clearBot = BAND - FADE;
+  const F = framePhoto(photo, 1080, BAND, { ay: (clearTop + clearBot) / 2 / BAND, cap: 1.33 });
   placeImg(img, F);
   $('#zoom').style.transformOrigin = `${F.tv.cx}px ${F.tv.cy}px`;
   // figure "height": a line through the centre of the screen in the photo (the body's words, shown), moving with the photo
   const FIG = S.brief.figure === 'height';
   $('#eyeline').style.top = F.tv.cy + 'px'; $('#ctr').style.left = F.tv.cx + 'px'; $('#ctr').style.top = F.tv.cy + 'px';
   $('#eyeline').style.background = `linear-gradient(90deg, ${rgba(brand.colors.bluePale, 0)} 0%, ${brand.colors.bluePale} 16%, ${brand.colors.bluePale} 84%, ${rgba(brand.colors.bluePale, 0)} 100%)`;
+
+  // ---------- end card: the site as large as the safe zone allows around the frame's centre line
+  fitFont($('#esite'), 56, 88, () => { const e = $('#esite'); const r = document.createRange(); r.selectNodeContents(e); const w = r.getBoundingClientRect().width / (e.getBoundingClientRect().width / 1080); return w <= 2 * (SAFE.x1 - 540) - 24; }, 'end card site');
 
   // ---------- masked words and lines
   const tW = maskWords(title), bL = card.body ? maskLines(body) : [], eyebrow = $('#eyebrow');
@@ -117,7 +132,7 @@ try {
     $('#flag').style.transform = `scaleX(${ease.outExpo(seg(t, T.flag, T.flag + 0.6))})`;
     // photo: one slow push towards the TV for the whole card, a touch of drift
     const push = SOFT(seg(t, 0, T.risen));
-    $('#zoom').style.transform = `translateY(${-14 * push}px) scale(${1 + 0.15 * push})`;
+    $('#zoom').style.transform = `translateY(${-10 * push}px) scale(${1 + 0.13 * push})`;
     if (FIG) {   // the line is drawn through the centre of the screen, a ring lands on it
       const lp = ease.inOutCubic(seg(t, T.line, T.line + 0.6)), lo = ease.inCubic(seg(t, T.out, T.out + 0.3)), cp = ease.outBack(seg(t, T.line + 0.4, T.line + 0.75), 2.2);
       $('#eyeline').style.opacity = 1 - lo; $('#eyeline').style.transform = `scaleX(${lp})`;
@@ -130,7 +145,7 @@ try {
     // the card's footer: the hairline draws, the mark and the address come up (most viewers never reach an end card)
     const fp = ease.outExpo(seg(t, T.foot, T.foot + 0.8)), fOut0 = ease.inCubic(seg(t, T.out + 0.12, T.out + 0.42));
     $('#foot .rule').style.transform = `scaleX(${fp})`;
-    $('#foot').style.opacity = clamp(fp * 1.4) * (1 - fOut0); $('#foot').style.transform = `translateY(${(1 - fp) * 18 - fOut0 * 40}px)`;
+    foot.style.opacity = clamp(fp * 1.4) * (1 - fOut0); foot.style.transform = `translateY(${-(1 - fp) * 18 - fOut0 * 40}px)`;
     // eyebrow: wipes on from the left
     const ep = ease.outExpo(seg(t, T.eye, T.eye + 0.75)), eOut = ease.inCubic(seg(t, T.out, T.out + 0.3));
     eyebrow.style.clipPath = `inset(0 ${(1 - ep) * 100}% 0 0)`; eyebrow.style.transform = `translateY(${-eOut * 40}px)`; eyebrow.style.opacity = 1 - eOut;
@@ -145,10 +160,10 @@ try {
       numEl.textContent = factAt(fact, ease.outCubic(np));
       numEl.style.opacity = clamp(np * 5) * (1 - fOut); numEl.style.transform = `translateY(${(1 - ease.outExpo(clamp(np * 1.6))) * 30 - fOut * 50}px)`;
       const lp = ease.outExpo(seg(t, T.lab, T.lab + 0.7));
-      $('#lab').style.opacity = lp * (1 - fOut); $('#lab').style.transform = `translateX(${(1 - lp) * -18}px) translateY(${-fOut * 50}px)`;
+      $('#lab').style.opacity = lp * (1 - fOut); $('#lab').style.transform = `translateY(${-fOut * 50}px)`; $('#lab').style.clipPath = `inset(0 ${(1 - lp) * 100}% 0 0)`;
     }
-    // end card: the mark lands with a soft spring, the site and the area rise, a short blue rule
-    mark(seg(t, T.mark, T.mark + 1.05));   // the mark assembles: ground, wall plate and arm, the screen hooks on
+    // end card: the mark assembles (ground, wall plate and arm, the screen hooks on), the site and the area rise, a short rule
+    mark(seg(t, T.mark, T.mark + 1.05));
     const gp = seg(t, T.mark - 0.1, T.mark + 1.6);
     $('#eglow').style.opacity = ease.outCubic(gp); $('#eglow').style.transform = `scale(${0.6 + 0.4 * ease.outCubic(gp) + 0.03 * Math.sin(Math.max(0, t - T.mark) * 1.6)})`;
     rise(siteW, t, T.site, { stagger: 0.05, dur: 0.85 }); rise(areaW, t, T.area, { dur: 0.85 });

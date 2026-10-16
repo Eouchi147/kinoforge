@@ -1,4 +1,4 @@
-# Status (updated 16 Oct 2026, 20:40 UTC)
+# Status (updated 16 Oct 2026, 21:10 UTC)
 
 ## Handover
 On 16 Oct Sam moved all building into one new Claude chat, project "Unmissed with studio". KINOFORGE becomes the content
@@ -13,10 +13,13 @@ client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toro
 ## Done
 - **Social lane built (16 Oct, not yet run on GitHub):** three 9:16 templates from the same brief (Smart Mount card
   tip-height, real photo `rattan.webp`): A `card-motion` (Smart Mount's own card brought to life, 12.4 s), B `bento`
-  (Unmissed's Bento language in Smart Mount colours, 14.0 s), C `type-motion` (kinetic type over the real photo, 13.6 s).
-  Every word inside the phone safe zone (checked every 0.05 to 0.1 s by `social/lib/safecheck.mjs`). Captions per
-  platform built in code (`social/lib/captions.mjs`). First batch `social/batches/smartmount/2026-12/batch.json`: 12
-  videos (6 tips, 6 teach cards, English), look A until Sam picks. Style board rendered locally (key frames, contact sheets,
+  (Unmissed's Bento language in Smart Mount colours, 14.4 s), C `type-motion` (kinetic type over the real photo, 13.6 s).
+  Every word, number, URL and logo mark stays inside rule R-2-08's safe box (x 0.11 to 0.78, y 0.15 to 0.65 of the frame;
+  one constant, `SAFE` in `social/lib/brief.mjs`), checked on every frame by `social/lib/safecheck.mjs` for the 3 samples
+  and all 12 batch videos under each look. Captions per platform built in code (`social/lib/captions.mjs`), the hook on
+  the first line. First batch `social/batches/smartmount/2026-12/batch.json`: 12 videos (6 tips, 6 teach cards, English;
+  bodies of v07, v10, v11 corrected on 16 Oct), look A until Sam picks. Posting gate: nothing posted before Sam approves
+  the batch, and nothing for Smart Mount while smartmount.ca is parked. Style board rendered locally (key frames, contact sheets,
   540x960 check videos) and handed to the main chat for Sam (not in the repo; any local render recreates it, see
   `social/README.md`). `fitStage()` in `ads/lib/motion.js` now scales uniformly (a 9:16 stage no
   longer stretches); every existing ad renders exactly as before (40 stills compared).
@@ -35,6 +38,7 @@ client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toro
 - **Pick one look for Smart Mount's social videos** from the style board: A Card in motion, B Bento, or C Type in Motion.
   Then approve the December batch (12 videos, list in `social/batches/smartmount/2026-12/batch.json`) before it is rendered,
   and every video before it is posted. Music: on (one Lyria clip for the batch, about $0.04 to $0.08, cap $0.20) or silent.
+  Posting also waits for smartmount.ca to come back (parked since 13 Oct until the business is registered).
 - How to get natural voices (paid audition of other voice models, a human voice, or a mix); whether The Call's AI
   receptionist must sound like Unmissed's live phone agent.
 - Bento next steps (new voice, polish, 9:16 layout, French).

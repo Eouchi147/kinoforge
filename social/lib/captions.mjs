@@ -14,16 +14,20 @@ import { resolveVideo, styleProblems } from './brief.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
-// Platform limits, conservative on purpose (the one place to update them). Characters count whole captions, hashtags included.
-//  TikTok: 2,200 was the long-standing caption limit (the app has allowed more since 2024; 2,200 is safe everywhere).
-//  Instagram: 2,200 characters; at most 5 hashtags (Instagram's cap since late 2025, and good practice before it).
-//  YouTube Shorts: title 100, description 5,000; the first 3 hashtags of the description show with the title.
-//  Facebook Reels: kept to 2,200 and 3 hashtags, like the others.
+// Platform limits (the one place to update them; checked by the coordinator on 16 Oct 2026). Characters count whole
+// captions, hashtags included.
+//  TikTok: the Content Posting API caps video captions at 2,200 characters
+//    (socialk.it/de/tools/social-media-character-limits, verified June 2026).
+//  Instagram: 2,200 characters and 5 hashtags per post or Reel, phased in since December 2025 (socialsamosa.com, 19 Dec 2025).
+//  YouTube: title 100, description 5,000; the first 3 hashtags of the description show with the title.
+//  Facebook: about 125 characters show on mobile before "See more"; kept to 2,200 and 3 hashtags like the others.
+// Every caption opens with the hook (the card's title) alone on its first line. TikTok's first line stays under about
+// 100 characters so its caption overlay stays short, inside the bottom 35% of the frame (rule R-2-08 keeps our words out of it).
 export const LIMITS = {
-  tiktok: { caption: 2200, hashtags: 5 },
+  tiktok: { caption: 2200, hashtags: 5, firstLine: 100 },
   instagram: { caption: 2200, hashtags: 5 },
   youtube: { title: 100, description: 5000, hashtags: 3 },
-  facebook: { caption: 2200, hashtags: 3 },
+  facebook: { caption: 2200, hashtags: 3, preview: 125 },
 };
 export const PLATFORMS = Object.keys(LIMITS);
 const TAG = /^#[A-Za-z0-9_]{2,40}$/;
@@ -44,23 +48,27 @@ const clip = (s, n) => (s.length <= n ? s : s.slice(0, n).replace(/\s+\S*$/, '')
 export function captions(brief, brand, { music = 'none' } = {}) {
   const c = brief.card || {}, cap = brand.captions || {};
   const cta = cap.cta || `${brand.cta} at ${brand.site}`, sign = cap.sign || `${brand.name}, ${brand.area}.`;
-  const lead = [c.title, c.body, factLine(brief)].filter(Boolean);
+  const hook = c.title || '', rest = [c.body, factLine(brief)].filter(Boolean).join(' ');
   const want = new Set(brief.platforms || PLATFORMS), out = {}, problems = [];
   const text = (parts) => parts.filter(Boolean).join('\n\n');   // never truncated: too long is reported below and fails the build
-  if (want.has('tiktok')) { const L = LIMITS.tiktok; out.tiktok = { caption: text([lead.join(' '), cta, tags(brief, brand, L.hashtags).join(' ')]) }; }
-  if (want.has('instagram')) { const L = LIMITS.instagram; out.instagram = { caption: text([lead.join('\n'), `${cta}\n${sign}`, tags(brief, brand, L.hashtags).join(' ')]) }; }
+  // the hook alone on the first line, the tip under it, then the call to action and the hashtags
+  if (want.has('tiktok')) { const L = LIMITS.tiktok; out.tiktok = { caption: text([`${hook}\n${rest}`, cta, tags(brief, brand, L.hashtags).join(' ')]) }; }
+  if (want.has('instagram')) { const L = LIMITS.instagram; out.instagram = { caption: text([[hook, c.body, factLine(brief)].filter(Boolean).join('\n'), `${cta}\n${sign}`, tags(brief, brand, L.hashtags).join(' ')]) }; }
   if (want.has('youtube')) {
     const L = LIMITS.youtube, suffix = cap.youtube_suffix ?? ` | ${brand.name}`;
-    const title = (c.title || '').length + suffix.length <= L.title ? c.title + suffix : clip(c.title || '', L.title);
-    out.youtube = { title, description: text([[c.body, factLine(brief)].filter(Boolean).join(' '), `${cta}\n${sign}`, tags(brief, brand, L.hashtags).join(' ')]) };
+    const title = hook.length + suffix.length <= L.title ? hook + suffix : clip(hook, L.title);   // the title is the hook
+    out.youtube = { title, description: text([rest, `${cta}\n${sign}`, tags(brief, brand, L.hashtags).join(' ')]) };
   }
-  if (want.has('facebook')) { const L = LIMITS.facebook; out.facebook = { caption: text([lead.join(' '), `${cta}\n${sign}`, tags(brief, brand, L.hashtags).join(' ')]) }; }
-  // checks: house style, limits, hashtag counts
+  if (want.has('facebook')) { const L = LIMITS.facebook; out.facebook = { caption: text([`${hook}\n${rest}`, `${cta}\n${sign}`, tags(brief, brand, L.hashtags).join(' ')]) }; }
+  // checks: house style, limits, hashtag counts, the hook first
   for (const [p, o] of Object.entries(out)) for (const [k, v] of Object.entries(o)) {
     problems.push(...styleProblems(v, `${p} ${k}`));
     const lim = LIMITS[p][k === 'caption' ? 'caption' : k]; if (lim && v.length > lim) problems.push(`${p} ${k} is ${v.length} characters (limit ${lim})`);
     const n = (v.match(/#[A-Za-z0-9_]+/g) || []).length; if (n > LIMITS[p].hashtags) problems.push(`${p} ${k} has ${n} hashtags (limit ${LIMITS[p].hashtags})`);
+    if (k === 'caption' && v.split('\n')[0] !== hook) problems.push(`${p} caption does not open with the hook`);
   }
+  if (out.tiktok && out.tiktok.caption.split('\n')[0].length > LIMITS.tiktok.firstLine) problems.push(`tiktok first line is over ${LIMITS.tiktok.firstLine} characters`);
+  if (out.facebook && hook.length > LIMITS.facebook.preview) problems.push(`the hook is longer than Facebook's ${LIMITS.facebook.preview} character preview`);
   return {
     id: brief.id, client: brief.client, batch: brief.batch || null, template: brief.template, card: c.name || null, ...out,
     disclosure: {

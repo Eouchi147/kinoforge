@@ -3,13 +3,16 @@
 
 export const FRAME = { w: 1080, h: 1920 };
 
-// Phone safe zone for words. TikTok, Reels, Shorts and Facebook Reels draw their tabs across the top, the caption and
-// account line across the bottom, and the like, comment and share column down the right. Pictures may run under them;
-// words may not. Fractions of the frame, plus a left margin so nothing kisses the edge.
-export const SAFE = { top: 0.10, bottom: 0.20, right: 0.12, left: 72 / 1080 };
+// THE phone safe zone, one constant for the whole lane: the templates, safecheck.mjs and the review mask (?guides=1) all
+// read it. Rule R-2-08 of docs/DIRECTORS_RULEBOOK.md (the same rectangle as proto/p11-kinetic/scene.js SAFE): every word,
+// number, URL, logo mark and face stays inside x 0.11 to 0.78 and y 0.15 to 0.65 of the frame, i.e. out of the left 11%,
+// the right 22%, the top 15% and the bottom 35%. TikTok, Reels and Shorts put their tabs, caption, account line and buttons
+// over those edges, and Meta's Reels ad specs use the same 14 to 15% top and 35% bottom, so a boosted video stays safe too.
+// Photos, blurs, panels and decorative shapes may run outside it.
+export const SAFE = { left: 0.11, right: 0.22, top: 0.15, bottom: 0.35 };
 export const safeBox = (w = FRAME.w, h = FRAME.h) => ({
   x0: Math.round(SAFE.left * w), x1: Math.round(w * (1 - SAFE.right)), y0: Math.round(h * SAFE.top), y1: Math.round(h * (1 - SAFE.bottom)),
-});
+});   // 1080x1920: x 119 to 842, y 288 to 1248
 
 // House style (Sam): no em dash, no en dash, no "..." and no ellipsis character, on screen or in captions.
 const BANNED = [[/\u2014/, 'an em dash'], [/\u2013/, 'an en dash'], [/\.\.\./, '"..."'], [/\u2026/, 'an ellipsis']];

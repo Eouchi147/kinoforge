@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-// social/lib/safecheck.mjs: step through a social video and check that no visible word enters the platform zones
-// (top 10%, bottom 20%, right 12%; see SAFE in brief.mjs). No screenshots, so it is quick (seconds).
+// social/lib/safecheck.mjs: step through a social video, every frame, and check that nothing that must stay safe (text:
+// words, numbers, URLs; elements tagged data-safe: logo marks) enters the platform zones. The zone is SAFE in brief.mjs
+// (rule R-2-08: left 11%, right 22%, top 15%, bottom 35%). No screenshots, so it is quick (seconds per video).
 //
 //   node social/lib/safecheck.mjs social/templates/card-motion                                  (the template's sample)
 //   node social/lib/safecheck.mjs social/templates/card-motion --brief /social/batches/smartmount/2026-12/batch.json --id v01-tip-height
-//   options: --step 0.1 (seconds between checks)   --json out.json (write the report)
-// Exit code 1 when a word is outside the safe box by more than 2 px (a defect: the platform would draw over it).
+//   options: --step 0.1 (seconds between checks; default: every frame)   --json out.json (write the report)
+// Exit code 1 when anything is outside the safe box by more than 2 px (a defect: the platform would draw over it).
 import { createRequire } from 'node:module';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,7 +16,7 @@ const { chromium } = require('../../harness/node_modules/playwright');
 const { start } = require('../../harness/server.cjs');
 
 const args = process.argv.slice(2), scene = args[0].replace(/^\/+|\/$/g, '');
-const opt = { step: 0.1, brief: null, id: null, json: null };
+const opt = { step: null, brief: null, id: null, json: null };
 for (let i = 1; i < args.length; i++) { const k = args[i].replace(/^--/, ''); opt[k] = args[++i]; }
 const SAFE = safeBox(), TOL = 2;
 
@@ -31,8 +32,10 @@ try {
   const err = await page.evaluate(() => window.KF_ERROR || null); if (err) throw new Error(err);
   const dur = await page.evaluate(() => KF.duration), fps = (await page.evaluate(() => KF.fps)) || 30;
   const bad = new Map(); let frames = 0;
-  for (let t = 0; t <= dur + 1e-6; t += +opt.step) {
-    const boxes = await page.evaluate(async ({ i, t }) => { await KF.render(i, t); return window.KF_TEXT(); }, { i: Math.round(t * fps), t });
+  const every = opt.step ? Math.max(1, Math.round(+opt.step * fps)) : 1, last = Math.round(dur * fps);   // frame indices: no drift
+  for (let i = 0; i <= last; i += every) {
+    const t = i / fps;
+    const boxes = await page.evaluate(async ({ i, t }) => { await KF.render(i, t); return window.KF_TEXT(); }, { i, t });
     frames++;
     for (const b of boxes) {
       const over = { left: SAFE.x0 - b.x0, right: b.x1 - SAFE.x1, top: SAFE.y0 - b.y0, bottom: b.y1 - SAFE.y1 };
@@ -50,7 +53,7 @@ try {
     code = code || 1;
     console.log(`SAFE ZONE: ${report.violations.length} problem(s) in ${scene}${opt.id ? ' ' + opt.id : ''}`);
     for (const v of report.violations) console.log(`  "${v.text}" crosses ${v.sides.join(' and ')} by up to ${v.px}px, ${v.from}s to ${v.to}s (opacity up to ${v.op})`);
-  } else console.log(`safe zone ok: ${scene}${opt.id ? ' ' + opt.id : ''}, ${frames} moments checked over ${dur}s`);
+  } else console.log(`safe zone ok: ${scene}${opt.id ? ' ' + opt.id : ''}, ${frames} frames checked over ${dur}s (R-2-08 box x ${SAFE.x0} to ${SAFE.x1}, y ${SAFE.y0} to ${SAFE.y1})`);
 } catch (e) { console.error(e.message || e); code = 2; }
 await browser.close(); server.close();
 process.exit(code);

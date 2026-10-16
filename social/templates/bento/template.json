@@ -2,8 +2,8 @@
  "id": "bento",
  "look": "B",
  "name": "Bento",
- "about": "The Unmissed Bento language (bright tiles, soft layered shadows, a camera gliding across a grid) in the client's colours: the title tile, the real photo, the fact tile (a measured figure when the brief names one), a Book online tile, then the tiles collapse into the mark on the end card.",
- "duration": 14.0,
- "cover": 2.9,
+ "about": "The Unmissed Bento language (bright tiles, soft layered shadows, a camera gliding across a grid) in the client's colours: opens on the title tile, pulls back to the whole grid, glides to the real photo, the fact tile (a measured figure when the brief names one), a Book online tile, then the tiles collapse into the mark on the end card. Each close-up's zoom keeps that tile's words inside the R-2-08 safe box.",
+ "duration": 14.4,
+ "cover": 1.2,
  "fps": 30
 }

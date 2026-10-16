@@ -2,12 +2,14 @@
 <!-- Look B, "Bento": the Unmissed Bento language (ads/unmissed-v5: white tiles, soft layered shadows, a camera that glides and
      whips across a grid) in the client's day colours, for a 9:16 phone video. Four tiles on a plane: the title (eyebrow, title,
      body), the real photo, the fact (a measured figure when the brief names one, the number counting up), Book online. The camera
-     visits each, pulls back, the tiles collapse into the mark, the end card. Words only inside the phone safe zone: the camera
-     always centres on the safe box, and tiles out of focus show no words. Every style is a pure function of t. -->
+     opens on the title (the hook), pulls back to the whole grid, visits the photo, the fact and Book online, pulls back, the
+     tiles collapse into the mark, the end card. Every word, number, URL and mark stays inside the R-2-08 safe zone
+     (social/lib/brief.mjs SAFE): the camera centres on that box, each close-up's zoom is computed so the tile's words fit it,
+     and tiles out of focus show no words (their pictures stay). Every style is a pure function of t. -->
 <link rel="stylesheet" href="/social/lib/stage.css">
 <style>
 #stage { font-family: var(--text); color: var(--night); background-color: #f3f5f9; }
-#cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 2400px; perspective-origin: 511px 864px; overflow: hidden; }
+#cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 2400px; perspective-origin: 480px 768px; overflow: hidden; }
 #plane { position: absolute; left: 0; top: 0; width: 1840px; height: 2040px; transform-origin: 0 0; transform-style: preserve-3d; }
 .tile { position: absolute; background: #fff; border-radius: 44px; overflow: hidden; transform-origin: 50% 100%;
   box-shadow: 0 34px 64px -30px rgba(20,40,90,.30), 0 14px 28px -14px rgba(20,40,90,.12), 0 0 0 1px rgba(20,40,90,.05); }
@@ -40,12 +42,12 @@
 #bsite { position: absolute; left: 0; right: 0; top: 520px; text-align: center; font: 600 44px/1.2 var(--text); color: var(--mut); white-space: nowrap; }
 /* end card */
 #end { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
-#emark { position: absolute; left: 420px; top: 580px; width: 240px; height: 240px; opacity: 0; }
+#emark { position: absolute; left: 430px; top: 530px; width: 220px; height: 220px; opacity: 0; }
 #emark svg { overflow: visible; filter: drop-shadow(0 20px 28px rgba(20,40,90,.30)); }
-#esite { position: absolute; left: 0; width: 1080px; top: 880px; text-align: center; font: 800 100px/1.05 var(--display); letter-spacing: -.036em; }
-#erule { position: absolute; left: 500px; top: 1022px; width: 80px; height: 6px; border-radius: 3px; background: var(--blue); }
-#earea { position: absolute; left: 0; width: 1080px; top: 1060px; text-align: center; font: 500 46px/1.2 var(--text); letter-spacing: .02em; color: var(--mut); }
-#orb { position: absolute; left: 540px; top: 700px; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%; opacity: 0; }
+#esite { position: absolute; left: 0; width: 1080px; top: 792px; text-align: center; font: 800 88px/1.05 var(--display); letter-spacing: -.036em; }
+#erule { position: absolute; left: 504px; top: 922px; width: 72px; height: 6px; border-radius: 3px; background: var(--blue); }
+#earea { position: absolute; left: 0; width: 1080px; top: 956px; text-align: center; font: 500 44px/1.2 var(--text); letter-spacing: .02em; color: var(--mut); }
+#orb { position: absolute; left: 540px; top: 640px; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%; opacity: 0; }
 </style></head><body>
 <div id="stage">
   <div id="cam"><div id="plane">
@@ -53,7 +55,7 @@
       <div class="kick"><i></i><span id="eyebrow"></span></div>
       <div id="title"></div>
       <div id="body"></div>
-      <div class="foot"><span class="mk" id="tmark"></span><span id="tsite"></span></div>
+      <div class="foot"><span class="mk" id="tmark" data-safe="mark"></span><span id="tsite"></span></div>
     </div><div class="rim"></div></div>
     <div class="tile" id="tP" style="left:928px;top:0;width:912px;height:1180px"><div class="in"><div id="pz"><img id="ph" alt=""></div></div><div class="rim"></div></div>
     <div class="tile" id="tF" style="left:0;top:848px;width:880px;height:1192px"><div class="in">
@@ -61,13 +63,13 @@
       <div id="fwords"><div id="num" class="tnum"></div><div id="lab"></div></div>
     </div><div class="rim"></div></div>
     <div class="tile" id="tB" style="left:928px;top:1228px;width:912px;height:812px"><div class="in">
-      <div class="bhead"><span class="mk" id="bmark"></span><span id="bname"></span></div>
+      <div class="bhead"><span class="mk" id="bmark" data-safe="mark"></span><span id="bname"></span></div>
       <div id="btn"><i class="shine" id="shine"></i><span id="cta"></span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       <i id="rip"></i>
       <div id="bsite"></div>
     </div><div class="rim"></div></div>
   </div></div>
-  <div id="end"><div id="orb"></div><div id="emark"></div><div id="esite"></div><i id="erule"></i><div id="earea"></div></div>
+  <div id="end"><div id="orb"></div><div id="emark" data-safe="mark"></div><div id="esite"></div><i id="erule"></i><div id="earea"></div></div>
 </div>
 <svg width="0" height="0" style="position:absolute"><filter id="mb" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur id="mbb" stdDeviation="0 0"/></filter></svg>
 <script type="module">
@@ -80,7 +82,7 @@ try {
   const { card, brand, photo, tpl } = S, C = brand.colors;
   const DUR = +(S.brief.duration || tpl.duration);
   const rgba = (hex, a) => { const h = hex.replace('#', ''); return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`; };
-  const SX = 511, SY = 864;   // the camera always centres on the middle of the word-safe box
+  const SX = (SAFE.x0 + SAFE.x1) / 2, SY = (SAFE.y0 + SAFE.y1) / 2;   // the camera always centres on the middle of the safe box
 
   // ---------- words (only from the brief and the brand)
   $('#eyebrow').textContent = card.eyebrow || ''; if (!card.eyebrow) $('#tT .kick').style.display = 'none';
@@ -148,22 +150,33 @@ try {
   const inBack = (p, s = 1.25) => p * p * ((s + 1) * p - s);
   const pulse = (t, t0, amp, rate) => (t < t0 ? 0 : amp * Math.exp(-rate * (t - t0)));
 
-  // ---------- timeline (seconds) and the camera (centre on the plane, zoom, tilt)
-  const K = { tFocus: 1.55, pWhip: 3.55, pFocus: 4.0, fWhip: 5.35, fFocus: 5.8, bWhip: 8.65, bFocus: 9.1, pull: 10.55, over: 11.25, collapse: 11.35, hit: 12.05 };
+  // ---------- the grid: tile centres, and where each tile's words sit on the plane (x0, y0, x1, y1; the photo has none)
+  const TC = [[440, 400], [1384, 590], [440, 1444], [1384, 1634]];
+  const WORDS = [[56, 56, 836, 752], null, FIG ? [52, 772, 836, 1090] : [52, 200, 836, 640], [56, 56, 856, 590]].map((b, j) => b && [b[0] + [0, 928, 0, 928][j], b[1] + [0, 0, 848, 1228][j], b[2] + [0, 928, 0, 928][j], b[3] + [0, 0, 848, 1228][j]]);
+  // the largest zoom at which these words, with the camera on (cx, cy), stay inside the safe box with a margin
+  const fitZoom = (cx, cy, boxes, M = 30) => { let s = 9; for (const b of boxes.filter(Boolean)) {
+    if (b[0] < cx) s = Math.min(s, (SX - SAFE.x0 - M) / (cx - b[0])); if (b[2] > cx) s = Math.min(s, (SAFE.x1 - M - SX) / (b[2] - cx));
+    if (b[1] < cy) s = Math.min(s, (SY - SAFE.y0 - M) / (cy - b[1])); if (b[3] > cy) s = Math.min(s, (SAFE.y1 - M - SY) / (b[3] - cy)); } return s; };
+  const ZT = fitZoom(...TC[0], [WORDS[0]]), ZF = fitZoom(...TC[2], [WORDS[2]]), ZB = fitZoom(...TC[3], [WORDS[3]]), ZO = fitZoom(920, 1020, WORDS);
+
+  // ---------- timeline (seconds) and the camera (centre on the plane, zoom, tilt). Close-ups sit at 92 to 95% of their fit
+  // zoom (with the arrival pulse of 3% they stay inside it), the overview at 94 to 97% of its own.
+  const K = { tStart: 0, pull1: 1.55, over1: 2.35, pGlide: 3.1, pFocus: 3.65, fWhip: 4.95, fFocus: 5.4, bWhip: 8.3, bFocus: 8.75, pull: 10.25, over: 11.0, collapse: 11.1, hit: 11.82 };
   const ST = (x, y, s, rx = 0, ry = 0, rz = 0) => ({ x, y, s, rx, ry, rz });
-  const cam = { o0: ST(920, 1020, 0.40, 16, -8, -3), o1: ST(920, 1020, 0.45, 7, -3, -1.2),
-    t1: ST(440, 400, 1.0, 2, -3, 0), t2: ST(448, 404, 1.045, -1, 2, 0), p1: ST(1384, 590, 0.92, 1, 3, 0), p2: ST(1392, 600, 0.965, -1, -2, 0),
-    f1: ST(440, 1444, 0.98, 1, -2, 0), f2: ST(446, 1450, 1.01, -1, 2, 0), b1: ST(1384, 1634, 1.0, 1, 3, 0), b2: ST(1388, 1640, 1.035, 0, -1, 0),
-    o2: ST(920, 1020, 0.455, 5, 3, -0.5), o3: ST(920, 1020, 0.49, 0, 0, 0) };
+  const cam = { t1: ST(440, 400, ZT * 0.92, 3, -4, -0.6), t2: ST(440, 400, ZT * 0.95, -1, 2, 0),
+    o1: ST(920, 1020, ZO * 0.94, 7, -3, -1.2), o1b: ST(920, 1020, ZO * 0.97, 3, -1, -0.4),
+    p1: ST(1384, 590, 0.86, 1, 3, 0), p2: ST(1390, 598, 0.9, -1, -2, 0),
+    f1: ST(440, 1444, ZF * 0.92, 1, -2, 0), f2: ST(440, 1444, ZF * 0.95, -1, 2, 0), b1: ST(1384, 1634, ZB * 0.92, 1, 3, 0), b2: ST(1384, 1634, ZB * 0.95, 0, -1, 0),
+    o2: ST(920, 1020, ZO * 0.94, 5, 3, -0.5), o3: ST(920, 1020, ZO * 0.97, 0, 0, 0) };
   const SEGS = [
-    { t0: 0, t1: 1.0, a: cam.o0, b: cam.o1, e: SOFT }, { t0: 1.0, t1: K.tFocus, a: cam.o1, b: cam.t1, e: GLIDE },
-    { t0: K.tFocus, t1: K.pWhip, a: cam.t1, b: cam.t2, e: ease.outCubic }, { t0: K.pWhip, t1: K.pFocus, a: cam.t2, b: cam.p1, e: WHIP, whip: 1 },
+    { t0: 0, t1: K.pull1, a: cam.t1, b: cam.t2, e: ease.outCubic }, { t0: K.pull1, t1: K.over1, a: cam.t2, b: cam.o1, e: GLIDE },
+    { t0: K.over1, t1: K.pGlide, a: cam.o1, b: cam.o1b, e: SOFT }, { t0: K.pGlide, t1: K.pFocus, a: cam.o1b, b: cam.p1, e: GLIDE },
     { t0: K.pFocus, t1: K.fWhip, a: cam.p1, b: cam.p2, e: ease.outCubic }, { t0: K.fWhip, t1: K.fFocus, a: cam.p2, b: cam.f1, e: WHIP, whip: 1 },
     { t0: K.fFocus, t1: K.bWhip, a: cam.f1, b: cam.f2, e: ease.outCubic }, { t0: K.bWhip, t1: K.bFocus, a: cam.f2, b: cam.b1, e: WHIP, whip: 1 },
     { t0: K.bFocus, t1: K.pull, a: cam.b1, b: cam.b2, e: ease.outCubic }, { t0: K.pull, t1: K.over, a: cam.b2, b: cam.o2, e: GLIDE },
     { t0: K.over, t1: K.hit, a: cam.o2, b: cam.o3, e: ease.inOutCubic },
   ];
-  const ARRIVE = [[K.tFocus, 0.05], [K.pFocus, 0.05], [K.fFocus, 0.05], [K.bFocus, 0.05]];
+  const ARRIVE = [[K.pFocus, 0.03], [K.fFocus, 0.03], [K.bFocus, 0.03]];
   function camAt(t) {
     let sg = SEGS[SEGS.length - 1], p = 1;
     for (const g of SEGS) if (t <= g.t1) { sg = g; p = clamp((t - g.t0) / (g.t1 - g.t0)); break; }
@@ -174,16 +187,16 @@ try {
     let k = 0; for (const [ta, amp] of ARRIVE) k += pulse(t, ta, amp, 12);
     return { x, y, s: s * (1 + k), rx, ry, rz };
   }
-  // words fade when a tile is out of focus or near a platform zone; pictures (the photo, the figure) stay, so neighbours peek in
+  // words fade when a tile is out of focus or near a platform zone (the safety net: a tile's words fade as soon as the
+  // camera carries them towards an edge); pictures (the photo, the figure) stay, so neighbours peek in
   const tiles = ['T', 'P', 'F', 'B'].map((n) => ({ el: $('#t' + n), rim: $('#t' + n + ' .rim'), words: { T: $('#tT .in'), P: null, F: $('#fwords'), B: $('#tB .in') }[n] }));
-  // the flips start before frame 0, so the very first frame already shows the grid building (a phone may show frame 0 first)
-  const TC = [[440, 400], [1384, 590], [440, 1444], [1384, 1634]], FLIP = [-0.3, -0.2, -0.1, 0.0], ROT = [-16, 14, 18, -14], TZ = [30, 0, 0, 24];
-  // where each tile's words sit on the plane (x0, y0, x1, y1); the photo tile has none. A tile's words fade out as soon as
-  // the camera carries them towards a platform zone, so no word ever sits under the platform's buttons or captions.
-  const WORDS = [[56, 56, 836, 752], null, FIG ? [52, 772, 836, 1090] : [52, 200, 836, 640], [56, 56, 856, 590]].map((b, j) => b && [b[0] + [0, 928, 0, 928][j], b[1] + [0, 0, 848, 1228][j], b[2] + [0, 928, 0, 928][j], b[3] + [0, 0, 848, 1228][j]]);
-  const ORDER_FOCUS = [K.tFocus, K.pFocus, K.fFocus, K.bFocus];
+  // the title tile is already flipping at frame 0 (the hook); the others flip in as the camera pulls back to reveal the grid
+  const FLIP = [-0.3, 1.42, 1.54, 1.66], ROT = [-16, 14, 18, -14], TZ = [30, 0, 0, 24];
+  const ORDER_FOCUS = [99, K.pFocus, K.fFocus, K.bFocus];
+  // the end card: the site as large as the safe zone allows around the frame's centre line
+  fitFont($('#esite'), 56, 88, () => { const e = $('#esite'), r = document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect().width / (e.getBoundingClientRect().width / 1080) <= 2 * (SAFE.x1 - 540) - 24; }, 'end card site');
   const siteW = maskWords($('#esite')), areaW = maskWords($('#earea')), mark = markBuilder($('#emark'), brand.mark_build);
-  const MX = 540, MY = 700;   // where the tiles meet and the mark lands (screen px)
+  const MX = 540, MY = 640;   // where the tiles meet and the mark lands (screen px)
 
   window.KF = { duration: DUR, fps: 30, cover: tpl.cover, async render(i, t) {
     const cm = camAt(t);
@@ -198,7 +211,7 @@ try {
       const kx = vx + 0.5 * iso, ky = vy + 0.5 * iso, L = (kx + ky) / 30, kk = L > 16 ? Math.min(28, (L - 16) * 0.09) : 0;
       $('#mbb').setAttribute('stdDeviation', `${(kk * kx / (kx + ky + 1e-6)).toFixed(2)} ${(kk * ky / (kx + ky + 1e-6)).toFixed(2)}`); $('#cam').style.filter = kk > 0.4 ? 'url(#mb)' : 'none'; }
     // which tile is awake: the one under the camera (all of them in the overview); others show no words
-    const ov = smooth(0.80 - cm.s, 0, 0.12), collapsing = t >= K.collapse;
+    const ov = smooth(0.60 - cm.s, 0, 0.12), collapsing = t >= K.collapse;
     tiles.forEach((tl, j) => {
       const sx = SX + (TC[j][0] - cm.x) * cm.s, sy = SY + (TC[j][1] - cm.y) * cm.s, dd = Math.hypot(sx - SX, (sy - SY) * 0.9);
       const focus = Math.max(ov, 1 - smooth(dd, 380, 700));
@@ -224,13 +237,13 @@ try {
       tl.rim.style.opacity = (collapsing ? 0 : 0.85 * Math.exp(-4.5 * Math.max(0, t - ORDER_FOCUS[j])) * (t >= ORDER_FOCUS[j] ? 1 : 0)) * focus;
     });
     // title tile: eyebrow wipes on, title words rise (the last one in the accent), body lines rise
-    const ep = ease.outExpo(seg(t, -0.05, 0.65)); $('#tT .kick').style.clipPath = `inset(0 ${(1 - ep) * 100}% 0 0)`;
-    rise(tW, t, 0.0, { stagger: 0.06, dur: 0.8 });
-    rise(bL, t, 0.4, { stagger: 0.1, dur: 0.8 });
+    const ep = ease.outExpo(seg(t, -0.12, 0.6)); $('#tT .kick').style.clipPath = `inset(0 ${(1 - ep) * 100}% 0 0)`;
+    rise(tW, t, -0.06, { stagger: 0.06, dur: 0.8 });
+    rise(bL, t, 0.35, { stagger: 0.1, dur: 0.8 });
     // photo tile: a slow push towards the TV while the camera is there
-    $('#pz').style.transform = `scale(${1 + 0.07 * SOFT(seg(t, K.pWhip, K.fWhip + 0.4))})`;
+    $('#pz').style.transform = `scale(${1 + 0.07 * SOFT(seg(t, K.pGlide, K.fWhip + 0.4))})`;
     // fact tile: the figure draws, the measure rises from the floor to the screen's centre as the number counts
-    const c0 = K.fFocus + 0.55, CNT = 1.2;
+    const c0 = K.fFocus + 0.5, CNT = 1.2;
     if (FE) {
       // the room (floor, seat, screen) is there from the start, so the tile reads in the overview; the measure waits for the camera
       const a = (t0, d = 0.45) => ease.outCubic(seg(t, t0, t0 + d));

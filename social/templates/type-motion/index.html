@@ -3,7 +3,9 @@
      title in big masked lines over a navy scrim, its last word in the accent. Scene 2: the photo clears, a line is drawn
      through the centre of the screen (figure "height") and the body rises under the TV. Scene 3: the fact as one giant number
      counting up, then the photo shows inside it. Scene 4: a brand-blue field and the end card (the mark assembles, site, area).
-     Words only inside the phone safe zone. Every style is a pure function of t. Photos only, never AI images. -->
+     Every word, number, URL and mark stays inside the R-2-08 safe zone (social/lib/brief.mjs SAFE): the TV sits high in the
+     frame (the photo may run under the top band), the type in the lower half of the safe box. Every style is a pure function
+     of t. Photos only, never AI images. -->
 <link rel="stylesheet" href="/social/lib/stage.css">
 <style>
 #stage { background: var(--navy); color: var(--ink); font-family: var(--text); }
@@ -12,25 +14,25 @@
 #bg img { position: absolute; filter: blur(34px) saturate(1.1) brightness(.62); }
 #win { position: absolute; left: 0; width: 1080px; overflow: hidden; }
 #scrim, #dim { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
-#eyebrow { position: absolute; left: 76px; font: 700 32px/1.1 var(--text); letter-spacing: .17em; text-transform: uppercase; white-space: nowrap; }
-#title { position: absolute; left: 72px; width: 868px; font: 800 196px/.9 var(--display); letter-spacing: -.045em; text-wrap: balance; }
+#eyebrow { position: absolute; font: 700 30px/1.1 var(--text); letter-spacing: .17em; text-transform: uppercase; white-space: nowrap; }
+#title { position: absolute; font: 800 196px/.9 var(--display); letter-spacing: -.045em; text-wrap: balance; }
 #title .acc { color: transparent; -webkit-background-clip: text; background-clip: text; background-size: 320% 100%; background-repeat: no-repeat; }
 #eyeline { position: absolute; left: 0; width: 1080px; height: 6px; margin-top: -3px; transform-origin: 0 50%; }
 #ctr { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; border: 6px solid #fff; box-shadow: 0 0 0 3px rgba(0,0,0,.15), 0 10px 30px rgba(0,0,0,.35); }
 #ctr i { position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: #fff; }
-#body { position: absolute; left: 72px; width: 860px; font: 700 76px/1.08 var(--display); letter-spacing: -.03em; text-wrap: pretty; }
+#body { position: absolute; font: 700 76px/1.08 var(--display); letter-spacing: -.03em; text-wrap: pretty; }
 #numwrap { position: absolute; left: 0; width: 1080px; top: 0; height: 1920px; }
-.num { position: absolute; left: 72px; font: 800 560px/1 var(--display); letter-spacing: -.055em; white-space: nowrap; }
+.num { position: absolute; font: 800 520px/1 var(--display); letter-spacing: -.055em; white-space: nowrap; }
 .num .u { color: var(--bluePale); }
-#numbar { position: absolute; left: 80px; height: 14px; border-radius: 7px; transform-origin: 0 50%; }
-#lab { position: absolute; left: 80px; font: 600 54px/1.15 var(--text); letter-spacing: -.01em; color: var(--ink); white-space: nowrap; }
+#numbar { position: absolute; height: 14px; border-radius: 7px; transform-origin: 0 50%; }
+#lab { position: absolute; font: 600 50px/1.15 var(--text); letter-spacing: -.01em; color: var(--ink); white-space: nowrap; }
 #field { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
 #end { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
-#emark { position: absolute; left: 410px; top: 560px; width: 260px; height: 260px; opacity: 0; }
+#emark { position: absolute; left: 430px; top: 500px; width: 220px; height: 220px; opacity: 0; }
 #emark svg { overflow: visible; filter: drop-shadow(0 22px 34px rgba(5,20,60,.45)); }
-#esite { position: absolute; left: 0; width: 1080px; top: 880px; text-align: center; font: 800 104px/1.05 var(--display); letter-spacing: -.04em; color: #fff; }
-#erule { position: absolute; left: 500px; top: 1026px; width: 80px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.85); }
-#earea { position: absolute; left: 0; width: 1080px; top: 1064px; text-align: center; font: 500 48px/1.2 var(--text); letter-spacing: .02em; color: rgba(255,255,255,.86); }
+#esite { position: absolute; left: 0; width: 1080px; top: 768px; text-align: center; font: 800 88px/1.05 var(--display); letter-spacing: -.04em; color: #fff; }
+#erule { position: absolute; left: 504px; top: 900px; width: 72px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.85); }
+#earea { position: absolute; left: 0; width: 1080px; top: 934px; text-align: center; font: 500 44px/1.2 var(--text); letter-spacing: .02em; color: rgba(255,255,255,.86); }
 </style></head><body>
 <div id="stage">
   <div id="pz"><div id="bg"><img id="bgph" alt=""></div><div id="win"><img id="ph" alt=""></div></div>
@@ -41,7 +43,7 @@
   <div id="body"></div>
   <div id="numwrap"><div class="num tnum" id="numW"></div><i id="numbar"></i><div id="lab"></div></div>
   <div id="field"></div>
-  <div id="end"><div id="emark"></div><div id="esite"></div><i id="erule"></i><div id="earea"></div></div>
+  <div id="end"><div id="emark" data-safe="mark"></div><div id="esite"></div><i id="erule"></i><div id="earea"></div></div>
 </div>
 <script type="module">
 import { seg, lerp, ease, clamp, rise } from '/ads/lib/motion.js';
@@ -59,7 +61,7 @@ try {
   // is simply cropped. Anything wider, cropped to 9:16, turns the TV into a black slab filling the frame (the smartmount card
   // press found the same), so it sits as a sharp, feathered window across the full width over a blurred copy of itself.
   const img = $('#ph'); img.src = photo.url; $('#bgph').src = photo.url;
-  const portrait = photo.h / photo.w >= 1.6, TVY = 600;
+  const portrait = photo.h / photo.w >= 1.6, TVY = 380, COLW = SAFE.x1 - SAFE.x0;   // the TV high (below the tab row), the type below it
   let F;
   if (portrait) {
     $('#win').style.top = '0px'; $('#win').style.height = '1920px'; $('#bg').style.display = 'none';
@@ -86,32 +88,38 @@ try {
   const numHTML = (txt) => { if (!fact || !fact.count || !fact.suffix) return escH(txt); const n = txt.slice(0, txt.length - fact.suffix.length); return escH(n) + `<span class="u">${escH(fact.suffix)}</span>`; };
   if (fact) { $('#numW').innerHTML = numHTML(fact.text); $('#lab').textContent = card.fact[1]; }
 
-  // ---------- fit: the title in at most three big lines in the lower part of the safe box
-  const TITLE_TOP = Math.max(Math.round(F.tv.y1) + 150, 930), TITLE_MAX = SAFE.y1 - 12 - TITLE_TOP;
-  fitFont(eyebrow, 22, 32, () => eyebrow.scrollWidth <= 870, 'eyebrow');
-  fitFont(title, 110, 200, () => title.scrollWidth <= 868 && title.offsetHeight <= Math.min(TITLE_MAX, parseFloat(title.style.fontSize) * 0.9 * 3 + 4), 'title');
+  // ---------- fit: the title in at most three big lines in the lower part of the safe box (the column is the box's width)
+  for (const el of [eyebrow, title, body, $('#numW'), $('#numbar'), $('#lab')]) el.style.left = SAFE.x0 + 'px';
+  eyebrow.style.left = (SAFE.x0 + 4) + 'px'; $('#numbar').style.left = $('#lab').style.left = (SAFE.x0 + 8) + 'px';
+  title.style.width = body.style.width = COLW + 'px';
+  const TVB = Math.round(F.tv.y1 + 0.06 * (F.tv.y1 - F.tv.cy));   // the TV's bottom edge at the end of the push-in
+  const TITLE_TOP = Math.max(TVB + 150, 620), TITLE_MAX = SAFE.y1 - 24 - TITLE_TOP;   // eyebrow and title clear of the TV
+  fitFont(eyebrow, 20, 30, () => eyebrow.scrollWidth <= COLW - 8, 'eyebrow');
+  fitFont(title, 96, 200, () => title.scrollWidth <= COLW && title.offsetHeight <= Math.min(TITLE_MAX, parseFloat(title.style.fontSize) * 0.9 * 3 + 4), 'title');
   const tL = maskLines(title);
-  const titleTop = Math.round(SAFE.y1 - 18 - textBottom(title)); title.style.top = titleTop + 'px'; eyebrow.style.top = (titleTop - 64) + 'px';
+  const titleTop = Math.round(SAFE.y1 - 18 - textBottom(title)); title.style.top = titleTop + 'px'; eyebrow.style.top = (titleTop - 60) + 'px';
   const lastLine = tL[tL.length - 1]; const lw = lastLine.textContent.split(' '); const lastWord = lw.pop();
   lastLine.innerHTML = (lw.length ? escH(lw.join(' ')) + ' ' : '') + `<span class="acc">${escH(lastWord)}</span>`;
   const acc = lastLine.querySelector('.acc');
   acc.style.backgroundImage = `linear-gradient(100deg, ${C.bluePale} 0%, ${C.bluePale} 42%, #ffffff 50%, ${C.bluePale} 58%, ${C.bluePale} 100%)`;
   // body: low in the safe box, on the dark part of the scrim, clear of the TV and its line
-  const BODY_MIN = Math.round(F.tv.y1) + 120;
-  if (card.body) fitFont(body, 54, 80, () => body.scrollWidth <= 860 && body.offsetHeight <= SAFE.y1 - 24 - BODY_MIN, 'body');
+  const BODY_MIN = Math.max(TVB + 150, 860);
+  if (card.body) fitFont(body, 50, 80, () => body.scrollWidth <= COLW && body.offsetHeight <= SAFE.y1 - 24 - BODY_MIN, 'body');
   body.style.top = Math.round(SAFE.y1 - 18 - textBottom(body)) + 'px';   // 18 px: a rising line's mask reaches a little below its resting glyphs
   const bL = card.body ? maskLines(body) : [];
   // the giant number, as wide as the safe box allows
   const numW = $('#numW');
   if (fact) {
-    fitFont(numW, 200, 600, () => numW.scrollWidth <= 870 && numW.offsetHeight <= 640, 'fact number');
+    fitFont(numW, 180, 560, () => numW.scrollWidth <= COLW && numW.offsetHeight <= 520, 'fact number');
     numW.style.minWidth = numW.offsetWidth + 'px';
-    const nh = numW.offsetHeight, ntop = Math.round(SAFE.y0 + (SAFE.y1 - SAFE.y0) * 0.43 - nh / 2);
+    const nh = numW.offsetHeight, ntop = Math.round(SAFE.y0 + (SAFE.y1 - SAFE.y0) * 0.42 - nh / 2);
     numW.style.top = ntop + 'px';
-    $('#numbar').style.top = (ntop + nh + 18) + 'px'; $('#numbar').style.width = Math.min(860, numW.offsetWidth - 20) + 'px'; $('#numbar').style.background = C.blue;
-    $('#lab').style.top = (ntop + nh + 64) + 'px';
-    fitFont($('#lab'), 34, 54, () => $('#lab').scrollWidth <= 860, 'fact words');
+    $('#numbar').style.top = (ntop + nh + 18) + 'px'; $('#numbar').style.width = Math.min(COLW - 8, numW.offsetWidth - 20) + 'px'; $('#numbar').style.background = C.blue;
+    $('#lab').style.top = (ntop + nh + 60) + 'px';
+    fitFont($('#lab'), 32, 50, () => $('#lab').scrollWidth <= COLW - 8, 'fact words');
   }
+  // the end card: the site as large as the safe zone allows around the frame's centre line
+  fitFont($('#esite'), 56, 88, () => { const e = $('#esite'), r = document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect().width / (e.getBoundingClientRect().width / 1080) <= 2 * (SAFE.x1 - 540) - 24; }, 'end card site');
   const labW = maskWords($('#lab'));
   $('#eyeline').style.top = F.tv.cy + 'px'; $('#eyeline').style.background = `linear-gradient(90deg, ${rgba(C.bluePale, 0)} 0%, ${C.bluePale} 18%, ${C.bluePale} 82%, ${rgba(C.bluePale, 0)} 100%)`;
   $('#ctr').style.left = F.tv.cx + 'px'; $('#ctr').style.top = F.tv.cy + 'px';
@@ -120,7 +128,12 @@ try {
   const FIG = S.brief.figure === 'height';
 
   // ---------- timeline (seconds)
-  const T = { eye: 0.05, title: 0.12, shine: 1.55, out1: 2.75, line: 3.05, body: 3.3, out2: 5.95, dark: 5.9, num: 6.42, cnt: 1.2, lab: 7.15, out3: 9.45, field: 9.55, mark: 10.0 };
+  const T = { eye: -0.1, title: -0.04, shine: 1.55, out1: 2.75, line: 3.05, body: 3.3, out2: 5.95, dark: 5.9, num: 6.42, cnt: 1.2, lab: 7.15, out3: 9.45, field: 9.55, mark: 10.0 };
+  // the scrim, from this photo's own geometry: [y px, scene 1 strength, scene 2 strength]. Clear over the TV; it darkens
+  // just under the TV's bottom edge so the eyebrow and the title (scene 1) and the body (scene 2) always sit on navy.
+  const eyeTop = parseFloat(eyebrow.style.top), bodyTop = parseFloat(body.style.top) || 1100;
+  const yA = TVB + 16, y1 = Math.max(yA + 50, eyeTop - 14), y2 = Math.max(yA + 90, bodyTop - 70);
+  const SCRIM = [[0, 0.18, 0.08], [307, 0, 0], [yA, 0.03, 0.02], [y1, 0.74, 0.3], [y1 + 120, 0.88, 0.45], [Math.max(y2, y1 + 121), 0.88, 0.62], [y2 + 70, 0.9, 0.84], [1920, 0.92, 0.92]].sort((a, b) => a[0] - b[0]);
   const SOFT = (p) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
 
   window.KF = { duration: DUR, fps: 30, cover: tpl.cover, async render(i, t) {
@@ -129,7 +142,7 @@ try {
     $('#pz').style.transform = `scale(${1.0 + 0.10 * push})`;
     // scrim: strong at the bottom for the title, eases for the body, the frame darkens for the number
     const s1 = 1 - ease.inOutCubic(seg(t, T.out1, T.out1 + 0.6));
-    $('#scrim').style.background = `linear-gradient(to bottom, ${N(0.10 + 0.12 * s1)} 0%, ${N(0.0)} 22%, ${N(0.10 + 0.25 * s1)} 44%, ${N(0.72 + 0.16 * s1)} 66%, ${N(0.9)} 100%)`;
+    $('#scrim').style.background = `linear-gradient(to bottom, ${SCRIM.map(([y, a1, a2]) => `${N(lerp(a2, a1, s1))} ${y}px`).join(', ')})`;
     $('#dim').style.background = C.navy; $('#dim').style.opacity = (0.82 * ease.inOutCubic(seg(t, T.dark, T.dark + 0.5))).toFixed(3);
     // scene 1: eyebrow wipes on, title lines rise; one light sweep across the accent word
     const ep = ease.outExpo(seg(t, T.eye, T.eye + 0.8)), eo = ease.inCubic(seg(t, T.out1, T.out1 + 0.3));
@@ -147,7 +160,8 @@ try {
       const np = seg(t, T.num, T.num + T.cnt), no = ease.inCubic(seg(t, T.out3, T.out3 + 0.35));
       numW.innerHTML = numHTML(factAt(fact, ease.outCubic(np)));
       const nin = ease.outExpo(seg(t, T.num - 0.1, T.num + 0.6));
-      numW.style.transform = `translateY(${(1 - nin) * 120 - no * 160}px) scale(${0.94 + 0.06 * nin})`; numW.style.transformOrigin = '0 100%';
+      // in from below, out downwards while it fades (a tall number leaving upwards would touch the top band)
+      numW.style.transform = `translateY(${(1 - nin) * 120 + no * 70}px) scale(${(0.94 + 0.06 * nin) * (1 - 0.04 * no)})`; numW.style.transformOrigin = '0 100%';
       numW.style.opacity = clamp(nin * 1.4) * (1 - no);
       $('#numbar').style.transform = `scaleX(${ease.outExpo(seg(t, T.num + 0.2, T.num + T.cnt)) * (1 - no)})`;
       rise(labW, t, T.lab, { stagger: 0.05, dur: 0.8, tOut: T.out3, outDur: 0.3 });
