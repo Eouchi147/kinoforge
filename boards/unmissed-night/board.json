@@ -1,0 +1,17 @@
+{
+ "_": "Night Shift (Unmissed ad version 4): cinematic stills of an invented small restaurant after closing. Stills first; clips only after Claude checks them. No people, no readable text.",
+ "cap_usd": 2.6,
+ "aspect": "16:9",
+ "frames": [
+  {"id": "ns-1", "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Cinematic film still, photographed for real: an empty small neighbourhood restaurant at night after closing, chairs turned upside down on the wooden tables, one warm pendant lamp glowing over the counter, the rest of the room in deep blue shadow, the big front window streaked with rain and blurred city lights outside. Anamorphic 40 mm lens, shallow depth of field, moody, quiet, true colours, fine film grain, ARRI Alexa look. No people, no text, no signs, no logos."},
+  {"id": "ns-2", "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Cinematic close-up, photographed for real: a smartphone lying face up on a dark oiled wooden counter in an empty restaurant at night, its screen glowing softly blue-white and lighting the wood grain around it, the screen content out of focus and unreadable, a ceramic coffee cup and a folded linen apron nearby, a warm pendant lamp behind turned to soft bokeh. 85 mm lens, very shallow depth of field, quiet and intimate. No people, no readable text, no logos."},
+  {"id": "ns-3", "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Cinematic close-up, photographed for real: rain drops on a restaurant's front window at night, the city behind as large soft bokeh in deep blue and warm amber, a faint reflection of a warm interior lamp on the glass. 100 mm lens, shallow depth of field, moody, photoreal, fine grain. No people, no text, no signs."},
+  {"id": "ns-4", "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Cinematic film still, photographed for real: the same kind of small neighbourhood restaurant at dawn, low golden sunlight streaming through the front window across wooden tables with chairs still turned up, dust floating in the light beams, calm and fresh, a new day. 35 mm lens, gentle contrast, true colours, fine film grain. No people, no text, no signs, no logos."},
+  {"id": "ns-5", "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Cinematic film still, photographed for real: a restaurant kitchen pass at night, a stainless steel counter under one warm hanging light, a neat stack of clean white plates, an empty ticket rail, everything else falling into dark blue shadow, still and quiet. 50 mm lens, shallow depth of field, fine film grain. No people, no readable text, no logos."}
+ ]
+}
