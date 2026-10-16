@@ -1,0 +1,35 @@
+{
+ "voice": "river",
+ "lines": [
+  {
+   "text": "Calls.",
+   "file": "audio/vo/line0.mp3",
+   "dur": 1.306
+  },
+  {
+   "text": "Messages.",
+   "file": "audio/vo/line1.mp3",
+   "dur": 0.993
+  },
+  {
+   "text": "Leads.",
+   "file": "audio/vo/line2.mp3",
+   "dur": 0.679
+  },
+  {
+   "text": "Some slip through the gaps.",
+   "file": "audio/vo/line3.mp3",
+   "dur": 1.646
+  },
+  {
+   "text": "Unmissed answers every one, day and night.",
+   "file": "audio/vo/line4.mp3",
+   "dur": 3.239
+  },
+  {
+   "text": "A premium presence. An AI front desk.",
+   "file": "audio/vo/line5.mp3",
+   "dur": 3.082
+  }
+ ]
+}

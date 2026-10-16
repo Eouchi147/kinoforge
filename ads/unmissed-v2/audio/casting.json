@@ -1,0 +1,22 @@
+{
+ "scores": [
+  {
+   "voice": "eric",
+   "score": 5.25,
+   "note": "Choppy, stop-start cadence \u2014 single-word bursts ('Calls. Messages. Leads.') and an unnatural beat mid-phrase ('Some, slip through the gaps') read as hard-sell announcer or synthetic pacing. Confidence is there but it's brassy, not warm. Clarity is fine; intimacy is missing. Poor match for a close-mic Apple-style film."
+  },
+  {
+   "voice": "brian",
+   "score": 7.25,
+   "note": "Smoother phrasing through the body copy and a clean, confident line read. Warmth is moderate but leans corporate-presentational rather than intimate; the list opening still lands a bit staccato. Clear and professional, a solid premium-adjacent read but not whisper-close."
+  },
+  {
+   "voice": "river",
+   "score": 9,
+   "note": "Connected, flowing delivery \u2014 the list links with commas rather than hammer stops, and 'A premium presence, an AI front desk' breathes as one intimate thought. Warm, calm, close to the mic, assured without pushiness. Best clarity-through-restraint and the closest fit to the brief."
+  }
+ ],
+ "best": "river",
+ "why": "River is the only read that sounds like a person speaking softly and closely into the microphone \u2014 warm, unhurried, and confident without announcing itself. Eric is choppy and hard-sell; Brian is polished but presentational; River matches the Apple product-film tone.",
+ "model": "xiaomi/mimo-v2.6-pro"
+}
