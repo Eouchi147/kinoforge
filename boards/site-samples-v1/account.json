@@ -1,0 +1,28 @@
+{
+ "before": {
+  "usage": 37.601170547,
+  "limit": 50,
+  "remaining": 12.398829452999998
+ },
+ "after": {
+  "usage": 38.411170547,
+  "limit": 50,
+  "remaining": 11.588829453000002
+ },
+ "board_spent": 0.81,
+ "ledger_total": 1.08,
+ "frames": {
+  "hs-living": "bytedance-seed/seedream-5-0-pro",
+  "hs-mechanical": "bytedance-seed/seedream-5-0-pro",
+  "hs-kitchen": "bytedance-seed/seedream-5-0-pro",
+  "hs-tools": "bytedance-seed/seedream-5-0-pro",
+  "hs-exterior": "bytedance-seed/seedream-5-0-pro",
+  "hs-bathroom": "bytedance-seed/seedream-5-0-pro",
+  "rs-pasta": "bytedance-seed/seedream-5-0-pro",
+  "rs-salmon": "bytedance-seed/seedream-5-0-pro",
+  "rs-room": "bytedance-seed/seedream-5-0-pro",
+  "rs-bakery": "bytedance-seed/seedream-5-0-pro",
+  "rs-coffee": "bytedance-seed/seedream-5-0-pro",
+  "rs-oven": "bytedance-seed/seedream-5-0-pro"
+ }
+}
