@@ -1,0 +1,201 @@
+{
+ "cap": 3.0,
+ "total": 2.16,
+ "by_seat": {
+  "image": 2.16
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-pizza",
+   "usd": 0.09,
+   "s": 49.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-pasta",
+   "usd": 0.09,
+   "s": 56.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-burger",
+   "usd": 0.09,
+   "s": 58.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-ramen",
+   "usd": 0.09,
+   "s": 35.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-sushi",
+   "usd": 0.09,
+   "s": 45.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-salad",
+   "usd": 0.09,
+   "s": 53.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-latte",
+   "usd": 0.09,
+   "s": 40.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-croissant",
+   "usd": 0.09,
+   "s": 42.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-tacos",
+   "usd": 0.09,
+   "s": 49.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-steak",
+   "usd": 0.09,
+   "s": 41.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-dessert",
+   "usd": 0.09,
+   "s": 39.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-grill",
+   "usd": 0.09,
+   "s": 39.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fc-wrap",
+   "usd": 0.09,
+   "s": 47.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-pizzaoven",
+   "usd": 0.09,
+   "s": 38.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-brunch",
+   "usd": 0.09,
+   "s": 30.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-pasta-table",
+   "usd": 0.09,
+   "s": 40.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-bakery-case",
+   "usd": 0.09,
+   "s": 40.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-fine",
+   "usd": 0.09,
+   "s": 37.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-espresso",
+   "usd": 0.09,
+   "s": 49.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-sushi-bar",
+   "usd": 0.09,
+   "s": 36.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-fries",
+   "usd": 0.09,
+   "s": 48.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-dessert-shop",
+   "usd": 0.09,
+   "s": 52.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-foodtruck",
+   "usd": 0.09,
+   "s": 47.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fa-catering",
+   "usd": 0.09,
+   "s": 55.9,
+   "ok": true
+  }
+ ]
+}

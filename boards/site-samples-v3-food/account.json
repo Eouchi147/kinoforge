@@ -1,0 +1,40 @@
+{
+ "before": {
+  "usage": 42.180100037,
+  "limit": 50,
+  "remaining": 7.8198999629999975
+ },
+ "after": {
+  "usage": 46.770100037,
+  "limit": 50,
+  "remaining": 3.229899963000001
+ },
+ "board_spent": 4.59,
+ "ledger_total": 2.16,
+ "frames": {
+  "fc-burger": "bytedance-seed/seedream-5-0-pro",
+  "fc-pizza": "bytedance-seed/seedream-5-0-pro",
+  "fc-pasta": "bytedance-seed/seedream-5-0-pro",
+  "fc-ramen": "bytedance-seed/seedream-5-0-pro",
+  "fc-sushi": "bytedance-seed/seedream-5-0-pro",
+  "fc-salad": "bytedance-seed/seedream-5-0-pro",
+  "fc-latte": "bytedance-seed/seedream-5-0-pro",
+  "fc-croissant": "bytedance-seed/seedream-5-0-pro",
+  "fc-tacos": "bytedance-seed/seedream-5-0-pro",
+  "fc-steak": "bytedance-seed/seedream-5-0-pro",
+  "fc-dessert": "bytedance-seed/seedream-5-0-pro",
+  "fc-wrap": "bytedance-seed/seedream-5-0-pro",
+  "fa-grill": "bytedance-seed/seedream-5-0-pro",
+  "fa-pizzaoven": "bytedance-seed/seedream-5-0-pro",
+  "fa-pasta-table": "bytedance-seed/seedream-5-0-pro",
+  "fa-brunch": "bytedance-seed/seedream-5-0-pro",
+  "fa-bakery-case": "bytedance-seed/seedream-5-0-pro",
+  "fa-espresso": "bytedance-seed/seedream-5-0-pro",
+  "fa-fine": "bytedance-seed/seedream-5-0-pro",
+  "fa-sushi-bar": "bytedance-seed/seedream-5-0-pro",
+  "fa-fries": "bytedance-seed/seedream-5-0-pro",
+  "fa-dessert-shop": "bytedance-seed/seedream-5-0-pro",
+  "fa-foodtruck": "bytedance-seed/seedream-5-0-pro",
+  "fa-catering": "bytedance-seed/seedream-5-0-pro"
+ }
+}
