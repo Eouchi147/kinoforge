@@ -1,0 +1,225 @@
+{
+ "cap": 3.0,
+ "total": 2.43,
+ "by_seat": {
+  "image": 2.43
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "re-living",
+   "usd": 0.09,
+   "s": 38.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "re-street",
+   "usd": 0.09,
+   "s": 40.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "re-exterior",
+   "usd": 0.09,
+   "s": 49.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "cl-living",
+   "usd": 0.09,
+   "s": 38.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "cl-kitchen",
+   "usd": 0.09,
+   "s": 34.4,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "re-keys",
+   "usd": 0.09,
+   "s": 46.4,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "cl-caddy",
+   "usd": 0.09,
+   "s": 44.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "cl-office",
+   "usd": 0.09,
+   "s": 46.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sb-chairs",
+   "usd": 0.09,
+   "s": 45.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ri-tv",
+   "usd": 0.09,
+   "s": 34.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sb-salon",
+   "usd": 0.09,
+   "s": 48.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sb-tools",
+   "usd": 0.09,
+   "s": 51.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ri-basement",
+   "usd": 0.09,
+   "s": 45.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ri-deck",
+   "usd": 0.09,
+   "s": 40.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-yard",
+   "usd": 0.09,
+   "s": 47.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-front",
+   "usd": 0.09,
+   "s": 42.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-snow",
+   "usd": 0.09,
+   "s": 42.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bf-burger",
+   "usd": 0.09,
+   "s": 43.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bf-fries",
+   "usd": 0.09,
+   "s": 38.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bf-chicken",
+   "usd": 0.09,
+   "s": 38.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bf-counter",
+   "usd": 0.09,
+   "s": 51.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sd-table",
+   "usd": 0.09,
+   "s": 43.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sd-plate",
+   "usd": 0.09,
+   "s": 43.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sd-steak",
+   "usd": 0.09,
+   "s": 46.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "cf-pastry",
+   "usd": 0.09,
+   "s": 44.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "cf-bar",
+   "usd": 0.09,
+   "s": 52.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "cf-pour",
+   "usd": 0.09,
+   "s": 41.3,
+   "ok": true
+  }
+ ]
+}
