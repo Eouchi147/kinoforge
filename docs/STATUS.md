@@ -37,7 +37,7 @@ client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toro
   (`Video Production/kinoforge-handover-2026-10-16/`); sources of the review pages in `docs/pages/`.
 
 ## Running now
-- Nothing. No Actions run, no paid call, no agent.
+- Board `site-samples-v2` (16 Oct, late): 27 stills for Unmissed's website concepts v2 in new industries, cap US$3.00.
 
 ## Waiting on Sam
 - **Smart Mount's videos: STOPPED by Sam on 16 Oct 2026 (17:32 Toronto)** after he watched the check videos: "they are not

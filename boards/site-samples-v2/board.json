@@ -1,0 +1,153 @@
+{
+ "_": "Sample photos for Unmissed's website concepts v2 (16 Oct 2026): AI-generated stills for invented sample businesses in new industries (realtor, cleaning, salon and barber, renovation and installers, landscaping, burger and fast food, sit-down dining, cafe), used only in template previews, each marked Sample and AI-generated there. Never shown as a real client's work. No people, no text, no logos. Clean, professional look; anything that looks like poor workmanship is discarded. Images only, no video.",
+ "cap_usd": 3.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "re-exterior",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Real estate listing photograph, photographed for real, not illustrated: a handsome renovated brick semi-detached house on a quiet tree-lined Ottawa street in early autumn, warm late afternoon sun, tidy front garden, dark front door, crisp detail, wide lens without distortion, no cars, no house number, no for-sale sign. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "re-living",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Real estate interior photograph, photographed for real: a bright staged open-plan living and dining room with tall windows, light oak floor, neutral furniture, soft daylight, uncluttered and inviting, wide lens without distortion. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "re-street",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Neighbourhood photograph, photographed for real: a calm residential street in a Canadian city at golden hour, mature maple trees in autumn colour, sidewalks, a mix of older brick homes, peaceful, no cars in focus. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "re-keys",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Still life photograph, photographed for real: a set of new house keys on a plain ring resting on a pale oak entry table next to a small potted plant, soft morning window light, shallow depth of field, calm and premium. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "cl-living",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: a spotless, freshly cleaned modern living room, gleaming hardwood floor reflecting window light, plumped cushions, folded throw, crisp and fresh, bright daylight. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "cl-kitchen",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: a sparkling clean white kitchen, polished quartz counter, shining stainless sink, clear glass, morning light, nothing out of place, crisp detail. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "cl-caddy",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Product photograph, photographed for real: a neat professional cleaning caddy with unlabeled spray bottles in soft mint and white, microfibre cloths folded in a stack, a soft brush, on a clean pale surface, bright even light, fresh and tidy, bottles have no labels. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "cl-office",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: a clean, empty modern small office after hours, tidy desks, polished floor, glass partition, plants, calm even light. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "sb-chairs",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: an empty modern barbershop with two classic leather barber chairs, warm wood panelling, round mirrors, brass fixtures, soft warm light, immaculate, ready for the day. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "sb-salon",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: an empty bright hair salon with styling chairs facing large arched mirrors, pale terrazzo floor, soft green plants, airy daylight, calm and premium. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "sb-tools",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Overhead flat lay photograph, photographed for real: professional barber tools neatly arranged on a dark slate surface: straight razor, scissors, combs, a brush, a small towel folded, warm side light, crisp detail. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "ri-tv",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: a large flat television mounted perfectly level on a living room wall above a low walnut media console, no visible cables, the screen turned off and black, warm evening lamp light, clean modern room, precise professional installation. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "ri-basement",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: a newly finished basement family room, pot lights, light carpet, built-in shelves, clean drywall lines, bright and welcoming, wide lens without distortion. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "ri-deck",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Exterior photograph, photographed for real: a newly built cedar deck behind a Canadian house, straight even boards, black metal railing, two outdoor chairs, late afternoon sun, green lawn beyond, precise craftsmanship. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "ls-yard",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Exterior photograph, photographed for real: a freshly landscaped backyard, crisp lawn stripes, clean stone pathway, neat garden beds with ornamental grasses, a small patio, golden evening light. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "ls-front",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Exterior photograph, photographed for real: a front yard with fresh dark mulch beds, trimmed boxwood hedges, a clean interlock walkway to a front porch, early summer morning light, tidy and premium, no house number. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "ls-snow",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Exterior photograph, photographed for real: a cleared residential driveway and walkway after fresh snowfall in Canada, neat straight snow edges, soft blue morning light, quiet and orderly, no vehicles. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "bf-burger",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: a double smash burger with crispy lacy edges, melted cheese, pickles and soft brioche bun on parchment paper, dark background, dramatic side light, glistening, appetizing close-up. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "bf-fries",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: golden crispy fries in a plain paper cone next to a small dish of dipping sauce on a steel tray, bright punchy light, appetizing. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "bf-chicken",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: crispy fried chicken sandwich with slaw on a toasted bun, on parchment, bold bright light, saturated colours, appetizing close-up. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "bf-counter",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: an empty bright modern burger joint counter with stainless steel, glossy tiles, neon-free warm lights, stools, clean and ready, no menu boards visible. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "sd-plate",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Fine dining food photograph, photographed for real: an elegant plate of seared scallops with a pea puree and microgreens on a matte grey plate, white tablecloth, candlelight, shallow depth of field. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "sd-table",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: an intimate table for two in a refined restaurant, white linen, crystal glasses, a small candle, a bottle of red wine without a label, warm low light, empty chairs. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "sd-steak",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: a sliced medium-rare steak with roasted vegetables and a jus on a warm plate, dark wood table, moody warm light, appetizing. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "cf-bar",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Interior photograph, photographed for real: an empty bright specialty coffee bar with a chrome espresso machine, ceramic cups stacked, light wood counter, plants, morning sun, calm and inviting, no logos on the machine. No people, no hands, no text, no signage, no logos, no brand names."
+  },
+  {
+   "id": "cf-pastry",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real: a glass pastry case filled with croissants, cinnamon buns, fruit tarts and muffins, soft natural light, inviting, no price tags. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "cf-pour",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real: a pour-over coffee being brewed into a glass carafe on a wooden counter, steam visible, warm morning light, shallow depth of field, no hands visible, kettle spout only. No people, no hands, no text, no signage, no logos, no brand names.",
+   "aspect": "4:3"
+  }
+ ]
+}
