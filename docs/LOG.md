@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 16 Oct 2026
+- Board `site-samples-v2` done in 8 minutes: 27 stills, US$2.34 by the account (ledger 2.43 booked; the build key has about US$8.98 left of US$50). The Unmissed builders review each still before use and skip any that looks off.
 - Board `site-samples-v2` dispatched: 27 AI stills (cap US$3.00, about US$2.40 expected; the build key had about US$11.59 left) as sample photos for Unmissed's website concepts v2 (the owner asked for designs for realtors, cleaning, salons and barbers, renovation and installers, landscaping, burger and fast food, sit-down dining and cafes). Previews only, never shown as a client's work; no people, text or logos.
 - Board `site-samples-v1` done in 4 minutes: 12 stills, US$0.81 by the account (ledger 1.08 booked; the build key has about US$11.59 left of US$50). `hs-mechanical` is discarded (its piping would not pass a tradesperson's eye); the other 11 go to Unmissed's template previews.
 - Board `site-samples-v1` dispatched: 12 AI stills (cap US$1.50) as sample photos for Unmissed's website template library v1 (the owner approved building it now); previews only, never shown as a client's work.

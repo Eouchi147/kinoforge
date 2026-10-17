@@ -11,6 +11,7 @@ the **social lane** (`social/`, workflow `social.yml`) for Unmissed's Social Aut
 client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toronto opening in December).
 
 ## Done
+- **Board `site-samples-v2` (16 Oct, late):** 27 AI stills (cap US$3.00) for invented sample businesses in new industries (realtor, cleaning, salon and barber, renovation and installers, landscaping, burger and fast food, sit-down dining, cafe), previews only, marked Sample and AI-generated there. Done: US$2.34 spent (key about US$8.98 left); stills in the `boards` release.
 - **Board `site-samples-v1` (16 Oct, for Unmissed's website template library):** 12 AI stills (Seedream 5 Pro, cap
   US$1.50, about US$0.09 each) for two invented sample businesses, used only in the template previews, marked Sample
   and AI-generated there; no people, no text, no logos; anything that looks like poor workmanship is discarded. Done:
@@ -37,7 +38,7 @@ client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toro
   (`Video Production/kinoforge-handover-2026-10-16/`); sources of the review pages in `docs/pages/`.
 
 ## Running now
-- Board `site-samples-v2` (16 Oct, late): 27 stills for Unmissed's website concepts v2 in new industries, cap US$3.00.
+- Nothing. No Actions run, no paid call, no agent.
 
 ## Waiting on Sam
 - **Smart Mount's videos: STOPPED by Sam on 16 Oct 2026 (17:32 Toronto)** after he watched the check videos: "they are not
