@@ -1,0 +1,43 @@
+{
+ "before": {
+  "usage": 42.180100037,
+  "limit": 50,
+  "remaining": 7.8198999629999975
+ },
+ "after": {
+  "usage": 46.140100037,
+  "limit": 50,
+  "remaining": 3.8598999629999966
+ },
+ "board_spent": 3.96,
+ "ledger_total": 2.43,
+ "frames": {
+  "au-bay": "bytedance-seed/seedream-5-0-pro",
+  "au-detail": "bytedance-seed/seedream-5-0-pro",
+  "au-tools": "bytedance-seed/seedream-5-0-pro",
+  "bs-spa": "bytedance-seed/seedream-5-0-pro",
+  "bs-nails": "bytedance-seed/seedream-5-0-pro",
+  "bs-skincare": "bytedance-seed/seedream-5-0-pro",
+  "fi-gym": "bytedance-seed/seedream-5-0-pro",
+  "fi-yoga": "bytedance-seed/seedream-5-0-pro",
+  "fi-gear": "bytedance-seed/seedream-5-0-pro",
+  "pe-groom": "bytedance-seed/seedream-5-0-pro",
+  "pe-dog": "bytedance-seed/seedream-5-0-pro",
+  "pe-walk": "bytedance-seed/seedream-5-0-pro",
+  "mv-truck": "bytedance-seed/seedream-5-0-pro",
+  "mv-boxes": "bytedance-seed/seedream-5-0-pro",
+  "ro-roof": "bytedance-seed/seedream-5-0-pro",
+  "ro-windows": "bytedance-seed/seedream-5-0-pro",
+  "pa-room": "bytedance-seed/seedream-5-0-pro",
+  "pa-swatches": "bytedance-seed/seedream-5-0-pro",
+  "pc-home": "bytedance-seed/seedream-5-0-pro",
+  "pc-yard": "bytedance-seed/seedream-5-0-pro",
+  "ph-studio": "bytedance-seed/seedream-5-0-pro",
+  "ph-camera": "bytedance-seed/seedream-5-0-pro",
+  "pr-office": "bytedance-seed/seedream-5-0-pro",
+  "pr-desk": "bytedance-seed/seedream-5-0-pro",
+  "hd-van": "bytedance-seed/seedream-5-0-pro",
+  "el-panel": "bytedance-seed/seedream-5-0-pro",
+  "hv-unit": "bytedance-seed/seedream-5-0-pro"
+ }
+}

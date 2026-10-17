@@ -1,0 +1,225 @@
+{
+ "cap": 3.0,
+ "total": 2.43,
+ "by_seat": {
+  "image": 2.43
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "au-detail",
+   "usd": 0.09,
+   "s": 37.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "au-bay",
+   "usd": 0.09,
+   "s": 41.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "au-tools",
+   "usd": 0.09,
+   "s": 50.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bs-spa",
+   "usd": 0.09,
+   "s": 42.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bs-nails",
+   "usd": 0.09,
+   "s": 43.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bs-skincare",
+   "usd": 0.09,
+   "s": 46.4,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fi-gym",
+   "usd": 0.09,
+   "s": 40.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fi-yoga",
+   "usd": 0.09,
+   "s": 49.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "fi-gear",
+   "usd": 0.09,
+   "s": 39.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pe-groom",
+   "usd": 0.09,
+   "s": 41.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pe-dog",
+   "usd": 0.09,
+   "s": 36.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pe-walk",
+   "usd": 0.09,
+   "s": 42.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "mv-truck",
+   "usd": 0.09,
+   "s": 44.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "mv-boxes",
+   "usd": 0.09,
+   "s": 46.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ro-roof",
+   "usd": 0.09,
+   "s": 44.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ro-windows",
+   "usd": 0.09,
+   "s": 53.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-room",
+   "usd": 0.09,
+   "s": 48.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-swatches",
+   "usd": 0.09,
+   "s": 56.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pc-home",
+   "usd": 0.09,
+   "s": 38.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pc-yard",
+   "usd": 0.09,
+   "s": 34.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ph-studio",
+   "usd": 0.09,
+   "s": 41.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ph-camera",
+   "usd": 0.09,
+   "s": 50.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pr-office",
+   "usd": 0.09,
+   "s": 49.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pr-desk",
+   "usd": 0.09,
+   "s": 42.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-van",
+   "usd": 0.09,
+   "s": 38.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "el-panel",
+   "usd": 0.09,
+   "s": 48.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hv-unit",
+   "usd": 0.09,
+   "s": 46.8,
+   "ok": true
+  }
+ ]
+}
