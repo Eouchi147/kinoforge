@@ -1,0 +1,169 @@
+{
+ "_": "Sample photos for Unmissed's website templates in new industries (17 Oct 2026): auto, beauty and spa, fitness, pet care, moving, roofing and exteriors, painting, pest control, photography, professional services, plus electrical and HVAC. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+ "cap_usd": 3.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "au-bay",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a spotless modern auto repair bay with a car on a lift, organised tool walls, epoxy floor, bright even light. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "au-detail",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a freshly detailed dark car with a mirror-like gloss finish in a clean detailing studio, soft reflections, low angle. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "au-tools",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a neat flat lay of professional mechanic tools and a torque wrench on a clean dark mat, overhead. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "bs-spa",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a calm, empty modern spa treatment room with a massage table, folded white towels, candles, warm wood and soft light. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "bs-nails",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: an empty bright nail studio table with neatly arranged polish bottles without labels, tools and a small plant, overhead. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "bs-skincare",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a still life of unlabeled skincare bottles and jars on travertine stone with soft shadows and dried flowers. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "fi-gym",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: an empty premium boutique gym with racks of dumbbells, rubber floor, large windows, morning light. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fi-yoga",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: an empty bright yoga and pilates studio with wooden floor, rolled mats and plants, soft daylight. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fi-gear",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a flat lay of kettlebell, resistance bands, jump rope and water bottle on a concrete floor, overhead. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "pe-groom",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: an empty clean modern pet grooming salon with a grooming table, towels and tools, bright and cheerful, no animals in cages. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pe-dog",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a happy freshly groomed golden doodle sitting on a clean studio floor against a soft plain background, looking at the camera. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pe-walk",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a leash and treat pouch hanging by a front door with a dog bowl below, warm morning light. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "mv-truck",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a clean white moving truck with its back door open, neatly stacked wrapped furniture and boxes inside, residential street, daylight, no text on the truck. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "mv-boxes",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: neatly stacked labelled-free moving boxes and wrapped furniture in a bright empty living room ready for move day. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "ro-roof",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a newly installed dark architectural shingle roof on a modern suburban home, crisp lines, blue sky, low angle. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "ro-windows",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a modern home exterior with new black-framed windows and clean siding, golden hour, wide lens. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pa-room",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a freshly painted living room with a deep green accent wall, crisp cut-in lines, drop cloths folded neatly, daylight. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pa-swatches",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a fan of paint colour swatches without text and a clean brush resting on a paint tin lid, overhead. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "pc-home",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a clean, bright, pest-free basement utility area with sealed gaps and neat storage, professional and reassuring. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pc-yard",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a tidy backyard perimeter with a discreet bait station near the foundation, green lawn, morning light. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "ph-studio",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: an empty professional photography studio with softboxes, a seamless backdrop and a camera on a tripod. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "ph-camera",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a flat lay of a mirrorless camera, lenses and a notebook on a wooden table, overhead. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "pr-office",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a calm modern small office with a meeting table, two chairs, plants and a laptop, daylight, nobody present. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pr-desk",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a tidy desk with a notebook, calculator, pen and a coffee cup, soft morning light, overhead. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "4:3"
+  },
+  {
+   "id": "hd-van",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a clean white service van parked in front of a modern home, rear doors open showing organised shelving, daylight, no text on the van. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-panel",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a newly installed residential electrical panel with neat, labelled-free wiring, bright even light, professional workmanship. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "hv-unit",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a new outdoor heat pump unit installed on a clean pad beside a modern home, tidy line set, daylight. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}

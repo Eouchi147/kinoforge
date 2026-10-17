@@ -39,6 +39,7 @@ client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toro
 
 ## Running now
 - Board `site-samples-v3-food` (17 Oct): 24 food stills for Unmissed's restaurant templates, cap US$3.00.
+- Board `site-samples-v3-industries` (17 Oct): 27 stills for new template industries, cap US$3.00.
 
 ## Waiting on Sam
 - **Smart Mount's videos: STOPPED by Sam on 16 Oct 2026 (17:32 Toronto)** after he watched the check videos: "they are not

@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 17 Oct 2026
+- Board `site-samples-v3-industries` dispatched: 27 AI stills, cap US$3.00 (about US$2.45 expected), sample photos for new template industries. Previews only.
 - Board `site-samples-v3-food` dispatched: 24 AI food stills (12 cut out for motion), cap US$3.00 (about US$2.20 expected; the build key had about US$8.98 left), for the restaurant website templates (owner, 17 Oct: food photos with great motion). Previews only.
 
 ## 16 Oct 2026
