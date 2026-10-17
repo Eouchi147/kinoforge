@@ -2,6 +2,9 @@
 
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
+## 17 Oct 2026
+- Board `site-samples-v3-food` dispatched: 24 AI food stills (12 cut out for motion), cap US$3.00 (about US$2.20 expected; the build key had about US$8.98 left), for the restaurant website templates (owner, 17 Oct: food photos with great motion). Previews only.
+
 ## 16 Oct 2026
 - Board `site-samples-v2` done in 8 minutes: 27 stills, US$2.34 by the account (ledger 2.43 booked; the build key has about US$8.98 left of US$50). The Unmissed builders review each still before use and skip any that looks off.
 - Board `site-samples-v2` dispatched: 27 AI stills (cap US$3.00, about US$2.40 expected; the build key had about US$11.59 left) as sample photos for Unmissed's website concepts v2 (the owner asked for designs for realtors, cleaning, salons and barbers, renovation and installers, landscaping, burger and fast food, sit-down dining and cafes). Previews only, never shown as a client's work; no people, text or logos.

@@ -1,0 +1,163 @@
+{
+ "_": "Food photos for Unmissed's restaurant website templates (17 Oct 2026, owner: restaurant templates need pictures of food with great motion design). AI-generated stills for invented sample restaurants, previews only, marked Sample and AI-generated there; never a real client's work. Twelve plates are cut out (transparent PNG) for motion: plates that slide, turn and stack on scroll. No people, text, logos or alcohol.",
+ "cap_usd": 3.0,
+ "aspect": "4:3",
+ "frames": [
+  {
+   "id": "fc-burger",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot at a low three-quarter angle on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a tall double cheeseburger with melted cheddar, crisp lettuce, tomato and a glossy brioche bun. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-pizza",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a whole Neapolitan margherita pizza with a blistered crust, fresh basil and mozzarella pools. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-pasta",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a white bowl of spaghetti pomodoro with basil and shaved parmesan. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-ramen",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a black ceramic bowl of tonkotsu ramen with chashu pork, soft egg halves, scallions and nori. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-sushi",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a slate board of assorted nigiri and maki sushi, neatly arranged. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-salad",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a wide bowl of a bright grain salad with roasted vegetables, greens, seeds and herbs. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-latte",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a cappuccino with fine latte art in a white ceramic cup and saucer. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-croissant",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: three golden flaky butter croissants on a small round plate. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-tacos",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: three street tacos with grilled meat, salsa, onion and cilantro on a round plate with lime wedges. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-steak",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a sliced medium-rare steak with roasted potatoes and greens on a round white plate. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-dessert",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a slice of layered chocolate cake with berries on a small white plate. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fc-wrap",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Studio product photograph, photographed for real, not illustrated, shot from directly above on a plain seamless light grey background, soft even light, crisp edges, the whole plate fully in frame with space around it: a shawarma wrap cut in half showing the filling, with a small dish of garlic sauce. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "1:1",
+   "cutout": true
+  },
+  {
+   "id": "fa-grill",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: burger patties sizzling on a flat-top grill with melting cheese, rising steam, dark moody kitchen, dramatic warm light, close-up. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-pizzaoven",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: a pizza being pulled from a glowing wood-fired oven on a metal peel, flames in the back, warm light, close-up, no hands visible, peel handle only. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-pasta-table",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: a rustic table spread of pasta dishes, bread, olive oil and salad in warm evening light, overhead, inviting. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-brunch",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: a bright brunch table with eggs benedict, avocado toast, fresh fruit and coffee by a sunny window, overhead. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-bakery-case",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Bakery photograph, photographed for real: a long glass case of pastries, tarts, loaves and cinnamon buns, soft morning light, inviting, no price tags. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-espresso",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Cafe photograph, photographed for real: espresso pouring from a chrome portafilter into a small glass cup, steam, dark background, warm light, close-up, no logos. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-fine",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Fine dining photograph, photographed for real: an elegant plated course of seared duck breast with cherry jus and baby vegetables on a matte plate, candlelit dark table, shallow depth of field. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-sushi-bar",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Restaurant photograph, photographed for real: an empty modern sushi counter with fresh fish neatly displayed behind glass, warm wood, soft light. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-fries",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: crispy fries tumbling out of a paper bag onto a tray next to a burger, bold bright light, saturated, appetizing. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-dessert-shop",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: colourful gelato in steel tubs in a dessert shop case, bright clean light, inviting. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-foodtruck",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Exterior photograph, photographed for real: a clean modern food truck with its serving window open at golden hour in a city park, no text or signage on the truck, no people. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  },
+  {
+   "id": "fa-catering",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Food photograph, photographed for real: an elegant catering buffet with platters of canap\u00e9s, salads and desserts on white linen, soft daylight, no people. No people, no hands, no text, no signage, no logos, no brand names, no alcohol.",
+   "aspect": "16:9"
+  }
+ ]
+}
