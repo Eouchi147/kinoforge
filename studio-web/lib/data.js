@@ -30,13 +30,13 @@ export const STYLES = [
   { id: 'cel', name: 'Cel', media: 'p06-cel', motion: 'Long holds, smears, impact frames', renderer: 'Web 3D toon', phase: 'Phase 3' },
   { id: 'ink-ember', name: 'Ink Ember', media: 'p02-ink-ember', motion: 'Strokes that draw on, ink bleed, rising embers', renderer: 'Web canvas', phase: 'Phase 3' },
   { id: 'lantern-road', name: 'Lantern Road', media: 'p03-lantern-road', motion: 'Slow storybook moves, painterly boil', renderer: 'Web 2.5D', phase: 'Phase 3' },
-  { id: 'pixel-vigil', name: 'Pixel Vigil', media: 'p13-pixel-vigil', motion: 'Whole-pixel moves, hit-stop, 8–12 fps cycles', renderer: 'Web pixel', phase: 'Phase 3' },
+  { id: 'pixel-vigil', name: 'Pixel Vigil', media: 'p13-pixel-vigil', motion: 'Whole-pixel moves, hit-stop, 8 to 12 fps cycles', renderer: 'Web pixel', phase: 'Phase 3' },
   { id: 'static', name: 'Static', media: 'p01-static', motion: 'Missed frames, abrupt steps, tape faults', renderer: 'Web VHS', phase: 'Phase 3' },
-  { id: 'kinetic', name: 'Kinetic', media: 'p11-kinetic', motion: 'Eased type, overshoot, per-letter stagger', renderer: 'Web canvas', phase: 'Phase 3', vertical: true },
+  { id: 'kinetic', name: 'Kinetic', media: 'p11-kinetic', motion: 'Eased type, overshoot, per-letter stagger', renderer: 'Web canvas', phase: 'Phase 3', vertical: true, line: 'kinetic' },
   { id: 'relic', name: 'Relic', media: 'p05-relic', motion: 'Hero holds, speed ramps, impact flashes', renderer: 'Web 3D', phase: 'Phase 3' },
   { id: 'witness', name: 'Witness', media: 'p04-witness', motion: 'Real motion, handheld camera that lags', renderer: 'Blender', phase: 'Phase 3' },
   { id: 'ash-ascent', name: 'Ash Ascent', media: 'p07-ash-ascent', motion: 'Heavy footfalls, ash and dust on contact', renderer: 'Blender', phase: 'Phase 3' },
-  { id: 'terrain', name: 'Terrain', media: 'p12-terrain', motion: 'Camera glides and banks, never clips the land', renderer: 'Web 3D relief', phase: 'Phase 3' },
+  { id: 'terrain', name: 'Terrain', media: 'p12-terrain', motion: 'Camera glides and banks, never clips the land', renderer: 'Web 3D relief', phase: 'Phase 3', line: 'battle-map' },
 ];
 
 export const BUILD_GATES = [

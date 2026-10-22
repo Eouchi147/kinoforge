@@ -1,4 +1,4 @@
-// GET /api/models — the live model market, compacted: top models by published intelligence, with prices and abilities.
+// GET /api/models: the live model market, compacted: top models by published intelligence, with prices and abilities.
 // Used to choose the director's head and workers, and by the budget ledger. Calls OpenRouter's free endpoints only.
 export const dynamic = 'force-dynamic';
 

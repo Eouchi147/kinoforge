@@ -2,7 +2,7 @@
 // and a ledger that counts every cent against the caps in crew.json. Mirrored in harness/director/agents.py.
 import CREW from './crew.json';
 
-const API = 'https://openrouter.ai/api/v1';
+const API = process.env.OPENROUTER_BASE || 'https://openrouter.ai/api/v1';   // OPENROUTER_BASE is for tests only
 const KEY = () => process.env.OPENROUTER_API_KEY;
 const now = () => Date.now();
 let MARKET = { at: 0, byId: null };
@@ -32,7 +32,7 @@ export async function seat(name) {
   const s = CREW.seats[name]; const byId = await market();
   if (!byId) return s.prefer;
   const fits = (m) => s.needs.every((n) => m.mods.includes(n)) && (s.free ? m.id.endsWith(':free') : !m.id.includes(':') && m.in > 0 && m.in <= s.max_in && m.out <= s.max_out);
-  const ranked = Object.values(byId).filter(fits).filter((m) => m.iq != null).sort((a, b) => b.iq - a.iq || b.created - a.created);
+  const ranked = Object.values(byId).filter(fits).filter((m) => s.free || m.iq != null).sort((a, b) => b.iq - a.iq || b.created - a.created);
   const out = [], seen = new Set();
   for (const m of ranked) { const p = m.id.split('/')[0]; if (!seen.has(p)) { out.push(m.id); seen.add(p); } if (out.length === s.n) break; }
   for (const id of s.prefer) if (byId[id] && !out.includes(id) && out.length < s.n + 1) out.push(id);   // known-good backups
@@ -98,7 +98,9 @@ export async function ask(seatName, { messages, schema, name = 'reply', maxToken
       const cost = Number(j.usage?.cost ?? estimate(m, j.usage?.prompt_tokens || inTok, j.usage?.completion_tokens || maxTokens));
       book.total += r.ok ? cost : 0;
       if (!r.ok) {
-        errors.push(`${model}: ${r.status} ${j.error?.message || ''}`.slice(0, 160)); if (r.status === 402) break;
+        errors.push(`${model}: ${r.status} ${j.error?.message || ''}`.slice(0, 160));
+        // Out of credit: every paid model will refuse, so jump straight to the free seat (free models cost nothing).
+        if (r.status === 402) { for (let q = chain.length - 1; q > k; q--) if (chain[q][0] !== 'free') chain.splice(q, 1); continue; }
         if (r.status === 400 && strict) chain.splice(k + 1, 0, [seatUsed, model, true]);   // schema refused: same model, schema as instructions
         continue;
       }

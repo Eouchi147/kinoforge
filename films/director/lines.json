@@ -1,0 +1,81 @@
+{
+ "_": "Production lines of the director. A line is just config: the engine, its SPEC.md, example films, aspect and sizes, the house tone. A line is available when its SPEC.md exists. Example folders that are missing are found by scanning films/ for index.html files that load the engine (films/studio is never used as an example). Read by films/director/*.py and check.cjs.",
+ "battle-map": {
+  "series": "Battle Map",
+  "style": "terrain",
+  "engine": "films/lib/battlemap",
+  "entry": "startBattleMap",
+  "spec_md": "films/lib/battlemap/SPEC.md",
+  "examples": [
+   "films/battles/cannae",
+   "films/battles/hastings"
+  ],
+  "lint": "films/director/lint/battle-map.js",
+  "mix": "films/lib/battle_mix.py",
+  "aspect": "16:9",
+  "render": [
+   1280,
+   720
+  ],
+  "delivery": [
+   1920,
+   1080
+  ],
+  "fps": 24,
+  "title_line": 1,
+  "kid_safe": true,
+  "default_tone": "upbeat with a glint of dark humour, kid-clear (ages 8 to 14), like a favourite teacher who loves this story",
+  "structure": "l00 is the hook (a promise or a surprising fact, the year in it). l01 is the title line, exactly \"The Battle of X.\" (or the film title for a non-battle subject). Then the build-up (who, where, why), the plan, the clash, the turn, the result, and a closing line with a smile (a consequence we still feel today, or a dry joke).",
+  "picture_rules": "Every line needs ONE clear picture idea that a child could follow on a map: who is where (two clear colours), what moves (blocks, arrows that draw on), names and numbers that pop in at the word. Losses are numbers and fading blocks, never wounds.",
+  "end_card": "BATTLE MAP over the last outro seconds, with the battle name and year",
+  "music_prompt": "Epic but playful orchestral adventure score for a kids history animation: bold brass, war drums, a driving rhythm with folk colour fitting the period and place, bright and heroic, around 110 BPM, a tense middle section, a triumphant end. Instrumental only, no vocals.",
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "spec_rules": [
+   "Read the cues: every narrated idea gets its picture AT the word (labels, icons, arrows, moves start on cue words like 'l05.charged'). Copy words exactly from the word lists given; a wrong word is a hard error.",
+   "Two clear team colours for the two sides (team 'rome' = deep red, 'carthage' = royal blue; 'gold' or 'green' for a third party), explained by labels the first time each side appears.",
+   "A stylised but recognisable map of the real place (coastlines, rivers, hills, roads), map units with x east and z south; keep every block, label and arrow inside the world size.",
+   "Use a second stage (stages + a full-screen inset) for the battlefield close-up when the story moves from the region to the field, as in the examples.",
+   "Camera: start at t 0, a motivated move per line (push in on the action, top-down for manoeuvres, low obliques for drama), keys in time order, 'spline' for sweeps.",
+   "Title card: the film title and the year over the title line (scrim card, as in the examples). End card over the outro (the last cues.outro_s seconds): BATTLE MAP, then the title and year in italic, until the end of the film.",
+   "Kid-safe: armies are blocks, arrows and banners; losses are counters and fading blocks, never wounds. On-screen words in CAPITALS, short (at most 4 words), set in code; no em or en dashes and no '...'.",
+   "Labels must not cover each other: when two show at once, offset them with dx/dy or give them different times; keep screen-anchored text between 0.06 and 0.94 of the frame.",
+   "Keep the spec under about 35 KB; plain data plus small helpers (Object.fromEntries, map) like the examples; no imports, no randomness, no clocks."
+  ]
+ },
+ "kinetic": {
+  "series": "Dark Corners",
+  "style": "kinetic",
+  "engine": "films/lib/kinetic",
+  "entry": null,
+  "spec_md": "films/lib/kinetic/SPEC.md",
+  "examples": [],
+  "lint": null,
+  "mix": "films/lib/battle_mix.py",
+  "aspect": "9:16",
+  "render": [
+   720,
+   1280
+  ],
+  "delivery": [
+   1080,
+   1920
+  ],
+  "fps": 24,
+  "title_line": 1,
+  "kid_safe": false,
+  "default_tone": "plain, restrained, adult; facts carry the weight, no sensationalism",
+  "structure": "l00 is the hook (a document, a date or a number that stops the scroll). l01 is the title line (the film title). Then the story in beats linked by but and therefore, each beat a word, a date, a number, a document or a quote, and a closing line that lands quietly.",
+  "picture_rules": "Every line needs ONE clear typographic picture idea: the key word, date, number or quote that appears on screen at the word. Real atrocities are shown with restraint: objects, documents, light, absence, symbols. No gore.",
+  "end_card": "the series card over the last outro seconds",
+  "music_prompt": "Dark, restrained, cinematic underscore for a true-history short: low strings, a sparse piano motif, soft pulses, slowly building tension, no big drops, a quiet resolved ending. Instrumental only, no vocals.",
+  "voice_brief": "a calm, grave, completely natural-sounding documentary narrator",
+  "voice_instructions": "Calm, grave, natural documentary narrator. Plain and restrained, no drama in the voice, the facts carry the weight. Measured pace, real pauses.",
+  "spec_rules": [
+   "Read the cues: every narrated idea gets its words, dates, numbers or quotes on screen AT the word. Copy words exactly from the word lists given.",
+   "Title card over the title line; the series end card over the outro (the last cues.outro_s seconds).",
+   "Restraint: no gore, nothing shown suffering; documents, objects, light and absence carry the story. No em or en dashes and no '...' on screen.",
+   "Keep every text inside the 9:16 safe area; no imports, no randomness, no clocks."
+  ]
+ }
+}

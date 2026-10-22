@@ -93,7 +93,7 @@
    "needs": [
     "text"
    ],
-   "n": 2,
+   "n": 4,
    "timeout_s": 40,
    "free": true,
    "prefer": [

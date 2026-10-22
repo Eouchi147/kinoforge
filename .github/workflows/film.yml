@@ -1,0 +1,145 @@
+# The studio director: an approved brief in, a finished film out. No Claude session in the loop.
+# The web studio commits films/studio/<id>/brief.json; that push starts this workflow (or dispatch it with job=<id>).
+# Stages (films/director/, design in films/director/DESIGN.md), each writing and committing films/studio/<id>/status.json:
+#   script (writer + cross-provider fact check) -> sound (prep.py + battle_mix.py) -> spec (two drafts) -> check (Chromium,
+#   repairs) -> eyes (contact sheets, winner, one compose round) -> render (films-render.yml, release "films") -> reflect
+#   (LESSONS.md) -> done. Every OpenRouter call is booked in films/studio/<id>/ledger.json against brief.cap_usd.
+# Re-running a job resumes at the first stage whose outputs are missing (nothing is paid twice); `from` restarts earlier.
+name: film
+on:
+  push:
+    branches: [main]
+    paths: ['films/studio/*/brief.json']
+  workflow_dispatch:
+    inputs:
+      job: { description: 'job id (folder under films/studio/)', required: true }
+      from: { description: 'resume (default), or restart from: script, sound, spec, render, reflect', default: 'resume' }
+permissions:
+  contents: write
+  actions: write
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      id: ${{ steps.p.outputs.id }}
+    steps:
+      - id: p
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          JOB: ${{ inputs.job }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          if [ "$EVENT" = "workflow_dispatch" ]; then ids="$JOB"
+          else
+            if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+              ids=$(gh api "repos/$GH_REPO/commits/$AFTER" --jq '.files[] | select(.status != "removed") | .filename')
+            else
+              ids=$(gh api "repos/$GH_REPO/compare/$BEFORE...$AFTER" --jq '.files[] | select(.status != "removed") | .filename')
+            fi
+            ids=$(echo "$ids" | grep -E '^films/studio/[^/]+/brief\.json$' | cut -d/ -f3 | sort -u)
+          fi
+          first=$(echo "$ids" | head -n1 | tr -d '[:space:]'); echo "id=$first" >> "$GITHUB_OUTPUT"; echo "job: $first"
+          # one job per run: the others get their own run
+          for x in $(echo "$ids" | tail -n +2); do echo "dispatching $x"; gh workflow run film.yml -f job="$x" || true; done
+  make:
+    needs: plan
+    if: needs.plan.outputs.id != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    concurrency: { group: 'film-${{ needs.plan.outputs.id }}', cancel-in-progress: false }
+    env:
+      D: films/studio/${{ needs.plan.outputs.id }}
+      KF_COMMIT: '1'
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      PYTHONUNBUFFERED: '1'
+    outputs:
+      render: ${{ steps.open.outputs.render }}
+      film: films/studio/${{ needs.plan.outputs.id }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - name: identity
+        run: git config user.name "kinoforge-director"; git config user.email "director@users.noreply.github.com"
+      - id: open
+        name: open the job
+        run: |
+          test -f "$D/brief.json" || { echo "::error::no $D/brief.json"; exit 1; }
+          python3 films/director/start.py "$D" --from "${{ inputs.from || 'resume' }}" ${{ github.event_name == 'push' && '--push' || '' }} > "$RUNNER_TEMP/open.out"
+          cat "$RUNNER_TEMP/open.out"; grep -E '^render=' "$RUNNER_TEMP/open.out" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q numpy librosa soundfile faster-whisper pillow
+          npm ci --prefix harness --no-audit --no-fund
+          (cd harness && npx playwright install --with-deps chromium > /dev/null)
+      - name: script
+        run: set -o pipefail; python films/director/script.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
+      - name: sound
+        run: set -o pipefail; python films/director/sound.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
+      - name: spec, check, eyes
+        run: set -o pipefail; python films/director/spec.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
+      - name: hand over to the render
+        if: steps.open.outputs.render == 'true'
+        run: python films/director/status.py "$D" render running "Rendering on parallel runners."
+      - name: keep the log
+        if: always()
+        run: |
+          N=$(basename "$D")-film.log; cp "$RUNNER_TEMP/film.log" "$N" 2>/dev/null || echo "no log" > "$N"
+          gh release upload logs "$N" --clobber || true
+      - name: mark failed
+        if: failure()
+        run: |
+          L="https://github.com/$GH_REPO/releases/download/logs/$(basename "$D")-film.log"
+          M=$(grep -E 'Error|error|failed|Traceback' "$RUNNER_TEMP/film.log" 2>/dev/null | tail -n 1 | cut -c1-300)
+          git pull -q --rebase --autostash || true
+          python films/director/start.py "$D" --failed "Stopped: ${M:-see the log}" --log "$L"
+  render:
+    needs: [plan, make]
+    if: needs.make.outputs.render == 'true'
+    uses: ./.github/workflows/films-render.yml
+    with:
+      film: ${{ needs.make.outputs.film }}
+      ref: main
+  finish:
+    needs: [plan, make, render]
+    if: always() && needs.make.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      D: films/studio/${{ needs.plan.outputs.id }}
+      KF_COMMIT: '1'
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - name: identity
+        run: git config user.name "kinoforge-director"; git config user.email "director@users.noreply.github.com"
+      - name: render result
+        run: |
+          R="${{ needs.render.result }}"
+          if [ "$R" = "success" ]; then
+            python3 films/director/status.py "$D" render done "Rendered: ${{ needs.render.outputs.seconds }} s." \
+              video="${{ needs.render.outputs.video }}" preview="${{ needs.render.outputs.preview }}" \
+              poster="${{ needs.render.outputs.poster }}" sheet="${{ needs.render.outputs.sheet }}"
+          elif [ "$R" = "skipped" ]; then echo "render skipped (already done)"
+          else python3 films/director/status.py "$D" render failed "The render failed ($R); part logs are in the release logs."; exit 1; fi
+      - name: reflect
+        run: python3 films/director/reflect.py "$D" || echo "::warning::reflect failed (lessons not written)"
+      - name: done
+        run: |
+          python3 - <<'EOF'
+          import json, os, sys
+          sys.path.insert(0, 'films/director'); import common as C
+          d = os.environ['D']; s = C.read_status(d); o = s.get('outputs', {})
+          C.set_status(d, 'done', 'done', f"Finished: {o.get('duration', '?')} s film, US${s.get('usd', 0):.2f} of US${s.get('cap_usd', 0):.2f}. Waiting for Sam's approval.")
+          EOF

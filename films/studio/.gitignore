@@ -1,0 +1,7 @@
+# director jobs: keep the decisions, the sound and the reports; not the stills, temp files or self-test jobs
+*/check/*/stills/
+*/check/*/syntax.mjs
+*/audio/cast/
+*/audio/music_raw.*
+*/audio/music_ext.wav
+_*/

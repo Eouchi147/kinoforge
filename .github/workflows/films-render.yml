@@ -1,0 +1,156 @@
+# Films rendered on free runners (a copy of rc-render's films.yml that lives in this repo, so the director pipeline is
+# self-contained). Reusable (film.yml calls it after the spec is committed) and dispatchable by hand.
+# The plan job splits the film's frames into parallel parts (ubuntu-24.04, 4-core CPU, SwiftShader WebGL or Blender),
+# the join job glues them, lays the film's own soundtrack (film.json "audio"), scales to the delivery size and publishes
+# to the release "films": <id>.mp4, <id>-preview.mp4, <id>-sheet.jpg, <id>-poster.jpg (a frame at the title card + 2 s).
+name: films-render
+on:
+  workflow_call:
+    inputs:
+      film: { description: 'film folder, e.g. films/studio/battle-of-tours', required: true, type: string }
+      parts: { description: 'parallel parts (0 = about 200 frames per part, 4 to 20)', required: false, default: '0', type: string }
+      ref: { description: 'branch or commit', required: false, default: 'main', type: string }
+    outputs:
+      video: { description: 'release URL of the film', value: '${{ jobs.join.outputs.video }}' }
+      preview: { description: 'release URL of the preview', value: '${{ jobs.join.outputs.preview }}' }
+      poster: { description: 'release URL of the poster', value: '${{ jobs.join.outputs.poster }}' }
+      sheet: { description: 'release URL of the contact sheet', value: '${{ jobs.join.outputs.sheet }}' }
+      seconds: { description: 'duration of the film', value: '${{ jobs.join.outputs.seconds }}' }
+  workflow_dispatch:
+    inputs:
+      film: { description: 'film folder, e.g. films/battles/hastings', required: true }
+      parts: { description: 'parallel parts (0 = auto)', default: '0' }
+      ref: { description: 'branch or commit', default: 'main' }
+permissions:
+  contents: write
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      parts: ${{ steps.p.outputs.parts }}
+      meta: ${{ steps.p.outputs.meta }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.ref }}', sparse-checkout: '${{ inputs.film }}' }
+      - id: p
+        env: { FILM: '${{ inputs.film }}', PARTS: '${{ inputs.parts }}' }
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json, os, math
+          f = os.environ['FILM'].rstrip('/'); m = json.load(open(f + '/film.json'))
+          fps = int(m.get('fps', 24)); total = int(math.ceil(float(m['duration']) * fps))
+          n = int(os.environ.get('PARTS') or 0) or max(4, min(20, math.ceil(total / 200)))
+          kind = 'blender' if os.path.exists(f + '/blender.py') else 'web'
+          meta = {'film': f, 'id': m['id'], 'kind': kind, 'w': int(m['render_w']), 'h': int(m['render_h']), 'fps': fps, 'total': total,
+                  'out_w': int(m.get('w', m['render_w'])), 'out_h': int(m.get('h', m['render_h'])), 'samples': int(m.get('samples', 24)),
+                  'audio': m.get('audio') or ''}
+          parts = [{'k': k, 'a': total * k // n, 'b': total * (k + 1) // n} for k in range(n)]
+          print('parts=' + json.dumps(parts)); print('meta=' + json.dumps(meta))
+          EOF
+          cat "$GITHUB_OUTPUT"
+  render:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        part: ${{ fromJson(needs.plan.outputs.parts) }}
+    name: part ${{ matrix.part.k }}
+    env:
+      FILM: ${{ fromJson(needs.plan.outputs.meta).film }}
+      KIND: ${{ fromJson(needs.plan.outputs.meta).kind }}
+      W: ${{ fromJson(needs.plan.outputs.meta).w }}
+      H: ${{ fromJson(needs.plan.outputs.meta).h }}
+      FPS: ${{ fromJson(needs.plan.outputs.meta).fps }}
+      SAMPLES: ${{ fromJson(needs.plan.outputs.meta).samples }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.ref }}' }
+      - uses: actions/setup-node@v4
+        if: env.KIND == 'web'
+        with: { node-version: '22' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.13' }
+      - name: tools
+        run: |
+          exec > >(tee -a job.log) 2>&1; set -x
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          if [ "$KIND" = "web" ]; then npm ci --prefix harness --no-audit --no-fund && (cd harness && npx playwright install --with-deps chromium > /dev/null); fi
+          if [ "$KIND" = "blender" ]; then
+            sudo apt-get install -y -qq libegl1 libgl1 libglu1-mesa libxi6 libxkbcommon0 libxrender1 libxxf86vm1 libxfixes3 libsm6 libgomp1 > /dev/null
+            pip install -q numpy bpy==5.2.2 && python3 -c "import bpy; print('bpy', bpy.app.version_string)"
+          fi
+      - name: render frames ${{ matrix.part.a }} to ${{ matrix.part.b }}
+        run: |
+          exec > >(tee -a job.log) 2>&1
+          mkdir -p out/part
+          if [ "$KIND" = "web" ]; then
+            node harness/render.cjs "$FILM" --out out/part --w $W --h $H --fps $FPS --start ${{ matrix.part.a }} --end ${{ matrix.part.b }} --jpg
+          else
+            python3 harness/blender_render.py "$FILM" --out out/part --w $W --h $H --fps $FPS --samples $SAMPLES --start ${{ matrix.part.a }} --end ${{ matrix.part.b }} 2>&1 | grep -v -E '^(Fra:|EGL|Error: EGL)'; test ${PIPESTATUS[0]} -eq 0
+          fi
+          E=jpg; ls out/part/frames/*.png > /dev/null 2>&1 && E=png
+          ffmpeg -nostdin -y -loglevel error -framerate $FPS -start_number ${{ matrix.part.a }} -i out/part/frames/%05d.$E \
+            -frames:v $(( ${{ matrix.part.b }} - ${{ matrix.part.a }} )) -c:v libx264 -preset medium -crf 12 -pix_fmt yuv420p part_$(printf %03d ${{ matrix.part.k }}).mp4
+          ls -la part_*.mp4
+      - uses: actions/upload-artifact@v4
+        with: { name: 'part-${{ matrix.part.k }}', path: 'part_*.mp4', retention-days: 3 }
+      - name: keep the log
+        if: failure()
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}' }
+        run: |
+          N=$(basename "$FILM")-render-part-${{ matrix.part.k }}.log; tail -c 60000 job.log > "$N" || echo none > "$N"; gh release upload logs "$N" --clobber || true
+  join:
+    needs: [plan, render]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      META: ${{ needs.plan.outputs.meta }}
+    outputs:
+      video: ${{ steps.pub.outputs.video }}
+      preview: ${{ steps.pub.outputs.preview }}
+      poster: ${{ steps.pub.outputs.poster }}
+      sheet: ${{ steps.pub.outputs.sheet }}
+      seconds: ${{ steps.pub.outputs.seconds }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.ref }}', sparse-checkout: '${{ fromJson(needs.plan.outputs.meta).film }}' }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+      - uses: actions/download-artifact@v4
+        with: { path: parts, pattern: 'part-*', merge-multiple: true }
+      - name: join, sound, scale, poster
+        run: |
+          python3 - <<'EOF'
+          import json, os, glob, subprocess
+          m = json.loads(os.environ['META']); fid = m['id']
+          parts = sorted(glob.glob('parts/part_*.mp4')); open('list.txt', 'w').write(''.join(f"file '{p}'\n" for p in parts))
+          run = lambda a: subprocess.run(['ffmpeg', '-nostdin', '-y', '-loglevel', 'error'] + a, check=True)
+          run(['-f', 'concat', '-safe', '0', '-i', 'list.txt', '-c', 'copy', 'picture.mp4'])
+          aud = os.path.join(m['film'], m['audio']) if m['audio'] else None
+          ins = ['-i', 'picture.mp4'] + (['-i', aud] if aud and os.path.exists(aud) else [])
+          vf = f"scale={m['out_w']}:{m['out_h']}:flags=lanczos"
+          a = ['-map', '0:v', '-map', '1:a', '-c:a', 'aac', '-b:a', '256k', '-shortest'] if len(ins) > 2 else []
+          run(ins + ['-vf', vf, '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-maxrate', '16M', '-bufsize', '32M', '-pix_fmt', 'yuv420p', '-movflags', '+faststart'] + a + [f'{fid}.mp4'])
+          pv = 'scale=540:-2' if m['out_h'] > m['out_w'] else 'scale=960:-2'
+          run(['-i', f'{fid}.mp4', '-vf', pv, '-c:v', 'libx264', '-crf', '24', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', f'{fid}-preview.mp4'])
+          run(['-i', f'{fid}.mp4', '-vf', "fps=1/6,scale=240:-2,tile=8x4", '-frames:v', '1', f'{fid}-sheet.jpg'])
+          d = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f'{fid}.mp4'], capture_output=True, text=True).stdout or 0)
+          # poster: the title card + 2 s (cues.json title_line), else 15 % into the film
+          t = d * 0.15; cp = os.path.join(m['film'], 'cues.json')
+          if os.path.exists(cp):
+              c = json.load(open(cp)); tl = next((l for l in c.get('lines', []) if l['id'] == c.get('title_line')), None)
+              if tl: t = min(d - 0.5, tl['start'] + 2.0)
+          run(['-ss', f'{max(0, t):.2f}', '-i', f'{fid}.mp4', '-frames:v', '1', '-q:v', '3', f'{fid}-poster.jpg'])
+          open('seconds.txt', 'w').write(f'{d:.2f}')
+          print(fid, 'duration', d, 'frames expected', m['total'], 'parts', len(parts), 'poster at', round(t, 2))
+          EOF
+          ls -la *.mp4 *.jpg
+      - name: publish
+        id: pub
+        env: { GH_TOKEN: '${{ github.token }}', GH_REPO: '${{ github.repository }}', FID: '${{ fromJson(needs.plan.outputs.meta).id }}' }
+        run: |
+          gh release view films > /dev/null 2>&1 || gh release create films --title "films" --notes "KINOFORGE films made by the director pipeline (films/studio/<id>/) and rendered on free runners (films-render.yml)." || true
+          for f in $FID.mp4 $FID-preview.mp4 $FID-sheet.jpg $FID-poster.jpg; do gh release upload films "$f" --clobber; done
+          U="https://github.com/${{ github.repository }}/releases/download/films"
+          { echo "video=$U/$FID.mp4"; echo "preview=$U/$FID-preview.mp4"; echo "poster=$U/$FID-poster.jpg"; echo "sheet=$U/$FID-sheet.jpg"; echo "seconds=$(cat seconds.txt)"; } >> "$GITHUB_OUTPUT"

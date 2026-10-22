@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, LayoutGroup } from 'framer-motion';
-import { FILMS, STYLES, STAGES, BUILD_GATES, REPO } from '@/lib/data';
-
-const ease = [0.22, 1, 0.36, 1];
+import { STYLES, BUILD_GATES, REPO } from '@/lib/data';
+import { Films, Player } from './Films';
+import { Job } from './Job';
+import { appear, ease } from './ui';
 
 // ------------------------------------------------------------------ icons (2px strokes, round)
 const I = {
@@ -15,7 +16,7 @@ const I = {
   setup: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8M16 7l2 2M14 9l2 2"/></svg>,
   send: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>,
 };
-const TABS = [['director', 'Director'], ['films', 'Films'], ['styles', 'Styles'], ['voices', 'Voices'], ['renders', 'Renders'], ['setup', 'Setup']];
+const TABS = [['director', 'Director'], ['films', 'Films'], ['renders', 'Renders'], ['styles', 'Styles'], ['setup', 'Setup']];
 
 // The lamp: a warm studio light that follows the pointer and catches every glass edge.
 function useLamp() {
@@ -31,16 +32,23 @@ function useLamp() {
   }, []);
 }
 
-const appear = (i = 0) => ({ initial: { opacity: 0, y: 14, filter: 'blur(8px)' }, animate: { opacity: 1, y: 0, filter: 'blur(0px)' }, transition: { duration: 0.9, delay: 0.25 + i * 0.08, ease } });
-
 export default function Studio() {
   useLamp();
   const [tab, setTab] = useState('director');
   const [status, setStatus] = useState(null);
   const [player, setPlayer] = useState(null);
+  const [job, setJob] = useState(null);                 // id of the film job being watched (#job/<id>)
   useEffect(() => { fetch('/api/status').then((r) => r.json()).then(setStatus).catch(() => setStatus({ openrouter: false, github: false })); }, []);
-  useEffect(() => { const sync = () => { const h = location.hash.slice(1); if (TABS.some(([k]) => k === h)) setTab(h); }; sync(); addEventListener('hashchange', sync); return () => removeEventListener('hashchange', sync); }, []);
+  useEffect(() => {
+    const sync = () => {
+      const h = location.hash.slice(1);
+      if (h.startsWith('job/') && /^[a-z0-9-]+$/.test(h.slice(4))) { setJob(h.slice(4)); setTab('job'); }
+      else if (TABS.some(([k]) => k === h)) setTab(h);
+    };
+    sync(); addEventListener('hashchange', sync); return () => removeEventListener('hashchange', sync);
+  }, []);
   const go = (k) => { setTab(k); history.replaceState(null, '', '#' + k); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const openJob = (id) => { try { localStorage.setItem('kf-job', id); } catch {} setJob(id); setTab('job'); history.replaceState(null, '', '#job/' + id); window.scrollTo({ top: 0 }); };
 
   return (
     <>
@@ -57,8 +65,8 @@ export default function Studio() {
           <Mark />
           <LayoutGroup>
             {TABS.map(([k, label]) => (
-              <button key={k} className="navbtn" aria-current={tab === k ? 'page' : undefined} onClick={() => go(k)}>
-                {tab === k && <motion.i layoutId="pill" className="navpill" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />}
+              <button key={k} className="navbtn" aria-current={tab === k || (tab === 'job' && k === 'director') ? 'page' : undefined} onClick={() => go(k)}>
+                {(tab === k || (tab === 'job' && k === 'director')) && <motion.i layoutId="pill" className="navpill" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />}
                 {I[k]}<span>{label}</span>
               </button>
             ))}
@@ -68,10 +76,10 @@ export default function Studio() {
         <main className="main">
           <AnimatePresence mode="wait">
             <motion.div key={tab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.45, ease }}>
-              {tab === 'director' && <Director status={status} go={go} />}
+              {tab === 'director' && <Director status={status} go={go} openJob={openJob} />}
+              {tab === 'job' && job && <Job id={job} onWatch={setPlayer} goDirector={() => go('director')} />}
               {tab === 'films' && <Films open={setPlayer} />}
               {tab === 'styles' && <Styles open={setPlayer} />}
-              {tab === 'voices' && <Voices status={status} />}
               {tab === 'renders' && <Renders />}
               {tab === 'setup' && <Setup status={status} />}
             </motion.div>
@@ -95,64 +103,93 @@ function Mark() {
 }
 
 // ------------------------------------------------------------------ Director: the conversation
-function Director({ status, go }) {
+const LINE_NAME = { 'battle-map': 'Battle Map, 16:9', kinetic: 'Kinetic, 9:16' };
+const complete = (b) => ['title', 'line', 'subject', 'angle', 'audience', 'tone', 'target_seconds'].every((k) => b?.[k]);
+const lengthOf = (s) => (s ? `${Math.floor(s / 60)} min ${String(Math.round(s % 60)).padStart(2, '0')} s` : null);
+
+function Director({ status, go, openJob }) {
   const [msgs, setMsgs] = useState([]);
   const [brief, setBrief] = useState(null);
   const [options, setOptions] = useState([]);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState(null);
   const [text, setText] = useState('');
-  const [ready, setReady] = useState(false);
-  const [saved, setSaved] = useState(null);
+  const [fallback, setFallback] = useState(null);       // one line when a free model is answering
+  const [building, setBuilding] = useState(false);
+  const [buildErr, setBuildErr] = useState(null);
+  const [lastJob, setLastJob] = useState(null);
   const thread = useRef(null);
   const connected = status?.openrouter;
+  const started = useRef(false);
 
-  useEffect(() => { try { const s = JSON.parse(localStorage.getItem('kf-director') || 'null'); if (s) { setMsgs(s.msgs || []); setBrief(s.brief || null); setOptions(s.options || []); } } catch {} }, []);
-  useEffect(() => { try { localStorage.setItem('kf-director', JSON.stringify({ msgs, brief, options })); } catch {} }, [msgs, brief, options]);
+  useEffect(() => {
+    try {
+      const s = JSON.parse(localStorage.getItem('kf-director-2') || 'null');
+      if (s) { setMsgs(s.msgs || []); setBrief(s.brief || null); setOptions(s.options || []); setFallback(s.fallback || null); started.current = Boolean(s.msgs?.length); }
+      setLastJob(localStorage.getItem('kf-job'));
+    } catch {}
+  }, []);
+  useEffect(() => { try { localStorage.setItem('kf-director-2', JSON.stringify({ msgs, brief, options, fallback })); } catch {} }, [msgs, brief, options, fallback]);
   useEffect(() => { thread.current?.scrollTo({ top: 1e6, behavior: 'smooth' }); }, [msgs, busy]);
-  useEffect(() => { if (connected && !msgs.length && !busy) send(null); }, [connected]);   // the director opens the conversation
+  useEffect(() => { if (connected && !started.current && !busy) { started.current = true; send(null); } }, [connected]);   // the director opens the conversation
 
   async function send(content) {
     const next = content ? [...msgs, { role: 'user', content }] : msgs;
     if (content) setMsgs(next);
     setText(''); setOptions([]); setBusy(true); setErr(null);
     try {
-      const r = await fetch('/api/director', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: next, brief }) });
-      const j = await r.json();
+      const r = await fetch('/api/director', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: next.map(({ role, content }) => ({ role, content })), brief }) });
+      const j = await r.json().catch(() => ({ error: 'The reply could not be read.' }));
       if (!r.ok) throw Object.assign(new Error(j.error), { code: j.code });
-      setMsgs([...next, { role: 'assistant', content: j.say, step: j.step_for_sam, by: j.director }]); setOptions(j.options || []); setBrief(j.brief); setReady(Boolean(j.ready));
-    } catch (e) { setErr(e.code === 'credits' ? 'Your OpenRouter key has reached its spending limit. Raise it on openrouter.ai under Settings, Keys.' : e.code === 'no-key' ? null : 'Every model in the director’s chain failed just now. Send your message again in a minute.'); }
+      setMsgs([...next, { role: 'assistant', content: j.say, by: j.director }]); setOptions(j.options || []); setBrief(j.brief || brief);
+      setFallback(j.director?.fallback ? j.director.note : null);
+    } catch (e) {
+      setErr(e.code === 'credits' ? 'The studio key is out of credit and no free model could answer. Try again in a minute, or add credit on openrouter.ai.' : e.code === 'no-key' ? null : 'No model answered just now. Send your message again in a minute.');
+      if (!content) started.current = false;
+    }
     setBusy(false);
   }
   async function build() {
-    const r = await fetch('/api/film', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ brief, transcript: msgs }) });
-    const j = await r.json(); setSaved(j.saved ? `Saved as films/${j.id}. The build agent picks it up from here.` : j.code === 'no-github' ? 'Connect GitHub on the Setup page so the studio can save and build films.' : j.error);
+    setBuilding(true); setBuildErr(null);
+    try {
+      const r = await fetch('/api/build', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ brief }) });
+      const j = await r.json();
+      if (!j.saved) throw new Error(j.code === 'no-github' ? 'Connect GitHub on the Setup page so the studio can start builds.' : j.error || 'The build could not be started.');
+      openJob(j.id);
+    } catch (e) { setBuildErr(e.message); }
+    setBuilding(false);
   }
-  const lastStep = [...msgs].reverse().find((m) => m.step && / /.test(m.step) && m.step.length > 15)?.step;   // only real sentences, never internal tokens
-  const nextForSam = !status ? 'Checking the studio…' : !status.openrouter ? 'Connect the director’s brain: add your OpenRouter key (Setup, 4 short steps).' : saved ? saved : ready ? 'The story is ready. Tap “Build this film”.' : lastStep || 'Talk with the director. Tap an answer or type your own.';
+  const reset = () => { setMsgs([]); setBrief(null); setOptions([]); setErr(null); setFallback(null); setBuildErr(null); started.current = false; try { localStorage.removeItem('kf-director-2'); } catch {} if (connected) setTimeout(() => { started.current = true; send(null); }, 0); };
+  const ok = complete(brief);
+  const credit = status?.account?.remaining;
+  const lowLine = fallback || (credit != null && credit < 0.05 ? 'The studio key is out of credit, so free models answer.' : null);
+  const nextForSam = !status ? 'Checking the studio' : !status.openrouter ? 'Connect the director’s brain: add your OpenRouter key (Setup).' : ok ? 'The brief is complete. Tap “Build this film” when you are happy with it.' : 'Tell the director a subject, any subject, or tap an answer.';
 
   return (
     <>
       <motion.div className="page-head" {...appear(0)}>
-        <div><h1>What are we making?</h1><p className="lede">Talk it through with the director. When the story is right, it builds the film and tells you exactly what it needs from you.</p></div>
+        <div><h1>What are we making?</h1><p className="lede">Name a subject. The director picks the line, the angle and the length with you, then the studio builds the film and hands it back.</p></div>
+        {lastJob && <button className="btn ghost" onClick={() => openJob(lastJob)}>Open the last build</button>}
       </motion.div>
       <div className="director">
         <motion.section className="convo glass refract" {...appear(1)} aria-label="Conversation with the director">
           <div className="thread" ref={thread} aria-live="polite">
             {!connected && status && (
-              <div className="msg ai">I’m the studio’s director. I need my brain connected before we talk: it takes four short steps on the Setup page, and I’ll be ready the moment you finish.</div>
+              <div className="msg ai">I’m the studio’s director. I need my brain connected before we talk: it takes a few steps on the Setup page, and I’ll be ready the moment you finish.</div>
             )}
             {msgs.map((m, i) => (
               <motion.div key={i} className={'msg ' + (m.role === 'user' ? 'me' : 'ai')} initial={{ opacity: 0, y: 8, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.4, ease }}>{m.content}</motion.div>
             ))}
             {busy && <div className="msg ai thinking" aria-label="The director is thinking"><i /><i /><i /></div>}
-            {err && <div className="msg ai" role="alert">{err}</div>}
+            {err && <div className="msg ai" role="alert">{err} <button className="opt" style={{ marginInlineStart: 6 }} onClick={() => send(msgs.length ? msgs[msgs.length - 1].role === 'user' ? msgs[msgs.length - 1].content : 'Please go on.' : null)}>Try again</button></div>}
             {!!options.length && !busy && (
               <div className="options">{options.map((o) => <button key={o} className="opt" onClick={() => send(o)}>{o}</button>)}</div>
             )}
           </div>
+          {ok && !busy && <div className="inlinebuild"><button className="btn lamp" disabled={building} onClick={build}>{building ? 'Starting' : 'Build this film'}</button>{buildErr && <p role="alert" style={{ margin: '8px 0 0', color: '#ffb4b4' }}>{buildErr}</p>}</div>}
+          {lowLine && <p className="notice" role="status"><i className="dot run" />{lowLine}</p>}
           <form className="composer" onSubmit={(e) => { e.preventDefault(); if (text.trim()) send(text.trim()); }}>
-            <textarea rows={1} value={text} placeholder={connected ? 'Describe the film, or answer the director…' : 'Connect the director on the Setup page first'} disabled={!connected || busy}
+            <textarea rows={1} value={text} placeholder={connected ? 'Name a subject, or reply' : 'Connect the director on the Setup page first'} disabled={!connected || busy}
               onChange={(e) => setText(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (text.trim()) send(text.trim()); } }} aria-label="Message" />
             <button className="btn lamp" disabled={!connected || busy || !text.trim()} aria-label="Send">{I.send}</button>
           </form>
@@ -162,57 +199,26 @@ function Director({ status, go }) {
             <div className="label">Your next step</div>
             <p>{nextForSam}</p>
             {status && !status.openrouter && <button className="btn lamp" onClick={() => go('setup')}>Open Setup</button>}
-            {ready && !saved && <button className="btn lamp" onClick={build}>Build this film</button>}
+            {ok && <button className="btn lamp" disabled={building} onClick={build}>{building ? 'Starting' : 'Build this film'}</button>}
+            {ok && <p className="faint" style={{ margin: '10px 0 0' }}>About $1 to $1.50 of model time, capped at $1.50. Nothing is published without you.</p>}
+            {buildErr && <p role="alert" style={{ margin: '10px 0 0', color: '#ffb4b4' }}>{buildErr}</p>}
           </motion.div>
           <motion.div className="card brief glass" {...appear(3)}>
             <h2>The film so far</h2>
             <dl>
-              {[['Title', brief?.title], ['Channel', brief?.channel === 'dark-corners' ? 'Dark Corners' : brief?.channel === 'family' ? 'Family' : null], ['Style', brief?.style],
-                ['Length', brief?.length_seconds ? `${Math.round(brief.length_seconds)} s, ${brief.format || '16:9'}` : null], ['Story', brief?.logline], ['Narrator', brief?.narrator], ['Ending', brief?.moral]].map(([k, v]) => (
+              {[['Title', brief?.title], ['Line', LINE_NAME[brief?.line]], ['Subject', brief?.subject], ['Angle', brief?.angle], ['Audience', brief?.audience], ['Tone', brief?.tone], ['Length', lengthOf(brief?.target_seconds)], ['Extras', brief?.notes], ['Narrator', 'the series narrator']].map(([k, v]) => (
                 <div key={k} style={{ display: 'contents' }}><dt>{k}</dt><dd className={v ? '' : 'empty'}>{v || 'not decided yet'}</dd></div>
               ))}
             </dl>
-            {!!msgs.length && <button className="btn ghost" style={{ marginTop: 16 }} onClick={() => { setMsgs([]); setBrief(null); setOptions([]); setReady(false); setSaved(null); }}>Start a new film</button>}
+            {!!msgs.length && <button className="btn ghost" style={{ marginTop: 16 }} onClick={reset}>Start a new film</button>}
           </motion.div>
-          {(() => { const by = [...msgs].reverse().find((m) => m.by)?.by; const a = status?.account;
+          {(() => { const by = [...msgs].reverse().find((m) => m.by)?.by;
             return status?.openrouter && (
               <p className="faint" style={{ margin: '0 6px' }}>
-                {by ? <>Last answer: {by.head}{by.crew?.length ? <>, with {by.crew.length} crew drafts</> : null}, {(by.ms / 1000).toFixed(0)} s, ${by.usd.toFixed(3)}.{by.note ? <> {by.note}</> : null}</> : <>Director: {(status.seats?.head?.[0] || '').split('/').pop()}. Crew: {(status.seats?.crew || []).slice(0, 3).map((m) => m.split('/').pop()).join(', ')}.</>}
-                {a?.remaining != null && <> ${a.remaining.toFixed(2)} left on your key.</>}
+                {by ? <>Last answer: {by.head}{by.crew?.length ? <>, with {by.crew.length} crew drafts</> : null}, {(by.ms / 1000).toFixed(0)} s, ${by.usd.toFixed(3)}.</> : <>Director: {(status.seats?.head?.[0] || '').split('/').pop()}.</>}
+                {credit != null && <> ${credit.toFixed(2)} left on the studio key.</>}
               </p>); })()}
         </aside>
-      </div>
-    </>
-  );
-}
-
-// ------------------------------------------------------------------ Films
-function Stages({ stage }) {
-  return <div className="stages" aria-label={`Stage: ${STAGES[stage]}`}>{STAGES.map((s, i) => <i key={s} className={i < stage ? 'done' : i === stage ? 'now' : ''} title={s} />)}</div>;
-}
-function Films({ open }) {
-  const [lead, ...rest] = FILMS;
-  return (
-    <>
-      <motion.div className="page-head" {...appear(0)}><div><h1>Films</h1><p className="lede">Every film the studio has made, where it stands, and what it is waiting for.</p></div></motion.div>
-      <motion.article className="hero glass" {...appear(1)}>
-        <div className="screen"><video src={`/media/${lead.media}.mp4`} poster={`/media/${lead.media}.jpg`} muted loop playsInline autoPlay preload="metadata" /></div>
-        <div className="info">
-          <h2 style={{ fontSize: 28, lineHeight: 1.1 }}>{lead.title}</h2>
-          <p className="quiet" style={{ margin: 0 }}>{lead.logline}</p>
-          <Stages stage={lead.stage} />
-          <p className="faint" style={{ margin: 0 }}>{lead.style} · {lead.length} · {lead.status}</p>
-          {lead.next && <p style={{ margin: 0 }}><b style={{ color: 'var(--lamp)' }}>Next:</b> {lead.next}</p>}
-          <div><button className="btn lamp" onClick={() => open({ title: lead.title, media: lead.media })}>Watch with sound</button></div>
-        </div>
-      </motion.article>
-      <div className="row">
-        {rest.map((f, i) => (
-          <motion.button key={f.id} className="tile glass" onClick={() => open({ title: f.title, media: f.media })} {...appear(2 + i)}>
-            <div className="thumb" style={f.format === '9:16' ? { aspectRatio: '16 / 9' } : null}><img src={`/media/${f.media}.jpg`} alt="" style={f.format === '9:16' ? { objectFit: 'contain', background: '#050814' } : null} /></div>
-            <div className="meta"><b>{f.title}</b><span>{f.status}</span><Stages stage={f.stage} /></div>
-          </motion.button>
-        ))}
       </div>
     </>
   );
@@ -222,12 +228,16 @@ function Films({ open }) {
 function Styles({ open }) {
   return (
     <>
-      <motion.div className="page-head" {...appear(0)}><div><h1>Twelve styles, each with its own way of moving</h1><p className="lede">Tap a style to see its test clip. Clay and Paper are being upgraded first; the rest follow.</p></div></motion.div>
+      <motion.div className="page-head" {...appear(0)}><div><h1>Looks the studio has tested</h1><p className="lede">Short test clips of each look. Terrain and Kinetic are live production lines: the director can build a film in them today. The others are test clips for now.</p></div></motion.div>
       <div className="row">
         {STYLES.map((s, i) => (
-          <motion.button key={s.id} className="tile glass" onClick={() => open({ title: s.name, media: s.media })} {...appear(1 + i * 0.5)}>
-            <div className="thumb"><img src={`/media/${s.media}.jpg`} alt="" style={s.vertical ? { objectFit: 'contain' } : null} /></div>
-            <div className="meta"><b>{s.name}</b><span>{s.motion}</span><div className="faint" style={{ marginTop: 6 }}>{s.renderer} · {s.phase}</div></div>
+          <motion.button key={s.id} className="tile glass" onClick={() => open({ title: s.name, series: 'Style test', format: s.vertical ? '9:16' : '16:9', poster: `/media/${s.media}.jpg`, preview: `/media/${s.media}.mp4` })} {...appear(1 + i * 0.4)} aria-label={`Play the ${s.name} test clip`}>
+            <div className="thumb">
+              {s.vertical && <img className="backdrop" src={`/media/${s.media}.jpg`} alt="" aria-hidden="true" loading="lazy" />}
+              <img className={s.vertical ? 'portrait' : ''} src={`/media/${s.media}.jpg`} alt="" loading="lazy" />
+              <span className="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6.5 9 5.5-9 5.5z" fill="currentColor" /></svg></span>
+            </div>
+            <div className="meta"><b>{s.name}</b>{s.line && <span className="chip on" style={{ marginInlineStart: 8, padding: '1px 9px', fontSize: 12 }}>live line</span>}<span style={{ display: 'block' }}>{s.motion}</span></div>
           </motion.button>
         ))}
       </div>
@@ -235,64 +245,30 @@ function Styles({ open }) {
   );
 }
 
-// ------------------------------------------------------------------ Voices (Gate A)
-function Voices({ status }) {
-  const [data, setData] = useState(null);
-  const [saved, setSaved] = useState({});
-  useEffect(() => { fetch('/data/voices.json').then((r) => r.json()).then(setData).catch(() => setData({ films: [] })); }, []);
-  async function choose(film, take) {
-    const r = await fetch('/api/decision', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ topic: `narrator-${film}`, choice: take }) });
-    const j = await r.json(); setSaved({ ...saved, [film]: j.saved ? `Saved: ${take}` : 'Connect GitHub on the Setup page so your choice is saved.' });
-  }
-  return (
-    <>
-      <motion.div className="page-head" {...appear(0)}><div><h1>Narrators</h1><p className="lede">Each line was generated several times and checked: no repeated or missing words, no odd pauses, steady pace. Listen, then choose the one that fits.</p></div></motion.div>
-      {!data?.films?.length && <motion.div className="card glass" {...appear(1)}><h2>The new takes are being recorded</h2><p className="quiet">The studio is directing the narrator line by line on GitHub’s machines. The finished versions appear here, ready to compare.</p></motion.div>}
-      {data?.films?.map((f, fi) => (
-        <motion.section key={f.id} className="card glass" style={{ marginBottom: 18 }} {...appear(1 + fi)}>
-          <h2>{f.title}</h2><p className="faint" style={{ margin: '0 0 12px' }}>{f.note}</p>
-          <div className="row" style={{ marginTop: 0 }}>
-            {f.takes.map((t) => (
-              <div key={t.id} className="card" style={{ background: 'rgba(255,255,255,.05)', border: '1px solid var(--edge)' }}>
-                <b>{t.name}</b><p className="faint" style={{ margin: '4px 0 10px' }}>{t.summary}</p>
-                {t.src.endsWith('.mp4') ? <video controls playsInline preload="metadata" src={t.src} style={{ width: '100%', borderRadius: 12 }} /> : <audio controls preload="none" src={t.src} />}
-                <button className="btn ghost" style={{ marginTop: 10 }} onClick={() => choose(f.id, t.id)}>Use this narrator</button>
-              </div>
-            ))}
-          </div>
-          <p className="faint" style={{ margin: '12px 0 0' }}>Not right? Tell the director what to change (older, warmer, a woman’s voice…) and it will design a new one.</p>
-          {saved[f.id] && <p className="faint" role="status">{saved[f.id]}</p>}
-        </motion.section>
-      ))}
-    </>
-  );
-}
-
 // ------------------------------------------------------------------ Renders (live from GitHub)
 function Renders() {
   const [runs, setRuns] = useState(null);
+  const [err, setErr] = useState(false);
   useEffect(() => {
-    const load = () => fetch(`https://api.github.com/repos/${REPO}/actions/runs?per_page=15`).then((r) => r.json()).then((j) => setRuns(j.workflow_runs || [])).catch(() => setRuns([]));
+    const load = () => fetch(`https://api.github.com/repos/${REPO}/actions/runs?per_page=15`).then((r) => r.json()).then((j) => { if (Array.isArray(j.workflow_runs)) { setRuns(j.workflow_runs); setErr(false); } else throw new Error('x'); }).catch(() => { setErr(true); setRuns((r) => r || []); });
     load(); const t = setInterval(load, 30000); return () => clearInterval(t);
   }, []);
-  const label = { render: 'Picture render', voice: 'Narration takes', motion: 'Motion learning', smoke: 'Health check' };
-  const ago = (d) => { const m = Math.round((Date.now() - new Date(d)) / 60000); return m < 60 ? `${m} min ago` : `${Math.round(m / 60)} h ago`; };
+  const label = { render: 'Picture render', voice: 'Narration takes', motion: 'Motion learning', smoke: 'Health check', film: 'Studio film build', 'films-render': 'Film render', codead: 'Code-built ad', board: 'Style board', piece: 'Shot factory' };
+  const ago = (d) => { const m = Math.max(0, Math.round((Date.now() - new Date(d)) / 60000)); return m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
   return (
     <>
       <motion.div className="page-head" {...appear(0)}><div><h1>Renders</h1><p className="lede">The studio’s machines at work. This list refreshes on its own.</p></div></motion.div>
+      {err && <p className="notice" role="status"><i className="dot bad" />GitHub did not answer just now, so this list may be out of date.</p>}
       <motion.div className="list glass" {...appear(1)}>
-        {!runs && <div className="li"><i className="dot run" /><span>Loading…</span><span /></div>}
+        {!runs && <div className="li"><i className="dot run" /><span>Loading</span><span /></div>}
+        {runs && !runs.length && <div className="li"><i className="dot" /><span>No runs to show.</span><span /></div>}
         {runs?.map((r) => (
           <a key={r.id} className="li" href={r.html_url} target="_blank" rel="noreferrer">
-            <i className={'dot ' + (r.status !== 'completed' ? 'run' : r.conclusion === 'success' ? 'ok' : 'bad')} />
+            <i className={'dot ' + (r.status !== 'completed' ? 'run' : r.conclusion === 'success' ? 'ok' : r.conclusion === 'cancelled' ? '' : 'bad')} />
             <span><b style={{ fontWeight: 600 }}>{label[r.name] || r.name}</b> <span className="faint">· {r.display_title?.slice(0, 70)}</span></span>
-            <span className="faint">{r.status !== 'completed' ? 'running' : r.conclusion === 'success' ? 'done' : 'failed'} · {ago(r.updated_at)}</span>
+            <span className="faint">{r.status !== 'completed' ? 'running' : r.conclusion === 'success' ? 'done' : r.conclusion === 'cancelled' ? 'cancelled' : 'failed'} · {ago(r.updated_at)}</span>
           </a>
         ))}
-      </motion.div>
-      <motion.div className="card glass" style={{ marginTop: 18 }} {...appear(2)}>
-        <h2>Building the studio</h2>
-        <div className="options" style={{ marginTop: 10 }}>{BUILD_GATES.map((g) => <span key={g.id} className={'chip' + (g.state === 'now' ? ' on' : '')}>{g.name}: {g.what}</span>)}</div>
       </motion.div>
     </>
   );
@@ -314,15 +290,16 @@ function BuildKey() {
 }
 
 function Spend({ status }) {
-  const a = status?.account, c = status?.caps, seats = status?.seats || {}; const n = (id) => (id || '—').split('/').pop();
+  const a = status?.account, c = status?.caps, seats = status?.seats || {}; const n = (id) => (id || 'none').split('/').pop();
   if (!status?.openrouter) return null;
   return (
     <motion.section className="card glass refract" style={{ marginBottom: 18 }} {...appear(1)}>
       <h2>Money</h2>
+      {a?.remaining != null && <p className="big" style={{ margin: '4px 0 2px' }}>${a.remaining.toFixed(2)} <span className="faint">left on the studio key (limit ${(a.limit ?? 0).toFixed(2)})</span></p>}
+      {a?.remaining != null && a.remaining < 0.5 && <p className="notice" role="status" style={{ margin: '8px 0' }}><i className="dot run" />{a.remaining < 0.05 ? 'The key is out of credit. The director still answers on free models, which are slower and less sharp. Raise the key’s limit on openrouter.ai to get the best models back.' : 'Credit is low. When it runs out the director switches to free models automatically.'}</p>}
       <dl>
-        <div style={{ display: 'contents' }}><dt>Left on the studio key</dt><dd>{a?.remaining != null ? `$${a.remaining.toFixed(2)} of $${(a.limit ?? 0).toFixed(2)}` : 'no limit set'}</dd></div>
         {a?.today != null && <div style={{ display: 'contents' }}><dt>Spent today</dt><dd>${a.today.toFixed(3)} (stops at ${c?.day_usd})</dd></div>}
-        <div style={{ display: 'contents' }}><dt>Caps</dt><dd>${c?.turn_usd} per message, ${c?.film_usd} per film, ${c?.day_usd} per day, {c?.max_loops} review loops</dd></div>
+        <div style={{ display: 'contents' }}><dt>Caps</dt><dd>${c?.turn_usd} per message, ${c?.day_usd} per day; a film build is capped at $1.50 by default</dd></div>
         <div style={{ display: 'contents' }}><dt>Head</dt><dd>{n(seats.head?.[0])}: plans, talks with you, final review</dd></div>
         <div style={{ display: 'contents' }}><dt>Deputy</dt><dd>{n(seats.deputy?.[0])}: reviews every step</dd></div>
         <div style={{ display: 'contents' }}><dt>Crew</dt><dd>{(seats.crew || []).slice(0, 3).map(n).join(', ')}: drafts in parallel</dd></div>
@@ -361,18 +338,5 @@ function Setup({ status }) {
       </motion.section>
       <BuildKey />
     </>
-  );
-}
-
-// ------------------------------------------------------------------ player sheet
-function Player({ item, close }) {
-  useEffect(() => { const k = (e) => e.key === 'Escape' && close(); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, [close]);
-  return (
-    <motion.div className="scrim" onClick={close} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <motion.div className="sheet glass" role="dialog" aria-label={item.title} onClick={(e) => e.stopPropagation()} initial={{ scale: 0.94, y: 24, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.97, y: 12, opacity: 0 }} transition={{ duration: 0.5, ease }}>
-        <div className="screen"><video src={`/media/${item.media}.mp4`} poster={`/media/${item.media}.jpg`} controls autoPlay playsInline /></div>
-        <div className="bar"><h2 style={{ margin: 0 }}>{item.title}</h2><button className="btn ghost" onClick={close}>Close</button></div>
-      </motion.div>
-    </motion.div>
   );
 }
