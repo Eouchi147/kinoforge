@@ -25,7 +25,7 @@ import zlib
 import numpy as np
 
 __all__ = ['Kit', 'block', 'river', 'pond', 'basin', 'rolling', 'STRATA', 'SEASONS', 'studio', 'sky', 'dusk', 'camera',
-           'pile', 'pipe', 'house', 'mill', 'bridge', 'lamp', 'tunnel_mouth', 'birds', 'falling_stones', 'render_settings']
+           'pile', 'pipe', 'house', 'mill', 'bridge', 'lamp', 'tunnel_mouth', 'birds', 'falling_stones', 'hanging_roots', 'render_settings']
 
 # =============================================================================================== numeric helpers
 def smooth(a, b, x):
@@ -528,7 +528,7 @@ class Land:
     pass
 
 def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, seed=1, season='summer', zones=None,
-          res=0.022, grass=1.0, grass_height=1.0, trees=10, tree_kinds=('round', 'round', 'cone', 'tall'), boulders=12,
+          res=0.022, grass=1.0, grass_height=1.0, trees=10, tree_kinds=('round', 'round', 'cone', 'tall'), tree_scale=1.0, boulders=12,
           flowers=0.5, under=True, lilies=0, reeds=0.0, corals=0, shore_rock=0.0, keep_clear=(), tree_spots=None,
           sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.6, water_glow=0.022, bottom=None, name='cw_block'):
     """Build the block. Returns a Land.
@@ -637,7 +637,7 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
 
     # ---------------------------------------------------------------- life
     L.scatter = lambda *a, **k: scatter(kit, L, *a, **k)
-    _populate(kit, L, rng, grass=grass, grass_height=grass_height, trees=trees, tree_kinds=tree_kinds, boulders=boulders, flowers=flowers,
+    _populate(kit, L, rng, grass=grass, grass_height=grass_height, trees=trees, tree_kinds=tree_kinds, tree_scale=tree_scale, boulders=boulders, flowers=flowers,
               under=under, lilies=lilies, reeds=reeds, corals=corals, tree_spots=tree_spots, sway=sway)
     L.cut = lambda ob, margin=0.0: cut(kit, L, ob, margin)
     L.place = lambda ob, x, y, dz=0.0: _place(L, ob, x, y, dz)
@@ -895,7 +895,7 @@ def proto_reeds(kit, n=3, seed=0, height=0.2):
         obs.append(A.build(bpy, f'cw_reeds{k}', [mat, head], True, None))
     return obs
 
-def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flowers, under, lilies, reeds, corals, tree_spots, sway):
+def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, tree_scale, boulders, flowers, under, lilies, reeds, corals, tree_spots, sway):
     sx, sy = L.size; pal = L.pal; s = L.seed
     # grass: a dense jittered grid, kept where the grass weight wins a random draw
     if grass > 0:
@@ -921,7 +921,7 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
                 return f['w_grass'][0] > 0.4 and f['sd'][0] > 0.12 and f['depth'][0] < -0.03
             T = _darts(rng, sx, sy, trees, 0.36, ok, 0.2); sc = rng.uniform(0.6, 1.35, len(T))
             var = np.array([kinds.index(tree_kinds[int(rng.integers(0, len(tree_kinds)))]) * 3 + int(rng.integers(0, 3)) for _ in range(len(T))])
-        if len(T): scatter(kit, L, 'cw_trees', protos, T, scale=sc, variant=var, sway=0.025 * sway, speed=0.5, sink=0.01)
+        if len(T): scatter(kit, L, 'cw_trees', protos, T, scale=sc * tree_scale, variant=var, sway=0.025 * sway, speed=0.5, sink=0.01)
         L.trees = T
     # boulders: some on the banks, some in the grass
     if boulders:
@@ -1128,7 +1128,7 @@ def sky(kit, top=(0.58, 0.68, 0.80), horizon=(0.80, 0.84, 0.89), sun_az=-120.0, 
         ob.location = (r * math.cos(a), r * math.sin(a), rng.uniform(-4.5, -0.8) + 0.25 * r - 3.5)
         for at in ('visible_diffuse', 'visible_glossy', 'visible_shadow', 'visible_transmission'): setattr(ob, at, False)
     if mist:
-        for k, (z, op) in enumerate(((-d - 0.9, 0.85), (-d - 0.5, 0.55), (-d - 0.15, 0.30))):
+        for k, (z, op) in enumerate(((-d - 1.9, 0.9), (-d - 1.4, 0.6), (-d - 1.0, 0.35))):
             m = card_mat(f'cw_mist{k}', (0.96, 0.97, 0.99), op, 1.4, 0.03, 3.0, 1.45)
             ob = _plane(kit, f'cw_mist{k}', 1, z, m); ob.scale = (9, 9, 1)
             for at in ('visible_diffuse', 'visible_glossy', 'visible_shadow', 'visible_transmission'): setattr(ob, at, False)
@@ -1169,7 +1169,7 @@ def birds(kit, n=4, center=(0.0, 0.0), radius=2.4, height=1.4, seed=5, size=0.04
         kit.on_frame(pose); pose(0.0); out.append(body)
     return out
 
-def falling_stones(kit, L, n=14, seed=9, color=(0.50, 0.46, 0.42)):
+def falling_stones(kit, L, n=14, seed=9, color=(0.42, 0.36, 0.30)):
     """Stones and clods drifting down and away under a floating block (each loops through its fall). Loop-safe."""
     bpy = kit.bpy; rng = np.random.default_rng(seed); sx, sy = L.size; protos = proto_rocks(kit, 4, seed, color, 0.3, name='cw_fall')
     obs = []
@@ -1177,14 +1177,28 @@ def falling_stones(kit, L, n=14, seed=9, color=(0.50, 0.46, 0.42)):
         src = protos[k % 4]; ob = bpy.data.objects.new(f'cw_fall{k}', src.data); kit.coll.objects.link(ob)
         s = rng.uniform(0.04, 0.13); ob.scale = (s, s, s)
         x0 = rng.uniform(-sx / 2 * 0.95, sx / 2 * 0.95); y0 = rng.uniform(-sy / 2 * 0.95, sy / 2 * 0.95)
-        drift = rng.normal(0, 0.15, 2); fall = rng.uniform(0.6, 1.6); off = rng.uniform(0, 1); spin = rng.normal(0, 1.5, 3)
-        def pose(t, ob=ob, x0=x0, y0=y0, drift=drift, fall=fall, off=off, spin=spin):
+        drift = rng.normal(0, 0.12, 2); fall = rng.uniform(0.5, 0.95); off = rng.uniform(0, 1); spin = rng.normal(0, 1.5, 3)
+        def pose(t, ob=ob, x0=x0, y0=y0, drift=drift, fall=fall, off=off, spin=spin, s=s):
             u = (t / kit.loop * max(1, round(kit.loop / 12.0)) + off) % 1.0
-            ob.location = (x0 + drift[0] * u, y0 + drift[1] * u, -L.depth - 0.08 - fall * u * u)
+            ob.location = (x0 + drift[0] * u, y0 + drift[1] * u, -L.depth - 0.06 - fall * u * u)
             ob.rotation_euler = tuple(spin * u * 2)
             sc = s * min(1.0, (1 - u) * 6) * min(1.0, u * 12 + 0.2); ob.scale = (sc, sc, sc)
         kit.on_frame(pose); pose(0.0); obs.append(ob)
     return obs
+
+def hanging_roots(kit, L, n=40, seed=12, length=(0.08, 0.45), color=(0.30, 0.21, 0.13)):
+    """Thin roots dangling from the bottom edges of a floating block, swaying a little. Loop-safe."""
+    rng = np.random.default_rng(seed); sx, sy = L.size; A = _Acc(); z0 = -L.depth
+    for k in range(n):
+        side = rng.integers(0, 4); u = rng.uniform(-0.48, 0.48)
+        x, y = [(u * sx, -sy / 2), (sx / 2, u * sy), (u * sx, sy / 2), (-sx / 2, u * sy)][side]
+        x *= 0.985; y *= 0.985; ln = rng.uniform(*length); ph = rng.uniform(0, 6.28)
+        P = [(x + 0.02 * math.sin(ph + 7 * t) * t, y + 0.02 * math.cos(ph + 5 * t) * t, z0 + 0.01 - ln * t) for t in np.linspace(0, 1, 8)]
+        v, f = _tube(P, np.linspace(0.006, 0.0012, 8), 5); A.add(v, f)
+    ob = A.build(kit.bpy, 'cw_roots', [mat_simple(kit, 'cw_rootmat', color, 0.85)], True, kit.coll)
+    @kit.on_frame
+    def _sway(t): ob.rotation_euler = (0.006 * math.sin(kit.cycles(t, 0.2)), 0.006 * math.cos(kit.cycles(t, 0.15)), 0)
+    return ob
 
 # =============================================================================================== camera
 class Cam:
