@@ -15,6 +15,7 @@ This is the director's teaching file. Every builder, every repair round and the 
 - **Overall:** every cut intentional; every decision intentional and relevant to the narrative; everything has a purpose,
   a goal, a beginning and an end; stories self-contained and masterfully crafted and arranged; Hollywood-level editing;
   worlds that feel alive and full.
+- **Cutaway (22 Oct, 12:01):** the cross-section worlds look amazing; elevate them with cinema lighting (haze, fog, god rays), animated fauna and flora, easter eggs in the soil layers that make people smile (dino bones, gold ore), interesting perspectives and camera angles.
 - **Money:** spend nothing. Free models and free tools only (since 22 Oct, 09:20 Toronto).
 
 ## 1. Every element earns its place

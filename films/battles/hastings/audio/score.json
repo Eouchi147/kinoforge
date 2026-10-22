@@ -2,6 +2,7 @@
  "engine": "samples+synth",
  "lufs": -23.02,
  "peak_dbfs": -3.5,
+ "limiter_reduction_db": 1.1,
  "chords": [
   [
    0.0,
@@ -2556,7 +2557,7 @@
   {
    "t": 0.0,
    "mood": "calm",
-   "pad": -37.8,
+   "pad": -37.7,
    "solo": -38.6,
    "pluck": -40.7,
    "drums": -120.0,
@@ -2574,7 +2575,7 @@
   {
    "t": 73.0,
    "mood": "tension",
-   "pad": -28.4,
+   "pad": -28.3,
    "solo": -37.5,
    "pluck": -32.5,
    "drums": -37.5,
@@ -2592,7 +2593,7 @@
   {
    "t": 117.2,
    "mood": "aftermath",
-   "pad": -34.1,
+   "pad": -34.0,
    "solo": -37.6,
    "pluck": -44.0,
    "drums": -42.6,
@@ -2601,18 +2602,18 @@
   {
    "t": 134.7,
    "mood": "triumph",
-   "pad": -29.7,
+   "pad": -29.6,
    "solo": -35.8,
-   "pluck": -34.0,
+   "pluck": -33.9,
    "drums": -42.1,
    "hits": -120.0
   },
   {
    "t": 141.2,
    "mood": "aftermath",
-   "pad": -36.0,
+   "pad": -35.8,
    "solo": -43.2,
-   "pluck": -39.5,
+   "pluck": -39.4,
    "drums": -120.0,
    "hits": -120.0
   }
@@ -2679,42 +2680,42 @@
   "voice_lufs_before": -21.6,
   "mix_lufs": -14.1,
   "mix_peak_dbfs": -2.0,
-  "voice_over_score_while_speaking_db": 16.6,
+  "voice_over_score_while_speaking_db": 17.0,
   "by_section": [
    {
     "t": 0.0,
     "mood": "calm",
-    "voice_over_music_db": 21.2
+    "voice_over_music_db": 21.4
    },
    {
     "t": 17.4,
     "mood": "curious",
-    "voice_over_music_db": 18.6
+    "voice_over_music_db": 18.8
    },
    {
     "t": 73.0,
     "mood": "tension",
-    "voice_over_music_db": 15.8
+    "voice_over_music_db": 16.2
    },
    {
     "t": 104.1,
     "mood": "turn",
-    "voice_over_music_db": 11.2
+    "voice_over_music_db": 11.7
    },
    {
     "t": 117.2,
     "mood": "aftermath",
-    "voice_over_music_db": 20.8
+    "voice_over_music_db": 21.0
    },
    {
     "t": 134.7,
     "mood": "triumph",
-    "voice_over_music_db": 17.6
+    "voice_over_music_db": 18.0
    },
    {
     "t": 141.2,
     "mood": "aftermath",
-    "voice_over_music_db": 22.2
+    "voice_over_music_db": 22.5
    }
   ],
   "clipped_samples": 0

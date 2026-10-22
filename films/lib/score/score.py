@@ -34,6 +34,10 @@ from dsp import SR, db
 
 CR = 50  # control-curve rate in Hz
 
+# air and presence (3.5 to 8 kHz): a shimmer of high chord tones, a little breath, brighter plucks, a livelier room.
+AIR = dict(shimmer_db=-31.0, breath_db=-46.0, shelf_db=2.5, shelf_hz=3500, pluck_lp=8500, drum_lp=7000, pad_lp=(2200, 5000, 12000), top_lp=14500,
+           damp=0.30, room_pad=0.07, room_solo=0.10, room_drums=0.30, room_pluck=0.16)
+
 
 # ---------------------------------------------------------------- plan
 def normalise_plan(plan):
@@ -96,7 +100,7 @@ class Composer:
         self.tonic = P.TONIC_PC[p['key']]; self.scale = P.MODES[p['mode']]; self.menu = P.MENUS[p['mode']]
         self.scale_pcs = {(self.tonic + s) % 12 for s in self.scale}
         self.rngs = {k: np.random.default_rng([int(p['seed']), i]) for i, k in
-                     enumerate(['chords', 'pad', 'solo', 'pluck', 'drums', 'hits', 'motif', 'swell'])}
+                     enumerate(['chords', 'pad', 'solo', 'pluck', 'drums', 'hits', 'motif', 'swell', 'shimmer'])}
         self.engine = engine
         self.inst = {}
         if engine != 'synth':
@@ -551,25 +555,52 @@ class Composer:
                     self.hitbus.add(self.pluck_note(mm, 5.0, 0.4 * lv + 0.1, rng, self.pal['pluck'][0]), t + 0.12 * j, 0.8, pan=0.2)
             self.info['hits'].append((round(t, 2), kind, lv))
 
+    # ---- shimmer: glassy high chord tones that give the pad air (fundamentals 1.5 to 3 kHz, partials into the presence band)
+    def render_shimmer(self):
+        rng = self.rngs['shimmer']; D = self.D; bus = Bus(self.n)
+        for k, c in enumerate(self.chords):
+            t0 = c['t']; t1 = self.chords[k + 1]['t'] if k + 1 < len(self.chords) else D + 4
+            span = t1 - t0 + 1.5; att = float(np.clip(span * 0.25, 2.5, 4.0))
+            for pc in c['pcs'][:3]:
+                m = next(x for x in range(88, 101) if x % 12 == pc) if any(x % 12 == pc for x in range(88, 101)) else 90
+                f0 = float(dsp.midi_hz(m)); n = int((span + 4.0) * SR); t = np.arange(n) / SR
+                y = np.zeros(n, np.float32)
+                for det in (-4.0, 4.0):
+                    f = f0 * 2 ** ((det + dsp.smooth_noise(n, 0.3, rng) * 3.0) / 1200)
+                    y += voices.osc_sum(f, [1.0, 0.55, 0.32, 0.18]) * 0.5
+                y *= dsp.env_ar(n, att, 4.0, curve=1.6) * (1 + 0.35 * dsp.smooth_noise(n, 0.4, rng))
+                L, R = dsp.pan_gains(float(rng.uniform(-0.7, 0.7)))
+                bus.add(np.stack([y, y], 1), t0 - 0.5 + float(rng.normal(0, 0.2)), 1.0, pan=float(rng.uniform(-0.7, 0.7)))
+        self.shimmer = bus
+
     # ---- mix
     def render(self):
-        t00 = time.time(); self.build_curves(); self.plan_chords(); self.make_motif()
+        self.compose(); return self.mixdown()
+
+    def compose(self):
+        t00 = time.time(); self.build_curves(); self.plan_chords(); self.make_motif(); self.render_shimmer()
         self.render_pad(); self.log(f'pads {time.time() - t00:.1f}s')
         self.render_solo(); self.log(f'solo {time.time() - t00:.1f}s')
         self.render_pluck(); self.render_drums(); self.render_hits(); self.log(f'plucks/drums {time.time() - t00:.1f}s')
+
+    def mixdown(self):
         n = self.n; I = self.curves['I']; B = self.curves['bright']
         tt = np.arange(n) / SR
         I_s = np.interp(tt * CR, np.arange(len(I)), I).astype(np.float32); B_s = np.interp(tt * CR, np.arange(len(B)), B).astype(np.float32)
         # strings: gain follows intensity (about 14 dB between calm and the peak of the swell); brightness opens with it
         g = 10 ** ((-15.0 * (1 - I_s) ** 1.1 + 2.0 * dsp.smoothstep(I_s, 0.8, 1.0)) / 20.0)
         body = (self.strings.buf + self.synth_pad.buf)
-        dark = dsp.lowpass(body, 1500, 2, axis=0); mid = dsp.lowpass(body, 3600, 2, axis=0); bright = dsp.lowpass(body, 9500, 2, axis=0)
+        dark = dsp.lowpass(body, AIR['pad_lp'][0], 2, axis=0); mid = dsp.lowpass(body, AIR['pad_lp'][1], 2, axis=0); bright = dsp.lowpass(body, AIR['pad_lp'][2], 2, axis=0)
         w_d = np.clip(1 - 2 * B_s, 0, 1); w_b = np.clip(2 * B_s - 1, 0, 1); w_m = 1 - w_d - w_b
         pad = (dark * w_d[:, None] + mid * w_m[:, None] + bright * w_b[:, None]) * g[:, None]
         del dark, mid, bright, body
         solo = self.solo.buf * (10 ** (-5.0 / 20)) * (10 ** (-3.0 * (1 - I_s) / 20)).astype(np.float32)[:, None]
-        pluck = dsp.lowpass(self.pluck.buf, 5200, 2, axis=0) * (10 ** (-5.5 / 20))                  # no sharp pick or pizzicato edge above ~5 kHz
-        drums = dsp.lowpass(self.drums.buf, 5500, 2, axis=0) * (10 ** (-6.0 / 20)); hitbus = self.hitbus.buf * (10 ** (-3.0 / 20)); air = self.hit_air.buf
+        pluck = dsp.lowpass(self.pluck.buf, AIR['pluck_lp'], 2, axis=0) * (10 ** (-5.5 / 20))      # bright articulations, but no needle-sharp pick edge
+        drums = dsp.lowpass(self.drums.buf, AIR['drum_lp'], 2, axis=0) * (10 ** (-6.0 / 20)); hitbus = self.hitbus.buf * (10 ** (-3.0 / 20)); air = self.hit_air.buf
+        # air: the shimmer follows brightness and intensity; a little band-limited breath rides the swell
+        sh = self.shimmer.buf * (10 ** (AIR['shimmer_db'] / 20)) * ((0.4 + 0.6 * B_s) ** 1.2 * (0.5 + 0.5 * I_s))[:, None]
+        brng = np.random.default_rng(self.plan['seed'] + 303)
+        breath = dsp.bandpass(brng.standard_normal((n, 2)).astype(np.float32), 4000, 9000, 2, axis=0) * (10 ** (AIR['breath_db'] / 20)) * (B_s * I_s ** 2)[:, None]
         # balance report: RMS of each bus in each section, before the room (what the arrangement is doing)
         self.balance = []
         for s in self.plan['sections']:
@@ -578,17 +609,17 @@ class Composer:
             r = lambda x: round(float(10 * np.log10((x[a:b] ** 2).mean() + 1e-12)), 1)
             self.balance.append({'t': round(s['t'], 1), 'mood': s['mood'], 'pad': r(pad), 'solo': r(solo), 'pluck': r(pluck), 'drums': r(drums), 'hits': r(hitbus)})
         rt = self.pal['rt60']
-        hall = dsp.make_ir(rt, np.random.default_rng(self.plan['seed'] + 101)); room = dsp.make_ir(0.8, np.random.default_rng(self.plan['seed'] + 202), predelay=0.008)
-        send_hall = pad * 0.30 + solo * 0.50 + pluck * 0.38 + hitbus * 0.30 + air * 0.5
-        send_room = drums * 0.22 + pluck * 0.12
+        hall = dsp.make_ir(rt, np.random.default_rng(self.plan['seed'] + 101), damp=AIR['damp']); room = dsp.make_ir(0.8, np.random.default_rng(self.plan['seed'] + 202), predelay=0.008, damp=AIR['damp'])
+        send_hall = pad * 0.30 + solo * 0.50 + pluck * 0.38 + hitbus * 0.30 + air * 0.5 + sh * 0.5
+        send_room = drums * AIR['room_drums'] + pluck * AIR['room_pluck'] + pad * AIR['room_pad'] + solo * AIR['room_solo']
         wet = dsp.convolve(send_hall, hall) * 1.0 + dsp.convolve(send_room, room) * 1.0
         # a pitch-quiet dry bleed: wet is what makes it warm, so keep the dry part moderate
-        mix = pad + solo * 0.85 + pluck * 0.9 + drums * 0.85 + hitbus * 0.9 + air * 0.4 + wet * 0.9
+        mix = pad + solo * 0.85 + pluck * 0.9 + drums * 0.85 + hitbus * 0.9 + air * 0.4 + wet * 0.9 + sh + breath
         del wet, send_hall, send_room
         # master EQ: tidy the lows, a gentle scoop where the voice lives, soften the top
         mix = dsp.highpass(mix, 38, 2, axis=0)
-        mix = dsp.eq(mix, [dsp.peaking_sos(2300, -2.5, 0.7), dsp.peaking_sos(220, 1.2, 0.8), dsp.high_shelf_sos(7000, -1.0)], axis=0)
-        mix = dsp.lowpass(mix, 13500, 1, axis=0)
+        mix = dsp.eq(mix, [dsp.peaking_sos(2300, -2.5, 0.7), dsp.peaking_sos(220, 1.2, 0.8), dsp.high_shelf_sos(AIR['shelf_hz'], AIR['shelf_db'])], axis=0)
+        mix = dsp.lowpass(mix, AIR['top_lp'], 1, axis=0)
         # fades: in at the start, the end fade
         D = self.D; ef = self.plan['end_fade']
         mix = mix[: int(D * SR)]
