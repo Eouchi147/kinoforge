@@ -9,7 +9,7 @@ name: codead
 on:
   workflow_dispatch:
     inputs:
-      ad: { description: 'ad id(s) under ads/, comma-separated', required: true }
+      ad: { description: 'ad id(s) under ads/, or folder paths (films/battles/cannae), comma-separated', required: true }
       mode: { description: 'prep or render', default: 'render' }
 permissions:
   contents: write
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy: { fail-fast: false, matrix: { ad: '${{ fromJSON(needs.plan.outputs.ads) }}' } }
-    env: { A: '${{ matrix.ad }}', MODE: '${{ inputs.mode }}' }
+    env: { A: '${{ matrix.ad }}', MODE: '${{ inputs.mode }}', D: "${{ contains(matrix.ad, '/') && matrix.ad || format('ads/{0}', matrix.ad) }}" }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -43,7 +43,7 @@ jobs:
       - name: prep the audio
         if: inputs.mode == 'prep'
         env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}' }
-        run: set -o pipefail; python harness/shots/prep.py ads/$A 2>&1 | tee ads/$A/prep.log
+        run: set -o pipefail; python harness/shots/prep.py $D 2>&1 | tee $D/prep.log
       - name: build the ad
         if: inputs.mode != 'prep'
         env: { OPENROUTER_API_KEY: '${{ secrets.OPENROUTER_API_KEY }}' }
@@ -54,9 +54,9 @@ jobs:
         run: |
           gh release view ads > /dev/null 2>&1 || gh release create ads --title "ads" --notes "Finished ads built in code (picture rendered in Chromium, voice and score via OpenRouter)." || true
           for f in ads/$A/out/$A.mp4 ads/$A/out/$A-sheet.jpg ads/$A/out/$A-listen.json ads/$A/codead.log; do [ -f "$f" ] && gh release upload ads "$f" --clobber || true; done
-          [ -f ads/$A/prep.log ] && cp ads/$A/prep.log ads/$A/$A-prep.log && gh release upload ads ads/$A/$A-prep.log --clobber || true
+          N=$(basename $D); [ -f $D/prep.log ] && cp $D/prep.log $D/$N-prep.log && gh release upload ads $D/$N-prep.log --clobber || true
           git config user.name "kinoforge-bot"; git config user.email "bot@users.noreply.github.com"
-          [ -f ads/$A/ledger.json ] && git add ads/$A/ledger.json
-          [ -d ads/$A/audio ] && git add ads/$A/audio
+          [ -f $D/ledger.json ] && git add $D/ledger.json
+          [ -d $D/audio ] && git add $D/audio
           git commit -qm "ad $A: $MODE outputs" || exit 0
           for i in 1 2 3 4 5; do git pull -q --rebase && git push -q && break; sleep $((RANDOM % 7 + 3)); done

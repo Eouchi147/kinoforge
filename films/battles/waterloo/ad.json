@@ -1,0 +1,74 @@
+{
+ "_": "Battle Map: The Battle of Waterloo (1815). Narration, score and word timings prepared by codead.yml mode=prep (harness/shots/prep.py).",
+ "id": "battle-map-waterloo",
+ "cap_usd": 0.6,
+ "prep": {
+  "music": {
+   "prompt": "Epic but playful early-19th-century orchestral adventure score for a kids history animation: bold brass, military snare and fifes, big timpani, Napoleonic march energy, bright and heroic, around 116 BPM, a suspenseful middle with ticking strings, a huge triumphant finale. Instrumental only, no vocals.",
+   "models": [
+    "google/lyria-3-pro-preview",
+    "google/lyria-3-clip-preview"
+   ]
+  },
+  "voice_cast": [
+   "CAST_WINNER"
+  ],
+  "cast_lines": 3,
+  "vo_words": true,
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "vo": [
+   {
+    "text": "In June 1815, Napoleon, the most famous general in the world, was back. And this time, Europe had had enough."
+   },
+   {
+    "text": "The Battle of Waterloo."
+   },
+   {
+    "text": "Napoleon had been Emperor of France. He was beaten, and sent away to a small island. He escaped, sailed back to France, and took over again. So Europe declared war on him. All of it."
+   },
+   {
+    "text": "Two armies were waiting for him in Belgium. A British-led army under the Duke of Wellington. And a Prussian army under Marshal Bl\u00fccher, a seventy-two year old general who never, ever gave up."
+   },
+   {
+    "text": "Napoleon's plan: beat them one at a time, before they could join up."
+   },
+   {
+    "text": "On the eighteenth of June, Wellington lined up his army along a low ridge near the village of Waterloo. Most of his soldiers waited just behind the top of the ridge, out of sight of the French guns."
+   },
+   {
+    "text": "In front of the ridge stood farmhouses, turned into little forts. Hougoumont on one side. La Haye Sainte in the middle."
+   },
+   {
+    "text": "It had rained all night. Napoleon waited for the ground to dry before attacking. Until almost midday. It turned out to be a very expensive lie in."
+   },
+   {
+    "text": "First, the French attacked Hougoumont. All day long. They never took it."
+   },
+   {
+    "text": "Then French soldiers marched at the middle of the ridge. British cavalry charged them back down the slope. And then charged a bit too far."
+   },
+   {
+    "text": "In the afternoon, thousands of French horsemen rode up the ridge. Wellington's soldiers formed squares, like giant hedgehogs of bayonets. The horses would not charge into them."
+   },
+   {
+    "text": "Meanwhile, far off to the east, Bl\u00fccher's Prussians were marching. Through mud. Late. But coming."
+   },
+   {
+    "text": "By evening, the Prussians were smashing into Napoleon's side. So Napoleon sent in his last and best soldiers, the Imperial Guard, straight up the ridge."
+   },
+   {
+    "text": "Wellington's soldiers rose up out of the tall corn and fired. The Guard fell back. And when the Guard fell back, the whole French army ran."
+   },
+   {
+    "text": "Wellington later called it the nearest run thing you ever saw in your life."
+   },
+   {
+    "text": "Four days later, Napoleon gave up his throne. This time he was sent to an island in the middle of the South Atlantic. No escaping from that one."
+   },
+   {
+    "text": "And today, to meet your Waterloo means to meet the one thing that finally beats you."
+   }
+  ]
+ }
+}

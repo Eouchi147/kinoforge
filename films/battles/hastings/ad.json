@@ -1,0 +1,77 @@
+{
+ "_": "Battle Map: The Battle of Hastings (1066). Narration, score and word timings prepared by codead.yml mode=prep (harness/shots/prep.py).",
+ "id": "battle-map-hastings",
+ "cap_usd": 0.6,
+ "prep": {
+  "music": {
+   "prompt": "Epic but playful medieval orchestral adventure score for a kids history animation: bold brass, war drums, a stomping folk rhythm with hurdy-gurdy and fiddle colour, bright and heroic, around 112 BPM, a tense middle section, a triumphant end. Instrumental only, no vocals.",
+   "models": [
+    "google/lyria-3-pro-preview",
+    "google/lyria-3-clip-preview"
+   ]
+  },
+  "voice_cast": [
+   "CAST_WINNER"
+  ],
+  "cast_lines": 3,
+  "vo_words": true,
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "vo": [
+   {
+    "text": "In 1066, England had three kings in a single year. This is the battle that decided the last one."
+   },
+   {
+    "text": "The Battle of Hastings."
+   },
+   {
+    "text": "In January, the old king died. The English crowned a powerful lord named Harold."
+   },
+   {
+    "text": "Across the sea, in Normandy, a duke named William said: excuse me, that crown was promised to me. And he built a fleet to come and get it."
+   },
+   {
+    "text": "But first, a Viking king, Harald Hardrada, invaded the north. Harold marched up and beat him, at Stamford Bridge."
+   },
+   {
+    "text": "Three days later, William landed in the south. So Harold marched his tired army all the way back down. About two hundred and fifty miles. Busy month."
+   },
+   {
+    "text": "On the fourteenth of October, Harold's army stood on top of a hill. Shoulder to shoulder. Shields locked together into a wall."
+   },
+   {
+    "text": "William's army waited at the bottom. Archers, foot soldiers, and knights on horseback. Their job: go up the hill. Not fun."
+   },
+   {
+    "text": "The Normans attacked. Arrows thudded into the shields. Knights rode uphill into swinging axes. And the shield wall held. Hour after hour."
+   },
+   {
+    "text": "Then a rumour ran through the Norman lines: William is dead! His soldiers started to run."
+   },
+   {
+    "text": "William pushed back his helmet so everyone could see his face. I'm alive! And he turned them around."
+   },
+   {
+    "text": "Then, the Norman writers say, they tried a trick. They pretended to run away."
+   },
+   {
+    "text": "Some of the English chased them down the hill. And the moment they left the wall, the Norman knights turned and surrounded them."
+   },
+   {
+    "text": "They did it more than once. And with every chase, the shield wall got thinner."
+   },
+   {
+    "text": "Late in the day, King Harold was killed. A famous embroidery, the Bayeux Tapestry, may show him with an arrow in his eye. Historians still argue about it. It is very hard to ask a tapestry questions."
+   },
+   {
+    "text": "Without their king, the English army broke apart."
+   },
+   {
+    "text": "On Christmas Day, William was crowned King of England. We still call him William the Conqueror."
+   },
+   {
+    "text": "His Normans spoke French. Which is why English today has words like beef, jury and judge. All thanks to one very long afternoon on a hill."
+   }
+  ]
+ }
+}

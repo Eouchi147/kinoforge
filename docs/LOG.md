@@ -2,6 +2,9 @@
 
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
+## 22 Oct 2026
+- Sam (21 Oct, night): make every Dark Corners episode in the KINOFORGE styles Clay, Lantern Road and Kinetic, and a new series of epic, kid-clear battle reconstructions in the Terrain style (upbeat, a glint of dark humour); work end to end overnight, rendering on GitHub runners (rc-render) and his Mac. Plan: Bamberg in Kinetic, Zong and Kleidion in Lantern Road, Arabia in Clay (each keeps its original narration, score and sound mix from rc-render `dark-films`; cue sheets rebuilt from the original timeline code); Battle Map series: Cannae, Hastings, Agincourt, Waterloo (`films/battles/`). New: rc-render workflow `films.yml` (parallel parts, join, release `kino-films`); `speech()` takes other voice models (`model|voice`, delivery instructions); prep auditions voices on a few lines, adds word timings; `codead.yml` prep accepts folder paths.
+
 ## 17 Oct 2026
 - Board `site-samples-v3-industries` dispatched: 27 AI stills, cap US$3.00 (about US$2.45 expected), sample photos for new template industries. Previews only.
 - Board `site-samples-v3-food` dispatched: 24 AI food stills (12 cut out for motion), cap US$3.00 (about US$2.20 expected; the build key had about US$8.98 left), for the restaurant website templates (owner, 17 Oct: food photos with great motion). Previews only.

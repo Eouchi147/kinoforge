@@ -1,0 +1,81 @@
+{
+ "_": "Battle Map: The Battle of Cannae (216 BC). Narration, score and word timings prepared by codead.yml mode=prep (harness/shots/prep.py).",
+ "id": "battle-map-cannae",
+ "cap_usd": 0.9,
+ "prep": {
+  "music": {
+   "prompt": "Epic but playful orchestral adventure score for a kids history animation: bold brass, big taiko and frame drums, ancient Mediterranean colour (frame drum, plucked lyre, low horn), bright and heroic, steady driving pulse around 110 BPM, a sneaky pizzicato middle section, a huge final build. Instrumental only, no vocals.",
+   "models": [
+    "google/lyria-3-pro-preview",
+    "google/lyria-3-clip-preview"
+   ]
+  },
+  "voice_cast": [
+   "openai/gpt-4o-mini-tts-2025-12-15|ash",
+   "openai/gpt-4o-mini-tts-2025-12-15|coral",
+   "google/gemini-3.8-flash-tts|Puck",
+   "google/gemini-3.8-flash-tts|Charon",
+   "elevenlabs/eleven-v4|brian"
+  ],
+  "cast_lines": 3,
+  "vo_words": true,
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "vo": [
+   {
+    "text": "Two thousand two hundred years ago, Rome sent one of the biggest armies it had ever put together into a single battle. And one man was about to teach it a lesson that soldiers still study today."
+   },
+   {
+    "text": "This is the Battle of Cannae."
+   },
+   {
+    "text": "Meet Hannibal, a general from Carthage, a city in North Africa. Two years earlier, he had marched his army over the Alps. With elephants. Just to make a point."
+   },
+   {
+    "text": "And meet Rome. Rome had two commanders, and they took turns being in charge. One day each. What could possibly go wrong?"
+   },
+   {
+    "text": "On the second of August, 216 BC, the two armies met on a flat, dusty plain in southern Italy, next to a river."
+   },
+   {
+    "text": "Rome brought about eighty thousand soldiers. Hannibal had about fifty thousand. Rome's plan was simple. Be bigger. Push hard. Win."
+   },
+   {
+    "text": "Hannibal's plan was sneakier. He put his weakest troops in the middle, in a curve bulging toward the Romans. Like a bow."
+   },
+   {
+    "text": "His best soldiers waited at the two ends. And his horsemen guarded the sides."
+   },
+   {
+    "text": "The Romans charged straight at the middle. And the middle gave way. Slowly. Step by step. Exactly as planned."
+   },
+   {
+    "text": "The Romans thought they were winning. They pushed deeper, and deeper, into the gap."
+   },
+   {
+    "text": "Meanwhile, out on the sides, Hannibal's horsemen chased off the Roman cavalry. Then they swung around. Behind the Romans."
+   },
+   {
+    "text": "Now Hannibal's best soldiers stepped in from both ends. Left. Right. And the horsemen shut the back door."
+   },
+   {
+    "text": "The Roman army was completely surrounded. History's least fun group hug."
+   },
+   {
+    "text": "They were packed in so tightly that most of them could not even lift their swords."
+   },
+   {
+    "text": "By evening, Rome had lost tens of thousands of soldiers, and one of its two commanders. It was one of the worst days in Roman history."
+   },
+   {
+    "text": "So Hannibal won the war, right? Nope. Rome simply refused to give up. It raised new armies and kept going."
+   },
+   {
+    "text": "Fourteen years later, a Roman general named Scipio beat Hannibal in Africa. He had studied Hannibal's tricks very, very carefully."
+   },
+   {
+    "text": "Hannibal won the battle. Rome won the war. And generals have been copying his giant hug ever since."
+   }
+  ]
+ }
+}

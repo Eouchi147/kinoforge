@@ -50,7 +50,7 @@ def main(adir):
 
     # 1. the score and its beat map
     if P.get('music') and not os.path.exists(os.path.join(out, 'music.mp3')):
-        got = music(B, P['music']['prompt'], os.path.join(out, 'music_raw.wav'), 'music')
+        got = music(B, P['music']['prompt'], os.path.join(out, 'music_raw.wav'), 'music', P['music'].get('models'))
         if got:
             run(['ffmpeg', '-v', 'error', '-y', '-i', got, '-ar', '48000', '-ac', '2', '-b:a', '256k', os.path.join(out, 'music.mp3')])
             if got != os.path.join(out, 'music.mp3'): os.remove(got)
@@ -60,14 +60,17 @@ def main(adir):
 
     # 2. narration: every candidate voice reads every line; an audio model scores the reels; the best voice is kept
     if P.get('vo') and not os.path.exists(os.path.join(out, 'vo.json')):
-        reels = {}
+        reels = {}; ncast = int(P.get('cast_lines', 99)); instr = P.get('voice_instructions')
+        safe = lambda v: re.sub(r'[^A-Za-z0-9_.-]+', '_', v)
         for v in P.get('voice_cast', ['eric']):
-            files = []
-            for k, line in enumerate(P['vo']):
-                d = os.path.join(out, 'cast', v); os.makedirs(d, exist_ok=True)
-                files.append(speech(B, line['text'], v, os.path.join(d, f'line{k}.mp3'), f'vo {v} {k}'))
-            reel = os.path.join(out, 'cast', f'{v}-reel.mp3')
-            lst = os.path.join(out, 'cast', f'{v}.txt'); open(lst, 'w').write(''.join(f"file '{os.path.abspath(f)}'\n" for f in files))
+            files = []; d = os.path.join(out, 'cast', safe(v)); os.makedirs(d, exist_ok=True)
+            try:
+                for k, line in enumerate(P['vo'][:ncast]):
+                    files.append(speech(B, line['text'], v, os.path.join(d, f'line{k}.mp3'), f'vo {v} {k}', instr))
+            except Exception as e:
+                log('voice candidate failed, skipped:', v, str(e)[:200]); continue
+            reel = os.path.join(out, 'cast', f'{safe(v)}-reel.mp3')
+            lst = os.path.join(out, 'cast', f'{safe(v)}.txt'); open(lst, 'w').write(''.join(f"file '{os.path.abspath(f)}'\n" for f in files))
             run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', lst, '-ac', '1', '-b:a', '96k', reel]); reels[v] = (files, reel)
         best = list(reels)[0]; cast = None
         if len(reels) > 1:
@@ -81,13 +84,27 @@ def main(adir):
                 if cast.get('best') in reels: best = cast['best']
                 cast['model'] = model
             except Exception as e: log('casting check failed, keeping', best, str(e)[:200])
+        files = list(reels[best][0]); d = os.path.join(out, 'cast', safe(best))
+        for k in range(len(files), len(P['vo'])):
+            files.append(speech(B, P['vo'][k]['text'], best, os.path.join(d, f'line{k}.mp3'), f'vo {best} {k}', instr))
         lines = []
-        for k, (line, f) in enumerate(zip(P['vo'], reels[best][0])):
+        for k, (line, f) in enumerate(zip(P['vo'], files)):
             dst = os.path.join(out, 'vo', f'line{k}.mp3'); os.makedirs(os.path.dirname(dst), exist_ok=True); os.replace(f, dst)
             lines.append({'text': plain(line['text']), 'file': f'audio/vo/line{k}.mp3', 'dur': round(dur_of(dst), 3)})
         json.dump({'voice': best, 'lines': lines}, open(os.path.join(out, 'vo.json'), 'w'), indent=1)
         json.dump(cast or {'best': best}, open(os.path.join(out, 'casting.json'), 'w'), indent=1)
         log('voice:', best, [l['dur'] for l in lines])
+        if P.get('vo_words'):   # word timings for every narration line (labels and captions can land on the word)
+            try:
+                from faster_whisper import WhisperModel
+                import librosa
+                wm = WhisperModel('base.en', device='cpu', compute_type='int8')
+                for l in lines:
+                    pcm, _sr = librosa.load(os.path.join(adir, l['file']), sr=16000, mono=True)
+                    segs, _ = wm.transcribe(pcm, word_timestamps=True, language='en')
+                    l['words'] = [[w.word.strip(), round(w.start, 3), round(w.end, 3)] for sg in segs for w in (sg.words or [])]
+                json.dump({'voice': best, 'lines': lines}, open(os.path.join(out, 'vo.json'), 'w'), indent=1)
+            except Exception as e: log('word timings failed:', str(e)[:200])
 
     # 3. dialogue: fixed voices, then word timestamps for kinetic captions
     if P.get('dialogue') and not os.path.exists(os.path.join(out, 'dialogue.json')):

@@ -1,4 +1,9 @@
-# Status (updated 16 Oct 2026, 23:00 UTC)
+# Status (updated 22 Oct 2026, 03:10 UTC)
+
+## Running now (22 Oct, overnight)
+- Films lane: Dark Corners restyled (`films/dark-corners/`: Bamberg Kinetic, Zong and Kleidion Lantern Road, Arabia Clay) and the
+  Battle Map series in Terrain (`films/battles/`: Cannae, Hastings, Agincourt, Waterloo). Renders: rc-render `films.yml`,
+  release `kino-films`. Build key had about US$3.2 left on 17 Oct; battle audio prep capped at US$0.6 to 0.9 each.
 
 ## Handover
 On 16 Oct Sam moved all building into one new Claude chat, project "Unmissed with studio". KINOFORGE becomes the content

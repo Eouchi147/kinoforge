@@ -1,0 +1,74 @@
+{
+ "_": "Battle Map: The Battle of Agincourt (1415). Narration, score and word timings prepared by codead.yml mode=prep (harness/shots/prep.py).",
+ "id": "battle-map-agincourt",
+ "cap_usd": 0.6,
+ "prep": {
+  "music": {
+   "prompt": "Epic but playful late-medieval orchestral adventure score for a kids history animation: bold brass fanfares, marching snare and big drums, recorder and fiddle colour, rain-soaked tension then a heroic lift, around 108 BPM, a comic squelchy middle section with low bassoon. Instrumental only, no vocals.",
+   "models": [
+    "google/lyria-3-pro-preview",
+    "google/lyria-3-clip-preview"
+   ]
+  },
+  "voice_cast": [
+   "CAST_WINNER"
+  ],
+  "cast_lines": 3,
+  "vo_words": true,
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "vo": [
+   {
+    "text": "In 1415, a small, sick, soaking wet English army was about to face one of the biggest armies in France. Spoiler: the mud picked a side."
+   },
+   {
+    "text": "The Battle of Agincourt."
+   },
+   {
+    "text": "King Henry the Fifth of England had invaded France to claim its crown. He captured a port town. And then a lot of his army got sick. Very, very sick. Let's just say the bushes were busy."
+   },
+   {
+    "text": "So Henry decided to march to Calais, an English town on the French coast, and go home. The French army blocked the road."
+   },
+   {
+    "text": "On the twenty-fifth of October, the two armies faced each other across a freshly ploughed field, with thick woods on both sides."
+   },
+   {
+    "text": "Henry had maybe eight thousand men. Most of them were archers with longbows. The French had far more, and many were knights in heavy armour."
+   },
+   {
+    "text": "It had rained all night. The field was now deep, sticky mud."
+   },
+   {
+    "text": "The English archers hammered sharp wooden stakes into the ground in front of them. Then Henry moved his whole army forward. Close enough to shoot."
+   },
+   {
+    "text": "Thousands of arrows went up. And came down on the French."
+   },
+   {
+    "text": "French knights on horseback charged. But the mud slowed them, and the stakes stopped them. Their horses turned around and galloped back into their own side."
+   },
+   {
+    "text": "Then the French soldiers advanced on foot. Wearing armour. Through mud. Up to their knees."
+   },
+   {
+    "text": "The woods squeezed them into a narrow space. They were packed so tightly they could barely swing a weapon."
+   },
+   {
+    "text": "By the time they reached the English line, they were exhausted. And the English archers dropped their bows, grabbed hammers and axes, and joined in."
+   },
+   {
+    "text": "The French lines behind kept pushing into the ones in front. Chaos."
+   },
+   {
+    "text": "Within a few hours, it was over. Thousands of French soldiers were killed or captured, including many of the greatest lords in France. The English lost a few hundred."
+   },
+   {
+    "text": "Almost two hundred years later, Shakespeare turned the battle into a famous play. We few. We happy few."
+   },
+   {
+    "text": "Henry went on to marry the French king's daughter, and was named heir to France. And French knights learned a lesson: always check the weather."
+   }
+  ]
+ }
+}

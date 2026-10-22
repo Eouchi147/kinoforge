@@ -138,18 +138,25 @@ def _clip(B, T, price, prompt, first_frame, dur, aspect, out, label, audio):
     raise AllFailed(f'{label}: timed out')
 
 # ------------------------------------------------------------------ sound
-def speech(B, text, voice, out, label):
-    B.check(0.05, label); B.release(0.05)
-    req = urllib.request.Request(API + '/audio/speech', data=json.dumps({'model': 'elevenlabs/eleven-v3', 'input': text, 'voice': voice, 'response_format': 'mp3'}).encode(), headers=H())
-    t0 = time.time(); data = urllib.request.urlopen(req, timeout=180).read()
-    B.add(seat='voice', model='elevenlabs/eleven-v3', task=label, usd=round(len(text) * 40 / 1e6, 5), s=round(time.time() - t0, 1), ok=True)
+def speech(B, text, voice, out, label, instructions=None):
+    """One spoken line via OpenRouter /audio/speech. `voice` is an ElevenLabs v3 name ("sarah") or "model|voice"
+    ("google/gemini-3.8-flash-tts|Puck", "openai/gpt-4o-mini-tts-2025-12-15|coral"); `instructions` (delivery
+    direction) is sent to the models that accept it (OpenAI, Gemini, Fish Audio)."""
+    model, v = (voice.split('|', 1) if '|' in voice else ('elevenlabs/eleven-v3', voice))
+    rate = 80 if model.startswith('elevenlabs') else 30   # US$ per million characters, booked high on purpose
+    B.check(max(0.05, len(text) * rate / 1e6 * 1.5), label); B.release(max(0.05, len(text) * rate / 1e6 * 1.5))
+    body = {'model': model, 'input': text, 'voice': v, 'response_format': 'mp3'}
+    if instructions and not model.startswith('elevenlabs'): body['instructions'] = instructions
+    req = urllib.request.Request(API + '/audio/speech', data=json.dumps(body).encode(), headers=H())
+    t0 = time.time(); data = urllib.request.urlopen(req, timeout=240).read()
+    B.add(seat='voice', model=model, task=label, usd=round(len(text) * rate / 1e6, 5), s=round(time.time() - t0, 1), ok=True, note='estimated from characters')
     open(out, 'wb').write(data); return out
 
-def music(B, prompt, out, label):
+def music(B, prompt, out, label, models=None):
     """Lyria 3 score. OpenRouter only returns audio output as a stream (stream: true): the base64 pieces arrive in
     choices[0].delta.audio.data and are joined, then decoded. Returns the file, or None (the edit then has no score)."""
     B.check(0.12, label); B.release(0.12)
-    for model in ['google/lyria-3-clip-preview', 'google/lyria-3-pro-preview']:
+    for model in (models or ['google/lyria-3-clip-preview', 'google/lyria-3-pro-preview']):
         for fmt in ['wav', 'mp3', 'pcm16']:
             body = {'model': model, 'messages': [{'role': 'user', 'content': prompt}], 'modalities': ['text', 'audio'],
                     'audio': {'format': fmt}, 'stream': True, 'usage': {'include': True}}
