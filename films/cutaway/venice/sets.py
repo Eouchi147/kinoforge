@@ -715,7 +715,7 @@ def build_inlet(kit, M):
         F = [tuple(range(n))[::-1], tuple(range(n, 2 * n))] + [(k, (k + 1) % n, n + (k + 1) % n, n + k) for k in range(n)]
         return cw.mk_mesh(bpy, name, V, F, [wm], None, False, kit.coll)
     lag_w = prism('vz_lagw', [(-2.0 + e, -2.0 + e), (XG - 0.0007, -2.0 + e), (XG - 0.0007, 2.0 - e), (-2.0 + e, 2.0 - e)])
-    sea_m = cw.mat_water(kit, 'vz_seawater', tint=(0.20, 0.56, 0.64), density=3.6, ripple=3.2)
+    sea_m = cw.mat_water(kit, 'vz_seawater', tint=(0.24, 0.64, 0.70), density=2.8, ripple=1.9)
     sea_w = prism('vz_seaw', [(XG + 0.0007, -2.0 + e), (2.0 - e, -2.0 + e), (2.0 - e, 2.0 - e), (0.1, 2.0 - e), (0.1, JET[2] + 0.02), (XG + 0.0007, JET[2] + 0.02)])
     sea_w.data.materials[0] = sea_m
     mist, mist_gain = life.mist_sheets(kit, LV + 0.005, 4.0, 2, opacity=0.45, name='vz_imist')
