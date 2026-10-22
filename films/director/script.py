@@ -84,7 +84,8 @@ def guard(job, data):
     return problems
 
 
-def check_claims(job, data, avoid_provider, round_no):
+def check_claims(job, data, writer, round_no):
+    avoid_provider = C.provider(writer)
     claims = [{'id': c['id'], 'claim': c['claim'], 'in_line': data['lines'][c['line']]['text'] if 0 <= c['line'] < len(data['lines']) else ''} for c in data['claims']]
     msgs = [{'role': 'system', 'content': 'You are a strict history fact checker for an educational film studio. For each claim answer: "true" (well established '
              'in mainstream scholarship), "doubtful" (disputed, uncertain, legendary, or stated with more certainty than the sources allow), or "false". '
@@ -92,7 +93,7 @@ def check_claims(job, data, avoid_provider, round_no):
             {'role': 'user', 'content': f'Film subject: {job.brief.get("subject") or job.brief.get("title")}\n\nClaims:\n' + json.dumps(claims, indent=1, ensure_ascii=False)}]
     pool = C.seat_models(job.brief.get('seats', {}).get('checker', 'deputy'))
     models = [m for m in pool if C.provider(m) != avoid_provider]
-    models += [m for m in pool if m not in models][:1]   # last resort: another model of the same provider (logged in script.json)
+    models += [m for m in pool if m not in models and m != writer][:2]   # last resort: another model of the writer's provider, never the writer itself
     last = None
     for m in models or [None]:
         try:
@@ -157,7 +158,7 @@ def main(d):
     rounds = []
     for r in range(MAX_ROUNDS + 1):
         problems = guard(job, data)
-        verdicts, checker = check_claims(job, data, C.provider(writer), r)
+        verdicts, checker = check_claims(job, data, writer, r)
         bad = {k: v for k, v in verdicts.items() if v['verdict'] != 'true'}
         rounds.append({'round': r, 'writer': writer, 'checker': checker, 'claims': len(data['claims']), 'not_true': list(bad.values()), 'guards': problems})
         C.log(f'round {r}: {len(data["claims"])} claims, {len(bad)} not true, {len(problems)} guard problems')
