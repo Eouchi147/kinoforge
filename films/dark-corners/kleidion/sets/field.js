@@ -77,7 +77,6 @@ export default function field(S, cams) {
       if (mode === 'escape') {
         // 76.74 to 82.69: the pursuers' torches run in from the left, the son helps his father to the horse and lifts him up, the son mounts, both ride off to the right into the dark
         const u = lt; const xA = 540, yA = 1005, xB = 640, yB = 1012; const vA = clamp((u - 4.0) / 1.0); const gv = (u) => (u < 4.0 ? 0 : Math.min(1, (u - 4.0) / 0.9));
-        const dist = (u0) => { const e = Math.max(0, u - u0); return e < 0.9 ? 3.5 * e * e / 1.8 : 3.5 * 0.9 / 2 + 3.5 * (e - 0.9); };   // metres: accelerates to a canter, then a steady 3.5 m/s...
         const dA = (u < 4.0 ? 0 : (7.0 * (u - 4.0) * Math.min(1, (u - 4.0) / 0.8) * 0.5 + 7.0 * Math.max(0, u - 4.8) * 0.5)), dB = (u < 4.15 ? 0 : (7.0 * (u - 4.15) * Math.min(1, (u - 4.15) / 0.8) * 0.5 + 7.0 * Math.max(0, u - 4.95) * 0.5));
         // pursuers: a jog (2.6 m/s) from the left edge, torches high; they slow to a walk as they see the riders leave
         for (let k = 0; k < 8; k++) { const y = 700 + (k * 53) % 190; const m = MPX(y); const e = clamp(u - 3.4, 0, 1.2); const dx = 2.3 * Math.min(u, 3.4) + 2.3 * e - (2.3 - 0.3) * e * e / 2.4 + 0.3 * Math.max(0, u - 4.6);
@@ -85,8 +84,6 @@ export default function field(S, cams) {
           arr.push({ y, fn: () => { const { p, K, h } = solid(x, y); if (h < 4 || p[0] < -90 || p[0] > 820) return; const a = person(g, { x: p[0], y: p[1], h, face: 1, ph, walk: wk, col: hex('#241a30'), col2: hex('#3a2848'), hood: false, skinCol: hex('#140e1c'), helm: true, hem: 0.3, stride: 1.2, reach: [0.3, 0.8], t });
               const f = flame(g, a.hand[0] + h * 0.04, a.hand[1] - h * 0.08, h * 0.17, t, k); glowAt(gg, f[0], f[1], h * 1.4, 0.55 * fireFlick(t, k), [255, 170, 90]); if (F.lights.length < 6) F.lights.push({ x: f[0], y: f[1], r: h * 1.6, c: WARM, k: 0.45 }); } }); }
         // the horses (a plain standing horse until the ride begins)
-        const horseAt = (x, y, d, o) => { const { p, K, h } = solid(x + d * MPX(y), y); const hw = h * 0.8; return { p, hw, h, K }; };
-        const walkLen = 1.4, hwM = 1.4;
         const rec = (u0) => 75 * ease.inOutSine(clamp((u - u0) / 2.4)); const yAr = yA - rec(4.0), yBr = yB - rec(4.15);
         const hA = (() => { const x = xA + dA * MPX(yA); const { p, h } = solid(x, yAr); return { p, h, hw: h * 0.8 }; })(); const hB = (() => { const x = xB + dB * MPX(yB); const { p, h } = solid(x, yBr); return { p, h, hw: h * 0.8 }; })();
         const phA = dA / (2.25 * 1.4) + 0.0, phB = dB / (2.25 * 1.4) + 0.15; const gA = u < 4.0 ? 0 : 1, gBb = u < 4.15 ? 0 : 1;

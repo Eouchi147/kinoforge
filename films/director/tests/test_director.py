@@ -247,7 +247,7 @@ class Chromium(unittest.TestCase):
         subprocess.run(['node', os.path.join(C.HERE, 'check.cjs'), 'films/battles/hastings', '--line', 'battle-map', '--times', '30', '--out', out], cwd=C.ROOT, check=True, capture_output=True)
         r = json.load(open(os.path.join(out, 'report.json'))); hard = ' | '.join(r['hard'])
         self.assertFalse(r['ok'])
-        for k in ('no scene list', 'cuts with no written reason', 'icon star', 'camera move from'): self.assertIn(k, hard)
+        for k in ('no scene list', 'cuts with no written reason', 'camera move from', 'no legend', 'no ambient'): self.assertIn(k, hard)
         self.assertTrue(any('no legend' in x for x in r['soft'] + r['hard']))
         self.assertEqual(r['craft']['shots'], 5)
         shutil.rmtree(out)

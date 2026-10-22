@@ -112,7 +112,7 @@ see the terms note in the handover).
 
 Check stills (no video): rc-render `stills.yml` (inputs film, frames as a comma list up to 20, tag, w, h, samples,
 ref), one runner per frame, files `<tag>-f<frame>.jpg` in release `stills`; download with
-`gh release download stills -R Eouchi147/rc-render -p '<tag>-*'`.
+`bash tools/getstills.sh <tag> <dir>` in rc-render (REST; `gh release download` needs GraphQL, which is blocked in Claude Code sessions).
 
 ## Film lanes (parked while ads come first)
 

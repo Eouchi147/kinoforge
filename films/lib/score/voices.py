@@ -178,21 +178,25 @@ def _repitch(path, cents, flat=False):
 # ---------------------------------------------------------------- synthesised voices
 def synth_pad_note(midi, dur, rng, attack=2.5, release=3.5, shape='saw', voices=5, bright=1.0, vel=0.6):
     """warm string-like pad note: several detuned, slowly drifting band-limited oscillators, spread across the stereo
-    field, with a soft sub-octave. Brightness is set on the bus afterwards, so the note itself stays dark."""
-    n = int((dur + release) * SR); f0 = float(dsp.midi_hz(midi)); out = np.zeros((n, 2), np.float32)
+    field, with a soft sub-octave. Built at 16 kHz (a pad has nothing above 6 kHz worth keeping) and brought up to 48 kHz,
+    which is three times cheaper. Brightness is set on the bus afterwards, so the note itself stays dark."""
+    S2 = 16000; n2 = int((dur + release) * S2); f0 = float(dsp.midi_hz(midi)); out = np.zeros((n2, 2), np.float32)
+    t = np.arange(n2) / S2
     for v in range(voices):
         det = (v - (voices - 1) / 2) * 5.5 + rng.uniform(-2, 2)               # cents
-        drift = dsp.smooth_noise(n, 0.35, rng) * 3.5                           # slow pitch wander
-        vib = np.sin(2 * np.pi * rng.uniform(4.6, 5.4) * np.arange(n) / SR + rng.uniform(0, 6)) * 1.8 * np.minimum(1, np.arange(n) / (SR * 3.0))
+        drift = dsp.smooth_noise(n2, 0.35, rng, sr=S2) * 3.5                    # slow pitch wander
+        vib = np.sin(2 * np.pi * rng.uniform(4.6, 5.4) * t + rng.uniform(0, 6)) * 1.8 * np.minimum(1, t / 3.0)
         f = f0 * 2 ** ((det + drift + vib) / 1200)
-        y = dsp.osc(f, shape, max_hz=7000, phase0=rng.random()) * (1.0 / np.sqrt(voices))
+        y = dsp.osc(f, shape, max_hz=6000, phase0=rng.random(), sr=S2) * (1.0 / np.sqrt(voices))
         L, R = dsp.pan_gains((v - (voices - 1) / 2) / max(1, voices - 1) * 1.7)
         out[:, 0] += y * L * 1.4; out[:, 1] += y * R * 1.4
     if midi >= 40:
-        sub = dsp.osc(np.full(n, f0 / 2), 'sine') * 0.22; out += sub[:, None]
-    amp = dsp.env_ar(n, attack, release, curve=1.6)
-    breath = 1 + 0.06 * dsp.smooth_noise(n, 0.25, rng)                         # slow swells inside the note
-    return out * (amp * breath)[:, None] * (0.25 + 0.75 * vel)
+        out += (dsp.osc(np.full(n2, f0 / 2), 'sine', sr=S2) * 0.22)[:, None]
+    amp = dsp.env_ar(n2, attack, release, curve=1.6, sr=S2)
+    breath = 1 + 0.06 * dsp.smooth_noise(n2, 0.25, rng, sr=S2)                 # slow swells inside the note
+    out = out * (amp * breath)[:, None] * (0.25 + 0.75 * vel)
+    n = int((dur + release) * SR)
+    return resample_poly(out, 3, 1, axis=0).astype(np.float32)[:n]
 
 
 def synth_bass_note(midi, dur, rng, attack=1.8, release=3.0, vel=0.6):
