@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Fix: Chatterbox failed to load on the runners (`perth.PerthImplicitWatermarker` was None: resemble-perth imports `pkg_resources`, gone from setuptools 81). `noor-sound.yml` and `film.yml` now pin `setuptools<81` in the TTS env.
 - Bamberg rendered (rc-render run 39790691570, -14 LUFS, no freezes); review found text overprinting at card changes (148 s); all 38 changes audited and fixed; re-render dispatched (run 39800373137).
 - Battle Map engine v2 (`films/lib/battlemap/`, SPEC.md with a migration checklist): soldier figures on movement trays with a spacing solver (fronts, no clipping), flat heraldic glyph set replacing the cartoon icons, a legend (sides, units, lettered places entering on their words), scenes with planned shots and a reason per cut, camera speed limits, living world (camps, smoke, birds, wind, water); `tools/scenes.mjs` checks a film without a browser. Cannae re-directed on v2 (9 scenes, 26 shots, average 6.1 s) with the new free score; render dispatched. Hastings, Agincourt, Waterloo, Thermopylae, Gaugamela, Hattin and Ain Jalut being re-directed on v2.
 - Director pipeline finished and free-only by default (free OpenRouter seats, Chatterbox narration with a recognition check, free score engine; CRAFT.md checks in `check.cjs`; 15 tests pass). First two slate films started through it: Salamis (Battle Map) and the Great Emu War (Kinetic), cap 0.50 each but free mode spends nothing.
