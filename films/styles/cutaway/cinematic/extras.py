@@ -618,7 +618,7 @@ class Eggs:
         self.spot(face, u, z, 3.0 * light / 3.0, out=0.45, up=0.28, size=30, name='ex_spot_ammonite')
         self.items['ammonite'] = (face, u, z)
 
-    def trilobite(self, face, u, z, Lt=0.10, tilt=-0.3, light=3.0):
+    def trilobite(self, face, u, z, Lt=0.17, tilt=-0.3, light=4.0):
         """A trilobite in relief: head shield, segmented three-lobed thorax, tail."""
         kit = self.kit; ns, nt_ = 48, 22; V = []; F = []
         for i in range(ns + 1):
@@ -637,7 +637,7 @@ class Eggs:
         V = np.array(V)
         for side in (-1, 1):   # the eyes
             ev, ef = ell((Lt * 0.36, -Lt * 0.09, side * Lt * 0.17), (0.005, 0.004, 0.005)); V = np.vstack([V, ev]); F += [tuple(np.array(f) + len(V) - len(ev)) for f in ef]
-        stone = mat_pbr(kit, 'ex_trilo', (0.24, 0.20, 0.18), 0.35, coat=0.3)
+        stone = mat_pbr(kit, 'ex_trilo', (0.46, 0.36, 0.28), 0.35, coat=0.4, cavity=0.8)
         self.obj('ex_trilobite', [(V, F, 0)], [stone], face, u, z, 0.0, tilt)
         self.spot(face, u, z, 3.0 * light / 3.0, out=0.45, up=0.28, size=30, name='ex_spot_trilobite')
         self.items['trilobite'] = (face, u, z)
@@ -685,16 +685,16 @@ class Eggs:
         body = self.obj('ex_dino', P, [bone, dark], face, u, z)
         # the skull: lofted sections, jaw slightly open, dark eye socket and window, teeth
         Ls = 0.20 * s; secs = 22; ring = 14; V = []; F = []; JV = []; JF = []
-        def h_top(q): return (0.060 * (1 - 0.66 * q) + 0.010 * math.sin(math.pi * q) + 0.006 * math.exp(-((q - 0.22) / 0.06) ** 2)) * s
+        def h_top(q): return (0.066 * (1 - 0.70 * q) + 0.012 * math.sin(math.pi * q) + 0.010 * math.exp(-((q - 0.24) / 0.05) ** 2)) * s
         def h_bot(q): return (-0.032 * (1 - 0.55 * q)) * s
-        def wid(q): return (0.026 * (1 - 0.55 * q)) * s
+        def wid(q): return (0.030 * (1 - 0.6 * q) * (1 + 0.15 * math.exp(-((q - 0.15) / 0.1) ** 2))) * s
         for i in range(secs + 1):
             q = i / secs; xx = -q * Ls; zt, zb, ww = h_top(q), h_bot(q), wid(q); zc = (zt + zb) / 2; rz = (zt - zb) / 2
-            rnd_ = math.sqrt(max(0.05, min(1.0, q / 0.06))) if q < 0.06 else 1.0
+            rnd_ = math.sqrt(max(0.05, min(1.0, q / 0.12))) if q < 0.12 else 1.0
             for j in range(ring):
                 a = 2 * math.pi * j / ring; V.append((xx, y0 + ww * rnd_ * math.cos(a), zc + rz * rnd_ * math.sin(a)))
             if i < secs and 0.04 < q < 0.96:
-                jt = zb + 0.002 * s; jb = jt - (0.040 * (1 - 0.45 * q)) * s; jc = (jt + jb) / 2; jr = (jt - jb) / 2
+                jt = zb + 0.002 * s; jb = jt - (0.040 * (1 - 0.62 * q)) * s; jc = (jt + jb) / 2; jr = (jt - jb) / 2
                 for j in range(ring): a = 2 * math.pi * j / ring; JV.append((xx, y0 + ww * 0.85 * math.cos(a), jc + jr * math.sin(a)))
         for i in range(secs):
             for j in range(ring): a = i * ring + j; b_ = i * ring + (j + 1) % ring; F.append((a, b_, b_ + ring, a + ring))
@@ -708,6 +708,9 @@ class Eggs:
         for q, zz, rr in ((0.26, 0.55, 0.012), (0.52, 0.35, 0.011), (0.10, 0.35, 0.007)):   # eye socket, antorbital window, temporal window
             c = np.array([-q * Ls, y0 - wid(q) * 0.97, (h_top(q) + h_bot(q)) / 2 + zz * (h_top(q) - h_bot(q)) / 2 * 0.6])
             ev, ef = ell(c, (rr * s * (1.4 if q > 0.4 else 1.0), 0.0016, rr * s)); SP.append((ev, ef, 1))
+        for q in np.linspace(0.15, 0.85, 8):                 # bumps along the top of the snout
+            SP.append((*ell((-q * Ls, y0 - wid(q) * 0.3, h_top(q) * 0.97), (0.006 * s, 0.006 * s, 0.004 * s)), 0))
+        SP.append((*ell((-0.92 * Ls, y0 - wid(0.92) * 0.9, (h_top(0.92) + h_bot(0.92)) / 2 + 0.004 * s), (0.005 * s, 0.0016, 0.0035 * s)), 1))   # nostril
         for q in np.linspace(0.3, 0.95, 11):                 # teeth
             b0 = np.array([-q * Ls, y0 - wid(q) * 0.7, h_bot(q) + 0.002 * s]); tv, tf = cone(b0, b0 + np.array([-0.002, 0, -0.011 * s]), 0.0025 * s, 0.0002, 6); SP.append((tv, tf, 2))
         sk = part(kit, 'ex_dino_skull', SP, [bone, dark, tooth])
@@ -716,12 +719,12 @@ class Eggs:
         sk.parent = body; sk.location = (base[0], 0.0, base[1]); sk.rotation_euler = (0.0, math.radians(22), 0.0); sk.scale = (1.25, 1.0, 1.25)
         self.spot(face, u + 0.05, z + 0.02, 5.0 * light / 5.0, out=0.75, up=0.45, size=46, name='ex_spot_dino')
         self.spot(face, u + 0.20 * s, z + 0.28 * s, 0.8 * light / 5.0, out=0.32, up=0.16, size=30, side=0.08, name='ex_spot_skull')
-        self.items['dino'] = (face, u, z); self.items['skull'] = (face, u + 0.12 * s, z + 0.28 * s)
+        self.items['dino'] = (face, u, z); self.items['skull'] = (face, u + 0.10 * s, z + 0.31 * s)
 
-    def gold(self, face, pts, width=0.022, nuggets=9, light=3.0):
+    def gold(self, face, pts, width=0.014, nuggets=22, light=3.0):
         """A glittering gold-bearing quartz vein across the deep rock, with nuggets standing proud."""
         kit = self.kit; P = cw.catmull(pts, 60); rng = np.random.default_rng(31)
-        quartz = mat_pbr(kit, 'ex_quartz', (0.62, 0.60, 0.56), 0.35, coat=0.3, flecks=3.0)
+        quartz = mat_pbr(kit, 'ex_quartz', (0.52, 0.50, 0.46), 0.3, coat=0.5, flecks=8.0)
         gold = mat_pbr(kit, 'ex_gold', (1.0, 0.74, 0.30), 0.25, metallic=1.0, bump=0.25, bump_scale=900.0)
         T = np.gradient(P, axis=0); T /= np.linalg.norm(T, axis=1)[:, None]; N = np.stack([-T[:, 1], T[:, 0]], 1)
         w = width * (0.6 + 0.8 * np.abs(np.sin(np.linspace(0, 9, len(P))) * np.cos(np.linspace(0, 4, len(P)))))
@@ -732,8 +735,8 @@ class Eggs:
         A = [(V, F, 0)]
         for k in range(nuggets):
             i = int(rng.integers(3, len(P) - 3)); c = np.array([P[i, 0] + rng.normal(0, 0.006), 0.0, P[i, 1] + rng.normal(0, 0.004)])
-            r = rng.uniform(0.006, 0.014); nv, nf = ell(c, (r * 1.3, r * 0.8, r), 2, 0.35, k); A.append((nv, nf, 1))
-        for k in range(120):    # fine gold specks along the vein
+            r = rng.uniform(0.008, 0.02); nv, nf = ell(c, (r * 1.3, r * 0.8, r), 2, 0.35, k); A.append((nv, nf, 1))
+        for k in range(260):    # fine gold specks along the vein
             i = int(rng.integers(0, len(P))); c = np.array([P[i, 0] + rng.normal(0, w[i] * 0.6), -0.002, P[i, 1] + rng.normal(0, w[i] * 0.6)])
             nv, nf = ell(c, (0.0022, 0.001, 0.0018), 1); A.append((nv, nf, 1))
         self.obj('ex_goldvein', A, [quartz, gold], face, 0.0, 0.0)

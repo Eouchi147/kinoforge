@@ -66,7 +66,7 @@ def build(bpy, ctx):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
 
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.9, amb=0.24)
-    ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), aniso=0.7)
+    ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), ceiling=float(os.environ.get('EX_CEIL', 1.6)), aniso=0.7)
     ex.gobo(kit, land, rig['sun_dir'])
     # the hero tree: the big round tree by the mill sits right in front of the sun from the hero camera (rays round its crown)
     T = np.asarray(land.trees); k = int(np.argmin(np.hypot(T[:, 0] - 1.33, T[:, 1] + 0.88))); gz = float(land.height(T[k:k + 1, 0], T[k:k + 1, 1])[0])
@@ -126,12 +126,12 @@ def shot_pose(S, name, u):
         e = ex.ease(u); pos = ex.lerp((2.30, -2.50, 0.17), (2.18, -2.42, 0.16), e); tgt = (-0.8, -1.45, -0.20)
         return pos, tgt, 28.0, float(np.linalg.norm(np.array(pos) - np.array((0.66, -1.85, 0.0)))), 4.0, 0.0
     if name == 'crane':                  # vertical crane down the cut face, treetops to the deepest layer
-        e = ex.ease5(u); tz = 0.32 + (-1.22 - 0.32) * e; el = math.radians(20 - 19 * e); D = 2.45
+        e = ex.ease5(u); tz = 0.32 + (-1.10 - 0.32) * e; el = math.radians(20 - 19 * e); D = 2.45
         tgt = (-0.52, -2.0, tz); pos = (-0.52 + 0.30, -2.0 - D, tz + D * math.tan(el))
         return pos, tgt, 40.0, D / math.cos(el), 5.6, 0.0
     if name == 'macro':                  # close on the skull, a slow push
         f, uu, zz = eggs.items['skull']; c = eggs.faces[f].world(uu - 0.04, zz - 0.01, 0.0)
-        k = 1.0 - 0.10 * ex.ease(u); off = np.array([0.36, -0.68, 0.10]) * k
+        k = 1.0 - 0.10 * ex.ease(u); off = np.array([0.50, -0.92, 0.13]) * k
         return tuple(c + off), tuple(c), 55.0, float(np.linalg.norm(off)), 4.0, 0.0
     # hero: low three-quarter from the +X side, the sun behind the block, a slow arc
     e = ex.ease(u); az = math.radians(-46 + 8 * e); el = math.radians(3.0); D = 4.6; tgt = np.array((0.15, -0.15, -0.36))
