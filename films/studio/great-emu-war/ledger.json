@@ -194,6 +194,116 @@
    "s": 20.0,
    "ok": false,
    "note": "ValueError"
+  },
+  {
+   "seat": "head",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "script draft",
+   "usd": 0.0,
+   "s": 232.5,
+   "ok": true,
+   "note": "length",
+   "tok_in": 2691,
+   "tok_out": 5000
+  },
+  {
+   "seat": "head",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "script draft (json retry)",
+   "usd": 0.0,
+   "s": 85.7,
+   "ok": true,
+   "note": null,
+   "tok_in": 4193,
+   "tok_out": 2204
+  },
+  {
+   "seat": "deputy",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "fact check round 0",
+   "usd": 0.0,
+   "s": 191.1,
+   "ok": true,
+   "note": "length",
+   "tok_in": 1468,
+   "tok_out": 3000
+  },
+  {
+   "seat": "deputy",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "fact check round 0 (json retry)",
+   "usd": 0.0,
+   "s": 81.1,
+   "ok": true,
+   "note": null,
+   "tok_in": 3045,
+   "tok_out": 2055
+  },
+  {
+   "seat": "head",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "script rewrite 1",
+   "usd": 0.0,
+   "s": 194.9,
+   "ok": true,
+   "note": null,
+   "tok_in": 4928,
+   "tok_out": 4463
+  },
+  {
+   "seat": "deputy",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "fact check round 1",
+   "usd": 0.0,
+   "s": 130.4,
+   "ok": true,
+   "note": "length",
+   "tok_in": 1527,
+   "tok_out": 3000
+  },
+  {
+   "seat": "deputy",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "fact check round 1 (json retry)",
+   "usd": 0.0,
+   "s": 140.9,
+   "ok": true,
+   "note": null,
+   "tok_in": 1647,
+   "tok_out": 2175
+  },
+  {
+   "seat": "head",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "script rewrite 2",
+   "usd": 0.0,
+   "s": 160.6,
+   "ok": true,
+   "note": null,
+   "tok_in": 4862,
+   "tok_out": 2974
+  },
+  {
+   "seat": "deputy",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "fact check round 2",
+   "usd": 0.0,
+   "s": 126.5,
+   "ok": true,
+   "note": "length",
+   "tok_in": 1544,
+   "tok_out": 3000
+  },
+  {
+   "seat": "deputy",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "fact check round 2 (json retry)",
+   "usd": 0.0,
+   "s": 93.0,
+   "ok": true,
+   "note": "length",
+   "tok_in": 3027,
+   "tok_out": 3000
   }
  ]
 }
