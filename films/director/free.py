@@ -134,6 +134,8 @@ def call(model, messages, ledger, seat, label, max_tokens, timeout, response_for
             CALLS.append({'model': model, 'seat': seat, 'label': label, 'status': e.code, 's': round(time.time() - t0, 1), 'note': msg[:160]})
             if e.code == 402: raise Stop('OpenRouter answered 402 (no credit): stopped')
             if e.code == 429: log(f'  {model}: 429 rate limited, waiting'); continue
+            if e.code == 400 and re.search(r'max_tokens|maximum|context', msg, re.I) and max_tokens > 8000:
+                max_tokens = 8000 if max_tokens <= 16000 else 16000; log(f'  {model}: 400 on the length, retrying with max_tokens {max_tokens}'); continue
             if e.code in (400,) and response_format: raise BadFormat(msg)
             if e.code in (401, 403, 404): bench(model, f'{e.code} {msg[:120]}')
             raise RuntimeError(f'{e.code} {msg[:200]}')
