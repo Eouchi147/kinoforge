@@ -52,3 +52,13 @@ laurels, an hourglass, shout marks, a door), the bouncing number plate, the hatc
 the labels that only repeated the narration (THE BIGGEST ARMY EVER SEEN, STOP THEM!, FIGHTING EACH OTHER, A NARROW ROAD, SQUEEZE THROUGH,
 WAITING, THEY DID NOT, SO MANY ARROWS, GOOD., WAVE AFTER WAVE, THEY CANNOT BREAK THROUGH, TWO DAYS, THE PASS HELD, HE SELLS A SECRET, THAT
 NIGHT, ABOUT TO BE SURROUNDED, THEY FOUGHT TO THE VERY END, THE END? and the rest). Kept: names, dates, numbers.
+
+## Checks (22 Oct)
+`tools/scenes.mjs`: 9 scenes, 32 shots, average shot 5.1 s, 0 errors, 0 warnings. `films/director/check.cjs`: no hard problems (one
+soft note: the galley glyphs at Salamis, kept because they carry the sea battle). Contact sheet: one still per shot with the narration.
+
+## Known weak spots
+- The Aegean and the empire are rough hand maps, not to scale; their armies are a few large figures on trays.
+- The night is a blue scrim over a low sun, not a true night light (the engine's light goes from day to a low red sun only).
+- Compressed waves: each Persian wave marches up, presses, thins and melts away in about 6 s, as in every Battle Map film.
+- The legend panels cover the left quarter of the frame; shots keep the action centre right.
