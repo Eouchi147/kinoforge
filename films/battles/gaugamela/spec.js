@@ -98,8 +98,8 @@ const laneX = [0, 1, 2, 3, 4].map((i) => 45 + (i - 2) * (140 / 6 + S_LANE)); // 
 const CH = laneX.map((_, i) => 'ch' + i);
 Object.assign(blocks, {
   guard: { ...PER, kind: 'elite', x: 0, z: -160, heading: 180, len: 34, dep: 14, hidden: true, bannerScale: 1.2 },
-  darius: { ...PER, kind: 'cavalry', figures: 'chariot', x: 0, z: -177, heading: 180, len: 4.4, dep: 5, hidden: true, bannerScale: 1.8 },
-  eleph: { ...PER, kind: 'elephant', x: 4, z: -76, heading: 180, len: 16, dep: 5, hidden: true, figScale: 0.4, spacing: 5, banner: false },
+  darius: { ...PER, kind: 'cavalry', figures: 'chariot', x: 0, z: -177, heading: 180, len: 4.4, dep: 5, hidden: true, bannerScale: 1.8, figScale: 1.3 },
+  eleph: { ...PER, kind: 'elephant', x: 4, z: -76, heading: 180, len: 16, dep: 5, hidden: true, figScale: 0.26, spacing: 5, banner: false },
   pcavE1: { ...PER, kind: 'cavalry', x: 225, z: -96, heading: 180, len: 36, dep: 14, hidden: true, bannerScale: 0.9 },
   pcavE2: { ...PER, kind: 'cavalry', x: 225, z: -122, heading: 180, len: 36, dep: 14, hidden: true, banner: false },
   pcavW: { ...PER, kind: 'cavalry', x: -225, z: -98, heading: 180, len: 36, dep: 14, hidden: true, bannerScale: 0.9 },
@@ -108,7 +108,7 @@ Object.assign(blocks, {
   comp: { ...MAC, kind: 'cavalry', x: 40, z: 110, heading: 0, len: 36, dep: 14, bannerScale: 1.5 },
   rear: { ...MAC, kind: 'infantry', x: -75, z: 148, heading: 0, len: 130, dep: 10, bannerScale: 0.8 },
 });
-laneX.forEach((x, i) => { blocks['ch' + i] = { ...PER, kind: 'cavalry', figures: 'chariot', x: x - 60, z: -70, heading: 180, len: 8.4, dep: 5, hidden: true, banner: false }; });
+laneX.forEach((x, i) => { blocks['ch' + i] = { ...PER, kind: 'cavalry', figures: 'chariot', x: x - 60, z: -70, heading: 180, len: 8.4, dep: 5, hidden: true, banner: false, figScale: 1.3 }; });
 const MACS = ['mac', 'parm', 'comp', 'rear'];
 
 const moves = [
@@ -166,8 +166,8 @@ const moves = [
 const scenes = [
   { id: 'S1', name: 'A young king', at: 0, job: 'a young king faces the most powerful empire on Earth, outnumbered', set: { time: [0.34, 0.22], haze: 1.4, cloud: 0.3 },
     shots: [
-      { at: 0, why: 'cold open at dawn, low behind the young king\'s horsemen: the empty plain ahead, and what is on it', from: { target: [60, 30], dist: 110, pitch: 12, yaw: 350, mm: 30 },
-        moves: [{ until: 'l00.Earth.>', to: { target: [40, 0], dist: 104, pitch: 13 } }] },
+      { at: 0, why: 'cold open at dawn, low behind the young king\'s horsemen: the empty plain ahead, and what is on it', from: { target: [36, 30], dist: 157, pitch: 17, yaw: 354, mm: 30 },
+        moves: [{ until: 'l00.Earth.>', to: { target: [36, 12], dist: 150 } }] },
       { at: 'l00.He', why: 'reverse angle over the Persian host: how outnumbered he is', from: { target: [0, -60], width: 560, pitch: 34, yaw: 180, mm: 35 },
         moves: [{ until: 13.4, to: { yaw: 192, width: 520 } }] },
       { at: 13.4, why: 'crane up to the map: the lesson is the plan, seen from above (under the title)', from: { target: [-10, 0], width: 640, pitch: 52, yaw: 0, mm: 35 },
@@ -186,8 +186,8 @@ const scenes = [
         moves: [{ until: 'l03.Iraq.>', to: { target: [80, -10], yaw: 26, width: 690 } }] },
       { at: 'l03.He', why: 'high over the levelled ground: the field smoothed flat, for a reason', from: { target: [-110, 0], width: 420, pitch: 80, yaw: 0, mm: 35 },
         moves: [{ until: 'l03.weapon.>', to: { width: 390 } }] },
-      { at: 'l04', why: 'low and close on the secret weapon: blades out of the wheels', from: { target: [-15, -60], dist: 58, pitch: 10, yaw: 345, mm: 40 },
-        moves: [{ until: 'l04.wheels.>', to: { dist: 50, target: [-12, -60] } }] },
+      { at: 'l04', why: 'low and close on the secret weapon: blades out of the wheels', from: { target: [-15, -60], dist: 40, pitch: 11, yaw: 345, mm: 45 },
+        moves: [{ until: 'l04.wheels.>', to: { dist: 34 } }] },
       { at: 'l04.On', why: 'high angle: the charge Darius planned, straight across the smooth ground', from: { target: [-70, 0], width: 480, pitch: 64, yaw: 340, mm: 35 },
         moves: [{ until: 'l04.speed.>', to: { width: 460 } }] },
     ] },
@@ -249,7 +249,7 @@ const scenes = [
 
 // ------------------------------------------------------------------ the legend (motion-graphics frame)
 const legend = {
-  title: { text: 'THE BATTLE OF GAUGAMELA', sub: '1 October 331 BC', at: 'l02.Alexander' },
+  title: { text: 'BATTLE OF GAUGAMELA', sub: '1 October 331 BC', at: 'l02.Alexander' },
   show: [['l02.Alexander', 'l16.battle.>']],
   sides: [
     { id: 'macedon', team: 'rome', name: 'MACEDON', commander: 'Alexander', banner: 'banner', at: 'l02.Alexander', strength: 47000, strengthAt: 'l05.47', strengthLabel: 'MEN' },
