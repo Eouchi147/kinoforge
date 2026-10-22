@@ -1,0 +1,137 @@
+{
+ "_": "Audition by analysis: rate (words per second while speaking), pitch range (semitones, 10th to 90th percentile) and movement (semitones per second; flat, robotic reads are low), pause share, recognition (word error rate). Higher pitch movement and a rate of 2.3 to 3.0 words/s read as natural documentary narration.",
+ "voices": {
+  "kokoro|bf_emma": {
+   "lines": [
+    {
+     "line": 0,
+     "dur": 8.427,
+     "words_per_s": 3.49,
+     "pitch_median_hz": 179.8,
+     "pitch_range_st": 5.7,
+     "pitch_move_st_per_s": 14.92,
+     "pause_share": 0.152,
+     "wer": 0.0,
+     "heard": "A city of palaces, churches and bell towers standing in the middle of the sea.  Here is the strange part, underneath it there is almost no solid ground."
+    },
+    {
+     "line": 1,
+     "dur": 1.28,
+     "words_per_s": 2.68,
+     "pitch_median_hz": 188.3,
+     "pitch_range_st": 9.88,
+     "pitch_move_st_per_s": 18.48,
+     "pause_share": 0.107,
+     "wer": 0.333,
+     "heard": "Why Venice Sinks a"
+    },
+    {
+     "line": 2,
+     "dur": 5.333,
+     "words_per_s": 3.25,
+     "pitch_median_hz": 181.9,
+     "pitch_range_st": 5.3,
+     "pitch_move_st_per_s": 12.6,
+     "pause_share": 0.126,
+     "wer": 0.118,
+     "heard": "One church alone, Santa Maria della Salute, stands on more than a million of these poles."
+    }
+   ],
+   "mean": {
+    "words_per_s": 3.14,
+    "pitch_range_st": 6.96,
+    "pitch_move_st_per_s": 15.333,
+    "pause_share": 0.128,
+    "wer": 0.15
+   }
+  },
+  "kokoro|bm_george": {
+   "lines": [
+    {
+     "line": 0,
+     "dur": 10.091,
+     "words_per_s": 2.92,
+     "pitch_median_hz": 141.1,
+     "pitch_range_st": 7.8,
+     "pitch_move_st_per_s": 22.15,
+     "pause_share": 0.179,
+     "wer": 0.0,
+     "heard": "A city of palaces, churches and bell towers standing in the middle of the sea.  Here is the strange part.  Underneath it, there is almost no solid ground."
+    },
+    {
+     "line": 1,
+     "dur": 1.365,
+     "words_per_s": 3.26,
+     "pitch_median_hz": 154.3,
+     "pitch_range_st": 14.05,
+     "pitch_move_st_per_s": 28.07,
+     "pause_share": 0.102,
+     "wer": 0.0,
+     "heard": "Why Venice Sinks"
+    },
+    {
+     "line": 2,
+     "dur": 6.357,
+     "words_per_s": 2.75,
+     "pitch_median_hz": 141.9,
+     "pitch_range_st": 7.6,
+     "pitch_move_st_per_s": 19.69,
+     "pause_share": 0.124,
+     "wer": 0.118,
+     "heard": "One church alone, Santa Maria della Salute,  stands on more than a million of these poles."
+    }
+   ],
+   "mean": {
+    "words_per_s": 2.977,
+    "pitch_range_st": 9.817,
+    "pitch_move_st_per_s": 23.303,
+    "pause_share": 0.135,
+    "wer": 0.039
+   }
+  },
+  "chatterbox": {
+   "lines": [
+    {
+     "line": 0,
+     "dur": 7.6,
+     "words_per_s": 3.89,
+     "pitch_median_hz": 163.0,
+     "pitch_range_st": 15.3,
+     "pitch_move_st_per_s": 31.62,
+     "pause_share": 0.155,
+     "wer": 0.036,
+     "heard": "City of palaces, churches, and bell towers, standing in the middle of the sea.  Here is the strange part, underneath it there is almost no solid ground."
+    },
+    {
+     "line": 1,
+     "dur": 1.28,
+     "words_per_s": 3.75,
+     "pitch_median_hz": 135.5,
+     "pitch_range_st": 13.26,
+     "pitch_move_st_per_s": 25.3,
+     "pause_share": 0.161,
+     "wer": 0.0,
+     "heard": "Why Venice Sinks?"
+    },
+    {
+     "line": 2,
+     "dur": 4.52,
+     "words_per_s": 3.9,
+     "pitch_median_hz": 111.0,
+     "pitch_range_st": 13.2,
+     "pitch_move_st_per_s": 27.57,
+     "pause_share": 0.128,
+     "wer": 0.176,
+     "heard": "One church alone, Santa Maria de la Salutai, stands on more than a million of these poles."
+    }
+   ],
+   "mean": {
+    "words_per_s": 3.847,
+    "pitch_range_st": 13.92,
+    "pitch_move_st_per_s": 28.163,
+    "pause_share": 0.148,
+    "wer": 0.071
+   }
+  }
+ }
+}
