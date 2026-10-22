@@ -106,6 +106,7 @@ def mat_top(kit, D):
     band = g.math('MULTIPLY', wetb, g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('SUBTRACT', W.LV, z), 25.0, clamp=True)))
     col = g.mix(g.math('MULTIPLY', band, 0.45), col, (0, 0, 0))
     under = g.math('MULTIPLY', g.math('SUBTRACT', W.LV, z), 30.0, clamp=True)
+    deep = g.math('MULTIPLY', g.math('SUBTRACT', W.LV - 0.03, z), 12.0, clamp=True)   # caustics need some depth
     bed = g.mix(n_mid.outputs['Fac'], D.rgb(g, 'bedA'), D.rgb(g, 'bedB'))
     col = g.mix(g.math('MULTIPLY', under, 0.85), col, bed)
     # caustics (looping, read through the invariant coordinates; faded at the cone apex in the pool centre)
@@ -116,8 +117,8 @@ def mat_top(kit, D):
     c = g.math('POWER', g.math('MAXIMUM', c1, c2), 2.0); d = g.math('SUBTRACT', W.LV, z)
     rr = g.math('SQRT', g.math('ADD', g.math('POWER', g.sep(pos)[0], 2.0), g.math('POWER', g.sep(pos)[1], 2.0)))
     apex = g.math('MULTIPLY', g.math('SUBTRACT', rr, 0.08), 4.0, clamp=True)
-    ca = g.math('MULTIPLY', g.math('MULTIPLY', c, g.math('MULTIPLY', g.math('MULTIPLY', d, 60.0, clamp=True), g.math('EXPONENT', g.math('MULTIPLY', d, -2.0)))),
-                g.math('MULTIPLY', D.val(g, 'caus', 1.0), g.math('MULTIPLY', apex, 1.6)))
+    ca = g.math('MULTIPLY', g.math('MULTIPLY', c, g.math('MULTIPLY', deep, g.math('EXPONENT', g.math('MULTIPLY', d, -2.0)))),
+                g.math('MULTIPLY', D.val(g, 'caus', 1.0), g.math('MULTIPLY', apex, 0.9)))
     col = g.mix(ca, col, g.mix(0.5, col, (1.0, 1.0, 0.95), 'SCREEN'))
     col = g.mix(g.math('MINIMUM', g.math('MULTIPLY', ca, 0.6), 1.0), col, g.mix(1.0, col, (1.6, 1.6, 1.5), 'MULTIPLY'))
     # meltwater: the thawed ground is dark and glossy for a moment

@@ -407,7 +407,7 @@ def build(bpy, ctx):
     M.patch_wind(kit)
     aspect = '16:9' if ctx['W'] >= ctx['H'] else '9:16'
     cam = cw.camera(kit, L, aspect, az=AZ0, el=EL, lens=LENS, fill=FILL); cam.pose(dist=cam.dist * CLOSE)
-    cw.apply_cycles(bpy)
+    cw.apply_cycles(bpy); bpy.context.scene.cycles.transparent_max_bounces = 64   # cut-out canopies stack many layers
     wd = bpy.context.scene.world; nodes = wd.node_tree.nodes
     bgs = [n for n in nodes if n.bl_idname == 'ShaderNodeBackground']
     S = {'kit': kit, 'land': L, 'D': D, 'cam': cam, 'pop': pop, 'frog': F, 'ice': ice, 'leaves': leaves, 'snow': snow, 'birds': birds, 'flies': flies,
