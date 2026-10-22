@@ -1,0 +1,59 @@
+# NOOR films: narration (Chatterbox, MIT, on the runner) + free procedural score + mix. Costs nothing.
+# Input: film folders under films/noor/ (comma list). Each needs script.json. Writes and commits ad.json, audio/vo/*.mp3,
+# audio/vo.json, cues.json, film.json, audio/score_plan.json, audio/score.json, audio/mix.m4a.
+# Re-run safe: voice_free.py skips a folder whose audio/vo.json exists (delete it to re-voice).
+name: noor-sound
+on:
+  workflow_dispatch:
+    inputs:
+      films: { description: 'film folders, comma list, e.g. films/noor/n05-iqra,films/noor/j30-amma', required: true }
+permissions:
+  contents: write
+jobs:
+  sound:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      PYTHONUNBUFFERED: '1'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q numpy scipy soundfile librosa
+      - name: CC0 orchestral samples (VSCO-2 CE, strings and flute only)
+        run: |
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/sgossner/VSCO-2-CE "$RUNNER_TEMP/vsco"
+          cd "$RUNNER_TEMP/vsco" && git sparse-checkout set Strings Woodwinds/Flute && cd -
+          ls "$RUNNER_TEMP/vsco/Strings" && echo "SCORE_SAMPLES=$RUNNER_TEMP/vsco" >> "$GITHUB_ENV" || echo "samples missing: synth fallback"
+      - name: free voice (Chatterbox) in its own Python 3.11
+        run: |
+          python3.11 --version 2>/dev/null || sudo apt-get install -y -qq python3.11 python3.11-venv > /dev/null || true
+          uv --version 2>/dev/null || pip install -q uv
+          uv venv -q -p 3.11 "$RUNNER_TEMP/tts"
+          export VIRTUAL_ENV="$RUNNER_TEMP/tts"
+          uv pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
+          uv pip install -q chatterbox-tts faster-whisper
+          "$RUNNER_TEMP/tts/bin/python" -c "import chatterbox, faster_whisper; print('tts env ready')"
+      - name: narrate, place, score, mix
+        env: { FILMS: '${{ inputs.films }}' }
+        run: |
+          set -e
+          for f in $(echo "$FILMS" | tr ',' ' '); do
+            f="${f%/}"; echo "::group::$f"
+            python3 films/noor/lib/place.py "$f" --prep
+            "$RUNNER_TEMP/tts/bin/python" films/director/voice_free.py "$f"
+            python3 films/noor/lib/place.py "$f"
+            python3 films/lib/score/remix.py "$f" --keep-plan
+            echo "::endgroup::"
+          done
+      - name: commit
+        run: |
+          git config user.name "kinoforge-noor"; git config user.email "noor@users.noreply.github.com"
+          for f in $(echo "${{ inputs.films }}" | tr ',' ' '); do git add "${f%/}"; done
+          git commit -q -m "noor: narration and score for ${{ inputs.films }}" || echo "nothing to commit"
+          for i in 1 2 3; do git pull -q --rebase && git push -q && break || sleep 5; done
