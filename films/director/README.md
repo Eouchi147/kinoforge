@@ -20,13 +20,15 @@ as the score and `status.json` says so. Only Sam turns free-only off
 
 ## Craft checks (CRAFT.md section 9, in `check.cjs`)
 
-The writer, coder and eyes seats all read `CRAFT.md`. In code, before any render: a scene list (`scenes`, 5 to 9, each
-with begin, middle, end), the shot count (at most 40 per 3 minutes) and average shot length (4 to 12 s), a written
-`why` on every cut (camera keys with `cut: true`, full-screen insets), camera speed (a move between two keys: at most
-0.25 frame widths per second and a 10 % per second push; twice that is a hard error), no emoji in the spec, no clip-art
-icons (heart, hug, question, star, no, check, burst), a legend on Battle Map (hard once the engine's SPEC.md documents
-`legend`, a warning before), no overlapping or clipped text. `KF_CRAFT=0` turns them off (tests, films made before
-CRAFT.md). Ambient motion layers are judged by the eyes seat, not yet in code.
+The writer, coder and eyes seats all read `CRAFT.md`. In code, before any render (`check.cjs`, `lint/battle-map.js`):
+a scene list (`scenes`, 5 to 9, each with its job; on Battle Map v2 the engine's own `compileScenes` runs and its errors
+are hard: shots need `from` and `why`, camera moves faster than a real camera are refused, shot count and jump cuts),
+the shot count (at most 40 per 3 minutes) and average shot length (4 to 12 s), a written `why` on every cut, camera speed
+for v1 `camera` keys (at most 0.25 frame widths per second and a 10 % per second push; twice that is a hard error), no
+emoji in the spec, a `legend` and an `ambient` block on Battle Map (hard because the engine's SPEC.md documents them),
+no overlapping or clipped text. Clip-art icon names are refused only on engines without refined glyphs (v2 redraws every
+v1 name as a flat glyph, so there it is a warning to keep only icons with a job). `KF_CRAFT=0` turns the craft checks off
+(tests, films made before CRAFT.md). The v2 Cannae passes every check; the v1 films fail them, as they should.
 
 ## Start a job
 
