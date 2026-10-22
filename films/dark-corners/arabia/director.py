@@ -223,7 +223,7 @@ def build_hud(bpy, ctx, S, M, coll):
         for o, x, u in L.items: set_vis(o, False)
         S['hud'][name] = L; return L
     hud('arabia', 'ARABIA,', 0.026); hud('around', 'AROUND 600', 0.017); hud('mecca', 'MECCA', 0.030)
-    hud('end_title', 'DARK CORNERS', 0.040, 'letter'); hud('end_sub', 'I Am Buying Her Life', 0.0200)
+    hud('end_title', 'DARK CORNERS', 0.026, 'letter'); hud('end_sub', 'I Am Buying Her Life', 0.0200)
 
 def show_hud(S, name, t, t_on, t_off, y, d=0.5, fade=0.35, stagger=0.0):
     """HUD text (y = vertical offset in frame heights, + up); pops in at t_on, shrinks out by t_off."""
@@ -254,7 +254,7 @@ def render_pose(bpy, ctx, S, pf):
     for s in SHOTS:
         if s[0] <= t < s[1]: sh = s; break
     if sh is None: sh = SHOTS[-1]
-    c = Ctx(S, bpy, t); c.t0, c.t1, c.name = sh[0], sh[1], sh[2]; c.u = clamp((t - sh[0]) / max(1e-6, sh[1] - sh[0]))
+    c = Ctx(S, bpy, t); c.sun = (-0.30, 4.80, 0.60); c.t0, c.t1, c.name = sh[0], sh[1], sh[2]; c.u = clamp((t - sh[0]) / max(1e-6, sh[1] - sh[0]))
     sh[3](c, t, c.u)
     if os.environ.get('KF_LT'): c.lt.update(eval(os.environ['KF_LT']))
     if os.environ.get('KF_CAM'): c.cam.update(eval(os.environ['KF_CAM']))
@@ -280,6 +280,10 @@ def render_pose(bpy, ctx, S, pf):
     for dv in S['sky_dawn_nodes']: dv.outputs[0].default_value = L['dawn']
     S['sky_em'].inputs['Strength'].default_value = L['sky_em']; S['stars_em'].inputs['Strength'].default_value = 14.0 * L['stars']
     S['moon'].hide_render = L['moon_vis'] < 0.5; S['moon_halo'].hide_render = L['moon_vis'] < 0.5
+    sv = clamp((L['dawn'] - 0.12) / 0.5); S['sun'].hide_render = sv <= 0.0; S['sun_halo'].hide_render = sv <= 0.0
+    S['sun_em'].inputs['Strength'].default_value = 6.0 * sv; S['sun_halo_em'].inputs['Strength'].default_value = 1.1 * sv
+    sp = c.sun if hasattr(c, 'sun') else (-0.30, 4.80, 0.60)
+    S['sun'].location = sp; S['sun_halo'].location = (sp[0], sp[1] + 0.004, sp[2])
     sc.view_settings.exposure = L['exposure']
     S['M']['flame_em'].inputs['Strength'].default_value = S['flame_base'] * (1.0 + 0.45 * S['hit'])
 
@@ -949,6 +953,7 @@ def S_(c, t, u):
 # ---------------------------------------------------------------- dawn: a girl grew up
 G_PTS = [(-3.2, 2.20), (-2.6, 2.05), (-1.9, 2.18), (-1.2, 2.35), (-0.5, 2.28)]
 GC, GS = W.spline_pts(G_PTS, 0.01)
+G_FINAL = tuple(float(v) for v in path_at(GC, GS, 0.35 + 0.17 * (170.0 - 164.4))[0])
 
 def dawn_light(c, k):
     c.light(dawn=k, moon=lerp(0.6, 1.3, k), az=lerp(-100, 20, k), el=lerp(24, 7, k), moon_k=lerp(10000, 3600, k), fill=0.10 + 0.05 * k, fill_k=lerp(8000, 6500, k), amb=lerp(0.3, 0.55, k),
@@ -975,7 +980,8 @@ def T2(c, t, u):
     stamps_along(S, GC, GS, 0.35 + d, 44, first=0.0)
     # camera: low at the foot of the dune, then craning up and away
     cr = ez(t, 169.0, 173.3, 0.0, 1.0, 's')
-    pos = ez(t, 164.4, 169.2, (-2.60, 1.30, 0.050), (-1.80, 1.35, 0.060), 's') if t < 169.2 else (lerp(-1.80, -1.45, cr), lerp(1.35, 0.50, cr), lerp(0.060, 0.30, cr))
+    pos = ez(t, 164.4, 169.2, (-2.60, 1.30, 0.050), (-1.80, 1.35, 0.060), 's') if t < 169.2 else (lerp(-1.80, -1.50, cr), lerp(1.35, 0.95, cr), lerp(0.060, 0.17, cr))
     tgt = ez(t, 164.4, 169.2, (-2.4, 2.1, 0.12), (p[0] + 0.05, p[1], 0.14), 's') if t < 169.2 else (p[0] + 0.1, p[1], lerp(0.14, 0.17, cr))
-    c.camera(pos, tgt, lens=46.0 if t < 169.2 else lerp(46.0, 34.0, cr), fstop=4.0, focus=(p[0], p[1], 0.13))
-    show_hud(S, 'end_title', t, 173.28, 175.9, 0.28, fade=0.0001, stagger=0.06); show_hud(S, 'end_sub', t, 173.9, 175.9, 0.205, fade=0.0001, stagger=0.12)
+    c.camera(pos, tgt, lens=46.0 if t < 169.2 else lerp(46.0, 36.0, cr), fstop=4.0, focus=(p[0], p[1], 0.13))
+    gx, gy = G_FINAL; rx, ry = -1.64, 1.19; sunx = rx + (gx - rx) * (4.80 - ry) / (gy - ry); c.sun = (sunx, 4.80, 0.52)
+    show_hud(S, 'end_title', t, 173.28, 175.9, 0.30, fade=0.0001, stagger=0.05); show_hud(S, 'end_sub', t, 173.9, 175.9, 0.235, fade=0.0001, stagger=0.10)

@@ -35,11 +35,12 @@ registerIcon('bush', (g, o) => {
   for (const [x, y] of [[40, 52], [60, 64], [28, 74]]) { g.beginPath(); g.arc(x, y, 3, 0, 7); g.fillStyle = '#e23a3a'; g.fill(); }
 });
 registerIcon('quill', (g, o) => {
-  g.save(); g.translate(50, 54); g.rotate(0.55);
-  g.beginPath(); g.moveTo(-8, 44); g.quadraticCurveTo(-34, -6, 6, -46); g.quadraticCurveTo(34, -14, 12, 34); g.quadraticCurveTo(2, 40, -8, 44); g.closePath(); outline(g, '#f6efd8', 3.4);
+  g.beginPath(); g.roundRect(6, 74, 30, 24, 7); outline(g, '#2d2a3a', 3.2); g.beginPath(); g.ellipse(21, 74, 11, 4, 0, 0, 7); outline(g, '#0b0a12', 2.4);
+  g.save(); g.translate(56, 50); g.rotate(0.55);
+  g.beginPath(); g.moveTo(-8, 44); g.quadraticCurveTo(-34, -6, 6, -46); g.quadraticCurveTo(34, -14, 12, 34); g.quadraticCurveTo(2, 40, -8, 44); g.closePath(); outline(g, '#f3e2b8', 3.4);
   g.beginPath(); g.moveTo(-8, 44); g.quadraticCurveTo(-6, 0, 6, -44); g.lineWidth = 3; g.strokeStyle = INK; g.stroke();
   for (let k = 0; k < 5; k++) { g.beginPath(); g.moveTo(-3 + k * 0.2, 30 - k * 14); g.lineTo(-18 + k * 4, 22 - k * 13); g.lineWidth = 1.8; g.strokeStyle = 'rgba(60,40,20,0.6)'; g.stroke(); }
-  g.beginPath(); g.moveTo(-8, 44); g.lineTo(-12, 56); g.lineTo(-4, 48); g.closePath(); outline(g, '#2a190e', 2);
+  g.beginPath(); g.moveTo(-8, 44); g.lineTo(-12, 58); g.lineTo(-3, 49); g.closePath(); outline(g, '#2a190e', 2);
   g.restore();
 });
 registerIcon('weather', (g, o) => {

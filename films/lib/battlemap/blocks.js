@@ -85,7 +85,7 @@ export class Blocks {
         const G = d0.grid; const cols = G.cols ?? 4, ranks = G.ranks ?? 3, gap = G.gap ?? 2.4; const cl = d0.len / cols - gap * (cols - 1) / cols, cd = d0.dep / ranks - gap * (ranks - 1) / ranks; const hd = (d0.heading ?? 90) * DEG;
         const fx = Math.sin(hd), fz = -Math.cos(hd), rx = Math.cos(hd), rz = Math.sin(hd); const ids = [];
         for (let j = 0; j < ranks; j++) for (let i = 0; i < cols; i++) { const a = (i - (cols - 1) / 2) * (cl + gap), f = (j - (ranks - 1) / 2) * (cd + gap); const d = { ...d0, grid: undefined, len: cl, dep: cd, x: d0.x + rx * a + fx * f, z: d0.z + rz * a + fz * f, count: (d0.count || 0) / (cols * ranks), bannerScale: d0.bannerScale ?? 0.8 };
-          const cid = `${id}.${i}.${j}`; const b = this.make(cid, d); b.group = id; this.list.push(b); this.byId[cid] = b; ids.push(cid); }
+          const cid = `${id}.${i}.${j}`; const b = this.make(cid, d); b.group = id; this.list.push(b); this.byId[cid] = b; this.groups[cid] = [cid]; ids.push(cid); }
         this.groups[id] = ids; continue; }
       const b = this.make(id, d0); this.list.push(b); this.byId[id] = b; this.groups[id] = [id];
     }

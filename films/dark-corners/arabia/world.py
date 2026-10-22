@@ -225,6 +225,12 @@ def build_moon(bpy, coll, S, pos=(-0.7, 4.80, 2.15), r=0.20):
     v2, f2 = disc_mesh(r * 3.6, 64); ho = bpy.data.objects.new('moon_halo', bpy.data.meshes.new('moon_halo')); ho.data.from_pydata(v2, [], f2); ho.data.update(); ho.data.materials.append(hm)
     coll.objects.link(ho); ho.location = (pos[0], pos[1] - 0.004, pos[2]); set_vis(ho, False)
     S['moon'], S['moon_halo'], S['moon_em'], S['halo_em'] = mo, ho, em, hem
+    # the rising sun (dawn): a hot disc and a wide soft halo painted on the card; placed per shot
+    sm, sem = emissive(bpy, 'sun_disc', (1.0, 0.80, 0.52), 6.0)
+    v3, f3 = disc_mesh(0.11, 48); so = bpy.data.objects.new('sun', bpy.data.meshes.new('sun')); so.data.from_pydata(v3, [], f3); so.data.update(); so.data.materials.append(sm); coll.objects.link(so); set_vis(so, False)
+    hm2, hem2 = radial_glow(bpy, 'sun_halo', (1.0, 0.62, 0.38), 1.1, 0.0, 0.95)
+    v4, f4 = disc_mesh(0.95, 64); sh = bpy.data.objects.new('sun_halo', bpy.data.meshes.new('sun_halo')); sh.data.from_pydata(v4, [], f4); sh.data.update(); sh.data.materials.append(hm2); coll.objects.link(sh); set_vis(sh, False)
+    S['sun'], S['sun_halo'], S['sun_em'], S['sun_halo_em'] = so, sh, sem, hem2
 
 def cut_dunes(bpy, coll, mat, name, y, x0, x1, base_z, amp, seed, thick=0.006):
     """Cut-card dune silhouette: a flat card with a smooth ridge line on top (stands on the table, faces -Y)."""
