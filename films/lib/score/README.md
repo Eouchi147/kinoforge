@@ -58,7 +58,9 @@ Score plan (JSON): `palette`, `key`, `mode`, `tempo`, `duration`, `seed`, `secti
 Narration at its own timeline positions; score ducked under it (sits about 18 dB below the voice while it speaks, about
 11 dB below in the pauses, eased in 0.10 s and out 0.65 s so it breathes); loud-normalised to -14 LUFS integrated
 (BS.1770), sample peak held under -2 dBFS, 2.4 s end fade, AAC 256 kbit/s. The numbers are in `audio/score.json`.
-`*.wav` is git-ignored: `score.wav` is rebuilt by the same command; `mix.m4a` and `score.json` are committed.
+`*.wav` is git-ignored: `score.wav` is rebuilt by the same command; `mix.m4a` and `score.json` are committed. The mix is
+encoded in the system temp folder, copied beside its final name, swapped in atomically and checked with ffprobe, because a
+checkpointing git process once snapshotted a half-written `mix.m4a`.
 
 ## Runner setup (film.yml)
 The runner already has ffmpeg, numpy, librosa (which brings scipy) and soundfile. Only the samples are new, and they are

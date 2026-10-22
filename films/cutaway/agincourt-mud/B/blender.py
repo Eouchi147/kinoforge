@@ -42,7 +42,7 @@ def shot(T, S):
         e = ease((T - T0) / (CUT - 0.5 - T0)); x = S['xa'] + 0.13 + (S['xb'] + 0.04 - S['xa'] - 0.13) * e
         return dict(az=-91 + 3 * e, el=6.0, dist=1.0, target=(x, YF + 0.02, -0.035), lens=45, f=6.0)
     e = ease((T - CUT) / (T1 - CUT))                     # B2: high behind the English, rising slowly
-    return dict(az=-27 + 5 * e, el=31 + 9 * e, dist=S['dfit'] * (0.80 + 0.04 * e), target=(-0.15 + 0.08 * e, -0.38, -0.22), lens=45, f=None)
+    return dict(az=-24 + 4 * e, el=30 + 9 * e, dist=S['dfit'] * (0.86 + 0.04 * e), target=(0.12 + 0.06 * e, 0.02, -0.34), lens=45, f=None)
 
 
 def frame(bpy, ctx, S, i, t):

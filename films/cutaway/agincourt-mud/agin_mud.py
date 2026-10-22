@@ -59,18 +59,18 @@ PER, AMP = 0.085, 0.011       # plough furrows: period along x, half height
 LV = -0.0085                  # puddle water level
 RES = 0.012
 SOFT = 0.065                  # soft wet top layer thickness
-STRATA = [('soft mud', SOFT, (0.15, 0.105, 0.07), 0.0), ('wet loam', 0.10, (0.33, 0.24, 0.155), 0.06),
-          ('clay', 0.13, (0.53, 0.46, 0.37), 0.02), ('chalky marl', 0.15, (0.75, 0.70, 0.59), 0.18),
-          ('deep', 1.0, (0.46, 0.38, 0.29), 0.30)]
+STRATA = [('soft mud', SOFT, (0.22, 0.14, 0.08), 0.0), ('wet loam', 0.10, (0.44, 0.29, 0.16), 0.08),
+          ('clay', 0.13, (0.62, 0.48, 0.33), 0.03), ('chalky marl', 0.15, (0.84, 0.77, 0.62), 0.22),
+          ('deep', 1.0, (0.54, 0.40, 0.27), 0.30)]
 FR = {'top': (0.13, 0.33, 0.80), 'trim': (0.98, 0.84, 0.46)}     # Battle Map TEAMS.carthage
 EN = {'top': (0.78, 0.11, 0.12), 'trim': (0.98, 0.84, 0.46)}     # Battle Map TEAMS.rome
 
 
 def near_bump(x): return np.exp(-((np.asarray(x, float) - 0.25) / 0.62) ** 4)
 def near_pres(x): return np.clip((near_bump(x) - 0.03) / 0.12, 0.0, 1.0)
-def y_near(x): return YF + 0.58 * near_bump(x)           # Tramecourt wood edge (wood is below it, y smaller)
+def y_near(x): return YF + 0.72 * near_bump(x)           # Tramecourt wood edge (wood is below it, y smaller)
 def y_far(x):                                              # Agincourt wood edge (wood above it)
-    x = np.asarray(x, float); return 0.80 - 0.09 * (x + SX / 2) / SX - 0.36 * np.exp(-((x - 0.35) / 0.75) ** 2)
+    x = np.asarray(x, float); return 0.80 - 0.09 * (x + SX / 2) / SX - 0.46 * np.exp(-((x - 0.35) / 0.75) ** 2)
 
 
 def mask(x, y):
@@ -249,11 +249,18 @@ def patch_strata(kit, mat):
     wet = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('SUBTRACT', sd, edge), 1 / 0.012, clamp=True))
     lk = next(l for l in nt.links if l.to_node == p and l.to_socket.name == 'Base Color'); src = lk.from_socket
     seep = g.noise(g.comb(g.math('MULTIPLY', g.math('ADD', sx[0], sx[1]), 30.0), g.math('MULTIPLY', sd, 4.0), 0.0), 2.0, 2.0)
-    dark = g.mix(g.math('MULTIPLY', wet, 0.72), src, cw.srgb((0.075, 0.05, 0.032)))
+    dark = g.mix(g.math('MULTIPLY', wet, 0.65), src, cw.srgb((0.17, 0.105, 0.06)))
     g.link(dark, p.inputs['Base Color'])
-    g.put(p, 'Roughness', g.math('MULTIPLY_ADD', wet, -0.72, 0.92))
+    g.put(p, 'Roughness', g.math('MULTIPLY_ADD', wet, -0.55, 0.92))
+    for n in nt.nodes:   # no roots in a ploughed field: switch off the kit's root lines (the mix toward the root colour)
+        if n.bl_idname == 'ShaderNodeMix' and n.data_type == 'RGBA':
+            bc = n.inputs['B_Color'] if 'B_Color' in n.inputs else n.inputs[7]
+            if not bc.is_linked and all(abs(u - v) < 1e-3 for u, v in zip(bc.default_value[:3], cw.srgb((0.12, 0.08, 0.05))[:3])):
+                fs = n.inputs['Factor_Float'] if 'Factor_Float' in n.inputs else n.inputs[0]
+                for l in list(fs.links): nt.links.remove(l)
+                fs.default_value = 0.0
     try:
-        g.put(p, 'Coat Weight', g.math('MULTIPLY', wet, g.math('MULTIPLY_ADD', seep.outputs['Fac'], 0.5, 0.45)))
+        g.put(p, 'Coat Weight', g.math('MULTIPLY', wet, g.math('MULTIPLY_ADD', seep.outputs['Fac'], 0.35, 0.22)))
         g.put(p, 'Coat Roughness', 0.06)
     except KeyError: pass
 
@@ -284,7 +291,7 @@ def mat_puddle(kit, rain):
 def mat_rain(kit):
     m, g = _mat(kit, 'ag_rain')
     em = g.node('ShaderNodeEmission', ins={'Color': cw.srgb((0.86, 0.89, 0.93)), 'Strength': 1.15})
-    tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader'); g.put(mx, 0, 0.62)
+    tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader'); g.put(mx, 0, 0.70)
     g.link(em, mx.inputs[1]); g.link(tr, mx.inputs[2]); _out(g, mx); return m
 
 
@@ -377,7 +384,7 @@ def polearm_mesh(bpy, M, name='ag_polearm'):
     A.add(tube([b, b + d * 0.026], [0.0030, 0.0003], 8), 1)
     pp = np.array([d[2], 0, -d[0]]); c = b - d * 0.012 + pp * 0.010
     A.add(ell(c, (0.004, 0.0015, 0.004), 1), 1, lambda V: V)
-    blade = [c + pp * 0.002 - d * 0.011, c + pp * 0.002 + d * 0.011, c + pp * 0.014 + d * 0.016, c + pp * 0.014 - d * 0.016]
+    blade = [c + pp * 0.002 - d * 0.008, c + pp * 0.002 + d * 0.008, c + pp * 0.011 + d * 0.011, c + pp * 0.011 - d * 0.011]
     V = [p + [0, -0.0013, 0] for p in blade] + [p + [0, 0.0013, 0] for p in blade]
     A.add((np.array(V), [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]), 1)
     return A.mesh(bpy, name, [M['wood'], M['steel']], smooth=False)
@@ -452,15 +459,15 @@ def bow_mesh(bpy, M, name='ag_bow'):
 
 
 def mallet_mesh(bpy, M, name='ag_mallet'):
-    A = Acc(); A.add(tube([(-0.008, 0, 0), (0.080, 0, 0)], [0.0023, 0.0023], 6), 0)
-    A.add(tube([(0.083, 0, -0.0135), (0.083, 0, 0.0135)], [0.0082, 0.0082], 12), 0)
+    A = Acc(); A.add(tube([(-0.008, 0, 0), (0.088, 0, 0)], [0.0022, 0.0022], 6), 0)
+    A.add(tube([(0.090, 0, -0.012), (0.090, 0, 0.012)], [0.0072, 0.0072], 12), 0)
     return A.mesh(bpy, name, [M['wood']])
 
 
 def stake_mesh(bpy, M, name='ag_stake'):
     """Sharpened stake, origin at the buried point, axis +Z, 0.21 m: both ends pointed, the top freshly cut (pale)."""
-    A = Acc(); A.add(tube([(0, 0, 0.0), (0, 0, 0.022), (0, 0, 0.183)], [0.0004, 0.0066, 0.0064], 10), 0)
-    A.add(tube([(0, 0, 0.183), (0, 0, 0.209)], [0.0064, 0.0003], 10), 1)
+    V, F = tube([(0, 0, 0.0), (0, 0, 0.022), (0, 0, 0.183), (0, 0, 0.209)], [0.0004, 0.0066, 0.0064, 0.0003], 10)
+    A = Acc(); A.add((V, F), 0); A.M = [1 if np.mean([V[i][2] for i in f]) > 0.185 else 0 for f in F]
     return A.mesh(bpy, name, [M['wood'], M['pale']], fix=True)
 
 
@@ -538,10 +545,10 @@ def build_world(bpy, kit, rain):
 def light(kit, land, mood):
     if mood == 'rain':
         cw.studio(kit, color=(0.47, 0.50, 0.53), key_az=-115, key_el=62, key=0.9, angle=35, fill=1.0, land=land)
-        cw.mat_gradient_bg(kit, (0.56, 0.60, 0.64), (0.34, 0.37, 0.40), 1.0, (0.80, 0.85, 0.92), 1.25)
+        cw.mat_gradient_bg(kit, (0.56, 0.59, 0.62), (0.36, 0.38, 0.40), 1.0, (0.90, 0.90, 0.90), 1.25)
     else:
         cw.studio(kit, color=(0.55, 0.57, 0.58), key_az=-125, key_el=50, key=1.6, angle=22, fill=1.0, land=land, shadows=0.22)
-        cw.mat_gradient_bg(kit, (0.68, 0.70, 0.72), (0.44, 0.46, 0.47), 1.0, (0.86, 0.88, 0.92), 1.2)
+        cw.mat_gradient_bg(kit, (0.68, 0.70, 0.72), (0.46, 0.47, 0.48), 1.0, (0.94, 0.92, 0.90), 1.2)
 
 
 def settings(samples=64, exposure=0.0):
@@ -557,7 +564,7 @@ def set_dof(cam, fstop, dist):
 
 # ============================================================================================ the English line (both inserts)
 NSTAKE = 22
-STAKE_LEAN = math.radians(36)
+STAKE_LEAN = math.radians(32)
 
 
 def stake_base(k): return 1.50 + 0.024 * (k % 2), YF + k * 0.098
@@ -569,7 +576,7 @@ def stake_times(k):
     t = t0 + (tl - t0) * k / (NSTAKE - 1); return [t, t + 0.34, t + 0.68]
 
 
-D0, DSTEP = 0.032, 0.021
+D0, DSTEP = 0.050, 0.016
 
 
 def stake_depth(T, k, done=False):
@@ -585,7 +592,7 @@ class English:
             xb, yb = stake_base(k); s = obj(bpy, kit, f'ag_stake{k}', sm)
             if k == 0: clip_front(s, cutter)
             self.stakes.append((s, xb, yb, g1(xb, yb)))
-            ax, ay = xb + 0.058, (yb + 0.032 if k == 0 else yb)
+            ax, ay = xb + 0.042, (yb + 0.030 if k == 0 else yb)
             a = obj(bpy, kit, f'ag_archer{k}', am); az = g1(ax, ay) - 0.004
             a.location = (ax, ay, az); a.rotation_euler = (0, 0, math.pi + (0.06 if k % 3 == 1 else -0.04 if k % 3 == 2 else 0))
             bow = obj(bpy, kit, f'ag_bow{k}', bm, a); bow.location = tuple(A_HAND_L)
@@ -632,7 +639,7 @@ class English:
                 pitch = keys(T, K); L = keys(T, [(ts[0] - 0.2, l0), (ts[1] - 0.2, l1), (ts[2] - 0.2, l2)])
                 a['mal'].hide_render = False
                 a['mal'].location = tuple(hand); a['mal'].rotation_euler = (0, pitch, yaw)
-                sc = min(1.75, max(0.9, L / 0.083)); a['mal'].scale = (sc, 1, 1)
+                a['mal'].scale = (1, 1, 1)
                 lean = 0.10 * max(0.0, math.sin(min(1.0, max(0.0, (T - ts[0] + 0.3) / 1.3)) * math.pi))
                 rise = ease((T - t_close) / (t_shoot - t_close + 0.25))
             else:
@@ -660,7 +667,7 @@ class English:
 
 
 # ============================================================================================ the French column (B)
-NF, NR = 12, 5
+NF, NR = 14, 6
 
 
 class French:
@@ -681,7 +688,7 @@ class French:
         lm = leg_mesh(bpy, M, 'leg_fr', 'ag_frleg'); pm = polearm_mesh(bpy, M, 'ag_frpole'); cm = collar_mesh(bpy, M); bpm = banner_pole_mesh(bpy, M, 'ag_frbpole')
         for r in range(NR):
             for f in range(NF):
-                face = f == 0; banner = (r, f) in ((1, 3), (1, 8))
+                face = f == 0; banner = (r, f) in ((1, 4), (2, 10))
                 b = obj(bpy, kit, f'ag_fr{r}_{f}', bodies[int(rng.integers(0, 3))])
                 lw = 0.0052 if face else 0.0125
                 legs = []
@@ -705,7 +712,7 @@ class French:
 
     @staticmethod
     def yfile(f, x):
-        b = float(near_bump(x)); yl = YF + min(1.0, b * 8.0) * (0.58 * b + 0.07); yu = float(y_far(x)) - 0.085
+        b = float(near_bump(x)); yl = YF + min(1.0, b * 8.0) * (0.72 * b + 0.06); yu = float(y_far(x)) - 0.07
         return yl + (yu - yl) * f / (NF - 1)
 
     def sink(self, T): return 0.013 + 0.031 * float(cw.smooth(self.t_adv - 0.4, self.t_knees, T))

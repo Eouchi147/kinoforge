@@ -123,9 +123,11 @@ class Composer:
                 M = P.MOODS[s['mood']]; v0, v1 = M[key]
                 if key == 'I' and 'intensity' in s: v0 = v1 = s['intensity']
                 if i == 0:
-                    add(0.0, v0); add(max(s['t1'] - 2, 0.1), v1); prev = v1; continue
+                    end_t = s['t1'] - 2
+                    if len(p['sections']) > 1 and p['sections'][1]['mood'] == 'turn': end_t = min(end_t, s['t1'] - p['swell_len'] - 0.3)
+                    add(0.0, v0); add(max(end_t, 0.1), v1); prev = v1; continue
                 if s['mood'] == 'turn':
-                    sl = p['swell_len']; ts = max(last[0] + 0.5, s['t'] - sl)
+                    sl = p['swell_len']; ts = max(last[0] + 0.1, s['t'] - sl)
                     add(ts, prev); add(ts + sl * 0.5, prev + (v0 - prev) * 0.22); add(ts + sl * 0.82, prev + (v0 - prev) * 0.62)
                     add(s['t'] + 0.6, v0); hold = min(s['t1'] - 0.5, s['t'] + 3.0); add(hold, v0); hold_until = hold
                     if s['t1'] - hold > 6: add(min(hold + 8.0, s['t1'] - 1.0), v1)           # the peak is brief: it settles within ~8 s
@@ -133,7 +135,10 @@ class Composer:
                     r = p['settle'] if p['sections'][i - 1]['mood'] == 'turn' else 4.0
                     a = max(s['t'] - r / 2 if p['sections'][i - 1]['mood'] != 'turn' else s['t'], hold_until)
                     add(a, prev); add(a + r, v0)
-                add(max(s['t1'] - 1.5, last[0] + 0.05), v1); prev = v1
+                end_t = s['t1'] - 1.5
+                if i + 1 < len(p['sections']) and p['sections'][i + 1]['mood'] == 'turn':      # the swell has to start before the turn
+                    end_t = min(end_t, s['t1'] - p['swell_len'] - 0.3)
+                add(max(end_t, last[0] + 0.05), v1); prev = v1
             add(D, pts[-1][1]); add(D + 1, pts[-1][1])
             tt = np.array([a for a, _ in pts]); vv = np.array([b for _, b in pts])
             c = np.interp(np.arange(n) / CR, tt, vv)
@@ -333,11 +338,12 @@ class Composer:
             steps, rhy = self.motif
             use_motif = first or (mood in ('curious', 'calm', 'triumph', 'aftermath') and rng.random() < 0.42) or (mood == 'turn' and rng.random() < .6)
             # build the phrase
-            if mood == 'turn' and pending_apex is not None and not any(e[0] > pending_apex - 5 for e in events):
-                t = max(t, pending_apex - 3.5)
-                top = [i for i in ctones if notes[i] >= centre + 2]
-                idx = top[0] if top else ctones[-1]
-                seq = [(0.0, notes[idx], p['swell_len'] * 0.55 + 4.0, 0.75)]
+            if pending_apex is not None and t >= pending_apex - 3.5:
+                cA = int(np.clip(pal['centre'] + P.MOODS['turn']['reg'] - (12 if inst_name == 'bassoon' else 0), lo_i + 4, hi_i - 5))
+                nA, _ = self.scale_idx_walk(cA); chA = self.chord_at(pending_apex)
+                top = [i for i, m in enumerate(nA) if m % 12 in chA['pcs'] and m >= cA + 2]
+                m_apex = nA[top[0]] if top else nA[-1]
+                seq = [(0.0, m_apex, p['swell_len'] * 0.55 + 4.0, 0.62)]
                 pending_apex = None
                 plen = seq[0][2]
             elif use_motif:
@@ -378,6 +384,8 @@ class Composer:
                 events.append((ts + o + float(rng.normal(0, 0.025)), int(m), float(d), vel, inst_name, glide))
             first = False
             t = ts + plen + float(rng.uniform(*M['rest'])) * (1 + (0.8 if mood == 'turn' else 0) * (1 - cur(self.curves['I'], ts)))
+            if pending_apex is not None and t > pending_apex - 3.0 and ts + plen < pending_apex - 1.0:
+                t = max(ts + plen + 0.8, pending_apex - 3.0)                                 # be ready for the swell: the high held note enters at the turn
         # the last phrase: falls home to the tonic and rests there
         notes, base = self.scale_idx_walk(int(np.clip(pal['centre'] - 2, 56, 80)))
         fin = [base + 3, base + 2, base + 1, base]
