@@ -16,7 +16,8 @@ ap = argparse.ArgumentParser()
 ap.add_argument('scene'); ap.add_argument('--out'); ap.add_argument('--w', type=int, default=1280); ap.add_argument('--h', type=int, default=720)
 ap.add_argument('--fps', type=int, default=24); ap.add_argument('--samples', type=int, default=None); ap.add_argument('--start', type=int, default=0); ap.add_argument('--end', type=int, default=-1)
 ap.add_argument('--engine', default=None); ap.add_argument('--mp4', action='store_true'); ap.add_argument('--audio'); ap.add_argument('--contact', action='store_true'); ap.add_argument('--threads', type=int, default=0)
-a = ap.parse_args()
+ap.add_argument('--device', default='CPU', help='CPU, or METAL / CUDA / OPTIX / HIP / ONEAPI for a GPU (inside the Blender app: blender -b --python harness/blender_render.py -- <args>)')
+a = ap.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else sys.argv[1:])
 
 import bpy  # noqa: E402
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -49,7 +50,12 @@ sc = bpy.context.scene; sc.render.resolution_x = a.w; sc.render.resolution_y = a
 sc.render.engine = settings['engine']; sc.render.image_settings.file_format = 'PNG'; sc.render.image_settings.color_mode = 'RGB'; sc.render.image_settings.color_depth = '8'
 sc.render.film_transparent = settings['film_transparent']
 if settings['engine'] == 'CYCLES':
-    cy = sc.cycles; cy.device = 'CPU'; cy.samples = settings['samples']; cy.use_adaptive_sampling = True; cy.adaptive_threshold = 0.02
+    cy = sc.cycles; cy.device = 'CPU'
+    if a.device.upper() != 'CPU':   # GPU (Apple M-series: METAL); preferences are reset by read_factory_settings, so set them here
+        cp = bpy.context.preferences.addons['cycles'].preferences; cp.compute_device_type = a.device.upper(); cp.get_devices()
+        for dv in cp.devices: dv.use = True
+        cy.device = 'GPU'; print('GPU', a.device, [(dv.name, dv.type) for dv in cp.devices], flush=True)
+    cy.samples = settings['samples']; cy.use_adaptive_sampling = True; cy.adaptive_threshold = 0.02
     cy.use_denoising = settings['denoise']; cy.denoiser = 'OPENIMAGEDENOISE'; cy.max_bounces = settings['max_bounces']; cy.volume_bounces = settings['volume_bounces']
     cy.sample_clamp_indirect = settings['clamp_indirect']; cy.use_light_tree = True
     cy.adaptive_min_samples = settings.get('adaptive_min_samples', 8); cy.denoising_prefilter = settings.get('denoising_prefilter', 'FAST'); cy.volume_step_rate = settings.get('volume_step_rate', 2.0)
