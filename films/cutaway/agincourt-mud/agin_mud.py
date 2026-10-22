@@ -355,7 +355,7 @@ def materials(kit):
          'blue': S('ag_blue', FR['top'], 0.78), 'red': S('ag_red', EN['top'], 0.78), 'gold': S('ag_gold', FR['trim'], 0.38, metallic=0.55),
          'leather': S('ag_leather', (0.26, 0.16, 0.09), 0.7), 'wood': S('ag_wood', (0.42, 0.29, 0.17), 0.75), 'pale': S('ag_palewood', (0.82, 0.68, 0.48), 0.7),
          'skin': S('ag_skin', (0.88, 0.68, 0.54), 0.55, sss=0.1), 'hose': S('ag_hose', (0.40, 0.25, 0.15), 0.85), 'feather': S('ag_feather', (0.95, 0.93, 0.88), 0.7),
-         'string': S('ag_string', (0.88, 0.85, 0.74), 0.6), 'mud': S('ag_mudcollar', (0.11, 0.075, 0.05), 0.22)}
+         'string': S('ag_string', (0.88, 0.85, 0.74), 0.6), 'mud': S('ag_mudcollar', (0.21, 0.135, 0.075), 0.25)}
     M['leg_fr'] = mat_legs(kit, 'ag_leg_fr', (0.74, 0.76, 0.80), 1.0)
     M['leg_en'] = mat_legs(kit, 'ag_leg_en', (0.74, 0.76, 0.80), 1.0)
     M['flag_fr'] = mat_flag(kit, 'ag_flag_fr', FR['top'], FR['trim']); M['flag_en'] = mat_flag(kit, 'ag_flag_en', EN['top'], EN['trim'])
@@ -502,8 +502,7 @@ def stake_mesh(bpy, M, name='ag_stake'):
 
 
 def collar_mesh(bpy, M, name='ag_collar'):
-    A = Acc(); A.add(torus(0.0118, 0.0042, 16, 8), 0, lambda V: V * np.array([1, 1, 0.45]))
-    A.add(ell((0.0, 0.0, 0.0), (0.016, 0.016, 0.0028)), 0)
+    A = Acc(); A.add(torus(0.0122, 0.0050, 18, 10), 0, lambda V: V * np.array([1, 1, 0.75]))   # a ring of mud pushed up around the shin
     return A.mesh(bpy, name, [M['mud']])
 
 
@@ -836,9 +835,9 @@ class French:
                 hip = loc + R @ Vector((0, sgn * s['lw'], HIP)); dv = R @ (Euler((0, ang, 0), 'XYZ').to_matrix() @ Vector((0, 0, -1)))
                 g = g1(hip.x, hip.y); depth = hip.z - g
                 if dv.z < -0.2 and 0 < depth / -dv.z < LEG:
-                    p = hip + dv * (depth / -dv.z); col.location = (p.x, p.y, g + 0.001); col.hide_render = False
+                    p = hip + dv * (depth / -dv.z); col.location = (p.x, p.y, g - 0.0005); col.hide_render = False
                     col.rotation_euler = (0, 0, yaw); cs = 0.9 + 0.25 * min(1.0, (sink - 0.01) / 0.035)
-                    col.scale = (cs * 1.35, cs * 1.35, 1.9) if on_face else (cs, cs, 1)   # a fat mud lip where the leg goes in at the face
+                    col.scale = (cs * 1.2, cs * 1.2, 1.35) if on_face else (cs, cs, 1)   # a fat mud lip where the leg goes in at the face
                 else:
                     col.hide_render = True
             if s['flag'] is not None:
