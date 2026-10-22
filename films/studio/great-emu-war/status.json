@@ -3,8 +3,8 @@
  "title": "The Great Emu War",
  "line": "kinetic",
  "stage": "script",
- "state": "queued",
- "message": "On the runner (fresh job; free models and free tools only); key credit left: $0.84.",
+ "state": "running",
+ "message": "The writer is drafting the narration.",
  "usd": 0.0,
  "cap_usd": 0.5,
  "outputs": {
@@ -28,11 +28,12 @@
  },
  "stages": {
   "script": {
-   "state": "queued",
+   "state": "running",
+   "started_at": "2026-10-22T16:55:23Z",
    "usd": 0.0
   }
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39817396473",
- "updated_at": "2026-10-22T16:54:09Z"
+ "updated_at": "2026-10-22T16:55:23Z"
 }
