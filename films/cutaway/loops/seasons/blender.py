@@ -32,7 +32,7 @@ SETTINGS = {'samples': 40, 'denoise': True, 'motion_blur': False, 'view_transfor
             'denoising_prefilter': 'ACCURATE'}
 
 AZ0, DEG = -45.0, 90.0                 # camera azimuth at t = 0 and the turn per loop
-EL, LENS, FILL = 29.0, 55.0, 0.95
+EL, LENS, FILL, CLOSE = 29.0, 55.0, 0.95, 0.80   # CLOSE: the kit fits a bounding sphere; the block itself can come closer
 SUN_OFF = -40.0                        # the key light sits 40 degrees to the camera's left and turns with it
 STRATA = [('topsoil', 0.07, (0.20, 0.14, 0.09), 0.03), ('mud', 0.15, (0.31, 0.24, 0.17), 0.04), ('sand', 0.13, (0.79, 0.67, 0.49), 0.10),
           ('clay', 0.17, (0.65, 0.61, 0.55), 0.02), ('loam', 0.26, (0.48, 0.33, 0.21), 0.25), ('gravel', 0.12, (0.58, 0.51, 0.43), 0.85),
@@ -406,7 +406,7 @@ def build(bpy, ctx):
     cw.studio(kit, color=SEASON['bg'][0], key_az=AZ0 + SUN_OFF, key_el=45.0, key=3.4, angle=9.0, fill=0.9, land=L)
     M.patch_wind(kit)
     aspect = '16:9' if ctx['W'] >= ctx['H'] else '9:16'
-    cam = cw.camera(kit, L, aspect, az=AZ0, el=EL, lens=LENS, fill=FILL)
+    cam = cw.camera(kit, L, aspect, az=AZ0, el=EL, lens=LENS, fill=FILL); cam.pose(dist=cam.dist * CLOSE)
     cw.apply_cycles(bpy)
     wd = bpy.context.scene.world; nodes = wd.node_tree.nodes
     bgs = [n for n in nodes if n.bl_idname == 'ShaderNodeBackground']
