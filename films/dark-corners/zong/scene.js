@@ -10,6 +10,9 @@ import { buildDoc } from './docs.js';
 import { buildDeck } from './deck.js';
 import { buildCourt } from './court.js';
 import { buildLantern } from './lantern.js';
+import { buildSection } from './section.js';
+import { buildStreet } from './street.js';
+import { buildRoad } from './road.js';
 import { SHOTS, LABELS, captionsFrom, TITLE, END } from './shots.js';
 
 const FILM = await (await fetch('./film.json')).json();
@@ -17,6 +20,9 @@ const CUES = await (await fetch('./cues.json')).json();
 const FPS = FILM.fps, DUR = FILM.duration;
 const CAPS = captionsFrom(CUES);
 const BUILD = {
+  'street': () => buildStreet(SHOTS),
+  'road': () => buildRoad(SHOTS),
+  'section': () => buildSection(SHOTS),
   'lantern:night': () => buildLantern('night', SHOTS), 'lantern:dusk': () => buildLantern('dusk', SHOTS), 'lantern:dawn': () => buildLantern('dawn', SHOTS),
   'court': () => buildCourt(SHOTS),
   'deck': () => buildDeck(SHOTS),
@@ -65,8 +71,11 @@ await boot({
     if (set) { set.update(t, sh, tl, u); if (set.draw) { set.draw(g, { t, tl, u, sh, project, W, H }); useDetail = 1; } }
     detail.pass.uniforms.useDetail.value = useDetail; detail.sync(t);
     // ---- words on screen (crisp, after the finish pass)
+    { let ca = 0; for (const c of CAPS) ca = Math.max(ca, smoothstep(c.in, c.in + 0.22, t) * (1 - smoothstep(c.out - 0.28, c.out, t)));
+      const sk = sh.set && sh.set.startsWith('doc:') ? 0.62 : 0.28; if (ca > 0.002) { const y0 = 0.70 * H, gr = oc.createLinearGradient(0, y0, 0, H); gr.addColorStop(0, 'rgba(4,4,12,0)'); gr.addColorStop(0.55, `rgba(4,4,12,${(sk * ca).toFixed(3)})`); gr.addColorStop(1, `rgba(4,4,12,${(sk * ca).toFixed(3)})`); oc.fillStyle = gr; oc.fillRect(0, y0, W, H - y0); } }
     for (const c of CAPS) { const a = smoothstep(c.in, c.in + 0.22, t) * (1 - smoothstep(c.out - 0.28, c.out, t)); if (a > 0.002) drawCaption(oc, c.text, a); }
     for (const l of LABELS) { const a = smoothstep(l.in, l.in + 0.7, t) * (1 - smoothstep(l.out - 0.7, l.out, t)); if (a > 0.002) drawLabel(oc, l.lines, a, l.y); }
+    if (sh.words) for (const w of sh.words(t)) { if (w.a > 0.002) drawText(oc, w.text, { x: W / 2, y: w.y * H, font: w.sub ? `italic 400 ${Math.round(w.px * SC)}px "Cormorant Garamond"` : `500 ${Math.round(w.px * SC)}px "Cinzel"`, color: w.col || '#eadfc6', alpha: w.a, spacing: (w.sub ? 1.2 : 8) * SC, shadow: 14 * SC, shadowColor: 'rgba(3,3,12,0.9)' }); }
     drawCards(oc, t);
     let fade = ease.inOutSine(clamp(t / 0.25)); if (sh.fadeIn) fade *= ease.inOutSine(clamp(tl / sh.fadeIn)); if (sh.fadeOut) fade *= ease.inOutSine(clamp((sh.t1 - t) / sh.fadeOut));
     if (t > DUR - 0.12) fade *= clamp((DUR - t) / 0.12);

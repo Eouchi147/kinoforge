@@ -4,6 +4,7 @@ import { clamp, lerp, smoothstep, ease, noise1, rng, valueNoise2D } from '/harne
 import { Setup, setLights, DW, DH } from './lib.js';
 import { Canvas, hex, mixc, mul, rgba, paintSky, underpaint } from './paint.js';
 import { WARM, GLOW, coverCams, flick, wob } from './common.js';
+import { buildExtras } from './seaextra.js';
 
 export const YH = 740; // horizon (design px)
 const nz = valueNoise2D(311);
@@ -19,7 +20,7 @@ export const MOODS = {
     lights: false },
   moon: {
     sky: [[-300, '#050819'], [120, '#0a1230'], [420, '#162452'], [640, '#26376a'], [YH, '#3e5086']],
-    glow: { x: 520, y: 360, rx: 360, ry: 330, col: '#7d93c4', a: 0.6 }, moonD: { x: 520, y: 360 }, sun: { x: 520, y: 360, col: [0.72, 0.8, 1.0], size: 190, I: 1.7 },
+    glow: { x: 520, y: 360, rx: 360, ry: 330, col: '#7d93c4', a: 0.6 }, moonD: { x: 520, y: 360 }, sun: { x: 520, y: 360, col: [0.62, 0.74, 1.0], size: 170, I: 1.1 },
     clouds: [{ y: 250, h: 24, x0: -300, x1: 1000, col: '#0c1536', lit: '#4a5f96', litA: 0.65, sy: 0.022, thr: 0.5 }, { y: 470, h: 20, x0: 200, x1: 1100, col: '#16224a', lit: '#6b80b8', litA: 0.7, sy: 0.03, thr: 0.5 }, { y: 120, h: 28, x0: -300, x1: 700, col: '#080d26', lit: '#27386c', litA: 0.5, sy: 0.02 }],
     water: { far: ['#4c608f', '#26335e'], mid: ['#1c2a55', '#0f1938'], near: ['#0e1735', '#080e22'], fg: ['#070b1c', '#050816'] }, glit: { col: '#cfdcff', a: 0.85, x: 520 },
     hull: '#0a0c1c', hullLit: '#2e3d70', rim: '#8fa6dc', sailLit: '#7d92c6', sailMid: '#4f629c', sailShade: '#2a3868', mast: '#080a18', lantern: 1.0, lights: true },
@@ -92,7 +93,7 @@ function paintShip(C, M) {
   for (let x = 62; x < 614; x += 3 + R() * 3) { C.dab(x, sheerY(x) - 1.5, Math.atan((sheerY(x + 6) - sheerY(x - 6)) / 12), 10 + R() * 8, 2.4, mixc(hex('#2a1f26'), rim, 0.1), 0.9, 0.0, 0.6); }
   // stern: quarter-gallery windows (dark, a hint of lantern warmth) and the poop cabin
   g.fillStyle = rgba(hex('#0d0a12')); g.fillRect(70, 664, 130, 30);
-  for (let i = 0; i < 4; i++) { g.fillStyle = rgba(mixc(hex('#12100e'), hex('#a8743e'), M.lantern * 0.25)); g.fillRect(84 + i * 20, 714, 11, 17); }
+  for (let i = 0; i < 4; i++) { g.fillStyle = rgba(mixc(hex('#12100e'), hex('#d89a4e'), M.lantern * 0.75)); g.fillRect(84 + i * 20, 714, 11, 17); C.dab(89.5 + i * 20, 722, 0, 14, 8, hex('#ffc780'), 0.3 * M.lantern, 0.0); }
   g.fillStyle = rgba(mul(hull, 1.1)); g.fillRect(96, 658, 96, 8); for (let x = 98; x < 190; x += 14) { g.fillStyle = rgba(hex('#07060c')); g.fillRect(x, 670, 7, 13); }
   // masts, yards, rigging (soft: the Kuwahara pass turns thin lines into brushwork)
   const mastLine = (x, yT, yB, w) => { g.fillStyle = rgba(mastC); g.fillRect(x - w / 2, yT, w, yB - yT); C.dab(x - w * 0.35, (yT + yB) / 2, Math.PI / 2, yB - yT, w * 0.28, rim, 0.38, 0.0, 0.2); };
@@ -108,6 +109,11 @@ function paintShip(C, M) {
   // stern lantern post + lantern body (painted dark; the light is a glow sprite + relight)
   const [lx, ly] = SHIP.lantern; g.fillStyle = rgba(mastC); g.fillRect(lx - 2, ly + 14, 4, 690 - ly - 14); g.fillStyle = rgba(hex('#0d0a12')); g.beginPath(); g.moveTo(lx - 9, ly - 14); g.lineTo(lx + 9, ly - 14); g.lineTo(lx + 7, ly + 15); g.lineTo(lx - 7, ly + 15); g.closePath(); g.fill();
   g.fillStyle = rgba(mixc(hex('#34261c'), hex('#ffd9a0'), M.lantern)); g.fillRect(lx - 5.5, ly - 10, 11, 21); g.fillStyle = rgba(hex('#0d0a12')); g.beginPath(); g.moveTo(lx - 11, ly - 14); g.lineTo(lx, ly - 26); g.lineTo(lx + 11, ly - 14); g.closePath(); g.fill();
+  // waterline: the hull melts into the water, with a soft reflection beneath
+  { const wl = SHIP.wl; g.save(); g.globalCompositeOperation = 'destination-out'; const gr = g.createLinearGradient(0, wl - 7, 0, wl + 9); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,1)'); g.fillStyle = gr; g.fillRect(0, wl - 7, SHIP.W, SHIP.H - wl + 7); g.restore();
+    g.save(); g.translate(0, wl); g.scale(1, -1); g.globalAlpha = 0.5; g.filter = 'blur(1.6px)'; g.drawImage(C.c, 0, wl - 84, SHIP.W, 84, 0, -84, SHIP.W, 84); g.restore();
+    g.save(); g.globalCompositeOperation = 'destination-out'; const g2 = g.createLinearGradient(0, wl + 4, 0, wl + 84); g2.addColorStop(0, 'rgba(0,0,0,0.15)'); g2.addColorStop(1, 'rgba(0,0,0,1)'); g.fillStyle = g2; g.fillRect(0, wl + 4, SHIP.W, 90); g.restore();
+    for (let x = 70; x < 590; x += 4 + R() * 5) C.dab(x, wl + 1 + R() * 3, 0, 8 + R() * 18, 1.6 + R() * 1.4, mixc(hex(M.rim), [255, 255, 255], 0.3), 0.16 + R() * 0.2, 0.03, 0.7); }
   C.mottle({ amt: 0.04, cell: 12 });
 }
 
@@ -147,17 +153,19 @@ export function buildSea(mood, shots) {
     },
     lanternWorld() { const s = api.shipS0; const v = new THREE.Vector3((SHIP.lantern[0] - SHIP.pivot[0]) * s, -(SHIP.lantern[1] - SHIP.pivot[1]) * s, 0); shipG.updateMatrixWorld(true); return shipG.localToWorld(v); },
     show(v) { S.group.visible = v; },
-    update(t, sh) {
+    update(t, sh, tl, u) {
       // swell: each band drifts and bobs a little (phase per band), ship rolls and heaves on the slowest swell
       for (const k of ['b0', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6']) { const p = planes[k]; const ph = k.charCodeAt(1) * 1.7; const a = (k === 'b0' ? 0 : p.userData.amp) * 0.9; const sc = p.userData.D / f;
         p.position.x = p.userData.base.x + (Math.sin(t * 0.33 + ph) * 5 * a + t * (0.4 + 0.5 * a) * (sh.drift ?? 1)) * sc; p.position.y = p.userData.base.y + Math.sin(t * 0.55 + ph * 1.3) * 2.6 * a * sc; }
       const roll = 0.016 * Math.sin(t * 0.62 + seed) + 0.006 * Math.sin(t * 1.4 + 2 * seed); const heave = 3.2 * Math.sin(t * 0.62 + seed + 0.8);
-      const sp = { D: 170, x: 360, y: 872, sc: 1, ...(sh.ship || {}) }; api.placeShip(sp.D, sp.x, sp.y + heave * sp.sc, roll * (sh.roll ?? 1), sp.sc);
-      shipG.visible = sh.ship !== null; const lw = api.lanternWorld(); const fl = flick(t, 3) * M.lantern;
+      const shipSpec = typeof sh.ship === 'function' ? sh.ship(tl, u, t) : sh.ship; const sp = { D: 170, x: 360, y: 872, sc: 1, ...(shipSpec || {}) }; api.placeShip(sp.D, sp.x, sp.y + heave * sp.sc, roll * (sh.roll ?? 1), sp.sc);
+      const shipOn = shipSpec !== null; shipG.visible = shipOn; lanternGlow.visible = lanternGlow2.visible = shipOn; const lw = api.lanternWorld(); const fl = flick(t, 3) * M.lantern;
       lanternGlow.position.copy(lw); lanternGlow2.position.copy(lw); lanternGlow.material.uniforms.uI.value = 1.05 * fl * (sh.lanternK ?? 1); lanternGlow2.material.uniforms.uI.value = 0.9 * fl * (sh.lanternK ?? 1);
       const lk = (sh.lanternK ?? 1) * fl; const lightList = [{ p: lw, r: 1.0 * api.shipS * 60, c: WARM, k: 2.0 * M.lantern * lk }];
       setLights(ship.material, lightList); for (const k of ['b4', 'b5']) setLights(planes[k].material, [{ p: lw, r: 1.6 * api.shipS * 90, c: WARM, k: 1.1 * M.lantern * lk * (mood === 'moon' ? 1.2 : 0.6) }]);
     },
   };
+  const X = buildExtras({ S, mood, M, cover, planes, shipG, api, f, D, seed });
+  const upd = api.update; api.update = (t, sh, tl, u) => { upd(t, sh, tl, u); X.update(t, sh); }; api.draw = (g, e) => X.draw(g, e); api.X = X;
   S.group.visible = false; return api;
 }

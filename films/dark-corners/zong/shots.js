@@ -56,6 +56,43 @@ D('j2b', { set: 'court', cam: mv({ x: -0.9, z: -3.0, yaw: -0.14, pitch: -0.1 }, 
 D('o3', { set: 'lantern:night', cam: mv({ z: -0.5, y: -0.05 }, { z: -3.2, y: 0.05 }, ease.inOutSine), flame: () => 1 });
 D('x1c', { set: 'lantern:dusk', cam: mv({ z: -3.8, x: 0.05 }, { z: -2.2, x: -0.02 }), flame: () => 1 });
 D('f3', { set: 'lantern:dawn', cam: mv({ z: -4.0, y: 0.05 }, { z: -0.8, y: 0.0 }, ease.inOutSine), flame: (t) => 1 - smoothstep(176.05, 176.55, t) * 1, smoke: (t) => (t > 176.3 ? clamp((t - 176.3) / 1.1) : 0), bgK: (t) => 0.62 + 0.38 * smoothstep(174.0, 176.7, t), fadeOut: 0.0 });
+
+// ---- the sea: Jamaica passing, the captain's glass, the name board, moon, rain, rings, the rope, dawn, Black River
+D('title', { set: 'sea:moon', ship: null, cam: mv({ x: -3, z: 0 }, { x: 3, z: -8 }), drift: 0.4 });
+D('x1b', { set: 'sea:dusk', nameBoard: { zong: (t) => smoothstep(20.8, 21.6, t) * (1 - smoothstep(23.7, 24.1, t)), zorg: (t) => smoothstep(23.8, 24.4, t) }, ship: (tl, u) => ({ sc: lerp(1.75, 2.05, ease.inOutSine(u)), x: lerp(690, 760, ease.inOutSine(u)), y: lerp(1030, 1060, u) }), cam: mv({ x: 0, y: 0, z: 0 }, { x: -0.1, y: 0.1, z: -8 }) });
+D('m1a', { set: 'sea:dusk', coast: { t0: 43.9, tp: 42.446, x0: 300 }, ship: { sc: 0.5, x: 310, y: 786 }, cam: mv({ x: -4, z: 0 }, { x: 5, z: -20 }), drift: 0.6 });
+D('m1b', { set: 'sea:dusk', coast: { t0: 43.9, tp: 42.446, x0: 300 }, captain: true, glass: (t) => { const up = smoothstep(46.2, 46.8, t) * (1 - smoothstep(47.9, 48.5, t)); return -1.05 + 1.5 * up; },
+  ship: (tl, u) => { const k = ease.inOutSine(clamp((tl - 2.2) / 2.6)); return { sc: lerp(1.5, 0.66, k), x: lerp(570, 380, k), y: lerp(980, 850, k) }; }, cam: mv({ x: 0, z: 0 }, { x: 0.3, z: -10 }), drift: 0.8 });
+D('m2a', { set: 'sea:moon', ship: { sc: 0.3, x: 380, y: 776 }, cam: mv({ x: 2, z: 0 }, { x: -2, z: -14 }), drift: 0.5 });
+D('r1a', { set: 'sea:moon', ship: { sc: 0.52, x: 370, y: 810 }, roll: 2.2, rain: (t) => smoothstep(84.3, 85.3, t), cam: mv({ x: -2, z: 0 }, { x: 2, z: -18 }), drift: 0.8 });
+D('r3b', { set: 'sea:moon', ship: null, cam: mv({ x: -1.5, y: -0.25, z: 0 }, { x: 1.2, y: -0.2, z: -6 }), drift: 0.5,
+  rings: [[94.99, 200, 960, 1.0], [95.4, 470, 1010, 1.1], [95.74, 330, 1100, 1.2], [96.2, 560, 930, 0.9], [96.76, 130, 1060, 1.1], [96.92, 430, 1170, 1.3], [97.2, 260, 1000, 1.0], [97.5, 600, 1080, 1.1], [97.8, 360, 940, 0.9], [98.0, 500, 1130, 1.2]] });
+D('p1a', { set: 'sea:moon', ship: null, hullSide: true, tension: (t) => smoothstep(103.2, 103.7, t), cam: mv({ x: 0, y: -0.3, z: 0, pitch: 0.0 }, { x: 0.05, y: -0.3, z: -3, pitch: 0.02 }), drift: 0.5 });
+D('p1b', { set: 'sea:moon', ship: null, hullSide: true, climber: (t) => ease.inOutSine(clamp((t - 104.0) / 2.2)), tension: () => 1, cam: mv({ x: 0.05, y: -0.3, z: -3, pitch: 0.02 }, { x: 0.05, y: 0.1, z: -4.5, pitch: 0.17 }, ease.inOutSine), drift: 0.5 });
+D('a1a', { set: 'sea:dawn', ship: { sc: 0.4, x: 330, y: 778 }, cam: mv({ x: -2, z: 0 }, { x: 2, z: -10 }), drift: 0.5, fadeIn: 0.6 });
+D('a1b', { set: 'sea:dusk', harbour: true, ship: { sc: 0.78, x: 300, y: 868 }, roll: 0.5, cam: mv({ x: -2, y: 0.1, z: 0 }, { x: 2.5, y: 0.05, z: -14 }), drift: 0.3 });
+
+// ---- the ship in section: one small light per person
+const W17 = (t) => smoothstep(29.1, 29.5, t);
+D('x2a', { set: 'section', cam: mv({ x: 0, y: -0.2, z: 0 }, { x: 0, y: 0.4, z: -2.5 }), dots: (t) => ({ crew: clamp((t - 29.2) / 0.9) * 17, cap: 0, dim: 0, keep: 440, fade: 0 }),
+  words: (t) => [{ text: '17', y: 0.17, px: 120, a: smoothstep(29.2, 29.8, t) * (1 - smoothstep(31.0, 31.5, t)) }, { text: 'crew', y: 0.235, px: 40, sub: true, a: smoothstep(29.5, 30.0, t) * (1 - smoothstep(31.0, 31.5, t)), col: '#dce8ff' }] });
+D('x2b', { set: 'section', cam: mv({ x: 0, y: 0.3, z: -2.0 }, { x: 0, y: -0.6, z: -3.8 }, ease.inOutCubic), dots: (t) => ({ crew: 17, cap: clamp((t - 31.55) / 2.9) * 440, dim: 0, keep: 440, fade: 0 }),
+  words: (t) => { const n = Math.round(clamp((t - 31.55) / 2.9) * 440 / 10) * 10; return [{ text: String(n >= 440 ? 440 : n), y: 0.14, px: 120, a: smoothstep(31.6, 32.1, t), col: '#ffd9a0' }, { text: 'captives', y: 0.205, px: 40, sub: true, a: smoothstep(32.2, 32.8, t), col: '#ffd9a0' }]; } });
+D('x2c', { set: 'section', cam: mv({ x: 0, y: -0.5, z: -3.6 }, { x: 0, y: 0.1, z: -0.4 }, ease.inOutSine), dots: (t) => ({ crew: 17, cap: 440, dim: smoothstep(35.0, 35.9, t) * (1 - smoothstep(37.2, 37.9, t)), keep: 440, fade: 0 }),
+  words: (t) => [{ text: '440', y: 0.14, px: 120, a: 1 - smoothstep(37.4, 38.0, t), col: '#ffd9a0' }, { text: 'captives', y: 0.205, px: 40, sub: true, a: 1 - smoothstep(37.4, 38.0, t), col: '#ffd9a0' }] });
+D('a1c', { set: 'section', cam: mv({ x: 0, y: -0.1, z: -1.0 }, { x: 0, y: -0.3, z: -3.0 }), dots: (t) => ({ crew: 17, cap: 440, dim: 0, keep: 208, fade: smoothstep(111.9, 114.4, t) }),
+  words: (t) => { const k = smoothstep(111.9, 114.4, t); const n = Math.round(lerp(440, 208, k)); return [{ text: String(n), y: 0.14, px: 120, a: 1, col: '#ffd9a0' }, { text: 'alive', y: 0.205, px: 40, sub: true, a: smoothstep(112.5, 113.2, t), col: '#ffd9a0' }]; } });
+
+// ---- the lane: Equiano, Sharp, the letter; and the lit window
+D('e1a', { set: 'street', sh: false, eqX: () => 0, cam: mv({ x: -0.2, z: 0 }, { x: 0.2, z: -14 }) });
+D('e1b', { set: 'street', sh: false, cam: mv({ x: 0.55, y: 0.5, z: -26, pitch: -0.02 }, { x: 0.6, y: 0.45, z: -29, pitch: -0.02 }) });
+D('e1c', { set: 'street', shX: (t) => (1 - ease.outCubic(clamp((t - 139.55) / 1.6))) * 240, letter: (t) => ({ k: clamp((t - 141.7) / 0.9) }), cam: mv({ x: 0.25, y: 0.1, z: -16 }, { x: 0.4, y: 0.15, z: -21 }) });
+D('e2', { set: 'street', writing: true, eq: false, sh: false, handLamp: false, cam: mv({ x: -1.4, y: 0.2, z: -12, yaw: -0.08, pitch: -0.04 }, { x: -1.6, y: 0.05, z: -50, yaw: -0.07, pitch: -0.06 }, ease.inOutSine) });
+
+// ---- the road: the lamps take their light one by one, then the morning
+const postAt = (t0, dt) => (t, i) => clamp((t - (t0 + i * dt)) / 0.5);
+D('f2a', { set: 'road', post: postAt(167.7, 0.62), dawn: (t) => smoothstep(167.1, 173.0, t) * 0.35, cam: mv({ x: 0.0, y: -0.15, z: 0, pitch: 0.0 }, { x: 0.1, y: 0.2, z: -8, pitch: 0.02 }) });
+D('f2b', { set: 'road', post: () => 1, dawn: (t) => 0.35 + 0.65 * smoothstep(172.3, 176.0, t), cam: mv({ x: 0.1, y: 0.4, z: -9, pitch: 0.05 }, { x: 0.05, y: 0.55, z: -16, pitch: 0.08 }), words: (t) => [{ text: '1807', y: 0.30, px: 120, a: smoothstep(172.5, 173.3, t) * (1 - smoothstep(173.8, 174.03, t)) }] });
 const SHOTS = [];
 for (let i = 0; i + 1 < SEQ.length; i++) {
   const n = SEQ[i][0]; const d = def[n] || {};
@@ -75,7 +112,6 @@ export const LABELS = [
   { in: 125.0, out: 127.5, lines: ["THE OWNERS' LAWYER", 'in court, 1783'] },
   { in: 131.4, out: 139.3, lines: ['OLAUDAH EQUIANO', 'and Granville Sharp, 19 March 1783'] },
   { in: 146.7, out: 151.0, lines: ["COURT OF KING'S BENCH", '22 May 1783'] },
-  { in: 172.5, out: 174.0, lines: ['1807'] },
 ];
 export const TITLE = { in: 14.9, out: 17.4 };
 export const END = { in: 176.8, out: 179.4 };
