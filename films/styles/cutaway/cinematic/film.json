@@ -9,6 +9,6 @@
  "render_h": 720,
  "w": 1920,
  "h": 1080,
- "samples": 64,
+ "samples": 48,
  "note": "Golden-hour relight of the Cutaway river village with haze, fog, light shafts, animated animals and easter eggs in the cut faces; five pre-planned angles (map, ground, crane, macro, hero). Free: Blender Cycles CPU, procedural. Stills: rc-render stills.yml frames 24,84,112,150,186,222,270. No audio."
 }

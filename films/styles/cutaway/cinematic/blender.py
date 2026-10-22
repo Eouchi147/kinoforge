@@ -27,9 +27,9 @@ import extras as ex  # noqa: E402
 SHOTS = [{'name': 'map', 'dur': 2.0}, {'name': 'ground', 'dur': 2.5}, {'name': 'crane', 'dur': 3.5}, {'name': 'macro', 'dur': 2.0}, {'name': 'hero', 'dur': 2.0}]
 DURATION = sum(s['dur'] for s in SHOTS)
 FRAMES = {'map': 24, 'ground': 84, 'crane_top': 112, 'crane': 150, 'crane_low': 186, 'macro': 222, 'hero': 270}   # check stills
-SETTINGS = {'samples': 64, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - High Contrast', 'exposure': 0.1,
-            'max_bounces': 8, 'volume_bounces': 0, 'clamp_indirect': 6.0, 'adaptive_min_samples': 16, 'denoising_prefilter': 'ACCURATE',
-            'volume_step_rate': 4.0}
+SETTINGS = {'samples': 48, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - High Contrast', 'exposure': 0.1,
+            'max_bounces': 8, 'volume_bounces': 0, 'clamp_indirect': 4.0, 'adaptive_min_samples': 8, 'denoising_prefilter': 'FAST',
+            'volume_step_rate': 6.0}
 
 SHAFT_GAIN = {'map': 0.35, 'ground': 1.0, 'crane': 0.8, 'macro': 0.0, 'hero': 1.0}
 SUN_AZ, SUN_EL = 135.0, 11.0
@@ -66,7 +66,7 @@ def build(bpy, ctx):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
 
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.9, amb=0.24)
-    ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), ceiling=float(os.environ.get('EX_CEIL', 1.6)), aniso=0.7)
+    ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), ceiling=float(os.environ.get('EX_CEIL', 1.1)), spill=0.3, aniso=0.7)
     ex.gobo(kit, land, rig['sun_dir'])
     # the hero tree: the big round tree by the mill sits right in front of the sun from the hero camera (rays round its crown)
     T = np.asarray(land.trees); k = int(np.argmin(np.hypot(T[:, 0] - 1.33, T[:, 1] + 0.88))); gz = float(land.height(T[k:k + 1, 0], T[k:k + 1, 1])[0])
@@ -109,7 +109,8 @@ def build(bpy, ctx):
     cam = ex.ShotCam(kit)
     cw.apply_cycles(bpy)
     sc = bpy.context.scene; cy = sc.cycles
-    cy.volume_bounces = 0; cy.volume_step_rate = SETTINGS['volume_step_rate']; cy.volume_max_steps = 256
+    cy.volume_bounces = 0; cy.volume_step_rate = SETTINGS['volume_step_rate']; cy.volume_max_steps = 128
+    cy.adaptive_threshold = 0.035; cy.sample_clamp_direct = 12.0          # converge sooner; tame sun glints on water
     try: cy.volume_biased = True
     except Exception: pass
     cy.transparent_max_bounces = 16
