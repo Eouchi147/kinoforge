@@ -1,5 +1,5 @@
 {
- "_": "Production lines of the director. A line is just config: the engine, its SPEC.md, example films, aspect and sizes, the house tone. A line is available when its SPEC.md exists. Example folders that are missing are found by scanning films/ for index.html files that load the engine (films/studio is never used as an example). Read by films/director/*.py and check.cjs.",
+ "_": "Production lines of the director. A line is just config: the engine, its SPEC.md, example films, aspect and sizes, the house tone. A line is available when its SPEC.md exists. Example folders that are missing are found by scanning films/ for index.html files that load the engine (films/studio is never used as an example). Read by films/director/*.py and check.cjs. style_refs are hand-built films named to the coder as a look reference only (their code is not a spec).",
  "battle-map": {
   "series": "Battle Map",
   "style": "terrain",
@@ -49,7 +49,9 @@
   "engine": "films/lib/kinetic",
   "entry": null,
   "spec_md": "films/lib/kinetic/SPEC.md",
-  "examples": [],
+  "examples": [
+   "films/studio/kinetic-demo"
+  ],
   "lint": null,
   "mix": "films/lib/battle_mix.py",
   "aspect": "9:16",
@@ -76,6 +78,9 @@
    "Title card over the title line; the series end card over the outro (the last cues.outro_s seconds).",
    "Restraint: no gore, nothing shown suffering; documents, objects, light and absence carry the story. No em or en dashes and no '...' on screen.",
    "Keep every text inside the 9:16 safe area; no imports, no randomness, no clocks."
+  ],
+  "style_refs": [
+   "films/dark-corners/bamberg"
   ]
  }
 }

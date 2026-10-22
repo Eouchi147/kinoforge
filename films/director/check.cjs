@@ -74,8 +74,12 @@ const lineAt = (t) => { let cur = null; for (const l of cues.lines) if (t >= l.s
     const qs = new URLSearchParams({ w: W, h: H, fps: filmJson.fps || 24, spec: o.spec });
     const t0 = Date.now(); await page.goto(`http://127.0.0.1:${port}/${filmRel}/index.html?${qs}`, { waitUntil: 'load', timeout: 120000 });
     // wait for KF_READY, but stop at the first page error (a spec that throws never gets ready)
-    let ready = false; while ((Date.now() - t0) / 1000 < o.timeout) { ready = await page.evaluate(() => window.KF_READY === true).catch(() => false); if (ready || report.page_errors.length) break; await page.waitForTimeout(250); }
-    if (!ready && !report.page_errors.length) report.hard.push(`the film did not get ready in ${o.timeout} s`);
+    // engines that catch their own spec errors expose window.KF_ERROR (and window.KF_WARNINGS); both are read here
+    let ready = false, kfErr = null; while ((Date.now() - t0) / 1000 < o.timeout) { [ready, kfErr] = await page.evaluate(() => [window.KF_READY === true, window.KF_ERROR ? String(window.KF_ERROR.message || window.KF_ERROR) : null]).catch(() => [false, null]);
+      if (ready || kfErr || report.page_errors.length) break; await page.waitForTimeout(250); }
+    if (kfErr) report.hard.push('spec error: ' + kfErr.slice(0, 400));
+    if (!ready && !kfErr && !report.page_errors.length) report.hard.push(`the film did not get ready in ${o.timeout} s`);
+    const kfWarn = await page.evaluate(() => (window.KF_WARNINGS || []).map(String)).catch(() => []); for (const w of kfWarn) report.soft.push('engine warning: ' + w.slice(0, 300));
     report.ready_s = +((Date.now() - t0) / 1000).toFixed(1);
     // 2. lint (in the page: the engine's own modules resolve the time refs)
     if (L.lint) {

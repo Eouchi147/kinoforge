@@ -47,6 +47,7 @@ def context(job):
     for k, ex in enumerate(L['examples']):
         exc = json.load(open(os.path.join(C.ROOT, ex, 'cues.json')))
         parts.append(f"# Example film {k + 1}: {exc.get('title', ex)} ({ex})\n## Its narration (cues)\n{cue_lines(exc, words=False)}\n## Its spec.js\n```js\n{rd(ex + '/spec.js')}\n```")
+    if L.get('style_refs'): parts.append('# Look reference (hand-built, not a spec): ' + ', '.join(L['style_refs']) + '. Match its restraint and rhythm.')
     parts.append('# House rules for every spec of this line\n' + '\n'.join('- ' + r for r in L.get('spec_rules', [])))
     les = os.path.join(C.HERE, 'LESSONS.md')
     if os.path.exists(les): parts.append('# Lessons from earlier jobs (follow them)\n' + open(les).read())
@@ -96,7 +97,7 @@ def check(job, spec_rel, name, max_stills=int(os.environ.get('KF_CHECK_MAX', 28)
 
 
 def fixable_soft(rep):
-    return [s for s in rep.get('soft', []) if not s.startswith('lint warning')]
+    return [s for s in rep.get('soft', []) if not s.startswith(('lint warning', 'engine warning'))]
 
 
 def badness(rep):
@@ -155,7 +156,7 @@ def run_candidate(job, name, src, model, log):
         problems = rep['hard'] + fixable_soft(rep)
         if not problems or r == MAX_REPAIR: break
         if rep['ok'] and r >= 2: break   # it ships; layout polish is left to the compose round
-        if not rep['ok']: problems += [s for s in rep.get('soft', []) if s.startswith('lint warning')][:8]
+        if not rep['ok']: problems += [s for s in rep.get('soft', []) if s.startswith(('lint warning', 'engine warning'))][:8]
         try:
             src, model, fails, note = repair(job, src, problems + carry, model, f'repair {name} {r + 1}')
             carry = [f'(from your last edits) {f}' for f in fails]

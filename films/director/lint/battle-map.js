@@ -46,7 +46,7 @@ export function lint(spec, cues) {
       if (t0 !== null && t1 !== null && t1 < t0 - 1e-6) W(p, `ends (${t1.toFixed(2)} s) before it starts (${t0.toFixed(2)} s): never shown`);
       if (needEnd && e.until === undefined && e.dur === undefined) W(p, 'no until or dur: it stays on screen to the end');
       for (const k of ['hide', 'fallAt']) if (e[k] !== undefined) T(`${p}.${k}`, e[k]);
-      if (e.ease && !EASES.includes(e.ease)) E(p + '.ease', `unknown easing ${e.ease}`); return [t0, t1]; };
+      if (e.ease && !EASES.includes(e.ease)) W(p + '.ease', `unknown easing ${e.ease} (falls back to inOut)`); return [t0, t1]; };
     (sp.moves || []).forEach((m, i) => { const p = P(`moves[${i}]`); span(p, m);
       const names = m.blocks ? (Array.isArray(m.blocks) ? m.blocks : [m.blocks]) : [m.block ?? m.group];
       for (const n of names) if (!hasBlock(n)) E(p, `unknown block or group ${n}`);
@@ -59,7 +59,7 @@ export function lint(spec, cues) {
     const anchor = (p, it) => { if (it.block !== undefined && !hasBlock(it.block)) E(p + '.block', `unknown block ${it.block}`);
       if (it.follow !== undefined && !arrowIds.has(it.follow)) E(p + '.follow', `no arrow with id ${it.follow}`);
       if (it.block === undefined && it.follow === undefined && !it.pos && !it.screen) E(p, 'needs an anchor: pos, block, follow or screen');
-      if (it.team && !TEAMS[it.team]) E(p + '.team', `unknown team ${it.team}`);
+      if (it.team && typeof it.team === 'string' && !TEAMS[it.team]) W(p + '.team', `unknown team ${it.team} (drawn without a team colour)`);
       if (it.screen && (it.screen[0] < 0.02 || it.screen[0] > 0.98 || it.screen[1] < 0.02 || it.screen[1] > 0.98)) W(p + '.screen', 'very close to the frame edge'); };
     (sp.labels || []).forEach((l, i) => { const p = P(`labels[${i}]`); span(p, l, true); anchor(p, l);
       if (typeof l.text !== 'string' || !l.text.trim()) E(p + '.text', 'missing'); else if (BAD_TEXT.test(l.text)) E(p + '.text', 'no em or en dashes and no "..." on screen'); });
@@ -75,7 +75,7 @@ export function lint(spec, cues) {
       if (t !== null && t < prev - 1e-6) W(p, `keys must be in time order (${t.toFixed(2)} s comes after ${prev.toFixed(2)} s)`); if (t !== null) prev = t;
       if (k.target !== undefined && !Array.isArray(k.target)) E(p + '.target', 'must be [x, z]'); if (k.target === undefined && k.x === undefined) W(p, 'no target: looks at [0, 0]');
       if (k.pitch !== undefined && (k.pitch < 3 || k.pitch > 89.9)) E(p + '.pitch', 'must be between 3 and 89.9');
-      if (k.ease && !EASES.includes(k.ease)) E(p + '.ease', `unknown easing ${k.ease}`); });
+      if (k.ease && !EASES.includes(k.ease)) W(p + '.ease', `unknown easing ${k.ease} (falls back to inOut)`); });
     if (cam.length && name === 'main') { const t0 = (() => { try { return clock.at(cam[0].at); } catch { return 0; } })(); if (t0 > 0.01) W(P('camera[0].at'), 'the first key should be at 0'); }
   };
   stage(spec, 'main');
