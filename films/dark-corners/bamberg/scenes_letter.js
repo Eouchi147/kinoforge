@@ -11,11 +11,14 @@ export function buildLetter(E) {
   // ---------------------------------------------------------------- t3: "In his letter, he wrote something very different. They crushed his thumbs until blood came out from under his nails."
   {
     const tCut = 67.90, tOutA = 70.95;
-    const em = E.emFit('C', 'from under his nails.', 0.96);
+    const em = Math.min(E.emFit('C', 'They crushed', 0.92), 0.075), P = 0.088;
     const HL = [
-      { txt: 'They crushed his thumbs', base: 0.215, times: [tw('t3', 'They'), tw('t3', 'crushed'), tw('t3', 'his', 1), tw('t3', 'thumbs')] },
-      { txt: 'until blood came out', base: 0.320, times: ['until', 'blood', 'came', 'out'].map((w) => tw('t3', w)) },
-      { txt: 'from under his nails.', base: 0.425, times: [tw('t3', 'from'), tw('t3', 'under'), tw('t3', 'his', 2), tw('t3', 'nails.')] },
+      { txt: 'They crushed', base: 0.205, times: [tw('t3', 'They'), tw('t3', 'crushed')] },
+      { txt: 'his thumbs', base: 0.205 + P, times: [tw('t3', 'his', 1), tw('t3', 'thumbs')] },
+      { txt: 'until blood', base: 0.205 + 2 * P, times: [tw('t3', 'until'), tw('t3', 'blood')] },
+      { txt: 'came out', base: 0.205 + 3 * P, times: [tw('t3', 'came'), tw('t3', 'out')] },
+      { txt: 'from under', base: 0.205 + 4 * P, times: [tw('t3', 'from'), tw('t3', 'under')] },
+      { txt: 'his nails.', base: 0.205 + 5 * P, times: [tw('t3', 'his', 2), tw('t3', 'nails.')] },
     ];
     S.push({
       name: 't3 his letter: thumbs', t0: tCut, bg: 'cream',
@@ -29,11 +32,11 @@ export function buildLetter(E) {
           { txt: 'DIFFERENT.', font: 'B', fit: 1.0, maxCap: 0.105, ls: 0.03, times: tw('t3', 'different.'), curve: E.PAYOFF },
         ], 0.19, 0.026);
         else {
-          HL.forEach((l, k) => E.hand({ ...l, em, color: ink, trem: (tk) => 0.55 + 0.25 * k, seed: SEED + k, squash: k === 0 ? { w: 3, k: (tt) => 1 - 0.30 * ease.outCubic(clamp((tt - tw('t3', 'thumbs') - 0.12) / 0.2)) } : null }));
+          HL.forEach((l, k) => E.hand({ ...l, em, color: ink, trem: (tk) => 0.5 + 0.12 * k, seed: SEED + k, squash: k === 1 ? { w: 1, k: (tt) => 1 - 0.30 * ease.outCubic(clamp((tt - tw('t3', 'thumbs') - 0.12) / 0.2)) } : null }));
           // the plates close on "thumbs"
           const tt = tw('t3', 'thumbs') + 0.04, p = ease.outCubic(clamp((t - tt) / 0.22));
           if (t >= tt) {
-            const w = E.handWord({ ...HL[0], em }, 3), cy = w.base - w.cap * 0.45, h = w.cap * 2.0, pw = 0.016 * W, gap = 6 * U, wc = (w.x0 + w.x1) / 2, hw = (w.x1 - w.x0) / 2;
+            const w = E.handWord({ ...HL[1], em }, 1), cy = w.base - w.cap * 0.45, h = w.cap * 2.0, pw = 0.016 * W, gap = 6 * U, wc = (w.x0 + w.x1) / 2, hw = (w.x1 - w.x0) / 2;
             const sq = 1 - 0.30 * ease.outCubic(clamp((t - tw('t3', 'thumbs') - 0.12) / 0.2)), tx = hw * sq + gap;
             E.ink.save(); E.ink.fillStyle = ink;
             const xl = lerp(w.x0 - 0.14 * W, wc - tx - pw, p), xr = lerp(w.x1 + 0.14 * W, wc + tx, p);
@@ -48,14 +51,17 @@ export function buildLetter(E) {
 
   // ---------------------------------------------------------------- t4: tied, pulled, dropped. Eight times.
   {
-    const tCut = 75.12, tCue = 79.95, em = E.emFit('C', 'behind his back,', 0.96);
+    const tCut = 75.12, tCue = 79.95, em = Math.min(E.emFit('C', 'They crushed', 0.92), 0.075), P = 0.088;
     const TIE = [
-      { txt: 'They tied his hands', base: 0.215, times: ['They', 'tied', 'his', 'hands'].map((w) => tw('t4', w)) },
-      { txt: 'behind his back,', base: 0.320, times: [tw('t4', 'behind'), tw('t4', 'his', 1), tw('t4', 'back,')] },
+      { txt: 'They tied', base: 0.205, times: [tw('t4', 'They'), tw('t4', 'tied')] },
+      { txt: 'his hands', base: 0.205 + P, times: [tw('t4', 'his'), tw('t4', 'hands')] },
+      { txt: 'behind', base: 0.205 + 2 * P, times: [tw('t4', 'behind')] },
+      { txt: 'his back,', base: 0.205 + 3 * P, times: [tw('t4', 'his', 1), tw('t4', 'back,')] },
     ];
     const PULL = [
-      { txt: 'pulled him up', base: 0.215, times: [tw('t4', 'pulled'), tw('t4', 'him'), tw('t4', 'up')] },
-      { txt: 'by a rope,', base: 0.320, times: [tw('t4', 'by'), tw('t4', 'a'), tw('t4', 'rope,')] },
+      { txt: 'pulled', base: 0.205, times: [tw('t4', 'pulled')] },
+      { txt: 'him up', base: 0.205 + P, times: [tw('t4', 'him'), tw('t4', 'up')] },
+      { txt: 'by a rope,', base: 0.205 + 2 * P, times: [tw('t4', 'by'), tw('t4', 'a'), tw('t4', 'rope,')] },
     ];
     const tDrop = 81.58, tImp0 = tDrop + 0.22, T8 = [83.56, 83.87, 84.22, 84.50, 84.80, 85.08, 85.40, 85.72];
     const HIGH = 0.31, LOW = 0.465, PEAK = 0.385, ropeX = 0.5 * W;

@@ -4,7 +4,7 @@ import { clamp, ease, rgba, keys, withScale } from './lib.js';
 export function buildCourt(E) {
   const { C, W, H, U, AX, MEAS } = E, tw = E.tw, K = C.cold;
   const S = [];
-  const TY = (s) => E.line({ font: 'T', mode: 'type', color: K, perChar: 0.045, ...s });            // typed court print
+  const TY = (s) => E.line({ font: 'T', mode: 'type', color: K, perChar: 0.045, ls: 0, ...s });            // typed court print
   const BL = (s) => E.line({ color: K, ...s });                                                       // slammed display type
   const stack = (specs, top, gap, fn = BL) => { for (const s of E.stack(specs, top, gap).lines) fn(s); };
   const header = (t0, txt, a = 1) => { TY({ txt, cap: 0.0185, ls: 0.22, base: 0.178, times: txt.split(' ').map((_, i) => t0 + i * 0.28), alpha: a }); E.rule(AX, AX + MEAS, 0.19 * H, t0 + 0.2, 0.3, Math.max(2, 0.0021 * H), rgba(K, 0.55 * a), E.ink); };
@@ -27,7 +27,7 @@ export function buildCourt(E) {
             { txt: 'HIM DANCING WITH', words: ['him', 'dancing', 'with'] },
             { txt: 'WITCHES IN THE FOREST.', words: ['witches', 'in', 'the', 'forest.'] },
           ];
-          L.forEach((l, k) => TY({ txt: l.txt, cap: 0.0235, ls: 0.02, base: 0.37 + k * 0.055, times: l.words.map((w, wi) => tw('a1', w, (w === 'in' ? 1 : 0))), out: tA2 }));
+          L.forEach((l, k) => TY({ txt: l.txt, cap: 0.0225, base: 0.37 + k * 0.055, times: l.words.map((w, wi) => tw('a1', w, (w === 'in' ? 1 : 0))), out: tA2 }));
           // the word that matters
         } else if (t < tA3) {
           const Q = [
@@ -35,7 +35,7 @@ export function buildCourt(E) {
             { txt: 'SHE COULD HAVE', words: ['she', 'could', 'have'], id: 'a2' },
             { txt: 'SEEN THAT.', words: ['seen', 'that.'], id: 'a2' },
           ];
-          Q.forEach((l, k) => TY({ txt: l.txt, cap: 0.0235, ls: 0.02, base: 0.37 + k * 0.05, times: l.words.map((w) => tw('a2', w)) }));
+          Q.forEach((l, k) => TY({ txt: l.txt, cap: 0.0225, base: 0.37 + k * 0.05, times: l.words.map((w) => tw('a2', w)) }));
           TY({ txt: 'SHE SAID:', cap: 0.0235, ls: 0.06, base: 0.545, times: [tw('a2', 'she', 1), tw('a2', 'said:')] });
         }
         if (t >= tw('a2', 'I') - 0.02) {
@@ -83,7 +83,7 @@ export function buildCourt(E) {
       TY({ txt: 'DOWN THAT', cap: 0.0235, ls: 0.06, base: 0.305, times: [tw('t2', 'down'), tw('t2', 'that')] });
       BL({ txt: 'HE FELT', font: 'B', fit: 1.0, maxCap: 0.075, ls: 0.04, base: 0.415, times: [tw('t2', 'he'), tw('t2', 'felt')], curves: [null, E.HEAVY] });
       // NO PAIN. : the stamp
-      const ts = tw('t2', 'no'), st = { txt: 'NO PAIN.', font: 'B', fit: 1.0, maxCap: 0.105, ls: 0.05, base: 0.565, times: [tw('t2', 'no'), tw('t2', 'pain.')], curves: [E.HEAVY, E.PAYOFF] };
+      const ts = tw('t2', 'no'), st = { txt: 'NO PAIN.', font: 'B', fit: 0.9, maxCap: 0.105, ls: 0.05, x: AX + 0.034 * H, base: 0.565, times: [tw('t2', 'no'), tw('t2', 'pain.')], curves: [E.HEAVY, E.PAYOFF] };
       const G = E.geo(st), cx = G.inkL + G.inkW / 2, cy = G.base - G.cap / 2, pad = 0.022 * H, rot = -0.035;
       ink.save(); ink.translate(cx, cy); ink.rotate(rot); ink.translate(-cx, -cy);
       E.line({ ...st, color: K }, E.f, t);

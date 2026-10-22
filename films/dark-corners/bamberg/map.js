@@ -128,7 +128,7 @@ export function createMap(E) {
     const t0 = tw('l4', 'repeated'), t1 = tw('l4', 'it.') + 0.9; let n = 0, tt = t0;
     for (let k = 0; k < 120; k++) {
       const i = Math.floor(r() * 8), j = 8 + Math.floor(r() * 9), key = i + ',' + j; if (used.has(key)) continue; used.add(key);
-      NAMES.push({ ij: [i, j], t: tt, seed: 200 + k, late: true }); tt += lerp(0.11, 0.012, clamp(k / 45)); if (tt > t1) break; n++;
+      NAMES.push({ ij: [i, j], t: tt, seed: 200 + k, late: true }); tt += lerp(0.075, 0.008, clamp(k / 60)); if (tt > t1) break; n++;
     }
   }
   E.walkNames = NAMES;
@@ -157,7 +157,7 @@ export function createMap(E) {
     const tGift = tw('l4', 'name.') - 0.05;
     for (const nm of NAMES) {
       if (t < nm.t) continue; const [x, y] = P(nm.ij[0], nm.ij[1]), [sx, sy] = toS(c, x, y);
-      node(g, sx, sy, nm.t, t, { r: nm.late ? 7 : 10, alpha: nm.late ? 0.9 : 1 }); drawScrawl(g, sx + 13 * U, sy - 2 * U, nm.seed, 0.06 + (nm.seed % 4) * 0.012, nm.t + 0.1, t, 0.85, nm.late ? 0.25 : 0.35, cream, nm.late ? 1.2 : 1.5);
+      node(g, sx, sy, nm.t, t, { r: nm.late ? 7 : 10, alpha: nm.late ? 0.9 : 1 }); drawScrawl(g, sx + 13 * U, sy - 2 * U, nm.seed, 0.06 + (nm.seed % 4) * 0.012, nm.t + 0.1, t, 0.9, nm.late ? 0.22 : 0.35, cream, nm.late ? 1.35 : 1.5);
     }
     // the empty slot ("when he could not think of anyone") then the slip that arrives
     const tBlank = tw('l4', 'anyone,') - 0.35, [bx, by] = (() => { const [x, y] = P(5, 10); return toS(c, x, y); })();

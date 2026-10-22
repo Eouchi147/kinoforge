@@ -15,7 +15,7 @@ export function createEngine(W, H, g, ink, cues) {
   const E = { W, H, U, AX, MEAS, g, ink, f: 0, t: 0, cues };
   const font = (key) => FONTS[key];
 
-  E.emFit = (fk, txt, frac, ls = 0) => fitSize(font(fk), txt, ls, frac * MEAS) / H;                // font size (H units) that makes `txt` span frac of the measure
+  E.emFit = (fk, txt, frac, ls = 0) => fitSize(font(fk), txt, ls, 0.97 * frac * MEAS) / H;                // font size (H units) that makes `txt` span frac of the measure
   // ---- cue lookup: tw('o1','witch.') = start time of that word on the film's timeline; nth picks a repeated word
   E.tw = (id, word, nth = 0) => { const L = cues.lines.find((l) => l.id === id); if (!L) throw new Error('no line ' + id); let n = 0; for (const w of L.words) if (w[0].toLowerCase() === word.toLowerCase()) { if (n++ === nth) return w[1]; } throw new Error('no word ' + word + ' in ' + id); };
   E.te = (id, word, nth = 0) => { const L = cues.lines.find((l) => l.id === id); let n = 0; for (const w of L.words) if (w[0].toLowerCase() === word.toLowerCase()) { if (n++ === nth) return w[2]; } throw new Error('no word ' + word + ' in ' + id); };
@@ -24,7 +24,7 @@ export function createEngine(W, H, g, ink, cues) {
   E.geo = (s) => {
     const fk = font(s.font || 'B'), ls = s.ls || 0;
     let size;
-    if (s.fit) { size = fitSize(fk, s.txt, ls, s.fit * MEAS); if (s.maxCap) size = Math.min(size, s.maxCap * H / (measure(fk(100), 'H', 0).asc / 100)); }
+    if (s.fit) { size = fitSize(fk, s.txt, ls, s.fit * 0.985 * MEAS); if (s.maxCap) size = Math.min(size, s.maxCap * H / (measure(fk(100), 'H', 0).asc / 100)); }
     else if (s.cap) size = s.cap * H / (measure(fk(100), 'H', 0).asc / 100);
     else size = s.em * H;
     const ln = mkLine(s.txt, fk, size, ls);

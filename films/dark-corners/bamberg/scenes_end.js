@@ -37,8 +37,8 @@ export function buildEnd(E) {
     if (SHEET) return SHEET;
     const c = mk(W, H), sg = c.getContext('2d'), si = E.INK.getContext('2d'); const save = { g: E.g, ink: E.ink, t: E.t, f: E.f };
     const tmp = mk(W, H), tg = tmp.getContext('2d'); tg.textRendering = 'geometricPrecision'; tg.fontKerning = 'normal';
-    E.g = sg; E.ink = tg; E.t = 131.7; E.f = Math.round(131.7 * 24);
-    sg.drawImage(E.PAPER.cream, -PAD, -PAD); drawLetterPage(E, 131.7);
+    E.g = sg; E.ink = tg; E.t = 132.4; E.f = Math.round(132.4 * 24);
+    sg.drawImage(E.PAPER.cream, -PAD, -PAD); drawLetterPage(E, 132.4);
     tg.globalCompositeOperation = 'destination-out'; tg.drawImage(E.INKNOISE, 0, 0); tg.globalCompositeOperation = 'source-over'; sg.drawImage(tmp, 0, 0);
     E.g = save.g; E.ink = save.ink; E.t = save.t; E.f = save.f; SHEET = c; return c;
   };
@@ -135,7 +135,7 @@ export function buildEnd(E) {
   function drawStrip(g, cx, cy, w, rot, alpha = 1) {
     const SH = sheet(), h = w * (H / 3) / W;
     g.save(); g.translate(cx, cy); g.rotate(rot); g.globalAlpha = alpha; g.shadowColor = 'rgba(0,0,0,0.65)'; g.shadowBlur = 20 * U; g.shadowOffsetY = 7 * U; g.fillStyle = '#e6dcc2'; g.fillRect(-w / 2, -h / 2, w, h);
-    g.shadowColor = 'rgba(0,0,0,0)'; g.drawImage(SH, 0, H / 3, W, H / 3, -w / 2, -h / 2, w, h);
+    g.shadowColor = 'rgba(0,0,0,0)'; g.drawImage(SH, 0, 0.30 * H, W, H / 3, -w / 2, -h / 2, w, h);
     g.fillStyle = 'rgba(70,48,24,0.22)'; g.fillRect(-w / 2, -h / 2, w, 2 * U); g.fillRect(-w / 2, h / 2 - 2 * U, w, 2 * U); g.fillRect(-w / 2, -h / 2, 2 * U, h); g.fillRect(w / 2 - 2 * U, -h / 2, 2 * U, h);
     g.restore(); return h;
   }
@@ -171,7 +171,7 @@ export function buildEnd(E) {
       g.save(); g.translate(FO.x0, 0); g.scale(Math.abs(c) < 1e-3 ? 1e-3 : c, 1);
       g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = 14 * U; g.fillStyle = c >= 0 ? '#cdd2d3' : '#a9b0b2'; g.fillRect(0, FO.y0, cw, FO.y1 - FO.y0); g.shadowColor = 'rgba(0,0,0,0)';
       g.fillStyle = `rgba(0,0,0,${0.35 * (1 - Math.abs(c))})`; g.fillRect(0, FO.y0, cw, FO.y1 - FO.y0);
-      g.fillStyle = 'rgba(20,23,26,0.35)'; g.fillRect(0.04 * cw, FO.y0 + 0.02 * H, 0.35 * cw, 2 * U); g.fillRect(0.04 * cw, FO.y0 + 0.032 * H, 0.22 * cw, 2 * U);
+      g.fillStyle = '#2a2f33'; g.font = `400 ${0.0175 * H}px "Special Elite"`; g.letterSpacing = (0.12 * 0.0175 * H) + 'px'; g.textBaseline = 'alphabetic'; g.fillText('JOHANNES JUNIUS', 0.05 * cw, FO.y0 + 0.04 * H); g.fillRect(0.05 * cw, FO.y0 + 0.05 * H, 0.5 * cw, 2 * U); g.letterSpacing = '0px';
       g.restore();
     }
     // dust in the lamp light

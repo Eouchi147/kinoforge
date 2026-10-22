@@ -13,18 +13,19 @@ export function buildOpen(E) {
       name: 'o1 1628, a mayor arrested', t0: 0, bg: 'dark',
       hits: [[tYear, 7, 5, 0.05], [tw('o1', 'arrested'), 4, 4, 0.03], [tw('o1', 'witch.'), 5, 5, 0.04]],
       draw(E) {
-        const Y = E.line({ txt: '1628', font: 'B', cap: 0.118, ls: 0.01, base: 0.285, times: tYear, mode: 'stamp', smear: true, color: cream });
-        E.rule(E.AX, E.AX + Y.inkW, 0.30 * H, tYear + 0.14, 0.2, Math.max(2, 0.0021 * H), rgba(cream, 0.5));
+        E.line({ txt: 'IN', font: 'B', cap: 0.026, ls: 0.3, base: 0.172, times: tw('o1', 'in'), color: cream });
+        const Y = E.line({ txt: '1628', font: 'B', cap: 0.118, ls: 0.01, base: 0.315, times: tYear, mode: 'stamp', smear: true, color: cream });
+        E.rule(E.AX, E.AX + Y.inkW, 0.33 * H, tYear + 0.14, 0.2, Math.max(2, 0.0021 * H), rgba(cream, 0.5));
         const b1 = E.stack([
           { txt: 'A GERMAN MAYOR', font: 'B', fit: 1.0, ls: 0.02, times: [tw('o1', 'a'), tw('o1', 'German'), tw('o1', 'mayor')] },
           { txt: 'WAS ARRESTED', font: 'B', fit: 1.0, ls: 0.01, times: [tw('o1', 'was'), tw('o1', 'arrested')], curves: [null, E.HEAVY] },
-        ], 0.345, 0.024);
+        ], 0.375, 0.024);
         for (const s of b1.lines) E.line({ ...s, color: cream, out: tOut1 });
         const b2 = E.stack([
           { txt: 'AND ACCUSED', font: 'B', fit: 1.0, ls: 0.02, times: [tw('o1', 'and'), tw('o1', 'accused')] },
           { txt: 'OF BEING A', font: 'B', fit: 1.0, ls: 0.03, times: [tw('o1', 'of'), tw('o1', 'being'), tw('o1', 'a', 1)] },
-          { txt: 'WITCH.', font: 'B', fit: 1.0, maxCap: 0.115, ls: 0.04, times: tw('o1', 'witch.'), curve: E.PAYOFF },
-        ], 0.345, 0.024);
+          { txt: 'WITCH.', font: 'B', fit: 1.0, maxCap: 0.105, ls: 0.04, times: tw('o1', 'witch.'), curve: E.PAYOFF },
+        ], 0.362, 0.020);
         for (const s of b2.lines) E.line({ ...s, color: cream });
       },
     });
@@ -47,13 +48,15 @@ export function buildOpen(E) {
     });
     S.push({
       name: 'o2b he wrote a secret letter', t0: tw('o2', 'he'), bg: 'cream',
-      hits: [[tw('o2', 'he'), 10, 6, 0.0]],
+      hits: [[tw('o2', 'he'), 10, 6, 0.0], [8.34, 4, 4, 0], [8.71, 5, 5, 0]],
       draw(E) {
         E.line({ txt: 'HE WROTE', font: 'B', cap: 0.045, ls: 0.14, base: 0.205, times: [tw('o2', 'he'), tw('o2', 'wrote')], color: ink });
-        const em = E.emFit('C', 'a secret letter', 0.97);
-        E.hand({ txt: 'a secret letter', em, base: 0.34, times: [tw('o2', 'a'), tw('o2', 'secret'), tw('o2', 'letter')], color: ink, trem: () => 0.5, seed: 3 });
-        E.hand({ txt: 'to his daughter.', em: E.emFit('C', 'to his daughter.', 0.97), base: 0.47, times: [tw('o2', 'to'), tw('o2', 'his'), tw('o2', 'daughter.')], color: ink, trem: () => 0.5, seed: 4 });
-        E.stroke(AX, AX + 0.60 * MEAS, 0.49 * H, tw('o2', 'daughter.') + 0.5, 0.4, 0.008 * H, ink, { seed: 9 });
+        const em = E.emFit('C', 'daughter.', 0.74), P = 0.105;
+        E.hand({ txt: 'a secret', em, base: 0.31, times: [tw('o2', 'a'), tw('o2', 'secret')], color: ink, trem: () => 0.5, seed: 3 });
+        E.hand({ txt: 'letter', em, base: 0.31 + P, times: [tw('o2', 'letter')], color: ink, trem: () => 0.5, seed: 4 });
+        E.hand({ txt: 'to his', em, base: 0.31 + 2 * P, times: [tw('o2', 'to'), tw('o2', 'his')], color: ink, trem: () => 0.5, seed: 5 });
+        const D = E.hand({ txt: 'daughter.', em, base: 0.31 + 3 * P, times: [tw('o2', 'daughter.')], color: ink, trem: () => 0.5, seed: 6 });
+        E.stroke(AX, AX + D.inkW * 0.98, (0.31 + 3 * P) * H + 0.018 * H, tw('o2', 'daughter.') + 0.55, 0.4, 0.007 * H, ink, { seed: 9 });
       },
     });
   }
