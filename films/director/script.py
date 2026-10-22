@@ -158,9 +158,18 @@ def main(d):
     rounds = []
     for r in range(MAX_ROUNDS + 1):
         problems = guard(job, data)
-        verdicts, checker = check_claims(job, data, writer, r)
+        try: verdicts, checker = check_claims(job, data, writer, r)
+        except C.OverBudget: raise
+        except C.AllFailed as e:
+            if r == 0: raise
+            # a later round's checker failed: keep the last verdicts; a claim it did not see counts as doubtful (cut below)
+            C.log(f'round {r}: no checker answered ({str(e)[:160]}); keeping the round {r - 1} verdicts')
+            prev = {v['id']: v for v in rounds[-1]['all']}
+            verdicts = {c['id']: prev.get(c['id'], {'id': c['id'], 'verdict': 'doubtful', 'reason': 'not checked (checker failed)', 'correction': ''}) for c in data['claims']}
+            checker = rounds[-1]['checker'] + ' (previous round)'
         bad = {k: v for k, v in verdicts.items() if v['verdict'] != 'true'}
-        rounds.append({'round': r, 'writer': writer, 'checker': checker, 'claims': len(data['claims']), 'not_true': list(bad.values()), 'guards': problems})
+        rounds.append({'round': r, 'writer': writer, 'checker': checker, 'claims': len(data['claims']), 'not_true': list(bad.values()), 'guards': problems,
+                       'all': list(verdicts.values())})
         C.log(f'round {r}: {len(data["claims"])} claims, {len(bad)} not true, {len(problems)} guard problems')
         if not bad and not problems: break
         if r == MAX_ROUNDS: break

@@ -21,6 +21,8 @@ CFG = json.load(open(os.path.join(HERE, 'config.json')))
 SEAT_ROLE = {'head': 'text', 'deputy': 'text', 'crew': 'text', 'free': 'text', 'ears': 'text', 'coder': 'code', 'eyes': 'vision'}
 BENCH = {}          # model -> reason (for this process)
 FAILS = {}          # model -> failed calls
+COOL = {}           # model -> time until which it is skipped (rate limited three times in a row)
+MIN_TOKENS = 8000   # free calls cost nothing: room for reasoning models to think and still answer
 CALLS = []          # every attempt: model, seat, label, status, seconds, note
 _lock = threading.Lock(); _market = None
 
@@ -80,7 +82,10 @@ def chain(role, mk=None, n=8):
     return out[:n]
 
 
-def seat_chain(seat): return chain(SEAT_ROLE.get(seat, 'text'))
+def seat_chain(seat):
+    """The role's models, the ones cooling down after rate limits moved to the end."""
+    ms = chain(SEAT_ROLE.get(seat, 'text')); now = time.time()
+    return [m for m in ms if COOL.get(m, 0) <= now] + [m for m in ms if COOL.get(m, 0) > now]
 
 
 # ------------------------------------------------------------------ JSON from any reply
@@ -139,7 +144,8 @@ def call(model, messages, ledger, seat, label, max_tokens, timeout, response_for
             if e.code in (400,) and response_format: raise BadFormat(msg)
             if e.code in (401, 403, 404): bench(model, f'{e.code} {msg[:120]}')
             raise RuntimeError(f'{e.code} {msg[:200]}')
-    raise RuntimeError('429 rate limited three times')
+    COOL[model] = time.time() + 300
+    raise RuntimeError('429 rate limited three times (skipped for 5 minutes)')
 
 
 class BadFormat(Exception): pass
@@ -154,7 +160,7 @@ def ask(seat, messages, schema, ledger, name='reply', max_tokens=2000, validate=
     """One JSON object from a free model of the seat's role. Returns (data, model)."""
     models = [only] if only else seat_chain(seat)
     if not models: raise RuntimeError(f'no free model for the seat {seat}')
-    mk = market(); req = list(schema.get('required', [])); errors = []
+    mk = market(); req = list(schema.get('required', [])); errors = []; max_tokens = max(max_tokens, MIN_TOKENS)
     timeout = timeout or 240
     for model in models:
         if model in BENCH: continue
@@ -171,9 +177,11 @@ def ask(seat, messages, schema, ledger, name='reply', max_tokens=2000, validate=
                 try: data = parse_json(text, req)
                 except ValueError as e:   # one repair retry: the JSON only
                     log(f'  {model}: {str(e)[:160]}; asking for the JSON only')
+                    more = min(32000, max_tokens * 2) if fin == 'length' else max_tokens   # a cut reply gets twice the room
                     text2, _ = call(model, msgs + [{'role': 'assistant', 'content': text[:6000]},
-                                                    {'role': 'user', 'content': 'That reply was not the JSON object. Reply again with the JSON object only, '
-                                                     'exactly matching the schema, starting with { and ending with }.'}], ledger, seat, label + ' (json retry)', max_tokens, timeout, rf)
+                                                    {'role': 'user', 'content': 'That reply was not the complete JSON object. Reply again with the JSON object only, '
+                                                     'exactly matching the schema, starting with { and ending with }; keep every reason to one short sentence.'}],
+                                    ledger, seat, label + ' (json retry)', more, timeout, rf)
                     data = parse_json(text2, req)
                 problem = validate(data) if validate else None
                 if problem: raise ValueError(problem)

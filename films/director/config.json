@@ -16,7 +16,7 @@
   }
  },
  "free_seats": {
-  "_": "Free models per role, best first (id prefixes or substrings, matched against the live ':free' list on the runner by films/director/free.py). text = writer, fact checker, crew; code = spec drafts and repairs; vision = eyes. Models not listed must clear min_params_b or min_iq and must not match exclude or known_bad. minimax-m3.1-flash:free is known good (the web studio's director chat runs on it).",
+  "_": "Free models per role, best first (id prefixes or substrings, matched against the live ':free' list on the runner by films/director/free.py). text = writer, fact checker, crew; code = spec drafts and repairs; vision = eyes. Models not listed must clear min_params_b or min_iq and must not match exclude or known_bad. minimax-m3.1-flash:free is known good (the web studio's director chat runs on it). Live on 22 Oct 2026 15:30 UTC: only 14 free models (Google Gemma 4 26b and 31b, rate limited all the time; NVIDIA Nemotron 3 Ultra 550b, Super 120b, 3.5 Super VL; small or agentic-only others). minimax-m3.1-flash:free was not in the list that day.",
   "min_params_b": 30,
   "min_iq": 40,
   "known_bad": [
@@ -38,6 +38,8 @@
     "qwen/qwen3.5",
     "qwen/qwen3-235b",
     "qwen/qwen3-next",
+    "nvidia/nemotron-3-ultra",
+    "nvidia/nemotron-3-super",
     "meta-llama/llama-4-maverick",
     "openai/gpt-oss-120b",
     "mistralai/mistral-large",
@@ -63,7 +65,9 @@
     "embed",
     "flint",
     "lfm",
-    "inkling"
+    "inkling",
+    "safety",
+    "nemotron-3.5-lightning"
    ],
    "offline": [
     "minimax/minimax-m3.1-flash:free",
@@ -84,9 +88,13 @@
     "qwen/qwen3-235b",
     "openai/gpt-oss-120b",
     "mistralai/devstral",
+    "nvidia/nemotron-3-ultra",
+    "nvidia/nemotron-3-super",
     "meta-llama/llama-4-maverick",
     "mistralai/mistral-large",
-    "deepseek/deepseek-r1"
+    "deepseek/deepseek-r1",
+    "google/gemma-4-31b",
+    "google/gemma-3-27b"
    ],
    "exclude": [
     "-vl",
@@ -101,7 +109,9 @@
     "embed",
     "flint",
     "lfm",
-    "inkling"
+    "inkling",
+    "safety",
+    "nemotron-3.5-lightning"
    ],
    "offline": [
     "minimax/minimax-m3.1-flash:free",
@@ -115,13 +125,14 @@
     "qwen/qwen3.5",
     "qwen/qwen2.5-vl-72b",
     "qwen/qwen3-vl",
+    "google/gemma-4-31b",
+    "nvidia/nemotron-3.5-super-vl",
     "google/gemma-4",
     "google/gemma-3-27b",
     "mistralai/mistral-medium",
     "mistralai/mistral-small-3",
     "moonshotai/kimi-vl",
-    "minimax/",
-    "nvidia/nemotron"
+    "minimax/"
    ],
    "exclude": [
     "nano",
@@ -129,7 +140,9 @@
     "inkling",
     "flint",
     "lfm",
-    "(?<![0-9a-z.])[1-9](\\.\\d+)?b(?![a-z])"
+    "(?<![0-9a-z.])[1-9](\\.\\d+)?b(?![a-z])",
+    "safety",
+    "nemotron-3.5-lightning"
    ],
    "offline": [
     "meta-llama/llama-4-maverick:free"
