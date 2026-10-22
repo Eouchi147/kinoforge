@@ -18,8 +18,8 @@ function hook(og, F, sh) {
 }
 function word(og, F, sh) {
   const w = sh.word; const u = ease.inOutSine(clamp((F.t - w.at) / w.dur)); const out = 1 - smoothstep(sh.t1 - 0.5, sh.t1, F.t);
-  arabic(og, F.CUES.arabic.iqra, CX, 470, 128, { a: out, reveal: u, glow: 0.3, color: '#7a4e12', halo: 1 });
-  const a = ease.outCubic(clamp((F.t - w.enAt + 0.1) / 1.0)) * out; drawText(og, 'READ', { x: CX, y: 600, font: '500 40px "Cinzel"', color: '#3a2208', alpha: a, spacing: 14, shadow: 10, shadowColor: 'rgba(255,236,190,0.7)' });
+  arabic(og, F.CUES.arabic.iqra, CX, 470, 128, { a: out, reveal: u, bright: true });
+  const a = ease.outCubic(clamp((F.t - w.enAt + 0.1) / 1.0)) * out; drawText(og, 'READ', { x: CX, y: 600, font: '500 40px "Cinzel"', color: '#2C2416', alpha: a, spacing: 14, shadow: 10, shadowColor: 'rgba(255,236,190,0.7)' });
   return true;
 }
 function verses(og, F, sh) {

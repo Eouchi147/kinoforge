@@ -16,14 +16,21 @@ export function capDraw(og, text, a, { y = 650, maxW = 980, size = 30, shade = 0
 }
 
 // Arabic, right to left, centred at (x, y); reveal u (0..1) wipes in from the right like a pen writing
-export function arabic(og, text, x, y, size, { a = 1, color = GOLD, reveal = 1, glow = 0.6, halo = 0 } = {}) {
+export function arabic(og, text, x, y, size, { a = 1, color = GOLD, reveal = 1, glow = 0.6, bright = false } = {}) {
+  // a clean filled glyph run (no outline stroke): one soft halo pass for separation, then the ink with its own soft glow.
+  // night: gold over a soft dark halo; bright light: dark ink #2C2416 over a soft warm glow. The write-on is a wipe (mask), right to left.
   if (a <= 0.003 || reveal <= 0) return;
   og.save(); og.font = `400 ${size}px "Amiri Quran"`; og.direction = 'rtl'; og.textAlign = 'center'; og.textBaseline = 'middle';
   const w = og.measureText(text).width + size * 0.6;
-  if (reveal < 1) { og.beginPath(); og.rect(x + w / 2 - w * reveal - size * 0.2, y - size * 1.4, w * reveal + size * 0.4, size * 2.8); og.clip(); }
-  og.globalAlpha = a; og.shadowColor = `rgba(255,190,90,${0.55 * glow})`; og.shadowBlur = size * 0.45; og.fillStyle = color; og.fillText(text, x, y);
-  og.shadowColor = INK_SH; og.shadowBlur = 6; og.fillText(text, x, y);
-  if (halo) { og.shadowBlur = 0; og.lineWidth = size * 0.02; og.strokeStyle = 'rgba(255,236,190,0.9)'; og.strokeText(text, x, y); }
+  if (reveal < 1) { og.beginPath(); og.rect(x + w / 2 - w * reveal - size * 0.2, y - size * 1.6, w * reveal + size * 0.4, size * 3.2); og.clip(); }
+  og.globalAlpha = a;
+  if (bright) {
+    og.shadowColor = 'rgba(255,238,200,0.95)'; og.shadowBlur = size * 0.45; og.fillStyle = '#2C2416'; og.fillText(text, x, y);
+    og.shadowBlur = 0; og.fillText(text, x, y);
+  } else {
+    og.shadowColor = 'rgba(3,3,12,0.55)'; og.shadowBlur = size * 0.5; og.fillStyle = color; og.globalAlpha = a * 0.6; og.fillText(text, x, y);
+    og.globalAlpha = a; og.shadowColor = `rgba(255,190,90,${0.5 * glow})`; og.shadowBlur = size * 0.3; og.fillText(text, x, y);
+  }
   og.restore();
 }
 
@@ -82,8 +89,8 @@ function versePanel(og, F, sh) {
 function wordCard(og, F, sh) {
   const w = sh.word; const u = ease.inOutSine(clamp((F.t - sh.t0 - (w.at - sh.t0)) / (w.dur ?? 1.4)));
   const out = 1 - smoothstep(sh.t1 - 0.5, sh.t1, F.t);
-  arabic(og, F.CUES.arabic[w.ar], 640, 320, 150, { a: out, reveal: u, glow: 0.3, color: '#7a4e12', halo: 1 });
-  if (w.en) { const a = ease.outCubic(clamp((F.t - w.enAt + 0.1) / 1.0)) * out; drawText(og, w.en, { x: 640, y: 470, font: '500 40px "Cinzel"', color: '#3a2208', alpha: a, spacing: 18, shadow: 16, shadowColor: INK_SH }); }
+  arabic(og, F.CUES.arabic[w.ar], 640, 320, 150, { a: out, reveal: u, bright: true });
+  if (w.en) { const a = ease.outCubic(clamp((F.t - w.enAt + 0.1) / 1.0)) * out; drawText(og, w.en, { x: 640, y: 470, font: '500 40px "Cinzel"', color: '#2C2416', alpha: a, spacing: 18, shadow: 16, shadowColor: INK_SH }); }
   return true;
 }
 
