@@ -88,6 +88,7 @@ const empWorld = {
     { type: 'farms', rect: [-236, 100, 30, 110, 0], cell: [10, 8] }, { type: 'farms', rect: [-80, 20, 120, 40, 10], cell: [12, 9] },
   ],
 };
+const EMP_SEAS = empWorld.features.filter((f) => f.type === 'sea').map((f) => f.poly);
 const PERSEPOLIS = [99, 76];
 
 // ====================================================================================== shared look of the plates
@@ -97,17 +98,21 @@ const nightVeil = [0.035, 0.05, 0.16];
 const E_POS = [[-60, -60], [-140, -20], [-200, 70], [-236, 110], [-20, -20], [30, 20], [60, 100], [140, 40], [190, -40], [250, 10], [330, -30], [360, 80], [40, -100], [200, -140]];
 const emp = {
   world: empWorld,
-  blocks: Object.fromEntries(E_POS.map((p, k) => [`E${k}`, { ...PER, kind: 'infantry', x: p[0], z: p[1], heading: 90, len: 26, dep: 11, height: 5, hidden: true, bannerScale: 1.8 }])),
+  blocks: Object.fromEntries(E_POS.map((p, k) => [`E${k}`, { ...PER, kind: 'infantry', x: p[0], z: p[1], heading: 90, len: 36, dep: 15, height: 6, hidden: true, bannerScale: 2.2 }])),
   moves: [{ blocks: E_POS.map((_, k) => `E${k}`), at: 'l02.Still,', dur: 0.6, stagger: 0.14, appear: true, appearFrom: 30 }],
-  regions: [{ at: 'l02.Xerxes,', until: 'l02>', poly: EMP_REGION, color: [0.80, 0.12, 0.12], alpha: 0.30, step: 16, fadeIn: 0.5, fadeOut: 0.7, sweep: { at: 'l02.empire', until: 'l02.India.>' } }],
+  regions: [{ at: 'l02.Xerxes,', until: 'l02>', poly: EMP_REGION, holes: EMP_SEAS, color: [0.80, 0.12, 0.12], alpha: 0.36, step: 16, fadeIn: 0.5, fadeOut: 0.7, sweep: { at: 'l02.empire', until: 'l02.India.>' } }],
   arrows: [],
   labels: [
     L('l02.Xerxes,', 'l02.King', 'XERXES', { pos: PERSEPOLIS, y: 14, team: 'rome', dy: -0.22, dx: -0.12, big: true }),
     L('l02.King', 'l02.His', 'KING OF KINGS OF PERSIA', { pos: PERSEPOLIS, y: 14, team: 'rome', dy: -0.22, dx: -0.12 }),
     L('l02.Egypt', 'l02.Ancient', 'EGYPT', { pos: [-236, 90], y: 6, dy: -0.2, dx: 0.0, big: true, team: 'rome' }),
     L('l02.India.', 'l02.Ancient', 'INDIA', { pos: [388, 40], y: 6, dy: -0.2, dx: 0.0, big: true, team: 'rome' }),
+    L(17.6, 'l02.Xerxes,', 'GREECE', { pos: [-392, -72], y: 4, leader: false, size: 0.8, team: 'carthage' }),
+    L(17.8, 'l02.Egypt', 'MEDITERRANEAN SEA', { pos: [-330, 10], y: 2, leader: false, size: 0.7 }),
+    L(17.8, 'l02.Egypt', 'BLACK SEA', { pos: [-190, -190], y: 2, leader: false, size: 0.7 }),
+    L(17.8, 'l02.Egypt', 'CASPIAN SEA', { pos: [66, -150], y: 2, leader: false, size: 0.7 }),
     L('l02.Ancient', 'l02.Modern', 'THE PERSIAN EMPIRE', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    L('l02.Still,', 'l02>', 'STILL: A LOT.', { screen: [0.5, 0.1], big: true, size: 1.5, team: 'rome' }),
+    L('l02.Still,', 'l02>', 'STILL: A LOT.', { screen: [0.5, 0.14], big: true, size: 1.25, team: 'rome' }),
   ],
   icons: [
     I('l02.Xerxes,', 'l02.His', 'crown', { pos: PERSEPOLIS, y: 4, size: 38, anim: 'bounce' }),
@@ -121,13 +126,13 @@ const emp = {
     { at: 'l02.Modern', until: 'l02>', screen: [0.5, 0.95], keys: [['l02.Modern', 2000000], ['l02.100', 100000]], plusAt: 'l02.or', tag: 'MODERN HISTORIANS THINK', suffix: 'SOLDIERS', col: [0.06, 0.15, 0.42], step: 100000 },
   ],
   camera: [
-    { at: 17.4, target: [20, -10], width: 980, pitch: 58, yaw: 0, mm: 35 },
-    { at: 'l02.Xerxes,', target: [60, 20], width: 560, pitch: 54, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.His', target: [80, 30], width: 760, pitch: 56, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.Egypt', target: [30, 40], width: 900, pitch: 58, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.Ancient', target: [40, 10], width: 940, pitch: 60, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.Still,', target: [40, 10], width: 800, pitch: 54, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 34.4, target: [40, 10], width: 740, pitch: 52, yaw: 0, mm: 35, ease: 'linear' },
+    { at: 17.4, target: [10, 0], width: 1000, pitch: 66, yaw: 0, mm: 35 },
+    { at: 'l02.Xerxes,', target: [70, 20], width: 700, pitch: 62, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l02.His', target: [60, 10], width: 900, pitch: 66, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l02.Egypt', target: [30, 20], width: 1000, pitch: 68, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l02.Ancient', target: [40, 10], width: 1000, pitch: 68, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l02.Still,', target: [40, 10], width: 880, pitch: 62, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 34.4, target: [40, 10], width: 840, pitch: 60, yaw: 0, mm: 35, ease: 'linear' },
   ],
 };
 
@@ -161,10 +166,11 @@ const aeg = {
     ...A_ID.map((_, k) => aMove(k, `l00.marched+${k * 0.11}`, 3.4, () => [[76, -104], [40, -126], [-10, -122], [-56, -104], [-76, -82], aEnd(k)])),
     { block: 'G', at: 'l00.few', dur: 0.7, appear: true, appearFrom: 20 },
     { block: 'G', at: 'l00.stop', dur: 0.5, to: { scale: 1.3 }, ease: 'out' }, { block: 'G', at: 'l00.stop+0.5', dur: 0.5, to: { scale: 1 }, ease: 'inOut' },
-    { blocks: A_ID, at: 12.4, dur: 0.5, vanish: true },
+    { blocks: [...A_ID, 'G'], at: 12.4, dur: 0.5, vanish: true },
     // the army comes back to march south to Athens (l15)
     { blocks: A_ID, at: 'l15.marched-0.6', dur: 0.5, stagger: 0.04, appear: true, appearFrom: 14 },
     ...A_ID.map((_, k) => aMove(k, `l15.marched+${k * 0.06}`, 2.6, () => { const e = aEnd(k); return [e, [-72, -40], [-58, -14], [-40, 2], [-26 + (k % 4) * 3, 8 + Math.floor(k / 4) * 2]]; })),
+    { blocks: A_ID, at: 'l16.those', dur: 0.8, vanish: true },
     // Plataea, the next year
     { block: 'plR', at: 'l16.In', dur: 0.7, appear: true, appearFrom: 18 }, { block: 'plG', at: 'l16.In', dur: 0.7, appear: true, appearFrom: 18 },
     { block: 'plG', at: 'l16.beaten', dur: 1.0, to: { z: -2 }, ease: 'inOut' },
@@ -200,7 +206,6 @@ const aeg = {
     L('l03.Greek+0.3', 'l04', 'TEGEA', { pos: AEG_CITIES.tegea, y: 10, dy: -0.1, dx: -0.1, size: 0.85 }),
     L('l03.teamed', 'l04', 'THERMOPYLAE', { pos: THERMO, y: 6, dy: -0.15, dx: -0.12, size: 0.85, team: 'carthage' }),
     // ---- Athens burns, Salamis, Plataea
-    L('l15.Persians', 'l15.They', 'THE PERSIANS WIN', { screen: [0.5, 0.1], big: true, team: 'rome' }),
     L('l15.marched', 'l15.burned', 'MARCHING SOUTH', { pos: [-50, -6], y: 4, team: 'rome', dy: -0.14, dx: -0.2, big: true }),
     L('l15.burned', 'l15.Which', 'ATHENS BURNS', { pos: AEG_CITIES.athens, y: 10, team: 'rome', dy: -0.2, dx: 0.12, big: true }),
     L('l15.end', 'l16', 'THE END?', { screen: [0.5, 0.1], big: true, size: 1.4 }),
@@ -228,9 +233,9 @@ const aeg = {
     I('l15.burned+0.4', 'l16.But', 'burn', { pos: [AEG_CITIES.athens[0], AEG_CITIES.athens[1] - 4], y: 6, size: 18 }),
     I('l15.end', 'l16', 'question', { screen: [0.5, 0.6], size: 0.3, anim: 'bounce' }),
     I('l16.those', 'l16.A', 'hourglass', { screen: [0.5, 0.58], size: 0.3, anim: 'bounce' }),
-    ...[[-44, 18], [-38, 26], [-50, 30], [-56, 22]].map((p, i) => I(`l16.Greek+${0.08 * i}`, 'l16.In', 'ship', { pos: p, y: 2, size: 14, team: 'carthage', anim: 'bounce' })),
-    ...[[-24, 10], [-18, 18], [-26, 26], [-14, 28], [-30, 4], [-12, 8]].map((p, i) => I(`l16.weeks+${0.1 * i}`, 'l16.In', 'ship', { pos: p, y: 2, size: 14, team: 'rome', anim: 'none', fallAt: `l16.smashed+${0.25 + 0.2 * i}`, fallDur: 0.8 })),
-    ...[[-30, 14], [-22, 22], [-20, 6], [-28, 24]].map((p, i) => I(`l16.smashed+${0.3 + 0.15 * i}`, 'l16.In', 'burst', { pos: p, y: 8, size: 18, anim: 'bounce' })),
+    ...[[-46, 20], [-40, 28], [-52, 32], [-58, 24]].map((p, i) => I(`l16.Greek+${0.08 * i}`, 'l16.In', 'ship', { pos: p, y: 2, size: 8, team: 'carthage', anim: 'bounce' })),
+    ...[[-26, 8], [-18, 16], [-28, 26], [-12, 26], [-32, 0], [-10, 6]].map((p, i) => I(`l16.weeks+${0.1 * i}`, 'l16.In', 'ship', { pos: p, y: 2, size: 8, team: 'rome', anim: 'none', fallAt: `l16.smashed+${0.25 + 0.2 * i}`, fallDur: 0.8 })),
+    ...[[-30, 14], [-22, 22], [-20, 6], [-28, 24]].map((p, i) => I(`l16.smashed+${0.3 + 0.15 * i}`, 'l16.In', 'burst', { pos: p, y: 8, size: 10, anim: 'bounce' })),
     I('l16.beaten', 'l17', 'laurel', { pos: [-50, 12], y: 8, size: 20, anim: 'bounce' }),
   ],
   camera: [
@@ -250,8 +255,8 @@ const aeg = {
     { at: 'l15.burned', target: [-34, 10], width: 150, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
     { at: 'l15.Which', target: [-40, 4], width: 200, pitch: 52, yaw: 0, mm: 35, ease: 'inOut' },
     { at: 'l16.A', target: [-40, 14], width: 150, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l16.Greek', target: [-34, 18], width: 120, pitch: 40, yaw: -10, mm: 35, ease: 'inOut' },
-    { at: 'l16.smashed', target: [-34, 16], width: 100, pitch: 36, yaw: 12, mm: 35, ease: 'inOut' },
+    { at: 'l16.Greek', target: [-34, 16], width: 200, pitch: 46, yaw: -10, mm: 35, ease: 'inOut' },
+    { at: 'l16.smashed', target: [-32, 14], width: 170, pitch: 44, yaw: 12, mm: 35, ease: 'inOut' },
     { at: 'l16.In', target: [-46, 4], width: 150, pitch: 50, yaw: 0, mm: 35, ease: 'inOut' },
     { at: 'l16.beaten', target: [-48, -18], width: 140, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
     { at: 150.2, target: [-48, -20], width: 150, pitch: 48, yaw: 0, mm: 35, ease: 'linear' },
@@ -338,7 +343,7 @@ const main = {
     { block: 'imm2', at: 'l14.surrounded', dur: 1.6, to: { x: CX, z: 100, heading: 0 }, ease: 'inOut' },
     { blocks: ['w1', 'w3', 'thesp'], at: 'l14.fought', dur: 2.6, stagger: 0.3, fadeTo: 1, alphaTo: 0.06, sinkTo: 0.95 },
     // ---- the Persians stay; the pass falls quiet
-    { blocks: [...Q_ID, 'imm2', 'horde'], at: 'l15.So', dur: 1.2, vanish: true },
+    { blocks: [...Q_ID, 'imm2', 'horde'], at: 'l15.They', dur: 1.2, vanish: true },
   ],
 
   arrows: [
@@ -426,6 +431,7 @@ const main = {
     L('l14.third', 'l14.surrounded', 'THE THIRD DAY', { screen: [0.5, 0.1], big: true }),
     L('l14.surrounded', 'l14.they', 'SURROUNDED ON ALL SIDES', { screen: [0.5, 0.1], big: true, team: 'rome' }),
     L('l14.they', 'l15', 'THEY FOUGHT TO THE VERY END', { screen: [0.5, 0.1], big: true, team: 'carthage' }),
+    L('l15.Persians', 'l15.They', 'THE PERSIANS WIN', { screen: [0.5, 0.1], big: true, team: 'rome' }),
     // ---- l17 the stone
     L('l17.stone', 'l17.Go', 'A STONE AT THE PASS', { pos: [CX, 6], y: 8, dy: -0.26, big: true }),
   ],
@@ -480,17 +486,16 @@ const main = {
     // ---- l13
     I('l13.surrounded', 'l13.He#1', 'shout', { block: 'w1', size: 20, dy: -0.07, anim: 'bounce' }),
     I('l13.sent', 'l13.He#2', 'door', { block: 'camp', size: 16, dy: -0.04, anim: 'bounce' }),
-    I('l13.stayed', 'l14', 'helmet', { block: 'w1', team: 'carthage', size: 18, dy: -0.04, anim: 'sway' }),
-    I('l13.stayed', 'l14', 'heart', { block: 'w1', size: 12, dx: 0.04, dy: -0.04, anim: 'bounce' }),
-    I('l13.refused', 'l14', 'no', { block: 'w3', size: 16, dx: 0.05, dy: -0.04, anim: 'bounce' }),
-    I('l13.Thespier', 'l14', 'city', { block: 'thesp', team: 'carthage', size: 16, dx: 0.0, dy: -0.04, anim: 'bounce' }),
+    I('l13.stayed', 'l13.others', 'helmet', { block: 'w1', team: 'carthage', size: 16, dy: -0.04, anim: 'sway' }),
+    I('l13.refused', 'l13.like', 'no', { block: 'w3', size: 14, dx: 0.0, dy: -0.045, anim: 'bounce' }),
+    I('l13.Thespier', 'l14', 'city', { block: 'thesp', team: 'carthage', size: 14, dx: -0.06, dy: -0.04, anim: 'bounce' }),
     // ---- l14
     I('l14.third', 'l15', 'calendar', { screen: [0.9, 0.3], size: 0.24, fill: '7,0,DAY', anim: 'none' }),
-    I('l14.fought', 'l15', 'burst', { pos: [CX, 30], y: 8, size: 24, anim: 'bounce' }),
-    I('l14.fought+0.4', 'l15', 'burst', { pos: [CX - 8, 48], y: 8, size: 20, anim: 'bounce' }),
-    I('l14.very', 'l15', 'laurel', { pos: [CX, 34], y: 8, size: 28, anim: 'bounce' }),
+    I('l14.fought', 'l14.very', 'burst', { pos: [CX - 16, 30], y: 8, size: 18, anim: 'bounce' }),
+    I('l14.fought+0.4', 'l14.very', 'burst', { pos: [CX + 16, 40], y: 8, size: 16, anim: 'bounce' }),
+    I('l14.very', 'l15', 'laurel', { pos: [CX, 34], y: 10, size: 22, anim: 'bounce' }),
     // ---- l17
-    I('l17.stone', 'l17.Go', 'stone', { pos: [CX, 6], y: 0, size: 44, anim: 'none' }),
+    I('l17.stone', 'l17.Go', 'stone', { pos: [CX, 6], y: 0, size: 15, anim: 'none' }),
   ],
 
   dim: [
@@ -538,24 +543,27 @@ const main = {
     { at: 'l08.wall', target: [CX, 10], dist: 160, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
     { at: 'l08.took', target: [CX, 26], dist: 130, pitch: 58, yaw: 0, mm: 35, ease: 'inOut' },
     // l09: the Immortals and the throne
-    { at: 'l09.Even', target: [CX, -20], dist: 190, pitch: 26, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l09.elite', target: [CX, -28], dist: 160, pitch: 20, yaw: -6, mm: 32, ease: 'inOut' },
+    { at: 'l09.Even', target: [CX, -30], dist: 230, pitch: 30, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l09.elite', target: [CX, -28], dist: 160, pitch: 24, yaw: -6, mm: 32, ease: 'inOut' },
     { at: 'l09.through', target: [CX, 0], dist: 100, pitch: 28, yaw: 10, mm: 35, ease: 'inOut' },
-    { at: 'l09.Herodotus', target: [-50, -56], dist: 170, pitch: 26, yaw: 300, mm: 35, ease: 'inOut' },
-    { at: 'l09.afraid', target: [-56, -58], dist: 130, pitch: 24, yaw: 308, mm: 35, ease: 'inOut' },
+    { at: 'l09.Herodotus', target: [-26, -90], dist: 300, pitch: 30, yaw: 352, mm: 35, ease: 'inOut' },
+    { at: 'l09.afraid', target: [-34, -84], dist: 250, pitch: 32, yaw: 346, mm: 35, ease: 'inOut' },
     // l10
     { at: 'l10.Two', target: [CX, 0], dist: 220, pitch: 62, yaw: 0, mm: 35, ease: 'inOut' },
     // l11: Ephialtes and the path
-    { at: 'l11.Then', target: [-60, -90], dist: 190, pitch: 34, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l11.sold', target: [-70, -100], dist: 140, pitch: 30, yaw: 18, mm: 35, ease: 'inOut' },
-    { at: 'l11.hidden', target: [-110, -10], width: 560, pitch: 56, yaw: 328, mm: 35, ease: 'inOut' },
-    { at: 'l11.behind', target: [-80, 30], width: 600, pitch: 58, yaw: 340, mm: 35, ease: 'inOut' },
+    { at: 'l11.Then', target: [CX, -100], dist: 250, pitch: 36, yaw: 352, mm: 35, ease: 'inOut' },
+    { at: 'l11.sold', target: [-50, -108], dist: 170, pitch: 30, yaw: 318, mm: 35, ease: 'inOut' },
+    { at: 'l11.hidden', target: [-100, -30], width: 740, pitch: 66, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l11.behind', target: [-100, -10], width: 760, pitch: 68, yaw: 0, mm: 35, ease: 'inOut' },
     // l12: the night climb (the camera follows the Immortals around the mountain)
-    { at: 'l12.That', target: [-70, -170], dist: 210, pitch: 38, yaw: 330, mm: 35, ease: 'inOut' },
-    { at: 'l12.climbed', target: [-170, -110], dist: 190, pitch: 34, yaw: 340, mm: 35, ease: 'inOut' },
-    { at: 'l13.Leonidas', target: [-200, -10], dist: 200, pitch: 32, yaw: 10, mm: 35, ease: 'inOut' },
-    { at: 'l13.learned', target: [-180, 80], dist: 210, pitch: 34, yaw: 40, mm: 35, ease: 'inOut' },
-    { at: 'l13.surrounded', target: [-30, 110], dist: 190, pitch: 40, yaw: 20, mm: 35, ease: 'inOut' },
+    { at: 'l12.That', target: [-70, -190], dist: 240, pitch: 54, yaw: 340, mm: 35, ease: 'inOut' },
+    { at: 111.0, target: [-125, -165], dist: 240, pitch: 54, yaw: 350, mm: 35, ease: 'inOut' },
+    { at: 'l12.climbed', target: [-165, -135], dist: 240, pitch: 54, yaw: 354, mm: 35, ease: 'inOut' },
+    { at: 112.6, target: [-192, -85], dist: 240, pitch: 54, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l13.Leonidas', target: [-198, 25], dist: 240, pitch: 54, yaw: 8, mm: 35, ease: 'inOut' },
+    { at: 'l13.he', target: [-165, 85], dist: 240, pitch: 52, yaw: 24, mm: 35, ease: 'inOut' },
+    { at: 115.3, target: [-85, 135], dist: 230, pitch: 50, yaw: 30, mm: 35, ease: 'inOut' },
+    { at: 'l13.surrounded', target: [-22, 112], dist: 220, pitch: 48, yaw: 14, mm: 35, ease: 'inOut' },
     // l13: leaving and staying
     { at: 'l13.He#1', target: [CX, 80], dist: 260, pitch: 44, yaw: 0, mm: 35, ease: 'inOut' },
     { at: 'l13.stayed', target: [CX, 34], dist: 130, pitch: 34, yaw: -8, mm: 35, ease: 'inOut' },
@@ -566,9 +574,9 @@ const main = {
     { at: 'l15.So', target: [CX, 36], dist: 150, pitch: 30, yaw: 20, mm: 35, ease: 'inOut' },
     // l17: the stone
     { at: 150.4, target: [CX, 40], dist: 220, pitch: 28, yaw: 16, mm: 30, cut: true },
-    { at: 'l17.stone', target: [CX, 8], dist: 90, pitch: 22, yaw: 6, mm: 35, ease: 'inOut' },
-    { at: 'l17.Go', target: [CX, 8], dist: 80, pitch: 20, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 160, target: [CX, 8], dist: 74, pitch: 20, yaw: 0, mm: 35, ease: 'linear' },
+    { at: 'l17.stone', target: [CX, 8], dist: 150, pitch: 22, yaw: 6, mm: 35, ease: 'inOut' },
+    { at: 'l17.Go', target: [CX, 8], dist: 120, pitch: 22, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 160, target: [CX, 8], dist: 110, pitch: 22, yaw: 0, mm: 35, ease: 'linear' },
   ],
 };
 

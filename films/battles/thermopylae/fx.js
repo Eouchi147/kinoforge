@@ -44,17 +44,18 @@ function clipHalf(poly, xl) { // Sutherland-Hodgman against x <= xl
 function densify(poly, step) { const out = []; for (let i = 0; i < poly.length; i++) { const a = poly[i], b = poly[(i + 1) % poly.length]; const n = Math.max(1, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / step)); for (let k = 0; k < n; k++) out.push([lerp(a[0], b[0], k / n), lerp(a[1], b[1], k / n)]); } return out; }
 
 function drawRegion(g, t, view, stage, r, a) {
-  if (!r._dense) { r._dense = densify(r.poly, r.step ?? 14); r._x0 = Math.min(...r._dense.map((p) => p[0])); r._x1 = Math.max(...r._dense.map((p) => p[0])); }
+  if (!r._dense) { r._dense = densify(r.poly, r.step ?? 14); r._x0 = Math.min(...r._dense.map((p) => p[0])); r._x1 = Math.max(...r._dense.map((p) => p[0])); r._holes = (r.holes || []).map((h) => densify(h, r.step ?? 14)); }
   let poly = r._dense; if (r.sweep) { const u = clamp((t - r.s0) / Math.max(0.01, r.s1 - r.s0)); const e = u * u * (3 - 2 * u); if (u <= 0) return; if (u < 1) poly = clipHalf(poly, lerp(r._x0, r._x1, e)); }
-  if (poly.length < 3) return; const pts = poly.map(([x, z]) => view.project(x, stage.mh(x, z) + 0.6, z)); const H = view.rect.h; const col = r.color || [0.8, 0.12, 0.12];
-  g.save(); g.beginPath(); g.rect(view.rect.x, view.rect.y, view.rect.w, view.rect.h); g.clip();
-  g.beginPath(); pts.forEach((p, i) => (i ? g.lineTo(p.x, p.y) : g.moveTo(p.x, p.y))); g.closePath();
-  g.globalAlpha = a * (r.alpha ?? 0.32); g.fillStyle = rgbs(col); g.fill();
-  g.save(); g.clip(); g.globalAlpha = a * 0.34; g.strokeStyle = rgbs([col[0] * 0.5, col[1] * 0.5, col[2] * 0.5]); g.lineWidth = Math.max(1.2, H * 0.0028); const sp = H * 0.022; g.beginPath();
-  for (let k = -view.rect.h; k < view.rect.w + view.rect.h; k += sp) { g.moveTo(view.rect.x + k, view.rect.y); g.lineTo(view.rect.x + k - view.rect.h, view.rect.y + view.rect.h); } g.stroke(); g.restore();
-  g.beginPath(); pts.forEach((p, i) => (i ? g.lineTo(p.x, p.y) : g.moveTo(p.x, p.y))); g.closePath(); g.lineJoin = 'round';
-  g.globalAlpha = a * 0.95; g.lineWidth = Math.max(3, H * 0.0075); g.strokeStyle = 'rgba(34,14,8,0.9)'; g.stroke(); g.lineWidth = Math.max(1.6, H * 0.0032); g.strokeStyle = rgbs([Math.min(1, col[0] + 0.15), Math.min(1, col[1] + 0.2), Math.min(1, col[2] + 0.2)]); g.stroke();
-  g.restore();
+  if (poly.length < 3) return; const R = view.rect; const H = R.h; const col = r.color || [0.8, 0.12, 0.12];
+  const path = (c, pl) => { const pts = pl.map(([x, z]) => view.project(x, stage.mh(x, z) + 0.6, z)); c.beginPath(); pts.forEach((p, i) => (i ? c.lineTo(p.x - R.x, p.y - R.y) : c.moveTo(p.x - R.x, p.y - R.y))); c.closePath(); };
+  if (!drawRegion.cv) drawRegion.cv = document.createElement('canvas'); const cv = drawRegion.cv; if (cv.width !== Math.round(R.w) || cv.height !== Math.round(R.h)) { cv.width = Math.round(R.w); cv.height = Math.round(R.h); }
+  const c = cv.getContext('2d'); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, cv.width, cv.height); c.globalCompositeOperation = 'source-over'; c.lineJoin = 'round';
+  path(c, poly); c.globalAlpha = r.alpha ?? 0.32; c.fillStyle = rgbs(col); c.fill();
+  c.save(); path(c, poly); c.clip(); c.globalAlpha = 0.34; c.strokeStyle = rgbs([col[0] * 0.5, col[1] * 0.5, col[2] * 0.5]); c.lineWidth = Math.max(1.2, H * 0.0028); const sp = H * 0.022; c.beginPath();
+  for (let k = -R.h; k < R.w + R.h; k += sp) { c.moveTo(k, 0); c.lineTo(k - R.h, R.h); } c.stroke(); c.restore();
+  if (!r._holes.length) { path(c, poly); c.globalAlpha = 0.95; c.lineWidth = Math.max(3, H * 0.0075); c.strokeStyle = 'rgba(34,14,8,0.9)'; c.stroke(); c.lineWidth = Math.max(1.6, H * 0.0032); c.strokeStyle = rgbs([Math.min(1, col[0] + 0.15), Math.min(1, col[1] + 0.2), Math.min(1, col[2] + 0.2)]); c.stroke(); }
+  else { c.globalCompositeOperation = 'destination-out'; c.globalAlpha = 1; c.fillStyle = '#000'; for (const h of r._holes) { path(c, h); c.fill(); } }
+  g.save(); g.beginPath(); g.rect(R.x, R.y, R.w, R.h); g.clip(); g.globalAlpha = a; g.drawImage(cv, R.x, R.y); g.restore();
 }
 
 function numAt(n, t) { // value on the keyframes (ease out between keys)
