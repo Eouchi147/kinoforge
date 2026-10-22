@@ -44,27 +44,30 @@ SAFE_169 = (0.05, 0.95, 0.06, 0.90)  # title-safe for the 16:9 delivery
 
 # ------------------------------------------------------------------------------------------------ the yard
 SX = SY = 3.0
-DEPTH = 1.0
+DEPTH = 0.85
 RES = 0.022
-# strata top-down: (name, thickness m, sRGB, pebble density); clay top sits 0.22 m below the lawn
-STRATA = [('turf', 0.05, (0.20, 0.14, 0.09), 0.02), ('topsoil', 0.07, (0.31, 0.22, 0.14), 0.08),
-          ('loam', 0.10, (0.47, 0.35, 0.23), 0.18), ('clay', 0.34, (0.40, 0.40, 0.39), 0.01),
-          ('clay2', 0.16, (0.34, 0.35, 0.36), 0.03), ('deep', 1.0, (0.40, 0.34, 0.28), 0.25)]
-CLAY_S = 0.22                         # strata coordinate of the clay top
-H0 = 0.09                            # perched water above the clay at the start (m)
+# strata top-down: (name, thickness m, sRGB, pebble density); dark wet topsoil, then heavy grey-blue clay from 0.28 m down
+STRATA = [('turf', 0.05, (0.15, 0.10, 0.06), 0.02), ('topsoil', 0.10, (0.23, 0.15, 0.09), 0.08),
+          ('loam', 0.13, (0.40, 0.28, 0.18), 0.20), ('clay', 0.30, (0.35, 0.39, 0.44), 0.0),
+          ('clay2', 0.14, (0.29, 0.32, 0.36), 0.02), ('deep', 1.0, (0.36, 0.30, 0.24), 0.25)]
+CLAY_S = 0.28                         # strata coordinate of the clay top
+H0 = 0.10                             # perched water above the clay at the start (m)
 LAWN = 0.04                           # lawn height
-PUD_C = (0.05, 0.36)                  # puddle centre and radii (a shallow bowl in the lawn)
-PUD_R = (0.62, 0.38)
+PUD_C = (-0.30, 0.36)                 # puddle centre and radii (a low bowl in the lawn, downhill of the downspout)
+PUD_R = (0.66, 0.40)
 PUD_D = 0.065                         # bowl depth
 PUD_LEVEL = LAWN - PUD_D * 0.22       # water level in the bowl
 Y0 = -0.32                            # trench centre line (runs along x, from X_START to the +X cut face)
 TW = 0.26                             # trench width
-X_START = -0.95
-DTR = 0.40                            # trench floor depth (below z = 0)
+X_START = -1.18                       # the drain starts at the downspout
+DTR = 0.46                            # trench floor depth (below z = 0)
 BED = 0.06                            # gravel bed under the pipe
 PR = 0.055                            # pipe radius
-COVER_Z = -0.12                       # top of the gravel cover
-PATIO = (-SX / 2, -0.80, -SY / 2, -0.86)   # x0, x1, y0, y1
+COVER_Z = -0.15                       # top of the gravel cover
+HOUSE_X = -SX / 2 + 0.13              # the house wall's outer face (the house is off the block, beyond -X)
+HOUSE_Y1 = -0.16                      # the wall corner (downspout here)
+PATIO = (HOUSE_X, -0.78, -SY / 2, -0.84)   # x0, x1, y0, y1
+DOWNSPOUT = (HOUSE_X + 0.035, HOUSE_Y1 - 0.04)
 
 # ------------------------------------------------------------------------------------------------ timeline (s)
 T_OPEN = (6.55, 7.60)
@@ -103,9 +106,10 @@ def top_fn(x, y):
 
 def zones(x, y, h):
     x = np.asarray(x, float); y = np.asarray(y, float)
-    bed = np.maximum(cw.smooth(-SX / 2 + 0.34, -SX / 2 + 0.28, x) * (y > -0.70), cw.smooth(SY / 2 - 0.34, SY / 2 - 0.28, y))
+    bed = np.maximum(cw.smooth(-SX / 2 + 0.34, -SX / 2 + 0.28, x) * (y > HOUSE_Y1 + 0.05), cw.smooth(SY / 2 - 0.40, SY / 2 - 0.34, y))
+    house = (x < HOUSE_X + 0.01).astype(float)
     pat = ((x < PATIO[1] + 0.02) & (y < PATIO[3] + 0.02)).astype(float)
-    return {'path': np.maximum(bed, pat)}
+    return {'path': np.maximum(np.maximum(bed, pat), house)}
 
 # ================================================================================================ materials made here
 def mat_yard_strata(kit, layers, V):
@@ -126,12 +130,14 @@ def mat_yard_strata(kit, layers, V):
     fac = g.math('DIVIDE', s, total)
     col = g.ramp(fac, stops); pden = g.sep(g.ramp(fac, pstops, 'CONSTANT'))[0]
     n1 = g.noise(pos, 60.0, 5.0, 0.6); n2 = g.noise(g.comb(hz, g.math('MULTIPLY', sx[2], 6.0), 0.0), 3.0, 4.0)
-    col = g.mix(g.math('MULTIPLY', n1.outputs['Fac'], 0.40), col, g.mix(0.55, col, (0, 0, 0), 'MULTIPLY'))
+    col = g.mix(g.math('MULTIPLY', n1.outputs['Fac'], 0.55), col, g.mix(0.55, col, (0, 0, 0), 'MULTIPLY'))
     col = g.mix(g.math('MULTIPLY', n2.outputs['Fac'], 0.22), col, g.mix(0.5, col, (1, 1, 1), 'SCREEN'))
     # clay: smooth, dense, faint horizontal laminations (heavy grey clay reads as one mass)
     inclay = g.math('MULTIPLY', g.math('SUBTRACT', s, CLAY_S), 200.0, clamp=True)
     lam = g.noise(g.comb(g.math('MULTIPLY', hz, 0.6), g.math('MULTIPLY', sx[2], 40.0), 0.0), 2.0, 2.0)
-    col = g.mix(g.math('MULTIPLY', inclay, g.math('MULTIPLY', lam.outputs['Fac'], 0.25)), col, g.mix(0.5, col, (1, 1, 1), 'SCREEN'))
+    col = g.mix(g.math('MULTIPLY', inclay, g.math('MULTIPLY', lam.outputs['Fac'], 0.30)), col, g.mix(0.5, col, (0.75, 0.82, 0.90), 'SCREEN'))
+    lam2 = g.noise(g.comb(g.math('MULTIPLY', hz, 1.5), g.math('MULTIPLY', sx[2], 90.0), 0.0), 1.0, 3.0)
+    col = g.mix(g.math('MULTIPLY', inclay, g.math('MULTIPLY', lam2.outputs['Fac'], 0.35)), col, g.mix(0.6, col, (0, 0, 0), 'MULTIPLY'))
     vp = g.voronoi(pos, 34.0, 'F1'); rr = g.sep(vp.outputs['Color'])
     radius = g.math('MULTIPLY', g.math('MULTIPLY', pden, 0.42), g.math('MULTIPLY_ADD', rr[0], 0.8, 0.4))
     peb = g.math('MULTIPLY', g.math('SUBTRACT', radius, vp.outputs['Distance']), 25.0, clamp=True)
@@ -170,12 +176,20 @@ def mat_yard_strata(kit, layers, V):
     menisc = g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', s, stop)), 500.0), clamp=True),
                     g.math('MULTIPLY', hw, 200.0, clamp=True))
     col = g.mix(inb, col, wcol)
+    # droplets: small bright beads in and just above the water band
+    dv = g.voronoi(g.vmath('MULTIPLY', pos, (1.0, 1.0, 1.6)), 120.0, 'F1')
+    near = g.math('MULTIPLY', g.math('SUBTRACT', s, g.math('SUBTRACT', stop, 0.025)), 80.0, clamp=True)
+    bead = g.math('MULTIPLY', g.math('MULTIPLY', g.math('SUBTRACT', 0.16, dv.outputs['Distance']), 30.0, clamp=True),
+                  g.math('MULTIPLY', g.math('GREATER_THAN', g.sep(dv.outputs['Color'])[0], 0.55), g.math('MULTIPLY', near, above_clay)))
+    bead = g.math('MULTIPLY', bead, g.math('MULTIPLY', hw, 300.0, clamp=True))
+    col = g.mix(g.math('MULTIPLY', bead, 0.75), col, cw.srgb((0.85, 0.95, 1.0)))
     col = g.mix(g.math('MULTIPLY', menisc, 0.7), col, cw.srgb((0.78, 0.94, 1.0)))
     # wet soil above the water (dark after rain, drying in the sun)
     dark = g.math('MULTIPLY', g.math('MULTIPLY', WET, 0.38), g.math('SUBTRACT', 1.0, inclay))
     col = g.mix(dark, col, g.mix(1.0, col, cw.srgb((0.55, 0.52, 0.50)), 'MULTIPLY'))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col})
-    g.put(p, 'Roughness', g.math('SUBTRACT', 0.92, g.math('ADD', g.math('MULTIPLY', inb, 0.75), g.math('MULTIPLY', dark, 0.4))))
+    g.put(p, 'Roughness', g.math('SUBTRACT', 0.92, g.math('ADD', g.math('MULTIPLY', g.math('MAXIMUM', inb, bead), 0.80), g.math('MULTIPLY', dark, 0.45))))
+    g.put(p, 'Specular IOR Level', g.math('ADD', 0.5, g.math('MULTIPLY', g.math('MAXIMUM', inb, bead), 0.5)))
     h = g.math('ADD', g.math('MULTIPLY', n1.outputs['Fac'], 0.3), g.math('ADD', g.math('MULTIPLY', peb, 0.8), g.math('MULTIPLY', root, 0.4)))
     h = g.math('MULTIPLY', h, g.math('SUBTRACT', 1.0, g.math('MULTIPLY', inb, 0.8)))
     b = g.node('ShaderNodeBump', ins={'Strength': 0.45, 'Height': h, 'Distance': 0.006}); g.put(p, 'Normal', b)
@@ -406,7 +420,7 @@ class Spout:
 def build_fence(kit, L):
     """A plain board fence along the two back edges (-X from the patio to the corner, +Y full length)."""
     A = cw._Acc(); h = 0.22; e = 0.03
-    runs = [((-SX / 2 + e, -0.62), (-SX / 2 + e, SY / 2 - e)), ((-SX / 2 + e, SY / 2 - e), (SX / 2 - 0.012, SY / 2 - e))]
+    runs = [((-SX / 2 + e, HOUSE_Y1 + 0.02), (-SX / 2 + e, SY / 2 - e)), ((-SX / 2 + e, SY / 2 - e), (SX / 2 - 0.012, SY / 2 - e))]
     for (x0, y0), (x1, y1) in runs:
         Lr = math.hypot(x1 - x0, y1 - y0); dxu, dyu = (x1 - x0) / Lr, (y1 - y0) / Lr; nx_, ny_ = -dyu, dxu
         k = 0; s = 0.0; bw = 0.052
@@ -452,7 +466,7 @@ def build_shrubs(kit, L):
                 A.add(cw._lumpy(V0, 90 + b, 0.2, 3, 0.05, 6) * r + c, F0, 1)
         protos.append(A.build(bpy, f'shrub{k}', [leaf, bloom], True, None))
     pts = []; rng = np.random.default_rng(5)
-    for y in np.arange(-0.48, SY / 2 - 0.30, 0.25): pts.append((-SX / 2 + 0.17 + rng.normal(0, 0.02), y + rng.normal(0, 0.03)))
+    for y in np.arange(HOUSE_Y1 + 0.14, SY / 2 - 0.30, 0.25): pts.append((-SX / 2 + 0.17 + rng.normal(0, 0.02), y + rng.normal(0, 0.03)))
     for x in np.arange(-SX / 2 + 0.17, SX / 2 - 0.12, 0.25): pts.append((x + rng.normal(0, 0.03), SY / 2 - 0.17 + rng.normal(0, 0.02)))
     pts = np.array(pts)
     return cw.scatter(kit, L, 'shrubs', protos, pts, scale=rng.uniform(0.85, 1.25, len(pts)), sway=0.03, speed=0.6, sink=0.01)
@@ -467,6 +481,7 @@ def build_patio(kit, L):
     m1 = cw.mat_simple(kit, 'paver_a', (0.72, 0.70, 0.66), 0.8, noise_amt=0.10, bump=0.25)
     m2 = cw.mat_simple(kit, 'paver_b', (0.66, 0.64, 0.60), 0.8, noise_amt=0.10, bump=0.25)
     ob = A.build(kit.bpy, 'patio', [m1, m2], False, kit.coll)
+    pmats = [m1, m2]
     # a planter on the patio
     V0, F0 = cw._icosphere(2); B = cw._Acc()
     pv, pf = cw._tube([(0, 0, 0), (0, 0, 0.07)], [0.045, 0.055], 20); B.add(pv, pf, 0)
@@ -474,8 +489,106 @@ def build_patio(kit, L):
         rng = np.random.default_rng(70 + b); c = np.array([rng.normal(0, 0.025), rng.normal(0, 0.025), rng.uniform(0.09, 0.14)])
         B.add(cw._lumpy(V0, 70 + b, 0.25, 3, 0.1, 8) * 0.035 + c, F0, 1)
     pot = B.build(kit.bpy, 'planter', [cw.mat_simple(kit, 'terracotta', (0.66, 0.36, 0.22), 0.7, noise_amt=0.1), kit.bpy.data.materials['shrub_leaf']], True, kit.coll)
-    pot.location = (x0 + 0.20, y0 + 0.40, zt)
-    return ob
+    pot.location = (x0 + 0.12, y1 - 0.12, zt)
+    return [next(n for n in m.node_tree.nodes if n.bl_idname == 'ShaderNodeBsdfPrincipled') for m in pmats]
+
+
+def mat_puddle(kit, V):
+    """Puddle water: clear glass with a muddy tint, mirror-like, with rings from the last drops (fading by the fix)."""
+    m = cw._new_mat(kit.bpy, 'puddle'); g = cw.G(m.node_tree, kit)
+    tc = g.node('ShaderNodeTexCoord'); geo = g.node('ShaderNodeNewGeometry'); pos = tc.outputs['Object']; sx = g.sep(pos)
+    TM = g.value(0.0, 'time'); AMP = g.value(1.0, 'rain'); V['puddle_time'] = TM; V['puddle_rain'] = AMP
+    h = None; rng = np.random.default_rng(11)
+    for k in range(7):
+        cx = PUD_C[0] + rng.uniform(-0.45, 0.45) * PUD_R[0]; cy = PUD_C[1] + rng.uniform(-0.45, 0.45) * PUD_R[1]
+        per = rng.uniform(1.1, 1.9); off = rng.uniform(0, per)
+        age = g.math('MULTIPLY', g.math('FRACT', g.math('DIVIDE', g.math('ADD', TM, off), per)), per)
+        r = g.vmath('LENGTH', g.comb(g.math('SUBTRACT', sx[0], cx), g.math('SUBTRACT', sx[1], cy), 0.0))
+        dr = g.math('SUBTRACT', r, g.math('MULTIPLY', age, 0.16))
+        env = g.math('MULTIPLY', g.math('EXPONENT', g.math('MULTIPLY', g.math('MULTIPLY', dr, dr), -2500.0)),
+                     g.math('SUBTRACT', 1.0, g.math('DIVIDE', age, per)))
+        wv = g.math('MULTIPLY', g.math('SINE', g.math('MULTIPLY', dr, 260.0)), env)
+        h = wv if h is None else g.math('ADD', h, wv)
+    n = g.noise(g.comb(g.math('MULTIPLY', sx[0], 1.0), sx[1], g.math('MULTIPLY', TM, 0.05)), 14.0, 2.0)
+    h = g.math('ADD', g.math('MULTIPLY', h, AMP), g.math('MULTIPLY', n.outputs['Fac'], 0.08))
+    topmask = g.math('GREATER_THAN', g.sep(geo.outputs['Normal'])[2], 0.7)
+    bump = g.node('ShaderNodeBump', ins={'Strength': g.math('MULTIPLY', topmask, 0.5), 'Height': h, 'Distance': 0.004})
+    glass = g.node('ShaderNodeBsdfGlass', ins={'Color': (1, 1, 1), 'Roughness': 0.01, 'IOR': 1.33}); g.put(glass, 'Normal', bump)
+    tr = g.node('ShaderNodeBsdfTransparent'); lp = g.node('ShaderNodeLightPath'); mx = g.node('ShaderNodeMixShader')
+    g.link(lp.outputs['Is Shadow Ray'], mx.inputs[0]); g.link(glass, mx.inputs[1]); g.link(tr, mx.inputs[2])
+    vol = g.node('ShaderNodeVolumeAbsorption', ins={'Color': cw.srgb((0.62, 0.55, 0.38)), 'Density': 9.0})
+    cw._finish(g, mx, vol); return m
+
+def patch_grass_wet(kit, V):
+    """Darker, glossier grass near the puddle while the lawn is wet (instance location from Object Info)."""
+    m = kit.bpy.data.materials.get('cw_grass')
+    if m is None: print('note: cw_grass material not found; no wet grass', flush=True); return
+    nt = m.node_tree; p = next((n for n in nt.nodes if n.bl_idname == 'ShaderNodeBsdfPrincipled'), None)
+    if p is None or not p.inputs['Base Color'].is_linked: return
+    g = cw.G(nt, kit); src = p.inputs['Base Color'].links[0].from_socket
+    oi = g.node('ShaderNodeObjectInfo'); lo = g.sep(oi.outputs['Location'])
+    q = g.vmath('LENGTH', g.comb(g.math('DIVIDE', g.math('SUBTRACT', lo[0], PUD_C[0]), PUD_R[0] * 1.9), g.math('DIVIDE', g.math('SUBTRACT', lo[1], PUD_C[1]), PUD_R[1] * 1.9), 0.0))
+    WETG = g.value(1.0, 'wet'); V['grass_wet'] = WETG
+    w = g.math('MULTIPLY', g.math('ADD', g.math('MULTIPLY', g.math('SUBTRACT', 1.0, q), 1.6, clamp=True), 0.35), WETG)
+    w = g.math('MINIMUM', w, 1.0)
+    col = g.mix(g.math('MULTIPLY', w, 0.55), src, g.mix(1.0, src, cw.srgb((0.42, 0.50, 0.40)), 'MULTIPLY'))
+    g.link(col, p.inputs['Base Color'])
+    if not p.inputs['Roughness'].is_linked: g.put(p, 'Roughness', g.math('SUBTRACT', p.inputs['Roughness'].default_value, g.math('MULTIPLY', w, 0.35)))
+
+def mat_siding(kit):
+    m = cw._new_mat(kit.bpy, 'siding'); g = cw.G(m.node_tree, kit)
+    tc = g.node('ShaderNodeTexCoord'); sx = g.sep(tc.outputs['Object'])
+    z = g.math('FRACT', g.math('DIVIDE', sx[2], 0.034))
+    lap = g.math('MULTIPLY', g.math('SUBTRACT', 0.12, z), 12.0, clamp=True)
+    n = g.noise(tc.outputs['Object'], 30.0, 3.0)
+    c = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.2), cw.srgb((0.80, 0.80, 0.77)), cw.srgb((0.88, 0.88, 0.85)))
+    c = g.mix(g.math('MULTIPLY', lap, 0.55), c, cw.srgb((0.40, 0.40, 0.40)))
+    found = g.math('LESS_THAN', sx[2], LAWN + 0.06)
+    c = g.mix(found, c, g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.4), cw.srgb((0.52, 0.51, 0.49)), cw.srgb((0.62, 0.61, 0.58))))
+    p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': c, 'Roughness': 0.7})
+    b = g.node('ShaderNodeBump', ins={'Strength': 0.4, 'Height': g.math('MULTIPLY', z, g.math('SUBTRACT', 1.0, found)), 'Distance': 0.004}); g.put(p, 'Normal', b)
+    cw._finish(g, p); return m
+
+def build_house(kit, L):
+    """The house wall corner at the back-left: lap siding on a concrete foundation that goes down into the cut, a window,
+    a gutter, and the downspout at the corner dumping roof water onto the lawn (the cause)."""
+    bpy = kit.bpy; A = cw._Acc(); y0 = -SY / 2 - 0.0008; top = 0.64
+    v, f = cw._box(-SX / 2 + 0.001, y0, -0.42, HOUSE_X, HOUSE_Y1, top); A.add(v, f, 0)
+    v, f = cw._box(-SX / 2 + 0.001, y0, top, HOUSE_X + 0.07, HOUSE_Y1 + 0.05, top + 0.035); A.add(v, f, 1)      # eave
+    for wy0, wy1 in ((-1.18, -0.86), (-0.66, -0.40)):                                                         # windows
+        v, f = cw._box(HOUSE_X - 0.002, wy0 - 0.018, 0.27, HOUSE_X + 0.012, wy1 + 0.018, 0.52); A.add(v, f, 2)
+        v, f = cw._box(HOUSE_X + 0.006, wy0, 0.285, HOUSE_X + 0.014, wy1, 0.505); A.add(v, f, 3)
+    house = A.build(bpy, 'house', [mat_siding(kit), cw.mat_simple(kit, 'eave', (0.30, 0.30, 0.32), 0.6),
+                                   cw.mat_simple(kit, 'trim', (0.95, 0.95, 0.93), 0.5), cw.mat_simple(kit, 'glass', (0.10, 0.13, 0.16), 0.08)], False, kit.coll)
+    # gutter along the eave and the downspout down the corner with an elbow onto the lawn
+    gx, gy = DOWNSPOUT; B = cw._Acc(); r = 0.016
+    v, f = cw._tube([(HOUSE_X + 0.055, -SY / 2 + 0.002, top + 0.02), (HOUSE_X + 0.055, gy, top + 0.02)], [0.022, 0.022], 12); B.add(v, f)
+    v, f = cw._tube([(gx, gy, top + 0.02), (gx + 0.02, gy, top - 0.03), (gx, gy, top - 0.08)], [r, r, r], 10, False); B.add(v, f)
+    v, f = cw._tube([(gx, gy, top - 0.08), (gx, gy, LAWN + 0.07)], [r, r], 10, False); B.add(v, f)
+    v, f = cw._tube(cw.catmull([(gx, gy, LAWN + 0.07), (gx + 0.02, gy, LAWN + 0.035), (gx + 0.09, gy, LAWN + 0.03)], 8), np.full(8, r), 10); B.add(v, f)
+    for zz in (0.18, 0.45):
+        v, f = cw._box(HOUSE_X - 0.001, gy - 0.008, zz, gx, gy + 0.008, zz + 0.012); B.add(v, f)
+    B.build(bpy, 'downspout', [cw.mat_simple(kit, 'gutter', (0.92, 0.92, 0.90), 0.35)], True, kit.coll)
+    return house, (gx + 0.09, gy, LAWN + 0.03)
+
+def build_props(kit, L):
+    """For scale and life: a patio chair, a ball on the lawn, a flower bed along the front of the shrubs."""
+    bpy = kit.bpy; A = cw._Acc()
+    cx, cy, z = -1.05, -1.22, LAWN + 0.031
+    for dx in (-0.05, 0.05):
+        for dy in (-0.05, 0.05):
+            v, f = cw._box(cx + dx - 0.006, cy + dy - 0.006, z, cx + dx + 0.006, cy + dy + 0.006, z + 0.075); A.add(v, f)
+    v, f = cw._box(cx - 0.062, cy - 0.062, z + 0.075, cx + 0.062, cy + 0.062, z + 0.09); A.add(v, f)
+    v, f = cw._box(cx - 0.062, cy + 0.05, z + 0.09, cx + 0.062, cy + 0.064, z + 0.20); A.add(v, f)
+    chair = A.build(bpy, 'chair', [cw.mat_simple(kit, 'chair_wood', (0.52, 0.36, 0.24), 0.6, noise_amt=0.2)], False, kit.coll)
+    chair.rotation_euler = (0, 0, 0.0)
+    V0, F0 = cw._icosphere(3); ball = cw.mk_mesh(bpy, 'ball', V0 * 0.042, F0, [cw.mat_simple(kit, 'ball', (0.85, 0.20, 0.14), 0.35)], None, True, kit.coll)
+    ball.location = (0.95, 0.55, float(L.height(np.array([0.95]), np.array([0.55]))[0]) + 0.036)
+    # flower bed: blooms along the front edge of the shrub border
+    fl = cw.proto_flowers(kit, 4, 3); rng = np.random.default_rng(8); pts = []
+    for y in np.arange(HOUSE_Y1 + 0.2, SY / 2 - 0.45, 0.045): pts.append((-SX / 2 + 0.32 + rng.normal(0, 0.02), y + rng.normal(0, 0.01)))
+    for x in np.arange(-SX / 2 + 0.4, SX / 2 - 0.10, 0.045): pts.append((x + rng.normal(0, 0.01), SY / 2 - 0.36 + rng.normal(0, 0.02)))
+    cw.scatter(kit, L, 'flowerbed', fl, np.array(pts), scale=rng.uniform(1.3, 1.9, len(pts)), sway=0.15, speed=0.9)
 
 # ================================================================================================ words
 class Words:
@@ -654,14 +767,16 @@ def build(bpy, ctx, aspect):
     S['pwater'].ob.parent = pipe
     S['spout'] = Spout(kit, 'spout', (xB + 0.0012, yc, -DTR + BED + PR - PR * 0.86 * 0.55), mat_flow(kit, S['V'], 'spout', glass=True))
     # ---- puddle water: a small glass box over the bowl only (never near the trench)
-    m_w = cw.mat_water(kit, 'puddle_water', tint=(0.60, 0.58, 0.40), density=6.0, ripple=0.6)
+    m_w = mat_puddle(kit, S['V'])
     bx0, bx1 = PUD_C[0] - PUD_R[0] * 1.15, PUD_C[0] + PUD_R[0] * 1.15; by0, by1 = PUD_C[1] - PUD_R[1] * 1.15, PUD_C[1] + PUD_R[1] * 1.15
     assert by0 > yB + 0.05, 'puddle box must stay clear of the trench'
     zb_ = LAWN - PUD_D - 0.03
     Vb = [(bx0, by0, zb_), (bx1, by0, zb_), (bx1, by1, zb_), (bx0, by1, zb_), (bx0, by0, 0), (bx1, by0, 0), (bx1, by1, 0), (bx0, by1, 0)]
     S['puddle'] = cw.mk_mesh(bpy, 'puddle', Vb, [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)], [m_w], None, False, kit.coll)
     # ---- the yard around it
-    build_fence(kit, land); build_shrubs(kit, land); build_patio(kit, land)
+    build_fence(kit, land); build_shrubs(kit, land); S['patio_mats'] = build_patio(kit, land)
+    _, ds_out = build_house(kit, land); build_props(kit, land); patch_grass_wet(kit, S['V'])
+    S['downflow'] = Spout(kit, 'downflow', ds_out, mat_flow(kit, S['V'], 'downflow', glass=True))
     # ---- sky backdrop and light (overcast after the rain, then sun)
     wd = cw.mat_gradient_bg(kit, (0.46, 0.51, 0.57), (0.72, 0.75, 0.78), 1.0, (0.82, 0.86, 0.92), 1.2)
     S['ramp'] = next(n for n in wd.node_tree.nodes if n.bl_idname == 'ShaderNodeValToRGB')
@@ -670,10 +785,10 @@ def build(bpy, ctx, aspect):
     S['sun'] = cw._sun(kit, 25.0, 50.0, 0.8, 30.0, (0.90, 0.94, 1.0), 'sun')
     cw.cloud_shadows(kit, 0.22)
     # ---- camera
-    cam = cw.camera(kit, land, aspect, az=-44, el=33 if not v else 36, lens=55 if v else 50, fill=0.86 if not v else 0.92, top_extra=0.3)
+    cam = cw.camera(kit, land, aspect, az=-44, el=20 if not v else 22, lens=55 if v else 50, fill=0.80 if not v else 0.98, top_extra=0.62)
     cd = cam.ob.data
-    if v: cd.shift_y = 0.085
-    else: cd.shift_x = -0.15
+    if v: cd.shift_y = 0.16
+    else: cd.shift_x = -0.14; cd.shift_y = 0.0
     S['cam'] = cam; S['d0'] = cam.dist; S['t0'] = tuple(cam.target)
     # ---- words
     fonts = {'bold': bpy.data.fonts.load(os.path.join(HERE, 'fonts', 'InterTight-ExtraBold.ttf')),
@@ -689,7 +804,7 @@ def build(bpy, ctx, aspect):
         Wd.panel('cta_bg', X0, 0.372, X0 + 0.43, 0.418, CARD_IN + 0.32, 99, (0.16, 0.50, 0.25), 1.0, 0.5)
         Wd.text('cta', CTA, X0 + 0.215, 0.3825, 0.0235, CARD_IN + 0.32, 99, 'bold', shadow=False, align='CENTER')
     else:
-        X0, Y0w, SZ, MW = 0.065, 0.11, 0.088, 0.40
+        X0, Y0w, SZ, MW = 0.065, 0.10, 0.080, 0.40
         for key, body, a, b in WORDS: Wd.text(key, body, X0, Y0w, SZ, a, b, max_w=MW)
         Wd.panel('tag_bg', X0, 0.095, X0 + 0.078, 0.137, CARD_IN, 99, (0.0, 0.0, 0.0), 1.0, 0.5, alpha=0.38)
         Wd.text('tag', 'SAMPLE', X0 + 0.039, 0.1035, 0.026, CARD_IN, 99, 'semi', shadow=False, align='CENTER', spacing=1.25)
@@ -710,12 +825,12 @@ def build(bpy, ctx, aspect):
 
 # ================================================================================================ camera plan
 CAM = {  # per beat: (time, az, el, dist factor, target or None for the block centre)
-    '9:16': [(0.0, -46.0, 35.0, 1.00, None), (3.0, -43.0, 34.0, 0.95, None),
-             (6.5, -14.0, 13.0, 0.36, (SX / 2, Y0 + 0.05, -0.30)),
-             (11.5, -28.0, 24.0, 0.50, (0.95, -0.25, -0.28)), (15.0, -38.0, 33.0, 0.93, None)],
-    '16:9': [(0.0, -46.0, 33.0, 1.00, None), (3.0, -43.0, 32.0, 0.95, None),
-             (6.5, -14.0, 12.0, 0.40, (SX / 2, Y0 + 0.05, -0.27)),
-             (11.5, -28.0, 22.0, 0.54, (0.95, -0.25, -0.26)), (15.0, -38.0, 31.0, 0.93, None)],
+    '9:16': [(0.0, -44.0, 22.0, 1.00, None), (3.0, -42.0, 21.0, 0.93, None),
+             (6.5, -16.0, 11.0, 0.40, (SX / 2, Y0 + 0.05, -0.30)),
+             (11.5, -28.0, 18.0, 0.52, (0.85, -0.25, -0.26)), (15.0, -38.0, 23.0, 0.96, None)],
+    '16:9': [(0.0, -44.0, 20.0, 1.00, None), (3.0, -42.0, 19.0, 0.93, None),
+             (6.5, -16.0, 10.0, 0.44, (SX / 2, Y0 + 0.05, -0.27)),
+             (11.5, -28.0, 17.0, 0.56, (0.85, -0.25, -0.26)), (15.0, -38.0, 21.0, 0.96, None)],
 }
 
 def cam_pose(S, t):
@@ -765,6 +880,12 @@ def frame(bpy, ctx, S, i, t):
     pz = S['puddle'].data.vertices
     for k in range(4, 8): pz[k].co.z = lv
     S['puddle'].data.update(); S['puddle'].hide_render = t > T_PUDDLE[1] + 0.05
+    V['puddle_time'].default_value = t; V['puddle_rain'].default_value = 1 - ease(ramp(t, (4.5, 7.0)))
+    if 'grass_wet' in V: V['grass_wet'].default_value = 1 - ease(ramp(t, (9.6, 12.0)))
+    rain = 1 - ease(ramp(t, (4.0, 6.5)))
+    S['downflow'].set(0.20, max(0.011 * rain, 1e-4)); S['downflow'].ob.hide_render = rain < 0.05
+    if 'time_downflow' in V: V['time_downflow'].default_value = t
+    for pn in S['patio_mats']: pn.inputs['Roughness'].default_value = lerp(0.18, 0.8, ease(ramp(t, (9.6, 12.0))))
     # light: overcast after rain, then sun
     s = ease(ramp(t, T_SUN)); sun = S['sun'].data
     sun.energy = lerp(0.8, 3.6, s); sun.angle = math.radians(lerp(30.0, 4.0, s)); sun.color = lerp3((0.90, 0.94, 1.0), (1.0, 0.95, 0.86), s)

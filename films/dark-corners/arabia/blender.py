@@ -17,7 +17,7 @@ DURATION = 175.84
 SETTINGS = {'samples': 24, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast',
             'exposure': 0.0, 'max_bounces': 4, 'clamp_indirect': 6.0, 'film_transparent': True}
 FPS = 24
-SPP_CAP = 24      # the render workflow passes --samples 96 unless the queue overrides it; KF_ARABIA_SPP_CAP=0 lifts the cap
+SPP_CAP = 20      # the render workflow passes --samples 96 unless the queue overrides it; KF_ARABIA_SPP_CAP=0 lifts the cap
 
 def make_materials(bpy):
     M = {'sand': sandy(bpy, 'sand', (0.74, 0.58, 0.38), (0.66, 0.50, 0.33), (0.80, 0.64, 0.44), ripple=0.5)}

@@ -205,6 +205,7 @@ const moves = [
   { block: 'guard', at: 'l13.ran.+0.4', dur: 3.0, to: { z: 300, heading: 180 }, ease: 'in' },
   { blocks: wel, at: 'l13.ran.', dur: 4.0, by: { z: 46 }, ease: 'inOut' },
   { blocks: prs, at: 'l13.army', dur: 4.0, by: { x: -40, z: 30 }, ease: 'inOut' },
+  { blocks: [...fr, 'guard', 'napoleon'], at: 'l14', dur: 1.0, vanish: true },   // gone off the map: the field is empty under the Duke's words
 ];
 
 // ------------------------------------------------------------------ the film
@@ -260,8 +261,8 @@ export default {
           moves: [{ until: 'l05.Waterloo.>', to: { target: [0, -70], width: 500, yaw: 2 } }] },
         { at: 'l05.Most', why: 'low behind the French guns looking up the slope: the line steps back and drops out of sight', from: { target: [0, 10], dist: 224, pitch: 8, yaw: 0, mm: 35 },
           moves: [{ until: 'l05.guns.>', to: { dist: 204 } }] },
-        { at: 'l06', why: 'high over the valley: the two farms in front of the ridge, each with its garrison', from: { target: [-76, 2], width: 320, pitch: 50, yaw: 342, mm: 35 },
-          moves: [{ until: 'l06.middle.>', to: { target: [-46, 8], width: 296, yaw: 350 } }] },
+        { at: 'l06', why: 'high over the valley: the two farms in front of the ridge, each with its garrison', from: { target: [-104, 0], width: 320, pitch: 50, yaw: 342, mm: 35 },
+          moves: [{ until: 'l06.middle.>', to: { target: [-74, 6], width: 296, yaw: 350 } }] },
       ] },
     { id: 'S4', name: 'The lie in', at: 'l07', job: 'rain all night, and the Emperor waits until almost midday', set: { time: [0.1, 0.0], haze: [2.6, 1.05], cloud: [0.95, 0.25] },
       shots: [
@@ -276,8 +277,8 @@ export default {
           moves: [{ until: 'l08.it.>', to: { target: [-112, 44], width: 260 } }] },
         { at: 'l09', why: 'low behind the French columns as they climb at the centre of the ridge', from: { target: [0, 72], dist: 160, pitch: 12, yaw: 0, mm: 35 },
           moves: [{ until: 'l09.ridge.>', to: { target: [0, 40], dist: 150 } }] },
-        { at: 'l09.British', why: 'high from the flank: the British cavalry comes through the gap in its line and throws them back down the slope', from: { target: [-6, 20], width: 300, pitch: 54, yaw: 272, mm: 35 },
-          moves: [{ until: 'l09.slope,>', to: { target: [-6, 44] } }] },
+        { at: 'l09.British', why: 'high from the flank: the British cavalry comes through the gap in its line and throws them back down the slope', from: { target: [-10, 16], width: 300, pitch: 52, yaw: 100, mm: 35 },
+          moves: [{ until: 'l09.slope,>', to: { target: [-10, 36] } }] },
         { at: 'l09.and', why: 'cut wide on the punchline: the horsemen run on into the French guns', from: { target: [10, 60], width: 470, pitch: 62, yaw: 306, mm: 35 },
           moves: [{ until: 'l09.far.>', to: { width: 500 } }] },
       ] },
@@ -292,12 +293,12 @@ export default {
       ] },
     { id: 'S7', name: 'The Prussians come', at: 'l11', job: 'the Prussians arrive late but they arrive, and Napoleon plays his last card', set: { time: [0.3, 0.6], haze: 1.15, cloud: 0.25 },
       shots: [
-        { at: 'l11', why: 'change of place, far off to the east: the Prussians on the long road through the mud', from: { target: [330, -40], width: 430, pitch: 42, yaw: 296, mm: 35 },
-          moves: [{ until: 'l11.coming.>', to: { target: [290, 40] } }] },
-        { at: 'l12', why: 'evening, closer: they smash into the French flank, which wheels to face them', from: { target: [230, 120], width: 300, pitch: 46, yaw: 246, mm: 35 },
+        { at: 'l11', why: 'change of place, far off to the east: the Prussians on the long road through the mud', from: { target: [322, -40], width: 380, pitch: 42, yaw: 32, mm: 35 },
+          moves: [{ until: 'l11.coming.>', to: { target: [286, 40] } }] },
+        { at: 'l12', why: 'evening, closer: they smash into the French flank, which wheels to face them', from: { target: [232, 116], width: 300, pitch: 46, yaw: 340, mm: 35 },
           moves: [{ until: 'l12.side,>', to: { width: 280 } }] },
-        { at: 'l12.so', why: 'low behind Napoleon\'s last and best soldiers as they climb the road to the ridge', from: { target: [-6, 72], dist: 124, pitch: 24, yaw: 0, mm: 35 },
-          moves: [{ until: 'l13', to: { target: [-14, 34], dist: 118 } }] },
+        { at: 'l12.so', why: 'low behind Napoleon\'s last and best soldiers as they climb the road to the ridge', from: { target: [-8, 92], dist: 124, pitch: 24, yaw: 0, mm: 35 },
+          moves: [{ until: 'l13', to: { target: [-16, 44], dist: 118 } }] },
       ] },
     { id: 'S8', name: 'The turn', at: 'l13', climax: true, job: 'the decisive moment, wide then close, the rout, and what it cost', set: { time: [0.75, 0.95], haze: 1.2, cloud: 0.1 },
       shots: [
@@ -328,7 +329,7 @@ export default {
       { id: 'allies', team: 'rome', name: 'ALLIED ARMY', commander: 'Duke of Wellington', commanderAt: 'l03.Duke', banner: 'banner', at: 'l03.British', strength: 68000, strengthAt: 'l03.Wellington,' },
       { id: 'prussia', team: 'green', name: 'PRUSSIA', commander: 'Marshal Blücher', commanderAt: 'l03.Marshal', banner: 'banner', at: 'l03.Prussian', strength: 50000, strengthAt: 'l03.72' },
     ],
-    key: { show: [['l05.ridge', 'l11'], ['l12.Imperial', 'l13>']] },
+    key: { show: [['l05.ridge', 'l10.Wellington'], ['l12.Imperial', 'l13>']] },
     units: [
       { id: 'inf', kind: 'infantry', name: 'Infantry', teams: ['carthage', 'rome', 'green'], at: 'l05.army' },
       { id: 'art', kind: 'artillery', name: 'Artillery', team: 'carthage', at: 'l05.guns.' },
@@ -342,7 +343,7 @@ export default {
     ],
     focus: [
       { entry: 'art', at: 'l05.guns.', until: 'l06' }, { entry: 'hougoumont', at: 'l08.attacked', until: 'l08.it.>' }, { entry: 'cav', at: 'l09.cavalry', until: 'l09.far.>' },
-      { entry: 'cav', at: 'l10.horsemen', until: 'l10.ridge.>' }, { entry: 'inf', at: 'l10.squares', until: 'l10.bayonets.>' },
+      { entry: 'cav', at: 'l10.horsemen', until: 'l10.ridge.>' },
       { entry: 'prussia', at: 'l11.Meanwhile,', until: 'l12.side,>' }, { entry: 'allies', at: 'l13.rose', until: 'l13.fired.>' },
     ],
     scale: { unitM: 8, show: [['l04', 'l11']] },
