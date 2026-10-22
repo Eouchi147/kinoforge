@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Arabia re-direction rendered (rc-render run 39810673282, 175.8 s, -14.0 LUFS), checked on a 2 s contact sheet, copied to Sam's Mac (`-v2`). Kleidion, Arabia and Bamberg re-makes from Sam's notes are all done (Zong was not in his notes). Agincourt insert A rendered.
 - Waterloo, Thermopylae and Ain Jalut on Battle Map v2 rendered, given the final score (-14.2 LUFS each), checked on contact sheets and copied to Sam's Mac (`-v2`). Seven of eight battles done; Agincourt renders after its two Cutaway inserts.
 - Cinematic Cutaway done (`films/styles/cutaway/cinematic/`, board of five angles: map, ground, crane, macro, hero): golden-hour backlight, cool shade on the cut, museum spots on 10 buried surprises by depth (mole, chest, amphora, ammonite, T. rex in a dug-out pocket, trilobite, gold vein, geodes, hedgehog, well), river mist and valley fog (a full haze volume fogged the frame, so rays are light cards), animated animals. Cost 6 to 50 min per 1920 still on runners; motion test dispatched at 20 samples (24 parts).
 - Agincourt insert B fixed (front rank on the cut plane, legs sunk to the knee in section, mud rings, holes closing behind each step) and dispatched; Agincourt itself renders after both inserts are in `kino-films`.
