@@ -274,7 +274,7 @@ def build_sky(bpy, coll, S, W=(-14.0, 26.0)):
         ob = star_mesh(bpy, nm, pts, sm, coll, seg=8 if rhi > 0.003 else 6, glint=glint); ob.parent = sroot
         S['stars'].append(ob); S['stars_tw'].append(tw); S['stars_st'].append((st, strength))
     # two wings, the same card and stars turned to the sides, so the sky is there however the camera pans along the table
-    for nm, (ox, oy, rot) in (('wingL', (W[0] + SKY_Y, -21.0, 90.0)), ('wingR', (W[1] - SKY_Y, -9.0, -90.0))):
+    for nm, (ox, oy, rot) in (('wingL', (W[0] + SKY_Y, -17.5, 90.0)), ('wingR', (W[1] - SKY_Y, -5.5, -90.0))):
         er = bpy.data.objects.new('sky_' + nm, None); coll.objects.link(er); er.parent = sroot; er.location = (ox, oy, 0.0); er.rotation_euler = (0, 0, math.radians(rot))
         for src in [S['sky_obj']] + S['stars']:
             o = bpy.data.objects.new(src.name + '_' + nm, src.data); coll.objects.link(o); o.parent = er
