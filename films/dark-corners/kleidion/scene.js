@@ -35,6 +35,7 @@ function ensureSet(id) {
   // upload every painted texture now (not in the first frame of the shot)
   for (const p of S.planes) { const tx = p.material.uniforms.map.value; if (tx.image && tx.image.getContext) tx.image.getContext('2d').getImageData(0, 0, 1, 1); post.r.initTexture(tx); }
   if (new URLSearchParams(location.search).get('prof')) console.log(`set ${id}: ${(performance.now() - t0).toFixed(0)} ms, planes ${S.planes.length}, glows ${S.glows.length}`);
+  { const hide = (new URLSearchParams(location.search).get('hide') || '').split(','); for (const p of S.planes) if (hide.includes(p.userData.name)) p.visible = false; }
   insts.set(id, inst);
   if (insts.size > 3) { let old = null; for (const v of insts.values()) if (v.id !== id && (!old || v.used < old.used)) old = v; if (old) { old.S.dispose(); insts.delete(old.id); } }
   return inst;
@@ -55,8 +56,9 @@ await boot({
     applyCam(camera, camPose(sh, lt));
     const g = post.clearDetail(); const gg = post.clearGlow(); const og = post.clearOverlay();
     const world = new THREE.Vector3(), Kv = new THREE.Vector3();
-    const F = { t, lt, u, i, shot: sh, cam: camera, S: inst.S, g, post, lights: [], amb: [1, 1, 1], bloom: 0.5, hal: 0.25, fade: 1, flash: 0, W, H, SC,
+    const F = { q: Object.fromEntries(new URLSearchParams(location.search)), t, lt, u, i, shot: sh, cam: camera, S: inst.S, g, post, lights: [], amb: [1, 1, 1], bloom: 0.5, hal: 0.25, fade: 1, flash: 0, W, H, SC,
       glow: () => post.glowOn(),
+      W: (D, sx, sy) => { const v = new THREE.Vector3((sx / DW) * 2 - 1, -((sy / DH) * 2 - 1), 0.5).unproject(camera); v.sub(camera.position).normalize(); const k = (-D - camera.position.z) / v.z; return camera.position.clone().addScaledVector(v, k); },
       P: (D, x, y) => { inst.S.world(x, y, D, tv).project(camera); return [(tv.x * 0.5 + 0.5) * DW, (-tv.y * 0.5 + 0.5) * DH]; },
       K: (D, x = DW / 2, y = DH / 2) => { const a = inst.S.world(x, y, D, world).clone().project(camera), b = inst.S.world(x + 40, y, D, Kv).project(camera); return ((b.x - a.x) * 0.5 * DW) / 40; },
     };
@@ -76,7 +78,7 @@ await boot({
 // ---- type
 function capDraw(og, text, a) {
   const lines = wrap(og, text, 560, 'italic 400 34px "Cormorant Garamond"'); const y0 = 1008 - (lines.length - 1) * 21;
-  og.save(); const gr = og.createLinearGradient(0, 880, 0, 1160); gr.addColorStop(0, 'rgba(4,4,14,0)'); gr.addColorStop(1, `rgba(4,4,14,${0.42 * a})`); og.fillStyle = gr; og.fillRect(0, 880, DW, 280); og.restore();
+  og.save(); const gr = og.createLinearGradient(0, 880, 0, 1160); gr.addColorStop(0, 'rgba(4,4,14,0)'); gr.addColorStop(1, `rgba(4,4,14,${0.42 * a})`); og.fillStyle = gr; og.fillRect(0, 880, DW, 400); og.restore();
   lines.forEach((l, i) => drawText(og, l, { x: DW / 2, y: y0 + i * 42, font: 'italic 400 34px "Cormorant Garamond"', color: '#efe6d3', alpha: a, spacing: 0.5, shadow: 12, shadowColor: 'rgba(3,3,12,0.95)' }));
 }
 function wrap(g, text, maxW, font) { g.save(); g.font = font; const words = text.split(' '); const lines = []; let cur = ''; for (const w of words) { const t = cur ? cur + ' ' + w : w; if (g.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; } if (cur) lines.push(cur); g.restore(); return lines; }

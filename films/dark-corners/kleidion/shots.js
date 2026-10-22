@@ -8,15 +8,16 @@ export function buildShots(cues, duration) {
   const list = [];
   let t = 0;
   const C = (x = 0, y = 0, z = 0, pan = 0, tilt = 0, mm = 35, roll = 0) => ({ x, y, z, pan, tilt, mm, roll });
+  const look = (px, py, mm = 35, x = 0, y = 0, z = 0, roll = 0) => ({ x, y, z, pan: -Math.atan((px - 360) / 1866.7), tilt: -Math.atan((py - 640) / 1866.7), mm, roll });
   const S = (id, set, t1, o = {}) => { const sh = { id, set, t0: t, t1: t1 ?? duration, cam: [[0, C()]], ...o }; sh.dur = sh.t1 - sh.t0; t = sh.t1; list.push(sh); return sh; };
 
   // ---- the promise (0 to 18.6): the long road at dusk, the lanterns, the page
   S('o1a', 'road', 2.554, { mode: 'captives', cam: [[0, C(-6, 4, 0, 0.0, 0, 32)], [2.554, C(-2, 3, 0, 0, 0, 34)]], breath: 1 });
   S('o1b', 'road', 5.371, { mode: 'captives', cam: [[0, C(30, 2, 0, -0.02, -0.04, 46)], [2.817, C(42, 1, 0, -0.03, -0.06, 50)]], breath: 1 });
   S('o2a', 'road', 8.429, { mode: 'lanterns', groups: [{ u: 0.9, on: 5.9, seed: 1 }, { u: 0.72, on: 6.339, seed: 2 }, { u: 0.55, on: 6.525, seed: 3 }, { u: 0.36, on: 6.92, seed: 4 }, { u: 0.2, on: 7.477, seed: 5 }].map((g) => ({ ...g, dir: -1, v: 9, t: 5.371 - 5.371, n: 9 })), cam: [[0, C(0, 4, 0, 0.0, 0.0, 30)], [3.058, C(8, 6, 0, 0.0, 0.01, 33)]], breath: 1 });
-  S('o2b', 'march', 10.937, { mode: 'blind', cam: [[0, C(0, 0, 0, 0, 0, 35)], [2.5, C(2.2, 0, 0, 0, 0, 35)]], breath: 0.6 });
-  S('o3a', 'page', 12.19, { mode: 'sky', cam: [[0, C(0, 0, 0, 0, 0, 30)], [1.25, C(0, 0, 0, 0, 0, 33)]] });
-  S('o3b', 'page', 15.78, { mode: 'sky', cam: [[0, C(0, 0, 0, 0, 0, 33)], [3.59, C(0, 0, 0, 0, 0, 40)]] });
+  S('o2b', 'march', 10.937, { mode: 'blind', h: 430, T: 1.4, cam: [[0, C(0, 0, 0)], [2.508, C(1.78, 0, 0), 'linear']], breath: 0.3 });
+  S('o3a', 'page', 12.19, { cam: [[0, look(330, 300, 30)], [1.25, look(340, 330, 32)]] });
+  S('o3b', 'page', 15.78, { cam: [[0, look(360, 560, 33)], [3.59, look(360, 640, 38)]] });
   S('title', 'road', 18.646, { mode: 'title', dark: 0.62, groups: [{ u: 0.62, on: 15.9, seed: 1, dir: 1 }, { u: 0.4, on: 16.2, seed: 2, dir: 1 }, { u: 0.2, on: 16.5, seed: 3, dir: 1 }].map((g) => ({ ...g, v: 5, t: 15.78, n: 9 })), card: { t1: 0.5, t2: 1.4 }, cam: [[0, C(0, 5, 0, 0, 0, 30)], [2.866, C(0, 7, 0, 0, 0.02, 31)]], fadeIn: 0.5 });
   S('end', 'road', null, {});
   return list;

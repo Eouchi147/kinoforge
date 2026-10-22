@@ -289,16 +289,16 @@ def ellipsoid(bpy, name, rad, mat, coll, seg=32, rings=18, noise_amp=0.0, noise_
     """UV sphere scaled to semi-axes rad=(rx, ry, rz)."""
     return uv_sphere(bpy, name, 1.0, mat, coll, seg=seg, rings=rings, scale=rad, shape=shape, noise_amp=noise_amp, noise_freq=noise_freq, seed=seed)
 
-def text_mesh(bpy, name, text, size, mat, coll, extrude=0.01, bevel=0.002, align='CENTER', spacing=1.0, line_spacing=1.0, noise_amp=0.0):
+def text_mesh(bpy, name, text, size, mat, coll, extrude=0.01, bevel=0.002, align='CENTER', spacing=1.0, line_spacing=1.0, noise_amp=0.0, plane='XZ', valign='CENTER'):
     """Extruded clay letters (Blender's built-in font), converted to a mesh. Faces +Y... text lies in the XZ plane, front toward -Y."""
     cu = bpy.data.curves.new(name + '_c', 'FONT'); cu.body = text; cu.size = size; cu.extrude = extrude; cu.bevel_depth = bevel
-    cu.bevel_resolution = 2; cu.resolution_u = 4; cu.align_x = align; cu.align_y = 'CENTER'; cu.space_character = spacing; cu.space_line = line_spacing
+    cu.bevel_resolution = 2; cu.resolution_u = 4; cu.align_x = align; cu.align_y = valign; cu.space_character = spacing; cu.space_line = line_spacing
     ob = bpy.data.objects.new(name + '_tmp', cu); coll.objects.link(ob)
     dg = bpy.context.evaluated_depsgraph_get()
     me = bpy.data.meshes.new_from_object(ob.evaluated_get(dg))
     coll.objects.unlink(ob); bpy.data.objects.remove(ob); bpy.data.curves.remove(cu)
     # text is created in XY (front toward +Z): rotate so it stands up in XZ and reads from -Y
-    me.transform(__import__('mathutils').Matrix.Rotation(math.pi / 2, 4, 'X'))
+    if plane == 'XZ': me.transform(__import__('mathutils').Matrix.Rotation(math.pi / 2, 4, 'X'))
     me.polygons.foreach_set('use_smooth', [True] * len(me.polygons)); me.update()
     if mat is not None: me.materials.append(mat)
     o = bpy.data.objects.new(name, me); coll.objects.link(o)
@@ -349,3 +349,41 @@ def emissive(bpy, name, col, strength=4.0):
     e = N.new('ShaderNodeEmission'); e.inputs['Color'].default_value = srgb(col); e.inputs['Strength'].default_value = strength
     L.new(e.outputs['Emission'], out.inputs['Surface'])
     return m, e
+
+
+def sandy(bpy, name, col, col2, col3=None, rough=0.9, ripple=0.30, sss=0.1):
+    """Sand-clay: mottled colour (3 tones), thumb-pressed lumps, long wind-ripple bump lines, fine grain. Object coords = world."""
+    m, N, L, p, out = _mat(bpy, name)
+    tc = N.new('ShaderNodeTexCoord')
+    n1 = N.new('ShaderNodeTexNoise'); n1.inputs['Scale'].default_value = 34.0; n1.inputs['Detail'].default_value = 2.0; n1.inputs['Roughness'].default_value = 0.55
+    L.new(tc.outputs['Object'], n1.inputs['Vector'])
+    n3 = N.new('ShaderNodeTexNoise'); n3.inputs['Scale'].default_value = 420.0; n3.inputs['Detail'].default_value = 0.0
+    L.new(tc.outputs['Object'], n3.inputs['Vector'])
+    # wind ripples: bands along a direction, distorted by noise
+    mp = N.new('ShaderNodeMapping'); mp.inputs['Scale'].default_value = (1.0, 0.18, 1.0); mp.inputs['Rotation'].default_value = (0.0, 0.0, math.radians(-18))
+    L.new(tc.outputs['Object'], mp.inputs['Vector'])
+    wv = N.new('ShaderNodeTexWave'); wv.wave_type = 'BANDS'; wv.bands_direction = 'X'; wv.wave_profile = 'SAW'
+    wv.inputs['Scale'].default_value = 38.0; wv.inputs['Distortion'].default_value = 2.5; wv.inputs['Detail'].default_value = 1.0; wv.inputs['Detail Scale'].default_value = 1.2
+    L.new(mp.outputs['Vector'], wv.inputs['Vector'])
+    h1 = N.new('ShaderNodeMath'); h1.operation = 'MULTIPLY_ADD'; L.new(n3.outputs['Fac'], h1.inputs[0]); h1.inputs[1].default_value = 0.20; L.new(n1.outputs['Fac'], h1.inputs[2])
+    h2 = N.new('ShaderNodeMath'); h2.operation = 'MULTIPLY_ADD'; L.new(wv.outputs['Fac'], h2.inputs[0]); h2.inputs[1].default_value = ripple; L.new(h1.outputs['Value'], h2.inputs[2])
+    bp = N.new('ShaderNodeBump'); bp.inputs['Strength'].default_value = 0.22; bp.inputs['Distance'].default_value = 0.01
+    L.new(h2.outputs['Value'], bp.inputs['Height']); L.new(bp.outputs['Normal'], p.inputs['Normal'])
+    n4 = N.new('ShaderNodeTexNoise'); n4.inputs['Scale'].default_value = 2.2; n4.inputs['Detail'].default_value = 1.5
+    L.new(tc.outputs['Object'], n4.inputs['Vector'])
+    cr = N.new('ShaderNodeValToRGB'); cr.color_ramp.elements[0].position = 0.38; cr.color_ramp.elements[1].position = 0.64
+    cr.color_ramp.elements[0].color = srgb(col); cr.color_ramp.elements[1].color = srgb(col2)
+    L.new(n4.outputs['Fac'], cr.inputs['Fac'])
+    c_out = cr.outputs['Color']
+    if col3 is not None:
+        n5 = N.new('ShaderNodeTexNoise'); n5.inputs['Scale'].default_value = 9.0; n5.inputs['Detail'].default_value = 1.0
+        L.new(tc.outputs['Object'], n5.inputs['Vector'])
+        mr = N.new('ShaderNodeMapRange'); mr.inputs['From Min'].default_value = 0.52; mr.inputs['From Max'].default_value = 0.70; L.new(n5.outputs['Fac'], mr.inputs['Value'])
+        mx = N.new('ShaderNodeMix'); mx.data_type = 'RGBA'; L.new(c_out, sock(mx.inputs, 'A_Color')); sock(mx.inputs, 'B_Color').default_value = srgb(col3)
+        L.new(mr.outputs['Result'], sock(mx.inputs, 'Factor_Float')); c_out = sock(mx.outputs, 'Result_Color')
+    L.new(c_out, p.inputs['Base Color']); p.inputs['Roughness'].default_value = rough
+    p.inputs['Subsurface Weight'].default_value = sss; p.inputs['Subsurface Radius'].default_value = (1.0, 0.5, 0.4); p.inputs['Subsurface Scale'].default_value = 0.02
+    try: p.subsurface_method = 'BURLEY'
+    except Exception: pass
+    _camera_branch(N, L, p, out, {'Base Color': ('link', c_out), 'Roughness': rough})
+    return m

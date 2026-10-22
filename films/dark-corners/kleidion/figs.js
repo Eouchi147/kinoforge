@@ -29,7 +29,7 @@ export function footAt(ph, side, L, lift = 0.05) {
 export const STRIDE = 0.6;   // body travel per foot cycle, in figure heights (ph = distance / (STRIDE * h))
 export function person(g, o) {
   const h = o.h, face = o.face || 1, ph = o.ph || 0, walk = o.walk ?? 1; const L = STRIDE * (o.stride ?? 1);
-  const A = {}; g.save(); g.translate(o.x, o.y); g.scale(face * h, -h);
+  const A = {}; const M0 = g.getTransform(); g.save(); g.translate(o.x, o.y); g.scale(face * h, -h);
   const lw = (w) => Math.max(w, 1.1 / h);
   const f0 = footAt(ph, 0, L * walk), f1 = footAt(ph, 1, L * walk);
   const bob = 0.012 * walk * Math.cos(4 * Math.PI * ph + 0.6); const hip = [0.0, 0.5 + bob];
@@ -46,16 +46,18 @@ export function person(g, o) {
   leg(f0, dark, 0.07);
   // robe / cloak
   const hem = o.hem ?? 0.2, sway = 0.02 * Math.sin(2 * Math.PI * ph) * walk, tr = -0.04 * walk;
-  const body = [lc([0.05, 0.83]), lc([0.095, 0.68]), lc([0.115, 0.42]), lc([0.135 + (f0[0] > f1[0] ? f0[0] : f1[0]) * 0.18, hem + 0.015]), lc([0.05, hem - 0.015 + sway * 0.4]), lc([-0.05, hem - 0.005]),
-    lc([-0.15 + tr, hem + 0.02 + sway]), lc([-0.13 + tr * 0.5, 0.4]), lc([-0.1, 0.68]), lc([-0.065, 0.82])];
+  const body = [lc([0.045, 0.83]), lc([0.088, 0.69]), lc([0.1, 0.44]), lc([0.118 + (f0[0] > f1[0] ? f0[0] : f1[0]) * 0.18, hem + 0.015]), lc([0.05, hem - 0.015 + sway * 0.4]), lc([-0.05, hem - 0.005]),
+    lc([-0.13 + tr, hem + 0.02 + sway]), lc([-0.112 + tr * 0.5, 0.4]), lc([-0.088, 0.68]), lc([-0.06, 0.82])];
   const bp = smoothPath(body); g.fillStyle = rgba(col); g.fill(bp);
-  if (h > 90) { g.save(); g.clip(bp); const gr = g.createLinearGradient(-0.15, 0.85, 0.15, 0.2); gr.addColorStop(0, rgba(col2, 0.55)); gr.addColorStop(1, rgba(col, 0)); g.fillStyle = gr; g.fillRect(-0.3, 0, 0.6, 1); g.strokeStyle = rgba(dark, 0.45); g.lineWidth = 0.008;
-    for (let k = 0; k < 4; k++) { g.beginPath(); g.moveTo(lc([-0.07 + k * 0.05, 0.74])[0], 0.74); g.quadraticCurveTo(-0.08 + k * 0.05 + tr, 0.45, -0.1 + k * 0.06 + tr * 1.5, hem + 0.02); g.stroke(); } g.restore(); }
+  if (h > 90) { g.save(); g.clip(bp); const gr = g.createLinearGradient(-0.15, 0.85, 0.15, 0.2); gr.addColorStop(0, rgba(col2, 0.55)); gr.addColorStop(1, rgba(col, 0)); g.fillStyle = gr; g.fillRect(-0.3, 0, 0.6, 1); g.lineWidth = 0.011;
+    for (let k = 0; k < 3; k++) { const x0 = -0.04 + k * 0.05; g.strokeStyle = rgba(dark, 0.5); g.beginPath(); g.moveTo(x0, 0.72); g.quadraticCurveTo(x0 - 0.012 + tr, 0.44, x0 - 0.03 + tr * 1.5 + 0.01 * k, hem + 0.02); g.stroke(); g.strokeStyle = rgba(col2, 0.5); g.beginPath(); g.moveTo(x0 + 0.014, 0.72); g.quadraticCurveTo(x0 + 0.002 + tr, 0.44, x0 - 0.016 + tr * 1.5 + 0.01 * k, hem + 0.02); g.stroke(); } g.restore(); }
   if (o.cape) { const cp = smoothPath([lc([-0.04, 0.84]), lc([-0.17 + tr, 0.7]), lc([-0.22 + tr * 2, 0.3]), lc([-0.16 + tr * 2, hem - 0.03]), lc([-0.05, 0.4]), lc([0.02, 0.7])]); g.fillStyle = rgba(o.cape); g.fill(cp); }
   // head + hood
   const nk = lc([0.012, 0.86]); const hr = 0.064; const tilt = (o.head ?? -0.1 * walk) - lean * 0.3; const hc = [nk[0] + Math.sin(-tilt) * 0.0 + 0.012, nk[1] + 0.075];
   g.save(); g.translate(nk[0], nk[1]); g.rotate(-tilt); g.translate(-nk[0], -nk[1]);
-  if (o.hood !== false) { const hp = smoothPath([[nk[0] - 0.075, nk[1] - 0.01], [nk[0] - 0.1, nk[1] + 0.07], [nk[0] - 0.12 + tr * 0.5, nk[1] + 0.17], [nk[0] - 0.03, nk[1] + 0.2], [nk[0] + 0.05, nk[1] + 0.17], [nk[0] + 0.085, nk[1] + 0.1], [nk[0] + 0.07, nk[1] + 0.02], [nk[0] + 0.04, nk[1] - 0.02]]); g.fillStyle = rgba(col); g.fill(hp); }
+  let hoodPath = null;
+  if (o.hood !== false) { const hp = hoodPath = smoothPath([[nk[0] - 0.06, nk[1] - 0.012], [nk[0] - 0.085, nk[1] + 0.05], [nk[0] - 0.13 + tr * 0.8, nk[1] + 0.13], [nk[0] - 0.115 + tr, nk[1] + 0.17], [nk[0] - 0.02, nk[1] + 0.185], [nk[0] + 0.05, nk[1] + 0.15], [nk[0] + 0.08, nk[1] + 0.085], [nk[0] + 0.065, nk[1] + 0.02], [nk[0] + 0.035, nk[1] - 0.02]]); g.fillStyle = rgba(col); g.fill(hp);
+    if (h > 120) { g.fillStyle = rgba(dark, 0.9); g.beginPath(); g.ellipse(nk[0] + 0.045, nk[1] + 0.085, 0.034, 0.05, 0.1, 0, 7); g.fill(); } }
   else { g.fillStyle = rgba(o.skinCol || PAL.skin); g.beginPath(); g.ellipse(nk[0] + 0.01, nk[1] + 0.085, hr, hr * 1.12, 0, 0, 7); g.fill(); }
   if (o.crown) { g.fillStyle = rgba(PAL.gold); g.fillRect(nk[0] - 0.05, nk[1] + 0.14, 0.11, 0.028); for (let k = 0; k < 3; k++) { g.beginPath(); g.moveTo(nk[0] - 0.05 + k * 0.045, nk[1] + 0.168); g.lineTo(nk[0] - 0.03 + k * 0.045, nk[1] + 0.2); g.lineTo(nk[0] - 0.015 + k * 0.045, nk[1] + 0.168); g.fill(); } }
   g.restore();
@@ -71,6 +73,7 @@ export function person(g, o) {
   if (o.lantern) { const sw = 0.12 * Math.sin(2 * Math.PI * ph * 1 + 0.4) * walk * 0.6 + (o.lanternSway || 0); const px = hand[0] + Math.sin(sw) * 0.09, py = hand[1] - Math.cos(sw) * 0.09; g.strokeStyle = rgba(PAL.frame); g.lineWidth = lw(0.008);
     g.beginPath(); g.moveTo(hand[0], hand[1] - 0.01); g.lineTo(px, py + 0.02); g.stroke(); const on = o.lantern.on ?? 1; g.save(); g.translate(px, py - 0.025); g.rotate(-sw * 0.8);
     g.fillStyle = rgba(mixc(PAL.paperOff, PAL.paperLit, on)); g.beginPath(); g.ellipse(0, 0, 0.034, 0.047, 0, 0, 7); g.fill(); g.fillStyle = rgba(PAL.frame); g.fillRect(-0.03, 0.04, 0.06, 0.01); g.fillRect(-0.03, -0.05, 0.06, 0.01); g.restore(); lant = [px, py - 0.025]; }
+  if (o.warm && h > 60) { const all = new Path2D(); all.addPath(bp); if (hoodPath) all.addPath(hoodPath); g.save(); g.clip(all); g.setTransform(M0); const w = o.warm; const rg = g.createRadialGradient(w.x, w.y, 0, w.x, w.y, w.r); rg.addColorStop(0, rgba([255, 175, 95], w.a)); rg.addColorStop(1, rgba([255, 150, 80], 0)); g.fillStyle = rg; g.fillRect(w.x - w.r, w.y - w.r, w.r * 2, w.r * 2); g.restore(); }
   g.restore();
   const T = (p) => [o.x + face * p[0] * h, o.y - p[1] * h];
   return { shoulder: T(A.shoulder), head: T(A.head), lantern: lant ? T(lant) : null, hand: T(hand) };

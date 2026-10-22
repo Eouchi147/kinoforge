@@ -3,16 +3,22 @@ a clay moon, cut-card far dunes, lights. Metres, +Y away from the main camera, +
 import math
 import numpy as np
 from kit import *
+from kit import _mat, _light, _camera_branch
 
 # ----------------------------------------------------------------------------------------------- places (world coords)
-TENT1 = (1.30, 1.55)         # the old man's tent (open front, lamp inside)
-TENT2 = (2.50, 1.80)         # the woman's tent (closed, glowing cloth)
+TENT1 = (1.45, 1.60)         # the old man's tent (open front, lamp inside)
+TENT2 = (2.35, 1.78)         # the woman's tent (closed, glowing cloth)
 PADS = [  # (x, y, inner radius, outer radius): flattened clay where puppets and props stand
     (TENT1[0], TENT1[1], 0.30, 0.62), (TENT2[0], TENT2[1], 0.30, 0.62), (1.7, 0.85, 0.32, 0.66), (0.35, 0.85, 0.30, 0.6),
-    (-1.0, 2.3, 0.22, 0.5), (-2.1, 1.1, 0.35, 0.8), (0.0, 0.0, 0.35, 0.8), (0.9, 0.25, 0.35, 0.8),
+    (-1.7, 1.55, 0.35, 0.8), (-1.0, 2.3, 0.22, 0.5), (-2.1, 1.1, 0.35, 0.8), (0.0, 0.0, 0.35, 0.8), (0.9, 0.25, 0.35, 0.8),
 ]
 TRACK_PTS = [(-3.9, 3.05), (-3.0, 2.75), (-2.2, 2.55), (-1.4, 2.10), (-0.6, 2.05), (0.2, 1.65), (0.75, 1.15), (1.1, 0.95)]
 MECCA_X = 9.0
+CAMP = [(-3.25, 3.20), (-2.60, 3.10), (-1.95, 3.28), (-1.30, 3.14), (-0.65, 3.26), (0.00, 3.16)]
+PADS += [(x, y, 0.22, 0.45) for (x, y) in CAMP]
+# (x, y, half width, half depth, height, windows, door): the toy town of Mecca, fronts facing the camera
+MECCA_HOUSES = [(7.55, 2.50, 0.11, 0.09, 0.11, 1, False), (8.20, 2.62, 0.13, 0.10, 0.15, 2, False), (9.00, 2.50, 0.14, 0.11, 0.13, 1, True), (9.75, 2.64, 0.12, 0.10, 0.17, 2, False),
+                (10.45, 2.52, 0.12, 0.09, 0.12, 1, False), (8.00, 3.55, 0.13, 0.10, 0.18, 2, False), (8.95, 3.65, 0.14, 0.10, 0.14, 1, False), (9.90, 3.55, 0.13, 0.10, 0.19, 2, False)]
 
 def _sines(seed, n, kmin, kmax, amp0):
     rs = np.random.RandomState(seed); out = []
@@ -81,7 +87,7 @@ def apply_prints(X, Y, H):
         gx, gy = np.meshgrid(X[i0:i1 + 1], Y[j0:j1 + 1], indexing='ij')
         u = (gx - px) * tx + (gy - py) * ty; v = -(gx - px) * ty + (gy - py) * tx
         r2 = (u / a) ** 2 + (v / b) ** 2
-        dent = np.where(r2 < 1.0, (1 - r2) ** 1.5, 0.0) * -0.0042 + 0.0011 * np.exp(-((np.sqrt(r2) - 1.25) / 0.3) ** 2)
+        dent = np.clip(1 - r2, 0.0, None) ** 1.5 * -0.0042 + 0.0011 * np.exp(-((np.sqrt(r2) - 1.25) / 0.3) ** 2)
         H[i0:i1 + 1, j0:j1 + 1] += dent
 
 def grid_mesh(X, Y, H, cell_mask=None):
@@ -127,3 +133,114 @@ def build_terrain(bpy, mat, coll, region=(-4.2, 4.2, -1.5, 4.6), cs=0.024, fs=0.
         if prints: apply_prints(fx, fy, Hf)
         V, F = grid_mesh(fx, fy, Hf); objs.append(make_mesh(bpy, f'{name}_fine{k}', V, F, mat, coll))
     return objs
+
+
+# ----------------------------------------------------------------------------------------------- sky, stars, moon, far dunes
+def sky_material(bpy):
+    """Painted card sky (self-lit): night indigo gradient <-> dawn peach gradient (Value node 'dawn'), brush streaks."""
+    m, N, L, p, out = _mat(bpy, 'card_sky')
+    for n in list(N):
+        if n.type not in ('OUTPUT_MATERIAL',): N.remove(n)
+    out = N['Material Output']
+    tc = N.new('ShaderNodeTexCoord'); sep = N.new('ShaderNodeSeparateXYZ'); L.new(tc.outputs['Object'], sep.inputs['Vector'])
+    zr = N.new('ShaderNodeMapRange'); zr.inputs['From Min'].default_value = 0.10; zr.inputs['From Max'].default_value = 3.0; zr.clamp = True
+    zr.interpolation_type = 'SMOOTHSTEP'; L.new(sep.outputs['Z'], zr.inputs['Value'])
+    mp = N.new('ShaderNodeMapping'); mp.inputs['Scale'].default_value = (0.9, 6.0, 20.0); L.new(tc.outputs['Object'], mp.inputs['Vector'])
+    ns = N.new('ShaderNodeTexNoise'); ns.inputs['Scale'].default_value = 2.0; ns.inputs['Detail'].default_value = 3.0; ns.inputs['Roughness'].default_value = 0.55
+    L.new(mp.outputs['Vector'], ns.inputs['Vector'])
+    # gradient position perturbed by the brush noise
+    ad = N.new('ShaderNodeMath'); ad.operation = 'MULTIPLY_ADD'; L.new(ns.outputs['Fac'], ad.inputs[0]); ad.inputs[1].default_value = 0.22; L.new(zr.outputs['Result'], ad.inputs[2])
+    ad2 = N.new('ShaderNodeMath'); ad2.operation = 'SUBTRACT'; L.new(ad.outputs['Value'], ad2.inputs[0]); ad2.inputs[1].default_value = 0.11
+    def ramp(stops):
+        r = N.new('ShaderNodeValToRGB'); r.color_ramp.interpolation = 'EASE'
+        while len(r.color_ramp.elements) < len(stops): r.color_ramp.elements.new(0.5)
+        for i, (pos, c) in enumerate(stops): r.color_ramp.elements[i].position = pos; r.color_ramp.elements[i].color = srgb(c)
+        L.new(ad2.outputs['Value'], r.inputs['Fac']); return r
+    night = ramp([(0.0, (0.20, 0.28, 0.52)), (0.35, (0.11, 0.16, 0.38)), (1.0, (0.035, 0.05, 0.16))])
+    dawn = ramp([(0.0, (1.00, 0.66, 0.42)), (0.30, (0.88, 0.58, 0.58)), (0.65, (0.50, 0.46, 0.68)), (1.0, (0.16, 0.22, 0.46))])
+    dv = N.new('ShaderNodeValue'); dv.outputs[0].default_value = 0.0
+    mx = N.new('ShaderNodeMix'); mx.data_type = 'RGBA'
+    L.new(dv.outputs[0], sock(mx.inputs, 'Factor_Float')); L.new(night.outputs['Color'], sock(mx.inputs, 'A_Color')); L.new(dawn.outputs['Color'], sock(mx.inputs, 'B_Color'))
+    em = N.new('ShaderNodeEmission'); em.inputs['Strength'].default_value = 0.9; L.new(sock(mx.outputs, 'Result_Color'), em.inputs['Color'])
+    L.new(em.outputs['Emission'], out.inputs['Surface'])
+    return m, dv, em
+
+def radial_glow(bpy, name, col, strength, r_in, r_out):
+    """Soft painted halo: emission fading to transparent with distance from the object's centre (object coords, disc in XZ)."""
+    m, N, L, p, out = _mat(bpy, name)
+    for n in list(N):
+        if n.type != 'OUTPUT_MATERIAL': N.remove(n)
+    out = N['Material Output']
+    tc = N.new('ShaderNodeTexCoord'); vm = N.new('ShaderNodeVectorMath'); vm.operation = 'LENGTH'; L.new(tc.outputs['Object'], vm.inputs[0])
+    mr = N.new('ShaderNodeMapRange'); mr.inputs['From Min'].default_value = r_in; mr.inputs['From Max'].default_value = r_out; mr.inputs['To Min'].default_value = 1.0; mr.inputs['To Max'].default_value = 0.0
+    mr.interpolation_type = 'SMOOTHSTEP'; mr.clamp = True; L.new(vm.outputs['Value'], mr.inputs['Value'])
+    em = N.new('ShaderNodeEmission'); em.inputs['Color'].default_value = srgb(col); em.inputs['Strength'].default_value = strength
+    tr = N.new('ShaderNodeBsdfTransparent'); ms = N.new('ShaderNodeMixShader')
+    L.new(mr.outputs['Result'], ms.inputs['Fac']); L.new(tr.outputs['BSDF'], ms.inputs[1]); L.new(em.outputs['Emission'], ms.inputs[2]); L.new(ms.outputs['Shader'], out.inputs['Surface'])
+    return m, em
+
+def disc_mesh(r, seg=24, z=0.0):
+    V = [(0, 0, 0)] + [(r * math.cos(2 * math.pi * j / seg), 0.0, r * math.sin(2 * math.pi * j / seg)) for j in range(seg)]
+    F = [(0, 1 + j, 1 + (j + 1) % seg) for j in range(seg)]
+    return V, F
+
+def build_sky(bpy, coll, S, W=(-16.0, 18.0)):
+    from mathutils import Vector, noise
+    SKY_Y = 4.95
+    mat, dv, em = sky_material(bpy); S['sky_dawn_nodes'] = [dv]; S['sky_em'] = em
+    nx, nz = 80, 30; V, F = [], []
+    for j in range(nz + 1):
+        z = -0.3 + 6.8 * j / nz
+        for i in range(nx + 1):
+            x = W[0] + (W[1] - W[0]) * i / nx; V.append((x, SKY_Y + 0.05 * math.sin(x * 0.4) + 0.12 * z, z))
+    for j in range(nz):
+        for i in range(nx): a = j * (nx + 1) + i; F.append((a, a + 1, a + nx + 2, a + nx + 1))
+    S['sky_obj'] = mesh_obj(bpy, 'sky_card', V, [tuple(reversed(f)) for f in F], mat, coll)
+    # stars: pin-holes in the card, lit from behind
+    rs = np.random.RandomState(7); sm, se = emissive(bpy, 'pinholes', (1.0, 0.93, 0.78), 14.0)
+    Vs, Fs = [], []
+    for k in range(420):
+        x = rs.uniform(W[0] + 0.3, W[1] - 0.3); z = rs.uniform(0.55, 3.25) ** 1.0; r = rs.uniform(0.0016, 0.0042) * (1.7 if rs.rand() < 0.08 else 1.0)
+        y = SKY_Y + 0.05 * math.sin(x * 0.4) + 0.12 * z - 0.004; v, f = disc_mesh(r, 8)
+        b = len(Vs); Vs += [(vx + x, y, vz + z) for vx, _, vz in v]; Fs += [tuple(b + i for i in tri) for tri in f]
+    me = bpy.data.meshes.new('stars'); me.from_pydata(Vs, [], Fs); me.update(); me.materials.append(sm)
+    so = bpy.data.objects.new('stars', me); coll.objects.link(so); set_vis(so, False); S['stars'] = so; S['stars_em'] = se
+    return SKY_Y
+
+def build_moon(bpy, coll, S, pos=(-0.7, 4.80, 2.15), r=0.20):
+    # moon: pale card disc with painted maria + a soft halo painted on card
+    m, N, L, p, out = _mat(bpy, 'moon')
+    for n in list(N):
+        if n.type != 'OUTPUT_MATERIAL': N.remove(n)
+    out = N['Material Output']
+    tc = N.new('ShaderNodeTexCoord'); nz = N.new('ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 7.0; nz.inputs['Detail'].default_value = 4.0
+    vm = N.new('ShaderNodeVectorMath'); vm.operation = 'SCALE'; vm.inputs['Scale'].default_value = 1.0 / r
+    L.new(tc.outputs['Object'], vm.outputs and vm.inputs[0]); L.new(vm.outputs['Vector'], nz.inputs['Vector'])
+    cr = N.new('ShaderNodeValToRGB'); cr.color_ramp.elements[0].position = 0.42; cr.color_ramp.elements[1].position = 0.60
+    cr.color_ramp.elements[0].color = srgb((0.80, 0.78, 0.66)); cr.color_ramp.elements[1].color = srgb((1.0, 0.97, 0.84)); L.new(nz.outputs['Fac'], cr.inputs['Fac'])
+    em = N.new('ShaderNodeEmission'); em.inputs['Strength'].default_value = 2.6; L.new(cr.outputs['Color'], em.inputs['Color']); L.new(em.outputs['Emission'], out.inputs['Surface'])
+    v, f = disc_mesh(r, 64); mo = bpy.data.objects.new('moon', bpy.data.meshes.new('moon')); mo.data.from_pydata(v, [], f); mo.data.update(); mo.data.materials.append(m)
+    coll.objects.link(mo); mo.location = pos; set_vis(mo, False)
+    hm, hem = radial_glow(bpy, 'moon_halo', (0.62, 0.72, 1.0), 0.55, 0.0, r * 3.6)
+    v2, f2 = disc_mesh(r * 3.6, 64); ho = bpy.data.objects.new('moon_halo', bpy.data.meshes.new('moon_halo')); ho.data.from_pydata(v2, [], f2); ho.data.update(); ho.data.materials.append(hm)
+    coll.objects.link(ho); ho.location = (pos[0], pos[1] - 0.004, pos[2]); set_vis(ho, False)
+    S['moon'], S['moon_halo'], S['moon_em'], S['halo_em'] = mo, ho, em, hem
+
+def cut_dunes(bpy, coll, mat, name, y, x0, x1, base_z, amp, seed, thick=0.006):
+    """Cut-card dune silhouette: a flat card with a smooth ridge line on top (stands on the table, faces -Y)."""
+    rs = np.random.RandomState(seed); ph = rs.uniform(0, 6.28, 4); n = int((x1 - x0) / 0.04)
+    xs = np.linspace(x0, x1, n + 1)
+    top = base_z + amp * (0.55 + 0.30 * np.sin(xs * 0.75 + ph[0]) + 0.20 * np.sin(xs * 1.7 + ph[1]) + 0.10 * np.sin(xs * 3.3 + ph[2]))
+    V = [(x, y, -0.15) for x in xs] + [(x, y, z) for x, z in zip(xs, top)] + [(x, y + thick, -0.15) for x in xs] + [(x, y + thick, z) for x, z in zip(xs, top)]
+    k = n + 1; F = [(i, i + 1, k + i + 1, k + i) for i in range(n)] + [(2 * k + i + 1, 2 * k + i, 3 * k + i, 3 * k + i + 1) for i in range(n)]
+    F += [(k + i, k + i + 1, 3 * k + i + 1, 3 * k + i) for i in range(n)]    # top lip
+    return mesh_obj(bpy, name, V, F, mat, coll)
+
+def make_lights(bpy, coll, S):
+    S['moon_light'] = _light(bpy, coll, 'moon_light', 'SUN', (0, 0, 3), rot=(0, 0, 0), energy=1.0, size=math.radians(4.0), kelvin=9500)
+    S['fill'] = _light(bpy, coll, 'cam_fill', 'AREA', (0, -1, 1), (0, 0, 0), energy=10.0, size=0.5, kelvin=8000)
+    wd = bpy.data.worlds.new('night'); bpy.context.scene.world = wd
+    try: wd.use_nodes = True
+    except Exception: pass
+    bg = wd.node_tree.nodes.get('Background'); S['world_bg'] = bg
+    if bg is not None: bg.inputs['Color'].default_value = (0.05, 0.07, 0.16, 1.0); bg.inputs['Strength'].default_value = 0.5
