@@ -99,7 +99,7 @@ const emp = {
   ],
   markers: [
     { id: 'kar', at: 1.2, until: 'l00.Their', pos: KARAKORUM, glyph: 'town', team: BLUE, label: 'MONGOLIA', labelUntil: 'l00.Their', size: 0.06, ldy: 0.05 },
-    { id: 'pal', at: 'l00.Palestine', until: 'l02', pos: AINJ, glyph: 'plain', label: 'PALESTINE', labelUntil: 'l02', size: 0.05, ldy: 0.05 },
+    { id: 'pal', at: 'l00.Palestine', until: 'l02', pos: AINJ, glyph: 'plain', label: 'PALESTINE', labelUntil: 13.3, size: 0.05, ldy: 0.05 },
     { id: 'bag', at: 'l02.destroyed', until: 'l04', pos: BAGHDAD, glyph: 'town', team: BLUE, label: 'BAGHDAD, 1258', labelUntil: 'l03', size: 0.05, ldy: 0.05 },
     { id: 'dam', at: 'l02.Damascus.', until: 'l06', pos: DAMASCUS, glyph: 'town', team: BLUE, label: 'DAMASCUS', labelUntil: 'l03.sent', size: 0.05, ldx: 0.05, align: 'left', ldy: -0.01 },
     { id: 'cai', at: 'l03.Egypt,', until: 'l06', pos: CAIRO, glyph: 'town', team: RED, label: 'CAIRO', labelUntil: 'l03.rulers', size: 0.05, ldx: -0.05, align: 'right', ldy: -0.01 },

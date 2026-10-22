@@ -88,7 +88,7 @@ const lev = {
     { id: 'jer', at: 'l02.Jerusalem', until: 'l03', pos: JER, glyph: 'town', team: [0.74, 0.12, 0.12], label: 'JERUSALEM', labelUntil: 'l03', size: 0.06, ldx: 0.07, align: 'left', ldy: 0.0 },
     ...[['ANTIOCH', 103, -218], ['TRIPOLI', 84, -88], ['TYRE', 43, -1], ['ACRE', 35, 24]].map(([n, x, z], k) => ({ id: 'c' + k, at: `l02.string+${k * 0.3}`, until: 'l03', pos: [x, z], glyph: 'fort', team: [0.74, 0.12, 0.12], label: n, labelUntil: 'l03', size: 0.04, ldx: -0.05, align: 'right', ldy: 0.0 })),
     { id: 'jer2', at: 'l13', until: 'l13.Jerusalem.', pos: JER, glyph: 'town', team: [0.74, 0.12, 0.12], size: 0.06 },
-    { id: 'jer3', at: 'l13.Jerusalem.', until: 170, pos: JER, glyph: 'town', team: [0.15, 0.33, 0.74], label: 'JERUSALEM', labelUntil: 170, size: 0.06, ldx: 0.07, align: 'left', ldy: 0.0 },
+    { id: 'jer3', at: 'l13.Jerusalem.', until: 170, pos: JER, glyph: 'town', team: [0.15, 0.33, 0.74], label: 'JERUSALEM', labelUntil: 'l14', size: 0.06, ldx: 0.07, align: 'left', ldy: 0.0 },
     { id: 'acre2', at: 'l14', until: 170, pos: [35, 24], glyph: 'fort', team: [0.74, 0.12, 0.12], label: 'ACRE', labelUntil: 170, size: 0.045, ldx: -0.05, align: 'right', ldy: 0.0 },
     { id: 'hattin', at: 'l13', until: 170, pos: [70, 30], glyph: 'clash', label: 'HATTIN', labelUntil: 'l13.Jerusalem.', size: 0.04, ldy: 0.045 },
   ],
@@ -307,7 +307,7 @@ export default {
   dim: [{ at: 'l08', until: 'l09.In', alpha: 0.48, color: 'rgb(10,14,40)', fadeIn: 1.2, fadeOut: 1.4 }],
   arrows: [
     { at: 'l03.attacked', until: 'l03.Galilee.', ease: 'cam', team: 'carthage', width: 4, path: [[400, 180], [340, 190], [292, 150], [266, 104], [252, 70]], lift: 5, hide: 'l03.It' },
-    { at: 'l03.rescue', until: 'l03.it.>', ease: 'cam', team: 'rome', style: 'dash', width: 3, path: [[-186, 44], [-100, 38], [0, 34], [95, 33], [205, 36], [240, 36]], lift: 5, hide: 'l04.Even' },
+    { at: 'l03.rescue', until: 'l03>', ease: 'cam', team: 'rome', style: 'dash', width: 3, path: [[-186, 44], [-100, 38], [0, 34], [95, 33], [205, 36], [240, 36]], lift: 5, hide: 'l04.Even' },
     { at: 'l04.marched', until: 'l05.dry', ease: 'cam', team: 'rome', width: 5, path: [[-180, 44], [-110, 40], [-20, 36], [50, 35]], lift: 5, hide: 'l06' },
     { at: 'l06.long,', until: 'l06.rode', ease: 'cam', team: 'carthage', width: 3, style: 'dash', path: Array.from({ length: 14 }, (_, i) => { const a = (i / 13) * Math.PI * 1.9 - 0.2; return [HA_C[0] + Math.cos(a) * HA_R, HA_C[1] + Math.sin(a) * HA_R]; }), lift: 4, hide: 'l06.blocking' },
     { at: 'l07.see', until: 'l07.water,', ease: 'out', team: 'ink', style: 'dash', width: 1.8, path: [[112, 34], [190, 34], [262, 36]], lift: 6, hide: 'l08' },
@@ -331,7 +331,6 @@ export default {
     { at: 'l11.over.', until: 'l12', text: '4 JULY 1187', screen: [0.5, 0.86], big: true },
     { at: 'l12.Saladin', until: 'l12.cup', text: 'SALADIN', block: 'saladin', team: 'carthage', dx: 0.06, dy: -0.12 },
   ],
-  counters: [{ at: 'l05.20', until: 'l05.July.', block: 'crus', team: 'rome', from: 0, to: 20000, countDur: 1.1, step: 500, suffix: 'CRUSADERS', dy: -0.14 }],
   cards: [
     { at: 0, until: 0.8, fill: 'rgb(8,4,2)', fadeIn: 0.01, fadeOut: 1.0, lines: [] },
     { at: 'l01', until: 15.7, scrim: 0.82, scrimCenter: 'rgba(20,10,4,0.7)', fadeIn: 0.4, fadeOut: 0.8, lines: [
