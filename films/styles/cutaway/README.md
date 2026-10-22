@@ -62,7 +62,14 @@ those faces (run a river path past the edge, put a pond centre near the edge).
 | `under`, `corals`, `lilies`, `reeds` | underwater stones and weed (True), coral count (0), lily pad count (0), reeds 0..1 (0) |
 | `shore_rock` | 0..1 pale cracked rock shelf around the water (lagoon look) |
 | `keep_clear` | `[(x, y, r)]` no grass or trees there (for buildings) |
-| `sway`, `water_tint`, `water_density` | wind amount, water absorption colour and density |
+| `tree_scale` | multiplies every tree's size (1) |
+| `sway`, `water_tint`, `water_density`, `water_glow` | wind amount; water absorption colour and density; faint turquoise in-scatter glow (0.022; use 0 at dusk or night) |
+| `bed`, `caustics` | two sRGB tones of the sandy underwater floor; strength of the soft caustic bands on the floor (0.5; 0.2 at dusk) |
+
+Defaults are the reviewed ones (22 Oct board): calm water (soft wide caustics on the bed only, gentle low-frequency
+ripple normals, a thin bright meniscus where the surface meets the cut face), round and conifer trees (the `tall` poplar
+reads toy-like at large scale), sparse short underwater weed (dense weed reads as dirt through the glass).
+`keep_clear` circles remove grass blades, flowers, trees and boulders but keep the ground green (for buildings).
 
 `Land` fields and methods: `size`, `depth`, `level`, `pal`, `objects` (dict: `top`, `walls`, `water`, `cw_grass`, ...),
 `mats`, `height(x, y)`, `field(x, y)` (h, signed distance to water, zone weights, depth below the water),
@@ -82,9 +89,15 @@ to the block so it ends flush on the cut faces), `place(obj, x, y, dz)` (stand a
 - `cw.studio(kit, color, key_az, key_el, key, angle, fill, land, shadows)` seamless matte floor, soft key sun, fill; `shadows` > 0 adds drifting cloud shadows.
 - `cw.sky(kit, top, horizon, sun_az, sun_el, sun, clouds, mist, land)` floating-island sky: gradient, cloud cards, mist layers, cloud shadows.
 - `cw.dusk(kit, top, horizon, floor, sun_az, sun_el, sun, land)` dusk studio: blue-to-amber, low warm sun, cool fill.
-- `cw.birds(kit, n, center, radius, height)`; `cw.falling_stones(kit, land, n)`; `cw.cloud_shadows(kit, opacity)`.
-- `cw.camera(kit, land, aspect='16:9'|'9:16', az, el, lens, fill, target, dist)` returns a `Cam`: `pose(az, el, dist, target)`,
-  `orbit(t, deg_per_s, duration)`. Distance is computed so the block fills `fill` of the frame in either aspect.
+- `cw.birds(kit, n, center, radius, height)`; `cw.falling_stones(kit, land, n)`; `cw.hanging_roots(kit, land, n)` (floating block);
+  `cw.cloud_shadows(kit, opacity)` (drifting light).
+- `cw.camera(kit, land, aspect='16:9'|'9:16', az, el, lens, fill, target, dist, top_extra)` returns a `Cam`: `pose(az, el, dist, target)`,
+  `orbit(t, deg_per_s, duration)`. The block's bounding box (bottom to `top_extra` m above z=0, so trees fit) is framed
+  exactly at `fill` and centred, in either aspect. Defaults per aspect: 16:9 el 32 fill 0.86; 9:16 el 27 fill 0.93.
+- Harness glue: `scene.make(look, duration, move='orbit'|'push'|'none', samples, deg, fast, size)`; `fast=True` trims
+  bounces for motion renders; `size=(w, h)` overrides the harness resolution (mixed-aspect stills runs).
+- Helpers others may want: `cw.fbm`, `cw.vnoise`, `cw.cells` (numpy noise), `cw.smooth`, `cw.catmull`, `cw.mk_mesh`,
+  `cw.gn_set(modifier, socket_id, value)` (geometry-nodes inputs in Blender 5.x), `cw.mat_simple`, `cw.mat_rock`, `cw.mat_glow`.
 - `cw.render_settings(bpy, W, H, samples, look, exposure)` for stills; `cw.apply_cycles(bpy)` sets the bounce limits the kit expects.
 
 ### Time and loops
@@ -141,7 +154,7 @@ Everything is free (CPU Cycles on GitHub's free runners). Measured on 22 Oct 202
 | Motion test frame, 1280x720, 32 spp, `fast=True`, denoised | 4-core runner | about 20 to 70 s per frame (from job step times, which include about 60 s of setup per job; job logs are not readable from the chat machine) |
 | Same frame, 48 spp, full bounces | this 2-core chat box | 470 CPU-seconds (so roughly 2 min wall on a free 4-core runner) |
 | Board still 1280x720, 64 spp | 4-core runner | about 1.5 to 6 min per job including setup (dusk is the fastest, the sky look the slowest) |
-| Board still 1920x1080, 128 spp | 4-core runner | about 5 to 12 min per still |
+| Board still 1920x1080, 128 spp | 4-core runner | A studio and B sky: about 7 min each; C lagoon (large glass area) and D dusk (many small lights): about 20 min each |
 | Preview 480x270, 12 spp | this 2-core box (shared) | 60 to 100 s wall |
 
 The 8 s motion test (192 frames) on `films.yml` with 24 parts is 8 frames per part: about 3 to 10 minutes per part.

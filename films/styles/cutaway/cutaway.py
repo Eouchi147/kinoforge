@@ -539,7 +539,7 @@ class Land:
     pass
 
 def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, seed=1, season='summer', zones=None,
-          res=0.022, grass=1.0, grass_height=1.0, trees=10, tree_kinds=('round', 'round', 'cone', 'tall'), tree_scale=1.0, boulders=12,
+          res=0.022, grass=1.0, grass_height=1.0, trees=10, tree_kinds=('round', 'round', 'cone'), tree_scale=1.0, boulders=12,
           flowers=0.5, under=True, lilies=0, reeds=0.0, corals=0, shore_rock=0.0, keep_clear=(), tree_spots=None,
           sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.6, water_glow=0.022, bed=((0.80, 0.74, 0.58), (0.70, 0.65, 0.52)), caustics=0.5, bottom=None, name='cw_block'):
     """Build the block. Returns a Land.
@@ -1247,10 +1247,14 @@ class Cam:
             self.pose(base + deg_per_s * duration * e, el, dist)
         else: self.pose(base + deg_per_s * t, el, dist)
 
-def camera(kit, land=None, aspect='16:9', az=-40.0, el=32.0, lens=60.0, fill=0.86, target=None, dist=None, top_extra=0.45, bottom_extra=0.0, name='cw_cam'):
-    """High three-quarter product camera. aspect '16:9' or '9:16' (or a float w/h). fill = fraction of the frame the block
+def camera(kit, land=None, aspect='16:9', az=-40.0, el=None, lens=60.0, fill=None, target=None, dist=None, top_extra=0.45, bottom_extra=0.0, name='cw_cam'):
+    """High three-quarter product camera. aspect '16:9' or '9:16' (or a float w/h); el and fill default per aspect
+    (16:9: el 32, fill 0.86; 9:16: el 27, fill 0.93). fill = fraction of the frame the block
     spans (its bounding box from bottom to top_extra above z=0, so trees fit); the target is re-centred and dist computed
     to fit unless given. Sets scene.camera and the render resolution aspect is the caller's."""
+    vert = aspect == '9:16' or (not isinstance(aspect, str) and float(aspect) < 1)
+    el = (27.0 if vert else 32.0) if el is None else el            # 9:16: lower and closer, so the cut face is big
+    fill = (0.93 if vert else 0.86) if fill is None else fill
     bpy = kit.bpy; cd = bpy.data.cameras.new(name); cd.lens = lens; cd.sensor_width = 36.0; cd.sensor_fit = 'AUTO'
     cd.clip_start = 0.05; cd.clip_end = 200
     ob = bpy.data.objects.new(name, cd); kit.coll.objects.link(ob); bpy.context.scene.camera = ob
