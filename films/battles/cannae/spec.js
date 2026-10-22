@@ -60,7 +60,7 @@ const med = {
   },
   moves: [
     { block: 'hanIT', at: 'l15.So', dur: 0.8, appear: true },
-    { group: 'newRome', at: 'l15.raised', dur: 0.9, stagger: 0.25, appear: true },
+    { group: 'newRome', at: 'l15.refused', dur: 0.9, stagger: 0.3, appear: true },
     { group: 'newRome', at: 'l15.kept', dur: 4, by: { x: 16, z: 6 }, ease: 'inOut' },
     { blocks: ['scipio', 'hanAF', 'scipCavN', 'scipCavS'], at: 'l16.beat', dur: 0.8, stagger: 0.15, appear: true },
     { blocks: ['scipio', 'hanAF'], at: 'l16.He', dur: 1.6, by: { x: 0 } },

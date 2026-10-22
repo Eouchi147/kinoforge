@@ -28,8 +28,21 @@ Humour stays in the narration and the timing: the command star hops between the 
 Living world in every wide shot: drifting cloud shadows, wind gusts sweeping the grass, river glints moving downstream, two camps
 (tents, palisade, fires with smoke, people walking), travellers on the roads, three flocks of birds, banners in the wind, army dust.
 
-## Measured
-See the bottom of this file (filled after each measurement run).
+## Measured (22 Oct, 2 core sandbox shared with other builders, SwiftShader, 1280x720, `harness/render.cjs --jpg`)
+
+| stretch | content | wall s/frame | load |
+| --- | --- | --- | --- |
+| 0 to 5 s | low opening, 12 legions rising, MSAA on | 5.4 | 9.2 |
+| 75 to 80 s | charge (low) then high angle, legend and key | 4.8 | 13.1 |
+| 112 to 117 s | low and close inside the press, MSAA on | 8.4 | 9.3 |
+| 127 to 132 s | dissolve to the Mediterranean, full-screen inset | 2.6 | 5.7 |
+
+Same-load comparison with v1 (`tools/bench.sh`, v1 worktree then v2, frames 1900, 2470, 2700): v2 is 1.15 to 1.2 x v1 on the battle
+frames and about 2 x on the climax orbit (before MSAA was cut to the two low shots and the front dust was capped). v1 measured about
+1.0 s/frame on a quiet box, so the estimate for a quiet 4 core runner is about 1.2 s/frame typical and 1.5 to 2 s on the two MSAA shots
+(about 270 frames). Profiled engine work (`prof=1`): update 15 to 45 ms, render 50 to 100 ms; the rest of the wall time is SwiftShader
+rasterising plus the frame readback. Full film estimate on a 4 core runner: 3,783 frames at about 1.3 s = about 80 min. If that is
+too slow: drop `msaaOn` entirely (-0.4 s on 270 frames), or set `figures: { dust: 0.5 }`.
 
 ## Known weak spots
 - The sandbox is shared (load 6 to 10 on 2 cores), so wall time per frame is noisy; the engine's own work is profiled separately.
