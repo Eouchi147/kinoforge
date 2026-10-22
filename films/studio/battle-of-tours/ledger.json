@@ -1,9 +1,11 @@
 {
  "cap": 0.9,
- "total": 0.18106,
+ "total": 0.36178,
  "by_seat": {
   "head": 0.15089,
-  "deputy": 0.03017
+  "deputy": 0.03017,
+  "music": 0.08,
+  "voice": 0.10072
  },
  "calls": [
   {
@@ -41,6 +43,105 @@
    "s": 18.0,
    "ok": true,
    "note": null
+  },
+  {
+   "seat": "music",
+   "model": "google/lyria-3-pro-preview",
+   "task": "music",
+   "usd": 0.08,
+   "s": 24.2,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 0",
+   "usd": 0.0132,
+   "s": 4.7,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 1",
+   "usd": 0.0016,
+   "s": 3.0,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 2",
+   "usd": 0.0124,
+   "s": 3.2,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 3",
+   "usd": 0.0068,
+   "s": 2.6,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 4",
+   "usd": 0.01208,
+   "s": 3.3,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 5",
+   "usd": 0.01112,
+   "s": 3.9,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 6",
+   "usd": 0.01432,
+   "s": 3.8,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 7",
+   "usd": 0.00912,
+   "s": 3.0,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 8",
+   "usd": 0.01008,
+   "s": 2.8,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 9",
+   "usd": 0.01,
+   "s": 2.1,
+   "ok": true,
+   "note": "estimated from characters"
   }
  ]
 }

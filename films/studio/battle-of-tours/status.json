@@ -3,12 +3,14 @@
  "title": "The Battle of Tours",
  "line": "battle-map",
  "stage": "sound",
- "state": "running",
- "message": "Recording the narration and the score.",
- "usd": 0.1811,
+ "state": "done",
+ "message": "10 lines on the score, 100.4 s, voice elevenlabs/eleven-v4|brian.",
+ "usd": 0.3618,
  "cap_usd": 0.9,
  "outputs": {
-  "script": "films/studio/battle-of-tours/script.json"
+  "script": "films/studio/battle-of-tours/script.json",
+  "audio": "films/studio/battle-of-tours/audio/mix.m4a",
+  "duration": 100.386
  },
  "stages": {
   "script": {
@@ -18,12 +20,13 @@
    "ended_at": "2026-10-22T13:11:58Z"
   },
   "sound": {
-   "state": "running",
+   "state": "done",
    "started_at": "2026-10-22T13:12:00Z",
-   "usd": 0.1811
+   "usd": 0.3618,
+   "ended_at": "2026-10-22T13:13:24Z"
   }
  },
  "approved_at": "2026-10-22T13:15:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39784277702",
- "updated_at": "2026-10-22T13:12:00Z"
+ "updated_at": "2026-10-22T13:13:24Z"
 }
