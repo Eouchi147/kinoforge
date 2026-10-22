@@ -8,3 +8,8 @@ out/
 __pycache__/
 .venv/
 .DS_Store
+
+# director check output for hand-made films (stills, reports), not kept
+films/battles/*/check/
+films/dark-corners/*/check/
+films/cutaway/**/check/

@@ -313,6 +313,8 @@ def mat_legs(kit, name, base, metallic, mud_from=-0.030):
     m, g = _mat(kit, name); tc = g.node('ShaderNodeTexCoord'); z = g.sep(tc.outputs['Object'])[2]
     n = g.noise(tc.outputs['Object'], 90.0, 3.0)
     f = g.math('MULTIPLY', g.math('SUBTRACT', g.math('ADD', mud_from, g.math('MULTIPLY', n.outputs['Fac'], 0.012)), z), 120.0, clamp=True)
+    sm = g.noise(g.comb(g.math('MULTIPLY', g.sep(tc.outputs['Object'])[0], 3.0), g.sep(tc.outputs['Object'])[1], g.math('MULTIPLY', z, 0.4)), 140.0, 2.0)
+    f = g.math('MULTIPLY', f, g.math('MULTIPLY', g.math('SUBTRACT', sm.outputs['Fac'], 0.32), 2.2, clamp=True))   # streaks: steel shows through
     clean = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': cw.srgb(base), 'Roughness': 0.32 if metallic else 0.8, 'Metallic': metallic})
     dirty = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': cw.srgb((0.13, 0.09, 0.06)), 'Roughness': 0.28})
     mx = g.node('ShaderNodeMixShader'); g.link(f, mx.inputs[0]); g.link(clean, mx.inputs[1]); g.link(dirty, mx.inputs[2]); _out(g, mx)

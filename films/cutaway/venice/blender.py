@@ -152,11 +152,11 @@ def plan():
         labels=[('stop', 'PUMPING STOPPED', stop + 0.3, E('l12', 0.9), (-330, 200), (-1.18, -1.95, 0.03))])
     # 6. High water ----------------------------------------------------------------------------------------------------
     fl0 = S('l13', 0.5)
-    flood = lambda t, a=fl0: 0.042 * ease((t - a) / 3.5)
+    flood = lambda t, a=fl0: 0.05 * ease((t - a) / 3.5)
     add('city', W('l13', 'squares', 0.45), K(-32, 34, 6.2, (-0.5, 0.35, -0.05), 50), K(-28, 33, 5.8, (-0.5, 0.35, -0.05), 50), env='grey',
         why='change of place and time: today, a high tide; the sea pours into the campo', city={'flood': flood})
-    add('city', C('l13', 0.9), K(-62, 7, 0.30, (-0.56, 0.40, 0.0), 32), K(-54, 7, 0.29, (-0.56, 0.40, 0.0), 32), env='grey',
-        why='low and close for people: walking to work on the raised walkways', city={'flood': 0.042, 'walkways': True})
+    add('city', C('l13', 0.9), K(-64, 11, 0.62, (-0.56, 0.40, 0.0), 35), K(-56, 11, 0.60, (-0.56, 0.40, 0.0), 35), env='grey',
+        why='low and close for people: walking to work on the raised walkways', city={'flood': 0.05, 'walkways': True})
     # 7. The wall under the sea ---------------------------------------------------------------------------------------
     add('inlet', W('l14', 'lagoon', 0.4), K(-40, 32, 12.6, (0.0, -0.4, -0.40), 50), K(-46, 30, 11.8, (0.0, -0.6, -0.40), 50), env='grey',
         why='change of place: an opening of the lagoon; the gates lie on the seabed',
@@ -287,9 +287,9 @@ def frame(bpy, ctx, S, i, t):
     if 'counter' in p:
         t0, t1, tm = p['counter']; a = ov.fade(t, t0, t1)
         n = int(1_000_000 * ease((t - t0) / max(0.1, tm - t0)) ** 0.8); body = f'{n:,}' + ('+' if t >= tm else '')
-        G['count'].set_text(body); G['count'].set_alpha(a); G['count'].place_text(560 * r, 300 * r)
-        G['countcap'].set_alpha(a); G['countcap'].place_text(560 * r, 246 * r)
-        G['countpl'].set_alpha(a * 0.9); G['countpl'].pill_shape(380 * r, 214 * r, 740 * r, 350 * r, 18 * r)
+        G['count'].set_text(body); G['count'].set_alpha(a); G['count'].place_text(600 * r, 410 * r)
+        G['countcap'].set_alpha(a); G['countcap'].place_text(600 * r, 356 * r)
+        G['countpl'].set_alpha(a * 0.9); G['countpl'].pill_shape(420 * r, 324 * r, 780 * r, 460 * r, 18 * r)
     if 'caption' in p:
         body, t0, t1 = p['caption']; a = ov.fade(t, t0, t1)
         G['caption'].set_alpha(a); G['caption'].place_text(-860 * r, 440 * r)

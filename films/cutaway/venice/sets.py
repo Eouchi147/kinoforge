@@ -235,9 +235,13 @@ def build_city(kit, M, lamps):
     cw.birds(kit, 4, center=(0.2, 0.3), radius=2.0, height=1.0, seed=12, size=0.035, color=(0.92, 0.92, 0.94))
     water_ob = land.objects['water']; base = np.array([v.co[:] for v in water_ob.data.vertices])
     S.data['water_base'] = base
+    top_level = vsock(land.objects['top'].data.materials[0], 'level')
+    absorb = [n for n in water_ob.data.materials[0].node_tree.nodes if n.type == 'VOLUME_ABSORPTION'][0].inputs['Density']; dens0 = absorb.default_value
 
     def set_level(dz):
         V = base.copy(); V[4:, 2] = LV + dz; water_ob.data.vertices.foreach_set('co', V.astype(np.float32).reshape(-1)); water_ob.data.update()
+        # the paving under a flood reads as under water: wet edge, caustics; and the shallow water takes more colour
+        top_level.default_value = LV + dz; absorb.default_value = dens0 + 9.0 * min(1.0, dz / 0.03)
 
     def update(t, shot):
         st = shot.get('city', {})
