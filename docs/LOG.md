@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Kleidion re-direction rendered (rc-render run 39797513657, 169.04 s) and checked on a 2 s contact sheet; on Sam's Mac as `kino-films/dark-corners-kleidion-lantern-road-v2.mp4`.
 - NOOR Iqra picture built (`films/noor/n05-iqra/`, Lantern Road 16:9, 20 shots on the real Chatterbox narration, 158.8 s): sets mountain, cave, valley, house, sky; no prophet, angel or named person drawn (a hand lantern alone, light only); Qur'anic Arabic set in Amiri Quran from script.json; glow texture now uploaded before the bloom reads it. Short `films/noor/s05-iqra-short/` (9:16, 36.4 s) cut from the film's mix by `make_short.py`, same sets reframed. Both dispatched to `films-render.yml` (free runners, release `films`).
 - Bamberg final (text overlaps fixed) rendered and checked; copied to Sam's Mac as `kino-films/dark-corners-bamberg-kinetic-v2.mp4` (the first version kept beside it). Re-made films go to the Mac with a `-v2` suffix.
 - Score brightened (3 to 4 % of energy in 3.5 to 8 kHz, was 0.2 %; loudness and ducking unchanged) and every battle's cues.json music fields rebuilt from the new score (`films/lib/score/cues_from_score.py`, narration fields untouched); the v2 pictures do not snap to music, so finished battle renders get the final sound via `remux.yml`. Three 30 s excerpts sent to Sam to judge the feel.

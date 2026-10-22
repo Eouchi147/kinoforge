@@ -12,7 +12,7 @@
 - Running (agents, nothing rendered yet):
   - free procedural score engine (`films/lib/score/`): done, the 8 battles re-scored (narration kept); brightening and cue beat grids in progress; Sam to listen to three excerpts;
   - Battle Map engine v2 (no emoji, refined heraldic graphics, legend panel, formations that never overlap, planned camera per scene, living world) with Cannae as the reference film: done (9 scenes, 26 shots, 0 check errors), Cannae v2 rendering on free runners; the other battles are re-directed on v2 (Hastings, Waterloo, Thermopylae, Gaugamela, Hattin, Ain Jalut rendering; Agincourt waits for its two Cutaway inserts);
-  - Kleidion re-directed (done: 9 scenes, 29 shots instead of 64, opening in real time, fuller worlds); re-rendering on free runners (rc-render films.yml, 16 parts);
+  - Kleidion re-directed (done: 9 scenes, 29 shots instead of 64, opening in real time, fuller worlds); done and on Sam's Mac (`-v2`);
   - Arabia re-directed (done: pin-hole star sky in its own no-blur pass, 31 shots in 9 scenes instead of 49, fuller camp, cut-paper cards); rendering on free runners (24 parts, Blender, about 1 to 2 hours);
   - Bamberg polished (done: eight movements, every effect with a job); done and on Sam's Mac (`-v2`);
   - director pipeline: done and free-only by default; first live jobs running: `films/studio/salamis/` and `films/studio/great-emu-war/` (watch their status.json).

@@ -50,7 +50,7 @@ def W(lid, word, off=0.0, end=True, nth=0):
     return l['start'] + (l['end'] - l['start']) * (idx + (1 if end else 0)) / len(words) + off
 
 
-SETTINGS = {'samples': 40, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast', 'exposure': 0.2,
+SETTINGS = {'samples': 24, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast', 'exposure': 0.2,
             'max_bounces': 8, 'clamp_indirect': 6.0, 'adaptive_min_samples': 12, 'denoising_prefilter': 'ACCURATE'}
 REF_W = 1920.0                      # overlay positions and sizes are written for a 1920 x 1080 frame and scaled to the render
 
@@ -165,7 +165,7 @@ def plan():
     add('inlet', C('l14', 0.9), K(-88, 5, 2.5, (-0.05, -2.0, -0.17), 50), K(-88, 4, 2.4, (-0.05, -2.0, -0.12), 50), env='grey',
         why='close, side on through the cut: the gates fill with air and swing up (the score swells here)',
         inlet={'rise': rise, 'sea': (rise[1] - 1.0, rise[1] + 3.0)},
-        labels=[('air', 'AIR PUMPED IN', rise[0] + 0.2, rise[1] - 0.6, (-330, -230), (-0.12, -1.96, -0.24))])
+        labels=[('air', 'AIR PUMPED IN', rise[0] + 0.2, rise[1] - 0.6, (-330, -230), (-0.02, -1.96, -0.17))])
     add('inlet', W('l15', 'dry', -1.4, False), K(-52, 22, 6.6, (0.0, -1.3, -0.15), 50), K(-56, 21, 6.3, (0.0, -1.3, -0.15), 50), env='grey',
         why='wide again for the result: the sea high outside, the lagoon calm behind the gates',
         inlet={'up': True, 'high': True},
@@ -236,8 +236,14 @@ def build(bpy, ctx):
         for (key, body, *_rest) in p.get('labels', []):
             if key not in labels: labels[key] = ov.Label(O, 'vz_lb_' + key, body, 22 * r)
     sc = bpy.context.scene; sc.view_settings.look = SETTINGS['look']; sc.view_settings.exposure = SETTINGS['exposure']
+    sc.cycles.adaptive_threshold = 0.035          # cheaper on the free runners; the denoiser takes the rest
+    cards = []                                    # the kit's sky cards (clouds, mist): dimmed and tinted at dusk and under cloud
+    for m in bpy.data.materials:
+        if m.name.startswith(('cw_cloud', 'cw_mist')) and m.node_tree:
+            for n in m.node_tree.nodes:
+                if n.type == 'EMISSION': cards.append((n, n.inputs['Strength'].default_value, tuple(n.inputs['Color'].default_value)))
     return {'kit': kit, 'M': M, 'lamps': lamps, 'sets': built, 'ramp': ramp, 'bgl': bgl, 'sun': sun, 'cam': cam, 'O': O, 'G': G, 'labels': labels,
-            'r': r, 'shown': None, 'mist': (mist, mist_gain), 'rays': (rays, ray_gain)}
+            'r': r, 'shown': None, 'cards': cards, 'mist': (mist, mist_gain), 'rays': (rays, ray_gain)}
 
 
 def shot_at(t):
@@ -255,6 +261,9 @@ def _env(S, name, t, p):
     if p.get('lights_on') is not None:
         u = ease((t - p['lights_on']) / 2.5); lv *= u; win *= u
     S['lamps'].level(lv)
+    k = {'dusk': (0.38, (1.0, 0.72, 0.62)), 'grey': (0.85, (0.9, 0.92, 0.95)), 'gold': (1.0, (1.0, 0.93, 0.84))}.get(name, (1.0, (1, 1, 1)))
+    for n, s0, c0 in S['cards']:
+        n.inputs['Strength'].default_value = s0 * k[0]; n.inputs['Color'].default_value = tuple(c * f for c, f in zip(c0[:3], k[1])) + (1.0,)
     if S['M'].glow is not None: S['M'].glow_socket.default_value = 3.5 * win
 
 

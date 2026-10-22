@@ -149,7 +149,7 @@ def build_city(kit, M, lamps):
     top = lambda x, y: -0.022 + 0.002 * cw.fbm(x, y, 9, 2, 3.0)
     campo = (-0.52, 0.42); campo_r = 0.30
     def zones(x, y, h):
-        return {'rock': np.ones_like(x)}
+        return {'sand': np.ones_like(x)}        # smooth pale stone paving (the kit's cracked rock read as dry earth)
     land = cw.block(kit, size=(4.0, 4.0), depth=DEPTH, strata=VZ_STRATA, top=top, water=water, seed=21, zones=zones, grass=0, trees=0,
                     boulders=0, flowers=0, under=True, water_tint=WATER_TINT, water_density=4.2, name='city')
     S.land = land; zm = _zmean(land); grid(land)
@@ -209,7 +209,7 @@ def build_city(kit, M, lamps):
         walkers.append((f, campo[0] + r * math.cos(a), campo[1] + r * math.sin(a) - 0.05, rng.uniform(0, 2 * math.pi), rng.uniform(0.006, 0.012)))
     # the high-water walkways across the campo (shown only in the flood)
     ww = [arch.walkway(kit, M, (campo[0] - 0.28, campo[1] - 0.18), (campo[0] + 0.26, campo[1] - 0.10), -0.022, name='vz_ww0'),
-          arch.walkway(kit, M, (campo[0] - 0.05, campo[1] - 0.32), (campo[0] - 0.02, campo[1] + 0.18), -0.022, name='vz_ww1')]
+          arch.walkway(kit, M, (campo[0] - 0.05, campo[1] - 0.32), (campo[0] - 0.02, campo[1] + 0.18), -0.0195, name='vz_ww1')]
     wwalkers = []
     for j in range(6):
         f = arch.figure(kit, M, [(0.20, 0.28, 0.45), (0.45, 0.20, 0.18), (0.25, 0.35, 0.25), (0.35, 0.30, 0.42), (0.50, 0.40, 0.22), (0.18, 0.18, 0.22)][j], 0.03, f'vz_wwalk{j}')
