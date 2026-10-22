@@ -4,6 +4,29 @@ Design: [`DESIGN.md`](DESIGN.md). Everything runs on GitHub runners (`.github/wo
 inside the job's cap. No Claude session in the loop. Nothing is published anywhere: the film lands in the release `films`
 and waits for Sam.
 
+## Free-only mode (default since 22 Oct 2026, 09:20: Sam: spend nothing)
+
+`config.json` `free_only: true`: every seat uses OpenRouter models whose id ends in `:free` (ranked live by published
+intelligence, one per provider first; the eyes seat only gets free models that take images). A paid model id is refused
+in code (`PaidRefused`), and any call that reports a cost stops the job (`OverBudget`). The sound stage is free too:
+the narration is read by **Chatterbox** (MIT, CPU, in its own Python 3.11 env on the runner; `voice: "chatterbox"` or
+`"chatterbox|path/to/ref.wav"` for a reference voice in this repo) or **Kokoro** (Apache 2.0, `voice: "kokoro|bm_george"`),
+every line checked by Whisper (a take with word error above 0.15 is redone, at most 3 takes); the score comes from the
+free procedural engine through the hook `music_engines.procedural` in `config.json` (contract: `python3
+films/lib/score/score.py <job dir> <out.mp3> <seconds>`, reading `ad.json` `prep.music`), and until that engine exists a
+quiet placeholder pad made in code (`pad.py`) so a film can still be finished. Only Sam turns free-only off
+(`free_only: false`, or `KF_FREE_ONLY=0` in the workflow env); then the paid path (ElevenLabs, Lyria, paid seats) is used.
+
+## Craft checks (CRAFT.md section 9, in `check.cjs`)
+
+The writer, coder and eyes seats all read `CRAFT.md`. In code, before any render: a scene list (`scenes`, 5 to 9, each
+with begin, middle, end), the shot count (at most 40 per 3 minutes) and average shot length (4 to 12 s), a written
+`why` on every cut (camera keys with `cut: true`, full-screen insets), camera speed (a move between two keys: at most
+0.25 frame widths per second and a 10 % per second push; twice that is a hard error), no emoji in the spec, no clip-art
+icons (heart, hug, question, star, no, check, burst), a legend on Battle Map (hard once the engine's SPEC.md documents
+`legend`, a warning before), no overlapping or clipped text. `KF_CRAFT=0` turns them off (tests, films made before
+CRAFT.md). Ambient motion layers are judged by the eyes seat, not yet in code.
+
 ## Start a job
 
 The web studio commits `films/studio/<id>/brief.json`; that push starts `film.yml`. By hand:
@@ -29,8 +52,8 @@ CLI: `gh workflow run film.yml -f job=<id> -f from=spec`. A push of the brief wi
 | `audience` | no | e.g. "kids 8 to 14" |
 | `tone` | no | overrides the line's house tone |
 | `target_seconds` | no (150) | film length target, 45 to 240 |
-| `cap_usd` | no (1.5) | hard money cap for the whole job, 0.30 to 5.00 |
-| `voice` | no (`elevenlabs/eleven-v4\|brian`) | narrator, `model\|voice` as `harness/shots/factory.speech` takes it |
+| `cap_usd` | no (1.5) | hard money cap for the whole job, 0.30 to 5.00 (free-only mode spends nothing) |
+| `voice` | no (`chatterbox`) | free mode: `chatterbox`, `chatterbox\|ref.wav`, `kokoro\|bm_george`; paid mode: `model\|voice` as `harness/shots/factory.speech` takes it |
 | `approved_at` | yes | ISO time Sam approved the brief (a new value restarts the job) |
 | `seats` | no | advanced: `{writer, checker, spec: [seatA, seatB], repair, eyes}` seat names from `studio-web/lib/crew.json` |
 
@@ -38,7 +61,7 @@ CLI: `gh workflow run film.yml -f job=<id> -f from=spec`. A push of the brief wi
 {"id": "battle-of-tours", "title": "The Battle of Tours", "line": "battle-map",
  "subject": "The Battle of Tours (Poitiers), 732: Charles Martel's Franks stop the Umayyad army of Abd al-Rahman",
  "angle": "the shield wall that stood all day", "audience": "kids 8 to 14", "target_seconds": 90, "cap_usd": 0.9,
- "voice": "elevenlabs/eleven-v4|brian", "approved_at": "2026-10-22T10:00:00Z"}
+ "voice": "chatterbox", "approved_at": "2026-10-22T10:00:00Z"}
 ```
 
 ## Stages and files (all in `films/studio/<id>/`)

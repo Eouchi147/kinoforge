@@ -53,7 +53,7 @@ def open_job(d, frm, push):
     if not os.environ.get('OPENROUTER_API_KEY'):
         C.set_status(d, 'script', 'failed', 'The OPENROUTER_API_KEY secret is missing on GitHub.'); return None
     acc = C.agents.account()
-    if acc and acc.get('remaining') is not None and acc['remaining'] < 0.25:
+    if not C.FREE_ONLY and acc and acc.get('remaining') is not None and acc['remaining'] < 0.25:
         C.set_status(d, 'script', 'failed', f'The OpenRouter key has only ${acc["remaining"]:.2f} left; add credit or raise its limit.'); return None
     st = C.read_status(d)
     fresh = push and st.get('approved_at') != b.get('approved_at')
@@ -69,7 +69,7 @@ def open_job(d, frm, push):
     render = not done_render or frm in ('script', 'sound', 'spec', 'render') or fresh
     mark = {'script': 'script.json', 'sound': 'cues.json', 'spec': 'spec.js'}
     first = next((s for s in ['script', 'sound', 'spec'] if not os.path.exists(os.path.join(d, mark[s]))), 'render')
-    note = 'fresh job' if fresh or not st else f'resuming at {first}'
+    note = ('fresh job' if fresh or not st else f'resuming at {first}') + ('; free models and free tools only' if C.FREE_ONLY else '')
     C.set_status(d, first if first != 'render' else 'render', 'queued',
                  f'On the runner ({note}); key credit left: ' + (f'${acc["remaining"]:.2f}' if acc and acc.get('remaining') is not None else 'unknown') + '.')
     return render
@@ -87,3 +87,7 @@ if __name__ == '__main__':
     r = open_job(d, frm, '--push' in a)
     if r is None: sys.exit(1)
     print(f'render={"true" if r else "false"}')
+    b = json.load(open(os.path.join(d, 'brief.json')))
+    print(f'sound={"false" if os.path.exists(os.path.join(d, "cues.json")) else "true"}')
+    v = (b.get('voice') or C.DEFAULTS['voice']).split('|')[0]
+    print(f'tts={v if v in ("chatterbox", "kokoro") else ("chatterbox" if C.FREE_ONLY else "paid")}')

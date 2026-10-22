@@ -5,6 +5,9 @@
 #   repairs) -> eyes (contact sheets, winner, one compose round) -> render (films-render.yml, release "films") -> reflect
 #   (LESSONS.md) -> done. Every OpenRouter call is booked in films/studio/<id>/ledger.json against brief.cap_usd.
 # Re-running a job resumes at the first stage whose outputs are missing (nothing is paid twice); `from` restarts earlier.
+# Free-only mode (films/director/config.json, default since 22 Oct 2026): every model is an OpenRouter ':free' model (a paid
+# model is refused in code, any charge stops the job); the voice is Chatterbox or Kokoro on the runner; the score is the
+# free procedural engine (placeholder pad until it exists). OPENROUTER_API_KEY is still needed (free models need a key).
 name: film
 on:
   push:
@@ -70,7 +73,7 @@ jobs:
         run: |
           test -f "$D/brief.json" || { echo "::error::no $D/brief.json"; exit 1; }
           python3 films/director/start.py "$D" --from "${{ inputs.from || 'resume' }}" ${{ github.event_name == 'push' && '--push' || '' }} > "$RUNNER_TEMP/open.out"
-          cat "$RUNNER_TEMP/open.out"; grep -E '^render=' "$RUNNER_TEMP/open.out" >> "$GITHUB_OUTPUT"
+          cat "$RUNNER_TEMP/open.out"; grep -E '^(render|sound|tts)=' "$RUNNER_TEMP/open.out" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - uses: actions/setup-node@v4
@@ -81,6 +84,24 @@ jobs:
           pip install -q numpy librosa soundfile faster-whisper pillow
           npm ci --prefix harness --no-audit --no-fund
           (cd harness && npx playwright install --with-deps chromium > /dev/null)
+      - name: free voice (Chatterbox, MIT; or Kokoro, Apache 2.0) in its own Python 3.11
+        if: steps.open.outputs.sound == 'true' && steps.open.outputs.tts != 'paid'
+        run: |
+          python3.11 --version 2>/dev/null || sudo apt-get install -y -qq python3.11 python3.11-venv > /dev/null || true
+          uv --version 2>/dev/null || pip install -q uv
+          uv venv -q -p 3.11 "$RUNNER_TEMP/tts"
+          export VIRTUAL_ENV="$RUNNER_TEMP/tts"
+          if [ "${{ steps.open.outputs.tts }}" = "kokoro" ]; then
+            uv pip install -q kokoro-onnx soundfile scipy faster-whisper numpy
+            mkdir -p "$RUNNER_TEMP/kokoro"; for f in kokoro-v1.0.onnx voices-v1.0.bin; do
+              curl -sSL -o "$RUNNER_TEMP/kokoro/$f" "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/$f"; done
+            echo "KOKORO_DIR=$RUNNER_TEMP/kokoro" >> "$GITHUB_ENV"
+          else
+            uv pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
+            uv pip install -q chatterbox-tts faster-whisper
+          fi
+          echo "KF_TTS_PYTHON=$RUNNER_TEMP/tts/bin/python" >> "$GITHUB_ENV"
+          "$RUNNER_TEMP/tts/bin/python" -c "import faster_whisper; print('tts env ready')"
       - name: script
         run: set -o pipefail; python films/director/script.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
       - name: sound
