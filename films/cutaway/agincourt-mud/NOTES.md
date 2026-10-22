@@ -32,8 +32,9 @@ cut face, so we see its point go into the soft wet layer in section. On "Then He
 red men-at-arms come up behind the archers and the camera eases up and back to show the line facing the long wet field;
 on "close enough to shoot" the archers lift their longbows.
 
-**B (14.16 s).** B1, 86.70 to 93.91: low on the -Y cut face, a slow track left to right with the French front file
-(France left, England right, the same screen direction as A2). Through the face we see their armoured legs go into the
+**B (14.16 s).** B1, 86.70 to 93.91: very low at the -Y cut face (24 mm lens at soil level, the legs in the foreground),
+a slow track with the French front file walking away to the right (France left, England right, the same screen
+direction as A2). On "advanced" the crows on the field edge ahead of them lift and fly off. Through the face we see their armoured legs go into the
 soft layer; strides shorten, ankle deep on "advanced", knee deep on "knees", where the soldier in the middle of the
 frame stops dead and wobbles and the next one bumps up behind him; 1.2 s hold. Cut (0.15 s before "The woods"): change
 of scale, from the legs to the army. B2, 93.91 to 100.87: high behind the English stakes, a slow rise; the blue column
@@ -42,18 +43,27 @@ the poleaxes clatter into each other.
 
 ## Layout and look
 
-- Block 4.2 x 3.2 x 0.9 m. March along +X: France enters from -X, England holds the +X end. The -Y face is the cut face the
+- Block 4.2 x 3.2 x 0.66 m. March along +X: France enters from -X, England holds the +X end. The -Y face is the cut face the
   French front file walks on (file 0 is placed exactly on it, legs straddling the plane; a boolean against a solid
   outside the face, below the terrain line, cuts their buried parts flush, so they show as sections in the soil).
 - Woods: Agincourt wood along +Y; Tramecourt wood bulging in from -Y in the middle: the neck. Autumn leaves (25 October).
-- Field: plough furrows across the march (period 8.5 cm), muddy puddles in the low troughs (glass, brown absorption).
-  Strata: soft wet mud 6.5 cm (darker, glossy coat), wet loam, clay, chalky marl, deep (Picardy loess over chalk).
+- Field: plough furrows across the march (period about 9 cm, wandering, rounded crests, uneven height), clods, about 320
+  boot and hoof holes, muddy puddles in the low troughs and holes (glass, brown absorption, rain rings in A).
+  Strata: soft wet mud 7.8 cm (dark, glossy), wet loam, clay, chalky marl, deep (Picardy loess over chalk); the kit's
+  root lines are switched off (a ploughed field). The French sink to the knee inside the soft band.
 - Figures about 0.17 m: French in carthage blue surcoats with a gold hem and gold disc, steel arms and legs (mud caked
   below the knee), bascinets with the pointed visor, poleaxes; two French banners (blue, gold border, gold disc,
   swallowtail, as the film's). English archers in rome red jacks, kettle hats, quivers, longbows, mallets; red
   men-at-arms with two red banners. Colours from `films/lib/battlemap/blocks.js` TEAMS.
-- Light: A overcast and dark (rain); B grey after-rain light with drifting cloud shadows and a few crows over the wood.
-- Living layers: rain and puddle rings (A), wind in grass and trees, banners waving, figures moving, cloud shadows (B).
+- Light: A grey rain light, mist lying and drifting in both woods; B a low warm sun breaking through behind the
+  Agincourt wood into a thin ground haze (god rays through the trees), grey sky. A soft fill from the -Y side lifts the
+  cut face in both.
+- Life (Sam, 22 Oct: fauna and flora animated, easter eggs in the soil): crows pecking on the field edge (they lift
+  in B as the French come), earthworms wriggling in the wet layers of the cut face, wind in grass and trees, banners
+  waving, rain and puddle rings in A. Easter eggs, small and deep in the face: a Roman bronze coin in the clay under the
+  English stakes (A2), an ammonite in the marl under the French (B1).
+- Built locally in `agin_mud.py` (Crows, Worms, easter_eggs, haze, mist); swap for the shared
+  `films/styles/cutaway/cinematic/` pieces when they land.
 
 ## Measured
 

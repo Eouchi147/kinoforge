@@ -213,41 +213,55 @@ def gobo(kit, land, sun_dir, dist=4.5, size=(10.0, 5.0), cover=0.45, scale=0.55,
 
 
 class Shafts:
-    """Art-directed god rays (the cheap half of the hybrid): long soft additive cards along the sunlight, crossing the block
-    top at canopy height, billboarded to the camera around their own axis every frame, brightest when the camera looks
-    toward the sun (forward scattering), breaking up and shimmering with drifting dust. Invisible to every ray but the
-    camera's. Call update(camera_location) after the camera is posed."""
-    def __init__(self, kit, land, sun_dir, n=16, seed=91, strength=1.6, color=(1.0, 0.80, 0.56), length=(2.4, 3.8), width=(0.05, 0.24),
-                 spots=None, spill=1.0, name='ex_shaft'):
-        bpy = kit.bpy; self.sd = np.asarray(sun_dir, float) / np.linalg.norm(sun_dir); rng = np.random.default_rng(seed); sx, sy = land.size
+    """Art-directed god rays (the cheap half of the hybrid): long soft additive cards along the sunlight, billboarded to the
+    camera around their own axis every frame, brightest when the camera looks toward the sun (forward scattering),
+    broken up by drifting dust and shimmering. Invisible to every ray but the camera's. Each beam is (C, L, w): C is the
+    beam's brightest point (where it grazes a crown or a cloud gap), it reaches 0.4 L up toward the sun and 0.6 L down,
+    fading out both ways. canopy=n adds n beams that land on the grass through the trees. Call update(cam) after posing."""
+    def __init__(self, kit, land, sun_dir, beams=(), canopy=12, trees=None, seed=91, strength=1.6, color=(1.0, 0.80, 0.56), spill=1.2, name='ex_shaft'):
+        bpy = kit.bpy; self.sd = sd = np.asarray(sun_dir, float) / np.linalg.norm(sun_dir); rng = np.random.default_rng(seed); sx, sy = land.size
         m = cw._new_mat(bpy, name + '_mat'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); geo = g.node('ShaderNodeNewGeometry'); tv = time_value(kit, g)
         oi = g.node('ShaderNodeObjectInfo'); lx, ly, _ = g.sep(tc.outputs['Generated'])
-        across = g.math('EXPONENT', g.math('MULTIPLY', g.math('POWER', g.math('MULTIPLY', g.math('SUBTRACT', ly, 0.5), 2.0), 2.0), -3.2))
-        along = g.math('MULTIPLY', g.math('MULTIPLY', lx, 30.0, clamp=True), g.math('POWER', g.math('MULTIPLY', g.math('SUBTRACT', 1.0, lx), 1.6, clamp=True), 1.5))
+        across = g.math('EXPONENT', g.math('MULTIPLY', g.math('POWER', g.math('MULTIPLY', g.math('SUBTRACT', ly, 0.5), 2.0), 2.0), -3.0))
+        up = g.math('MULTIPLY', g.math('SUBTRACT', 1.0, lx), 1 / 0.4, clamp=True); down = g.math('POWER', g.math('MULTIPLY', lx, 1 / 0.6, clamp=True), 1.3)
+        along = g.math('MINIMUM', g.math('POWER', up, 0.7), down)
         wp = g.sep(geo.outputs['Position'])
-        ox = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', wp[0]), sx / 2 - 0.05), 0.0); oy = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', wp[1]), sy / 2 - 0.05), 0.0)
+        ox = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', wp[0]), sx / 2), 0.0); oy = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', wp[1]), sy / 2), 0.0)
         foot = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('MAXIMUM', ox, oy), 1 / spill), clamp=True)
         self.gain = g.value(1.0, 'ex_shaft_gain')
-        dust = g.noise(g.comb(g.math('ADD', g.math('MULTIPLY', lx, 7.0), g.math('MULTIPLY', tv, 0.25)), g.math('MULTIPLY', ly, 1.5), g.math('MULTIPLY', oi.outputs['Random'], 30.0)), 2.2, 3.0, 0.6)
-        brk = g.math('ADD', 0.35, g.math('MULTIPLY', dust.outputs['Fac'], 0.9))
-        shimmer = g.math('ADD', 0.75, g.math('MULTIPLY', g.math('SINE', g.math('ADD', g.math('MULTIPLY', tv, 1.3), g.math('MULTIPLY', oi.outputs['Random'], 20.0))), 0.25))
-        view = g.vmath('DOT_PRODUCT', g.vmath('SCALE', geo.outputs['Incoming'], scale=-1.0), tuple(self.sd))
-        phase = g.math('ADD', 0.12, g.math('MULTIPLY', g.math('POWER', g.math('MAXIMUM', view, 0.0), 6.0), 1.6))
+        dust = g.noise(g.comb(g.math('ADD', g.math('MULTIPLY', lx, 6.0), g.math('MULTIPLY', tv, 0.22)), g.math('MULTIPLY', ly, 1.5), g.math('MULTIPLY', oi.outputs['Random'], 30.0)), 2.0, 3.0, 0.6)
+        brk = g.math('ADD', 0.4, g.math('MULTIPLY', dust.outputs['Fac'], 0.8))
+        shimmer = g.math('ADD', 0.78, g.math('MULTIPLY', g.math('SINE', g.math('ADD', g.math('MULTIPLY', tv, 1.3), g.math('MULTIPLY', oi.outputs['Random'], 20.0))), 0.22))
+        view = g.vmath('DOT_PRODUCT', g.vmath('SCALE', geo.outputs['Incoming'], scale=-1.0), tuple(sd))
+        phase = g.math('ADD', 0.15, g.math('MULTIPLY', g.math('POWER', g.math('MAXIMUM', view, 0.0), 5.0), 1.5))
         a = g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', across, along), g.math('MULTIPLY', foot, brk)), g.math('MULTIPLY', shimmer, phase))
         e = g.node('ShaderNodeEmission', ins={'Color': srgb(color)}); g.put(e, 'Strength', g.math('MULTIPLY', g.math('MULTIPLY', a, 0.55 * strength), self.gain))
         tr = g.node('ShaderNodeBsdfTransparent'); ad = g.node('ShaderNodeAddShader'); g.link(tr, ad.inputs[0]); g.link(e, ad.inputs[1]); cw._finish(g, ad)
         try: m.cycles.emission_sampling = 'NONE'
         except Exception: pass
-        self.cards = []
-        for i in range(n):
-            if spots is not None: c = spots[i % len(spots)]; px, py = c[0] + rng.normal(0, 0.25), c[1] + rng.normal(0, 0.25)
+        B = list(beams)
+        T = [tuple(p) for p in (trees if trees is not None else getattr(land, 'trees', []))]
+        for i in range(canopy):            # through the canopy: brightest just below the crowns, landing on the grass downstream
+            if T: c = T[i % len(T)]; px, py = c[0] + rng.normal(0, 0.2), c[1] + rng.normal(0, 0.2)
             else: px, py = rng.uniform(-sx / 2 * 0.85, sx / 2 * 0.85), rng.uniform(-sy / 2 * 0.85, sy / 2 * 0.85)
-            P = np.array([px, py, float(land.height(np.array([px]), np.array([py]))[0]) - 0.01])     # the beam lands on the grass here
-            L1 = rng.uniform(*length); w = rng.uniform(*width)
-            V = [(0, -w / 2, 0), (L1, -w / 2, 0), (L1, w / 2, 0), (0, w / 2, 0)]   # local X runs up toward the sun
-            ob = cw.mk_mesh(bpy, f'{name}{i}', V, [(0, 1, 2, 3)], [m], None, False, kit.coll); ob.location = tuple(P)
+            gz = float(land.height(np.array([px]), np.array([py]))[0]); L = rng.uniform(1.6, 2.6)
+            C = np.array([px, py, gz]) + sd * (0.6 * L - 0.02); B.append((C, L, rng.uniform(0.05, 0.2)))
+        self.cards = []
+        for i, (C, L, w) in enumerate(B):
+            V = [(-0.6 * L, -w / 2, 0), (0.4 * L, -w / 2, 0), (0.4 * L, w / 2, 0), (-0.6 * L, w / 2, 0)]   # local X runs up toward the sun
+            ob = cw.mk_mesh(bpy, f'{name}{i}', V, [(0, 1, 2, 3)], [m], None, False, kit.coll); ob.location = tuple(map(float, C))
             for at in ('visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_shadow', 'visible_volume_scatter'): setattr(ob, at, False)
             self.cards.append(ob)
+    @staticmethod
+    def around(center, radius, sun_dir, n=10, seed=93, L=(2.4, 4.0), w=(0.04, 0.16)):
+        """Beams grazing the silhouette of a crown (or the edge of a gap): n points on a ring perpendicular to the sun."""
+        sd = np.asarray(sun_dir, float) / np.linalg.norm(sun_dir); rng = np.random.default_rng(seed)
+        a = np.cross(sd, (0, 0, 1.0)); a /= np.linalg.norm(a); b = np.cross(a, sd); out = []
+        for k in range(n):
+            th = 2 * math.pi * (k + rng.uniform(-0.3, 0.3)) / n; r = radius * rng.uniform(0.85, 1.35)
+            if math.sin(th) < -0.55: continue          # not under the crown (the trunk side)
+            out.append((np.asarray(center, float) + r * (math.cos(th) * a + math.sin(th) * b), rng.uniform(*L), rng.uniform(*w)))
+        return out
     def update(self, cam):
         from mathutils import Matrix
         X = self.sd
@@ -382,12 +396,12 @@ class Eggs:
     def hole_ellipse(self, face, u, z, a, b, depth, name):
         V, F = bowl(a * 1.03, b * 1.03, depth); ob = part(self.kit, name, [(V, F, 0)], [mat_cavity(self.kit)])
         self.faces[face].put(ob, u, z); self.openings.append((face, 'ell', (u, z, a, b))); return ob
-    def hole_tunnel(self, face, P2, r, name):
+    def hole_tunnel(self, face, P2, r, name, material=None):
         P2 = np.asarray(P2, float); V, F = half_tube(P2, r * 1.03)
         pieces = [(V, F, 0)]
         for e in (P2[0], P2[-1]):
             bv, bf = bowl(r * 1.03, r * 1.03, r * 1.0); pieces.append((np.asarray(bv) + np.array([e[0], 0, e[1]]), bf, 0))
-        ob = part(self.kit, name, pieces, [mat_cavity(self.kit)]); self.faces[face].put(ob, 0.0, 0.0)
+        ob = part(self.kit, name, pieces, [material or mat_cavity(self.kit)]); self.faces[face].put(ob, 0.0, 0.0)
         for a, b in zip(P2[:-1], P2[1:]): self.openings.append((face, 'cap', (a[0], a[1], b[0], b[1], r)))
         return ob
     def finish(self):
@@ -422,7 +436,7 @@ class Eggs:
         nt.links.remove(surf_link); nt.links.new(mx.outputs[0], outn.inputs['Surface'])
 
     # ---------------------------------------------------------------- the eggs
-    def mole(self, face, u, z, length=0.55, r=0.026, light=3.0):
+    def mole(self, face, u, z, length=0.55, r=0.036, light=3.0, size=1.6):
         """A mole digging along its tunnel just under the turf, ending in a round nest of dry grass. Paws dig, nose twitches."""
         kit = self.kit; s = np.linspace(0, 1, 14)
         P = np.stack([u + s * length, z + 0.022 * np.sin(s * 5.0 + 0.7) - 0.03 * s], 1)
@@ -440,7 +454,7 @@ class Eggs:
         fur = mat(kit, 'ex_molefur', (0.12, 0.11, 0.12), 0.55, sss=0.0, noise_amt=0.15); pink = mat(kit, 'ex_pink', (0.92, 0.56, 0.58), 0.5, sss=0.2)
         eye = mat(kit, 'ex_eye', (0.01, 0.01, 0.01), 0.15)
         mu = u + length * 0.62; mz = float(np.interp(0.62, s, P[:, 1])) - 0.004
-        root = empty(kit, 'ex_mole'); self.faces[face].put(root, mu, mz, 0.008)
+        root = empty(kit, 'ex_mole'); self.faces[face].put(root, mu, mz - 0.006, 0.012); root.scale = (size,) * 3
         bv, bf = ell((0, 0, 0), (0.026, 0.013, 0.0145), 2, 0.05, 2)
         body = part(kit, 'ex_mole_body', [(bv, bf, 0), (*ell((0.029, -0.002, 0.001), (0.007, 0.006, 0.006)), 0),
                                            (*cone((0.033, -0.002, 0.001), (0.046, -0.003, 0.0), 0.0042, 0.0016, 8), 1),
@@ -463,7 +477,9 @@ class Eggs:
         hv, hf = ell((0, 0, 0), (0.06, 0.05, 0.032), 3, 0.25, 9); hv[:, 2] = np.maximum(hv[:, 2], -0.004)
         hill = part(kit, 'ex_molehill', [(hv, hf, 0)], [mat(kit, 'ex_soil', (0.30, 0.20, 0.12), 0.95, noise_amt=0.4, bump=0.6)])
         cw._place(self.land, hill, p[0], p[1], -0.006)
-        self.spot(face, mu + 0.08, mz, 2.6 * light / 3.0, out=0.42, up=0.26, size=40, name='ex_spot_mole')
+        self.spot(face, mu + 0.08, mz, 4.0 * light / 3.0, out=0.42, up=0.22, size=44, name='ex_spot_mole')
+        bpy = kit.bpy; ld = bpy.data.lights.new('ex_nest_glow', 'POINT'); ld.energy = 0.08 * light / 3.0; ld.color = (1.0, 0.75, 0.45); ld.shadow_soft_size = 0.01
+        lo = bpy.data.objects.new('ex_nest_glow', ld); kit.coll.objects.link(lo); lo.location = tuple(self.faces[face].world(nu, nz + 0.01, 0.015)); lo.visible_camera = False
         self.items['mole'] = (face, mu, mz)
 
     def hedgehog(self, face, u, z, light=3.0):
@@ -704,6 +720,57 @@ class Eggs:
         self.obj('ex_goldvein', A, [quartz, gold], face, 0.0, 0.0)
         mid = P[len(P) // 2]; self.spot(face, mid[0], mid[1], 3.0 * light / 3.0, out=0.6, up=0.35, size=48, name='ex_spot_gold')
         self.items['gold'] = (face, float(mid[0]), float(mid[1]))
+
+    def well(self, face, u, z_bottom=-0.78, r=0.055, light=3.0):
+        """An ancient stone well cut in half by the face: a masonry shaft from the turf down to dark water, a bucket on a rope
+        swaying in the shaft, the stone ring and a little roof at the top."""
+        kit = self.kit; F = self.faces[face]; zt = F.top(u)
+        m = cw._new_mat(kit.bpy, 'ex_masonry'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); pos = tc.outputs['Object']
+        px, py, pz = g.sep(pos); ang = g.node('ShaderNodeMath', operation='ARCTAN2'); g.put(ang, 0, py); g.put(ang, 1, px)
+        row = g.math('MULTIPLY', pz, 1 / 0.022); off = g.math('MULTIPLY', g.math('FLOOR', row), 0.5)
+        col = g.math('ADD', g.math('MULTIPLY', px, 1 / 0.03), off)
+        bx = g.math('MINIMUM', g.math('ABSOLUTE', g.math('SUBTRACT', g.math('FRACT', row), 0.5)), 0.5)
+        by = g.math('ABSOLUTE', g.math('SUBTRACT', g.math('FRACT', col), 0.5))
+        mortar = g.math('MAXIMUM', g.math('GREATER_THAN', bx, 0.40), g.math('GREATER_THAN', by, 0.44))
+        wn = g.node('ShaderNodeTexWhiteNoise', noise_dimensions='3D'); g.put(wn, 'Vector', g.comb(g.math('FLOOR', col), g.math('FLOOR', row), 0.0))
+        stone = g.mix(wn.outputs['Value'], srgb((0.46, 0.43, 0.38)), srgb((0.66, 0.62, 0.55)))
+        n = g.noise(pos, 70.0, 3.0); stone = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.4), stone, srgb((0.30, 0.28, 0.25)))
+        wet = g.math('MULTIPLY', g.math('SUBTRACT', z_bottom + 0.16, pz), 8.0, clamp=True)
+        stone = g.mix(g.math('MULTIPLY', wet, 0.5), stone, srgb((0.20, 0.26, 0.20)))
+        colr = g.mix(mortar, stone, srgb((0.20, 0.18, 0.15)))
+        p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': colr, 'Roughness': 0.85})
+        b = g.node('ShaderNodeBump', ins={'Strength': 0.9, 'Height': g.math('SUBTRACT', 1.0, mortar), 'Distance': 0.004}); g.put(p, 'Normal', b); cw._finish(g, p)
+        P = np.array([(u, zt + 0.02), (u, z_bottom)])
+        P = np.stack([np.full(24, u), np.linspace(zt + 0.02, z_bottom, 24)], 1)
+        self.hole_tunnel(face, P, r, 'ex_well_shaft', material=m)
+        water = mat_pbr(kit, 'ex_wellwater', (0.03, 0.06, 0.06), 0.03, coat=1.0)
+        th = np.linspace(0, math.pi, 17); V = [(0, 0, 0)] + [(r * 0.98 * math.cos(a), r * 0.98 * math.sin(a), 0) for a in th]
+        self.obj('ex_well_water', [(V, [(0, k + 1, k + 2) for k in range(16)], 0)], [water], face, u, z_bottom + 0.06)
+        # stone ring and roof on the turf (the half that is still inside the block)
+        ring = [(r * 1.25 * math.cos(a), r * 1.25 * math.sin(a), 0.0) for a in np.linspace(0.02, math.pi - 0.02, 15)]
+        rv, rf = cw._tube(ring, np.full(15, 0.012), 8, True)
+        wood = mat(kit, 'ex_wellwood', (0.36, 0.24, 0.15), 0.8, noise_amt=0.3); roof = mat(kit, 'ex_wellroof', (0.48, 0.22, 0.14), 0.7, noise_amt=0.2)
+        A = [(rv, rf, 0)]
+        for side in (-1, 1):
+            v, f = cw._box(side * r * 1.25 - 0.004, 0.02, 0.0, side * r * 1.25 + 0.004, 0.028, 0.10); A.append((v, f, 1))
+        v, f = cw._tube([(-r * 1.4, 0.024, 0.085), (r * 1.4, 0.024, 0.085)], [0.004, 0.004], 6); A.append((v, f, 1))
+        A.append(([(-r * 1.6, -0.01, 0.09), (r * 1.6, -0.01, 0.09), (r * 1.6, 0.024, 0.125), (-r * 1.6, 0.024, 0.125)], [(0, 1, 2, 3)], 2))
+        A.append(([(-r * 1.6, 0.058, 0.09), (r * 1.6, 0.058, 0.09), (r * 1.6, 0.024, 0.125), (-r * 1.6, 0.024, 0.125)], [(3, 2, 1, 0)], 2))
+        self.obj('ex_well_head', A, [mat(kit, 'ex_wellstone', (0.58, 0.55, 0.50), 0.85, noise_amt=0.3, bump=0.5), wood, roof], face, u, zt - 0.004)
+        # the bucket on its rope, swinging gently
+        rope = mat(kit, 'ex_rope', (0.66, 0.56, 0.38), 0.9)
+        piv = empty(kit, 'ex_bucket_pivot'); F.put(piv, u, zt + 0.085, 0.024)
+        zb = z_bottom + 0.30 - (zt + 0.085)
+        rv2, rf2 = cw._tube([(0, 0, 0), (0, 0, zb + 0.03)], [0.0015, 0.0015], 5)
+        bv, bf = cw._tube([(0, 0, zb - 0.015), (0, 0, zb + 0.015)], [0.014, 0.017], 12)
+        hv, hf = cw._tube([(-0.016, 0, zb + 0.014), (0, 0, zb + 0.03), (0.016, 0, zb + 0.014)], [0.0012] * 3, 4, False)
+        bucket = part(kit, 'ex_bucket', [(rv2, rf2, 0), (bv, bf, 1), (hv, hf, 2)], [rope, wood, mat(kit, 'ex_iron2', (0.2, 0.2, 0.2), 0.5)], piv)
+        @kit.on_frame
+        def _swing(t, piv=piv):
+            piv.rotation_euler = (0.04 * math.sin(2 * math.pi * 0.35 * t), -0.0 + 0.03 * math.sin(2 * math.pi * 0.27 * t + 1), F.rz)
+        _swing(0.0)
+        self.spot(face, u, (zt + z_bottom) / 2, 4.0 * light / 3.0, out=0.75, up=0.25, size=50, name='ex_spot_well')
+        self.items['well'] = (face, u, (zt + z_bottom) / 2)
 
     def geode(self, face, u, z, a=0.10, b=0.085, light=3.0):
         """A geode cracked open in the deep rock: a pale agate rim and a hollow of glowing amethyst points."""

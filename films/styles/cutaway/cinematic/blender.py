@@ -66,9 +66,12 @@ def build(bpy, ctx):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
 
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.6, amb=0.2)
-    ex.atmosphere(kit, land, haze=0.12, fog=3.6, aniso=0.7)
+    ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=3.6, aniso=0.7)
     ex.gobo(kit, land, rig['sun_dir'])
-    shafts = ex.Shafts(kit, land, rig['sun_dir'], n=20, strength=3.2, spots=[tuple(p) for p in getattr(land, 'trees', [])] or None)
+    # the hero tree: the big round tree by the mill sits right in front of the sun from the hero camera (rays round its crown)
+    T = np.asarray(land.trees); k = int(np.argmin(np.hypot(T[:, 0] - 1.33, T[:, 1] + 0.88))); gz = float(land.height(T[k:k + 1, 0], T[k:k + 1, 1])[0])
+    crown = (T[k, 0], T[k, 1], gz + 0.48)
+    shafts = ex.Shafts(kit, land, rig['sun_dir'], beams=ex.Shafts.around(crown, 0.2, rig['sun_dir'], 12), canopy=12, strength=2.4)
 
     # ---- easter eggs, by depth (recent near the top, deep time at the bottom)
     eggs = ex.Eggs(kit, land); fy = eggs.faces['-Y']; fx = eggs.faces['+X']
@@ -81,6 +84,7 @@ def build(bpy, ctx):
     eggs.gold('-Y', [(-1.85, -1.36), (-1.15, -1.45), (-0.55, -1.37), (0.05, -1.50), (0.65, -1.44), (1.2, -1.5)])
     eggs.hedgehog('+X', -1.05, fx.top(-1.05) - 0.17)
     eggs.geode('+X', -0.45, -1.06)
+    eggs.well('+X', 0.62, r=0.07)
     eggs.finish()
 
     # ---- life
@@ -126,7 +130,7 @@ def shot_pose(S, name, u):
         k = 1.0 - 0.10 * ex.ease(u); off = np.array([0.36, -0.68, 0.10]) * k
         return tuple(c + off), tuple(c), 55.0, float(np.linalg.norm(off)), 4.0, 0.0
     # hero: low three-quarter from the +X side, the sun behind the block, a slow arc
-    e = ex.ease(u); az = math.radians(-47 + 7 * e); el = math.radians(3.0); D = 5.3; tgt = np.array((0.15, -0.15, -0.36))
+    e = ex.ease(u); az = math.radians(-46 + 8 * e); el = math.radians(3.0); D = 4.6; tgt = np.array((0.15, -0.15, -0.36))
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
     return tuple(pos), tuple(tgt), 28.0, D - 2.0, 8.0, 0.0
 

@@ -665,7 +665,7 @@ def build_robin(kit):
     for dy in (-0.012, 0.012): H.add(V0 * 0.0032 + np.array([0.008, dy, 0.004]), F0, 2)
     v, f = cw._tube([(0.013, 0, 0.0), (0.030, 0, -0.003)], [0.004, 0.0005], 6); H.add(v, f, 2)
     head = H.build(bpy, 'robin_head', [back, breast, dark], True, kit.coll); head.parent = body; head.location = (0.032, 0.0, 0.054)
-    body.scale = (1.7, 1.7, 1.7)
+    body.scale = (2.2, 2.2, 2.2)
     return body, head
 
 def build_toy_car(kit):
@@ -946,13 +946,13 @@ def cam_pose(S, t):
 def life(S, t):
     """The robin flies in, pecks and pulls a worm; the kid's ball rolls out of the shrubs onto the dry lawn."""
     from mathutils import Quaternion, Vector
-    rb, hd = S['robin'], S['robin_head']; spot = np.array([1.02, 0.02]); yaw = 0.9
+    rb, hd = S['robin'], S['robin_head']; spot = np.array([1.12, -0.95]); yaw = 0.9
     fwd = np.array([math.cos(yaw), math.sin(yaw)]); hz = lambda p: float(S['land'].height(np.array([p[0]]), np.array([p[1]]))[0])
-    u = ease_out(ramp(t, (11.2, 11.95))); start = spot + np.array([0.35, 0.45])
+    u = ease_out(ramp(t, (11.2, 11.95))); start = spot + np.array([-0.30, 0.55])
     p = start + (spot - start) * u; z = hz(p) - 0.003 + 0.75 * (1 - u) ** 2
     peck = ease(ramp(t, (12.2, 12.45))) * (1 - ease(ramp(t, (12.55, 12.8))))
     pull = ease(ramp(t, (12.6, 13.6))) * (1 - 0.6 * ease(ramp(t, (13.75, 14.2))))
-    back = 0.045 * ease(ramp(t, (12.7, 13.6)))
+    back = 0.058 * ease(ramp(t, (12.7, 13.6)))
     p = p - fwd * back
     rb.location = (p[0], p[1], z); rb.rotation_euler = (0.0, 0.55 * peck - 0.30 * pull, yaw); rb.hide_render = t < 11.2; hd.hide_render = rb.hide_render
     flap = (1 - u) * math.sin(t * 60.0)
@@ -961,12 +961,12 @@ def life(S, t):
     if t >= 12.45:
         import bpy
         bpy.context.view_layer.update()
-        tip = hd.matrix_world @ Vector((0.030, 0.0, -0.003)); g0 = np.array([spot[0] + fwd[0] * 0.088, spot[1] + fwd[1] * 0.088, hz(spot) - 0.006])
+        tip = hd.matrix_world @ Vector((0.030, 0.0, -0.003)); g0 = np.array([spot[0] + fwd[0] * 0.114, spot[1] + fwd[1] * 0.114, hz(spot) - 0.006])
         tip = np.array(tip)
         if t < 13.65:
-            mid = (tip + g0) / 2 + np.array([0, 0, -0.004]); S['worm'].set([tip, mid, g0], 0.0045, 0.0055)
+            mid = (tip + g0) / 2 + np.array([0, 0, -0.004]); S['worm'].set([tip, mid, g0], 0.0055, 0.0068)
         else:
-            sw = 0.006 * math.sin(t * 7.0); S['worm'].set([tip, tip + np.array([0.006 + sw, 0, -0.03]), tip + np.array([0.003 - sw, 0.004, -0.056])], 0.0045, 0.0035)
+            sw = 0.006 * math.sin(t * 7.0); S['worm'].set([tip, tip + np.array([0.008 + sw, 0, -0.038]), tip + np.array([0.004 - sw, 0.005, -0.072])], 0.0055, 0.0042)
     del flap
     b = S['ball']; a0 = np.array([1.22, 1.20]); a1 = np.array([0.98, 0.60]); r = 0.042
     uu = ease_out(ramp(t, (11.9, 13.6))); q = a0 + (a1 - a0) * uu; d = np.linalg.norm(a1 - a0) * uu
