@@ -116,7 +116,7 @@ class Figure:
         self.feet = []
         for sx in (-1, 1):
             ft = ellipsoid(bpy, f'{name}_foot{sx}', (0.0085, 0.0150, 0.0058), mats['shoe'], coll, seg=16, rings=10, seed=seed + 25); ft.parent = root; ft.location = (sx * 0.0120, 0.012, 0.0045); self.feet.append(ft)
-        self.objs = [root]
+        self.objs = [root]; self.brow_bias = {'sasaa': -5.0, 'zayd': -4.0}.get(style, 0.0)
         root.scale = (s, s, s)
 
     def hide(self, h=True):
@@ -132,7 +132,7 @@ class Figure:
             self.sh[nm].rotation_euler = (D(a[0]), D(-sx * a[1]), 0.0); self.el[nm].rotation_euler = (D(a[2]), 0.0, 0.0)
         for k, m in self.mouths.items(): m.hide_render = (k != mouth)
         for b, sx in zip(self.brows, (-1, 1)):
-            b.location = (sx * 0.0070, 0.0172, 0.0268 + brow[0] * 0.0022); b.rotation_euler = (0.0, D(-sx * brow[1]), 0.0)
+            b.location = (sx * 0.0070, 0.0172, 0.0268 + brow[0] * 0.0022); b.rotation_euler = (0.0, D(-sx * (brow[1] + self.brow_bias)), 0.0)
         for e in self.eyes: e.scale = (1.0, 1.0, max(0.12, 1.0 - blink * 0.88))
         for ft in self.feet: ft.hide_render = seated
         if seated: self.body.location = (0, 0, bob - 0.026)
@@ -231,7 +231,7 @@ class Lamp:
 
 class Rope:
     """A hanging rope between two world points; the mesh is rebuilt per pose (pure function of its arguments)."""
-    def __init__(self, bpy, name, coll, mat, r=0.0016, n=18, ring=8):
+    def __init__(self, bpy, name, coll, mat, r=0.0022, n=18, ring=8):
         self.n, self.ring, self.r = n, ring, r; V = [(0, 0, 0)] * (n * ring + 2)
         F = []
         for k in range(n - 1):

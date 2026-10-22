@@ -367,7 +367,7 @@ def sandy(bpy, name, col, col2, col3=None, rough=0.9, ripple=0.30, sss=0.1):
     L.new(mp.outputs['Vector'], wv.inputs['Vector'])
     h1 = N.new('ShaderNodeMath'); h1.operation = 'MULTIPLY_ADD'; L.new(n3.outputs['Fac'], h1.inputs[0]); h1.inputs[1].default_value = 0.20; L.new(n1.outputs['Fac'], h1.inputs[2])
     h2 = N.new('ShaderNodeMath'); h2.operation = 'MULTIPLY_ADD'; L.new(wv.outputs['Fac'], h2.inputs[0]); h2.inputs[1].default_value = ripple; L.new(h1.outputs['Value'], h2.inputs[2])
-    bp = N.new('ShaderNodeBump'); bp.inputs['Strength'].default_value = 0.22; bp.inputs['Distance'].default_value = 0.01
+    bp = N.new('ShaderNodeBump'); bp.inputs['Strength'].default_value = 0.42; bp.inputs['Distance'].default_value = 0.01
     L.new(h2.outputs['Value'], bp.inputs['Height']); L.new(bp.outputs['Normal'], p.inputs['Normal'])
     n4 = N.new('ShaderNodeTexNoise'); n4.inputs['Scale'].default_value = 2.2; n4.inputs['Detail'].default_value = 1.5
     L.new(tc.outputs['Object'], n4.inputs['Vector'])

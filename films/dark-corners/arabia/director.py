@@ -130,7 +130,7 @@ def build_props(bpy, ctx, S, M, coll):
     S['title'] = P.Lettering(bpy, 'title', coll, 'DARK CORNERS', 0.040, M['letters'], per='letter', extrude=0.010, bevel=0.0022)
     S['title_sub'] = P.Lettering(bpy, 'title_sub', coll, 'I Am Buying Her Life', 0.0205, M['letters'], per='word', extrude=0.006, bevel=0.0014)
     S['title_lamp'] = None
-    pl = reg(pivot(bpy, 'plinth', coll)); v, f = loft_z([(-0.012, 0.215, 0.040), (0.0, 0.215, 0.040), (0.008, 0.212, 0.038), (0.012, 0.205, 0.034)], 4 * 12, True, True)
+    pl = reg(pivot(bpy, 'plinth', coll)); v, f = loft_z([(-0.012, 0.205, 0.0125), (0.0, 0.208, 0.0135), (0.010, 0.208, 0.0135), (0.150, 0.208, 0.0135), (0.158, 0.200, 0.0125), (0.162, 0.186, 0.0105)], 4 * 12, True, True)
     mk(bpy, 'plinth_slab', v, f, M['tile'], coll, pl, noise_amp=0.0009, seed=9); S['plinth'] = pl
     # lamp field: ~400 lamps scattered across the clay desert, nearest the centre first
     def field_pts(n):
@@ -154,7 +154,7 @@ def build_props(bpy, ctx, S, M, coll):
 
 def build_scroll(bpy, coll, M, reg, marks=True):
     r = reg(pivot(bpy, 'scroll' if marks else 'verse', coll)); S = {'root': r}
-    wd, hg = (0.115, 0.17) if marks else (0.115, 0.20)
+    wd, hg = (0.105, 0.26) if marks else (0.115, 0.20)
     rings = [(0.0, wd, 0.0035), (0.002, wd, 0.0045), (0.0075, wd, 0.0045), (0.009, wd, 0.0030)]
     # sheet as a loft along Z of a very flat ellipse => lay it upright: height along Z
     v, f = loft_z([(0.004, wd, 0.0030), (0.010, wd * 1.0, 0.0034), (hg - 0.010, wd, 0.0034), (hg, wd, 0.0030)], 36, True, True)
@@ -169,7 +169,7 @@ def build_scroll(bpy, coll, M, reg, marks=True):
     S['marks'] = []
     if marks:
         rs = np.random.RandomState(19)
-        for row in range(9):
+        for row in range(14):
             Vv, Ff = [], []; z = hg - 0.020 - row * 0.0155
             x = -wd + 0.014
             while x < wd - 0.014:
@@ -294,7 +294,7 @@ def ride(S, cam_key, x, y, yaw, t, dist, fig='sasaa', amp=1.0, neck=(0, 0), movi
 
 # ------------------------------------------------------------------------------------------------ shots (filled in below)
 
-SX, SY = -1.80, 1.50          # the ridge where Sasaa stands with his camel (opening, x1)
+SX, SY = -1.85, 1.05          # the ridge where Sasaa stands with his camel (opening, x1)
 
 def sasaa_stand(S, t, x, y, yaw, head=(0, 0, 0), **kw):
     f = S['fig']['sasaa']; fig_pose(f, x, y, yaw, head=head, bob=wobble(t, 0.4, 0.0006), **kw); return f
@@ -306,19 +306,18 @@ def camel_stand(S, key, x, y, yaw, t, neck=(0, 0), **kw):
 def A1(c, t, u):
     S = c.S
     # camera: starts looking up at the pin-hole stars and the moon, tilts down and drifts in to the ridge
-    k = ease(clamp((t - 0.6) / 4.6), 's')
-    pos = ez(t, 0.0, 6.6, (-0.95, -0.55, 0.13), (-1.28, 0.20, 0.115), 's')
-    tgt = (lerp(-0.85, SX + 0.15, k), lerp(4.8, SY, k), lerp(1.9, 0.115, k))
-    c.camera(pos, tgt, lens=30.0, fstop=4.0, focus=(lerp(-0.8, SX, ease(clamp((t - 1.5) / 3.0), 's')), lerp(4.8, SY, ease(clamp((t - 1.5) / 3.0), 's')), 0.1))
-    c.light(moon=0.7, az=-40, el=20)
-    # Sasaa and his camel on the ridge, looking for tracks: head turns, hand shades the eyes
+    k = ease(clamp((t - 0.7) / 4.4), 's')
+    pos = ez(t, 0.0, 6.6, (-1.30, -0.30, 0.100), (-1.46, 0.28, 0.092), 's')
+    fk = ease(clamp((t - 1.6) / 3.0), 's')
+    tgt = (lerp(-0.85, SX + 0.10, k), lerp(4.8, SY, k), lerp(1.7, 0.105, k))
+    c.camera(pos, tgt, lens=30.0, fstop=4.0, focus=(lerp(-0.8, SX, fk), lerp(4.8, SY, fk), lerp(1.0, 0.1, fk)))
+    c.light(moon=0.9, az=-110, el=22, fill=0.14)
     hy = ez(t, 2.4, 3.4, 40.0, -35.0, 's') if t < 5.0 else ez(t, 5.0, 5.8, -35.0, -10.0, 's')
-    arm = (100.0, 10.0, 88.0) if 2.2 < t < 5.6 else (8, 4, 0)
-    sasaa_stand(S, t, SX, SY, -150.0, head=(hy, 3, 0), armR=ez(t, 2.0, 2.8, (8, 4, 0), arm) if t < 5.0 else ez(t, 5.0, 5.8, arm, (8, 4, 0)), mouth='closed', brow=(0.4, 6))
-    camel_stand(S, 'ride', SX + 0.20, SY + 0.12, -105.0, t, neck=(wobble(t, 0.25, 8), 4))
-    for k, tt in enumerate(S['camp']):
-        x, y = W.CAMP[k]; tt.show(); tt.root.location = (x, y, gz(x, y)); tt.root.rotation_euler = (0, 0, D(wobble(0, 0, 0))); tt.glow_em.inputs['Strength'].default_value = 1.6
-        tt.glow_em.inputs['Strength'].default_value = 1.6
+    arm = (100.0, 10.0, 88.0)
+    ar = ez(t, 2.0, 2.8, (8, 4, 0), arm) if t < 5.0 else ez(t, 5.0, 5.8, arm, (8, 4, 0))
+    sasaa_stand(S, t, SX, SY, -150.0, head=(hy, 3, 0), armR=ar, mouth='closed', brow=(0.4, 3))
+    camel_stand(S, 'ride', SX + 0.24, SY + 0.10, -105.0, t, neck=(wobble(t, 0.25, 8), 4))
+    glow_camp(S, 2.0, t=t)
     show_hud(S, 'arabia', t, 0.9, 5.9, 0.30); show_hud(S, 'around', t, 1.2, 5.9, 0.235)
 
 def day_default(c):
@@ -339,36 +338,35 @@ def lit_tents(S, c, t, glow=2.2, p1=1.0, sil2=(), glow2=1.0):
 
 @shot(6.6, 11.62, 'A2_tracks')
 def A2(c, t, u):
-    S = c.S; day_default(c); c.light(moon=0.9, az=-100, el=22)
-    pos = ez(t, 6.6, 11.62, (-3.62, 3.00, 0.060), (-3.05, 2.80, 0.075), 's')
-    tgt = ez(t, 6.6, 11.62, (-3.0, 2.78, 0.035), (0.9, 1.62, 0.115), 's')
-    foc = ez(t, 6.6, 9.4, (-3.20, 2.84, 0.03), (-3.20, 2.84, 0.03)) if t < 9.4 else ez(t, 9.4, 11.0, (-3.20, 2.84, 0.03), (1.45, 1.55, 0.12), 's')
-    c.camera(pos, tgt, lens=30.0, fstop=2.8, focus=foc)
-    # the two tents, far away along the tracks: only the glow of their lamps at first
-    lit_tents(S, c, t, glow=1.6 + 1.4 * ez(t, 8.2, 9.2, 0.0, 1.0), p1=0.0)
-    S['t1'].show(); S['lamps'][0].pose((0, 0, -5), 0.0)
+    S = c.S; day_default(c); c.light(moon=0.9, az=-160, el=14, fill=0.10)
+    pos = ez(t, 6.6, 11.62, (-3.60, 2.92, 0.100), (-3.10, 2.76, 0.105), 's')
+    tgt = ez(t, 6.6, 11.62, (-2.75, 2.58, 0.040), (0.60, 1.60, 0.120), 's')
+    foc = (-3.05, 2.62, 0.03) if t < 9.2 else ez(t, 9.2, 10.8, (-3.05, 2.62, 0.03), (1.45, 1.55, 0.12), 's')
+    c.camera(pos, tgt, lens=30.0, fstop=3.2, focus=foc)
+    lit_tents(S, c, t, glow=1.6 + 1.6 * ez(t, 8.0, 9.0, 0.0, 1.0), p1=0.0)
+    S['lamps'][0].pose((0, 0, -5), 0.0)
 
 @shot(11.62, 16.6, 'A3_records')
 def A3(c, t, u):
-    S = c.S; c.light(moon=0.35, az=-120, el=30, fill=0.05, amb=0.25)
+    S = c.S; c.light(moon=0.30, az=-120, el=30, fill=0.06, amb=0.25)
     sx, sy = 0.00, 0.35; scr = S['scroll']; r = scr['root']; hide(r, False); r.location = (sx, sy, gz(sx, sy)); r.rotation_euler = (0, 0, D(-8))
-    rows_t = [11.4, 12.2, 12.8, 13.3, 13.9, 14.5, 15.1, 15.6, 16.05]
+    n = len(scr['marks']); rows_t = [11.45 + 0.37 * k for k in range(n)]
     for k, o in enumerate(scr['marks']): o.hide_render = t < rows_t[k]
     scr['stylus'].hide_render = True
-    lamp(S, 0, sx - 0.14, sy - 0.10, power=1.6, t=t, flick_seed=3)
-    pos = ez(t, 11.62, 16.6, (-0.22, -0.20, 0.060), (0.12, -0.10, 0.105), 's'); tgt = ez(t, 11.62, 16.6, (0.0, 0.35, 0.085), (0.0, 0.35, 0.120), 's')
-    c.camera(pos, tgt, lens=40.0, fstop=3.2, focus=(sx, sy, 0.09))
+    lamp(S, 0, sx - 0.16, sy - 0.12, power=1.0, t=t, flick_seed=3)
+    pos = ez(t, 11.62, 16.6, (-0.20, -0.18, 0.070), (0.10, -0.14, 0.120), 's'); tgt = ez(t, 11.62, 16.6, (0.0, 0.35, 0.085), (0.0, 0.35, 0.130), 's')
+    c.camera(pos, tgt, lens=40.0, fstop=3.5, focus=(sx, sy, 0.10))
 
 @shot(16.6, 18.94, 'A4_title')
 def A4(c, t, u):
-    S = c.S; c.light(moon=0.8, az=-95, el=24, fill=0.12)
-    x, y = 0.0, 0.85; z = gz(x, y) + 0.020
-    ti = S['title']; ti.root.location = (x, y, z + 0.020); ts = S['title_sub']; ts.root.location = (x, y, z - 0.010)
+    S = c.S; c.light(moon=0.8, az=-95, el=24, fill=0.14)
+    x, y = 0.0, 0.95; z0 = gz(x, y)
+    pl = S['plinth']; hide(pl, False); pl.location = (x, y, z0)
+    ti = S['title']; ti.root.location = (x, y - 0.0165, z0 + 0.098); ts = S['title_sub']; ts.root.location = (x, y - 0.0150, z0 + 0.050)
     ti.show(t=t, times=[16.8 + 0.07 * k for k in range(len(ti.items))], pop_s=0.35); ts.show(t=t, times=[17.75, 17.95, 18.15, 18.3, 18.45], pop_s=0.3)
-    S['plinth'].location = (x, y - 0.003, gz(x, y)); hide(S['plinth'], False)
-    lamp(S, 0, x - 0.20, y - 0.14, power=1.2, t=t, flick_seed=2)
-    pos = ez(t, 16.6, 18.94, (0.02, -0.10, 0.075), (0.03, 0.18, 0.085), 's'); tgt = (0.0, y, z + 0.015)
-    c.camera(pos, tgt, lens=35.0, fstop=4.0, focus=tgt)
+    lamp(S, 0, x - 0.17, y - 0.20, power=1.0, t=t, flick_seed=2)
+    pos = ez(t, 16.6, 18.94, (0.00, 0.02, 0.105), (0.01, 0.12, 0.108), 's'); tgt = (0.0, y, z0 + 0.078)
+    c.camera(pos, tgt, lens=35.0, fstop=4.5, focus=(x, y - 0.015, z0 + 0.078))
 
 @shot(18.94, 22.0, 'B1_sasaa')
 def B1(c, t, u):
@@ -393,12 +391,12 @@ def B2(c, t, u):
 
 @shot(25.42, 27.92, 'C1_hard')
 def C1(c, t, u):
-    S = c.S; day_default(c); c.light(moon=0.8, az=-70, el=20, fill=0.10)
-    tx, ty = -2.10, 1.10
-    hide(S['thorn'], False); S['thorn'].location = (tx, ty, gz(tx, ty)); S['thorn'].rotation_euler = (0, 0, 0.4)
-    hide(S['thorn2'], False); S['thorn2'].location = (tx + 0.16, ty + 0.12, gz(tx + 0.16, ty + 0.12)); S['thorn2'].rotation_euler = (0, 0, 1.9)
-    pos = ez(t, 25.42, 27.92, (tx + 0.02, ty - 0.55, 0.050), (tx + 0.04, ty - 0.38, 0.060), 's'); tgt = (tx + 0.03, ty, 0.06)
-    c.camera(pos, tgt, lens=40.0, fstop=3.0, focus=(tx, ty, 0.05))
+    S = c.S; day_default(c); c.light(moon=0.9, az=-120, el=18, fill=0.22, fill_k=6500)
+    tx, ty = -2.30, 1.10
+    hide(S['thorn'], False); S['thorn'].location = (tx, ty, gz(tx, ty)); S['thorn'].rotation_euler = (0, 0, 0.4); S['thorn'].scale = (1.5, 1.5, 1.5)
+    hide(S['thorn2'], False); S['thorn2'].location = (tx + 0.20, ty + 0.14, gz(tx + 0.20, ty + 0.14)); S['thorn2'].rotation_euler = (0, 0, 1.9); S['thorn2'].scale = (1.4, 1.4, 1.4)
+    pos = ez(t, 25.42, 27.92, (tx + 0.02, ty - 0.46, 0.060), (tx + 0.04, ty - 0.32, 0.075), 's'); tgt = (tx + 0.06, ty, 0.075)
+    c.camera(pos, tgt, lens=40.0, fstop=3.5, focus=(tx, ty, 0.07))
 
 @shot(27.92, 33.7, 'C2_hunger')
 def C2(c, t, u):
@@ -428,21 +426,21 @@ def C3(c, t, u):
 
 @shot(37.22, 39.62, 'D1_families')
 def D1(c, t, u):
-    S = c.S; day_default(c); c.light(moon=0.55, az=-110, el=22, fill=0.10, amb=0.25)
+    S = c.S; day_default(c); c.light(moon=0.55, az=-110, el=22, fill=0.12, amb=0.25)
     glow_camp(S, 2.6, sil={0: ('head', 'veil', 'body'), 2: ('head', 'veil', 'body', 'arm', 'bundle', 'bhead'), 4: ('head', 'veil', 'body')}, t=t)
-    pos = ez(t, 37.22, 39.62, (-2.55, 1.55, 0.085), (-1.55, 1.58, 0.090), 's'); tgt = ez(t, 37.22, 39.62, (-2.40, 3.2, 0.09), (-1.40, 3.2, 0.09), 's')
-    c.camera(pos, tgt, lens=26.0, fstop=3.5, focus=(-2.0, 3.2, 0.08))
+    pos = ez(t, 37.22, 39.62, (-3.00, 2.05, 0.085), (-2.45, 2.07, 0.088), 's'); tgt = ez(t, 37.22, 39.62, (-2.95, 3.1, 0.095), (-2.40, 3.1, 0.095), 's')
+    c.camera(pos, tgt, lens=26.0, fstop=3.5, focus=(-2.6, 3.1, 0.08))
 
 @shot(39.62, 41.52, 'D2_dark_tent')
 def D2(c, t, u):
-    S = c.S; day_default(c); c.light(moon=0.5, az=-110, el=22, fill=0.10, amb=0.25)
+    S = c.S; day_default(c); c.light(moon=0.5, az=-110, el=22, fill=0.12, amb=0.25)
     dim = ez(t, 39.9, 40.8, 1.0, 0.0, 's')
     sil = {0: ('head', 'veil', 'body'), 2: ('head', 'veil', 'body', 'arm', 'bundle', 'bhead'), 4: ('head', 'veil', 'body'), 3: ('head', 'veil', 'body')}
     for k, tt in enumerate(S['camp']):
         x, y = W.CAMP[k]; tt.show(sil=sil.get(k, ()) if (k != 3 or dim > 0.3) else ()); tt.root.location = (x, y, gz(x, y)); tt.root.rotation_euler = (0, 0, D((k * 37) % 17 - 8))
         tt.glow_em.inputs['Strength'].default_value = 2.6 * ((0.03 + 0.97 * dim) if k == 3 else 1.0)
-    pos = ez(t, 39.62, 41.52, (-1.55, 1.9, 0.085), (-1.43, 2.35, 0.080), 's'); tgt = (-1.30, 3.14, 0.085)
-    c.camera(pos, tgt, lens=30.0, fstop=3.2, focus=(-1.30, 3.14, 0.07))
+    pos = ez(t, 39.62, 41.52, (-2.35, 2.05, 0.080), (-2.17, 2.45, 0.075), 's'); tgt = (W.CAMP[3][0] - 0.02, W.CAMP[3][1], 0.085)
+    c.camera(pos, tgt, lens=28.0, fstop=3.2, focus=(W.CAMP[3][0], W.CAMP[3][1], 0.07))
 
 TC, TS = W.spline_pts(W.TRACK_PTS, 0.01)
 
@@ -453,25 +451,26 @@ def track_pos(d, off=0.14):
 
 @shot(41.52, 46.0, 'E1_follow_tracks')
 def E1(c, t, u):
-    S = c.S; day_default(c); c.light(moon=0.8, az=-100, el=22, fill=0.12)
+    S = c.S; day_default(c); c.light(moon=0.9, az=-115, el=22, fill=0.14)
     d = 0.9 + 0.27 * (t - 41.52); q, tg = track_pos(d); yaw = yaw_of(tg[0], tg[1])
     ride(S, 'ride', q[0], q[1], yaw, t, d, arm=(10, 6, 14), head=(wobble(t, 0.5, 8), 2, 0), neck=(0, 2))
-    pos = (q[0] + 0.02, q[1] - 0.56, 0.085); tgt = (q[0] + 0.09, q[1], 0.115)
-    c.camera(pos, tgt, lens=38.0, fstop=3.0, focus=(q[0], q[1], 0.12))
-    for k, tt in enumerate(S['camp']):
-        x, y = W.CAMP[k]; tt.show(); tt.root.location = (x, y, gz(x, y)); tt.glow_em.inputs['Strength'].default_value = 2.0
+    pos = (q[0] + 0.02, q[1] - 0.60, 0.095); tgt = (q[0] + 0.01, q[1], 0.125)
+    c.camera(pos, tgt, lens=34.0, fstop=3.5, focus=(q[0], q[1], 0.12))
+    glow_camp(S, 2.0, t=t)
 
 @shot(46.0, 48.99, 'E2_two_tents')
 def E2(c, t, u):
-    S = c.S; day_default(c); c.light(moon=0.55, az=-95, el=20, fill=0.10, amb=0.25)
+    S = c.S; day_default(c); c.light(moon=0.7, az=-95, el=20, fill=0.12, amb=0.25)
     stop = 47.7
-    d = 2.18 + 0.27 * (min(t, stop) - 46.0) - (0.0 if t < stop else 0.0); q, tg = track_pos(d); yaw = yaw_of(tg[0], tg[1])
+    d = 2.18 + 0.27 * (min(t, stop) - 46.0); q, tg = track_pos(d); yaw = yaw_of(tg[0], tg[1])
     moving = t < stop
     point = ez(t, 47.7, 48.3, 0.0, 1.0, 'o')
-    ride(S, 'ride', q[0], q[1], yaw, t, d, moving=moving, arm=(8 + 78 * point, 6, 20 * (1 - point)), head=(-8 * point, 3, 0), neck=(0, 2 + 6 * point), brow=(0.6 * point, 8 * point))
-    lit_tents(S, c, t, glow=2.0 + 1.8 * ez(t, 47.7, 48.2, 0.0, 1.0), p1=1.0 + ez(t, 47.7, 48.2, 0.0, 1.0))
-    pos = ez(t, 46.0, 48.99, (q[0] - 0.65, q[1] - 0.20, 0.150), (q[0] - 0.60, q[1] - 0.12, 0.175), 's'); tgt = (1.25, 1.62, 0.105)
-    c.camera(pos, tgt, lens=34.0, fstop=3.5, focus=(q[0] + 0.1, q[1], 0.18) if t < 47.7 else (1.4, 1.6, 0.1))
+    ride(S, 'ride', q[0], q[1], yaw, t, d, moving=moving, arm=(8 + 78 * point, 6, 20 * (1 - point)), head=(-8 * point, 3, 0), neck=(0, 2 + 6 * point), brow=(0.6 * point, 3 * point))
+    fl = ez(t, 47.7, 48.2, 0.0, 1.0)
+    lit_tents(S, c, t, glow=2.4 + 2.0 * fl, p1=1.0 + 1.0 * fl)
+    dx, dy = float(tg[0]), float(tg[1])
+    pos = (q[0] - dx * 0.42 - dy * 0.10, q[1] - dy * 0.42 + dx * 0.10, 0.185); tgt = (1.70, 1.70, 0.115)
+    c.camera(pos, tgt, lens=36.0, fstop=4.0, focus=(q[0] + 0.1, q[1], 0.18) if t < 47.7 else (1.6, 1.65, 0.1))
 
 OLD_P, SAS_P = (1.30, 1.36), (0.98, 1.30)
 
@@ -507,15 +506,15 @@ def F2(c, t, u):
 
 @shot(54.58, 57.95, 'F3_milk')
 def F3(c, t, u):
-    S = c.S; c.light(moon=0.30, az=-105, el=24, fill=0.06, amb=0.22)
+    S = c.S; c.light(moon=0.30, az=-105, el=24, fill=0.14, fill_k=4500, amb=0.22)
     lit_tents(S, c, t, glow=2.0, p1=1.2)
-    mx, my = 1.19, 1.26; hide(S['milkbowl'], False); S['milkbowl'].location = (mx, my, gz(mx, my))
+    mx, my = 1.22, 1.24; hide(S['milkbowl'], False); S['milkbowl'].location = (mx, my, gz(mx, my))
     old = S['fig']['old']
-    fig_pose(old, OLD_P[0], OLD_P[1], 195.0, lean=18.0, head=(-5, -8, 0), armR=(26, 10, 52), armL=(40, 12, 48), mouth=talk(t, 55.0, 57.5, 5.0, 3.0), brow=(0.2, -6), blink=blink_at(t, [56.6]))
+    fig_pose(old, OLD_P[0] + 0.02, OLD_P[1] + 0.04, 190.0, lean=20.0, head=(-5, -12, 0), armR=(18, 12, 20), armL=(36, 14, 30), mouth=talk(t, 55.0, 57.5, 5.0, 3.0), brow=(0.2, -6), blink=blink_at(t, [56.6]))
     S['milkbowl'].location = (mx, my, gz(mx, my))
     camp_actors(S, t)
-    pos = ez(t, 54.58, 57.95, (1.05, 0.88, 0.062), (1.12, 1.00, 0.070), 's'); tgt = ez(t, 54.58, 57.95, (mx + 0.06, my, 0.040), (mx + 0.08, my, 0.058), 's')
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(mx, my, 0.015))
+    pos = ez(t, 54.58, 57.95, (1.02, 0.92, 0.075), (1.10, 1.00, 0.085), 's'); tgt = ez(t, 54.58, 57.95, (mx + 0.01, my + 0.03, 0.040), (mx + 0.04, my + 0.06, 0.080), 's')
+    c.camera(pos, tgt, lens=38.0, fstop=4.5, focus=(mx + 0.02, my + 0.02, 0.04))
 
 def tent2_lamp(S, t, power=1.0):
     return lamp(S, 2, 2.28, 1.585, power=power, t=t, flick_seed=9)
@@ -551,7 +550,7 @@ def G2(c, t, u):
     c.camera(pos, tgt, lens=34.0, fstop=3.2, focus=(2.35, 1.7, 0.07))
 
 def dialog_light(c, S, t, *, lamp_xy, p=1.0):
-    c.light(moon=0.25, az=-110, el=22, fill=0.05, amb=0.20)
+    c.light(moon=0.25, az=-110, el=22, fill=0.20, fill_k=4200, amb=0.22)
     lit_tents(S, c, t, glow=2.2, p1=1.0, sil2=('head', 'veil', 'body', 'arm', 'bundle', 'bhead'))
     S['t2'].sil['arm'].rotation_euler = (0, D(35), 0)
     lamp(S, 2, lamp_xy[0], lamp_xy[1], power=p, t=t, flick_seed=11)
@@ -566,7 +565,7 @@ def H1(c, t, u):
     old_cu(S, t, yaw=172.0, lean=5.0, head=(ez(t, 63.3, 64.2, -10, 4, 's'), 2 - 4 * math.sin(clamp((t - 64.6) / 1.0) * math.pi), 0), arm=(26, 8, 70), mouth=talk(t, 63.5, 65.6, 6.0, 5.0), brow=(0.7 * ez(t, 64.5, 64.9, 0, 1), -5), blink=blink_at(t, [64.2]))
     fig_pose(S['fig']['sasaa'], SAS_P[0] - 0.08, SAS_P[1] - 0.02, -70.0, head=(0, 0, 0))
     pos = ez(t, 63.34, 66.0, (OLD_P[0] + 0.07, OLD_P[1] - 0.34, 0.100), (OLD_P[0] + 0.04, OLD_P[1] - 0.27, 0.102), 's'); tgt = (OLD_P[0] - 0.004, OLD_P[1], 0.104)
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(OLD_P[0], OLD_P[1] - 0.014, 0.104))
+    c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(OLD_P[0], OLD_P[1] - 0.014, 0.104))
 
 @shot(66.0, 69.41, 'H2_one_of_us')
 def H2(c, t, u):
@@ -575,22 +574,22 @@ def H2(c, t, u):
     old_cu(S, t, yaw=150.0, lean=4.0, head=(ez(t, 66.0, 67.0, 10, -8, 's'), 3, 0), arm=(24 + 20 * ch, 6, 78 - 20 * ch), mouth=talk(t, 66.2, 69.0, 6.0, 6.0), brow=(0.4, -4), blink=blink_at(t, [67.3]))
     fig_pose(S['fig']['sasaa'], SAS_P[0] - 0.08, SAS_P[1] - 0.02, -70.0, head=(0, 0, 0))
     pos = ez(t, 66.0, 69.41, (OLD_P[0] - 0.22, OLD_P[1] - 0.26, 0.096), (OLD_P[0] - 0.14, OLD_P[1] - 0.30, 0.100), 's'); tgt = (OLD_P[0], OLD_P[1], 0.103)
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(OLD_P[0], OLD_P[1] - 0.01, 0.104))
+    c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(OLD_P[0], OLD_P[1] - 0.01, 0.104))
 
 @shot(69.41, 71.0, 'H3_bury_her')
 def H3(c, t, u):
     S = c.S; dialog_light(c, S, t, lamp_xy=(OLD_P[0] - 0.05, OLD_P[1] - 0.07), p=0.7)
     old_cu(S, t, yaw=178.0, lean=2.0, head=(0, 0, 0), arm=(14, 8, 8), mouth=talk(t, 69.6, 71.5, 5.0, 8.0), brow=(0.0, -12))
     pos = ez(t, 69.41, 71.0, (OLD_P[0] + 0.00, OLD_P[1] - 0.32, 0.092), (OLD_P[0] + 0.01, OLD_P[1] - 0.26, 0.094), 's'); tgt = (OLD_P[0], OLD_P[1], 0.100)
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(OLD_P[0], OLD_P[1] - 0.014, 0.102))
+    c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(OLD_P[0], OLD_P[1] - 0.014, 0.102))
 
 @shot(71.0, 72.17, 'H4_reaction')
 def H4(c, t, u):
     S = c.S; dialog_light(c, S, t, lamp_xy=(SAS_P[0] + 0.08, SAS_P[1] - 0.08), p=0.9)
     k = ez(t, 71.0, 71.5, 0.0, 1.0, 'o')
-    fig_pose(S['fig']['sasaa'], SAS_P[0], SAS_P[1], 180.0 - 18.0, head=(-4, -2 + 2 * k, 0), mouth='closed', brow=(-0.6 * k, 10 * k), blink=blink_at(t, [71.9], 0.14))
+    fig_pose(S['fig']['sasaa'], SAS_P[0], SAS_P[1], 180.0 - 18.0, head=(-4, -2 + 2 * k, 0), mouth='closed', brow=(0.6 * k, -6 * k), blink=blink_at(t, [71.9], 0.14))
     pos = (SAS_P[0] + 0.06, SAS_P[1] - 0.30, 0.108); tgt = (SAS_P[0], SAS_P[1], 0.112)
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(SAS_P[0], SAS_P[1] - 0.014, 0.112))
+    c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(SAS_P[0], SAS_P[1] - 0.014, 0.112))
 
 @shot(72.17, 74.02, 'I_it_was_a_girl')
 def I_(c, t, u):
@@ -607,10 +606,10 @@ def I_(c, t, u):
 def J1(c, t, u):
     S = c.S; dialog_light(c, S, t, lamp_xy=(1.15, 1.18), p=1.2)
     p = ez(t, 75.4, 76.2, 0.0, 1.0, 'o')
-    fig_pose(S['fig']['sasaa'], SAS_P[0], SAS_P[1], -65.0, lean=4.0 * p, head=(ez(t, 74.0, 74.8, 0, -12, 's'), 2, 0), armR=(30 + 40 * p, 14 + 14 * p, 40 - 8 * p), armL=(8, 6, 0), mouth=talk(t, 74.2, 76.6, 6.0, 12.0), brow=(0.4, 5), blink=blink_at(t, [75.0]))
+    fig_pose(S['fig']['sasaa'], SAS_P[0], SAS_P[1], -65.0, lean=4.0 * p, head=(ez(t, 74.0, 74.8, 0, -12, 's'), 2, 0), armR=(30 + 40 * p, 14 + 14 * p, 40 - 8 * p), armL=(8, 6, 0), mouth=talk(t, 74.2, 76.6, 6.0, 12.0), brow=(0.4, 2), blink=blink_at(t, [75.0]))
     old_cu(S, t, yaw=115.0, lean=8.0, head=(ez(t, 75.8, 76.6, 0, 10, 's'), 2, 0), arm=(34, 8, 66), mouth='closed', brow=(0.0, -3))
-    pos = ez(t, 74.02, 77.3, (1.17, 0.84, 0.098), (1.14, 0.92, 0.100), 's'); tgt = (1.14, 1.33, 0.100)
-    c.camera(pos, tgt, lens=26.0, fstop=3.2, focus=(1.14, 1.33, 0.1))
+    pos = ez(t, 74.02, 77.3, (1.18, 0.72, 0.100), (1.15, 0.80, 0.102), 's'); tgt = (1.14, 1.33, 0.100)
+    c.camera(pos, tgt, lens=22.0, fstop=4.0, focus=(1.14, 1.33, 0.1))
 
 @shot(77.3, 80.4, 'J2_insulted')
 def J2(c, t, u):
@@ -619,7 +618,7 @@ def J2(c, t, u):
     old_cu(S, t, yaw=172.0 - 12 * k, lean=12.0 * (1 - k) - 2.0 * k, head=(0, 6 * k, 0), arm=(40 + 40 * k, 8 + 8 * k, 56 - 36 * k), mouth='closed' if t < 78.8 else talk(t, 78.8, 80.3, 6.0, 15.0), brow=(0.9 * k, -16 * k), blink=0.0)
     S['staff'].rotation_euler = (D(-6 - 8 * k), 0, 0)
     pos = ez(t, 77.3, 80.4, (OLD_P[0] + 0.05, OLD_P[1] - 0.33, 0.098), (OLD_P[0] + 0.03, OLD_P[1] - 0.26, 0.105), 's'); tgt = (OLD_P[0], OLD_P[1], 0.104 + 0.004 * k)
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(OLD_P[0], OLD_P[1] - 0.014, 0.105))
+    c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(OLD_P[0], OLD_P[1] - 0.014, 0.105))
 
 @shot(80.4, 83.75, 'J3_free_man')
 def J3(c, t, u):
@@ -627,7 +626,7 @@ def J3(c, t, u):
     old_cu(S, t, yaw=168.0, lean=-2.0, head=(ez(t, 80.4, 82.0, -8, 6, 's'), 6, 0), arm=(46 + 14 * math.sin((t - 80.4) * 5), 10, 48), mouth=talk(t, 80.5, 83.3, 6.0, 16.0), brow=(0.8, -14), blink=blink_at(t, [82.0]))
     S['staff'].rotation_euler = (D(-14), 0, 0)
     pos = ez(t, 80.4, 83.75, (OLD_P[0] - 0.12, OLD_P[1] - 0.30, 0.098), (OLD_P[0] - 0.05, OLD_P[1] - 0.24, 0.106), 's'); tgt = (OLD_P[0], OLD_P[1], 0.108)
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(OLD_P[0], OLD_P[1] - 0.014, 0.108))
+    c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(OLD_P[0], OLD_P[1] - 0.014, 0.108))
 
 @shot(83.75, 88.2, 'K1_answered')
 def K1(c, t, u):
@@ -635,7 +634,7 @@ def K1(c, t, u):
     br = math.sin((t - 83.75) * 2 * math.pi * 0.25) * 1.0
     fig_pose(S['fig']['sasaa'], SAS_P[0], SAS_P[1], 180.0 - 14.0, bob=0.0008 * br, head=(ez(t, 83.75, 86.5, 8, -2, 's'), 1 + 0.8 * br, 0), armR=(10, 5, 0), mouth=talk(t, 85.6, 87.6, 4.0, 20.0) if t > 85.6 else 'closed', brow=(0.3, 3), blink=blink_at(t, [85.2]))
     pos = ez(t, 83.75, 88.2, (SAS_P[0] + 0.11, SAS_P[1] - 0.36, 0.100), (SAS_P[0] + 0.07, SAS_P[1] - 0.30, 0.104), 's'); tgt = (SAS_P[0], SAS_P[1], 0.112)
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(SAS_P[0], SAS_P[1] - 0.014, 0.112))
+    c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(SAS_P[0], SAS_P[1] - 0.014, 0.112))
 
 @shot(88.2, 91.95, 'K2_buying_her_life')
 def K2(c, t, u):
@@ -645,11 +644,11 @@ def K2(c, t, u):
              mouth=talk(t, 88.4, 91.2, 5.5, 21.0), brow=(0.2, 6), blink=blink_at(t, [91.5]))
     zoom = ez(t, 88.2, 91.95, 0.0, 1.0, 's')
     pos = (SAS_P[0] + 0.03 - 0.02 * zoom, SAS_P[1] - 0.30 + 0.07 * zoom, 0.104 + 0.004 * zoom); tgt = (SAS_P[0], SAS_P[1], 0.112)
-    c.camera(pos, tgt, lens=42.0, fstop=2.6, focus=(SAS_P[0], SAS_P[1] - 0.016, 0.112))
+    c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(SAS_P[0], SAS_P[1] - 0.016, 0.112))
 
 # ---------------------------------------------------------------- the price: camels handed over, rope by rope
 ANIMALS = [('she1', 92.45, 0), ('she2', 93.75, 1), ('calf1', 94.95, 2), ('calf2', 95.75, 3), ('ride', 97.0, 4)]
-LPOS = {'she1': (0.62, 1.42, -80.0), 'she2': (0.50, 1.62, -85.0), 'calf1': (0.70, 1.15, -80.0), 'calf2': (0.52, 1.02, -75.0), 'ride': (0.34, 1.30, -80.0)}
+LPOS = {'she1': (0.60, 1.52, -100.0), 'she2': (0.60, 1.28, -80.0), 'calf1': (0.74, 1.66, -95.0), 'calf2': (0.72, 1.12, -85.0), 'ride': (0.36, 1.40, -92.0)}
 
 def price_scene(c, t, S):
     from mathutils import Vector
@@ -678,20 +677,20 @@ def bump(t, a, b, c_):
 @shot(91.95, 94.95, 'L1_two_pregnant')
 def L1(c, t, u):
     S = c.S; price_scene(c, t, S)
-    pos = ez(t, 91.95, 94.95, (0.95, 0.60, 0.100), (0.98, 0.70, 0.105), 's'); tgt = ez(t, 91.95, 94.95, (0.80, 1.38, 0.10), (0.92, 1.36, 0.10), 's')
-    c.camera(pos, tgt, lens=28.0, fstop=3.5, focus=(0.9, 1.35, 0.1))
+    pos = ez(t, 91.95, 94.95, (1.02, 0.66, 0.105), (1.04, 0.72, 0.108), 's'); tgt = (1.03, 1.34, 0.100)
+    c.camera(pos, tgt, lens=24.0, fstop=4.5, focus=(1.0, 1.33, 0.1))
 
 @shot(94.95, 96.35, 'L2_calves')
 def L2(c, t, u):
     S = c.S; price_scene(c, t, S)
-    pos = ez(t, 94.95, 96.35, (1.05, 0.70, 0.085), (1.00, 0.78, 0.088), 's'); tgt = (0.90, 1.30, 0.085)
-    c.camera(pos, tgt, lens=36.0, fstop=3.2, focus=(0.9, 1.3, 0.09))
+    pos = ez(t, 94.95, 96.35, (1.14, 0.84, 0.080), (1.12, 0.90, 0.078), 's'); tgt = (1.13, 1.34, 0.072)
+    c.camera(pos, tgt, lens=44.0, fstop=4.5, focus=(1.13, 1.33, 0.08))
 
 @shot(96.35, 98.85, 'L3_riding_camel')
 def L3(c, t, u):
     S = c.S; price_scene(c, t, S)
-    pos = ez(t, 96.35, 98.85, (0.62, 0.66, 0.115), (0.70, 0.60, 0.120), 's'); tgt = ez(t, 96.35, 98.85, (0.78, 1.30, 0.11), (0.82, 1.30, 0.10), 's')
-    c.camera(pos, tgt, lens=26.0, fstop=3.5, focus=(0.8, 1.3, 0.1))
+    pos = ez(t, 96.35, 98.85, (0.80, 0.52, 0.125), (0.90, 0.58, 0.130), 's'); tgt = ez(t, 96.35, 98.85, (0.78, 1.34, 0.095), (0.90, 1.34, 0.095), 's')
+    c.camera(pos, tgt, lens=22.0, fstop=4.5, focus=(0.8, 1.35, 0.1))
 
 HOME_PTS = [(1.0, 1.05), (0.45, 0.88), (-0.25, 0.72), (-1.0, 0.74), (-1.7, 0.98), (-2.3, 1.22)]
 HC, HS = W.spline_pts(HOME_PTS, 0.01)
@@ -786,11 +785,11 @@ def mecca_scene(S, t, lit=(0, 1, 2, 3, 4, 5, 6, 7), door_on=1.0):
     S['mecca_far'] = S['mecca_far']
 
 def mecca_light(c, **kw):
-    c.light(moon=0.0, moon_vis=0.0, az=-100, el=26, fill=0.10, amb=0.32, **kw)
+    c.light(moon=0.55, moon_vis=0.0, az=-100, el=26, fill=0.18, fill_k=5200, amb=0.38, **kw)
 
 @shot(122.2, 124.0, 'O1_not_alone')
 def O1(c, t, u):
-    S = c.S; mecca_light(c); c.light(fill=0.06)
+    S = c.S; mecca_light(c)
     mecca_scene(S, t)
     on = ez(t, 122.55, 122.85, 0.0, 1.0, 'o'); lx, ly = 9.00, 1.20
     lamp(S, 0, lx, ly, on=on, power=1.8, t=t, flick_seed=30)

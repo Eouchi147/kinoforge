@@ -14,8 +14,8 @@ PADS = [  # (x, y, inner radius, outer radius): flattened clay where puppets and
 ]
 TRACK_PTS = [(-3.9, 3.05), (-3.0, 2.75), (-2.2, 2.55), (-1.4, 2.10), (-0.6, 2.05), (0.2, 1.65), (0.75, 1.15), (1.1, 0.95)]
 MECCA_X = 9.0
-CAMP = [(-3.25, 3.20), (-2.60, 3.10), (-1.95, 3.28), (-1.30, 3.14), (-0.65, 3.26), (0.00, 3.16)]
-PADS += [(x, y, 0.22, 0.45) for (x, y) in CAMP]
+CAMP = [(-3.30, 3.02), (-2.88, 3.14), (-2.46, 3.00), (-2.04, 3.16), (-1.62, 3.05), (-1.20, 3.18)]
+PADS += [(x, y, 0.18, 0.34) for (x, y) in CAMP]
 # (x, y, half width, half depth, height, windows, door): the toy town of Mecca, fronts facing the camera
 MECCA_HOUSES = [(7.55, 2.50, 0.11, 0.09, 0.11, 1, False), (8.20, 2.62, 0.13, 0.10, 0.15, 2, False), (9.00, 2.50, 0.14, 0.11, 0.13, 1, True), (9.75, 2.64, 0.12, 0.10, 0.17, 2, False),
                 (10.45, 2.52, 0.12, 0.09, 0.12, 1, False), (8.00, 3.55, 0.13, 0.10, 0.18, 2, False), (8.95, 3.65, 0.14, 0.10, 0.14, 1, False), (9.90, 3.55, 0.13, 0.10, 0.19, 2, False)]
@@ -199,8 +199,8 @@ def build_sky(bpy, coll, S, W=(-16.0, 18.0)):
     # stars: pin-holes in the card, lit from behind
     rs = np.random.RandomState(7); sm, se = emissive(bpy, 'pinholes', (1.0, 0.93, 0.78), 14.0)
     Vs, Fs = [], []
-    for k in range(420):
-        x = rs.uniform(W[0] + 0.3, W[1] - 0.3); z = rs.uniform(0.55, 3.25) ** 1.0; r = rs.uniform(0.0016, 0.0042) * (1.7 if rs.rand() < 0.08 else 1.0)
+    for k in range(520):
+        x = rs.uniform(W[0] + 0.3, W[1] - 0.3); z = rs.uniform(0.32, 3.4) if k < 380 else rs.uniform(0.32, 1.3); r = rs.uniform(0.0011, 0.0030) * (1.8 if rs.rand() < 0.08 else 1.0)
         y = SKY_Y + 0.05 * math.sin(x * 0.4) + 0.12 * z - 0.004; v, f = disc_mesh(r, 8)
         b = len(Vs); Vs += [(vx + x, y, vz + z) for vx, _, vz in v]; Fs += [tuple(b + i for i in tri) for tri in f]
     me = bpy.data.meshes.new('stars'); me.from_pydata(Vs, [], Fs); me.update(); me.materials.append(sm)

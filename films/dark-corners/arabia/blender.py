@@ -20,14 +20,14 @@ FPS = 24
 SPP_CAP = 24      # the render workflow passes --samples 96 unless the queue overrides it; KF_ARABIA_SPP_CAP=0 lifts the cap
 
 def make_materials(bpy):
-    M = {'sand': sandy(bpy, 'sand', (0.74, 0.58, 0.38), (0.66, 0.50, 0.33), (0.80, 0.64, 0.44))}
+    M = {'sand': sandy(bpy, 'sand', (0.74, 0.58, 0.38), (0.66, 0.50, 0.33), (0.80, 0.64, 0.44), ripple=0.5)}
     M['street'] = sandy(bpy, 'street', (0.70, 0.55, 0.38), (0.62, 0.48, 0.34), (0.76, 0.60, 0.42), ripple=0.12)
     M['goat'] = striped(bpy, 'goat_hair', [(0.20, 0.14, 0.10), (0.15, 0.10, 0.07), (0.58, 0.46, 0.33), (0.18, 0.12, 0.09), (0.12, 0.08, 0.06)], period=0.022, axis=0, widths=[0.28, 0.24, 0.10, 0.22, 0.16], rough=0.85)
     M['pole'] = clay(bpy, 'wood', (0.42, 0.28, 0.16), (0.34, 0.22, 0.13), rough=0.7, seed=40)
     M['rope'] = clay(bpy, 'rope', (0.72, 0.60, 0.40), (0.60, 0.48, 0.32), rough=0.85, seed=41)
     M['rug'] = striped(bpy, 'rug', [(0.62, 0.16, 0.12), (0.90, 0.78, 0.50), (0.14, 0.20, 0.38), (0.90, 0.78, 0.50), (0.62, 0.16, 0.12), (0.30, 0.22, 0.14)], period=0.030, axis=1, widths=[0.25, 0.06, 0.25, 0.06, 0.25, 0.13], rough=0.9)
     M['sil'] = clay(bpy, 'sil', (0.07, 0.045, 0.035), (0.09, 0.06, 0.04), rough=0.8, sss=0.0, seed=42)
-    M['lampclay'] = clay(bpy, 'lamp_clay', (0.50, 0.30, 0.20), (0.42, 0.24, 0.16), rough=0.6, seed=43)
+    M['lampclay'] = clay(bpy, 'lamp_clay', (0.66, 0.42, 0.28), (0.56, 0.34, 0.22), rough=0.6, seed=43)
     M['flame'], M['flame_em'] = emissive(bpy, 'flame', (1.0, 0.72, 0.30), 18.0)
     M['bowl'] = clay(bpy, 'bowl', (0.60, 0.36, 0.22), (0.50, 0.28, 0.18), rough=0.55, seed=44)
     M['milk'] = clay(bpy, 'milk', (0.97, 0.95, 0.88), (0.92, 0.90, 0.82), rough=0.3, seed=45)
@@ -142,7 +142,7 @@ def _pair_reuse_handler(state):
 
 def _pair_reuse(bpy, ctx, S, i):
     d = S.get('dup')
-    if not d or not d['enabled']: return
+    if not d or not d['enabled']: return False
     sc = bpy.context.scene; fdir = os.path.join(ctx['out'], 'frames')
     if d.get('pending'):
         src, dst = d['pending']; d['pending'] = None
@@ -157,10 +157,13 @@ def _pair_reuse(bpy, ctx, S, i):
         sc.render.border_min_y, sc.render.border_max_y = 0.0, 2.0 / max(1, sc.render.resolution_y)
     else:
         sc.render.use_border = False; d['last'] = i
+    return reuse
 
 def frame(bpy, ctx, S, i, t):
     import director as Dr
     pf = (i // 2) * 2                   # ON 2s: every channel is a function of the pose frame
     Dr.render_pose(bpy, ctx, S, pf)
     if S.get('grain') is not None: S['grain'].inputs['W'].default_value = pf * 0.731 + 0.17
-    _pair_reuse(bpy, ctx, S, i)
+    reuse = _pair_reuse(bpy, ctx, S, i)
+    hn = S.get('hud_node')
+    if hn is not None: hn.mute = not (S.get('hud_on') and not reuse)    # the title-card scene is only rendered when it has something to show

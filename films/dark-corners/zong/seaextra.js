@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { clamp, lerp, smoothstep, ease, rng, noise1 } from '/harness/kit/film.js';
 import { setLights } from './lib.js';
 import { Canvas, hex, mixc, mul, rgba, underpaint, ridged } from './paint.js';
-import { WARM, GLOW, flick, line, paintPerson } from './common.js';
+import { WARM, GLOW, flick, line, paintPerson, drawLantern } from './common.js';
 import { SHIP, YH } from './sea.js';
 
 function paintPalm(C, x, yb, h, lean, col, lit) {
@@ -61,8 +61,8 @@ export function buildExtras(ctx) {
       for (let x = x0; x < x1; x += 5 + R() * 5) C.dab(x, top(x) - 21, 0, 14 + R() * 14, 2.6, hex('#8fa6dc'), 0.5 + R() * 0.3, 0.02, 0.5);
       for (let x = x0; x < x1; x += 6 + R() * 8) C.dab(x, 1034 + R() * 6, 0, 14 + R() * 24, 2.4, hex('#aab8e6'), 0.35, 0.04, 0.8);
       C.mottle({ amt: 0.05 }); planes.hull = S.plane('hull', 60, r, C.c); planes.hull.visible = false; planes.hull.userData.rail = 330; }
-    { const r = [380, 120, 620, 560]; const C = new Canvas(r, { seed: 1661 }); // the man: head, shoulders, arms raised to the rope
-      paintPerson(C, { x: 470, yb: 560, h: 330, face: 1, hat: 'none', coat: 0.4, flare: 0.8, shoulder: 17, col: hex('#07080f'), rim: hex('#ffb870'), rimSide: -1, arms: [{ s: [12, 2], e: [11, -16], h: [8, -33] }, { s: [-12, 2], e: [-11, -16], h: [-8, -33] }] });
+    { const r = [380, 150, 620, 700]; const C = new Canvas(r, { seed: 1661 }); // the man: head, shoulders, arms raised to the rope
+      paintPerson(C, { x: 470, yb: 650, h: 330, face: 1, hat: 'none', coat: 0.4, flare: 0.8, shoulder: 17, col: hex('#07080f'), arms: [{ s: [12, 2], e: [11, -16], h: [8, -33] }, { s: [-12, 2], e: [-11, -16], h: [-8, -33] }] });
       planes.man = S.plane('man', 58, r, C.c); planes.man.visible = false; }
     ex.railLantern = S.glow(150, 272, 60, 150, { color: GLOW, core: 40 }); ex.railLantern.renderOrder = 1e6 - 60 * 10 + 1; ex.railAura = S.glow(150, 300, 60, 900, { color: [1, 0.55, 0.22], core: 5000 }); ex.railAura.renderOrder = 1e6 - 60 * 10 + 0.6;
   }
@@ -101,7 +101,7 @@ export function buildExtras(ctx) {
         g.strokeStyle = rgba(hex('#b89868'), 0.5); g.lineWidth = 1.6 * sz; for (let k = 0; k < 24; k++) { const a = pts[k], b = pts[k + 1]; const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2; g.beginPath(); g.moveTo(mx - 3.2 * sz, my + 2 * sz); g.lineTo(mx + 3.2 * sz, my - 2 * sz); g.stroke(); }
         const w = pts[pts.length - 1]; g.strokeStyle = `rgba(205,220,255,${(0.5).toFixed(3)})`; g.lineWidth = 1.6 * sz; for (let j = 0; j < 2; j++) { const kk = ((t * 0.6 + j * 0.5) % 1); g.globalAlpha = 1 - kk; g.beginPath(); g.ellipse(w[0], w[1] + 3 * sz, (10 + 40 * kk) * sz, (2.4 + 8 * kk) * sz, 0, 0, 6.3); g.stroke(); } g.globalAlpha = 1;
         // the rail lantern
-        const lq = P(150, 330, 60); const lk = P(150, 290, 60); line(g, P(150, 214, 60), lk, 2 * sz, hex('#0a0a12'), 0.95); }
+        const lk = P(150, 252, 60); line(g, P(150, 150, 60), lk, 2.2 * sz, hex('#0a0a12'), 0.95); drawLantern(g, lk[0], P(150, 282, 60)[1], 52 * sz, 1.0 * flick(t, 9), Math.sin(t * 1.1) * 0.03); }
     },
   };
 }

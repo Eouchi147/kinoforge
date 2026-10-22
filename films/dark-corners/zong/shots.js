@@ -81,7 +81,7 @@ D('x2b', { set: 'section', cam: mv({ x: 0, y: 0.3, z: -2.0 }, { x: 0, y: -0.6, z
 D('x2c', { set: 'section', cam: mv({ x: 0, y: -0.5, z: -3.6 }, { x: 0, y: 0.1, z: -0.4 }, ease.inOutSine), dots: (t) => ({ crew: 17, cap: 440, dim: smoothstep(35.0, 35.9, t) * (1 - smoothstep(37.2, 37.9, t)), keep: 440, fade: 0 }),
   words: (t) => [{ text: '440', y: 0.14, px: 120, a: 1 - smoothstep(37.4, 38.0, t), col: '#ffd9a0' }, { text: 'captives', y: 0.205, px: 40, sub: true, a: 1 - smoothstep(37.4, 38.0, t), col: '#ffd9a0' }] });
 D('a1c', { set: 'section', cam: mv({ x: 0, y: -0.1, z: -1.0 }, { x: 0, y: -0.3, z: -3.0 }), dots: (t) => ({ crew: 17, cap: 440, dim: 0, keep: 208, fade: smoothstep(111.9, 114.4, t) }),
-  words: (t) => { const k = smoothstep(111.9, 114.4, t); const n = Math.round(lerp(440, 208, k)); return [{ text: String(n), y: 0.14, px: 120, a: 1, col: '#ffd9a0' }, { text: 'alive', y: 0.205, px: 40, sub: true, a: smoothstep(112.5, 113.2, t), col: '#ffd9a0' }]; } });
+  words: (t) => { const k = smoothstep(111.9, 114.4, t); const n = Math.round(lerp(440, 208, k)); return [{ text: String(n), y: 0.235, px: 112, a: 1, col: '#ffd9a0' }, { text: 'alive', y: 0.292, px: 40, sub: true, a: smoothstep(112.5, 113.2, t), col: '#ffd9a0' }]; } });
 
 // ---- the lane: Equiano, Sharp, the letter; and the lit window
 D('e1a', { set: 'street', sh: false, eqX: () => 0, cam: mv({ x: -0.2, z: 0 }, { x: 0.2, z: -14 }) });
