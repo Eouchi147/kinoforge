@@ -485,9 +485,10 @@ def make_cutter(bpy, land):
 
 
 def clip_front(ob, cutter):
-    md = ob.modifiers.new('ag_front', 'BOOLEAN'); md.operation = 'DIFFERENCE'; md.object = cutter; md.solver = os.environ.get('AG_SOLVER', 'EXACT')
-    try: md.use_self = True
-    except Exception: pass
+    md = ob.modifiers.new('ag_front', 'BOOLEAN'); md.operation = 'DIFFERENCE'; md.object = cutter
+    try: md.solver = 'MANIFOLD'              # Blender 4.5+: about 30x faster than EXACT here, same sections
+    except TypeError:
+        md.solver = 'EXACT'; md.use_self = True
     return md
 
 
