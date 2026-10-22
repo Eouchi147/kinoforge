@@ -2,9 +2,9 @@
  "id": "salamis",
  "title": "The Battle of Salamis",
  "line": "battle-map",
- "stage": "script",
- "state": "done",
- "message": "15 lines, 313 words, 20 claims checked, 2 cut.",
+ "stage": "sound",
+ "state": "running",
+ "message": "Recording the narration and the score.",
  "usd": 0.0,
  "cap_usd": 0.5,
  "outputs": {
@@ -33,9 +33,14 @@
    "started_at": "2026-10-22T15:31:57Z",
    "usd": 0.0,
    "ended_at": "2026-10-22T15:55:59Z"
+  },
+  "sound": {
+   "state": "running",
+   "started_at": "2026-10-22T15:56:05Z",
+   "usd": 0.0
   }
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39805128221",
- "updated_at": "2026-10-22T15:55:59Z"
+ "updated_at": "2026-10-22T15:56:05Z"
 }
