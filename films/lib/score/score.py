@@ -130,6 +130,7 @@ class Composer:
                     sl = p['swell_len']; ts = max(last[0] + 0.5, s['t'] - sl)
                     add(ts, prev); add(ts + sl * 0.5, prev + (v0 - prev) * 0.22); add(ts + sl * 0.82, prev + (v0 - prev) * 0.62)
                     add(s['t'] + 0.6, v0); hold = min(s['t1'] - 0.5, s['t'] + 3.0); add(hold, v0); hold_until = hold
+                    if s['t1'] - hold > 9: add(hold + 6.0, v1 + (v0 - v1) * 0.35)        # the peak is brief: most of the drop comes at once
                 else:
                     r = p['settle'] if p['sections'][i - 1]['mood'] == 'turn' else 4.0
                     a = max(s['t'] - r / 2 if p['sections'][i - 1]['mood'] != 'turn' else s['t'], hold_until)

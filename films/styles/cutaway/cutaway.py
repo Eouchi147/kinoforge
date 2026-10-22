@@ -573,7 +573,9 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
             Z = zones(x, y, h)
             for k in ('rock', 'sand', 'path', 'grass'):
                 if k in Z:
-                    v = np.clip(np.asarray(Z[k], float), 0, 1); F['w_' + k] = np.maximum(F['w_' + k], v)
+                    v = np.clip(np.asarray(Z[k], float), 0, 1)
+                    if k == 'grass': v = v * (1 - F['w_rock']) * (1 - np.clip(F['w_sand'], 0, 1))
+                    F['w_' + k] = np.maximum(F['w_' + k], v)
                     if k != 'grass': F['w_grass'] = F['w_grass'] * (1 - v)
         for (cx, cy, r) in L.keep_clear:
             F['w_grass'] = F['w_grass'] * smooth(r * 0.7, r, np.hypot(x - cx, y - cy))
@@ -924,14 +926,15 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
         sel = (Fq['depth'] > 0.06) & (rng.uniform(0, 1, len(q)) < 0.25)
         stones = proto_rocks(kit, 4, s + 3, color=(0.55, 0.53, 0.48), moss=0.3, name='cw_pebble')
         if sel.any(): scatter(kit, L, 'cw_bedstones', stones, q[sel], scale=rng.uniform(0.012, 0.035, sel.sum()), sink=0.006)
-        w2 = (Fq['depth'] > 0.07) & (0.5 + 0.5 * fbm(q[:, 0], q[:, 1], s + 61, 2, 1.8) > 0.55) & (rng.uniform(0, 1, len(q)) < 0.6)
+        wk = 0.5 if L.water[0].get('kind') == 'lagoon' else 1.0
+        w2 = (Fq['depth'] > 0.07) & (0.5 + 0.5 * fbm(q[:, 0], q[:, 1], s + 61, 2, 1.8) > 0.6) & (rng.uniform(0, 1, len(q)) < 0.22 * wk)
         wd = np.minimum(Fq['depth'] * 0.9, 0.22) / 0.14
         if w2.any(): scatter(kit, L, 'cw_weed', proto_weed(kit, 4, s), q[w2], scale=wd[w2] * rng.uniform(0.6, 1.0, w2.sum()), sway=0.12 * sway, speed=0.35)
         if corals:
             def okc(p):
                 f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] > 0.08
             C = _darts(rng, sx, sy, corals, 0.06, okc, 0.04)
-            if len(C): scatter(kit, L, 'cw_corals', proto_corals(kit, s), C, scale=rng.uniform(0.8, 1.6, len(C)), sway=0.0, sink=0.01)
+            if len(C): scatter(kit, L, 'cw_corals', proto_corals(kit, s), C, scale=rng.uniform(1.2, 2.2, len(C)), sway=0.0, sink=0.01)
     if L.water and lilies:
         def okl(p):
             f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] > 0.05 and f['sd'][0] < -0.05

@@ -8,6 +8,7 @@ here = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, here)
 ap = argparse.ArgumentParser(); ap.add_argument('look'); ap.add_argument('--aspect', default='16:9'); ap.add_argument('--w', type=int, default=1920)
 ap.add_argument('--samples', type=int, default=96); ap.add_argument('--t', type=float, default=1.0); ap.add_argument('--out'); ap.add_argument('--threads', type=int, default=0)
 ap.add_argument('--border', type=float, nargs=4, help='render only x0 x1 y0 y1 (0..1) (inspection crops)')
+ap.add_argument('--build-only', action='store_true')
 ap.add_argument('--blend', help='also save the .blend here (debug)')
 a = ap.parse_args()
 import bpy  # noqa: E402
@@ -23,6 +24,7 @@ print(f'built in {time.time() - t0:.1f}s, {len(bpy.data.objects)} objects', flus
 if a.border:
     r = bpy.context.scene.render; r.use_border = True; r.use_crop_to_border = True; r.border_min_x, r.border_max_x, r.border_min_y, r.border_max_y = a.border
 if a.blend: bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(a.blend))
+if a.build_only: sys.exit(0)
 out = os.path.abspath(a.out or os.path.join(here, 'board', f'{a.look}-{looks.NAMES[a.look]}{"-vertical" if a.aspect == "9:16" else ""}.jpg'))
 os.makedirs(os.path.dirname(out), exist_ok=True); png = out.rsplit('.', 1)[0] + '.tmp.png'
 bpy.context.scene.render.filepath = png; t1 = time.time(); bpy.ops.render.render(write_still=True)

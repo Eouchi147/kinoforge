@@ -15,7 +15,7 @@
   - Arabia re-directed (pin-hole star sky, scene-based cuts, fuller tabletop world, paper-and-clay graphics);
   - Bamberg polished (done: eight movements, every effect with a job); re-rendering now on free runners (rc-render run 39790691570);
   - director pipeline made free-only (free model seats, free narration, procedural music hook).
-  - new style **Cutaway** (Sam, 10:11): Blender kit and a four-look style board in `films/styles/cutaway/`, nothing rendered on runners yet. Sam (10:16) wants all four uses built: briefs in `films/cutaway/` (sample trade ad, Why Venice Sinks, Agincourt mud inserts, seasons loop); builders start when the kit lands.
+  - new style **Cutaway** (Sam, 10:11): Blender kit and a four-look style board in `films/styles/cutaway/`, nothing rendered on runners yet. Sam (10:16) wants all four uses built: briefs in `films/cutaway/` (sample trade ad, Why Venice Sinks, Agincourt mud inserts, seasons loop); the kit's first usable version landed (516ec0b); four builders are on them now.
 - Next: re-render on GitHub runners (free), new stories through the free director, one render home for the studio.
 
 ## Web studio (22 Oct, studio-web/)

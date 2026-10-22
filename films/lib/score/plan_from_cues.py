@@ -110,7 +110,7 @@ def build(film_dir, hints=None):
         if epi_i is None: epi_i = next((i for i in range(result_i + 1, len(lines)) if st(i) >= 0.8 * D), None)
     plan_i = line('plan_line')
     if plan_i is None:
-        plan_i = next((i for i in range(title_i + 2, battle_i) if PLAN_RE.search(lines[i]['text']) and st(i) > 0.3 * D), None)
+        plan_i = next((i for i in range(title_i + 2, battle_i) if PLAN_RE.search(lines[i]['text']) and st(i) > 0.3 * D and st(battle_i) - st(i) >= 12.0), None)
     result_mood = hints.get('result_mood') or ('triumph' if WIN_RE.search(' '.join(l['text'] for l in lines[result_i:])) else 'aftermath')
 
     secs = [{'t': 0.0, 'mood': 'calm'}]
