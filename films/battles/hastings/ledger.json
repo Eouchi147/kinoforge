@@ -1,0 +1,181 @@
+{
+ "cap": 0.6,
+ "total": 0.23496,
+ "by_seat": {
+  "music": 0.08,
+  "voice": 0.15496
+ },
+ "calls": [
+  {
+   "seat": "music",
+   "model": "google/lyria-3-pro-preview",
+   "task": "music",
+   "usd": 0.08,
+   "s": 30.4,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 0",
+   "usd": 0.00768,
+   "s": 2.6,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 1",
+   "usd": 0.00184,
+   "s": 0.6,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 2",
+   "usd": 0.0064,
+   "s": 1.3,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 3",
+   "usd": 0.01104,
+   "s": 2.8,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 4",
+   "usd": 0.00904,
+   "s": 1.9,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 5",
+   "usd": 0.01192,
+   "s": 2.5,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 6",
+   "usd": 0.01008,
+   "s": 2.1,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 7",
+   "usd": 0.00976,
+   "s": 2.0,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 8",
+   "usd": 0.01096,
+   "s": 1.9,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 9",
+   "usd": 0.00712,
+   "s": 1.4,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 10",
+   "usd": 0.008,
+   "s": 1.5,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 11",
+   "usd": 0.00616,
+   "s": 1.5,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 12",
+   "usd": 0.01024,
+   "s": 1.8,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 13",
+   "usd": 0.00624,
+   "s": 1.4,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 14",
+   "usd": 0.01592,
+   "s": 2.9,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 15",
+   "usd": 0.00392,
+   "s": 0.9,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 16",
+   "usd": 0.0076,
+   "s": 1.5,
+   "ok": true,
+   "note": "estimated from characters"
+  },
+  {
+   "seat": "voice",
+   "model": "elevenlabs/eleven-v4",
+   "task": "vo elevenlabs/eleven-v4|brian 17",
+   "usd": 0.01104,
+   "s": 2.1,
+   "ok": true,
+   "note": "estimated from characters"
+  }
+ ]
+}
