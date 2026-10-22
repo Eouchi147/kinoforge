@@ -30,9 +30,9 @@ def build(bpy, ctx):
     am.light(kit, land, 'after'); am.mist(kit, 0.28)
     M = am.materials(kit); cutter = am.make_cutter(bpy, land)
     en = am.English(bpy, kit, M, cutter, 'B'); fr = am.French(bpy, kit, M, cutter)
-    am.haze(bpy, kit, density=0.6)
-    xs = (-0.62, -0.52, -0.43, -0.34); tl = W('l10', 'wearing')
-    crows = am.Crows(bpy, kit, [(x, float(am.y_near(x)) + 0.05 + 0.03 * (k % 2)) for k, x in enumerate(xs)], lifts=[tl + d for d in (0.0, 0.18, 0.36, 0.52)])
+    am.haze(bpy, kit, density=0.22)
+    xs = (-0.80, -0.69, -0.60, -0.51); tl = W('l10', 'advanced')   # on the face edge ahead of the walkers: they lift as the French come
+    crows = am.Crows(bpy, kit, [(x, YF + 0.035 + 0.035 * (k % 2)) for k, x in enumerate(xs)], lifts=[tl + d for d in (0.0, 0.16, 0.30, 0.46)])
     worms = am.Worms(bpy, kit, [(-1.30, -0.055, 0.034, 0.0), (-1.00, -0.100, 0.030, 1.5), (-0.74, -0.060, 0.032, 3.0)])
     am.easter_eggs(bpy, kit, shell=(-1.12, -0.140))
     cam = cw.camera(kit, land, '16:9', az=-25, el=32, lens=45, fill=0.9)
