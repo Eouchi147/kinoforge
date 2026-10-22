@@ -1,5 +1,5 @@
 {
- "at": "2026-10-22T15:30:06Z",
+ "at": "2026-10-22T16:30:21Z",
  "free_models": [
   "cohere/north-mini-code:free",
   "google/gemma-4-26b-a4b-it:free",
@@ -19,20 +19,19 @@
  "count": 14,
  "roles": {
   "text": [
-   "google/gemma-4-31b-it:free",
    "nvidia/nemotron-3-ultra-550b-a55b:free",
-   "nvidia/nemotron-3-super-120b-a12b:free"
+   "nvidia/nemotron-3-super-120b-a12b:free",
+   "google/gemma-4-31b-it:free"
   ],
   "code": [
    "nvidia/nemotron-3-ultra-550b-a55b:free",
-   "google/gemma-4-31b-it:free",
-   "nvidia/nemotron-3-super-120b-a12b:free"
+   "nvidia/nemotron-3-super-120b-a12b:free",
+   "google/gemma-4-31b-it:free"
   ],
   "vision": [
    "google/gemma-4-31b-it:free",
-   "google/gemma-4-26b-a4b-it:free",
    "nvidia/nemotron-3.5-super-vl:free",
-   "nvidia/nemotron-3.5-content-safety:free"
+   "google/gemma-4-26b-a4b-it:free"
   ]
  },
  "models": {
