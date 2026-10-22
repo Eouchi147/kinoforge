@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Bamberg final (text overlaps fixed) rendered and checked; copied to Sam's Mac as `kino-films/dark-corners-bamberg-kinetic-v2.mp4` (the first version kept beside it). Re-made films go to the Mac with a `-v2` suffix.
 - Score brightened (3 to 4 % of energy in 3.5 to 8 kHz, was 0.2 %; loudness and ducking unchanged) and every battle's cues.json music fields rebuilt from the new score (`films/lib/score/cues_from_score.py`, narration fields untouched); the v2 pictures do not snap to music, so finished battle renders get the final sound via `remux.yml`. Three 30 s excerpts sent to Sam to judge the feel.
 - Arabia (Clay) re-directed: stars as crisp pin-holes in a separate no-depth-of-field sky pass with a Milky Way band and moon halo; 49 shots became 31 in 9 scenes with a reason per cut; fuller world (`dress.py`: oases, fires, goats, drifting sand, rugs, breathing tents, caravan lamps); cut-paper cards. Render dispatched (24 parts).
 - Sam (12:01): the Cutaway environments look amazing; elevate them with cinema lighting (haze, fog, god rays), animated fauna and flora, easter eggs in the soil layers (dino bones, gold ore), interesting angles; make another one to compare without stopping the rest. Started `films/styles/cutaway/cinematic/` (five planned angles, volumetric light, animals, 6 to 8 buried surprises).
