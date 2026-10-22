@@ -3,8 +3,8 @@
  "title": "The Battle of Tours",
  "line": "battle-map",
  "stage": "spec",
- "state": "running",
- "message": "Two coders are drafting the picture: xiaomi/mimo-v2.6-pro, z-ai/glm-5.3.",
+ "state": "failed",
+ "message": "Cancelled at 09:20 by Sam's no-spend order (script and sound were done, US$0.36 booked; the spec drafts were in flight).",
  "usd": 0.3618,
  "cap_usd": 0.9,
  "outputs": {
@@ -26,12 +26,13 @@
    "ended_at": "2026-10-22T13:13:24Z"
   },
   "spec": {
-   "state": "running",
+   "state": "failed",
    "started_at": "2026-10-22T13:13:28Z",
-   "usd": 0.3618
+   "usd": 0.3618,
+   "ended_at": "2026-10-22T13:22:33Z"
   }
  },
  "approved_at": "2026-10-22T13:15:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39784277702",
- "updated_at": "2026-10-22T13:13:28Z"
+ "updated_at": "2026-10-22T13:22:33Z"
 }
