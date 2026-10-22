@@ -75,7 +75,7 @@ const channel = {
     { at: 'l03.march', until: 'l03.home.>', ease: 'cam', team: 'rome', style: 'dash', width: 2.2, path: [[-40, 60], [-30, 42], [4, 14], [28, -4], [44, -24], [52, -56]], lift: 4, hide: 'l04' },
   ],
   labels: [
-    { at: 'l02.England', until: 'l02.He', text: 'ENGLAND', pos: [-170, -70], leader: false, rule: false, team: 'rome' },
+    { at: 'l02.England', until: 'l02.He', text: 'ENGLAND', pos: [-24, -78], leader: false, rule: false, team: 'rome' },
     { at: 'l02.France', until: 'l02.He', text: 'FRANCE', pos: [0, 92], leader: false, rule: false, team: 'carthage' },
     { at: 'l02.King', until: 'l02.invaded', text: 'KING HENRY V', block: 'hen', team: 'rome', dx: -0.06, dy: -0.12 },
     { at: 'l15.Shakespeare', until: 'l16', text: 'HENRY V, BY WILLIAM SHAKESPEARE, ABOUT 1599', screen: [0.5, 0.86], big: true },
