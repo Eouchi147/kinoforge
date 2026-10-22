@@ -161,13 +161,22 @@ def run_candidate(job, name, src, model, log):
         if not problems or r == MAX_REPAIR: break
         if rep['ok'] and r >= 2: break   # it ships; layout polish is left to the compose round
         if not rep['ok']: problems += [s for s in rep.get('soft', []) if s.startswith(('lint warning', 'engine warning'))][:8]
-        try:
-            src, model, fails, note = repair(job, src, problems + carry, model, f'repair {name} {r + 1}')
-            carry = [f'(from your last edits) {f}' for f in fails]
-            log.append({'candidate': name, 'repair': r + 1, 'model': model, 'failed_edits': fails, 'note': note})
-        except C.OverBudget: raise
-        except Exception as e:
-            log.append({'candidate': name, 'repair': r + 1, 'error': str(e)[:300]}); C.log('repair failed:', str(e)[:300]); break
+        got = None
+        for attempt in range(4):   # free models are rate limited and overloaded at times: wait and try again
+            try:
+                got = repair(job, src, problems + carry, model, f'repair {name} {r + 1}'); break
+            except C.OverBudget: raise
+            except Exception as e:
+                log.append({'candidate': name, 'repair': r + 1, 'attempt': attempt, 'error': str(e)[:300]}); C.log('repair failed:', str(e)[:300])
+                if not re.search(r'429|503|overloaded|rate limit', str(e)) or attempt == 3: break
+                C.set_status(job.dir, 'check', 'running', f'Draft {name.upper()}, repair {r + 1}: the free models are busy, waiting {90 * (attempt + 1)} s.', commit=False)
+                time.sleep(90 * (attempt + 1))
+        if not got:
+            rep['hard'] = rep['hard'] + [f'repair {r + 1} could not run: the free models did not answer (see the log)']; best['report'] = best['report'] if best else rep
+            break
+        src, model, fails, note = got
+        carry = [f'(from your last edits) {f}' for f in fails]
+        log.append({'candidate': name, 'repair': r + 1, 'model': model, 'failed_edits': fails, 'note': note})
     shutil.copy(job.p('cand', f'{name}.best.js'), path)
     if os.path.exists(job.p('check', f'{name}.best')):
         shutil.rmtree(job.p('check', name), ignore_errors=True); shutil.move(job.p('check', f'{name}.best'), job.p('check', name))
@@ -199,9 +208,17 @@ def main(d):
     for n, e in errs.items():
         if isinstance(e, C.OverBudget): raise e
         C.log(f'draft {n} failed: {str(e)[:300]}')
-    if not drafts:   # one more try down the coder chain
-        text, used = C.complete('coder', msgs, job.ledger, max_tokens=28000, label='spec draft (fallback)')
-        drafts['a'] = (C.code_block(text), used)
+    for attempt in range(4):   # no draft yet: down the coder chain again, waiting longer each time (rate limits, overload)
+        if drafts: break
+        if attempt: C.set_status(job.dir, 'spec', 'running', f'The free models are busy; trying again in {120 * attempt} s.', commit=False); time.sleep(120 * attempt)
+        try:
+            text, used = C.complete('coder', msgs, job.ledger, max_tokens=28000, label='spec draft (fallback)',
+                                    validate=lambda t: None if 'export default' in C.code_block(t) else 'no `export default` module in the reply')
+            drafts['a'] = (C.code_block(text), used)
+        except C.OverBudget: raise
+        except Exception as e:
+            C.log('fallback draft failed:', str(e)[:300])
+            if attempt == 3: raise
     for n, (src, m) in drafts.items(): open(job.p('cand', f'{n}.js'), 'w').write(src)
     slog['drafts'] = {n: {'model': m, 'bytes': len(src)} for n, (src, m) in drafts.items()}; slog['draft_errors'] = {n: str(e)[:300] for n, e in errs.items()}
     job.write('spec_log.json', slog)
@@ -216,7 +233,7 @@ def main(d):
     if not alive:
         best = min(cands, key=lambda c: badness(c['report']))
         slog['final'] = {'ok': False, 'candidate': best['name'], 'hard': best['report']['hard'][:20]}; job.write('spec_log.json', slog)
-        C.set_status(job.dir, 'check', 'failed', f'No draft passed the checks after {MAX_REPAIR} repairs ({summary}). First error: {best["report"]["hard"][0][:200]}')
+        C.set_status(job.dir, 'check', 'failed', f'No draft passed the checks ({summary}; at most {MAX_REPAIR} repairs each). First error: {best["report"]["hard"][0][:200]}')
         raise SystemExit(1)
     C.set_status(job.dir, 'check', 'done', summary + '.')
     # 5. eyes, then one compose round
