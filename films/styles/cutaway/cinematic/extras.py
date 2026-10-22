@@ -102,7 +102,7 @@ def time_value(kit, g, name='ex_t'):
 
 # =============================================================================================== light, sky, floor
 def cine_light(kit, land, sun_az=-168.0, sun_el=8.0, sun=5.0, sun_color=(1.0, 0.66, 0.38), fill=0.9, rim=1.0,
-               zenith=(0.20, 0.27, 0.46), horizon=(0.98, 0.70, 0.50), away=(0.56, 0.52, 0.62), ground=(0.24, 0.20, 0.22), amb=0.32):
+               zenith=(0.10, 0.15, 0.32), horizon=(0.96, 0.58, 0.34), away=(0.40, 0.34, 0.48), ground=(0.18, 0.15, 0.17), amb=0.32):
     """Golden-hour rig. Warm key sun low and raking; a cool fill from the sky (world light) and a large soft cool area light
     on the camera side; a warm rim light behind the block; a sky dome that glows toward the sun (camera rays only);
     a floor under the block that fades into the haze with distance (no visible horizon edge)."""
@@ -120,7 +120,7 @@ def cine_light(kit, land, sun_az=-168.0, sun_el=8.0, sun=5.0, sun_color=(1.0, 0.
     sky = g.mix(g.math('POWER', g.math('MAXIMUM', el, 0.0), 0.55), horiz, srgb(zenith))
     below = g.mix(g.math('MINIMUM', g.math('MULTIPLY', g.math('ABSOLUTE', g.math('MINIMUM', el, 0.0)), 5.0), 1.0), horiz, srgb(ground))
     col = g.mix(g.math('GREATER_THAN', el, 0.0), below, sky)
-    glow = g.math('ADD', g.math('MULTIPLY', g.math('POWER', dp, 8.0), 0.9), g.math('MULTIPLY', g.math('POWER', dp, 1400.0), 30.0))
+    glow = g.math('ADD', g.math('MULTIPLY', g.math('POWER', dp, 18.0), 0.6), g.math('MULTIPLY', g.math('POWER', dp, 1400.0), 30.0))
     col = g.mix(1.0, col, g.vmath('SCALE', srgb(sun_color)[:3], scale=glow), 'ADD')
     bg_cam = g.node('ShaderNodeBackground', ins={'Color': col, 'Strength': 1.0})
     bg_light = g.node('ShaderNodeBackground', ins={'Color': g.mix(0.75, (0.42, 0.52, 0.85), col), 'Strength': amb})
@@ -183,7 +183,7 @@ def atmosphere(kit, land, haze=0.10, fog=2.4, fog_top=0.11, mist=1.0, spill=0.5,
     fogd = g.math('MULTIPLY', g.math('MULTIPLY', fz, g.math('ADD', g.math('MULTIPLY', brk, 0.85), 0.15)), g.math('MULTIPLY', fedge, fog))
     # mist sits on the water: an extra thin layer right at the surface
     mz = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', pz, lv + 0.012)), 1 / 0.03), clamp=True)
-    fogd = g.math('ADD', fogd, g.math('MULTIPLY', g.math('MULTIPLY', mz, brk), mist * fog * 0.8))
+    fogd = g.math('ADD', fogd, g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', mz, brk), fedge), mist * fog * 0.8))
     dens = g.math('ADD', hz, fogd)
     sc = g.node('ShaderNodeVolumeScatter', ins={'Color': srgb(color), 'Anisotropy': aniso}); g.put(sc, 'Density', dens)
     ab = g.node('ShaderNodeVolumeAbsorption', ins={'Color': srgb((0.92, 0.88, 0.86))}); g.put(ab, 'Density', g.math('MULTIPLY', dens, 0.15))
@@ -217,23 +217,24 @@ class Shafts:
     top at canopy height, billboarded to the camera around their own axis every frame, brightest when the camera looks
     toward the sun (forward scattering), breaking up and shimmering with drifting dust. Invisible to every ray but the
     camera's. Call update(camera_location) after the camera is posed."""
-    def __init__(self, kit, land, sun_dir, n=16, seed=91, strength=1.0, color=(1.0, 0.80, 0.56), length=(3.6, 2.2), z=(0.10, 0.62), width=(0.05, 0.22),
-                 spots=None, name='ex_shaft'):
+    def __init__(self, kit, land, sun_dir, n=16, seed=91, strength=1.6, color=(1.0, 0.80, 0.56), length=(2.4, 3.8), width=(0.05, 0.24),
+                 spots=None, spill=1.0, name='ex_shaft'):
         bpy = kit.bpy; self.sd = np.asarray(sun_dir, float) / np.linalg.norm(sun_dir); rng = np.random.default_rng(seed); sx, sy = land.size
         m = cw._new_mat(bpy, name + '_mat'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); geo = g.node('ShaderNodeNewGeometry'); tv = time_value(kit, g)
         oi = g.node('ShaderNodeObjectInfo'); lx, ly, _ = g.sep(tc.outputs['Generated'])
         across = g.math('EXPONENT', g.math('MULTIPLY', g.math('POWER', g.math('MULTIPLY', g.math('SUBTRACT', ly, 0.5), 2.0), 2.0), -3.2))
-        along = g.math('MULTIPLY', g.math('MULTIPLY', lx, 6.0, clamp=True), g.math('MULTIPLY', g.math('SUBTRACT', 1.0, lx), 2.2, clamp=True))
+        along = g.math('MULTIPLY', g.math('MULTIPLY', lx, 30.0, clamp=True), g.math('POWER', g.math('MULTIPLY', g.math('SUBTRACT', 1.0, lx), 1.6, clamp=True), 1.5))
         wp = g.sep(geo.outputs['Position'])
         ox = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', wp[0]), sx / 2 - 0.05), 0.0); oy = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', wp[1]), sy / 2 - 0.05), 0.0)
-        foot = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('MAXIMUM', ox, oy), 1 / 0.35), clamp=True)
+        foot = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('MAXIMUM', ox, oy), 1 / spill), clamp=True)
+        self.gain = g.value(1.0, 'ex_shaft_gain')
         dust = g.noise(g.comb(g.math('ADD', g.math('MULTIPLY', lx, 7.0), g.math('MULTIPLY', tv, 0.25)), g.math('MULTIPLY', ly, 1.5), g.math('MULTIPLY', oi.outputs['Random'], 30.0)), 2.2, 3.0, 0.6)
         brk = g.math('ADD', 0.35, g.math('MULTIPLY', dust.outputs['Fac'], 0.9))
         shimmer = g.math('ADD', 0.75, g.math('MULTIPLY', g.math('SINE', g.math('ADD', g.math('MULTIPLY', tv, 1.3), g.math('MULTIPLY', oi.outputs['Random'], 20.0))), 0.25))
         view = g.vmath('DOT_PRODUCT', g.vmath('SCALE', geo.outputs['Incoming'], scale=-1.0), tuple(self.sd))
         phase = g.math('ADD', 0.12, g.math('MULTIPLY', g.math('POWER', g.math('MAXIMUM', view, 0.0), 6.0), 1.6))
         a = g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', across, along), g.math('MULTIPLY', foot, brk)), g.math('MULTIPLY', shimmer, phase))
-        e = g.node('ShaderNodeEmission', ins={'Color': srgb(color)}); g.put(e, 'Strength', g.math('MULTIPLY', a, 0.55 * strength))
+        e = g.node('ShaderNodeEmission', ins={'Color': srgb(color)}); g.put(e, 'Strength', g.math('MULTIPLY', g.math('MULTIPLY', a, 0.55 * strength), self.gain))
         tr = g.node('ShaderNodeBsdfTransparent'); ad = g.node('ShaderNodeAddShader'); g.link(tr, ad.inputs[0]); g.link(e, ad.inputs[1]); cw._finish(g, ad)
         try: m.cycles.emission_sampling = 'NONE'
         except Exception: pass
@@ -241,9 +242,9 @@ class Shafts:
         for i in range(n):
             if spots is not None: c = spots[i % len(spots)]; px, py = c[0] + rng.normal(0, 0.25), c[1] + rng.normal(0, 0.25)
             else: px, py = rng.uniform(-sx / 2 * 0.85, sx / 2 * 0.85), rng.uniform(-sy / 2 * 0.85, sy / 2 * 0.85)
-            P = np.array([px, py, float(land.height(np.array([px]), np.array([py]))[0]) + rng.uniform(*z)])
-            L1, L2 = length[0] * rng.uniform(0.7, 1.2), length[1] * rng.uniform(0.7, 1.2); w = rng.uniform(*width)
-            V = [(-L2, -w / 2, 0), (L1, -w / 2, 0), (L1, w / 2, 0), (-L2, w / 2, 0)]   # local X runs toward the sun
+            P = np.array([px, py, float(land.height(np.array([px]), np.array([py]))[0]) - 0.01])     # the beam lands on the grass here
+            L1 = rng.uniform(*length); w = rng.uniform(*width)
+            V = [(0, -w / 2, 0), (L1, -w / 2, 0), (L1, w / 2, 0), (0, w / 2, 0)]   # local X runs up toward the sun
             ob = cw.mk_mesh(bpy, f'{name}{i}', V, [(0, 1, 2, 3)], [m], None, False, kit.coll); ob.location = tuple(P)
             for at in ('visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_shadow', 'visible_volume_scatter'): setattr(ob, at, False)
             self.cards.append(ob)

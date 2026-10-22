@@ -31,7 +31,8 @@ SETTINGS = {'samples': 64, 'denoise': True, 'motion_blur': False, 'view_transfor
             'max_bounces': 8, 'volume_bounces': 0, 'clamp_indirect': 6.0, 'adaptive_min_samples': 16, 'denoising_prefilter': 'ACCURATE',
             'volume_step_rate': 4.0}
 
-SUN_AZ, SUN_EL = 135.0, 6.5
+SHAFT_GAIN = {'map': 0.35, 'ground': 1.0, 'crane': 0.8, 'macro': 0.0, 'hero': 1.0}
+SUN_AZ, SUN_EL = 135.0, 11.0
 RIVER = [(-0.7, 2.6), (-0.55, 1.4), (0.25, 0.6), (0.05, -0.4), (0.35, -1.3), (0.4, -2.6)]
 STRATA = [('topsoil', 0.07, (0.30, 0.20, 0.12), 0.05), ('sand', 0.10, (0.76, 0.60, 0.40), 0.10), ('clay', 0.14, (0.62, 0.50, 0.40), 0.03),
           ('loam', 0.18, (0.50, 0.33, 0.20), 0.22), ('ochre', 0.05, (0.68, 0.48, 0.27), 0.15), ('gravel', 0.10, (0.55, 0.46, 0.36), 0.85),
@@ -67,7 +68,7 @@ def build(bpy, ctx):
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.6, amb=0.2)
     ex.atmosphere(kit, land, haze=0.12, fog=3.6, aniso=0.7)
     ex.gobo(kit, land, rig['sun_dir'])
-    shafts = ex.Shafts(kit, land, rig['sun_dir'], n=18)
+    shafts = ex.Shafts(kit, land, rig['sun_dir'], n=20, strength=3.2, spots=[tuple(p) for p in getattr(land, 'trees', [])] or None)
 
     # ---- easter eggs, by depth (recent near the top, deep time at the bottom)
     eggs = ex.Eggs(kit, land); fy = eggs.faces['-Y']; fx = eggs.faces['+X']
@@ -111,7 +112,7 @@ def shot_pose(S, name, u):
     """Camera for shot `name` at local progress u (0..1). Returns pos, target, lens, focus, fstop, roll."""
     eggs = S['eggs']
     if name == 'map':                    # straight down, a slow drift and turn: the map
-        e = ex.ease(u); pos = (0.08 - 0.06 * e, -0.05, 11.2 - 0.5 * e); tgt = (0.08 - 0.06 * e, -0.049, 0.0)
+        e = ex.ease(u); pos = (0.08 - 0.06 * e, -0.05, 12.6 - 0.5 * e); tgt = (0.08 - 0.06 * e, -0.049, 0.0)
         return pos, tgt, 50.0, 11.0, 16.0, 22.0 + 6.0 * e
     if name == 'ground':                 # at the edge, eye on the grass, into the sun, a slow dolly along the face
         e = ex.ease(u); pos = ex.lerp((2.30, -2.50, 0.17), (2.18, -2.42, 0.16), e); tgt = (-0.8, -1.45, -0.20)
@@ -125,7 +126,7 @@ def shot_pose(S, name, u):
         k = 1.0 - 0.10 * ex.ease(u); off = np.array([0.36, -0.68, 0.10]) * k
         return tuple(c + off), tuple(c), 55.0, float(np.linalg.norm(off)), 4.0, 0.0
     # hero: low three-quarter from the +X side, the sun behind the block, a slow arc
-    e = ex.ease(u); az = math.radians(-52 + 7 * e); el = math.radians(3.0); D = 6.0; tgt = np.array((0.0, 0.0, -0.40))
+    e = ex.ease(u); az = math.radians(-47 + 7 * e); el = math.radians(3.0); D = 5.3; tgt = np.array((0.15, -0.15, -0.36))
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
     return tuple(pos), tuple(tgt), 28.0, D - 2.0, 8.0, 0.0
 
@@ -134,3 +135,4 @@ def frame(bpy, ctx, S, i, t):
     S['kit'].update(t)
     tl = ctx['timeline'].at(t); pos, tgt, lens, focus, fstop, roll = shot_pose(S, tl['name'], tl['u'])
     S['cam'].set(pos, tgt, lens, focus, fstop, roll); S['shafts'].update(pos)
+    S['shafts'].gain.default_value = SHAFT_GAIN[tl['name']]
