@@ -1,0 +1,142 @@
+{
+ "palette": "middle_east_central_asia",
+ "key": "E",
+ "mode": "minor_pent",
+ "duration": 139.628,
+ "seed": 22405,
+ "sections": [
+  {
+   "t": 0.0,
+   "mood": "calm"
+  },
+  {
+   "t": 18.622,
+   "mood": "curious"
+  },
+  {
+   "t": 70.356,
+   "mood": "curious",
+   "intensity": 0.46
+  },
+  {
+   "t": 74.699,
+   "mood": "tension"
+  },
+  {
+   "t": 91.881,
+   "mood": "turn"
+  },
+  {
+   "t": 113.731,
+   "mood": "triumph"
+  },
+  {
+   "t": 123.391,
+   "mood": "aftermath"
+  }
+ ],
+ "hits": [
+  {
+   "t": 13.307,
+   "kind": "low",
+   "level": 0.4
+  },
+  {
+   "t": 91.581,
+   "kind": "low",
+   "level": 1.0
+  },
+  {
+   "t": 114.131,
+   "kind": "chime",
+   "level": 0.8
+  }
+ ],
+ "voice": [
+  [
+   1.672,
+   13.272
+  ],
+  [
+   13.607,
+   15.527
+  ],
+  [
+   18.622,
+   27.422
+  ],
+  [
+   28.375,
+   41.175
+  ],
+  [
+   42.121,
+   54.361
+  ],
+  [
+   54.869,
+   59.749
+  ],
+  [
+   60.116,
+   69.476
+  ],
+  [
+   70.356,
+   74.036
+  ],
+  [
+   74.699,
+   81.499
+  ],
+  [
+   82.129,
+   86.769
+  ],
+  [
+   87.377,
+   91.057
+  ],
+  [
+   91.881,
+   95.081
+  ],
+  [
+   95.62,
+   106.74
+  ],
+  [
+   107.207,
+   112.807
+  ],
+  [
+   113.731,
+   122.851
+  ],
+  [
+   123.391,
+   130.111
+  ],
+  [
+   130.868,
+   135.428
+  ]
+ ],
+ "story": {
+  "title_line": "l01",
+  "battle_line": "l08",
+  "turn_line": "l11",
+  "result_line": "l14",
+  "epilogue_line": "l15",
+  "plan_line": "l07",
+  "year": 1260,
+  "place_scores": {
+   "middle_east_central_asia": 40,
+   "ancient_med": 0
+  },
+  "notes": []
+ },
+ "tempo": 84,
+ "solo": "solo_violin",
+ "drums": "steppe"
+}

@@ -123,7 +123,7 @@ def build(film_dir, hints=None):
     for ex in hints.get('extra', []):
         if ex['line'] in by_id: secs.append({'t': round(st(by_id[ex['line']]), 3), 'mood': ex['mood'], **({'intensity': ex['intensity']} if 'intensity' in ex else {})})
     secs.sort(key=lambda s: s['t'])
-    hits = [{'t': round(st(title_i) - 0.3, 3), 'kind': 'low', 'level': 0.5}, {'t': round(st(turn_i) - 0.3, 3), 'kind': 'low', 'level': 1.0}]
+    hits = [{'t': round(st(title_i) - 0.3, 3), 'kind': 'low', 'level': 0.4}, {'t': round(st(turn_i) - 0.3, 3), 'kind': 'low', 'level': 1.0}]
     if result_mood == 'triumph': hits.append({'t': round(st(result_i) + 0.4, 3), 'kind': 'chime', 'level': 0.8})
     plan = {'palette': pal, 'key': key, 'mode': mode, 'duration': round(D, 3), 'seed': seed, 'sections': secs, 'hits': hits,
             'voice': [[round(l['start'], 3), round(l['end'], 3)] for l in lines],
