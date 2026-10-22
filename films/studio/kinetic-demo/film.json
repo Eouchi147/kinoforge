@@ -1,0 +1,15 @@
+{
+ "id": "kinetic-demo",
+ "series": "Dark Corners",
+ "title": "The Ship Called Care",
+ "style": "kinetic",
+ "duration": 179.4,
+ "fps": 24,
+ "render_w": 720,
+ "render_h": 1280,
+ "w": 1080,
+ "h": 1920,
+ "audio": "audio/mix.m4a",
+ "samples": 24,
+ "note": "Spec-driven Kinetic engine demo (films/lib/kinetic): the Zong episode re-told from spec.js alone. Narration, score and sound are the original episode mix. Timings: cues.json."
+}
