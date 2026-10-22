@@ -57,8 +57,15 @@ jobs:
           cat "$GITHUB_OUTPUT"
       - name: tools
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
-          pip install -q numpy scipy soundfile librosa
+          # ffmpeg: a static build from GitHub (apt mirrors have hung for 30 min on some runners); apt as the fallback
+          if ! command -v ffmpeg > /dev/null; then
+            ( cd "$RUNNER_TEMP" && timeout 300 curl -sSL -o ff.tar.xz https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz \
+              && tar -xf ff.tar.xz && mkdir -p "$HOME/.local/bin" && cp ffmpeg-master-latest-linux64-gpl/bin/ff* "$HOME/.local/bin/" ) \
+              || (timeout 600 sudo apt-get update -qq && timeout 600 sudo apt-get install -y -qq ffmpeg > /dev/null)
+            echo "$HOME/.local/bin" >> "$GITHUB_PATH"; export PATH="$HOME/.local/bin:$PATH"
+          fi
+          ffmpeg -version | head -1
+          timeout 900 pip install -q numpy scipy soundfile librosa
           pip --version; uv --version 2>/dev/null || pip install -q uv
       - name: Kokoro (Apache 2.0) in its own Python 3.11
         if: steps.need.outputs.kokoro == 'true'
