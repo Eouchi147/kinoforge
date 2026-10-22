@@ -20,8 +20,8 @@ export function drawGfx(og, F, items) {
         const r = ease.inOutSine(clamp((t - it.at) / (it.dur ?? 1.6)));
         drawArabic(og, A[it.key], it.x ?? 640, it.y ?? 300, it.size ?? 64, { alpha: a, reveal: r, glow: it.glow ?? 0, shadow: 14 });
         if (it.meaning) { const ma = a * smoothstep(it.meaningAt ?? it.at + 1, (it.meaningAt ?? it.at + 1) + 0.8, t);
-          drawText(og, it.meaning, { x: it.x ?? 640, y: (it.y ?? 300) + (it.size ?? 64) * 0.95 + 18, font: 'italic 400 32px "Cormorant Garamond"', color: CREAM, alpha: ma, spacing: 0.4, shadow: 12, shadowColor: SHADOW, maxWidth: 900 });
-          if (it.ref) drawText(og, it.ref, { x: it.x ?? 640, y: (it.y ?? 300) + (it.size ?? 64) * 0.95 + 62, font: '500 15px "Cinzel"', color: GOLD2, alpha: ma * 0.9, spacing: 5, shadow: 8, shadowColor: SHADOW }); }
+          drawText(og, it.meaning, { x: it.x ?? 640, y: (it.y ?? 300) + (it.size ?? 64) * 1.15 + 24, font: 'italic 400 32px "Cormorant Garamond"', color: CREAM, alpha: ma, spacing: 0.4, shadow: 12, shadowColor: SHADOW, maxWidth: 900 });
+          if (it.ref) drawText(og, it.ref, { x: it.x ?? 640, y: (it.y ?? 300) + (it.size ?? 64) * 1.15 + 66, font: '500 15px "Cinzel"', color: GOLD2, alpha: ma * 0.9, spacing: 5, shadow: 8, shadowColor: SHADOW }); }
         break; }
       case 'cartouche': { // a gilded band with the surah's name in Arabic, a small caps line above, the English name below
         const y = it.y ?? 330; const w = 420 * ease.outCubic(clamp((t - it.at) / 0.9)), h = 96;
@@ -37,7 +37,7 @@ export function drawGfx(og, F, items) {
       case 'pair': { // two surah names side by side
         const y = it.y ?? 140; for (const [s, x] of [[it.a, it.xa ?? 420], [it.b, it.xb ?? 860]]) { if (t < s.at) continue; const b = a * smoothstep(s.at, s.at + 0.8, t);
           drawArabic(og, A[s.key], x, y, 56, { alpha: b, reveal: ease.inOutSine(clamp((t - s.at) / 1.0)), glow: 0.3 });
-          drawText(og, s.name, { x, y: y + 58, font: '500 20px "Cinzel"', color: '#ead9b4', alpha: b, spacing: 5, shadow: 10, shadowColor: SHADOW }); }
+          drawText(og, s.name, { x, y: y + 64, font: '500 20px "Cinzel"', color: '#ead9b4', alpha: b, spacing: 5, shadow: 10, shadowColor: SHADOW }); }
         break; }
       case 'arches': { // a row of thirty small arches: the thirty parts; each fills with gold when its lantern lights
         const n = it.n || 30, y = it.y ?? 92, gap = 30, w = 22, x0 = 640 - (n - 1) * gap / 2; const draw = ease.outCubic(clamp((t - it.at) / 2.2));
@@ -71,10 +71,10 @@ export function drawGfx(og, F, items) {
         drawText(og, it.right, { x: 640 + 150, y: y - 16, font: '500 18px "Cinzel"', color: '#ffe39a', alpha: a * smoothstep(it.at + 0.9, it.at + 1.6, t), spacing: 5, shadow: 10, shadowColor: SHADOW });
         break; }
       case 'ikhlas': { // four verses, one under the other, each with its meaning
-        const n = it.lines.length; const y0 = 140, step = 112;
+        const n = it.lines.length; const y0 = 112, step = 140;
         it.lines.forEach((L, i) => { if (t < L.at) return; const b = a * smoothstep(L.at, L.at + 0.5, t); const y = y0 + i * step;
           drawArabic(og, A[L.key], 640, y, 50, { alpha: b, reveal: ease.inOutSine(clamp((t - L.at) / 1.1)), glow: 0.25 });
-          drawText(og, L.meaning, { x: 640, y: y + 44, font: 'italic 400 25px "Cormorant Garamond"', color: CREAM, alpha: b * smoothstep(L.at + 0.4, L.at + 1.0, t), spacing: 0.3, shadow: 10, shadowColor: SHADOW }); });
+          drawText(og, L.meaning, { x: 640, y: y + 60, font: 'italic 400 25px "Cormorant Garamond"', color: CREAM, alpha: b * smoothstep(L.at + 0.4, L.at + 1.0, t), spacing: 0.3, shadow: 10, shadowColor: SHADOW }); });
         break; }
       case 'third': { // a circle, one third filling with gold
         const u = ease.inOutSine(clamp((t - it.at) / Math.max(0.4, it.settle - it.at))); const { x, y, r } = it;
