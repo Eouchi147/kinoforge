@@ -141,6 +141,8 @@ CURVES = {
     'burrow': [(7.95, 0.0), (8.5, 1.0), (0.45, 1.0), (1.25, 0.0)],           # the frog's chamber in the cut face
     'tunnel': [(7.75, 0.0), (8.0, 1.0), (8.75, 1.0), (9.0, 0.0), (11.55, 0.0), (11.75, 1.0), (0.5, 1.0), (0.75, 0.0)],
     'birds':  [(6.2, 1.0), (8.0, 0.0), (10.7, 0.0), (11.95, 1.0)],          # birds leave in autumn, return with the thaw
+    'mist':   [(0.8, 1.0), (2.4, 1.0), (3.6, 0.0), (10.9, 0.0), (11.7, 0.5)],  # spring morning mist over the pond
+    'fog':    [(5.9, 0.0), (7.0, 1.0), (8.8, 0.9), (9.8, 0.25), (11.1, 0.2), (11.8, 0.0)],   # autumn ground fog
 }
 
 def cv(name, t): return kc(t, CURVES[name])

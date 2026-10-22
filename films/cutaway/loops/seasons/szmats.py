@@ -102,7 +102,7 @@ def mat_top(kit, D):
     b = g.node('ShaderNodeBump', ins={'Strength': 0.45, 'Height': g.math('MULTIPLY', n_fine.outputs['Fac'], 0.5), 'Distance': 0.01}); g.put(p, 'Normal', b)
     cw._finish(g, p); return m
 
-def mat_strata(kit, D, layers, burrow):
+def mat_strata(kit, D, layers, burrow, cache=None):
     """Cross-section walls (as the kit's), plus: a snow cap, fine roots that grow in spring,
     and the frog's chamber cut into the mud under each cove (a hole that opens to the cavity behind it)."""
     m = cw._new_mat(kit.bpy, 'sz_strata'); g = G(m.node_tree, kit)
@@ -154,9 +154,20 @@ def mat_strata(kit, D, layers, burrow):
     front = g.math('LESS_THAN', sx[1], -W.H + 0.01)                            # the chamber is on the front (-Y) face only
     hole = g.math('MULTIPLY', hole, front); slot = g.math('MULTIPLY', slot, front)
     cut = g.math('MAXIMUM', hole, slot)
+    if cache:                                                                   # the squirrel's acorn pocket (always open)
+        cx, cz, crx, crz = cache
+        ce = g.math('ADD', g.math('POWER', g.math('DIVIDE', g.math('SUBTRACT', sx[0], cx), crx), 2.0), g.math('POWER', g.math('DIVIDE', g.math('SUBTRACT', sx[2], cz), crz), 2.0))
+        cut = g.math('MAXIMUM', cut, g.math('MULTIPLY', g.math('LESS_THAN', ce, 1.0), front))
+    # easter egg: a thin vein of gold flecks deep in the gravel of the right (+X) face
+    right = g.math('GREATER_THAN', sx[0], W.H - 0.01)
+    vz = g.math('ADD', -0.97, g.math('ADD', g.math('MULTIPLY', g.math('SINE', g.math('MULTIPLY', sx[1], 4.0)), 0.05), g.math('MULTIPLY', g.math('SINE', g.math('MULTIPLY', sx[1], 11.0)), 0.015)))
+    band = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', sx[2], vz)), 70.0), clamp=True)
+    fl = g.math('LESS_THAN', g.voronoi(pos, 150.0, 'F1').outputs['Distance'], g.math('MULTIPLY', band, 0.38))
+    gold = g.math('MULTIPLY', g.math('MULTIPLY', fl, right), g.math('LESS_THAN', g.math('ABSOLUTE', g.math('SUBTRACT', sx[1], -0.35)), 0.75))
+    col = g.mix(gold, col, srgb((1.0, 0.78, 0.30)))
     rim = g.math('MULTIPLY', front, g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', e, g.math('MULTIPLY', op, 1.0))), 9.0), clamp=True), g.math('GREATER_THAN', op, 0.05)))
     col = g.mix(g.math('MULTIPLY', rim, 0.55), col, srgb((0.10, 0.07, 0.05)))
-    p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.92})
+    p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Metallic': gold}); g.put(p, 'Roughness', g.math('SUBTRACT', 0.92, g.math('MULTIPLY', gold, 0.7)))
     h = g.math('ADD', g.math('MULTIPLY', n1.outputs['Fac'], 0.3), g.math('ADD', g.math('MULTIPLY', peb, 0.8), g.math('MULTIPLY', root, 0.4)))
     b = g.node('ShaderNodeBump', ins={'Strength': 0.45, 'Height': h, 'Distance': 0.006}); g.put(p, 'Normal', b)
     tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')

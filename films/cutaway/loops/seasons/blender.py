@@ -11,7 +11,10 @@ Story (each change has a reason we can see):
 Camera: a fixed high three-quarter view with a very slow sway (3 degrees of azimuth on a 12 s sine), so it returns
 to its start. Seamless loop: the year itself closes (spring on both sides of the seam), every motion repeats on 12 s.
 Check: render frames 287 and 0 and compare.
-Files: szworld.py (land, pond, timeline), szmats.py (season-driven materials), this file (build and frame),
+Life and light (szlife.py): haze with god rays, spring mist, autumn ground fog; a duck, fish behind the glass, a squirrel
+burying acorns, a robin leaving tracks in the snow; easter eggs in the cut faces (an ammonite, a gold vein, the acorn
+cache); the title "One pond. One year." set in code.
+Files: szworld.py (land, pond, timeline), szmats.py (season-driven materials), szlife.py, this file (build and frame),
 audio/make_audio.py (ambience and the loopable score -> audio/mix.m4a). Kit: films/styles/cutaway/cutaway.py (imported).
 """
 import os, sys, math
@@ -24,6 +27,7 @@ for p in (os.path.join(ROOT, 'films', 'styles', 'cutaway'), HERE):
 import cutaway as cw  # noqa: E402
 import szworld as W  # noqa: E402
 import szmats as M  # noqa: E402
+import szlife as LF  # noqa: E402
 
 DURATION = W.LOOP
 SETTINGS = {'samples': 40, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast',
@@ -31,8 +35,8 @@ SETTINGS = {'samples': 40, 'denoise': True, 'motion_blur': False, 'view_transfor
             'denoising_prefilter': 'ACCURATE'}
 
 AZ0, SWAY = -48.0, 3.0                 # camera azimuth and its slow sway (degrees, one 12 s sine)
-EL, LENS, WIDTH, TZ = 30.0, 55.0, 0.85, 0.42   # block spans WIDTH of the frame; aim TZ m above the top so it sits low
-SUN_AZ = -95.0                         # key light from the front left
+EL, LENS, WIDTH, TZ = 30.0, 55.0, 0.85, 0.32   # block spans WIDTH of the frame; aim TZ m above the top so it sits low
+SUN_AZ = -120.0                        # key light from the left, so shafts of light cross the view
 STRATA = [('topsoil', 0.07, (0.20, 0.14, 0.09), 0.03), ('mud', 0.15, (0.31, 0.24, 0.17), 0.04), ('sand', 0.13, (0.79, 0.67, 0.49), 0.10),
           ('clay', 0.17, (0.65, 0.61, 0.55), 0.02), ('loam', 0.26, (0.48, 0.33, 0.21), 0.25), ('gravel', 0.12, (0.58, 0.51, 0.43), 0.85),
           ('deep', 1.0, (0.33, 0.25, 0.19), 0.30)]
@@ -45,9 +49,12 @@ SEASON = {   # (spring, summer, autumn, winter), sRGB
     'wtint':   ((0.18, 0.78, 0.76), (0.28, 0.82, 0.60), (0.58, 0.60, 0.30), (0.30, 0.62, 0.84)),
     'wdens':   (3.0, 3.3, 4.4, 2.6),
     'bg':      ((0.89, 0.93, 0.88), (0.95, 0.92, 0.83), (0.95, 0.87, 0.77), (0.86, 0.90, 0.95)),
-    'sun_col': ((1.00, 0.97, 0.92), (1.00, 0.95, 0.85), (1.00, 0.84, 0.66), (0.86, 0.91, 1.00)),
-    'sun_e':   (3.3, 3.9, 3.0, 2.4),
-    'sun_el':  (46.0, 56.0, 38.0, 31.0),
+    'sun_col': ((1.00, 0.95, 0.88), (1.00, 0.86, 0.64), (1.00, 0.72, 0.46), (0.84, 0.90, 1.00)),   # morning, golden, low amber, pale
+    'sun_e':   (3.0, 3.9, 3.1, 2.3),
+    'sun_el':  (30.0, 46.0, 22.0, 17.0),
+    'sun_ang': (12.0, 3.5, 6.0, 10.0),
+    'haze':    (0.022, 0.034, 0.030, 0.016),
+    'hazecol': ((0.98, 0.98, 0.96), (1.0, 0.92, 0.80), (1.0, 0.88, 0.76), (0.88, 0.92, 1.0)),
     'fill':    (0.90, 0.85, 0.85, 1.05),
     'fill_col': ((1.0, 1.0, 1.0), (1.0, 0.98, 0.95), (1.0, 0.95, 0.90), (0.88, 0.92, 1.0)),
     'reedtint': ((1.0, 1.0, 1.0), (0.95, 1.0, 0.9), (1.5, 1.0, 0.55), (1.35, 1.25, 1.0)),
@@ -393,23 +400,26 @@ def build(bpy, ctx):
     L = cw.block(kit, size=(W.S, W.S), depth=W.DEPTH, strata=STRATA, top=W.land_h, water=[cw.basin(W.pond_sd, depth=0.32, level=W.LV, shelf=0.30)],
                  seed=7, season='summer', res=0.02, grass=0, trees=0, boulders=0, flowers=0, under=False, lilies=0, reeds=0, name='sz_block')
     reshape(bpy, L)
-    F = build_frogs(kit, L, D)
+    F = build_frogs(kit, L, D); cache, zc = LF.build_cache(kit)
     L.objects['top'].data.materials[0] = M.mat_top(kit, D)
-    L.objects['walls'].data.materials[0] = M.mat_strata(kit, D, STRATA, F['burrow'])
+    L.objects['walls'].data.materials[0] = M.mat_strata(kit, D, STRATA, F['burrow'], (LF.CACHE[0], zc, LF.CACHE[1], LF.CACHE[2]))
     L.objects['water'].data.materials[0] = M.mat_water(kit, D)
     pop = populate(kit, L, D, rng)
     ice = build_ice(kit, D); leaves = build_leaves(kit, D, rng); snow = build_snow(kit, rng)
     birds = build_birds(kit, rng); flies = build_flies(kit, rng)
+    life = {'atmo': LF.build_atmosphere(kit, D), 'duck': LF.build_duck(kit), 'fish': LF.build_fish(kit, rng), 'squirrel': LF.build_squirrel(kit),
+            'robin': LF.build_robin(kit), 'fossil': LF.build_fossil(kit)}
     cw.studio(kit, color=SEASON['bg'][0], key_az=SUN_AZ, key_el=45.0, key=3.4, angle=9.0, fill=0.9, land=L)
     aspect = '16:9' if ctx['W'] >= ctx['H'] else '9:16'
     cam = cw.camera(kit, L, aspect, az=AZ0, el=EL, lens=LENS)
     a = math.radians(AZ0); span = W.S * (abs(math.cos(a)) + abs(math.sin(a)))      # the block's width across the view
     half = math.atan(18.0 / LENS * (min(ctx['W'], ctx['H']) / max(ctx['W'], ctx['H'])))
     cam.pose(dist=span / WIDTH / 2 / math.tan(half) * 0.95, target=(0.0, 0.0, TZ))   # 0.95: perspective widens the near corner
+    life['title'] = LF.build_title(kit, cam, ROOT)
     cw.apply_cycles(bpy); bpy.context.scene.cycles.transparent_max_bounces = 64   # cut-out canopies stack many layers
     wd = bpy.context.scene.world; nodes = wd.node_tree.nodes
     bgs = [n for n in nodes if n.bl_idname == 'ShaderNodeBackground']
-    S = {'kit': kit, 'land': L, 'D': D, 'cam': cam, 'pop': pop, 'frog': F, 'ice': ice, 'leaves': leaves, 'snow': snow, 'birds': birds, 'flies': flies,
+    S = {'kit': kit, 'land': L, 'D': D, 'cam': cam, 'life': life, 'pop': pop, 'frog': F, 'ice': ice, 'leaves': leaves, 'snow': snow, 'birds': birds, 'flies': flies,
          'sun': bpy.data.objects['cw_sun'], 'floor': M._principled(bpy.data.materials['cw_floor'].node_tree),
          'ramp': next(n for n in nodes if n.bl_idname == 'ShaderNodeValToRGB').color_ramp,
          'bg_light': next(b for b in bgs if not b.inputs['Color'].is_linked)}
@@ -423,11 +433,12 @@ def frame(bpy, ctx, S, i, t):
     wts = W.weights(t)
     D.setramp('grass', [tuple(sum(w * np.array(GRASS[s][j]) for s, w in enumerate(wts))) for j in range(5)])
     D.setramp('leaf', [tuple(sum(w * np.array(LEAF[s][j]) for s, w in enumerate(wts))) for j in range(5)])
-    for k in ('snow', 'ice', 'wet', 'dens', 'bloss', 'litter', 'roots', 'caus', 'burrow', 'tunnel'): D.set(k, W.cv(k, t))
+    for k in ('snow', 'ice', 'wet', 'dens', 'bloss', 'litter', 'roots', 'caus', 'burrow', 'tunnel', 'mist', 'fog'): D.set(k, W.cv(k, t))
+    D.set('haze', B('haze')); D.setc('hazecol', B('hazecol'))
     # the camera sways and returns; the light's height and colour follow the season
     S['cam'].pose(az=AZ0 + SWAY * math.sin(2 * math.pi * t / W.LOOP))
     el = B('sun_el'); S['sun'].rotation_euler = (math.radians(90 - el), 0, math.radians(SUN_AZ + 90))
-    S['sun'].data.energy = B('sun_e'); S['sun'].data.color = B('sun_col')
+    S['sun'].data.energy = B('sun_e'); S['sun'].data.color = B('sun_col'); S['sun'].data.angle = math.radians(B('sun_ang'))
     bg = cw.srgb(B('bg')); S['floor'].inputs['Base Color'].default_value = bg
     for el_ in S['ramp'].elements: el_.color = bg
     S['bg_light'].inputs['Color'].default_value = cw.srgb(B('fill_col')); S['bg_light'].inputs['Strength'].default_value = B('fill')
@@ -438,4 +449,5 @@ def frame(bpy, ctx, S, i, t):
     ob.data.attributes['scale'].data.foreach_set('value', (sc * g).astype(np.float32)); ob.data.update()
     ice = S['ice']; co = ice['co'].copy(); co[ice['bottom'], 2] = W.LV + 0.004 - (0.01 + 0.06 * W.cv('ice', t))
     ice['ob'].data.vertices.foreach_set('co', co.ravel()); ice['ob'].data.update()
+    lf = S['life']; LF.duck_pose(lf['duck'], t); LF.fish_pose(lf['fish'], t); LF.squirrel_pose(lf['squirrel'], t); LF.robin_pose(lf['robin'], t)
     frog_pose(S['frog'], kit, t); leaves_pose(S['leaves'], t); snow_pose(S['snow'], t); birds_pose(S['birds'], kit, t); flies_pose(S['flies'], t)
