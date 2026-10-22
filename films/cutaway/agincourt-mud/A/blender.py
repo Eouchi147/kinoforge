@@ -33,9 +33,12 @@ def build(bpy, ctx):
     M = am.materials(kit); cutter = am.make_cutter(bpy, land)
     en = am.English(bpy, kit, M, cutter, 'A')
     rain = am.Rain(kit, land)
+    crows = am.Crows(bpy, kit, [(x, float(am.y_far(x)) - 0.06 + 0.02 * k) for k, x in enumerate((-1.25, -1.08, -0.93))])
+    worms = am.Worms(bpy, kit, [(1.24, -0.050, 0.034, 0.0), (1.63, -0.105, 0.030, 1.7), (1.43, -0.035, 0.028, 3.1)])
+    am.easter_eggs(bpy, kit, coin=(1.355, -0.150))
     cam = cw.camera(kit, land, '16:9', az=-150, el=44, lens=50, fill=0.92)
     cw.apply_cycles(bpy)
-    return {'kit': kit, 'tv': tv, 'en': en, 'rain': rain, 'cam': cam, 'dfit': cam.dist}
+    return {'kit': kit, 'tv': tv, 'en': en, 'rain': rain, 'cam': cam, 'dfit': cam.dist, 'crows': crows, 'worms': worms}
 
 
 def shot(T, S):
@@ -46,7 +49,7 @@ def shot(T, S):
     d = ease((T - CUT) / (T_PULL - CUT))                 # A2: a slow drift while the stakes go in ...
     e = ease((T - T_PULL) / (T1 - T_PULL))               # ... then up and back to the line facing the field
     return dict(az=-73 - 3 * d - 13 * e, el=11 + 1 * d + 9 * e, dist=0.92 + 0.03 * d + 0.48 * e,
-                target=(1.47 - 0.02 * d - 0.20 * e, YF + 0.06 + 0.22 * e, 0.005 - 0.01 * e), lens=45, f=7.0 + 4.0 * e)
+                target=(1.47 - 0.02 * d - 0.20 * e, YF + 0.06 + 0.22 * e, 0.005 - 0.01 * e), lens=45, f=11.0 + 4.0 * e)
 
 
 def frame(bpy, ctx, S, i, t):
@@ -55,4 +58,4 @@ def frame(bpy, ctx, S, i, t):
     sh = shot(T, S); cam = S['cam']; cam.ob.data.lens = sh['lens']
     cam.pose(az=sh['az'], el=sh['el'], dist=sh['dist'], target=sh['target']); am.set_dof(cam, sh['f'], sh['dist'])
     S['en'].pose(T)
-    S['rain'].update(T, cam.ob.location)
+    S['rain'].update(T, cam.ob.location); S['crows'].pose(T); S['worms'].pose(T)

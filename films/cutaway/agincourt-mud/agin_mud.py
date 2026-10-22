@@ -249,17 +249,17 @@ def mat_mud(kit, rain):
     fur = g.attr('ag_fur').outputs['Fac']; fld = g.attr('w_path').outputs['Fac']
     n_mid = g.noise(pos, 7.0, 4.0); n_fine = g.noise(pos, 70.0, 4.0); vo = g.voronoi(pos, 85.0, 'F1')
     crest = g.math('POWER', fur, 1.5)
-    mud = g.mix(crest, cw.srgb((0.075, 0.048, 0.028)), cw.srgb((0.25, 0.165, 0.095)))
+    mud = g.mix(crest, cw.srgb((0.07, 0.045, 0.026)), cw.srgb((0.21, 0.135, 0.075)))
     mud = g.mix(g.math('MULTIPLY', n_mid.outputs['Fac'], 0.55), mud, g.mix(0.6, mud, (0.0, 0.0, 0.0), 'MULTIPLY'))
     clod = g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vo.outputs['Distance'], 2.2), clamp=True), crest)
     mud = g.mix(g.math('MULTIPLY', clod, 0.45), mud, cw.srgb((0.33, 0.23, 0.14)))
     floor = g.mix(n_mid.outputs['Fac'], cw.srgb((0.14, 0.11, 0.06)), cw.srgb((0.25, 0.20, 0.10)))
     col = g.mix(fld, floor, mud)
     wet = 0.07 if rain else 0.12
-    r_mud = g.math('MULTIPLY_ADD', g.math('POWER', crest, 2.0), 0.55, wet)
+    r_mud = g.math('MULTIPLY_ADD', g.math('POWER', crest, 1.5), 0.78, wet)
     rough = g.mix(fld, 0.85, r_mud, dtype='FLOAT')
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': rough})
-    g.put(p, 'Coat Weight', g.math('MULTIPLY', fld, g.math('MULTIPLY', g.math('SUBTRACT', 1.0, crest), 0.5)))
+    g.put(p, 'Coat Weight', g.math('MULTIPLY', fld, g.math('MULTIPLY', g.math('POWER', g.math('SUBTRACT', 1.0, crest), 2.0), 0.45)))
     g.put(p, 'Coat Roughness', 0.04)
     h = g.math('ADD', g.math('MULTIPLY', n_fine.outputs['Fac'], 0.6), g.math('MULTIPLY', clod, 0.8))
     b = g.node('ShaderNodeBump', ins={'Strength': 0.35, 'Height': h, 'Distance': 0.004}); g.put(p, 'Normal', b)
@@ -276,9 +276,9 @@ def patch_strata(kit, mat):
     wet = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('SUBTRACT', sd, edge), 1 / 0.012, clamp=True))
     lk = next(l for l in nt.links if l.to_node == p and l.to_socket.name == 'Base Color'); src = lk.from_socket
     seep = g.noise(g.comb(g.math('MULTIPLY', g.math('ADD', sx[0], sx[1]), 30.0), g.math('MULTIPLY', sd, 4.0), 0.0), 2.0, 2.0)
-    dark = g.mix(g.math('MULTIPLY', wet, 0.80), src, cw.srgb((0.10, 0.062, 0.035)))
+    dark = g.mix(g.math('MULTIPLY', wet, 0.85), src, cw.srgb((0.20, 0.115, 0.06)))
     g.link(dark, p.inputs['Base Color'])
-    g.put(p, 'Roughness', g.math('MULTIPLY_ADD', wet, -0.62, 0.90))
+    g.put(p, 'Roughness', g.math('MULTIPLY_ADD', wet, -0.48, 0.90))
     for n in nt.nodes:   # no roots in a ploughed field: switch off the kit's root lines (the mix toward the root colour)
         if n.bl_idname == 'ShaderNodeMix' and n.data_type == 'RGBA':
             bc = n.inputs['B_Color'] if 'B_Color' in n.inputs else n.inputs[7]
@@ -287,7 +287,7 @@ def patch_strata(kit, mat):
                 for l in list(fs.links): nt.links.remove(l)
                 fs.default_value = 0.0
     try:
-        g.put(p, 'Coat Weight', g.math('MULTIPLY', wet, g.math('MULTIPLY_ADD', seep.outputs['Fac'], 0.45, 0.40)))
+        g.put(p, 'Coat Weight', g.math('MULTIPLY', wet, g.math('MULTIPLY_ADD', seep.outputs['Fac'], 0.30, 0.10)))
         g.put(p, 'Coat Roughness', 0.06)
     except KeyError: pass
 
@@ -577,7 +577,7 @@ def mist(kit, opacity, seed=3):
     """Low mist lying in the woods: soft noise cards (camera rays only), kept inside the block footprint."""
     bpy = kit.bpy
     def card(name, x0, x1, y0, y1, z, op):
-        m, g = _mat(kit, name); tc = g.node('ShaderNodeTexCoord'); u = g.sep(tc.outputs['Generated']); zo, w = g.phase(0.03)
+        m, g = _mat(kit, name); tc = g.node('ShaderNodeTexCoord'); u = g.sep(tc.outputs['Generated']); zo, w = g.phase(0.07)
         ex = g.math('MINIMUM', g.math('MULTIPLY', g.math('MINIMUM', u[0], g.math('SUBTRACT', 1.0, u[0])), 8.0), 1.0)
         ey = g.math('MINIMUM', g.math('MULTIPLY', g.math('MINIMUM', u[1], g.math('SUBTRACT', 1.0, u[1])), 6.0), 1.0)
         n = g.noise(g.comb(g.math('MULTIPLY', u[0], (x1 - x0) * 2.5), g.math('MULTIPLY', u[1], (y1 - y0) * 2.5), zo), 1.6, 3.0, 0.55, '4D', w)
@@ -597,8 +597,10 @@ def light(kit, land, mood):
     if mood == 'rain':
         cw.studio(kit, color=(0.47, 0.50, 0.53), key_az=-115, key_el=62, key=0.9, angle=35, fill=1.0, land=land)
         cw.mat_gradient_bg(kit, (0.56, 0.59, 0.62), (0.36, 0.38, 0.40), 1.0, (0.90, 0.90, 0.90), 1.25)
-    else:
-        cw.studio(kit, color=(0.55, 0.57, 0.58), key_az=-125, key_el=50, key=1.6, angle=22, fill=1.0, land=land, shadows=0.22)
+    else:   # after the rain: a low sun breaking through behind the Agincourt wood (god rays in the haze), grey sky
+        cw.studio(kit, color=(0.55, 0.57, 0.58), key_az=78, key_el=10, key=3.4, angle=2.5, fill=0.8, land=land, shadows=0.0)
+        for ob in kit.bpy.data.objects:
+            if ob.type == 'LIGHT' and ob.data.type == 'SUN' and ob.name.startswith('cw_sun'): ob.data.color = (1.0, 0.84, 0.62)
         cw.mat_gradient_bg(kit, (0.68, 0.70, 0.72), (0.46, 0.47, 0.48), 1.0, (0.94, 0.92, 0.90), 1.2)
 
 
@@ -811,3 +813,102 @@ class French:
             else:
                 jx = jost * 0.30 * math.sin(2 * math.pi * 3.2 * T + s['wph']); jy = -jost * 0.35 * (0.5 + 0.5 * math.sin(2 * math.pi * 2.1 * T + 2 * s['wph']))
                 s['w'].rotation_euler = (jx + 0.03 * math.sin(ph), jy - 0.05 * tired, 0.0)
+
+
+# ============================================================================================ life and easter eggs
+class Crows:
+    """Crows on the field edge: they peck, and on lift times they flap up and away (kid-safe, about 0.045 m long)."""
+    def __init__(self, bpy, kit, spots, lifts=None, seed=4):
+        black = cw.mat_simple(kit, 'ag_crow', (0.05, 0.05, 0.06), 0.45); beak = cw.mat_simple(kit, 'ag_beak', (0.12, 0.11, 0.10), 0.4)
+        A = Acc(); A.add(ell((0, 0, 0.013), (0.019, 0.010, 0.010)), 0); A.add(ell((0.017, 0, 0.022), (0.0085, 0.0075, 0.0078)), 0)
+        A.add(tube([(0.023, 0, 0.022), (0.034, 0, 0.0195)], [0.0030, 0.0003], 6), 1)
+        A.add(tube([(-0.016, 0, 0.014), (-0.030, 0, 0.011)], [0.006, 0.0012], 6), 0, lambda V: V * np.array([1, 1.5, 0.4]) + np.array([0, 0, 0.0080]))
+        for s in (-1, 1): A.add(tube([(0.002, s * 0.003, 0.0), (0.003, s * 0.003, 0.008)], [0.0011, 0.0011], 4), 1)
+        body = A.mesh(bpy, 'ag_crowbody', [black, beak])
+        W_ = Acc(); W_.add((np.array([(-0.009, 0, 0), (0.009, 0, 0), (0.004, 0.030, 0), (-0.012, 0.026, 0)]), [(0, 1, 2, 3)]), 0)
+        wing = W_.mesh(bpy, 'ag_crowwing', [black], smooth=False)
+        rng = np.random.default_rng(seed); self.c = []
+        for k, (x, y) in enumerate(spots):
+            b = obj(bpy, kit, f'ag_crow{k}', body); ws = []
+            for s in (-1, 1):
+                w = obj(bpy, kit, f'ag_crow{k}w{s}', wing, b); w.location = (0, s * 0.006, 0.019); w.scale = (1, s, 1); ws.append((w, s))
+            self.c.append({'b': b, 'w': ws, 'x': x, 'y': y, 'yaw': float(rng.uniform(-2.5, 2.5)), 'ph': float(rng.uniform(0, 6.28)),
+                           'lift': None if lifts is None else lifts[k], 'dir': np.array([rng.uniform(0.2, 0.6), rng.uniform(0.7, 1.0)])})
+
+    def pose(self, T):
+        for c in self.c:
+            gz = g1(c['x'], c['y']); b = c['b']
+            if c['lift'] is None or T < c['lift']:
+                peck = max(0.0, math.sin(2.1 * T + c['ph'])) ** 6
+                hop = 0.004 * max(0.0, math.sin(0.9 * T + 2 * c['ph'])) ** 20
+                b.location = (c['x'], c['y'], gz + hop); b.rotation_euler = (0, 0.75 * peck, c['yaw'] + 0.3 * math.sin(0.37 * T + c['ph']))
+                for w, s in c['w']: w.rotation_euler = (s * 0.12 - s * 0.05, 0, 0)
+            else:
+                u = T - c['lift']; d = c['dir'] / np.linalg.norm(c['dir'])
+                dist = 0.10 * u + 0.16 * u * u; up = 0.05 * u + 0.22 * u * u
+                b.location = (c['x'] + d[0] * dist, c['y'] + d[1] * dist, gz + up)
+                yaw = math.atan2(d[1], d[0]); b.rotation_euler = (0, -0.35 * min(1.0, u * 3), yaw)
+                fl = math.sin(2 * math.pi * 7.5 * u)
+                for w, s in c['w']: w.rotation_euler = (s * (0.25 + 1.0 * fl), 0, 0)
+
+
+class Worms:
+    """Earthworms in the wet soil, lying on the -Y cut face (seen in section), wriggling slowly."""
+    def __init__(self, bpy, kit, spots):
+        self.mat = cw.mat_simple(kit, 'ag_worm', (0.86, 0.47, 0.47), 0.35, sss=0.2); self.w = []
+        for k, (x, z, L, ph) in enumerate(spots):
+            V, F = self._shape(x, z, L, ph, 0.0)
+            me = bpy.data.meshes.new(f'ag_worm{k}'); me.from_pydata([tuple(v) for v in V], [], F); me.materials.append(self.mat)
+            me.polygons.foreach_set('use_smooth', np.full(len(F), True)); me.update()
+            obj(bpy, kit, f'ag_worm{k}', me); self.w.append((me, x, z, L, ph))
+
+    @staticmethod
+    def _shape(x, z, L, ph, T):
+        u = np.linspace(0, 1, 14); crawl = 0.15 * math.sin(0.8 * T + ph)
+        px = x + (u - 0.5) * L * (1 + 0.08 * math.sin(2.2 * T + ph)) + crawl * 0.01
+        pz = z + 0.004 * np.sin(2 * np.pi * (1.3 * u) - 2.6 * T + ph) + 0.002 * np.sin(5 * u + ph)
+        V, F = tube(np.column_stack([px, np.full_like(px, YF - 0.0016), pz]), 0.0026 * np.sin(np.pi * np.clip(u, 0.04, 0.96)) ** 0.4, 8)
+        V[:, 1] = YF - 0.0016 + (V[:, 1] - (YF - 0.0016)) * 0.5
+        return V, F
+
+    def pose(self, T):
+        for me, x, z, L, ph in self.w:
+            V, F = self._shape(x, z, L, ph, T); me.vertices.foreach_set('co', V.reshape(-1).astype(np.float32)); me.update()
+
+
+def easter_eggs(bpy, kit, coin=None, shell=None):
+    """Small finds in the cut face: a Roman coin (bronze, a face in profile is too small to read: a raised rim and bust),
+    an ammonite (a ribbed spiral). Both flush on the -Y face."""
+    yy = YF - 0.0009
+    if coin is not None:
+        x, z = coin; br = cw.mat_simple(kit, 'ag_coin', (0.66, 0.50, 0.26), 0.38, metallic=0.85)
+        verd = cw.mat_simple(kit, 'ag_verdigris', (0.36, 0.58, 0.48), 0.6)
+        A = Acc(); A.add(tube([(x, yy + 0.0008, z), (x, yy - 0.0006, z)], [0.0085, 0.0085], 24), 0)
+        A.add(torus(0.0078, 0.0009, 24, 6), 0, lambda V: V[:, [0, 2, 1]] + np.array([x, yy - 0.0007, z]))
+        A.add(ell((x - 0.0006, yy - 0.0008, z + 0.0012), (0.0032, 0.0008, 0.0042)), 0)
+        A.add(ell((x + 0.004, yy - 0.0004, z - 0.004), (0.0022, 0.0006, 0.0016)), 1)
+        obj(bpy, kit, 'ag_coin', A.mesh(bpy, 'ag_coin', [br, verd]))
+    if shell is not None:
+        x, z = shell; m = cw.mat_simple(kit, 'ag_fossil', (0.88, 0.82, 0.68), 0.6, bump=0.3)
+        th = np.linspace(0, 3.4 * np.pi, 90); r = 0.0016 * np.exp(0.235 * th)
+        P = np.column_stack([x + r * np.cos(th), np.full_like(th, yy), z + r * np.sin(th)])
+        rad = 0.0008 + 0.30 * r * (1 + 0.25 * np.abs(np.sin(9 * th)) ** 4)
+        V, F = tube(P, rad, 8); V[:, 1] = yy + (V[:, 1] - yy) * 0.45
+        A = Acc(); A.add((V, F), 0); obj(bpy, kit, 'ag_ammonite', A.mesh(bpy, 'ag_ammonite', [m]))
+
+
+def haze(bpy, kit, density=0.9, low=0.30):
+    """Thin haze over the block (denser near the ground, fading at the block edges) so a low sun draws god rays."""
+    m, g = _mat(kit, 'ag_haze'); tc = g.node('ShaderNodeTexCoord'); p = g.sep(tc.outputs['Object'])
+    ex = g.math('MINIMUM', g.math('MULTIPLY', g.math('SUBTRACT', SX / 2, g.math('ABSOLUTE', p[0])), 6.0), 1.0)
+    ey = g.math('MINIMUM', g.math('MULTIPLY', g.math('SUBTRACT', SY / 2, g.math('ABSOLUTE', p[1])), 6.0), 1.0)
+    hz = g.math('EXPONENT', g.math('MULTIPLY', p[2], -1.0 / low))
+    zo, w = g.phase(0.04); n = g.noise(g.comb(p[0], p[1], g.math('ADD', g.math('MULTIPLY', p[2], 2.0), zo)), 1.4, 2.0, 0.5, '4D', w)
+    d = g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', ex, ey), hz), g.math('MULTIPLY_ADD', n.outputs['Fac'], 0.9, 0.55))
+    vs = g.node('ShaderNodeVolumeScatter', ins={'Color': (0.95, 0.94, 0.92), 'Anisotropy': 0.55})
+    g.link(g.math('MULTIPLY', d, density), vs.inputs['Density'])
+    o = g.node('ShaderNodeOutputMaterial', target='ALL'); g.link(vs, o.inputs['Volume'])
+    V = [(-SX / 2, -SY / 2, -0.03), (SX / 2, -SY / 2, -0.03), (SX / 2, SY / 2, -0.03), (-SX / 2, SY / 2, -0.03),
+         (-SX / 2, -SY / 2, 1.2), (SX / 2, -SY / 2, 1.2), (SX / 2, SY / 2, 1.2), (-SX / 2, SY / 2, 1.2)]
+    F = [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
+    return cw.mk_mesh(bpy, 'ag_haze', V, F, [m], None, False, kit.coll)
