@@ -1009,7 +1009,6 @@ def pipe(kit, L, path, radius=0.03, color=(0.80, 0.80, 0.78), clip=True, name='c
     if clip: cut(kit, L, ob)
     return ob
 
-_HOUSE_MATS = {}
 def house(kit, L, x, y, w=0.16, d=0.12, h=0.10, roof=0.07, yaw=0.0, wall=(0.92, 0.88, 0.80), roof_col=(0.55, 0.22, 0.14),
           lit=0.0, chimney=True, name='cw_house'):
     """A small house (walls, gable roof, windows, door, chimney). lit > 0 makes the windows glow (dusk/night)."""
@@ -1025,12 +1024,12 @@ def house(kit, L, x, y, w=0.16, d=0.12, h=0.10, roof=0.07, yaw=0.0, wall=(0.92, 
         for side in (-1, 1):
             yy = side * (d / 2 + e); A.add([(wx - ww, yy, h * 0.40), (wx + ww, yy, h * 0.40), (wx + ww, yy, h * 0.78), (wx - ww, yy, h * 0.78)], [(0, 1, 2, 3) if side < 0 else (3, 2, 1, 0)], 2)
     A.add([(w / 2 + e, -0.012, 0.0), (w / 2 + e, 0.012, 0.0), (w / 2 + e, 0.012, h * 0.55), (w / 2 + e, -0.012, h * 0.55)], [(0, 1, 2, 3)], 3)
-    key = (wall, roof_col, lit)
-    if key not in _HOUSE_MATS:
-        _HOUSE_MATS[key] = [mat_simple(kit, 'cw_wall', wall, 0.8, noise_amt=0.08), mat_simple(kit, 'cw_roof', roof_col, 0.7, noise_amt=0.2, bump=0.4),
+    key = ('house', wall, roof_col, lit)
+    if key not in kit.mats:
+        kit.mats[key] = [mat_simple(kit, 'cw_wall', wall, 0.8, noise_amt=0.08), mat_simple(kit, 'cw_roof', roof_col, 0.7, noise_amt=0.2, bump=0.4),
                             mat_glow(kit, 'cw_window', (1.0, 0.72, 0.36), 14.0 * lit) if lit else mat_simple(kit, 'cw_glass', (0.12, 0.16, 0.20), 0.15),
                             mat_simple(kit, 'cw_door', (0.30, 0.18, 0.10), 0.7)]
-    ob = A.build(bpy, name, _HOUSE_MATS[key], False, kit.coll)
+    ob = A.build(bpy, name, kit.mats[key], False, kit.coll)
     _place(L, ob, x, y); ob.rotation_euler = (0, 0, yaw)
     if lit:
         ld = bpy.data.lights.new(name + '_glow', 'POINT'); ld.energy = 0.35 * lit; ld.color = (1.0, 0.70, 0.40); ld.shadow_soft_size = 0.03
