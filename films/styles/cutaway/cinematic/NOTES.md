@@ -102,20 +102,39 @@ inside. This is cheap, and the cut stays perfectly clean.
 - **Small life:** 28 fireflies blink low over the banks, 44 petals and leaves tumble on the wind, three butterflies wander over the flowers, and four birds circle.
 - **Moving light:** the mill wheel turns, the cloud gaps drift and the fog drifts.
 
-## Render cost
+## Render cost (measured on free 4-core GitHub runners, 22 Oct)
 
-(Measured numbers are filled in from the stills runs below.)
+Job wall time includes about 1.5 min of setup (checkout, apt, pip bpy). The settings are adaptive sampling with OIDN denoise.
 
-- **Scene build:** 4 to 8 s.
-- **Local previews** on the 2-core chat box (shared, loaded), 480x270 at 16 spp: 15 to 45 s a frame. Volumes add about 30 %.
-- **Runner stills:** see the run log at the end of this file.
+| Frame | r2: 1280x720, 64 spp, threshold 0.02, tall haze volume | r3: 1920x1080, 48 spp, threshold 0.035, fog-only volume |
+| --- | --- | --- |
+| 24 map | 26.4 min | 48.2 min |
+| 84 ground | over 40 min (cancelled) | 43.7 min |
+| 150 crane | 5.0 min | 11.1 min |
+| 222 macro | 3.6 min | 6.3 min |
+| 270 hero | 14.2 min | 49.7 min |
+
+- **Scene build:** 4 to 9 s.
+- **Local 480x270 at 24 spp** (2-core chat box, loaded): about 26 s for a wide frame. Removing one thing at a time: fog volume -25 %, glass water -14 %, shafts -7 %, grass -9 %, trees and flowers about 0.
+- **Verdict: over the 90 s/frame budget.** Close shots of the cut face (crane, macro) cost about 2 to 4 min a frame at 1280x720 and 48 spp. Wide shots that see the whole living top and the fog (map, ground, hero) cost about 10 to 20 min. I did not find one culprit: the base kit scene (grass, glass water, about 35 lights) plus the fog volume add up, and they scale much worse on the runner than on the chat box.
+- **Levers for the motion test, in order:**
+  1. 16 to 24 spp (OIDN holds up well on these frames);
+  2. `cw.apply_cycles(bpy, fast=True)`;
+  3. hide `ex_atmos` (the fog) in the hero shot only;
+  4. render the map shot at 960x540 and upscale;
+  5. drop the 6 house glow lights.
+
+  Estimate: about half to a third of the r3 cost. Measure one part before committing to 288 frames.
+- **Board stills** at 1920x1080 and 48 spp: 6 to 50 min each, one runner each.
 
 ## Weak spots (honest)
 
+- **Cost:** see above; the wide shots are the expensive part.
 - **Shafts:** the god rays are cards. They read best in the hero and ground angles (looking toward the sun). From the side they are faint, and from top-down they are mostly hidden on purpose. The real volume adds depth but does not make crisp shafts by itself at this cost.
 - **Animal scale:** the animals are storybook-sized, larger than the houses imply, so they read at phone size. The deer are about 10 cm tall on a 4 m block. They are made of primitives (ellipsoids and tubes): clean silhouettes, but not sculpted.
 - **Readability at hero scale:** the eggs are oversized for readability (a 0.85 m T. rex next to 0.2 m cottages). At the hero distance they read as glowing shapes. They read clearly in the crane and macro angles.
 - **The skull** is stylized: a lofted wedge with dark windows and cone teeth. It reads as a "dinosaur skull" in a friendly, toy-like way, not as a museum cast.
 - **Hollow edges:** the hole masks are hard-edged. At extreme close range, a thin highlight line can show where a tunnel wall meets the face.
 - **The ground shot** puts the near cut face out of focus by design. Its eggs read as warm glows, not as objects.
+- **The pale limestone band** is a big plain area on the +X face in the hero (it carries only the geode).
 - **The map shot's** dark floor shows around the block, and the fog is subtle from straight above.
