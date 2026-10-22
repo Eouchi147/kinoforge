@@ -225,9 +225,7 @@ def build_city(kit, M, lamps):
             step = 0.0135 if dense else 0.022; half = 0.0042 if dense else 0.005
             if _on_land(land, x, y, 0.0, 0.016):
                 zt = float(land.height(np.array([x]), np.array([y]))[0]); zc = strata_z(zt, zm, CARANTO_SD[0] + 0.035)
-                P.append(arch.face_quad(face, s, zc, zt - 0.03, half, 4.0, 4.0))
-                P[-1][0] = list(P[-1][0]); P[-1][1] = list(P[-1][1])
-                mid = (np.array(P[-1][0]) + np.array(P[-1][1])) / 2; P[-1][0] = tuple(mid + (np.array(P[-1][0]) - mid) * 0.25); P[-1][1] = tuple(mid + (np.array(P[-1][1]) - mid) * 0.25)
+                P += arch.pole_quads(face, s, zc, zt - 0.03, half, 4.0, 4.0)
                 B.append(arch.face_quad(face, s + step / 2, zt - 0.03, zt - 0.021, step / 2 + 0.0002, 4.0, 4.0, 0.0014))
                 St.append(arch.face_quad(face, s + step / 2, zt - 0.021, zt + 0.0005, step / 2 + 0.0002, 4.0, 4.0, 0.0014))
             s += step
@@ -353,7 +351,7 @@ def build_site(kit, M):
     S.data['poles'] = poles; S.data['L'] = L; S.data['zc'] = zc
     # pole sections on the cut faces: the front row on -Y, the last column on +X
     face_poles = [p for p in poles if p['j'] == 0] + [p for p in poles if p['i'] == 0 and p['j'] > 0]
-    sec = arch.section_mesh(kit, 'vz_sitesec', sec_m, len(face_poles))
+    sec = arch.section_mesh(kit, 'vz_sitesec', sec_m, 2 * len(face_poles))
     # pile drivers with a worker each
     rigs = []
     for r in range(3):
@@ -415,11 +413,10 @@ def build_site(kit, M):
             vis, zh = pole_state(p, t, stage, tl); p['ob'].hide_render = not vis; p['ob'].location.z = zh; p['zh'] = zh if vis else None
         for p in face_poles:
             zh = p['zh']
-            if zh is None: quads.append([(0, 0, -5)] * 4); continue
+            if zh is None: quads += [[(0, 0, -5)] * 4] * 2; continue
             face, s = ('-Y', p['x']) if p['j'] == 0 else ('+X', p['y'])
             zt = min(zh, PIT_Z); zb = zh - L
-            q = arch.face_quad(face, s, zb, zt, POLE_R * 0.95, 4.0, 4.0); mid = (np.array(q[0]) + np.array(q[1])) / 2
-            q[0] = tuple(mid + (np.array(q[0]) - mid) * 0.2); q[1] = tuple(mid + (np.array(q[1]) - mid) * 0.2); quads.append(q)
+            quads += arch.pole_quads(face, s, zb, zt, POLE_R * 0.95, 4.0, 4.0, 0.05)
         arch.set_quads(sec, quads)
         # rigs over the poles being driven
         driving = [p for p in poles if p['zh'] is not None and p['zh'] > PIT_Z + 0.002][:3] if stage in ('one', 'many') else []
@@ -459,16 +456,13 @@ def build_pole(kit, M):
     S.land = land; zm = _zmean(land); bed = float(land.height(np.array([0.0]), np.array([-sz / 2 + 0.01]))[0])
     sec_m = arch.mat_pole_section(kit, 'vz_polecut_big', WOOD_POLE, (0.60, 0.60, 0.58))
     zc = strata_z(bed, zm, CARANTO_SD[0] + 0.05); top = bed - 0.05
-    q = arch.face_quad('-Y', 0.0, zc, top, 0.06, sz, sz); mid = (np.array(q[0]) + np.array(q[1])) / 2
-    q[0] = tuple(mid + (np.array(q[0]) - mid) * 0.15); q[1] = tuple(mid + (np.array(q[1]) - mid) * 0.15)
-    pole = arch.section_mesh(kit, 'vz_bigpole', sec_m, 1); arch.set_quads(pole, [q])
+    pole = arch.section_mesh(kit, 'vz_bigpole', sec_m, 2); arch.set_quads(pole, arch.pole_quads('-Y', 0.0, zc, top, 0.06, sz, sz, 0.09))
     S.data.update(pole_mat=sec_m, bed=bed, zc=zc, top=top, sz=sz)
     # neighbouring poles at the edges of the frame, so it reads as one of many
-    sm = arch.section_mesh(kit, 'vz_nbpoles', sec_m, 4)
+    sm = arch.section_mesh(kit, 'vz_nbpoles', sec_m, 8)
     Q = []
-    for s in (-0.36, -0.22, 0.22, 0.36):
-        qq = arch.face_quad('-Y', s, zc + 0.02 * abs(s), top - 0.01, 0.045, sz, sz); m2 = (np.array(qq[0]) + np.array(qq[1])) / 2
-        qq[0] = tuple(m2 + (np.array(qq[0]) - m2) * 0.15); qq[1] = tuple(m2 + (np.array(qq[1]) - m2) * 0.15); Q.append(qq)
+    for s in (-0.40, -0.25, 0.25, 0.40):
+        Q += arch.pole_quads('-Y', s, zc + 0.03 * abs(s), top - 0.01, 0.05, sz, sz, 0.08)
     arch.set_quads(sm, Q)
     # bubbles: on the face, in the water and the top of the mud; none deeper down
     bub_m = cw.mat_simple(kit, 'vz_bubble', (0.95, 0.97, 1.0), 0.1); rng = np.random.default_rng(9); bubbles = []

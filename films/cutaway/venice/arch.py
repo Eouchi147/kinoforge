@@ -302,6 +302,14 @@ def face_quad(face, s, zb, zt, half, sx, sy, out=0.0012):
     x = sx / 2 + out; return [(x, s - half, zb), (x, s + half, zb), (x, s + half, zt), (x, s - half, zt)]
 
 
+def pole_quads(face, s, zb, zt, half, sx, sy, tip=None, out=0.0012):
+    """A pole seen on a cut face: a straight shaft and a short sharpened tip (two quads, the tip one degenerate)."""
+    tip = tip if tip is not None else half * 3.0; tip = min(tip, max(0.0, zt - zb) * 0.5)
+    body = face_quad(face, s, zb + tip, zt, half, sx, sy, out); tq = face_quad(face, s, zb, zb + tip, half, sx, sy, out)
+    p = tuple((np.array(tq[0]) + np.array(tq[1])) / 2); tq[0] = p; tq[1] = p
+    return [body, tq]
+
+
 def mat_pole_section(kit, name='vz_polecut', wood=(0.50, 0.36, 0.22), stone=(0.58, 0.58, 0.56)):
     """Wood seen along its length on the cut: grain streaks; a 'stone' value (0..1) turns it mineral grey (the film sets it)."""
     bpy = kit.bpy; m = cw._new_mat(bpy, name); g = cw.G(m.node_tree, kit)
