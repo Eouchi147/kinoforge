@@ -10,5 +10,17 @@
  "w": 1920,
  "h": 1080,
  "audio": "audio/mix.m4a",
- "note": "Picture in the KINOFORGE Terrain style; sound from films/lib/battle_mix.py."
+ "note": "Picture in the KINOFORGE Terrain style; sound from films/lib/battle_mix.py.",
+ "inserts": [
+  {
+   "film": "cutaway-agincourt-mud-A",
+   "first": 1375,
+   "last": 1727
+  },
+  {
+   "film": "cutaway-agincourt-mud-B",
+   "first": 2081,
+   "last": 2420
+  }
+ ]
 }

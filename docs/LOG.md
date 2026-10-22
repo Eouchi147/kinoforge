@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Agincourt mud inserts built (`films/cutaway/agincourt-mud/` A: rain-soaked field and stakes, 1375 to 1727; B: knights sinking at the cut face, crows, 2081 to 2420); B1 getting one fix (legs visibly buried in the cut). rc-render `films.yml` now lays `inserts` from film.json frame-exactly (tested on dummy clips); Agincourt's film.json lists both.
 - NOOR Iqra and short: the single word Iqra (title, e3, lantern end, short opening) redrawn as a clean filled glyph run (no outline stroke): dark ink #2C2416 over a soft warm glow on bright light, gold over a soft dark halo at night; write-on by wipe. Re-rendering both.
 - NOOR `j30-amma`: more space between every Arabic line and the English under it (al-Ikhlas panel: kasra no longer touches the meaning; 96:1, 97:1, 97:3 and the al-Falaq/an-Nas names too), checked at 1280x720; re-render dispatched.
 - Cutaway seasons loop built (`films/cutaway/loops/seasons/`: one pond cut open, four seasons with their own light and animals, the frog asleep in winter, fossil, gold vein and acorn cache in the faces, title set in code; exact 12 s loop in picture and sound, seam smaller than a normal frame step); full render dispatched (12 parts).

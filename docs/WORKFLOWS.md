@@ -111,6 +111,8 @@ sessions); `ref` must be a branch or a **full** commit hash (a short hash fails 
 Web films: 12 to 20 parts, 10 to 25 minutes. Blender films: 24 parts, about 80 minutes. Costs nothing (GitHub runners;
 see the terms note in the handover).
 
+Inserts: a film.json may list `inserts: [{film, first, last}]`: finished clips from `kino-films` (for example the Cutaway mud scenes in Agincourt) laid frame-exactly over film frames first to last before scaling. Render the inserts first.
+
 Check stills (no video; one run in flight per builder, at most 8 frames, because the runner queue is shared with the film renders): rc-render `stills.yml` (inputs film, frames as a comma list up to 20, tag, w, h, samples,
 ref), frames grouped per runner (`per_job`, default 4), files `<tag>-f<frame>.jpg` in release `stills`; download with
 `bash tools/getstills.sh <tag> <dir>` in rc-render (REST; `gh release download` needs GraphQL, which is blocked in Claude Code sessions).
