@@ -28,7 +28,7 @@ gates, pole sections), `overlay.py` (labels, counter, title, arrows set in code)
 | site | a building site on a mud island: a pit at the front corner, 441 poles driven by pile drivers (tripod, weight hauled and dropped), a stack of tree trunks, workers; then boards, white stone and brick walls built up | hammers, workers, grass and trees in the wind, gulls |
 | pole | one pole deep in the mud, close, with neighbours, the lagoon above | bubbles rising in the water, a few in the top of the mud that slow and stop; mineral specks drifting into the wood |
 | sink | a diagram block: palazzi and a campanile on an island, the sea on the right, a factory with a smoking chimney and a pump house; the section on both front faces is drawn in code (mud, pale clay, water-bearing sand, deep clay) so it can be squeezed | the ground lowers, the sea rises on a tide gauge, water flows up the pipe, the sand dries, a valve turns, smoke, a gondola, gulls |
-| inlet | an opening of the lagoon between a strip of dunes (with a lighthouse on a jetty) and the -Y face: a row of yellow MOSE gates hinged on the seabed | gates fill with air and swing up, bubbles; the sea outside rises and leans on the gates while the lagoon stays low; weed, a boat, gulls, dune grass in the wind |
+| inlet | an opening of the lagoon, cut lengthwise along the open channel: a strip of dunes with a lighthouse on a jetty behind, a concrete caisson in the seabed with a row of yellow MOSE gates hinged on it, lying flat and full of water; the section on both faces is drawn in code (silt, sand, clay, the caranto band, sand, deep clay) with the caisson and hinge in section | air in, water out: the gates swing up to about 45 degrees, tops just above the surface; the open sea (choppier) rises against them while the calm lagoon, under mist, stays low; fish, a crab, weed, a boat, gulls, dune grass; an amphora, an anchor and a ducat in the strata |
 
 ## Scenes (beginning, middle, end) and camera plans
 1. **A city in the sea** (l00 to l01, city, misty). Begins wide on Venice floating in the mist (slow 8 degree orbit);
@@ -85,11 +85,11 @@ never sped up; pushes stay under 5 % of frame per second, orbits under 1.5 degre
 | 2b | 29.2 | 37.1 | 7.8 | lagoon | el 16, orbit +4 deg, push in 10 %, tilt down | end of line; wide to close: the stone house on the mud, at the cut, sinks like a spoon in pudding |
 | 3a | 37.1 | 42.3 | 5.2 | site | el 14, orbit +2 deg, push in 7 %, tilt down | change of place: the clever trick; one pole hammered down, seen above and through the cut |
 | 3b | 42.3 | 47.0 | 4.8 | site | el 30, orbit +6 deg, push in 7 % | "Millions of them": close to wide, later the same day; many poles in, three drivers, the stack of tree trunks |
-| 3c | 47.0 | 55.2 | 8.2 | site | el 4, tilt down | wide to close on the cut: the poles packed side by side reach the pale, harder clay; the camera tilts down them |
+| 3c | 47.0 | 55.2 | 8.2 | site | el 12, orbit -2 deg, push in 4 %, tilt down | wide to close on the cut: the poles packed side by side reach the pale, harder clay; the camera tilts down them |
 | 3d | 55.2 | 63.2 | 8.0 | site | el 26, orbit -6 deg, push in 7 %, tilt up | new information: what goes on top of the poles, in order; the camera holds on the corner while it builds |
 | 3e | 63.2 | 70.2 | 7.0 | city | el 10, orbit -6 deg, push in 6 %, tilt down | change of place: the real church built this way, in golden light and god rays; the camera cranes down from the dome, down the packed poles, to the clay |
-| 4a | 70.2 | 80.0 | 9.7 | pole | el 8, push in 9 %, tilt down | change of scale: one pole deep in the mud; bubbles near the water stop deeper down |
-| 4b | 80.0 | 88.2 | 8.3 | pole | el 4, push in 9 %, tilt down | closer: the change happens in the wood itself; it turns stony grey as minerals soak in |
+| 4a | 70.2 | 80.0 | 9.7 | pole | el 17, orbit -4 deg, push in 9 %, tilt down | change of scale: one pole deep in the mud; bubbles near the water stop deeper down |
+| 4b | 80.0 | 88.2 | 8.3 | pole | el 10, orbit -2 deg, push in 6 %, tilt down | closer: the change happens in the wood itself; it turns stony grey as minerals soak in |
 | 5a | 88.2 | 98.1 | 9.9 | sink | el 16, orbit +2 deg, push in 6 %, tilt down | change of place and question: why it sinks; reason one, the mud squeezed under the city |
 | 5b | 98.1 | 104.2 | 6.1 | sink | el 13, orbit -2 deg, push in 6 % | reason two: cut to the sea wall and its gauge; the water line creeps up |
 | 5c | 104.2 | 113.0 | 8.8 | sink | el 15, orbit +4 deg, push in 7 %, tilt down | new information: the factories; the pipe pulls water from the deep sand, the ground drops |
@@ -97,7 +97,7 @@ never sped up; pushes stay under 5 % of frame per second, orbits under 1.5 degre
 | 6a | 115.7 | 119.8 | 4.1 | city | el 12, orbit +4 deg, push in 8 % | change of place and time: today, a high tide; at the cut, the sea pours over the street while a cat sleeps in the cellar below |
 | 6b | 119.8 | 123.8 | 4.0 | city | el 10, orbit +4 deg, push in 4 % | low and close for people: walking to work on the raised walkways |
 | 7a | 123.8 | 132.2 | 8.4 | inlet | el 32, orbit -6 deg, push in 6 % | change of place: an opening of the lagoon; the gates lie on the seabed |
-| 7b | 132.2 | 138.2 | 6.0 | inlet | el 5, push in 4 %, tilt up | close, side on through the cut: the gates fill with air and swing up (the score swells here) |
+| 7b | 132.2 | 138.2 | 6.0 | inlet | el 16, orbit +4 deg, push in 9 %, tilt up | closer, three-quarter on the cut across the channel: in section the caisson, the hinge and the gates filling with air and swinging up; the sea rises against them (the score swells here) |
 | 7c | 138.2 | 141.4 | 3.2 | inlet | el 22, orbit -4 deg, push in 5 % | wide again for the result: the sea high outside, the lagoon calm behind the gates |
 | 7d | 141.4 | 145.1 | 3.7 | city | el 22, orbit -4 deg, push in 5 % | cut on "The squares stayed dry": the campo, dry, people walking |
 | 8a | 145.1 | 157.0 | 11.8 | city | el 31, orbit -6 deg, pull back 44 %, tilt down | passing time to dusk (a dip through the mist): the city lights up; the slow pull back ends the film |
@@ -115,7 +115,9 @@ thin drawn-on arrows (mud squeezed). No emoji, no icons, no dashes, no "...". Ev
 ## Render (the lead dispatches it; nothing here renders the film)
 - `blender.py` builds only the sets its frame range needs (it reads `--start/--end` from the harness command line), so a
   one-frame still builds one set. Build: about 3 s per set, the city about 15 to 35 s.
-- SETTINGS: Cycles 40 samples, adaptive, OIDN denoise, AgX Base Contrast, exposure 0.2. Render 1280 x 720 at 24 fps
+- Measured on free 4-core runners (r4, 22 Oct): about 70 s per still including the scene build, so about 45 to 60 s
+  per frame in a chunked render; the full film is about 3,767 x 50 s, roughly 50 runner-hours.
+- SETTINGS: Cycles 24 samples, adaptive threshold 0.035, adaptive, OIDN denoise, AgX Base Contrast, exposure 0.2. Render 1280 x 720 at 24 fps
   (3,767 frames), delivery 1920 x 1080 (`film.json`). Check stills: rc-render `stills.yml`, tags `venice-r*`.
 
 ## Known limits
