@@ -601,7 +601,7 @@ def mat_card(kit, name, color, V, key, strength=1.0, kind='mist'):
     if kind == 'mist':
         tc = g.node('ShaderNodeTexCoord'); sx = g.sep(tc.outputs['Object'])
         n = g.noise(g.comb(g.math('ADD', sx[0], g.math('MULTIPLY', TM, 0.05)), sx[1], g.math('MULTIPLY', TM, 0.03)), 1.6, 3.0, 0.55)
-        a = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.30), 2.2, clamp=True)
+        a = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.38), 2.0, clamp=True)
         a = g.math('MULTIPLY', a, g.math('MULTIPLY', edge(u, 6.0), edge(v, 6.0)))
     else:
         n = g.noise(g.comb(g.math('MULTIPLY', v, 3.0), g.math('MULTIPLY', TM, 0.12), 0.0), 2.0, 2.0)
@@ -619,7 +619,7 @@ def quad(kit, name, V4, mat):
 
 def build_mist(kit, V):
     x0, x1, y0, y1 = HOUSE_X + 0.02, SX / 2 - 0.01, -SY / 2 + 0.01, SY / 2 - 0.25
-    for k, (z, s) in enumerate(((LAWN + 0.03, 0.55), (LAWN + 0.075, 0.40), (LAWN + 0.13, 0.25))):
+    for k, (z, s) in enumerate(((LAWN + 0.03, 0.32), (LAWN + 0.075, 0.22), (LAWN + 0.13, 0.13))):
         m = mat_card(kit, f'mist{k}_m', (0.86, 0.88, 0.90), V, 'mist', s)
         quad(kit, f'mist{k}', [(x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z)], m).location = (0.0, 0.0, 0.0)
 
@@ -1022,11 +1022,11 @@ def frame(bpy, ctx, S, i, t):
     s_el = lerp(lerp(50.0, 42.0, b_), 27.0, g_); s_az = lerp(25.0, 12.0, g_)
     S['sun'].rotation_euler = (math.radians(90 - s_el), 0, math.radians(s_az + 90))
     el_ = S['ramp'].color_ramp.elements
-    el_[0].color = cw.srgb(lerp3(lerp3((0.55, 0.57, 0.60), (0.80, 0.77, 0.68), b_), (0.98, 0.78, 0.52), g_))
+    el_[0].color = cw.srgb(lerp3(lerp3((0.55, 0.57, 0.60), (0.80, 0.77, 0.68), b_), (0.94, 0.82, 0.66), g_))
     el_[-1].color = cw.srgb(lerp3(lerp3((0.27, 0.31, 0.37), (0.30, 0.40, 0.54), b_), (0.26, 0.40, 0.60), g_))
     S['bg_light'].inputs['Color'].default_value = cw.srgb(lerp3(lerp3((0.78, 0.83, 0.90), (0.85, 0.88, 0.95), b_), (0.82, 0.82, 0.92), g_))
     S['bg_light'].inputs['Strength'].default_value = lerp(lerp(1.15, 0.9, b_), 0.75, g_)
-    V['mist'].default_value = 0.9 * (1 - ease(ramp(t, (8.6, 11.2)))) + 0.12 * g_; V['mist_t'].default_value = t
+    V['mist'].default_value = 0.85 * (1 - ease(ramp(t, (7.9, 10.2)))) + 0.10 * g_; V['mist_t'].default_value = t
     V['rays'].default_value = 0.55 * ease(ramp(t, (7.9, 9.0))) * (1 - 0.55 * g_); V['rays_t'].default_value = t
     sv = (math.cos(math.radians(s_el)) * math.cos(math.radians(s_az)), math.cos(math.radians(s_el)) * math.sin(math.radians(s_az)), math.sin(math.radians(s_el)))
     S['rays'].update(sv, tuple(S['cam'].ob.location))
