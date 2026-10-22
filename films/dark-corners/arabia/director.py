@@ -44,7 +44,16 @@ def yaw_of(dx, dy): return math.degrees(math.atan2(-dx, dy))      # facing +Y = 
 
 SAND_RIM = None
 SHOTS = []
-lerp_ = None
+import json
+try: HITS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cues.json')))['strong_hits']
+except Exception: HITS = []
+def hit_env(t, decay=0.22):
+    """0..1 pulse after each strong music hit (the lamps and glows breathe on the score's hits)."""
+    e = 0.0
+    for h in HITS:
+        if 0.0 <= t - h < decay * 3: e = max(e, math.exp(-(t - h) / decay))
+        elif h > t: break
+    return e
 def shot(t0, t1, name=''):
     def deco(fn):
         SHOTS.append((snapt(t0), snapt(t1), name or fn.__name__, fn)); return fn
@@ -239,6 +248,7 @@ def render_pose(bpy, ctx, S, pf):
     from mathutils import Vector, Quaternion
     t = pf / 24.0
     hide_all(S)
+    S['hit'] = hit_env(t); S['flame_base'] = 18.0
     for h in S['hud'].values(): h.root.hide_render = True
     sh = None
     for s in SHOTS:
@@ -271,6 +281,7 @@ def render_pose(bpy, ctx, S, pf):
     S['sky_em'].inputs['Strength'].default_value = L['sky_em']; S['stars_em'].inputs['Strength'].default_value = 14.0 * L['stars']
     S['moon'].hide_render = L['moon_vis'] < 0.5; S['moon_halo'].hide_render = L['moon_vis'] < 0.5
     sc.view_settings.exposure = L['exposure']
+    S['M']['flame_em'].inputs['Strength'].default_value = S['flame_base'] * (1.0 + 0.45 * S['hit'])
 
 def fig_pose(f, x, y, yaw, **kw):
     f.hide(False); f.pose(loc=(x, y, gz(x, y)), yaw=yaw, **kw)
@@ -278,7 +289,7 @@ def fig_pose(f, x, y, yaw, **kw):
 def lamp(S, k, x, y, z=None, on=1.0, flick_seed=0.0, t=0.0, power=1.0, lit=True, yaw=0.0, nl=False):
     pool = S['lamps_nl'] if nl else S['lamps']; l = pool[k]
     fl = (hash01('fl', flick_seed, int(t * 12)) - 0.5) * 2.0 if on > 0 else 0.0
-    l.pose((x, y, (gz(x, y) if z is None else z)), on, fl, power, yaw)
+    l.pose((x, y, (gz(x, y) if z is None else z)), on, fl + 1.5 * S.get('hit', 0.0), power, yaw)
     return l
 
 def ride(S, cam_key, x, y, yaw, t, dist, fig='sasaa', amp=1.0, neck=(0, 0), moving=True, arm=(8, 4, 0), armL=(8, 4, 0), head=(0, 0, 0), mouth='closed', brow=(0, 0), seat=(0.0, -0.012, 0.186), lean=0.0):
@@ -306,10 +317,10 @@ def camel_stand(S, key, x, y, yaw, t, neck=(0, 0), **kw):
 def A1(c, t, u):
     S = c.S
     # camera: starts looking up at the pin-hole stars and the moon, tilts down and drifts in to the ridge
-    k = ease(clamp((t - 0.7) / 4.4), 's')
+    k = ease(clamp((t - 0.7) / 3.6), 's')
     pos = ez(t, 0.0, 6.6, (-1.30, -0.30, 0.100), (-1.46, 0.28, 0.092), 's')
     fk = ease(clamp((t - 1.6) / 3.0), 's')
-    tgt = (lerp(-0.85, SX + 0.10, k), lerp(4.8, SY, k), lerp(1.7, 0.105, k))
+    tgt = (lerp(-0.85, SX + 0.13, k), lerp(4.8, SY, k), lerp(1.7, 0.105, k))
     c.camera(pos, tgt, lens=30.0, fstop=4.0, focus=(lerp(-0.8, SX, fk), lerp(4.8, SY, fk), lerp(1.0, 0.1, fk)))
     c.light(moon=0.9, az=-110, el=22, fill=0.14)
     hy = ez(t, 2.4, 3.4, 40.0, -35.0, 's') if t < 5.0 else ez(t, 5.0, 5.8, -35.0, -10.0, 's')
@@ -332,7 +343,7 @@ def lit_tents(S, c, t, glow=2.2, p1=1.0, sil2=(), glow2=1.0):
     t1, t2 = S['t1'], S['t2']
     t1.show(); t2.show(sil=sil2)
     for tt, (x, y) in ((t1, W.TENT1), (t2, W.TENT2)): tt.root.location = (x, y, gz(x, y)); tt.root.rotation_euler = (0, 0, 0)
-    t2.glow_em.inputs['Strength'].default_value = glow * glow2 * (1.0 + 0.04 * (hash01('t2g', int(t * 8)) - 0.5))
+    t2.glow_em.inputs['Strength'].default_value = glow * glow2 * (1.0 + 0.04 * (hash01('t2g', int(t * 8)) - 0.5) + 0.12 * S.get('hit', 0.0))
     lx, ly, lz = t1.lamp_pos; x, y = W.TENT1
     return lamp(S, 0, x + lx, y + ly, gz(x, y) + lz, power=p1 * 1.0, flick_seed=1, t=t)
 
@@ -944,7 +955,7 @@ def dawn_light(c, k):
             stars=1.0 - 0.9 * k, moon_vis=1.0 if k < 0.45 else 0.0, sky_em=lerp(0.9, 1.5, k), exposure=0.15 * k)
 
 def field_dim(S, k):
-    S['M']['flame_em'].inputs['Strength'].default_value = 18.0 * (1.0 - 0.55 * k)
+    S['flame_base'] = 18.0 * (1.0 - 0.55 * k)
 
 @shot(160.42, 164.4, 'T1_nobody_knows')
 def T1(c, t, u):

@@ -103,7 +103,18 @@ P.hug = (g, o) => { const outer = rgb(o.team || TEAM.carthage), inner = rgb(o.in
   g.beginPath(); g.roundRect(30, 40, 40, 30, 4); outline(g, inner, 3); for (const [x, y, a] of [[4, 55, 0], [96, 55, Math.PI], [50, 14, Math.PI / 2], [50, 96, -Math.PI / 2]]) { g.save(); g.translate(x, y); g.rotate(a); g.beginPath(); g.moveTo(-2, -9); g.lineTo(14, 0); g.lineTo(-2, 9); g.closePath(); outline(g, outer, 2.6); g.restore(); } };
 P.check = (g, o) => { g.beginPath(); g.moveTo(14, 56); g.lineTo(40, 84); g.lineTo(88, 22); g.lineWidth = 20; g.strokeStyle = INK; g.stroke(); g.lineWidth = 11; g.strokeStyle = '#3fae5a'; g.stroke(); };
 P.swords = (g, o) => { g.save(); P.sword(g, o); g.translate(100, 0); g.scale(-1, 1); P.sword(g, o); g.restore(); };
+P.shield = (g, o) => { const team = rgb(o.team || TEAM.carthage); g.beginPath(); g.moveTo(14, 20); g.quadraticCurveTo(50, 8, 86, 20); g.quadraticCurveTo(90, 66, 50, 96); g.quadraticCurveTo(10, 66, 14, 20); g.closePath(); outline(g, '#f4ead0', 3.6);
+  g.beginPath(); g.moveTo(22, 26); g.quadraticCurveTo(50, 17, 78, 26); g.quadraticCurveTo(80, 60, 50, 86); g.quadraticCurveTo(20, 60, 22, 26); g.closePath(); outline(g, team, 2.8);
+  g.beginPath(); g.moveTo(50, 18); g.lineTo(50, 90); g.moveTo(18, 48); g.lineTo(82, 48); g.lineWidth = 6; g.strokeStyle = '#f4cf63'; g.stroke(); g.beginPath(); g.arc(50, 48, 9, 0, 7); outline(g, '#d9a526', 2.6); };
+P.tapestry = (g, o) => { // a little embroidered cloth strip with a question mark (no figures, no gore)
+  g.beginPath(); g.moveTo(4, 30); g.quadraticCurveTo(26, 24, 50, 30); g.quadraticCurveTo(76, 36, 96, 30); g.lineTo(96, 80); g.quadraticCurveTo(76, 86, 50, 80); g.quadraticCurveTo(26, 74, 4, 80); g.closePath(); outline(g, '#efdfb4', 3.4);
+  for (const y of [36, 74]) { g.beginPath(); g.moveTo(8, y); g.quadraticCurveTo(30, y - 5, 50, y); g.quadraticCurveTo(74, y + 5, 92, y); g.lineWidth = 3.4; g.strokeStyle = '#b8402e'; g.stroke(); g.lineWidth = 1.2; g.strokeStyle = '#f4cf63'; g.setLineDash([3, 3]); g.stroke(); g.setLineDash([]); }
+  for (const x of [8, 22, 36, 64, 78, 92]) { g.beginPath(); g.moveTo(x, 80); g.lineTo(x, 92); g.lineWidth = 2.4; g.strokeStyle = '#8d6a38'; g.stroke(); }
+  if (o.fill === 'plain') return; // fill:'plain' = the cloth without the question mark
+  g.font = '800 46px Cinzel, serif'; g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round'; g.lineWidth = 6; g.strokeStyle = INK; g.strokeText('?', 50, 68); g.fillStyle = '#3a6fb8'; g.fillText('?', 50, 68); };
+P.cross = (g, o) => { g.beginPath(); g.moveTo(14, 20); g.lineTo(86, 92); g.moveTo(86, 20); g.lineTo(14, 92); g.lineCap = 'round'; g.lineWidth = 22; g.strokeStyle = INK; g.stroke(); g.lineWidth = 12; g.strokeStyle = '#e0302a'; g.stroke(); };
 export const ICON_NAMES = Object.keys(P);
+export function registerIcon(name, fn) { P[name] = fn; ICON_NAMES.push(name); } // films add their own icons: fn(g, o) draws in a 100x100 box, bottom-centre origin
 export function drawIcon(ctx, name, x, y, size, o = {}) {
   const fn = P[name]; if (!fn) throw new Error('unknown icon ' + name); const s = size / 100;
   ctx.save(); ctx.globalAlpha *= o.alpha ?? 1; ctx.translate(x, y); if (o.rot) ctx.rotate(o.rot); ctx.scale(o.flip ? -s : s, s); ctx.translate(-50, -100);

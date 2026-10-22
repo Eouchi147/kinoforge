@@ -98,32 +98,36 @@ def finish_build(bpy, ctx, S, M, coll):
     cd.dof.use_dof = True; cd.dof.aperture_fstop = 5.6; cd.dof.aperture_blades = 7
     cam = bpy.data.objects.new('cam', cd); coll.objects.link(cam); bpy.context.scene.camera = cam; S['cam'] = cam; S['camd'] = cd
     Dr.build_hud(bpy, ctx, S, M, coll)
-    # compositor: pose-seeded grain + corner falloff
-    S['grain'] = None
+    # compositor: pose-seeded grain + corner falloff; a second node group also alpha-overs the title-card scene (used only on frames that show it)
+    S['grain'] = []; S['comp'] = {}
     try:
         sc = bpy.context.scene
-        ng = bpy.data.node_groups.new('kf_finish', 'CompositorNodeTree'); sc.compositing_node_group = ng
-        ng.interface.new_socket('Image', in_out='OUTPUT', socket_type='NodeSocketColor')
-        N, Lk = ng.nodes, ng.links
-        rl = N.new('CompositorNodeRLayers')
-        ic = N.new('CompositorNodeImageCoordinates'); Lk.new(rl.outputs['Image'], ic.inputs['Image'])
-        wn = N.new('ShaderNodeTexWhiteNoise'); wn.noise_dimensions = '4D'; Lk.new(ic.outputs['Pixel'], wn.inputs['Vector'])
-        amt = 0.03
-        gm = N.new('ShaderNodeMath'); gm.operation = 'MULTIPLY_ADD'; Lk.new(wn.outputs['Value'], gm.inputs[0]); gm.inputs[1].default_value = 2 * amt; gm.inputs[2].default_value = 1 - amt
-        Wd, Hd = float(ctx['W']), float(ctx['H'])
-        sub = N.new('ShaderNodeVectorMath'); sub.operation = 'SUBTRACT'; Lk.new(ic.outputs['Pixel'], sub.inputs[0]); sub.inputs[1].default_value = (Wd / 2, Hd / 2, 0.0)
-        scl = N.new('ShaderNodeVectorMath'); scl.operation = 'SCALE'; Lk.new(sub.outputs['Vector'], scl.inputs[0]); scl.inputs['Scale'].default_value = 2.0 / Hd
-        dot = N.new('ShaderNodeVectorMath'); dot.operation = 'DOT_PRODUCT'; Lk.new(scl.outputs['Vector'], dot.inputs[0]); Lk.new(scl.outputs['Vector'], dot.inputs[1])
-        vg = N.new('ShaderNodeMath'); vg.operation = 'MULTIPLY_ADD'; Lk.new(dot.outputs['Value'], vg.inputs[0]); vg.inputs[1].default_value = -0.22; vg.inputs[2].default_value = 1.0
-        gv2 = N.new('ShaderNodeMath'); gv2.operation = 'MULTIPLY'; Lk.new(gm.outputs['Value'], gv2.inputs[0]); Lk.new(vg.outputs['Value'], gv2.inputs[1])
-        mix = N.new('ShaderNodeMix'); mix.data_type = 'RGBA'; mix.blend_type = 'MULTIPLY'; sock(mix.inputs, 'Factor_Float').default_value = 1.0
-        Lk.new(gv2.outputs['Value'], sock(mix.inputs, 'B_Color'))
-        hl = N.new('CompositorNodeRLayers'); hl.scene = S['hud_scene']
-        ao = N.new('CompositorNodeAlphaOver'); Lk.new(rl.outputs['Image'], ao.inputs['Background']); Lk.new(hl.outputs['Image'], ao.inputs['Foreground'])
-        S['hud_node'] = hl
-        Lk.new(ao.outputs['Image'], sock(mix.inputs, 'A_Color'))
-        out = N.new('NodeGroupOutput'); Lk.new(sock(mix.outputs, 'Result_Color'), out.inputs['Image'])
-        sc.render.use_compositing = True; S['grain'] = wn
+        for with_hud in (False, True):
+            ng = bpy.data.node_groups.new('kf_finish_hud' if with_hud else 'kf_finish', 'CompositorNodeTree')
+            ng.interface.new_socket('Image', in_out='OUTPUT', socket_type='NodeSocketColor')
+            N, Lk = ng.nodes, ng.links
+            rl = N.new('CompositorNodeRLayers')
+            ic = N.new('CompositorNodeImageCoordinates'); Lk.new(rl.outputs['Image'], ic.inputs['Image'])
+            wn = N.new('ShaderNodeTexWhiteNoise'); wn.noise_dimensions = '4D'; Lk.new(ic.outputs['Pixel'], wn.inputs['Vector'])
+            amt = 0.03
+            gm = N.new('ShaderNodeMath'); gm.operation = 'MULTIPLY_ADD'; Lk.new(wn.outputs['Value'], gm.inputs[0]); gm.inputs[1].default_value = 2 * amt; gm.inputs[2].default_value = 1 - amt
+            Wd, Hd = float(ctx['W']), float(ctx['H'])
+            sub = N.new('ShaderNodeVectorMath'); sub.operation = 'SUBTRACT'; Lk.new(ic.outputs['Pixel'], sub.inputs[0]); sub.inputs[1].default_value = (Wd / 2, Hd / 2, 0.0)
+            scl = N.new('ShaderNodeVectorMath'); scl.operation = 'SCALE'; Lk.new(sub.outputs['Vector'], scl.inputs[0]); scl.inputs['Scale'].default_value = 2.0 / Hd
+            dot = N.new('ShaderNodeVectorMath'); dot.operation = 'DOT_PRODUCT'; Lk.new(scl.outputs['Vector'], dot.inputs[0]); Lk.new(scl.outputs['Vector'], dot.inputs[1])
+            vg = N.new('ShaderNodeMath'); vg.operation = 'MULTIPLY_ADD'; Lk.new(dot.outputs['Value'], vg.inputs[0]); vg.inputs[1].default_value = -0.22; vg.inputs[2].default_value = 1.0
+            gv2 = N.new('ShaderNodeMath'); gv2.operation = 'MULTIPLY'; Lk.new(gm.outputs['Value'], gv2.inputs[0]); Lk.new(vg.outputs['Value'], gv2.inputs[1])
+            mix = N.new('ShaderNodeMix'); mix.data_type = 'RGBA'; mix.blend_type = 'MULTIPLY'; sock(mix.inputs, 'Factor_Float').default_value = 1.0
+            Lk.new(gv2.outputs['Value'], sock(mix.inputs, 'B_Color'))
+            if with_hud:
+                hl = N.new('CompositorNodeRLayers'); hl.scene = S['hud_scene']
+                ao = N.new('CompositorNodeAlphaOver'); Lk.new(rl.outputs['Image'], ao.inputs['Background']); Lk.new(hl.outputs['Image'], ao.inputs['Foreground'])
+                Lk.new(ao.outputs['Image'], sock(mix.inputs, 'A_Color'))
+            else:
+                Lk.new(rl.outputs['Image'], sock(mix.inputs, 'A_Color'))
+            out = N.new('NodeGroupOutput'); Lk.new(sock(mix.outputs, 'Result_Color'), out.inputs['Image'])
+            S['comp'][with_hud] = ng; S['grain'].append(wn)
+        sc.compositing_node_group = S['comp'][False]; sc.render.use_compositing = True
     except Exception as e:
         print('arabia: compositor finish unavailable:', e)
     # on-2s pair reuse (odd frame right after its even partner: skip path tracing, copy the PNG)
@@ -163,7 +167,6 @@ def frame(bpy, ctx, S, i, t):
     import director as Dr
     pf = (i // 2) * 2                   # ON 2s: every channel is a function of the pose frame
     Dr.render_pose(bpy, ctx, S, pf)
-    if S.get('grain') is not None: S['grain'].inputs['W'].default_value = pf * 0.731 + 0.17
+    for g in S.get('grain') or []: g.inputs['W'].default_value = pf * 0.731 + 0.17
     reuse = _pair_reuse(bpy, ctx, S, i)
-    hn = S.get('hud_node')
-    if hn is not None: hn.mute = not (S.get('hud_on') and not reuse)    # the title-card scene is only rendered when it has something to show
+    if S.get('comp'): bpy.context.scene.compositing_node_group = S['comp'][bool(S.get('hud_on') and not reuse)]    # the title-card scene is only rendered when it has something to show

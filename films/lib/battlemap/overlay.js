@@ -37,7 +37,7 @@ export class StageOverlay {
     this.stage = stage; this.clock = clock; const win = (e, def = Infinity) => { const t0 = clock.at(e.at); const t1 = e.until !== undefined ? clock.at(e.until) : (e.dur !== undefined ? t0 + e.dur : def); return [t0, t1]; };
     this.labels = (spec.labels || []).map((e) => { const [t0, t1] = win(e); return { ...e, t0, t1 }; });
     this.counters = (spec.counters || []).map((e) => { const [t0, t1] = win(e); const [c0, c1] = [t0, t0 + (e.countDur ?? 1.6)]; return { ...e, t0, t1, c0, c1 }; });
-    this.icons = (spec.icons || []).map((e) => { const [t0, t1] = win(e); return { ...e, t0, t1 }; });
+    this.icons = (spec.icons || []).map((e) => { const [t0, t1] = win(e); return { ...e, t0, t1, tf: e.fallAt !== undefined ? clock.at(e.fallAt) : undefined }; });
     this.volleys = (spec.volleys || []).map((e) => { const [t0, t1] = clock.span(e, 1.2); return { ...e, t0, t1 }; });
     this.rings = []; this.sp = {};
   }
@@ -90,6 +90,7 @@ export class StageOverlay {
     const a = this.fade(it, t, 0.3); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok && !P.screen) return; const age = t - it.t0;
     const H = view.rect.h; const size = P.screen ? (it.size ?? 0.2) * H : (it.size ?? 12) * P.ppu * (it.zoom ?? 1); const pop = it.anim === 'none' ? 1 : popScale(age);
     let bob = 0, rot = 0; if (it.anim === 'bounce') bob = -Math.abs(Math.sin(age * 5.5)) * size * 0.18; if (it.anim === 'walk') { bob = -Math.abs(Math.sin(age * 7)) * size * 0.06; rot = Math.sin(age * 7) * 0.035; } if (it.anim === 'sway') rot = Math.sin(age * 3) * 0.07;
+    if (it.tf !== undefined && t > it.tf) { const u = clamp((t - it.tf) / (it.fallDur ?? 0.9)); bob += size * 1.1 * u * u; rot += u * 1.3; } // fallAt: the icon drops and tips over
     const flip = it.flip ?? (it._dir ? it._dir < 0 : false); const spin = it.anim === 'slam' ? clamp((age - 0.1) / 0.18) : 1; const team = it.team || undefined;
     // icon slides (pos2) or hops (hop) between two anchors
     let x = P.x + (it.dx || 0) * H, y = P.y + (it.dy || 0) * H;
