@@ -16,6 +16,21 @@ d = sys.argv[1].rstrip('/'); TITLE = int(sys.argv[sys.argv.index('--title-line')
 vo = json.load(open(f'{d}/audio/vo.json')); mu = json.load(open(f'{d}/audio/music.json')); ad = json.load(open(f'{d}/ad.json'))
 beats = np.array(mu['beats']); rise = float(mu['biggest_rise_s'])
 GAP, LEAD, OUTRO, TITLE_HOLD = 0.32, 1.2, 4.2, 2.6
+MUSIC = f'{d}/audio/music.mp3'
+need = sum(l['dur'] for l in vo['lines']) + len(vo['lines']) * (GAP + 0.35) + LEAD + OUTRO + TITLE_HOLD + 4
+if mu['duration'] < need:
+    # the score is too short: repeat whole bars from the middle (cut on downbeats, 40 ms cross-fades), shift the beat grid
+    db = np.array(mu['downbeats']); bar = float(np.median(np.diff(db))); n = int(np.ceil((need - mu['duration']) / bar))
+    i = int(np.argmin(np.abs(db - mu['duration'] * 0.4))); a, b = float(db[i]), float(db[min(i + n, len(db) - 1)])
+    ext = f'{d}/audio/music_ext.wav'
+    subprocess.run(['ffmpeg', '-nostdin', '-y', '-loglevel', 'error', '-i', MUSIC, '-filter_complex',
+        f'[0:a]asplit=3[x][y][z];[x]atrim=0:{b},asetpts=N/SR/TB[p1];[y]atrim={a}:{b},asetpts=N/SR/TB[p2];[z]atrim={b},asetpts=N/SR/TB[p3];'
+        '[p1][p2]acrossfade=d=0.04:c1=tri:c2=tri[q];[q][p3]acrossfade=d=0.04:c1=tri:c2=tri[o]', '-map', '[o]', ext], check=True)
+    L = b - a; beats = np.concatenate([beats[beats < b], beats[(beats >= a) & (beats < b)] + L, beats[beats >= b] + L])
+    mu['downbeats'] = list(np.concatenate([db[db < b], db[(db >= a) & (db < b)] + L, db[db >= b] + L]).round(3))
+    mu['beats'] = list(beats.round(3)); mu['duration'] += L; MUSIC = ext
+    if rise >= b: rise += L
+    print(f'score extended by {L:.1f} s (bars {a:.2f} to {b:.2f} repeated)')
 
 def next_beat(t):
     b = beats[beats >= t]
@@ -34,7 +49,7 @@ dur = round(lines[-1]['end'] + OUTRO, 3)
 
 # strong musical hits within the film (onset strength peaks of the score)
 import librosa
-y, sr = librosa.load(f'{d}/audio/music.mp3', sr=22050, mono=True, duration=dur)
+y, sr = librosa.load(MUSIC, sr=22050, mono=True, duration=dur)
 env = librosa.onset.onset_strength(y=y, sr=sr); fr = librosa.onset.onset_detect(onset_envelope=env, sr=sr)
 hits = [round(float(librosa.frames_to_time(f, sr=sr)), 3) for f in fr if env[f] > np.percentile(env, 96)]
 hop = int(sr * 0.1); rms = librosa.feature.rms(y=y, frame_length=hop * 2, hop_length=hop)[0]
@@ -50,7 +65,7 @@ if os.path.exists(f'{d}/film.json'): film = {**json.load(open(f'{d}/film.json'))
 json.dump(film, open(f'{d}/film.json', 'w'), indent=1)
 
 # the mix: narration (delayed to its start) over the score, ducked under the voice, faded out on the end card
-ins, fl = ['-i', f'{d}/audio/music.mp3'], []
+ins, fl = ['-i', MUSIC], []
 for k, l in enumerate(lines):
     ins += ['-i', f"{d}/{l['file']}"]; ms = int(l['start'] * 1000)
     fl.append(f'[{k + 1}:a]aresample=48000,aformat=channel_layouts=stereo,adelay={ms}|{ms},volume=1.0[v{k}]')
