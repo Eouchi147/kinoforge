@@ -273,11 +273,11 @@ def pile_driver(kit, M, x, y, z, name='vz_driver'):
     """A wooden tripod with a heavy weight hauled up and dropped on the pole head. Returns (rig, weight)."""
     A = cw._Acc(); H = 0.20
     for k in range(3):
-        a = 2 * math.pi * k / 3 + 0.3; v, f = cw._tube([(0.07 * math.cos(a), 0.07 * math.sin(a), 0), (0, 0, H)], [0.003, 0.0025], 6); A.add(v, f, 0)
+        a = 2 * math.pi * k / 3 + 0.3; v, f = cw._tube([(0.09 * math.cos(a), 0.09 * math.sin(a), 0), (0, 0, H)], [0.0055, 0.0045], 8); A.add(v, f, 0)
     v, f = cw._tube([(0, 0, H - 0.004), (0, 0, H + 0.004)], [0.008, 0.008], 8); A.add(v, f, 0)
     rig = A.build(kit.bpy, name, [M.get('wood', WOOD, 0.75, 0.25, 0.2)], False, kit.coll); rig.location = (x, y, z)
-    W = cw._Acc(); v, f = cw._box(-0.016, -0.016, 0, 0.016, 0.016, 0.03); W.add(v, f, 0)
-    v, f = cw._tube([(0, 0, 0.03), (0, 0, H)], [0.0007, 0.0007], 4); W.add(v, f, 1)
+    W = cw._Acc(); v, f = cw._box(-0.024, -0.024, 0, 0.024, 0.024, 0.04); W.add(v, f, 0)
+    v, f = cw._tube([(0, 0, 0.04), (0, 0, 0.075)], [0.0016, 0.0016], 5); W.add(v, f, 1)
     wt = W.build(kit.bpy, name + '_w', [M.get('ironw', (0.22, 0.20, 0.18), 0.6, 0.2, 0.2), M.get('rope', (0.70, 0.62, 0.45), 0.9, 0, 0)], False, kit.coll)
     return rig, wt
 

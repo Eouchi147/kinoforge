@@ -3,7 +3,7 @@
  "id": "under-the-surface-venice",
  "cap_usd": 0,
  "prep": {
-  "voice": "kokoro|bf_emma",
+  "voice": "kokoro|bm_george",
   "voice_settings": {
    "speed": 1.0
   },
@@ -18,7 +18,8 @@
     "kokoro|bf_emma",
     "kokoro|bm_george",
     "chatterbox"
-   ]
+   ],
+   "result": "kokoro|bm_george (22 Oct 2026, audition/report.json): 2.98 words/s, pitch range 9.8 st, steady pitch across lines (141 to 154 Hz), WER 0.04. Chatterbox: livelier but 3.85 words/s and its pitch drifted from 163 to 111 Hz between lines. bf_emma: flatter (7 st) and an artefact on the title line."
   },
   "vo": [
    {

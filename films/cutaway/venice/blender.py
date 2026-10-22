@@ -96,7 +96,7 @@ def plan():
         lagoon={'arrive': S('l02', 0.6), 'sink': (W('l03', 'house', 0.0, True, 0), 5.5)})
     # 3. A forest upside down -----------------------------------------------------------------------------------------
     one_end = W('l04', 'mud', 0.35)
-    add('site', one_end, K(-62, 12, 3.3, (1.72, -2.0, -0.18), 50), K(-60, 10, 3.0, (1.72, -2.0, -0.24), 50), env='day',
+    add('site', one_end, K(-58, 14, 2.1, (1.80, -1.98, -0.16), 50), K(-56, 12, 1.95, (1.80, -1.98, -0.22), 50), env='day',
         why='change of place: the clever trick; one pole hammered down, seen above and through the cut', site={'stage': 'one'})
     add('site', E('l04', 0.7), K(-46, 30, 11.0, (0.6, -0.8, -0.35), 50), K(-41, 31, 10.4, (0.6, -0.8, -0.35), 50), env='day',
         why='"Millions of them": close to wide, later the same day; many poles, three drivers', site={'stage': 'many'})

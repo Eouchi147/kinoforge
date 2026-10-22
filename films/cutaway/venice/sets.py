@@ -21,8 +21,8 @@ DEPTH = 1.3
 VZ_STRATA = [('fill', 0.04, (0.50, 0.46, 0.40), 0.15), ('silt', 0.14, (0.52, 0.50, 0.46), 0.02), ('mud', 0.32, (0.40, 0.39, 0.36), 0.03),
              ('caranto', 0.12, (0.80, 0.71, 0.50), 0.05), ('sand', 0.20, (0.62, 0.56, 0.44), 0.35), ('deep', 1.0, (0.44, 0.38, 0.32), 0.12)]
 CARANTO_SD = (0.50, 0.62)
-WOOD_POLE = (0.72, 0.54, 0.33)
-WATER_TINT = (0.30, 0.66, 0.62)
+WOOD_POLE = (0.68, 0.53, 0.36)
+WATER_TINT = (0.24, 0.62, 0.66)
 
 
 def smoothstep(a, b, x):
@@ -143,14 +143,14 @@ def build_city(kit, M, lamps):
     rio1 = [(-2.7, -0.05), (-1.7, -0.32), (-1.0, -0.78), (-0.42, -1.12)]
     rio2 = [(0.72, 2.7), (0.95, 1.6), (0.86, 0.62), (0.62, -0.02)]
     def lag(x, y): return np.minimum(1.62 - y, x + 1.62) + 0.03 * cw.fbm(x, y, 4, 2, 2.0)
-    water = [cw.river(canal_path, width=0.44, depth=0.24, level=LV, shelf=0.10), cw.river(rio1, width=0.15, depth=0.14, level=LV, shelf=0.05),
+    water = [cw.river(canal_path, width=0.50, depth=0.24, level=LV, shelf=0.10), cw.river(rio1, width=0.15, depth=0.14, level=LV, shelf=0.05),
              cw.river(rio2, width=0.15, depth=0.14, level=LV, shelf=0.05), cw.basin(lag, depth=0.20, level=LV, shelf=0.25)]
     top = lambda x, y: -0.022 + 0.002 * cw.fbm(x, y, 9, 2, 3.0)
     campo = (-0.52, 0.42); campo_r = 0.30
     def zones(x, y, h):
         return {'rock': np.ones_like(x)}
     land = cw.block(kit, size=(4.0, 4.0), depth=DEPTH, strata=VZ_STRATA, top=top, water=water, seed=21, zones=zones, grass=0, trees=0,
-                    boulders=0, flowers=0, under=True, water_tint=WATER_TINT, water_density=2.4, name='city')
+                    boulders=0, flowers=0, under=True, water_tint=WATER_TINT, water_density=3.2, name='city')
     S.land = land; zm = _zmean(land); grid(land)
     keep = [(1.62, -1.58, 0.44), (campo[0], campo[1], campo_r)]
     taken = []
@@ -170,7 +170,7 @@ def build_city(kit, M, lamps):
         while q < Lc - 0.1:
             p, t = _path_at(tab, q); n = np.array([-t[1], t[0]]) * side
             w = float(rng.uniform(0.15, 0.24)); d = float(rng.uniform(0.13, 0.18)); h = float(rng.uniform(0.11, 0.19))
-            c = p + n * (0.22 + 0.035 + d / 2); yaw = _yaw_facing(-n)
+            c = p + n * (0.25 + 0.035 + d / 2); yaw = _yaw_facing(-n)
             if _footprint_ok(land, c[0], c[1], w, d, yaw, taken, keep):
                 arch.palazzo(kit, M, c[0], c[1], -0.022, w, d, h, yaw, seed=k, name=f'vz_pal{k}'); taken.append((c[0], c[1], 0.5 * math.hypot(w, d))); k += 1
                 q += w + float(rng.uniform(0.0, 0.02))
@@ -190,7 +190,7 @@ def build_city(kit, M, lamps):
     cw.bridge(kit, land, (0.74, 0.95), (1.05, 1.05), width=0.04, arch=0.03, color=stone, name='vz_br2')
     # lamps along the canal banks (dark by day, warm at dusk)
     for j, q in enumerate(np.linspace(0.5, Lc - 0.5, 14)):
-        p, t = _path_at(tab, q); n = np.array([-t[1], t[0]]) * (1 if j % 2 else -1); c = p + n * 0.245
+        p, t = _path_at(tab, q); n = np.array([-t[1], t[0]]) * (1 if j % 2 else -1); c = p + n * 0.272
         if _on_land(land, c[0], c[1], 0.05, 0.005): lamps.add(land, c[0], c[1], name=f'vz_lamp{j}')
     # boats: gondolas both ways along the canal, a few small boats moored
     boats = []
@@ -222,7 +222,7 @@ def build_city(kit, M, lamps):
         while s < 1.99:
             x, y = (s, -1.995) if face == '-Y' else (1.995, s)
             dense = (face == '-Y' and 1.18 < s < 1.99) or (face == '+X' and -1.99 < s < -1.12)
-            step = 0.0135 if dense else 0.022; half = 0.0042 if dense else 0.005
+            step = 0.0115 if dense else 0.024; half = 0.0034 if dense else 0.0036
             if _on_land(land, x, y, 0.0, 0.016):
                 zt = float(land.height(np.array([x]), np.array([y]))[0]); zc = strata_z(zt, zm, CARANTO_SD[0] + 0.035)
                 P += arch.pole_quads(face, s, zc, zt - 0.03, half, 4.0, 4.0)
@@ -270,7 +270,7 @@ def build_city(kit, M, lamps):
 def build_lagoon(kit, M):
     bpy = kit.bpy; S = Set('lagoon'); before = _track(bpy)
     # mud flats (barene) as low islands, a long strip of sand at the back with the sea beyond it
-    islands = [(0.55, -1.72, 0.55, 0.42), (-0.9, -0.5, 0.45, 0.30), (0.6, 0.35, 0.40, 0.25), (-1.4, 0.8, 0.30, 0.22), (1.5, -0.4, 0.28, 0.20)]
+    islands = [(0.55, -1.72, 0.62, 0.48), (-0.85, -0.45, 0.58, 0.38), (0.75, 0.35, 0.52, 0.32), (-1.35, 0.85, 0.40, 0.28), (1.55, -0.45, 0.36, 0.26), (-0.2, 0.95, 0.30, 0.2)]
     def fn(x, y):
         d = np.full(np.shape(x), 9.0)
         for (cx, cy, rx, ry) in islands:
@@ -283,9 +283,9 @@ def build_lagoon(kit, M):
     def zones(x, y, h):
         strip = np.abs(y - 1.45 - 0.08 * np.sin(x * 1.3))
         sand = cw.smooth(0.2, 0.08, strip); return {'sand': sand, 'path': (1 - sand) * 0.35}
-    land = cw.block(kit, size=(4.0, 4.0), depth=DEPTH, strata=VZ_STRATA, top=top, water=[cw.basin(fn, depth=0.16, level=LV, shelf=0.3)],
+    land = cw.block(kit, size=(4.0, 4.0), depth=DEPTH, strata=VZ_STRATA, top=top, water=[cw.basin(fn, depth=0.30, level=LV, shelf=0.3)],
                     seed=31, zones=zones, grass=0.55, grass_height=0.8, trees=0, boulders=0, flowers=0.0, under=True, reeds=0.9,
-                    water_tint=WATER_TINT, water_density=2.4, name='lagoon')
+                    water_tint=WATER_TINT, water_density=3.4, name='lagoon')
     S.land = land; zm = _zmean(land)
     # boats of the first settlers arriving from the left, slowing to a stop at the mud flats
     rng = np.random.default_rng(3); boats = []
@@ -391,6 +391,7 @@ def build_site(kit, M):
         A = cw._Acc(); v, f = cw._box(a, b, 0.0, c, d, 1.0); A.add(v, f)
         ob = A.build(bpy, f'vz_wall{nm}', [brick_m], False, kit.coll); ob.location = (0, 0, PIT_Z + 0.05); walls.append(ob)
     S.data.update(boards=boards, stones=stones, walls=walls)
+    cw.birds(kit, 3, center=(-0.3, 0.5), radius=1.8, height=0.9, seed=21, size=0.035, color=(0.92, 0.92, 0.94))
 
     def pole_state(p, t, stage, tl):
         """(visible, head z) of a pole for the shot's stage."""
@@ -547,6 +548,8 @@ def build_sink(kit, M, lamps):
     gauge = G.build(bpy, 'vz_gauge', [M.get('white', (0.95, 0.95, 0.93), 0.5, 0, 0), M.get('ink', (0.05, 0.05, 0.06), 0.5, 0, 0)], False, kit.coll)
     gauge.location = (2.0 + 0.0025, -1.0, 0.0); gauge.rotation_euler = (0, 0, math.pi / 2); moving.append(gauge)
     S.data['gauge'] = gauge
+    cw.birds(kit, 3, center=(0.6, 0.2), radius=1.9, height=0.95, seed=31, size=0.035, color=(0.92, 0.92, 0.94))
+    gon, _ = arch.gondola(kit, M, name='vz_sgon'); S.data['gon'] = gon
     # the hand-drawn section on both front faces: bands that compress, the pipe with flowing water
     N = 80; band_m = [arch.mat_band(kit, f'vz_band_{nm}', c, 0.35, 0.3 if nm == 'aquifer' else 0.0, alt=(0.66, 0.64, 0.58) if nm == 'aquifer' else None) for nm, c, _ in BANDS]
     def prof(face):
@@ -604,6 +607,7 @@ def build_sink(kit, M, lamps):
                 Q.append(arch.face_quad('-Y', PX, z, z + 0.022, 0.009, 4.0, 4.0, 0.0034))
             arch.set_quads(dashes, Q)
             wheel.rotation_euler = (0, math.radians(180) * (smoothstep(stop, stop + 1.0, t) if stop else 0.0), 0)
+        gon.location = (1.35 + 0.004 * t, 0.6 - 0.006 * t, LV - 0.003 + 0.0015 * math.sin(t * 1.6)); gon.rotation_euler = (0.03 * math.sin(t * 1.2), 0, -0.98)
         for o, ph0 in smoke:
             u = (ph0 + t * 0.06) % 1.0; o.location = (-1.3 + 0.25 * u, -0.65 + 0.1 * u, 0.62 - d + 0.5 * u); s_ = 0.6 + 1.6 * u
             o.scale = (s_, s_, s_); o.hide_render = u > 0.97
@@ -629,7 +633,7 @@ def build_inlet(kit, M):
         d = seg_d(x, y); return {'sand': cw.smooth(0.16, 0.30, d)}
     land = cw.block(kit, size=(4.0, 4.0), depth=DEPTH, strata=VZ_STRATA, top=top, water=water, seed=71, zones=zones, grass=0.9, grass_height=1.1,
                     trees=0, tree_spots=[(0.0, 0.6, 0.9, 'round'), (-0.05, 1.3, 1.0, 'round'), (0.08, 1.75, 0.8, 'round')], boulders=6, flowers=0.1, under=True,
-                    water_tint=WATER_TINT, water_density=2.2, name='inletblk')
+                    water_tint=WATER_TINT, water_density=3.0, name='inletblk')
     S.land = land
     # the lighthouse at the tip of the strip
     A = cw._Acc(); v, f = _cone((0, 0, 0), 0.045, 0.032, 0.30, 16); A.add(v, f, 0)
@@ -657,7 +661,12 @@ def build_inlet(kit, M):
         return cw.mk_mesh(bpy, name, V, F, [wm], None, False, kit.coll)
     lag_w = prism('vz_lagw', [(-2.0 + e, -2.0 + e), (XG - 0.0007, -2.0 + e), (XG - 0.0007, 2.0 - e), (-2.0 + e, 2.0 - e)])
     sea_w = prism('vz_seaw', [(XG + 0.0007, -2.0 + e), (2.0 - e, -2.0 + e), (2.0 - e, 2.0 - e), (0.1, 2.0 - e), (0.1, JET[2] + 0.02), (XG + 0.0007, JET[2] + 0.02)])
-    sea_base = np.array([v.co[:] for v in sea_w.data.vertices])
+    sea_base = np.array([v.co[:] for v in sea_w.data.vertices]); lag_base = np.array([v.co[:] for v in lag_w.data.vertices])
+    bed_g = float(np.mean([b for _, b in gates]))
+
+    def x_plane(z, ang):
+        """x of the gates' mid-plane at height z when they stand at angle ang (the sea leans on their upper face)."""
+        return GATE_HX - (z - bed_g) / math.tan(ang)
     bubbles = []; V0, F0 = cw._icosphere(1); bm = cw.mat_simple(kit, 'vz_gbub', (0.95, 0.97, 1.0), 0.1); rng = np.random.default_rng(13)
     for k in range(30):
         o = cw.mk_mesh(bpy, f'vz_gb{k}', V0 * float(rng.uniform(0.003, 0.007)), F0, [bm], None, True, kit.coll); bubbles.append((o, float(rng.uniform(-1.98, -1.3)), float(rng.uniform(0, 1))))
@@ -671,7 +680,15 @@ def build_inlet(kit, M):
             uj = smoothstep(0.0 + 0.04 * j, 1.0, u) if u < 1 else 1.0
             g.rotation_euler = (0, -math.radians(GATE_ANG) * uj + math.radians(1.5), math.pi)
         r = 0.075 * smoothstep(sea[0], sea[1], t) if sea else (0.075 if st.get('high') else 0.0)
-        V = sea_base.copy(); V[len(V) // 2:, 2] = LV + r; sea_w.data.vertices.foreach_set('co', V.astype(np.float32).reshape(-1)); sea_w.data.update()
+        V = sea_base.copy(); n2 = len(V) // 2; V[n2:, 2] = LV + r; Lg = lag_base.copy()
+        if r > 0.0005:     # the two waters meet along the raised gates, not along a vertical wall
+            ang = math.radians(GATE_ANG - 1.5)
+            for i in (0, 5):
+                V[i, 0] = x_plane(V[i, 2], ang) + 0.001; V[n2 + i, 0] = x_plane(LV + r, ang) + 0.001
+            for i in (1, 2):
+                Lg[i, 0] = x_plane(Lg[i, 2], ang) - 0.001; Lg[4 + i, 0] = x_plane(LV, ang) - 0.001
+        sea_w.data.vertices.foreach_set('co', V.astype(np.float32).reshape(-1)); sea_w.data.update()
+        lag_w.data.vertices.foreach_set('co', Lg.astype(np.float32).reshape(-1)); lag_w.data.update()
         for o, y0, ph in bubbles:
             if rise is None or not (rise[0] <= t <= rise[1] + 1.5): o.hide_render = True; continue
             v = (ph + (t - rise[0]) * 0.6) % 1.0; o.hide_render = False
