@@ -1,5 +1,11 @@
 # Status (updated 22 Oct 2026, 03:10 UTC)
 
+## Web studio (22 Oct, studio-web/)
+- Reworked: `/api/media` streams release assets (allow-list: rc-render `kino-films`, kinoforge `films` and `gallery`; Range forwarded, no token) so previews play and seek; the old pilot clips in `studio-web/public/media/` are now committed (`.gitignore` exception) and deploy.
+- Films page lists the 12 `kino-films` films (posters in `public/posters/`) plus anything in kinoforge release `films` (live, cached 60 s), 16:9 and 9:16 players, download link to the full file on GitHub.
+- Director chat makes the pipeline brief (`title, line, subject, angle, audience, tone, target_seconds, notes`); "Build this film" (`/api/build`) commits `films/studio/<id>/brief.json` (with `approved_at`, cap 1.50); the job page (`#job/<id>`, `/api/job`) polls `status.json` every 6 s. A 402 from OpenRouter now falls through to the free seat; the UI says so in one line; Setup shows the key's remaining credit.
+- Not tested live (needs the Vercel deployment and real keys): a real director turn, a real build commit, the release `films` listing (the release does not exist yet). Local test used a mock OpenRouter (`OPENROUTER_BASE`, tests only).
+
 ## Films (22 Oct)
 - Done, in rc-render release `kino-films` (12 films, each with a phone preview and a contact sheet): Dark Corners Bamberg
   (Kinetic), Zong and Kleidion (Lantern Road), Arabia (Clay); Battle Map Cannae, Hastings, Agincourt, Waterloo, Thermopylae,

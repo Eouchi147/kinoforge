@@ -98,6 +98,9 @@ commit that touches that workflow file (a blank line is enough), wait about 20 s
   premium (Veo 3.1, cap $12). Use `stop_after: "keyframes"` to check stills before paying for video.
 - **Caution:** the automatic clip re-render doubled costs on 15 Oct. Prefer `stop_after` and a human look over loops.
 
+## Web studio: make a film from a conversation
+Open https://kinoforge-studio.vercel.app (Vercel sign-in), Director tab, name a subject, agree the brief, tap "Build this film". The studio commits `films/studio/<id>/brief.json`; `film.yml` runs; the job page (`#job/<id>`) shows stages and spend from `films/studio/<id>/status.json`; the finished film appears under Films (release `films` of this repo). Media is streamed through `/api/media` from public releases (allow-list in `studio-web/lib/media.js`).
+
 ## Film lanes (parked while ads come first)
 
 | Workflow | What | Trigger |
