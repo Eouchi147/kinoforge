@@ -183,9 +183,11 @@ jobs:
           pad.make(mus, secs, bpm=int(ad['prep'].get('pad_bpm', 96)), mood='warm')
           y, sr = librosa.load(mus, sr=22050, mono=True)
           tempo, frames = librosa.beat.beat_track(y=y, sr=sr, units='frames'); beats = librosa.frames_to_time(frames, sr=sr).round(3).tolist()
+          if ad['prep'].get('pad_bpm'):   # the pad is ours: use its exact beat grid (the tracker locks onto whole bars on a soft pad)
+              bpm = float(ad['prep']['pad_bpm']); beats = np.arange(0.0, len(y) / sr, 60.0 / bpm).round(3).tolist(); tempo = bpm; frames = np.arange(len(beats))
           hop = int(sr * 0.1); rms = librosa.feature.rms(y=y, frame_length=hop * 2, hop_length=hop)[0]; rms = (rms / (rms.max() + 1e-9)).round(3)
           onset = librosa.onset.onset_strength(y=y, sr=sr)
-          phase = int(np.argmax([sum(onset[f] for f in frames[p::4] if f < len(onset)) for p in range(4)])) if len(frames) >= 8 else 0
+          phase = 0 if ad['prep'].get('pad_bpm') else (int(np.argmax([sum(onset[f] for f in frames[p::4] if f < len(onset)) for p in range(4)])) if len(frames) >= 8 else 0)
           jump = np.diff(np.convolve(rms, np.ones(5) / 5, mode='same'))
           json.dump({'bpm': round(float(np.atleast_1d(tempo)[0]), 2), 'beats': beats, 'downbeats': beats[phase::4], 'energy_hop_s': 0.1, 'energy': rms.tolist(),
                      'biggest_rise_s': round(float((int(np.argmax(jump)) + 1) * 0.1), 2), 'duration': round(len(y) / sr, 3)}, open(A + '/music.json', 'w'))
