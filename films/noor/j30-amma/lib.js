@@ -115,9 +115,13 @@ export function oilLamp(g, gg, x, y, s, t, k = 1, seed = 3) {
 }
 
 // ------------------------------------------------------------------ text (crisp overlay, after the grade)
+// The King Fahd Complex Uthmani text (quranenc) writes the staggered (open) tanween of idgham and ikhfa with its own font's code points:
+// U+065E for open dammatan and U+0656 for open kasratan. Amiri Quran draws these marks at the standard Unicode points U+08F1 and U+08F2
+// (U+065E is missing from it and U+0656 would draw a subscript alef). Same marks, mapped for display only; the source text is unchanged.
+export const forAmiri = (s) => s.replace(/\u065E/g, '\u08F1').replace(/\u0656/g, '\u08F2');
 export function drawArabic(og, text, x, y, size, o = {}) {
   const { color = '#f2d27a', alpha = 1, reveal = 1, shadow = 16, glow = 0 } = o; if (alpha <= 0.003 || reveal <= 0) return;
-  og.save(); og.font = `400 ${size}px "Amiri Quran"`; og.direction = 'rtl'; og.textAlign = 'center'; og.textBaseline = 'middle';
+  text = forAmiri(text); og.save(); og.font = `400 ${size}px "Amiri Quran"`; og.direction = 'rtl'; og.textAlign = 'center'; og.textBaseline = 'middle';
   const w = og.measureText(text).width; const pad = size * 0.6;
   if (reveal < 1) { og.beginPath(); og.rect(x + w / 2 + pad - (w + 2 * pad) * reveal, y - size * 1.6, (w + 2 * pad) * reveal, size * 3.2); og.clip(); }
   og.globalAlpha = alpha; if (shadow) { og.shadowColor = 'rgba(4,4,12,0.9)'; og.shadowBlur = shadow; }

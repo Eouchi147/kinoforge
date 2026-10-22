@@ -1,0 +1,13 @@
+{
+ "id": "noor-descent-05-iqra-short",
+ "series": "NOOR",
+ "title": "Iqra (short)",
+ "duration": 46.434,
+ "fps": 24,
+ "audio": "audio/mix.m4a",
+ "render_w": 720,
+ "render_h": 1280,
+ "w": 1080,
+ "h": 1920,
+ "style": "lantern-road"
+}

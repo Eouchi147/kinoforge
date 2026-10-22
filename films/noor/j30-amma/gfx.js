@@ -9,7 +9,7 @@ const fadeA = (t, at, out, fi = 0.6, fo = 0.6) => smoothstep(at, at + fi, t) * (
 export function drawGfx(og, F, items) {
   const t = F.t; const A = F.CUES.arabic; let any = false;
   for (const it of items) {
-    const out = it.out ?? F.shot.t1 + 99; if (t < it.at - 0.01) continue; const a = fadeA(t, it.at, out, it.fi ?? 0.6, 0.5); if (a <= 0.003 && t > it.at + 1) continue; any = true;
+    const at = it.at ?? (it.a ? it.a.at : 0); it.at = at; const out = it.out ?? F.shot.t1 + 99; if (t < it.at - 0.01) continue; const a = fadeA(t, it.at, out, it.fi ?? 0.6, 0.5); if (a <= 0.003 && t > it.at + 1) continue; any = true;
     switch (it.type) {
       case 'label': {
         const y = it.y ?? 96; const s = it.small ? 0.8 : 1;
@@ -35,7 +35,7 @@ export function drawGfx(og, F, items) {
         drawText(og, it.name, { x: 640, y: y + h / 2 + 34, font: '500 26px "Cinzel"', color: '#ead9b4', alpha: a * smoothstep(it.at + 0.5, it.at + 1.3, t), spacing: 6, shadow: 10, shadowColor: SHADOW });
         break; }
       case 'pair': { // two surah names side by side
-        const y = it.y ?? 140; for (const [s, x] of [[it.a, 420], [it.b, 860]]) { if (t < s.at) continue; const b = a * smoothstep(s.at, s.at + 0.8, t);
+        const y = it.y ?? 140; for (const [s, x] of [[it.a, it.xa ?? 420], [it.b, it.xb ?? 860]]) { if (t < s.at) continue; const b = a * smoothstep(s.at, s.at + 0.8, t);
           drawArabic(og, A[s.key], x, y, 56, { alpha: b, reveal: ease.inOutSine(clamp((t - s.at) / 1.0)), glow: 0.3 });
           drawText(og, s.name, { x, y: y + 58, font: '500 20px "Cinzel"', color: '#ead9b4', alpha: b, spacing: 5, shadow: 10, shadowColor: SHADOW }); }
         break; }

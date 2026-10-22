@@ -71,12 +71,16 @@ function drawShot(ctx, sh, t, { text = true, under = null, underA = 0, hold = fa
   applyCam(camera, camPose(sh, lt));
   const g = post.clearDetail(); post.clearGlow(); const og = post.clearOverlay();
   const world = new THREE.Vector3(), Kv = new THREE.Vector3();
-  const F = { q: Object.fromEntries(new URLSearchParams(location.search)), t, lt, u: clamp(lt / sh.dur), shot: sh, cam: camera, S: inst.S, g, post, lights: [], amb: [1, 1, 1], bloom: 0.5, hal: 0.25, fade: 1, W, H, SC, SC0: 1, CUES,
+  const F = { q: Object.fromEntries(new URLSearchParams(location.search)), t, lt, u: clamp(lt / sh.dur), shot: sh, cam: camera, S: inst.S, g, post, lights: [], amb: [1, 1, 1], bloom: 0.5, hal: 0.25, fade: 1, W, H, SC, SC0: 1, CUES, DW, DH,
     glow: () => post.glowOn(),
     P: (D, x, y) => { inst.S.world(x, y, D, tv).project(camera); return [(tv.x * 0.5 + 0.5) * DW, (-tv.y * 0.5 + 0.5) * DH]; },
     K: (D, x = DW / 2, y = DH / 2) => { const a = inst.S.world(x, y, D, world).clone().project(camera), b = inst.S.world(x + 40, y, D, Kv).project(camera); return ((b.x - a.x) * 0.5 * DW) / 40; },
   };
   inst.api.update(F);
+  if (F.q.dbg) console.log('glows on: ' + inst.S.glows.map((gm, i) => gm.visible && gm.material.uniforms.uI.value > 0.01 ? i + ':' + gm.userData.px.toFixed(0) + ',' + gm.userData.py.toFixed(0) + ',D' + gm.userData.D + ',s' + gm.userData.sizePx.toFixed(0) : '').filter(Boolean).slice(-8).join(' '));
+  if (F.q.noglows) for (const gm of inst.S.glows) gm.visible = false;
+  if (F.q.glowoff) for (const k of F.q.glowoff.split(',')) if (inst.S.glows[+k]) inst.S.glows[+k].visible = false;
+  if (F.q.hide) for (const p of inst.S.planes) if (F.q.hide.split(',').includes(p.userData.name)) p.visible = false;
   for (const p of inst.S.planes) { const d = p.userData; p.material.uniforms.uTime.value = t; const amp = d.drift != null ? d.drift * 11 : (/^sky/.test(d.name) ? 60 : 0);
     if (amp) p.position.x = d.base.x + amp * Math.sin((2 * Math.PI * t) / (d.drift != null ? 70 : 170) + (d.D % 7)) * d.D / inst.S.f; }
   let ov = false;

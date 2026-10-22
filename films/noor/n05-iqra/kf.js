@@ -196,6 +196,7 @@ export class Post {
   markOverlay() { this.hasOverlay = true; this.overlayDirty = true; }
   render(t, { fade = 1, lights = [], amb = [1, 1, 1], bloom = 0.5, hal = 0.25 } = {}) {
     const r = this.r, W = this.W, H = this.H;
+    if (this.hasGlow) this.glowTex.needsUpdate = true;   // upload this frame's glows before the bloom reads them (Kleidion read the previous frame's)
     r.setRenderTarget(this.rt0); r.setClearColor(0x05060f, 1); r.clear(); r.render(this.scene, this.camera);
     this.mDown.uniforms.tMap.value = this.rt0.texture; this.mDown.uniforms.tGlow.value = this.glowTex; this.mDown.uniforms.uGlow.value = this.hasGlow ? 1 : 0; this.mDown.uniforms.uPx.value.set(1 / W, 1 / H); this.pass(this.mDown, this.a1);
     this.mBlur.uniforms.tMap.value = this.a1.texture; this.mBlur.uniforms.uDir.value.set(1.6 / (W / 4), 0); this.pass(this.mBlur, this.a2);

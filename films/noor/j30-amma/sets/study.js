@@ -80,7 +80,7 @@ export default function study(S, cams) {
       lightsOn(planes.wall, [Lw(D.wall, 2.0), ...(sh.mode === 'niche' ? NL.map((n, i) => ({ p: S.world(n.x, n.y, D.wall - 0.2), r: 1.3, c: WARM, k: 1.4 * igniteEnv(t, sh.niche[i], i) })) : [])]);
       lightsOn(planes.floor, [Lw(D.floor, 1.6)]); lightsOn(planes.stand, [{ ...Lw(D.stand, 0.9), r: 0.5 * D.stand }]);
       // window: stars and the crescent, a faint moonbeam across the wall
-      { const a = F.P(D.wall, WIN[0] + 6, WIN[1] + 30), b = F.P(D.wall, WIN[2] - 6, WIN[1] + 160); F.starClip = [a[0], a[1], b[0], b[1]]; } drawStars(F, D.sky, stars, 0.9); const mp = F.P(D.sky, 905, 175); crescent(F, mp[0], mp[1], 14 * F.K(D.sky) / F.K(D.sky), 0.95);
+      { const a = F.P(D.wall, WIN[0] + 6, WIN[1] + 30), b = F.P(D.wall, WIN[2] - 6, WIN[1] + 160); F.starClip = [a[0], a[1], b[0], b[1]]; } drawStars(F, D.sky, stars, 0.9); const mp = F.P(D.sky, 905, 175); { const c = F.starClip; if (mp[0] > c[0] && mp[0] < c[2] && mp[1] > c[1] && mp[1] < c[3]) crescent(F, mp[0], mp[1], 14, 0.95); }
       // niche lanterns (three treasures): unlit by default, they light on the narration in "niche"
       for (let i = 0; i < 3; i++) { const p = F.P(D.wall, NL[i].x, NL[i].y); const K = F.K(D.wall, NL[i].x, NL[i].y); const on = sh.mode === 'niche' ? igniteEnv(t, sh.niche[i], i + 5) : (sh.mode === 'lamp' || sh.mode === 'room' ? 0.0 : 0);
         fanous(g, p[0], p[1], 34 * K, on, t, i + 5); glowLantern(gg, p[0], p[1], 34 * K, on, t, i + 5); if (on > 0) F.lights.push({ x: p[0], y: p[1], r: 120 * K, c: WARM, k: 0.6 * on }); }

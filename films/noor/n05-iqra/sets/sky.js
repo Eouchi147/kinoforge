@@ -25,26 +25,27 @@ export default function sky(S, cams) {
   { const r = cover(D.hills); r[1] = Math.max(r[1], 560); const C = new Canvas(r, { seed: 6104 });
     paintRange(C, { ridge: (x) => 680 + 14 * Math.sin(x * 0.005) + det(x, 8, 3, 3), top: hex('#0c0c1e'), mid: hex('#08081a'), base: hex('#060612'), fall: 120, light: { dir: -1, col: hex('#1e1e40'), amt: 0.3 }, rim: hex('#3a3866'), sizes: 1.1 });
     C.mottle({ amt: 0.05 }); P.hills = S.plane('hills', D.hills, r, C.c); }
+  const back = S.glow(640, 300, D.sky, 2400, { color: [1.0, 0.76, 0.42], core: 5000 }, P.sky); const backCore = S.glow(640, 300, D.sky, 900, { color: [1.0, 0.95, 0.82], core: 5000 }, P.sky);
   const tw = (pl, k, c = [1, 1, 1]) => pl.material.uniforms.uTint.value.set(k * c[0], k * c[1], k * c[2]);
   return {
     planes: P, D,
     update(F) {
       const t = F.t, lt = F.lt, sh = F.shot, g = F.g, gg = F.glow(); const mode = sh.mode;
       let gold = 0; if (mode === 'word') gold = ease.inOutSine(clamp((lt + 0.2) / 1.2)) * (1 - smoothstep(sh.dur - 0.6, sh.dur, lt) * 0.5);
-      tw(P.sky, 0.85 + gold * 0.9, [1 + 0.5 * gold, 1 + 0.35 * gold, 1.05]); tw(P.band, 1 - gold * 0.7); tw(P.peak, 0.85 - gold * 0.3); tw(P.hills, 0.85 - gold * 0.3);
+      tw(P.sky, 0.85 + gold * 0.45, [1 + 0.5 * gold, 1 + 0.35 * gold, 1.05]); tw(P.band, 1 - gold * 0.7); tw(P.peak, 0.85 - gold * 0.3); tw(P.hills, 0.85 - gold * 0.3);
       const a = F.P(D.sky, -700, -700), b = F.P(D.sky, 2000, 520);
       stars(gg, t, [a[0], a[1], b[0], b[1]], { n: 240, seed: 31, a: 0.75 * (1 - gold), big: 0.06 });
-      if (gold > 0.01) { glowAt(gg, 640, 330, 760, 0.55 * gold, [255, 226, 160]); glowAt(gg, 640, 330, 300, 0.7 * gold, [255, 246, 214]); F.bloom = 0.5 + 0.5 * gold; }
-      if (mode === 'verse') { const u = ease.inOutSine(clamp(lt / 3)); glowAt(gg, 640, 380, 640, 0.18 * u, [255, 200, 120]); }
+      back.visible = gold > 0.01; back.material.uniforms.uI.value = 0.4 * gold; backCore.visible = gold > 0.01; backCore.material.uniforms.uI.value = 0.22 * gold; if (gold > 0.01) F.bloom = 0.5 + 0.3 * gold;
+      if (mode === 'verse') { const u = ease.inOutSine(clamp(lt / 3)); glowAt(gg, F.DW / 2, F.DH * 0.53, 640, 0.18 * u, [255, 200, 120]); }
       // the lantern rising: title and end
-      if (sh.rise) { const [r0, rl] = sh.rise; const u = ease.inOutSine(clamp((lt - r0) / rl)); const y = lerp(820, mode === 'title' ? 150 : 250, u); const x = 640 + 30 * Math.sin(lt * 0.35);
-        const s = mode === 'title' ? 70 : 96; fanous(g, gg, x, y, s, t, { lit: 1, sway: 0.03 }); F.lanternPos = [x, y, s];
+      if (sh.rise) { const [r0, rl] = sh.rise; const u = ease.inOutSine(clamp((lt - r0) / rl)); const y = lerp(F.DH + 100, mode === 'title' ? F.DH * 0.81 : F.DH * 0.35, u); const x = F.DW / 2 + 30 * Math.sin(lt * 0.35);
+        const s = mode === 'title' ? 62 : 96; fanous(g, gg, x, y, s, t, { lit: 1, sway: 0.03 }); F.lanternPos = [x, y, s];
         F.lights.push({ x, y, r: 300, c: [1.0, 0.6, 0.3], k: 0.5 });
         if (mode === 'lantern') { // the warm light it throws on the ridge as it passes
           lightsOn(P.peak, [{ p: S.world(x, y + 120, D.peak), r: 600, c: [1.0, 0.6, 0.3], k: 0.5 * (1 - u) + 0.15 }]); }
       }
-      hazeBand(gg, t, { y: 650, x0: -200, x1: 1480, n: 6, h: 40, w: 560, a: 0.05, col: [150, 140, 210], speed: 5, seed: 3 });
-      motes(gg, t, { x0: 0, y0: 300, x1: 1280, y1: 720 }, { n: 14, col: [255, 210, 160], a: 0.18 + 0.3 * gold, size: 1.1, seed: 9, drift: [3, -4] });
+      hazeBand(gg, t, { y: F.DH * 0.9, x0: -200, x1: F.DW + 200, n: 6, h: 40, w: 560, a: 0.05, col: [150, 140, 210], speed: 5, seed: 3 });
+      motes(gg, t, { x0: 0, y0: F.DH * 0.4, x1: F.DW, y1: F.DH }, { n: 14, col: [255, 210, 160], a: 0.18 + 0.3 * gold, size: 1.1, seed: 9, drift: [3, -4] });
       F.amb = [0.95, 0.92, 1.0];
     },
   };

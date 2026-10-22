@@ -1,4 +1,4 @@
-// The shot plan against cues.json (times come from the narration, never typed in). 8 scenes, 19 shots.
+// The shot plan against cues.json (times come from the narration, never typed in). 9 scenes, 20 shots.
 // Camera keys: [localTime, {x,y,z,pan,tilt,mm}, ease]; look(px, py, mm) aims the camera at a design-px point of the reference frame.
 // Every cut has a reason (new place, new information, change of scale, time passing); see NOTES.md.
 export const FONT = { cap: 'italic 400 30px "Cormorant Garamond"', label: '500 26px "Cinzel"', sub: 'italic 400 24px "Cormorant Garamond"', ar: '"Amiri Quran"' };
@@ -34,7 +34,9 @@ export function buildShots(cues, duration) {
   S('e1', 'cave', cut('e2'), { mode: 'light', lamp: 1, lightAt: wd('e1', 'alone') - cut('e1') - 0.6, lightLen: 3.5, cam: [[0, look(640, 360, 36)], [cut('e2') - cut('e1'), look(650, 330, 46)]] });
   S('e2', 'mountain', cut('e3'), { mode: 'light', lightAt: 0, lightLen: 1.2, lamp: 1, cityA: 0.6, cam: [[0, look(800, 380, 34)], [cut('e3') - cut('e2'), look(810, 360, 38)]] });
   S('e3', 'sky', cut('e4'), { mode: 'word', word: { ar: 'iqra', at: wd('e3', 'Iqra') - 0.2, dur: 1.4, en: 'READ', enAt: wd('e3', 'Read') }, cam: [[0, look(640, 360, 36)], [cut('e4') - cut('e3'), look(640, 350, 40)]], breath: 0.2 });
-  S('e4', 'cave', cut('e7'), { mode: 'pulses', lamp: 1, pulses: [wd('e4', 'answered'), wd('e5', 'Read'), wd('e6', 'Three')], cam: [[0, look(640, 330, 46)], [cut('e7') - cut('e4'), look(640, 340, 54)]] });
+  S('e4', 'cave', cut('e6'), { mode: 'pulses', lamp: 1, pulses: [wd('e4', 'answered'), wd('e5', 'Read')], cam: [[0, look(640, 330, 46)], [cut('e6') - cut('e4'), look(640, 340, 54)]] });
+  // change of scale: down to the mat and the lamp, the place where he sits, as the third ask comes
+  S('e6', 'cave', cut('e7'), { mode: 'pulses', lamp: 1, pulses: [wd('e6', 'Three'), wd('e6', 'Three', 1)], cam: [[0, look(600, 560, 58)], [cut('e7') - cut('e6'), look(620, 540, 64)]] });
   // SCENE 6, the first words: an illuminated panel fills, verse by verse
   S('v', 'sky', cut('m1'), { mode: 'verse', verse: true, card: 'verse', cam: [[0, look(640, 380, 34)], [cut('m1') - cut('e7'), look(640, 360, 37)]], breath: 0.15 });
   // SCENE 7, what it means; the lantern hurries home; the doorway

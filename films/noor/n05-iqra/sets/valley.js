@@ -9,7 +9,7 @@ import { glowAt, flick, hash1 } from '../fx.js';
 const KAABA = [700, 470];
 
 function flatHouse(C, x, yb, w, h, k = 1) {
-  const g = C.g, R = C.R; const wall = mul(mixc(hex('#5a4a48'), hex('#6e5a50'), R()), 0.8 + R() * 0.25); const top = mul(wall, 1.25);
+  const g = C.g, R = C.R; const wall = mul(mixc(hex('#463a40'), hex('#5e4c4a'), R()), 0.75 + R() * 0.3); const top = mul(wall, 1.25);
   g.fillStyle = rgba(wall); g.fillRect(x - w / 2, yb - h, w, h); g.fillStyle = rgba(top); g.beginPath(); g.moveTo(x - w / 2, yb - h); g.lineTo(x - w / 2 + w * 0.18, yb - h - h * 0.28); g.lineTo(x + w / 2 + w * 0.18, yb - h - h * 0.28); g.lineTo(x + w / 2, yb - h); g.closePath(); g.fill();
   g.fillStyle = rgba(mul(wall, 0.6)); g.beginPath(); g.moveTo(x + w / 2, yb - h); g.lineTo(x + w / 2 + w * 0.18, yb - h - h * 0.28); g.lineTo(x + w / 2 + w * 0.18, yb - h * 0.28); g.lineTo(x + w / 2, yb); g.closePath(); g.fill();
   const out = []; if (w > 10 * k) { const dw = Math.max(2, w * 0.16), dh = h * 0.5; const dx = x + (R() - 0.5) * w * 0.5; g.fillStyle = rgba(hex('#120c14')); g.fillRect(dx - dw / 2, yb - dh, dw, dh); out.push([dx, yb - dh * 0.5, dw, dh]); }
@@ -30,7 +30,7 @@ export default function valley(S, cams) {
     C.mottle({ amt: 0.05 }); P.side = S.plane('side', D.side, r, C.c); }
   // the valley floor: sand, houses, the Kaaba and its idols
   { const r = cover(D.floor); r[1] = Math.max(r[1], 330); const C = new Canvas(r, { seed: 8104 }); const g = C.g; const n = C.n; const R = rng(81041);
-    const colAt = (x, y) => mul(mixc(hex('#4a3a40'), hex('#6a5450'), n.fbm(x * 0.005, y * 0.02, 4)), 0.8 + 0.3 * smoothstep(340, 560, y));
+    const colAt = (x, y) => mul(mixc(hex('#2e2630'), hex('#463840'), n.fbm(x * 0.005, y * 0.02, 4)), 0.8 + 0.3 * smoothstep(340, 560, y));
     underpaint(C, colAt, null, 8); C.strokes({ n: C.area / 900, color: colAt, angle: () => (R() - 0.5) * 0.15, len: [30, 90], wid: [6, 12], alpha: [0.4, 0.7], jv: 0.06, bend: 0.05 });
     // houses packed along the valley, away from the open court around the Kaaba
     const hs = []; for (let i = 0; i < 520; i++) { const x = lerp(r[0], r[2], R()); const y = lerp(350, 590, Math.pow(R(), 0.9)); if (Math.hypot((x - KAABA[0]) / 1.8, y - KAABA[1]) < 70) continue; hs.push([x, y]); }
@@ -58,7 +58,7 @@ export default function valley(S, cams) {
     planes: P, D,
     update(F) {
       const t = F.t, g = F.g, gg = F.glow();
-      for (const pl of Object.values(P)) pl.material.uniforms.uTint.value.set(0.92, 0.9, 0.98);
+      for (const pl of Object.values(P)) pl.material.uniforms.uTint.value.set(0.86, 0.84, 0.94);
       doorGlow.forEach((gm, i) => { gm.visible = true; gm.material.uniforms.uI.value = 0.5 * flick(t, i); });
       nearGlow.forEach((gm, i) => { gm.visible = true; gm.material.uniforms.uI.value = 0.55 * flick(t, i + 40); });
       fireGlow.forEach((gm, i) => { gm.visible = true; gm.material.uniforms.uI.value = 0.9 * flick(t * 1.4, i + 80); });

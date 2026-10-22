@@ -65,6 +65,7 @@ export default function cave(S, cams) {
     // out-of-focus rock edges at the top corners and the left side: the cave is small
     for (const [x, y, rx, ry] of [[80, -40, 380, 200], [1240, -30, 360, 190], [-60, 520, 200, 380]]) { g.fillStyle = rgba(hex('#07060c')); g.beginPath(); for (let i = 0; i <= 40; i++) { const a = i / 40 * 6.283; const k = 1 + 0.18 * Math.sin(a * 5 + x) + 0.08 * Math.sin(a * 11); const px = x + Math.cos(a) * rx * k, py = y + Math.sin(a) * ry * k; i ? g.lineTo(px, py) : g.moveTo(px, py); } g.fill(); }
     C.blur(4); P.fg = S.plane('fg', D.fg, r, C.c); }
+  const back = S.glow(640, 380, D.far, 1300, { color: [1.0, 0.9, 0.7], core: 5000 }, P.far); const backCore = S.glow(640, 360, D.far, 420, { color: [1.0, 0.97, 0.88], core: 5000 }, P.far);
   const cityGlow = city.slice(0, 40).map(([x, y], i) => S.glow(x, y, D.city, 8 + hash1(i) * 8, { color: [1.0, 0.6, 0.28], core: 160 }, P.city));
   const tw = (pl, k, c = [1, 1, 1]) => pl.material.uniforms.uTint.value.set(k * c[0], k * c[1], k * c[2]);
   return {
@@ -75,7 +76,7 @@ export default function cave(S, cams) {
       if (mode === 'light') light = ease.inOutSine(clamp((lt - (sh.lightAt ?? 0.5)) / (sh.lightLen ?? 3.5)));
       if (mode === 'pulses') { light = 0.42; for (const p of sh.pulses || []) { const d = t - p; if (d > -0.6 && d < 3) light += 0.45 * Math.exp(-(((d - 0.3) / 0.8) ** 2)); } }
       const dusk = mode === 'dusk' ? 1 : 0; const lampOn = sh.lamp ? 1 : 0; const fl = flick(t, 2);
-      tw(P.sky, (dusk ? 1.0 : 0.8) + light * 1.6, [1 + light * 0.6, 1 + light * 0.45, 1.05 + light * 0.1]); tw(P.far, (dusk ? 0.95 : 0.75) + light * 0.6, [1 + light * 0.3, 1 + light * 0.2, 1.05]);
+      tw(P.sky, (dusk ? 1.0 : 0.8) + light * 0.8, [1 + light * 0.6, 1 + light * 0.45, 1.05 + light * 0.1]); tw(P.far, (dusk ? 0.95 : 0.75) + light * 0.6, [1 + light * 0.3, 1 + light * 0.2, 1.05]);
       tw(P.city, 0.8 + light * 0.3); tw(P.wall, (dusk ? 0.55 : 0.42) + light * 0.25, [1, 0.98, 1.05]); tw(P.floor, (dusk ? 0.55 : 0.45) + light * 0.25); tw(P.fg, 1);
       const a = F.P(D.sky, -300, -500), b = F.P(D.sky, 1600, 420); stars(gg, t, [a[0], a[1], b[0], b[1]], { n: 90, seed: 41, a: 0.75 * (1 - light) * (dusk ? 0.5 : 1) });
       cityGlow.forEach((gm, i) => { gm.visible = true; gm.material.uniforms.uI.value = 0.5 * flick(t, i) * (1 - 0.6 * light); });
@@ -84,7 +85,8 @@ export default function cave(S, cams) {
       const L = []; if (light > 0.01) L.push({ p: mouth, r: 260, c: [1.0, 0.92, 0.72], k: 2.4 * light });
       if (lampOn) L.push({ p: lamp, r: 60, c: [1.0, 0.55, 0.22], k: 2.2 * fl }); if (dusk) L.push({ p: mouth, r: 220, c: [0.6, 0.55, 0.8], k: 0.7 });
       lightsOn(P.wall, L); lightsOn(P.floor, L);
-      if (light > 0.01) { const c = F.P(D.far, 640, 380); glowAt(gg, c[0], c[1], 700, 0.6 * light, [255, 236, 190]); glowAt(gg, c[0], c[1], 260, 0.8 * light, [255, 248, 224]); F.bloom = 0.5 + 0.45 * light; F.hal = 0.25 + 0.2 * light; }
+      back.visible = light > 0.01; back.material.uniforms.uI.value = 0.36 * light; backCore.visible = light > 0.01; backCore.material.uniforms.uI.value = 0.5 * light;
+      if (light > 0.01) { F.bloom = 0.5 + 0.45 * light; F.hal = 0.25 + 0.2 * light; }
       if (lampOn) { const p = F.P(D.floor, LAMP[0] + 40, LAMP[1] - 14); const K = F.K(D.floor); const h = 16 * K * fl;
         g.fillStyle = 'rgba(255,170,70,0.95)'; g.beginPath(); g.moveTo(p[0] - 4 * K, p[1]); g.quadraticCurveTo(p[0] - 5 * K, p[1] - h * 0.6, p[0] + Math.sin(t * 6) * 1.5 * K, p[1] - h); g.quadraticCurveTo(p[0] + 5 * K, p[1] - h * 0.5, p[0] + 4 * K, p[1]); g.fill();
         g.fillStyle = 'rgba(255,240,200,0.95)'; g.beginPath(); g.ellipse(p[0], p[1] - h * 0.3, 1.6 * K, h * 0.25, 0, 0, 7); g.fill();

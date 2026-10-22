@@ -16,13 +16,14 @@ export function capDraw(og, text, a, { y = 650, maxW = 980, size = 30, shade = 0
 }
 
 // Arabic, right to left, centred at (x, y); reveal u (0..1) wipes in from the right like a pen writing
-export function arabic(og, text, x, y, size, { a = 1, color = GOLD, reveal = 1, glow = 0.6 } = {}) {
+export function arabic(og, text, x, y, size, { a = 1, color = GOLD, reveal = 1, glow = 0.6, halo = 0 } = {}) {
   if (a <= 0.003 || reveal <= 0) return;
   og.save(); og.font = `400 ${size}px "Amiri Quran"`; og.direction = 'rtl'; og.textAlign = 'center'; og.textBaseline = 'middle';
   const w = og.measureText(text).width + size * 0.6;
   if (reveal < 1) { og.beginPath(); og.rect(x + w / 2 - w * reveal - size * 0.2, y - size * 1.4, w * reveal + size * 0.4, size * 2.8); og.clip(); }
   og.globalAlpha = a; og.shadowColor = `rgba(255,190,90,${0.55 * glow})`; og.shadowBlur = size * 0.45; og.fillStyle = color; og.fillText(text, x, y);
   og.shadowColor = INK_SH; og.shadowBlur = 6; og.fillText(text, x, y);
+  if (halo) { og.shadowBlur = 0; og.lineWidth = size * 0.02; og.strokeStyle = 'rgba(255,236,190,0.9)'; og.strokeText(text, x, y); }
   og.restore();
 }
 
@@ -40,11 +41,11 @@ function label(og, L, a, F) {
 function titleCard(og, F, sh) {
   const T = F.CUES.marks.title; const lt = F.t - T[0]; if (lt < 0) return false; const out = 1 - smoothstep(sh.t1 - 0.8, sh.t1 - 0.1, F.t);
   const a1 = ease.outCubic(clamp((lt - 0.3) / 1.2)) * out, a2 = ease.outCubic(clamp((lt - 1.1) / 1.2)) * out, a3 = ease.outCubic(clamp((lt - 1.9) / 1.2)) * out;
-  drawText(og, 'NOOR', { x: DW / 2, y: 250, font: '500 74px "Cinzel"', color: '#ead9b4', alpha: a1, spacing: 22, shadow: 18, shadowColor: INK_SH });
-  const wl = 300 * a2; og.save(); og.globalAlpha = 0.75 * a2; og.fillStyle = '#c9a227'; og.fillRect(DW / 2 - wl / 2, 300, wl, 1.5); og.restore();
-  drawText(og, 'The Descent', { x: DW / 2, y: 342, font: 'italic 400 42px "Cormorant Garamond"', color: BONE, alpha: a2, spacing: 1.2, shadow: 14, shadowColor: INK_SH });
-  drawText(og, 'NIGHT FIVE  ·  IQRA', { x: DW / 2, y: 398, font: '500 22px "Cinzel"', color: '#d8c79c', alpha: a3, spacing: 7, shadow: 10, shadowColor: INK_SH });
-  arabic(og, F.CUES.arabic.iqra, DW / 2, 470, 64, { a: a3, reveal: ease.inOutSine(clamp((lt - 1.9) / 1.3)) });
+  drawText(og, 'NOOR', { x: DW / 2, y: 170, font: '500 74px "Cinzel"', color: '#ead9b4', alpha: a1, spacing: 22, shadow: 18, shadowColor: INK_SH });
+  const wl = 300 * a2; og.save(); og.globalAlpha = 0.75 * a2; og.fillStyle = '#c9a227'; og.fillRect(DW / 2 - wl / 2, 220, wl, 1.5); og.restore();
+  drawText(og, 'The Descent', { x: DW / 2, y: 262, font: 'italic 400 42px "Cormorant Garamond"', color: BONE, alpha: a2, spacing: 1.2, shadow: 14, shadowColor: INK_SH });
+  drawText(og, 'NIGHT FIVE  ·  IQRA', { x: DW / 2, y: 316, font: '500 22px "Cinzel"', color: '#d8c79c', alpha: a3, spacing: 7, shadow: 10, shadowColor: INK_SH });
+  arabic(og, F.CUES.arabic.iqra, DW / 2, 392, 64, { a: a3, reveal: ease.inOutSine(clamp((lt - 1.9) / 1.3)) });
   return true;
 }
 
@@ -70,9 +71,9 @@ function versePanel(og, F, sh) {
   og.restore();
   drawText(og, 'SURAH AL-ALAQ  ·  THE FIRST FIVE VERSES', { x: 640, y: 84, font: '500 17px "Cinzel"', color: '#d8c79c', alpha: fa * draw, spacing: 5, shadow: 8, shadowColor: INK_SH });
   vs.forEach((l, k) => {
-    const a = ease.outCubic(clamp((F.t - l.start + 0.25) / 1.1)) * fa; if (a <= 0.003) return; const y = 150 + k * 106;
+    const a = ease.outCubic(clamp((F.t - l.start + 0.25) / 1.1)) * fa; if (a <= 0.003) return; const y = 146 + k * 106;
     arabic(og, C.arabic[keys[k]], 640, y, 40, { a, reveal: ease.inOutSine(clamp((F.t - l.start + 0.25) / 1.6)), glow: 0.5 });
-    drawText(og, l.text, { x: 640, y: y + 44, font: 'italic 400 25px "Cormorant Garamond"', color: BONE, alpha: a * 0.95, spacing: 0.4, shadow: 10, shadowColor: INK_SH });
+    drawText(og, l.text, { x: 640, y: y + 50, font: 'italic 400 25px "Cormorant Garamond"', color: BONE, alpha: a * 0.95, spacing: 0.4, shadow: 10, shadowColor: INK_SH });
   });
   return true;
 }
@@ -81,8 +82,8 @@ function versePanel(og, F, sh) {
 function wordCard(og, F, sh) {
   const w = sh.word; const u = ease.inOutSine(clamp((F.t - sh.t0 - (w.at - sh.t0)) / (w.dur ?? 1.4)));
   const out = 1 - smoothstep(sh.t1 - 0.5, sh.t1, F.t);
-  arabic(og, F.CUES.arabic[w.ar], 640, 320, 150, { a: out, reveal: u, glow: 0.9 });
-  if (w.en) { const a = ease.outCubic(clamp((F.t - w.enAt + 0.1) / 1.0)) * out; drawText(og, w.en, { x: 640, y: 470, font: '500 40px "Cinzel"', color: '#ead9b4', alpha: a, spacing: 18, shadow: 16, shadowColor: INK_SH }); }
+  arabic(og, F.CUES.arabic[w.ar], 640, 320, 150, { a: out, reveal: u, glow: 0.3, color: '#7a4e12', halo: 1 });
+  if (w.en) { const a = ease.outCubic(clamp((F.t - w.enAt + 0.1) / 1.0)) * out; drawText(og, w.en, { x: 640, y: 470, font: '500 40px "Cinzel"', color: '#3a2208', alpha: a, spacing: 18, shadow: 16, shadowColor: INK_SH }); }
   return true;
 }
 
@@ -100,6 +101,8 @@ export function drawOverlays(og, F, { CAPS, CUES }) {
   if (sh.card === 'verse') ov = versePanel(og, F, sh) || ov;
   if (sh.card === 'read') ov = readCard(og, F, sh) || ov;
   if (sh.word && sh.mode === 'word') ov = wordCard(og, F, sh) || ov;
+  if (sh.mode === 'lantern' && sh.word && F.lanternPos) { const [x, y, s] = F.lanternPos; const a = ease.outCubic(clamp((F.t - sh.t0 - sh.word.at) / 1.4)) * (1 - smoothstep(sh.endAt - 0.6, sh.endAt + 0.4, F.t));
+    if (a > 0.003) { ov = true; arabic(og, CUES.arabic.iqra, x, y + s * 1.05, 46, { a, reveal: ease.inOutSine(clamp((F.t - sh.t0 - sh.word.at) / 1.4)) }); drawText(og, 'READ', { x, y: y + s * 1.05 + 46, font: '500 18px "Cinzel"', color: '#ead9b4', alpha: a, spacing: 10, shadow: 10, shadowColor: INK_SH }); } }
   if (sh.card === 'end') ov = endCard(og, F, sh) || ov;
   for (const L of sh.labels || []) { const a = smoothstep(L.in, L.in + 0.5, t) * (1 - smoothstep(L.out - 0.5, L.out, t)); if (a > 0.003) { ov = true; label(og, L, a, F); } }
   for (const c of CAPS) { const a = smoothstep(c.in, c.in + 0.25, t) * (1 - smoothstep(c.out - 0.3, c.out, t)); if (a > 0.003) { ov = true; capDraw(og, c.text, a); } }

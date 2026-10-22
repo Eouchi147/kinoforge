@@ -35,7 +35,7 @@ export function stars(gg, t, box, { n = 220, seed = 3, a = 1, rot = 0, pole = [6
     if (rot) { const dx = x - pole[0], dy = y - pole[1]; x = pole[0] + dx * c - dy * s; y = pole[1] + dx * s + dy * c; }
     const tw = 0.6 + 0.4 * Math.sin(t * (1.1 + r3 * 2.7) + i * 2.1) * Math.sin(t * (0.37 + r1) + i);
     const b = r3 > 1 - big ? 1.8 : 0.9 + r3 * 0.6; const al = a * (0.35 + 0.65 * r3) * tw;
-    gg.fillStyle = `rgba(${200 + 55 * r1 | 0},${215 + 30 * r2 | 0},255,${al})`; gg.beginPath(); gg.arc(x, y, b * 0.75, 0, 7); gg.fill();
+    gg.fillStyle = `rgba(${200 + 55 * r1 | 0},${215 + 30 * r2 | 0},255,${al})`; gg.beginPath(); gg.arc(x, y, b * 1.05, 0, 7); gg.fill();
     if (b > 1.5) { gg.fillStyle = `rgba(220,230,255,${al * 0.25})`; gg.beginPath(); gg.arc(x, y, b * 2.6, 0, 7); gg.fill(); }
   }
 }

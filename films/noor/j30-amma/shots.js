@@ -26,6 +26,8 @@ export function buildShots(cues, duration) {
   const T = resolver(cues); const list = []; let t = 0;
   const C = (x = 0, y = 0, z = 0, pan = 0, tilt = 0, mm = 35) => ({ x, y, z, pan, tilt, mm });
   const look = (px, py, mm = 35, x = 0, y = 0, z = 0) => ({ x, y, z, pan: -Math.atan((px - 640) / F0), tilt: -Math.atan((py - 360) / F0), mm });
+  // aim the camera (at x,y,z) at a design point (px,py) on a plane at depth D: correct for near planes when the camera has moved
+  const lookAt = (px, py, D, mm = 35, x = 0, y = 0, z = 0) => { const wx = (px - 640) * D / F0, wy = -(py - 360) * D / F0, dz = D + z; return { x, y, z, pan: -Math.atan((wx - x) / dz), tilt: Math.atan((wy - y) / Math.hypot(dz, wx - x)), mm }; };
   // a cut lands 0.15 s before the first word of a line, never inside the line before it
   const cut = (id) => { const l = cues.lines.find((x) => x.id === id); const i = cues.lines.indexOf(l); const prev = i > 0 ? cues.lines[i - 1].end + 0.05 : 0; return Math.max(prev, l.start - 0.15); };
   const S = (id, set, t1, o = {}) => { const sh = { id, set, t0: t, t1: t1 ?? duration, cam: [[0, C()]], breath: 0.3, ...o }; sh.dur = sh.t1 - sh.t0; t = sh.t1; list.push(sh); return sh; };
@@ -52,7 +54,7 @@ export function buildShots(cues, duration) {
   S('s06', 'page', cut('e1'), { mode: 'grid', cam: [[0, look(640, 360, 32)], [cut('e1') - cut('w4'), look(640, 360, 34)]],
     gfx: [{ type: 'grid37', at: tt('w4.holds'), settle: tt('w4.surahs') + 0.4, out: 9999 }, { type: 'count', to: 37, at: tt('w4.holds'), settle: tt('w4.surahs') + 0.4, x: 640, y: 150, label: 'SURAHS', out: 9999 }] });
   // ===== SCENE 5: THREE TREASURES. Back in the study, a niche with three lanterns; they light as the narration names three.
-  S('s07', 'study', cut('t1a'), { mode: 'niche', niche: [tt('e1.three') - 0.1, tt('e1.three') + 0.5, tt('e1.treasures') + 0.2], cam: [[0, look(330, 300, 34, 0, 0, -0.6)], [cut('t1a') - cut('e1'), look(320, 290, 40, 0, 0, -1.4)]] });
+  S('s07', 'study', cut('t1a'), { mode: 'niche', niche: [tt('e1.three') - 0.1, tt('e1.three') + 0.5, tt('e1.treasures') + 0.2], cam: [[0, look(310, 320, 40, 0, 0, -1.2)], [cut('t1a') - cut('e1'), look(310, 315, 46, 0, 0, -2.0)]] });
   // ===== SCENE 6: AL-ALAQ. The page: the first treasure's name in its gold band.
   S('s08', 'page', cut('t1b'), { mode: 'band', cam: [[0, look(640, 330, 40)], [cut('t1b') - cut('t1a'), look(640, 320, 43)]],
     gfx: [{ type: 'cartouche', key: 'alaq', num: 'THE FIRST TREASURE', name: 'SURAH AL-ALAQ', at: tt('t1a.Surah') - 0.3, out: 9999, y: 330 }] });
@@ -62,7 +64,7 @@ export function buildShots(cues, duration) {
   // the words themselves: 96:1 written in gold, its meaning under it; then "the end and the beginning" brackets
   S('s10', 'page', cut('t2a'), { mode: 'verse', noCap: ['t1c'], cam: [[0, look(640, 320, 38)], [cut('t2a') - cut('t1c'), look(640, 330, 42)]],
     gfx: [{ type: 'arabic', key: '96:1', at: tt('t1c') - 0.1, dur: 2.6, x: 640, y: 290, size: 70, glow: 0.35, meaning: 'Read, in the name of your Lord, who created.', meaningAt: tt('t1c') + 0.4, ref: 'AL-ALAQ 96:1' },
-      { type: 'bracket', left: 'THE LAST PART', right: 'THE FIRST WORDS', at: tt('t1d.last'), out: 9999, y: 470 }] });
+      { type: 'bracket', left: 'THE LAST PART', right: 'THE FIRST WORDS', at: tt('t1d.last'), out: 9999, y: 505 }] });
   // ===== SCENE 7: AL-QADR. The bright, still night over sleeping roofs.
   S('s11', 'night', cut('t2c'), { mode: 'wide', noCap: ['t2b'], cam: [[0, look(640, 420, 28, 0, 0.3, 0)], [cut('t2c') - cut('t2a'), look(640, 380, 30, 0, 0.3, -1)]],
     gfx: [{ type: 'cartouche', key: 'qadr', num: 'THE SECOND TREASURE', name: 'SURAH AL-QADR', at: tt('t2a.Surah') - 0.3, out: tt('t2b') - 0.4, y: 230 },
@@ -82,19 +84,19 @@ export function buildShots(cues, duration) {
         { key: '112:3', at: tt('t3b.He#1') - 0.2, meaning: 'He has no child, and He was not born.' }, { key: '112:4', at: tt('t3b.And#1') - 0.2, meaning: 'And there is nothing like Him.' }] }] });
   // the page pulls back: one third of a circle fills with gold as the hadith is told
   S('s15', 'page', cut('m1'), { mode: 'third', cam: [[0, look(640, 360, 33)], [cut('m1') - cut('t3c'), look(640, 360, 31)]],
-    gfx: [{ type: 'third', at: tt('t3c.equal') - 0.2, settle: tt('t3c.third') + 0.6, out: 9999, x: 640, y: 300, r: 120, label: "ONE THIRD OF THE QUR'AN" }] });
+    gfx: [{ type: 'label', text: 'SURAH AL-IKHLAS', sub: 'four short verses', at: cut('t3c') + 0.2, out: 9999, y: 96 }, { type: 'third', at: tt('t3c.equal') - 0.2, settle: tt('t3c.third') + 0.6, out: 9999, x: 640, y: 300, r: 120, label: "ONE THIRD OF THE QUR'AN" }] });
   // ===== SCENE 9: BEFORE SLEEP. A child's room at night, nobody in it: the lamp is low, the blanket folded.
   S('s16', 'bedroom', cut('m3'), { mode: 'wide', cam: [[0, look(640, 380, 28, 0, 0, 0)], [cut('m3') - cut('m1'), look(660, 390, 31, 0, 0, -0.8)]],
-    gfx: [{ type: 'pair', a: { key: 'falaq', name: 'AL-FALAQ', at: tt('m1.Falaq') - 0.3 }, b: { key: 'nas', name: 'AN-NAS', at: tt('m1.Nas') - 0.2 }, out: tt('m2') + 0.3, y: 140 },
-      { type: 'label', text: 'EVERY NIGHT BEFORE SLEEP', sub: 'al-Ikhlas, al-Falaq and an-Nas', at: tt('m2.Every') - 0.1, out: cut('m3') + 0.3, y: 96 }] });
+    gfx: [{ type: 'pair', a: { key: 'falaq', name: 'AL-FALAQ', at: tt('m1.Falaq') - 0.3 }, b: { key: 'nas', name: 'AN-NAS', at: tt('m1.Nas') - 0.2 }, out: tt('m2') - 0.1, y: 210, xa: 600, xb: 960 },
+      { type: 'label', text: 'EVERY NIGHT BEFORE SLEEP', sub: 'al-Ikhlas, al-Falaq and an-Nas', at: tt('m2.Every') + 0.3, out: cut('m3') + 0.3, y: 96 }] });
   // closer, to the lamp turned low by the bed: "you can do the same"
-  S('s17', 'bedroom', cut('l1'), { mode: 'close', dim: [tt('m3'), tt('m3>') + 1.5], cam: [[0, look(840, 470, 40, 0, 0, -0.5)], [cut('l1') - cut('m3'), look(830, 470, 44, 0, 0, -0.8)]] });
+  S('s17', 'bedroom', cut('l1'), { mode: 'close', dim: [tt('m3'), tt('m3>') + 1.5], cam: [[0, lookAt(960, 490, 8, 36, 0, 0, -2.0)], [cut('l1') - cut('m3'), lookAt(950, 492, 8, 39, 0, 0, -2.4)]] });
   // ===== SCENE 10: THE FULL SKY. Thirty lanterns over the hills; the lamp; dawn.
   S('s18', 'sky', cut('l2'), { mode: 'full', fillFrom: cut('l1'), cam: [[0, look(640, 470, 26)], [cut('l2') - cut('l1'), look(640, 340, 28)]], breath: 0.2 });
   // the lamp that must not go out: a close, steady flame (the study's lamp)
-  S('s19', 'study', cut('l3'), { mode: 'lamp', cam: [[0, look(960, 560, 50, 0, 0, -2.4)], [cut('l3') - cut('l2'), look(960, 556, 54, 0, 0, -2.5)]], breath: 0.1 });
+  S('s19', 'study', cut('l3'), { mode: 'lamp', cam: [[0, lookAt(945, 585, 6, 50, 0, 0, -2.4)], [cut('l3') - cut('l2'), lookAt(945, 582, 6, 54, 0, 0, -2.5)]], breath: 0.1 });
   // time passes (dissolve): dawn comes up over the hills, the lanterns fade into morning; end card
-  S('s20', 'sky', null, { mode: 'dawn', dawn: [cut('l3'), endAt + 1.5], dissolve: 1.4, card: { at: endAt, until: duration, line1: 'Thirty Nights of Light', y: 300, out: 0.9 },
+  S('s20', 'sky', null, { mode: 'dawn', dawn: [cut('l3'), endAt + 1.5], dissolve: 1.4, card: { at: endAt, until: duration, line1: 'Thirty Nights of Light', y: 190, out: 0.9 },
     cam: [[0, look(640, 380, 28)], [duration - cut('l3'), look(640, 400, 29)]], breath: 0.15 });
   return list;
 }

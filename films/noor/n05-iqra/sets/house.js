@@ -18,7 +18,7 @@ export default function house(S, cams) {
     paintRange(C, { ridge: (x) => 170 - bump(x, 300, 160, 70) - bump(x, 1000, 200, 50) - 18 * ridged(x * 0.008, 4, 7), top: hex('#16183a'), mid: hex('#121430'), base: hex('#0e1028'), fall: 80, rim: hex('#4a4672'), light: { dir: -1, col: hex('#2a2a58'), amt: 0.3 } });
     P.ridge = S.plane('ridge', D.ridge, r, C.c); }
   // the room behind the door: a plastered back wall with a niche lamp, a bench with a folded cloak, a jar
-  { const r = cover(D.room, 30); const C = new Canvas(r, { seed: 9103 }); const g = C.g; const n = C.n; const R = rng(91031);
+  { const r0 = cover(D.room, 30); const r = [Math.max(r0[0], 380), Math.max(r0[1], 150), Math.min(r0[2], 920), r0[3]]; const C = new Canvas(r, { seed: 9103 }); const g = C.g; const n = C.n; const R = rng(91031);
     const colAt = (x, y) => mul(mixc(hex('#6a5040'), hex('#8a6a50'), n.fbm(x * 0.01, y * 0.01, 4)), 0.7 + 0.4 * smoothstep(700, 300, Math.hypot(x - NICHE[0], y - NICHE[1])));
     underpaint(C, colAt, null, 6); C.strokes({ n: C.area / 500, color: colAt, angle: () => Math.PI / 2 + (R() - 0.5) * 0.4, len: [14, 40], wid: [6, 12], alpha: [0.35, 0.65], jv: 0.06 });
     g.fillStyle = rgba(hex('#3a2a22')); g.fillRect(r[0], 560, r[2] - r[0], r[3] - 560); // floor
