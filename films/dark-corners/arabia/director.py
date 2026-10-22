@@ -360,7 +360,7 @@ def A2(c, t, u):
 @shot(11.62, 16.6, 'A3_records')
 def A3(c, t, u):
     S = c.S; c.light(moon=0.30, az=-120, el=30, fill=0.06, amb=0.25)
-    sx, sy = 0.00, 0.35; scr = S['scroll']; r = scr['root']; hide(r, False); r.location = (sx, sy, gz(sx, sy)); r.rotation_euler = (0, 0, D(-8))
+    sx, sy = 0.00, 0.35; scr = S['scroll']; r = scr['root']; hide(r, False); r.location = (sx, sy, gz(sx, sy)); r.rotation_euler = (0, 0, D(-8)); r.scale = (1.0, 1.0, 1.0)
     n = len(scr['marks']); rows_t = [11.45 + 0.37 * k for k in range(n)]
     for k, o in enumerate(scr['marks']): o.hide_render = t < rows_t[k]
     scr['stylus'].hide_render = True
@@ -463,25 +463,25 @@ def track_pos(d, off=0.14):
 @shot(41.52, 46.0, 'E1_follow_tracks')
 def E1(c, t, u):
     S = c.S; day_default(c); c.light(moon=0.9, az=-115, el=22, fill=0.14)
-    d = 0.9 + 0.27 * (t - 41.52); q, tg = track_pos(d); yaw = yaw_of(tg[0], tg[1])
+    d = 2.7 + 0.245 * (t - 41.52); q, tg = track_pos(d); yaw = yaw_of(tg[0], tg[1])
     ride(S, 'ride', q[0], q[1], yaw, t, d, arm=(10, 6, 14), head=(wobble(t, 0.5, 8), 2, 0), neck=(0, 2))
-    pos = (q[0] + 0.02, q[1] - 0.60, 0.095); tgt = (q[0] + 0.01, q[1], 0.125)
-    c.camera(pos, tgt, lens=34.0, fstop=3.5, focus=(q[0], q[1], 0.12))
+    pos = (q[0] + 0.02, q[1] - 0.74, 0.095); tgt = (q[0] + 0.01, q[1], 0.130)
+    c.camera(pos, tgt, lens=32.0, fstop=3.8, focus=(q[0], q[1], 0.12))
     glow_camp(S, 2.0, t=t)
 
 @shot(46.0, 48.99, 'E2_two_tents')
 def E2(c, t, u):
     S = c.S; day_default(c); c.light(moon=0.7, az=-95, el=20, fill=0.12, amb=0.25)
     stop = 47.7
-    d = 2.18 + 0.27 * (min(t, stop) - 46.0); q, tg = track_pos(d); yaw = yaw_of(tg[0], tg[1])
+    d = 3.8 + 0.27 * (min(t, stop) - 46.0); q, tg = track_pos(d); yaw = yaw_of(tg[0], tg[1])
     moving = t < stop
     point = ez(t, 47.7, 48.3, 0.0, 1.0, 'o')
     ride(S, 'ride', q[0], q[1], yaw, t, d, moving=moving, arm=(8 + 78 * point, 6, 20 * (1 - point)), head=(-8 * point, 3, 0), neck=(0, 2 + 6 * point), brow=(0.6 * point, 3 * point))
     fl = ez(t, 47.7, 48.2, 0.0, 1.0)
     lit_tents(S, c, t, glow=2.4 + 2.0 * fl, p1=1.0 + 1.0 * fl)
     dx, dy = float(tg[0]), float(tg[1])
-    pos = (q[0] - dx * 0.42 - dy * 0.10, q[1] - dy * 0.42 + dx * 0.10, 0.185); tgt = (1.70, 1.70, 0.115)
-    c.camera(pos, tgt, lens=36.0, fstop=4.0, focus=(q[0] + 0.1, q[1], 0.18) if t < 47.7 else (1.6, 1.65, 0.1))
+    pos = (q[0] - dx * 0.46 - dy * 0.06, q[1] - dy * 0.46 + dx * 0.06, 0.20); tgt = (q[0] + 0.50 * (1.55 - q[0]), q[1] + 0.50 * (1.62 - q[1]), 0.13)
+    c.camera(pos, tgt, lens=28.0, fstop=4.0, focus=(q[0] + 0.1, q[1], 0.18) if t < 47.7 else (1.6, 1.65, 0.1))
 
 OLD_P, SAS_P = (1.30, 1.36), (0.98, 1.30)
 
@@ -619,8 +619,8 @@ def J1(c, t, u):
     p = ez(t, 75.4, 76.2, 0.0, 1.0, 'o')
     fig_pose(S['fig']['sasaa'], SAS_P[0], SAS_P[1], -65.0, lean=4.0 * p, head=(ez(t, 74.0, 74.8, 0, -12, 's'), 2, 0), armR=(30 + 40 * p, 14 + 14 * p, 40 - 8 * p), armL=(8, 6, 0), mouth=talk(t, 74.2, 76.6, 6.0, 12.0), brow=(0.4, 2), blink=blink_at(t, [75.0]))
     old_cu(S, t, yaw=115.0, lean=8.0, head=(ez(t, 75.8, 76.6, 0, 10, 's'), 2, 0), arm=(34, 8, 66), mouth='closed', brow=(0.0, -3))
-    pos = ez(t, 74.02, 77.3, (1.18, 0.72, 0.100), (1.15, 0.80, 0.102), 's'); tgt = (1.14, 1.33, 0.100)
-    c.camera(pos, tgt, lens=22.0, fstop=4.0, focus=(1.14, 1.33, 0.1))
+    pos = ez(t, 74.02, 77.3, (1.17, 0.50, 0.100), (1.15, 0.58, 0.102), 's'); tgt = (1.14, 1.33, 0.100)
+    c.camera(pos, tgt, lens=34.0, fstop=4.0, focus=(1.14, 1.33, 0.1))
 
 @shot(77.3, 80.4, 'J2_insulted')
 def J2(c, t, u):
@@ -652,7 +652,7 @@ def K2(c, t, u):
     S = c.S; dialog_light(c, S, t, lamp_xy=(SAS_P[0] + 0.06, SAS_P[1] - 0.08), p=0.8)
     hand = ez(t, 89.0, 89.5, 0.0, 1.0, 'o')
     fig_pose(S['fig']['sasaa'], SAS_P[0], SAS_P[1], 180.0, head=(0, 2 + 3 * ez(t, 89.4, 90.2, 0.0, 1.0), 0), armR=(40 * hand + 8 * (1 - hand), 18 * (1 - hand) + 6 * hand, 92 * hand), armL=(8, 6, 0),
-             mouth=talk(t, 88.4, 91.2, 5.5, 21.0), brow=(0.2, 6), blink=blink_at(t, [91.5]))
+             mouth=talk(t, 88.4, 91.2, 5.5, 21.0), brow=(0.3, -1), blink=blink_at(t, [91.5]))
     zoom = ez(t, 88.2, 91.95, 0.0, 1.0, 's')
     pos = (SAS_P[0] + 0.03 - 0.02 * zoom, SAS_P[1] - 0.30 + 0.07 * zoom, 0.104 + 0.004 * zoom); tgt = (SAS_P[0], SAS_P[1], 0.112)
     c.camera(pos, tgt, lens=42.0, fstop=4.2, focus=(SAS_P[0], SAS_P[1] - 0.016, 0.112))
@@ -796,7 +796,7 @@ def mecca_scene(S, t, lit=(0, 1, 2, 3, 4, 5, 6, 7), door_on=1.0):
     S['mecca_far'] = S['mecca_far']
 
 def mecca_light(c, **kw):
-    c.light(moon=0.55, moon_vis=0.0, az=-100, el=26, fill=0.18, fill_k=5200, amb=0.38, **kw)
+    c.light(moon=0.7, moon_vis=0.0, az=-100, el=26, fill=0.26, fill_k=5200, amb=0.42, **kw)
 
 @shot(122.2, 124.0, 'O1_not_alone')
 def O1(c, t, u):
@@ -817,8 +817,8 @@ def O2(c, t, u):
     k = ez(t, 126.0, 126.9, 0.0, 1.0, 's')
     fig_pose(S['fig']['zayd'], 9.00, 1.20, 90.0 + 90.0 * k, head=(ez(t, 126.0, 127.0, 20, 0, 's'), 2, 0), armR=(8, 4, 0), armL=(8, 4, 0), mouth='closed', brow=(0.3, 4), blink=blink_at(t, [127.4]))
     show_hud(S, 'mecca', t, 124.2, 128.0, 0.31)
-    pos = ez(t, 124.0, 128.7, (8.55, 0.38, 0.100), (8.72, 0.50, 0.105), 's'); tgt = ez(t, 124.0, 128.7, (9.05, 2.3, 0.080), (9.05, 1.60, 0.100), 's')
-    c.camera(pos, tgt, lens=28.0, fstop=3.5, focus=(9.0, 1.3, 0.08) if t > 126.0 else (9.0, 2.2, 0.08))
+    pos = ez(t, 124.0, 128.7, (8.70, 0.62, 0.100), (8.82, 0.72, 0.105), 's'); tgt = ez(t, 124.0, 128.7, (9.05, 2.0, 0.090), (9.02, 1.40, 0.100), 's')
+    c.camera(pos, tgt, lens=34.0, fstop=3.5, focus=(9.0, 1.3, 0.08) if t > 126.0 else (9.0, 2.2, 0.08))
 
 FA_X, FA_Y = 9.00, 2.22
 @shot(128.7, 131.45, 'P1_father_door')
@@ -834,12 +834,12 @@ def P1(c, t, u):
 @shot(131.45, 134.95, 'P2_do_not_kill')
 def P2(c, t, u):
     S = c.S; mecca_light(c); mecca_scene(S, t)
-    lamp(S, 0, 8.60, 1.62, power=1.6, t=t, flick_seed=34)
+    lamp(S, 0, 9.20, 1.50, power=1.6, t=t, flick_seed=34)
     ph = ez(t, 132.85, 133.35, 0.0, 1.0, 'o')
-    fig_pose(S['fig']['zayd'], 8.78, 1.90, -35.0, head=(0, 2, 0), armR=(10 + 70 * ph, 10 + 10 * ph, 20 + 70 * ph), armL=(8, 4, 0), mouth=talk(t, 131.7, 134.5, 6.0, 40.0), brow=(0.7 * ph, 8 * ph), blink=blink_at(t, [132.6]))
-    fig_pose(S['fig']['father'], 9.05, 2.18, 150.0, head=(ez(t, 131.5, 132.3, 0, -10, 's'), -4, 0), armR=(6, 4, 0), armL=(6, 4, 0), mouth='closed', brow=(-0.2, -8))
-    pos = ez(t, 131.45, 134.95, (8.70, 1.52, 0.100), (8.64, 1.60, 0.104), 's'); tgt = (8.80, 1.90, 0.104)
-    c.camera(pos, tgt, lens=42.0, fstop=2.8, focus=(8.78, 1.89, 0.104))
+    fig_pose(S['fig']['zayd'], 8.80, 1.90, -70.0, head=(0, 2, 0), armR=(10 + 70 * ph, 10 + 10 * ph, 20 + 70 * ph), armL=(8, 4, 0), mouth=talk(t, 131.7, 134.5, 6.0, 40.0), brow=(0.7 * ph, 3 * ph), blink=blink_at(t, [132.6]))
+    fig_pose(S['fig']['father'], 9.06, 1.98, 110.0, head=(ez(t, 131.5, 132.3, 0, -10, 's'), -4, 0), armR=(6, 4, 0), armL=(6, 4, 0), mouth='closed', brow=(-0.2, -8))
+    pos = ez(t, 131.45, 134.95, (9.32, 1.46, 0.102), (9.26, 1.52, 0.104), 's'); tgt = (8.84, 1.93, 0.104)
+    c.camera(pos, tgt, lens=44.0, fstop=4.2, focus=(8.80, 1.90, 0.104))
 
 @shot(134.95, 137.4, 'P3_pay_keep')
 def P3(c, t, u):
@@ -908,11 +908,11 @@ def R1(c, t, u):
     S = c.S; poet_set(c, S, t)
     wr = math.sin((t - 145.0) * 2 * math.pi * 1.2)
     fig_pose(S['fig']['poet'], PX_, PY_, 165.0, seated=True, head=(-4, -14 + 3 * wr, 0), armR=(52 + 8 * wr, 8, 74), armL=(30, 10, 52), mouth='closed', brow=(0.2, 3), blink=blink_at(t, [146.4]))
-    sc = S['scroll']; hide(sc['root'], False); sc['root'].location = (PX_ - 0.07, PY_ - 0.13, gz(PX_, PY_)); sc['root'].rotation_euler = (0, 0, D(22))
+    sc = S['scroll']; hide(sc['root'], False); sc['root'].location = (PX_ - 0.13, PY_ - 0.02, gz(PX_, PY_)); sc['root'].rotation_euler = (0, 0, D(28)); sc['root'].scale = (0.5, 0.5, 0.5)
     for o in sc['marks']: o.hide_render = False
     sc['stylus'].hide_render = True
-    pos = ez(t, 144.9, 148.45, (PX_ + 0.10, PY_ - 0.46, 0.085), (PX_ + 0.06, PY_ - 0.34, 0.095), 's'); tgt = (PX_, PY_, 0.085)
-    c.camera(pos, tgt, lens=40.0, fstop=3.0, focus=(PX_, PY_, 0.09))
+    pos = ez(t, 144.9, 148.45, (PX_ + 0.10, PY_ - 0.46, 0.085), (PX_ + 0.06, PY_ - 0.34, 0.095), 's'); tgt = (PX_ - 0.03, PY_, 0.085)
+    c.camera(pos, tgt, lens=40.0, fstop=4.0, focus=(PX_, PY_, 0.09))
 
 @shot(148.45, 152.0, 'R2_famous_poet')
 def R2(c, t, u):
@@ -925,16 +925,16 @@ def R2(c, t, u):
         x, y = PX_ + r * math.cos(th), PY_ + 0.05 + r * math.sin(th) * 0.8
         ls.hide(False); ls.pose(loc=(x, y, gz(x, y)), yaw=yaw_of(-math.cos(th), -math.sin(th)), seated=True, head=(0, 4, 0))
     lamp(S, 1, PX_ - 0.18, PY_ - 0.15, power=0.8, t=t, flick_seed=51)
-    pos = ez(t, 148.45, 152.0, (PX_ + 0.02, PY_ - 0.62, 0.100), (PX_ - 0.02, PY_ - 0.50, 0.095), 's'); tgt = (PX_, PY_ + 0.05, 0.085)
-    c.camera(pos, tgt, lens=34.0, fstop=3.2, focus=(PX_, PY_ + 0.05, 0.09))
+    pos = ez(t, 148.45, 152.0, (PX_ - 0.52, PY_ - 0.46, 0.140), (PX_ - 0.46, PY_ - 0.40, 0.135), 's'); tgt = (PX_ - 0.02, PY_ + 0.02, 0.085)
+    c.camera(pos, tgt, lens=34.0, fstop=3.8, focus=(PX_, PY_ + 0.05, 0.09))
 
 @shot(152.0, 154.72, 'R3_one_line')
 def R3(c, t, u):
     S = c.S; poet_set(c, S, t, 1.3)
     fig_pose(S['fig']['poet'], PX_, PY_, 175.0, seated=True, head=(ez(t, 152.0, 153.2, -2, -10, 's'), -10, 0), armR=(56, 6, 60), armL=(30, 10, 50), mouth='closed', brow=(0.3, 3), blink=blink_at(t, [153.0]))
-    sc = S['scroll']; hide(sc['root'], False); sc['root'].location = (PX_ - 0.07, PY_ - 0.13, gz(PX_, PY_)); sc['root'].rotation_euler = (0, 0, D(22))
-    pos = ez(t, 152.0, 154.72, (PX_ + 0.05, PY_ - 0.30, 0.095), (PX_ - 0.05, PY_ - 0.36, 0.108), 's'); tgt = ez(t, 152.0, 154.72, (PX_ - 0.01, PY_, 0.088), (PX_ - 0.07, PY_ - 0.13, 0.100), 's')
-    c.camera(pos, tgt, lens=40.0, fstop=3.0, focus=(PX_ - 0.03, PY_ - 0.07, 0.095))
+    sc = S['scroll']; hide(sc['root'], False); sc['root'].location = (PX_ - 0.13, PY_ - 0.02, gz(PX_, PY_)); sc['root'].rotation_euler = (0, 0, D(28)); sc['root'].scale = (0.5, 0.5, 0.5)
+    pos = ez(t, 152.0, 154.72, (PX_ + 0.10, PY_ - 0.34, 0.100), (PX_ + 0.02, PY_ - 0.30, 0.100), 's'); tgt = ez(t, 152.0, 154.72, (PX_ - 0.01, PY_, 0.090), (PX_ - 0.07, PY_ - 0.02, 0.092), 's')
+    c.camera(pos, tgt, lens=40.0, fstop=4.0, focus=(PX_ - 0.03, PY_ - 0.02, 0.095))
 
 VERSE_T = [[154.50, 154.85, 155.37], [155.88, 156.23], [156.66, 157.33], [158.32, 158.60, 158.94], [159.28, 159.62]]
 @shot(154.72, 160.42, 'S_verse')
@@ -975,7 +975,7 @@ def T2(c, t, u):
     stamps_along(S, GC, GS, 0.35 + d, 44, first=0.0)
     # camera: low at the foot of the dune, then craning up and away
     cr = ez(t, 169.0, 173.3, 0.0, 1.0, 's')
-    pos = ez(t, 164.4, 169.2, (-2.55, 1.05, 0.060), (-1.85, 1.10, 0.075), 's') if t < 169.2 else (lerp(-1.85, -1.55, cr), lerp(1.10, 0.20, cr), lerp(0.075, 0.32, cr))
+    pos = ez(t, 164.4, 169.2, (-2.60, 1.30, 0.050), (-1.80, 1.35, 0.060), 's') if t < 169.2 else (lerp(-1.80, -1.45, cr), lerp(1.35, 0.50, cr), lerp(0.060, 0.30, cr))
     tgt = ez(t, 164.4, 169.2, (-2.4, 2.1, 0.12), (p[0] + 0.05, p[1], 0.14), 's') if t < 169.2 else (p[0] + 0.1, p[1], lerp(0.14, 0.17, cr))
-    c.camera(pos, tgt, lens=34.0 if t < 169.2 else lerp(34.0, 28.0, cr), fstop=3.5, focus=(p[0], p[1], 0.13))
+    c.camera(pos, tgt, lens=46.0 if t < 169.2 else lerp(46.0, 34.0, cr), fstop=4.0, focus=(p[0], p[1], 0.13))
     show_hud(S, 'end_title', t, 173.28, 175.9, 0.28, fade=0.0001, stagger=0.06); show_hud(S, 'end_sub', t, 173.9, 175.9, 0.205, fade=0.0001, stagger=0.12)
