@@ -184,7 +184,7 @@ PLAN = plan()
 
 ENVS = {   # sky gradient top, horizon; sun energy, colour, azimuth, elevation; lamps 0..1, windows glow
     'mist': dict(top=(0.62, 0.70, 0.80), hor=(0.86, 0.88, 0.90), light=(0.85, 0.90, 1.0), ls=0.95, sun=2.6, sc=(1.0, 0.95, 0.88), az=-125, el=36, lamps=0.0, win=0.0),
-    'gold': dict(top=(0.55, 0.66, 0.80), hor=(0.98, 0.86, 0.70), light=(1.0, 0.92, 0.82), ls=0.85, sun=3.4, sc=(1.0, 0.80, 0.55), az=-125, el=18, lamps=0.0, win=0.0),
+    'gold': dict(top=(0.55, 0.66, 0.80), hor=(0.98, 0.86, 0.70), light=(0.95, 0.95, 0.95), ls=1.05, sun=3.9, sc=(1.0, 0.82, 0.60), az=-125, el=26, lamps=0.0, win=0.0),
     'day': dict(top=(0.56, 0.68, 0.82), hor=(0.82, 0.85, 0.90), light=(0.85, 0.90, 1.0), ls=0.9, sun=3.1, sc=(1.0, 0.96, 0.90), az=-125, el=40, lamps=0.0, win=0.0),
     'grey': dict(top=(0.52, 0.58, 0.64), hor=(0.74, 0.77, 0.80), light=(0.80, 0.84, 0.90), ls=1.25, sun=1.5, sc=(0.95, 0.96, 1.0), az=-110, el=48, lamps=0.0, win=0.0),
     'dusk': dict(top=(0.16, 0.20, 0.36), hor=(0.86, 0.56, 0.44), light=(0.45, 0.55, 0.95), ls=0.45, sun=1.9, sc=(1.0, 0.60, 0.34), az=-150, el=9, lamps=1.0, win=1.0),
