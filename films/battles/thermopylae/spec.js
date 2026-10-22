@@ -1,14 +1,11 @@
-// The Battle of Thermopylae (480 BC): Battle Map spec. Times come from the cue words (see films/lib/battlemap/SPEC.md).
+// The Battle of Thermopylae (August 480 BC): Battle Map v2 spec (see films/lib/battlemap/SPEC.md, the reference film films/battles/cannae/,
+// and NOTES.md here for the scene list). Times come from the cue words; the line starts never change (the sound is re-scored around them).
 // Teams: the Persians are red (team 'rome'), the Greeks are blue (team 'carthage').
-// Stages: main = the pass (x east, z south; the Persians come from the north, the sea is on the east, the cliff wall on the west);
-//         aeg  = the Aegean (hook, the squabbling cities, Athens, Salamis, Plataea);  emp = the Persian Empire, Egypt to India.
-// The ASR spelled some words oddly in cues.json: "Dianik," (Dienekes), "Effialty's" (Ephialtes), "Thespier", and "past" for "pass" (l10, l17): use prefixes.
+// Stages: main = the pass (x east, z south; the Persians come from the north, the sea is east, the cliff wall west; 1 unit about 4 m);
+//         aeg  = the Aegean (the invasion, the Greek cities, Athens, Salamis, Plataea);  emp = the Persian Empire, Egypt to India.
+// The ASR spelled some words oddly in cues.json: "Dianik," (Dienekes), "Effialty's" (Ephialtes), "Thespier", and "past" for "pass" (l10, l17).
+// Film-side glyphs `pass`, `trail`, `stele` and `lambda` live in units.js (registered in index.html).
 const PER = { team: 'rome' }, GRE = { team: 'carthage' };
-const cues = await (await fetch(new URL('./cues.json', import.meta.url))).json();
-const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
-const wordT = (line, word) => cues.lines.find((l) => l.id === line).words.find((w) => norm(w[0]).startsWith(norm(word)))[1];
-const L = (at, until, text, o = {}) => ({ at, until, text, ...o });
-const I = (at, until, icon, o = {}) => ({ at, until, icon, ...o });
 const ell = (cx, cz, rx, rz, rot = 0, n = 16) => Array.from({ length: n }, (_, i) => { const a = i / n * Math.PI * 2, c = Math.cos(rot), s = Math.sin(rot); const x = Math.cos(a) * rx * (1 + 0.1 * Math.sin(a * 3 + cx)), z = Math.sin(a) * rz * (1 + 0.1 * Math.cos(a * 2 + cz)); return [cx + x * c - z * s, cz + x * s + z * c]; });
 
 // ====================================================================================== the pass (main stage)
@@ -30,6 +27,7 @@ const passWorld = {
     { type: 'sea', poly: [...ZS.map((z, i) => [COAST[i] + 3, z]), [470, 300], [470, -300]], shelf: 26, depth: 7, beach: 5 },
     { type: 'woods', at: [-70, 196], r: [26, 12], rot: 10 }, { type: 'woods', at: [30, -240], r: [20, 10] },
     { type: 'road', path: [[-60, -280], [-34, -150], [CX, -30], [CX, 40], [-20, 130], [-70, 280]], w: 4, meander: 2 },
+    { type: 'road', path: [[-52, -196], [-118, -176], [-182, -124], [-206, -50], [-196, 30], [-150, 100], [-86, 142], [-30, 140], [-8, 128]], w: 1.2, meander: 3 },   // the hidden mountain path
     ...flats,
   ],
 };
@@ -91,522 +89,376 @@ const empWorld = {
 const EMP_SEAS = empWorld.features.filter((f) => f.type === 'sea').map((f) => f.poly);
 const PERSEPOLIS = [99, 76];
 
-// ====================================================================================== shared look of the plates
-const nightVeil = [0.035, 0.05, 0.16];
+const HIDDEN = [[-52, -196], [-118, -176], [-182, -124], [-206, -50], [-196, 30], [-150, 100], [-86, 142]];   // the hidden mountain path (Anopaea)
 
-// ---------------------------------------------------------------------------------- stage emp
+// ====================================================================================== the Persian Empire (stage emp)
 const E_POS = [[-60, -60], [-140, -20], [-200, 70], [-236, 110], [-20, -20], [30, 20], [60, 100], [140, 40], [190, -40], [250, 10], [330, -30], [360, 80], [40, -100], [200, -140]];
+const E_ORDER = E_POS.map((p, k) => [p[0], k]).sort((a, b) => a[0] - b[0]).map((q) => q[1]);   // west to east: Egypt first, India last
 const emp = {
   world: empWorld,
-  blocks: Object.fromEntries(E_POS.map((p, k) => [`E${k}`, { ...PER, kind: 'infantry', x: p[0], z: p[1], heading: 90, len: 36, dep: 15, height: 6, hidden: true, bannerScale: 2.2 }])),
-  moves: [{ blocks: E_POS.map((_, k) => `E${k}`), at: 'l02.Still,', dur: 0.6, stagger: 0.14, appear: true, appearFrom: 30 }],
-  regions: [{ at: 'l02.Xerxes,', until: 'l02>', poly: EMP_REGION, holes: EMP_SEAS, color: [0.80, 0.12, 0.12], alpha: 0.36, step: 16, fadeIn: 0.5, fadeOut: 0.7, sweep: { at: 'l02.empire', until: 'l02.India.>' } }],
-  arrows: [],
+  ambient: { wind: [1, 0.3], gusts: 0, flow: { dir: [1, 0.2], speed: 0.5, glint: 1.1 }, birds: [{ center: [-280, 0], r: 30, h: 18, n: 5, speed: 5, size: 1.0 }] },
+  blocks: Object.fromEntries(E_POS.map((p, k) => [`E${k}`, { ...PER, kind: 'infantry', x: p[0], z: p[1], heading: 270, len: 36, dep: 15, hidden: true, bannerScale: 2.0, figScale: 1.5 }])),
+  moves: E_ORDER.map((k, i) => ({ block: `E${k}`, at: `l02.empire+${(i * 0.13).toFixed(2)}`, dur: 0.8, appear: true })),
   labels: [
-    L('l02.Xerxes,', 'l02.King', 'XERXES', { pos: PERSEPOLIS, y: 14, team: 'rome', dy: -0.22, dx: -0.12, big: true }),
-    L('l02.King', 'l02.His', 'KING OF KINGS OF PERSIA', { pos: PERSEPOLIS, y: 14, team: 'rome', dy: -0.22, dx: -0.12 }),
-    L('l02.Egypt', 'l02.Ancient', 'EGYPT', { pos: [-236, 90], y: 6, dy: -0.2, dx: 0.0, big: true, team: 'rome' }),
-    L('l02.India.', 'l02.Ancient', 'INDIA', { pos: [388, 40], y: 6, dy: -0.2, dx: 0.0, big: true, team: 'rome' }),
-    L(17.6, 'l02.Xerxes,', 'GREECE', { pos: [-392, -72], y: 4, leader: false, size: 0.8, team: 'carthage' }),
-    L(17.8, 'l02.Egypt', 'MEDITERRANEAN SEA', { pos: [-330, 10], y: 2, leader: false, size: 0.7 }),
-    L(17.8, 'l02.Egypt', 'BLACK SEA', { pos: [-190, -190], y: 2, leader: false, size: 0.7 }),
-    L(17.8, 'l02.Egypt', 'CASPIAN SEA', { pos: [66, -150], y: 2, leader: false, size: 0.7 }),
-    L('l02.Ancient', 'l02.Modern', 'THE PERSIAN EMPIRE', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    L('l02.Still,', 'l02>', 'STILL: A LOT.', { screen: [0.5, 0.14], big: true, size: 1.25, team: 'rome' }),
+    { at: 'l02', until: 'l02.Egypt', text: 'GREECE', pos: [-392, -72], y: 4, leader: false, rule: false, team: 'carthage' },
+    { at: 'l02', until: 'l02.Egypt', text: 'MEDITERRANEAN SEA', pos: [-330, 10], y: 2, leader: false, rule: false },
+    { at: 'l02.Xerxes,', until: 'l02.His', text: 'XERXES', pos: PERSEPOLIS, y: 6, team: 'rome', dx: -0.1, dy: -0.14 },
+    { at: 'l02.Egypt', until: 'l02.Ancient', text: 'EGYPT', pos: [-236, 90], y: 6, team: 'rome', dx: 0.04, dy: -0.12 },
+    { at: 'l02.India.', until: 'l02.Ancient', text: 'INDIA', pos: [388, 40], y: 6, team: 'rome', dx: -0.06, dy: -0.12 },
   ],
-  icons: [
-    I('l02.Xerxes,', 'l02.His', 'crown', { pos: PERSEPOLIS, y: 4, size: 38, anim: 'bounce' }),
-    I('l02.Kings', 'l02.His', 'crown', { pos: [PERSEPOLIS[0] - 30, PERSEPOLIS[1] + 10], y: 4, size: 30, anim: 'bounce' }),
-    I('l02.Persia.', 'l02.His', 'crown', { pos: [PERSEPOLIS[0] + 30, PERSEPOLIS[1] + 10], y: 4, size: 30, anim: 'bounce' }),
-    I('l02.Modern', 'l02.Still,', 'book', { screen: [0.17, 0.62], size: 0.17, anim: 'bounce' }),
-    I('l02.Ancient', 'l02.Modern', 'book', { screen: [0.17, 0.62], size: 0.17, anim: 'sway' }),
+  counters: [
+    { at: 'l02.million', until: 'l02.Modern', screen: [0.6, 0.84], team: 'rome', from: 0, to: 1000000, countDur: 0.9, step: 10000, suffix: 'ANCIENT WRITERS' },
+    { at: 'l02.Modern', until: 'l03', screen: [0.6, 0.84], team: 'rome', from: 1000000, to: 100000, countDur: 1.8, step: 10000, suffix: 'MODERN ESTIMATE, OR MORE' },
   ],
-  nums: [
-    { at: 'l02.million', until: 'l02.Modern', screen: [0.5, 0.95], keys: [['l02.million', 0], ['l02.strong.', 2000000]], plusAt: 'l02.strong.', tag: 'ANCIENT WRITERS SAID', suffix: 'SOLDIERS', col: [0.40, 0.05, 0.06], step: 100000 },
-    { at: 'l02.Modern', until: 'l02>', screen: [0.5, 0.95], keys: [['l02.Modern', 2000000], ['l02.100', 100000]], plusAt: 'l02.or', tag: 'MODERN HISTORIANS THINK', suffix: 'SOLDIERS', col: [0.06, 0.15, 0.42], step: 100000 },
-  ],
-  camera: [
-    { at: 17.4, target: [10, 0], width: 1000, pitch: 66, yaw: 0, mm: 35 },
-    { at: 'l02.Xerxes,', target: [70, 20], width: 700, pitch: 62, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.His', target: [60, 10], width: 900, pitch: 66, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.Egypt', target: [30, 20], width: 1000, pitch: 68, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.Ancient', target: [40, 10], width: 1000, pitch: 68, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.Still,', target: [40, 10], width: 880, pitch: 62, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 34.4, target: [40, 10], width: 840, pitch: 60, yaw: 0, mm: 35, ease: 'linear' },
-  ],
+  markers: [{ id: 'persepolis', at: 'l02.Xerxes,', until: 'l03', pos: PERSEPOLIS, glyph: 'town', team: [0.74, 0.12, 0.12], label: false, size: 0.055 }],
 };
 
-// ---------------------------------------------------------------------------------- stage aeg
+// ====================================================================================== the Aegean (stage aeg)
 const A_N = 16;
 const A_ID = Array.from({ length: A_N }, (_, k) => `A${k}`);
 const aStart = (k) => [100 + (k % 4) * 15, -92 + Math.floor(k / 4) * 14];
 const aEnd = (k) => [-88 + ((k % 2) * 2 - 1) * 7, -62 - Math.floor(k / 2) * 9];
-const aMove = (k, t0, dur, pts) => ({ block: `A${k}`, at: t0, dur, path: pts(k), smooth: true });
-const aegBlocks = {
-  ...Object.fromEntries(A_ID.map((id, k) => [id, { ...PER, kind: 'infantry', x: aStart(k)[0], z: aStart(k)[1], heading: 270, len: 14, dep: 7, height: 4, hidden: true, bannerScale: 1.2 }])),
-  G: { ...GRE, kind: 'infantry', x: THERMO[0], z: THERMO[1], heading: 0, len: 9, dep: 5, height: 4, hidden: true, bannerScale: 1.2 },
-  plR: { ...PER, kind: 'infantry', x: -46, z: -22, heading: 180, len: 22, dep: 9, height: 4, hidden: true, bannerScale: 1.4 },
-  plG: { ...GRE, kind: 'infantry', x: -50, z: 28, heading: 0, len: 22, dep: 9, height: 4, hidden: true, bannerScale: 1.4 },
-};
+const aMove = (k, t0, dur, pts) => ({ block: `A${k}`, at: t0, dur, path: pts(k), ease: 'inOut' });
 const cityLine = (a, b, bend = 5) => { const [x0, z0] = a, [x1, z1] = b; const mx = (x0 + x1) / 2, mz = (z0 + z1) / 2; const dx = x1 - x0, dz = z1 - z0; const l = Math.hypot(dx, dz) || 1; return [a, [mx - dz / l * bend, mz + dx / l * bend], b]; };
 const shrink = (a, b, k = 0.2) => [[a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k], [b[0] - (b[0] - a[0]) * k, b[1] - (b[1] - a[1]) * k]];
 const PAIRS = [['athens', 'sparta'], ['corinth', 'tegea'], ['athens', 'corinth'], ['sparta', 'tegea']];
-const squab = [];
-PAIRS.forEach(([a, b], i) => { const [p, q] = shrink(AEG_CITIES[a], AEG_CITIES[b], 0.16);
-  squab.push({ at: `l03.fighting+${0.0 + i * 0.12}`, dur: 0.5, ease: 'out', team: 'ink', width: 1.5, path: cityLine(p, q, 4), lift: 3, hide: 'l03.This', head: true });
-  squab.push({ at: `l03.fighting+${0.2 + i * 0.12}`, dur: 0.5, ease: 'out', team: 'ink', width: 1.5, path: cityLine(q, p, 4), lift: 3, hide: 'l03.This', head: true }); });
-const teamUp = Object.entries(AEG_CITIES).map(([name, p], i) => ({ at: `l03.teamed+${i * 0.1}`, dur: 0.9, ease: 'inOut', team: 'carthage', width: 2.2, path: [p, [(p[0] + THERMO[0]) / 2 + (i % 2 ? 6 : -6), (p[1] + THERMO[1]) / 2], THERMO], lift: 4, hide: 'l04' }));
+const squab = [];   // rivals: thin ink arrows both ways between the cities
+PAIRS.forEach(([a, b], i) => { const [p, q] = shrink(AEG_CITIES[a], AEG_CITIES[b], 0.18);
+  squab.push({ at: `l03.fighting+${(i * 0.15).toFixed(2)}`, dur: 0.7, ease: 'out', team: 'ink', width: 1.3, path: cityLine(p, q, 4), lift: 3, hide: 'l03.This', head: true });
+  squab.push({ at: `l03.fighting+${(0.3 + i * 0.15).toFixed(2)}`, dur: 0.7, ease: 'out', team: 'ink', width: 1.3, path: cityLine(q, p, 4), lift: 3, hide: 'l03.This', head: true }); });
+const teamUp = Object.entries(AEG_CITIES).map(([name, p], i) => ({ at: `l03.teamed+${(i * 0.12).toFixed(2)}`, dur: 1.2, ease: 'cam', team: 'carthage', width: 2.2, path: [p, [(p[0] + THERMO[0]) / 2 + (i % 2 ? 6 : -6), (p[1] + THERMO[1]) / 2], THERMO], lift: 4, hide: 'l04' }));
+const SAL_P = [[-26, 8], [-18, 16], [-28, 26], [-12, 26], [-32, 0], [-10, 6]];   // the Persian galleys in the straits
 
 const aeg = {
   world: aegWorld,
-  blocks: aegBlocks,
+  ambient: { wind: [1, 0.3], gusts: 0.2, flow: { dir: [0.6, 0.6], speed: 0.6, glint: 1.2 },
+    birds: [{ center: [-40, 40], r: 24, h: 14, n: 5, speed: 5, size: 0.9 }, { center: [60, -60], r: 30, h: 18, n: 5, speed: 6, dir: -1, size: 0.9 }],
+    smoke: [{ pos: AEG_CITIES.athens, n: 8, alpha: 0.28, height: 9, at: 'l15.burned' }, { pos: [AEG_CITIES.athens[0] + 4, AEG_CITIES.athens[1] + 3], n: 6, alpha: 0.22, height: 7, at: 'l15.burned+0.4' }] },
+  blocks: {
+    ...Object.fromEntries(A_ID.map((id, k) => [id, { ...PER, kind: 'infantry', x: aStart(k)[0], z: aStart(k)[1], heading: 270, len: 14, dep: 7, hidden: true, bannerScale: 1.2, figScale: 1.4 }])),
+    G: { ...GRE, kind: 'elite', x: THERMO[0], z: THERMO[1], heading: 0, len: 9, dep: 5, hidden: true, bannerScale: 1.3, figScale: 1.4 },
+    plR: { ...PER, kind: 'infantry', x: -46, z: -22, heading: 180, len: 22, dep: 9, hidden: true, bannerScale: 1.4, figScale: 1.4 },
+    plG: { ...GRE, kind: 'elite', x: -50, z: 28, heading: 0, len: 22, dep: 9, hidden: true, bannerScale: 1.4, figScale: 1.4 },
+  },
   moves: [
-    // hook: the huge Persian army floods across the Hellespont into Greece; a tiny Greek block waits at the pass
-    { blocks: A_ID, at: 'l00.biggest', dur: 0.6, stagger: 0.13, appear: true, appearFrom: 26 },
-    ...A_ID.map((_, k) => aMove(k, `l00.marched+${k * 0.11}`, 3.4, () => [[76, -104], [40, -126], [-10, -122], [-56, -104], [-76, -82], aEnd(k)])),
-    { block: 'G', at: 'l00.few', dur: 0.7, appear: true, appearFrom: 20 },
-    { block: 'G', at: 'l00.stop', dur: 0.5, to: { scale: 1.3 }, ease: 'out' }, { block: 'G', at: 'l00.stop+0.5', dur: 0.5, to: { scale: 1 }, ease: 'inOut' },
-    { blocks: [...A_ID, 'G'], at: 12.4, dur: 0.5, vanish: true },
-    // the army comes back to march south to Athens (l15)
-    { blocks: A_ID, at: 'l15.marched-0.6', dur: 0.5, stagger: 0.04, appear: true, appearFrom: 14 },
-    ...A_ID.map((_, k) => aMove(k, `l15.marched+${k * 0.06}`, 2.6, () => { const e = aEnd(k); return [e, [-72, -40], [-58, -14], [-40, 2], [-26 + (k % 4) * 3, 8 + Math.floor(k / 4) * 2]]; })),
-    { blocks: A_ID, at: 'l16.those', dur: 0.8, vanish: true },
-    // Plataea, the next year
-    { block: 'plR', at: 'l16.In', dur: 0.7, appear: true, appearFrom: 18 }, { block: 'plG', at: 'l16.In', dur: 0.7, appear: true, appearFrom: 18 },
-    { block: 'plG', at: 'l16.beaten', dur: 1.0, to: { z: -2 }, ease: 'inOut' },
-    { block: 'plR', at: 'l16.beaten', dur: 1.4, to: { z: -70 }, ease: 'in' }, { block: 'plR', at: 'l16.beaten', dur: 1.4, to: { alpha: 0.12 }, ease: 'in' },
+    // S1: the army crosses from Asia and floods into Greece; a few thousand Greeks wait at the gap
+    { blocks: A_ID, at: 'l00.biggest', dur: 0.8, stagger: 0.12, appear: true },
+    ...A_ID.map((_, k) => aMove(k, `l00.marched+${(k * 0.11).toFixed(2)}`, 4.0, () => [aStart(k), [76, -104], [40, -126], [-10, -122], [-56, -104], [-76, -82], aEnd(k)])),
+    { block: 'G', at: 'l00.few', dur: 0.8, appear: true },
+    // S8: the army marches south to Athens; Salamis; Plataea
+    { blocks: A_ID, at: 'l02', dur: 0.3, vanish: true }, { block: 'G', at: 'l04', dur: 0.3, vanish: true },   // offscreen between the scenes on this map
+    { blocks: A_ID, at: 'l15.They+0.1', dur: 0.8, stagger: 0.04, appear: true },
+    ...A_ID.map((_, k) => aMove(k, `l15.marched+${(k * 0.06).toFixed(2)}`, 2.8, () => { const e = aEnd(k); return [e, [-72, -40], [-58, -14], [-40, 2], [-26 + (k % 4) * 3, 8 + Math.floor(k / 4) * 2]]; })),
+    { blocks: A_ID, at: 'l16', dur: 0.8, vanish: true },
+    { blocks: ['plR', 'plG'], at: 'l16.In', dur: 0.8, appear: true },
+    { block: 'plG', at: 'l16.beaten', dur: 1.2, to: { z: -2 }, ease: 'inOut' },
+    { block: 'plR', at: 'l16.beaten', dur: 1.6, to: { z: -60 }, ease: 'in' }, { block: 'plR', at: 'l16.beaten', dur: 1.6, fadeTo: 1, alphaTo: 0.5 },
   ],
   arrows: [
-    { at: 'l00.marched', until: 'l00.and', ease: 'inOut', team: 'rome', style: 'dash', width: 3.0, path: [[76, -104], [40, -126], [-10, -122], [-56, -104], [-76, -82], [-86, -58]], lift: 4, head: true, hide: 'l00.few' },
+    { at: 'l00.marched', until: 'l00.and', ease: 'cam', team: 'rome', style: 'dash', width: 2.6, path: [[76, -104], [40, -126], [-10, -122], [-56, -104], [-76, -82], [-86, -58]], lift: 4, head: true, hide: 'l00.few' },
     ...squab, ...teamUp,
-    { at: 'l15.marched', until: 'l15.Athens', ease: 'inOut', team: 'rome', style: 'dash', width: 2.8, path: [[-84, -58], [-72, -40], [-58, -14], [-40, 2], [-22, 12]], lift: 4, head: true, hide: 'l15.Which' },
-    { id: 'blueship1', at: 'l16.smashed', dur: 1.2, ease: 'out', team: 'carthage', width: 1.6, path: [[-52, 26], [-40, 20], [-28, 14]], lift: 3, hide: 'l16.the' },
-    { id: 'blueship2', at: 'l16.smashed+0.15', dur: 1.2, ease: 'out', team: 'carthage', width: 1.6, path: [[-50, 14], [-38, 12], [-26, 8]], lift: 3, hide: 'l16.the' },
-    { id: 'blueship3', at: 'l16.smashed+0.3', dur: 1.2, ease: 'out', team: 'carthage', width: 1.6, path: [[-50, 34], [-38, 28], [-24, 22]], lift: 3, hide: 'l16.the' },
-    { at: 'l16.beaten', dur: 1.2, ease: 'out', team: 'rome', style: 'dash', width: 2.2, path: [[-46, -16], [-46, -40], [-44, -64]], lift: 4, head: true, hide: 'l17' },
-    { at: 'l16.beaten', dur: 1.0, ease: 'out', team: 'carthage', width: 2.4, path: [[-50, 20], [-50, 4]], lift: 4, head: true, hide: 'l17' },
+    { at: 'l15.marched', until: 'l15.Athens.', ease: 'cam', team: 'rome', style: 'dash', width: 2.4, path: [[-84, -58], [-72, -40], [-58, -14], [-40, 2], [-22, 12]], lift: 4, head: true, hide: 'l16' },
+    { id: 'gship1', at: 'l16.Navy', dur: 1.6, ease: 'cam', team: 'carthage', width: 1.4, path: [[-52, 26], [-40, 20], [-30, 14]], lift: 3, hide: 'l16.In' },
+    { id: 'gship2', at: 'l16.Navy+0.15', dur: 1.6, ease: 'cam', team: 'carthage', width: 1.4, path: [[-50, 14], [-38, 12], [-28, 8]], lift: 3, hide: 'l16.In' },
+    { id: 'gship3', at: 'l16.Navy+0.3', dur: 1.6, ease: 'cam', team: 'carthage', width: 1.4, path: [[-50, 36], [-38, 30], [-26, 24]], lift: 3, hide: 'l16.In' },
+    { at: 'l16.beaten', dur: 1.2, ease: 'out', team: 'carthage', width: 2.4, path: [[-50, 20], [-50, 4]], lift: 4, head: true, hide: 'l17' },
   ],
   labels: [
-    // ---- hook
-    { at: 'l00.480', until: 'l00.the', text: '480 BC', screen: [0.5, 0.16], style: 'text', big: true, size: 1.9, track: 0.16, weight: 800 },
-    L('l00.biggest', 'l00.marched', 'THE BIGGEST ARMY EVER SEEN', { block: 'A5', team: 'rome', dy: -0.17, big: true }),
-    L('l00.marched', 'l00.and', 'MARCHING INTO GREECE', { pos: [-20, -118], y: 4, team: 'rome', dy: -0.12, big: true }),
-    L('l00.few', 'l00.stop', 'A FEW THOUSAND GREEKS', { block: 'G', team: 'carthage', dy: -0.2, big: true }),
-    L('l00.stop', 'l00.at', 'STOP THEM!', { block: 'G', team: 'carthage', dy: -0.2, big: true }),
-    L('l00.gap', 12.9, 'A GAP IN THE MOUNTAINS', { block: 'G', team: 'carthage', dy: -0.22, big: true }),
-    L('l00.marched', 'l00.and', 'GREECE', { pos: [-110, -10], y: 4, leader: false, size: 1.2 }),
-    L('l00.biggest', 'l00.marched', 'PERSIA', { pos: [150, -40], y: 4, leader: false, size: 1.2, team: 'rome' }),
-    // ---- the cities
-    L('l03.Greek', 'l03.were', 'THE GREEK CITIES', { screen: [0.5, 0.1], big: true, team: 'carthage' }),
-    L('l03.fighting', 'l03.This', 'FIGHTING EACH OTHER', { screen: [0.5, 0.1], big: true, team: 'ink' }),
-    L('l03.teamed', 'l04', 'SOME TEAMED UP', { screen: [0.5, 0.1], big: true, team: 'carthage' }),
-    L('l03.Greek', 'l04', 'ATHENS', { pos: AEG_CITIES.athens, y: 10, dy: -0.12, dx: 0.1, size: 0.85 }),
-    L('l03.Greek+0.1', 'l04', 'CORINTH', { pos: AEG_CITIES.corinth, y: 10, dy: -0.12, dx: 0.12, size: 0.85 }),
-    L('l03.Greek+0.2', 'l04', 'SPARTA', { pos: AEG_CITIES.sparta, y: 10, dy: -0.1, dx: 0.1, size: 0.85 }),
-    L('l03.Greek+0.3', 'l04', 'TEGEA', { pos: AEG_CITIES.tegea, y: 10, dy: -0.1, dx: -0.1, size: 0.85 }),
-    L('l03.teamed', 'l04', 'THERMOPYLAE', { pos: THERMO, y: 6, dy: -0.15, dx: -0.12, size: 0.85, team: 'carthage' }),
-    // ---- Athens burns, Salamis, Plataea
-    L('l15.marched', 'l15.burned', 'MARCHING SOUTH', { pos: [-50, -6], y: 4, team: 'rome', dy: -0.14, dx: -0.2, big: true }),
-    L('l15.burned', 'l15.Which', 'ATHENS BURNS', { pos: AEG_CITIES.athens, y: 10, team: 'rome', dy: -0.2, dx: 0.12, big: true }),
-    L('l15.end', 'l16', 'THE END?', { screen: [0.5, 0.1], big: true, size: 1.4 }),
-    L('l16.those', 'l16.A', 'THOSE DAYS BOUGHT TIME', { screen: [0.5, 0.1], big: true, team: 'carthage' }),
-    L('l16.A', 'l16.the#1', 'A FEW WEEKS LATER', { screen: [0.5, 0.1], big: true }),
-    L('l16.Greek', 'l16.smashed', 'GREEK NAVY', { pos: [-46, 26], y: 8, team: 'carthage', dy: -0.18, dx: -0.14, big: true }),
-    L('l16.smashed', 'l16.In', 'SALAMIS: THE PERSIAN FLEET IS SMASHED', { screen: [0.5, 0.1], big: true, size: 0.85, team: 'carthage' }),
-    L('l16.In', 'l16.the#4', 'THE NEXT YEAR', { screen: [0.5, 0.1], big: true }),
-    L('l16.the#4', 'l17', 'PLATAEA, 479 BC', { pos: [-48, 4], y: 8, dy: -0.2, dx: 0.14, big: true }),
-    L('l16.beaten', 'l16.for', 'PERSIANS BEATEN ON LAND', { screen: [0.5, 0.1], big: true, team: 'carthage' }),
-    L('l16.for', 'l17', 'FOR GOOD', { screen: [0.5, 0.1], big: true, size: 1.5, team: 'carthage' }),
+    { at: 'l00.480', until: 'l00.the', text: '480 BC', screen: [0.5, 0.86], big: true },
+    { at: 'l00.biggest', until: 'l00.and', text: 'PERSIA', pos: [150, -40], y: 4, leader: false, rule: false, team: 'rome' },
+    { at: 'l00.marched', until: 'l00.few', text: 'GREECE', pos: [-110, -10], y: 4, leader: false, rule: false, team: 'carthage' },
+    { at: 'l00.gap', until: 12.9, text: 'THERMOPYLAE', pos: THERMO, y: 4, team: 'carthage', dx: -0.1, dy: -0.12 },
+    { at: 'l03.Greek', until: 'l04', text: 'ATHENS', pos: AEG_CITIES.athens, y: 6, dx: 0.08, dy: -0.1 },
+    { at: 'l03.Greek+0.1', until: 'l04', text: 'CORINTH', pos: AEG_CITIES.corinth, y: 6, dx: 0.1, dy: -0.1 },
+    { at: 'l03.Greek+0.2', until: 'l04', text: 'SPARTA', pos: AEG_CITIES.sparta, y: 6, dx: 0.08, dy: 0.1 },
+    { at: 'l03.Greek+0.3', until: 'l04', text: 'TEGEA', pos: AEG_CITIES.tegea, y: 6, dx: -0.1, dy: -0.1 },
+    { at: 'l03.teamed', until: 'l04', text: 'THERMOPYLAE', pos: THERMO, y: 6, team: 'carthage', dx: 0.1, dy: -0.1 },
+    { at: 'l15.burned', until: 'l16', text: 'ATHENS', pos: AEG_CITIES.athens, y: 6, team: 'rome', dx: 0.1, dy: -0.12 },
+    { at: 'l16.Salamis.', until: 'l16.In', text: 'SALAMIS', pos: [-38, 16], y: 2, team: 'carthage', dx: -0.12, dy: -0.12 },
+    { at: 'l16.In', until: 'l17', text: 'PLATAEA, 479 BC', pos: [-48, 4], y: 6, team: 'carthage', dx: 0.12, dy: -0.14 },
   ],
   icons: [
-    I('l00.few', 'l00.at', 'helmet', { block: 'G', team: 'carthage', size: 14, dy: -0.03, anim: 'bounce' }),
-    I('l00.gap', 12.9, 'peak', { pos: [-98, -34], y: 6, size: 16, anim: 'none' }),
-    I('l00.gap+0.2', 12.9, 'wave', { pos: [-60, -36], y: 3, size: 10, anim: 'none' }),
-    I('l00.480', 'l00.the', 'laurel', { screen: [0.5, 0.33], size: 0.14, anim: 'bounce' }),
-    ...Object.entries(AEG_CITIES).map(([name, p], i) => I(`l03.Greek+${0.1 * i}`, 'l03.teamed', 'city', { pos: p, y: 2, size: 20, anim: 'bounce', team: 'neutral' })),
-    ...Object.entries(AEG_CITIES).map(([name, p], i) => I(`l03.teamed+${0.1 * i}`, 'l04', 'city', { pos: p, y: 2, size: 20, anim: 'bounce', team: 'carthage' })),
-    I('l03.fighting', 'l03.This', 'swords', { pos: [(AEG_CITIES.athens[0] + AEG_CITIES.sparta[0]) / 2, (AEG_CITIES.athens[1] + AEG_CITIES.sparta[1]) / 2], y: 6, size: 12 }),
-    I('l03.fighting+0.2', 'l03.This', 'swords', { pos: [(AEG_CITIES.corinth[0] + AEG_CITIES.tegea[0]) / 2, (AEG_CITIES.corinth[1] + AEG_CITIES.tegea[1]) / 2], y: 6, size: 12 }),
-    I('l03.teamed', 'l04', 'flag', { pos: THERMO, y: 6, size: 14, team: 'carthage' }),
-    I('l15.burned', 'l16.But', 'burn', { pos: [AEG_CITIES.athens[0] - 6, AEG_CITIES.athens[1]], y: 6, size: 24 }),
-    I('l15.burned+0.2', 'l16.But', 'burn', { pos: [AEG_CITIES.athens[0] + 6, AEG_CITIES.athens[1] + 2], y: 6, size: 20 }),
-    I('l15.burned+0.4', 'l16.But', 'burn', { pos: [AEG_CITIES.athens[0], AEG_CITIES.athens[1] - 4], y: 6, size: 18 }),
-    I('l15.end', 'l16', 'question', { screen: [0.5, 0.6], size: 0.3, anim: 'bounce' }),
-    I('l16.those', 'l16.A', 'hourglass', { screen: [0.5, 0.58], size: 0.3, anim: 'bounce' }),
-    ...[[-46, 20], [-40, 28], [-52, 32], [-58, 24]].map((p, i) => I(`l16.Greek+${0.08 * i}`, 'l16.In', 'ship', { pos: p, y: 2, size: 8, team: 'carthage', anim: 'bounce' })),
-    ...[[-26, 8], [-18, 16], [-28, 26], [-12, 26], [-32, 0], [-10, 6]].map((p, i) => I(`l16.weeks+${0.1 * i}`, 'l16.In', 'ship', { pos: p, y: 2, size: 8, team: 'rome', anim: 'none', fallAt: `l16.smashed+${0.25 + 0.2 * i}`, fallDur: 0.8 })),
-    ...[[-30, 14], [-22, 22], [-20, 6], [-28, 24]].map((p, i) => I(`l16.smashed+${0.3 + 0.15 * i}`, 'l16.In', 'burst', { pos: p, y: 8, size: 10, anim: 'bounce' })),
-    I('l16.beaten', 'l17', 'laurel', { pos: [-50, 12], y: 8, size: 20, anim: 'bounce' }),
+    ...['gship1', 'gship2', 'gship3'].map((id) => ({ follow: id, at: 'l16.Navy', until: 'l16.In', icon: 'galley', team: 'carthage', size: 8, minPx: 0.06, maxPx: 0.075 })),
+    ...SAL_P.map((p, i) => ({ at: 'l16.A', until: 'l16.In', icon: 'galley', team: 'rome', pos: p, y: 1, size: 8, minPx: 0.06, maxPx: 0.075, flip: true, fallAt: `l16.smashed+${(0.2 + 0.22 * i).toFixed(2)}`, fallDur: 0.9 })),
   ],
-  camera: [
-    { at: 0, target: [70, -64], width: 400, pitch: 52, yaw: 6, mm: 35 },
-    { at: 'l00.biggest', target: [100, -70], width: 250, pitch: 48, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l00.marched', target: [14, -84], width: 360, pitch: 52, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l00.and', target: [-50, -62], width: 260, pitch: 50, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l00.stop', target: [-80, -46], width: 160, pitch: 48, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l00.gap', target: [-82, -36], width: 100, pitch: 44, yaw: 8, mm: 35, ease: 'inOut' },
-    { at: 12.9, target: [-82, -36], width: 90, pitch: 42, yaw: 14, mm: 35, ease: 'linear' },
-    { at: 34.0, target: [-60, 8], width: 330, pitch: 60, yaw: 0, mm: 35, cut: true },
-    { at: 'l03.Greek', target: [-58, 10], width: 270, pitch: 58, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l03.teamed', target: [-62, -2], width: 250, pitch: 56, yaw: 4, mm: 35, ease: 'inOut' },
-    { at: 'l04', target: [-70, -12], width: 230, pitch: 54, yaw: 8, mm: 35, ease: 'inOut' },
-    { at: 133.7, target: [-70, -22], width: 230, pitch: 52, yaw: 6, mm: 35, cut: true },
-    { at: 'l15.marched', target: [-56, -12], width: 210, pitch: 52, yaw: 4, mm: 35, ease: 'inOut' },
-    { at: 'l15.burned', target: [-34, 10], width: 150, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l15.Which', target: [-40, 4], width: 200, pitch: 52, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l16.A', target: [-40, 14], width: 150, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l16.Greek', target: [-34, 16], width: 200, pitch: 46, yaw: -10, mm: 35, ease: 'inOut' },
-    { at: 'l16.smashed', target: [-32, 14], width: 170, pitch: 44, yaw: 12, mm: 35, ease: 'inOut' },
-    { at: 'l16.In', target: [-46, 4], width: 150, pitch: 50, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l16.beaten', target: [-48, -18], width: 140, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 150.2, target: [-48, -20], width: 150, pitch: 48, yaw: 0, mm: 35, ease: 'linear' },
-  ],
+  markers: Object.entries(AEG_CITIES).map(([id, p], i) => ({ id, at: `l03.Greek+${(0.1 * i).toFixed(1)}`, until: 'l04', pos: p, glyph: 'town', team: [0.15, 0.33, 0.74], label: false, size: 0.045 })),
 };
 
-// ====================================================================================== the pass: blocks and choreography
-const PX = [-75, -45, -15, 15, 45, 75];
-const P_ID = [...PX.map((_, i) => `P${i}`), ...PX.map((_, i) => `P${6 + i}`)];
-const pBlocks = Object.fromEntries(P_ID.map((id, k) => [id, { ...PER, kind: 'infantry', x: PX[k % 6], z: k < 6 ? -216 : -198, heading: 180, len: 22, dep: 9, height: 4, hidden: true, bannerScale: 1.0 }]));
-const Q_ID = ['Q0', 'Q1', 'Q2', 'Q3'];
-const SLOT = [24, 35, 46]; // the shield wall: three blocks take turns at the front
-const HIT = 14.6;          // z where a Persian block meets the front of the wall
-const wave = (id, t, jit = 0) => [
-  { block: id, at: t, dur: 3.3, to: { z: HIT }, ease: 'inQuad' }, { block: id, at: t, dur: 3.3, to: { x: CX + jit }, ease: 'inOut' },
-  { block: id, at: t + 3.3, dur: 0.5, to: { z: -34 }, ease: 'out' }, { block: id, at: t + 3.3, dur: 0.18, to: { lift: 2 }, ease: 'out' }, { block: id, at: t + 3.48, dur: 0.3, to: { lift: 0 }, ease: 'in' },
-  { block: id, at: t + 3.8, dur: 0.7, vanish: true },
+// ====================================================================================== the pass: the armies
+const SLOT = [24, 35, 46];   // the shield wall, three blocks deep, at the narrowest point
+const HIT = 14;              // where a Persian block's centre stops when its front meets the wall
+const D_ID = ['D0', 'D1', 'D2', 'D3'], D_X = [-66, -22, 22, 66];
+// one wave: it forms up in the road, marches into the wall, presses, thins, and melts away as the next one arrives
+const wave = (id, arrive, jit) => [
+  { block: id, at: arrive - 3.6, dur: 0.6, appear: true },
+  { block: id, at: arrive - 3.0, dur: 3.0, to: { z: HIT, x: CX + jit }, ease: 'inQuad' },
+  { block: id, at: arrive, dur: 1.4, fadeTo: 1, alphaTo: 0.5 },
+  { block: id, at: arrive + 1.4, dur: 0.8, vanish: true },
 ];
-const waveAt = (id, line, word, add, jit) => wave(id, wordT(line, word) + add, jit);
-const WAVE_JIT = [-6, 6, -2, 4, -5, 2, -4, 5, 0, 6, -6, 3];
-// the shield wall rotates: front -> back, the others step forward
-const rot = (t, who) => { const [a, b, c] = who; // a is at the front now, b second, c third
-  return [
-    { block: a, at: t, dur: 0.35, to: { x: CX + 10 }, ease: 'inOut' }, { block: a, at: t + 0.3, dur: 0.7, to: { z: SLOT[2] }, ease: 'inOut' }, { block: a, at: t + 0.95, dur: 0.35, to: { x: CX }, ease: 'inOut' },
-    { block: b, at: t + 0.25, dur: 0.8, to: { z: SLOT[0] }, ease: 'inOut' }, { block: c, at: t + 0.25, dur: 0.8, to: { z: SLOT[1] }, ease: 'inOut' }];
-};
-const T_ROT1 = wordT('l08', 'took') + 0.05;
+// the shield wall takes turns at the front: the front block steps into the west lane and back, the others come up the east lane
+const rot = (t, [front, mid, back]) => [
+  { block: front, at: t, dur: 0.5, to: { x: CX - 6.5, len: 10 }, ease: 'inOut' }, { blocks: [mid, back], at: t, dur: 0.5, to: { x: CX + 5.5, len: 10 }, ease: 'inOut' },
+  { block: front, at: t + 0.55, dur: 1.0, to: { z: SLOT[2] }, ease: 'inOut' }, { block: mid, at: t + 0.55, dur: 1.0, to: { z: SLOT[0] }, ease: 'inOut' }, { block: back, at: t + 0.55, dur: 1.0, to: { z: SLOT[1] }, ease: 'inOut' },
+  { blocks: [front, mid, back], at: t + 1.6, dur: 0.5, to: { x: CX, len: 22 }, ease: 'inOut' },
+];
 
-const main = {
+const blocks = {
+  // the Persians
+  ...Object.fromEntries(D_ID.map((id, k) => [id, { ...PER, kind: 'infantry', x: -60 + k * 40, z: -150, heading: 180, len: 36, dep: 12, hidden: true }])),
+  horde: { ...PER, kind: 'infantry', x: CX, z: -250, heading: 180, len: 220, dep: 30, grid: { cols: 9, ranks: 2, gap: 3 }, hidden: true },
+  xerxes: { ...PER, kind: 'elite', x: -60, z: -112, heading: 160, len: 6, dep: 4, hidden: true, bannerScale: 1.4 },
+  arch: { ...PER, kind: 'archers', x: CX, z: -70, heading: 180, len: 34, dep: 10, hidden: true },
+  ...Object.fromEntries(['P0', 'P1', 'P2', 'P3', 'P4'].map((id) => [id, { ...PER, kind: 'infantry', x: CX, z: -116, heading: 180, len: 22, dep: 9, hidden: true }])),
+  imm: { ...PER, kind: 'elite', x: CX, z: -100, heading: 180, len: 22, dep: 10, hidden: true, bannerScale: 1.3 },
+  imm2: { ...PER, kind: 'elite', x: HIDDEN[1][0], z: HIDDEN[1][1], heading: 240, len: 18, dep: 8, hidden: true, bannerScale: 1.3 },
+  Q0: { ...PER, kind: 'infantry', x: CX, z: -60, heading: 180, len: 22, dep: 9, hidden: true },
+  Q1: { ...PER, kind: 'infantry', x: CX, z: -76, heading: 180, len: 22, dep: 9, hidden: true },
+  Q2: { ...PER, kind: 'infantry', x: CX, z: 150, heading: 0, len: 22, dep: 9, hidden: true },
+  eph: { team: 'neutral', kind: 'light', x: -150, z: -150, heading: 110, len: 3, dep: 2, hidden: true, banner: false },
+  // the Greeks
+  camp: { ...GRE, kind: 'elite', x: CX - 2, z: 96, heading: 0, len: 44, dep: 22, hidden: true, bannerScale: 0.8 },
+  w1: { ...GRE, kind: 'elite', x: CX, z: SLOT[0], heading: 0, len: 22, dep: 9, count: 300, hidden: true, bannerScale: 1.0 },
+  w2: { ...GRE, kind: 'elite', x: CX, z: SLOT[1], heading: 0, len: 22, dep: 9, hidden: true },
+  w3: { ...GRE, kind: 'elite', x: CX, z: SLOT[2], heading: 0, len: 22, dep: 9, hidden: true },
+  thesp: { ...GRE, kind: 'elite', x: CX + 1, z: 58, heading: 0, len: 22, dep: 9, count: 700, hidden: true },
+};
+
+const moves = [
+  // S4: a giant army squeezes into the road a little at a time, then falls back to wait
+  { blocks: D_ID, at: 'l04.giant', dur: 0.8, stagger: 0.14, appear: true },
+  ...D_ID.map((id, k) => ({ block: id, at: 'l04.squeeze', dur: 1.6, to: { x: CX, z: -40 - k * 15, len: 24 }, ease: 'inOut' })),
+  ...D_ID.map((id, k) => ({ block: id, at: 'l05.Leonidas', dur: 3.0, to: { x: D_X[k], z: -190, len: 36 }, ease: 'inOut' })),
+  { blocks: ['camp', 'w2', 'w3'], at: 'l05.Holding', dur: 0.9, stagger: 0.2, appear: true },
+  { block: 'w1', at: 'l05.Leonidas', dur: 0.9, appear: true },
+  // S5: Xerxes and his host wait; the archers draw up and loose
+  { group: 'horde', at: 'l06.Xerxes', dur: 0.9, stagger: 0.06, appear: true },
+  { block: 'xerxes', at: 'l06.Xerxes', dur: 0.8, appear: true },
+  { block: 'arch', at: 'l07.Herodotus', dur: 0.9, appear: true },
+  { block: 'arch', at: 'l08', dur: 0.8, vanish: true },
+  // S6: wave after wave; the wall takes turns; the Immortals fail; the king jumps up three times
+  ...wave('P0', 83.3, -3), ...wave('P1', 85.5, 3),
+  ...rot(87.29, ['w1', 'w2', 'w3']),
+  ...wave('P2', 89.6, -2),
+  { block: 'imm', at: 'l09.elite-0.4', dur: 0.6, appear: true },
+  { block: 'imm', at: 'l09.elite', dur: 2.4, to: { z: HIT }, ease: 'inQuad' },
+  { block: 'imm', at: 'l09.through.', dur: 1.0, fadeTo: 0.6, alphaTo: 0.7 },
+  { block: 'imm', at: 'l09.Herodotus', dur: 2.0, to: { z: -110 }, ease: 'out' },
+  { block: 'imm', at: 'l09.afraid', dur: 1.0, vanish: true },
+  ...['jumped', 'three', 'times,'].flatMap((w) => [{ block: 'xerxes', at: `l09.${w}`, dur: 0.18, to: { lift: 1.6 }, ease: 'out' }, { block: 'xerxes', at: `l09.${w}+0.2`, dur: 0.25, to: { lift: 0 }, ease: 'in' }]),
+  ...rot(95.0, ['w2', 'w3', 'w1']),
+  ...wave('P3', 99.6, 2), ...wave('P4', 101.8, -3),
+  // S7: Ephialtes; the night climb; most Greeks leave; the ring closes; the end
+  { block: 'eph', at: 'l11.local', dur: 0.6, appear: true },
+  { block: 'eph', at: 'l11.man', dur: 2.6, path: [[-150, -150], [-110, -136], [-68, -118]], ease: 'inOut' },
+  { block: 'eph', at: 'l12', dur: 0.6, vanish: true },
+  { block: 'imm2', at: 'l12.That', dur: 0.6, appear: true },
+  { block: 'imm2', at: 'l12.That+0.3', dur: 5.4, path: HIDDEN.slice(1), ease: 'inOut' },
+  { block: 'camp', at: 'l13.sent', dur: 4.5, path: [[CX - 2, 96], [20, 150], [40, 220], [44, 290]], ease: 'in' }, { block: 'camp', at: 'l13.sent+3.8', dur: 0.8, vanish: true },
+  { block: 'w2', at: 'l13.sent+0.6', dur: 5.0, path: [[CX, SLOT[2]], [0, 96], [22, 150], [40, 220], [44, 290]], ease: 'in' }, { block: 'w2', at: 'l13.sent+4.8', dur: 0.8, vanish: true },
+  { block: 'thesp', at: 'l13.700', dur: 0.9, appear: true },
+  { blocks: ['Q0', 'Q1', 'Q2'], at: 'l14.third', dur: 0.8, stagger: 0.15, appear: true },
+  { block: 'thesp', at: 'l14.On', dur: 1.0, to: { heading: 180 }, ease: 'inOut' },
+  { block: 'Q0', at: 'l14.surrounded', dur: 1.8, to: { z: HIT }, ease: 'inOut' }, { block: 'Q1', at: 'l14.surrounded', dur: 1.8, to: { z: HIT - 12 }, ease: 'inOut' },
+  { block: 'imm2', at: 'l14.surrounded', dur: 1.8, to: { x: CX, z: 69, heading: 0 }, ease: 'inOut' }, { block: 'Q2', at: 'l14.surrounded', dur: 1.8, to: { z: 82 }, ease: 'inOut' },
+  { blocks: ['w3', 'w1', 'thesp'], at: 'l14.fought', dur: 2.6, stagger: 0.3, fadeTo: 1, alphaTo: 0.5 },
+  { blocks: ['w3', 'w1', 'thesp'], at: 'l15.So,', dur: 1.6, stagger: 0.2, vanish: true },
+  { blocks: ['Q0', 'Q1', 'Q2', 'imm2', 'xerxes', 'horde', ...D_ID], at: 'l16', dur: 0.5, vanish: true },   // offscreen: the pass is empty when we come back
+];
+
+// ====================================================================================== the film
+export default {
+  marks: {},
+  look: { grade: { saturation: 0.98, contrast: 1.06, grain: 0.03, vignette: 0.30 } },
   world: passWorld,
-  blocks: {
-    ...pBlocks,
-    horde: { ...PER, kind: 'infantry', x: CX, z: -250, heading: 180, len: 220, dep: 30, grid: { cols: 9, ranks: 2, gap: 3 }, hidden: true, height: 4, bannerScale: 1.0 },
-    imm: { ...PER, kind: 'elite', x: CX, z: -80, heading: 180, len: 24, dep: 10, height: 4.4, hidden: true, bannerScale: 1.3 },
-    imm2: { ...PER, kind: 'elite', x: -52, z: -196, heading: 200, len: 24, dep: 10, height: 4.4, hidden: true, bannerScale: 1.3 },
-    ...Object.fromEntries(Q_ID.map((id, k) => [id, { ...PER, kind: 'infantry', x: CX + (k % 2 ? 3 : -3), z: k < 2 ? -50 - k * 12 : 150 + (k - 2) * 12, heading: k < 2 ? 180 : 0, len: 22, dep: 9, height: 4, hidden: true, bannerScale: 1.0 }])),
-    D0: { ...PER, kind: 'infantry', x: -60, z: -150, heading: 180, len: 36, dep: 12, hidden: true, height: 4 }, D1: { ...PER, kind: 'infantry', x: -20, z: -150, heading: 180, len: 36, dep: 12, hidden: true, height: 4 },
-    D2: { ...PER, kind: 'infantry', x: 20, z: -150, heading: 180, len: 36, dep: 12, hidden: true, height: 4 }, D3: { ...PER, kind: 'infantry', x: 60, z: -150, heading: 180, len: 36, dep: 12, hidden: true, height: 4 },
-    camp: { ...GRE, kind: 'infantry', x: CX - 2, z: 96, heading: 0, len: 44, dep: 22, count: 7000, hidden: true, height: 4, bannerScale: 1.5 },
-    w1: { ...GRE, kind: 'elite', x: CX, z: SLOT[0], heading: 0, len: 22, dep: 9, count: 300, hidden: true, height: 4.4, bannerScale: 1.3 },
-    w2: { ...GRE, kind: 'infantry', x: CX, z: SLOT[1], heading: 0, len: 22, dep: 9, hidden: true, height: 4, bannerScale: 1.0 },
-    w3: { ...GRE, kind: 'infantry', x: CX, z: SLOT[2], heading: 0, len: 22, dep: 9, hidden: true, height: 4, bannerScale: 1.0 },
-    thesp: { ...GRE, kind: 'infantry', x: CX + 1, z: 58, heading: 0, len: 22, dep: 9, count: 700, hidden: true, height: 4, bannerScale: 1.0 },
+  stages: { emp, aeg },
+  msaaOn: [['l06.away.', 'l07'], ['l07.Spartan', 'l08'], ['l13.He#2', 'l14']],   // anti-aliasing only on the three low close shots
+  blocks,
+  moves,
+
+  ambient: {
+    wind: [-0.6, 1.0], gusts: 0.5, flow: { dir: [1, 0.1], speed: 0.8, glint: 1.2 },
+    camps: [{ pos: [40, -258], size: [150, 30], team: 'rome', style: 'grid', tents: 40, fires: 4, people: 16, palisade: false }],
+    walkers: [{ path: [[-20, 130], [-46, 200], [-70, 280]], n: 5, gap: 5, speed: 1.2, kind: 'light', team: 'neutral', until: 'l13' }],
+    smoke: [{ pos: [0, -258], n: 6, alpha: 0.14, height: 8 }, { pos: [80, -256], n: 6, alpha: 0.14, height: 8 }, { pos: [CX, 18], n: 8, alpha: 0.16, height: 6, at: 'l08.wave', until: 'l11' }],
+    birds: [{ center: [80, -30], r: 40, h: 22, n: 6, speed: 6 }, { center: [-30, 60], r: 26, h: 30, n: 2, speed: 4, dir: -1 }, { path: [[320, -200], [-200, 200]], n: 5, h: 36, speed: 8 }],
   },
 
-  moves: [
-    // ---- l04: a giant army squeezed through a narrow road (four big blocks queue up and pass one at a time)
-    { blocks: ['D0', 'D1', 'D2', 'D3'], at: 'l04.giant', dur: 0.6, stagger: 0.14, appear: true, appearFrom: 24 },
-    ...['D0', 'D1', 'D2', 'D3'].flatMap((id, k) => [
-      { block: id, at: 'l04.squeeze', dur: 1.5, to: { z: -52 - k * 15 }, ease: 'inOut' }, { block: id, at: 'l04.squeeze', dur: 1.5, to: { x: CX, len: 24 }, ease: 'inOut' }]),
-    { block: 'D0', at: 'l04.through', dur: 1.0, to: { z: 6 }, ease: 'inOut' }, { block: 'D1', at: 'l04.little', dur: 0.8, to: { z: -52 }, ease: 'inOut' },
-    { blocks: ['D0', 'D1', 'D2', 'D3'], at: 'l04.time.>', dur: 0.4, vanish: true },
-    // ---- l05: the Greeks take the pass
-    { blocks: ['camp', 'w2', 'w3'], at: 'l05.Holding', dur: 0.7, stagger: 0.15, appear: true, appearFrom: 22 },
-    { block: 'w1', at: 'l05.Leonidas', dur: 0.7, appear: true, appearFrom: 22 },
-    { block: 'w1', at: 'l05.300', dur: 0.25, to: { scale: 1.25 }, ease: 'out' }, { block: 'w1', at: 'l05.300+0.25', dur: 0.5, to: { scale: 1 }, ease: 'inOut' },
-    // ---- l06: Xerxes waits; the Greeks do not run
-    { group: 'horde', at: 'l06.Xerxes', dur: 0.7, stagger: 0.07, appear: true, appearFrom: 20 },
-    { blocks: P_ID, at: 'l06.Xerxes+0.5', dur: 0.6, stagger: 0.09, appear: true, appearFrom: 20 },
-    { block: 'w1', at: 'l06.not', dur: 0.25, to: { scale: 1.2 }, ease: 'out' }, { block: 'w1', at: 'l06.not+0.25', dur: 0.5, to: { scale: 1 }, ease: 'inOut' },
-    // ---- l08: wave after wave into the funnel; the wall rotates
-    ...[0, 1, 2, 3, 4, 5].flatMap((k) => waveAt(`P${k}`, 'l08', 'wave', k * 0.6, WAVE_JIT[k])),
-    ...rot(T_ROT1, ['w1', 'w2', 'w3']), ...rot(T_ROT1 + 1.6, ['w2', 'w3', 'w1']),
-    // ---- l09: the Immortals charge and bounce off
-    ...waveAt('P6', 'l09', 'Even', 0, WAVE_JIT[6]), ...waveAt('P7', 'l09', 'Even', 0.9, WAVE_JIT[7]),
-    { block: 'imm', at: 'l09.elite', dur: 0.6, appear: true, appearFrom: 22 },
-    { block: 'imm', at: 'l09.could', dur: 0.75, to: { z: HIT }, ease: 'inQuad' }, { block: 'imm', at: 'l09.could', dur: 0.75, to: { x: CX }, ease: 'inOut' },
-    { block: 'imm', at: 'l09.through', dur: 0.5, to: { z: -50 }, ease: 'out' }, { block: 'imm', at: 'l09.through', dur: 0.2, to: { lift: 2.4 }, ease: 'out' }, { block: 'imm', at: 'l09.through+0.2', dur: 0.4, to: { lift: 0 }, ease: 'in' },
-    { block: 'imm', at: 'l09.Herodotus', dur: 0.8, vanish: true },
-    // ---- l10: two days, the pass held
-    ...waveAt('P8', 'l10', 'Two', 0, WAVE_JIT[8]), ...waveAt('P9', 'l10', 'Two', 0.35, WAVE_JIT[9]), ...waveAt('P10', 'l10', 'Two', 0.7, WAVE_JIT[10]), ...waveAt('P11', 'l10', 'Two', 1.05, WAVE_JIT[11]),
-    // ---- l12: the Immortals climb the hidden path by night (they arrive behind the Greeks as Leonidas learns it)
-    { block: 'imm2', at: 'l12.That', dur: 0.4, appear: true, appearFrom: 12 },
-    { block: 'imm2', at: 'l12.That+0.45', dur: 5.1, path: [[-52, -196], [-118, -176], [-182, -124], [-206, -50], [-196, 30], [-150, 100], [-86, 142], [-30, 140], [-8, 128]] },
-    // ---- l13: surrounded; most Greeks leave
-    { blocks: ['camp', 'w2'], at: 'l13.sent', dur: 3.2, to: { z: 270 }, ease: 'in' }, { blocks: ['camp', 'w2'], at: 'l13.sent+2.4', dur: 0.8, vanish: true },
-    { block: 'thesp', at: 'l13.700', dur: 0.7, appear: true, appearFrom: 20 },
-    { block: 'w1', at: 'l13.stayed', dur: 0.25, to: { scale: 1.2 }, ease: 'out' }, { block: 'w1', at: 'l13.stayed+0.25', dur: 0.5, to: { scale: 1 }, ease: 'inOut' },
-    { block: 'w3', at: 'l13.others', dur: 0.25, to: { scale: 1.18 }, ease: 'out' }, { block: 'w3', at: 'l13.others+0.25', dur: 0.5, to: { scale: 1 }, ease: 'inOut' },
-    // ---- l14: the third day, surrounded on all sides, they fight to the end
-    { blocks: Q_ID, at: 'l14.third', dur: 0.6, stagger: 0.12, appear: true, appearFrom: 18 },
-    { block: 'Q0', at: 'l14.surrounded', dur: 1.8, to: { z: -2 }, ease: 'inOut' }, { block: 'Q1', at: 'l14.surrounded', dur: 1.8, to: { z: -14 }, ease: 'inOut' },
-    { block: 'Q2', at: 'l14.surrounded', dur: 1.8, to: { z: 78 }, ease: 'inOut' }, { block: 'Q3', at: 'l14.surrounded', dur: 1.8, to: { z: 92 }, ease: 'inOut' },
-    { block: 'imm2', at: 'l14.surrounded', dur: 1.6, to: { x: CX, z: 100, heading: 0 }, ease: 'inOut' },
-    { blocks: ['w1', 'w3', 'thesp'], at: 'l14.fought', dur: 2.6, stagger: 0.3, fadeTo: 1, alphaTo: 0.06, sinkTo: 0.95 },
-    // ---- the Persians stay; the pass falls quiet
-    { blocks: [...Q_ID, 'imm2', 'horde'], at: 'l15.They', dur: 1.2, vanish: true },
+  light: [
+    { at: 'l07.block', dur: 1.2, to: { cloud: 0.9 }, ease: 'inOut' }, { at: 'l08', dur: 1.4, to: { cloud: 0.3 }, ease: 'inOut' },
+    { at: 'l12', dur: 1.0, to: { eve: 0.9, haze: 1.5 }, ease: 'inOut' }, { at: 'l13', dur: 1.6, to: { eve: 0.15, haze: 1.1 }, ease: 'inOut' },
   ],
 
-  arrows: [
-    // l04: the road is narrow
-    { at: 'l04.narrow', dur: 0.7, ease: 'out', team: 'cream', width: 2.2, path: [[-56, 0], [-24, 0]], lift: 5, hide: 'l04.giant', head: true },
-    { at: 'l04.narrow', dur: 0.7, ease: 'out', team: 'cream', width: 2.2, path: [[50, 0], [16, 0]], lift: 5, hide: 'l04.giant', head: true },
-    // l06: expecting the Greeks to run away (they do not)
-    { id: 'runaway', at: 'l06.run', dur: 0.9, ease: 'out', team: 'carthage', width: 3, style: 'dash', path: [[CX, 28], [CX - 6, 70], [CX - 16, 130]], lift: 5, hide: 'l06.did', head: true },
-    // l08: the wall rotates
-    { at: 'l08.took', dur: 0.8, ease: 'out', team: 'gold', width: 2.2, path: [[12, 20], [18, 34], [14, 50], [-6, 56], [-24, 44], [-22, 28], [-12, 18]], lift: 4, hide: 'l09.Even', head: true },
-    // l09: the Immortals charge
-    { at: 'l09.could', dur: 0.75, ease: 'in', team: 'gold', width: 4, path: [[CX, -70], [CX, HIT - 6]], lift: 5, hide: 'l09.through+0.6', head: true },
-    // l11: Ephialtes sells the hidden mountain path (dotted, drawn around behind the Greeks), then the Immortals follow it by night
-    { id: 'hidden', at: 'l11.hidden', until: 'l11.Greeks.>', ease: 'inOut', team: 'rome', style: 'dash', width: 2.8, path: [[-52, -196], [-118, -176], [-182, -124], [-206, -50], [-196, 30], [-150, 100], [-86, 142], [-30, 140], [-8, 128]], lift: 7, hide: 'l13.sent' },
-    // l13: surrounded
-    { at: 'l13.surrounded', dur: 0.7, ease: 'out', team: 'rome', width: 4, path: [[CX, 130], [CX, 70]], lift: 5, hide: 'l14.On', head: true },
-    { at: 'l13.surrounded+0.1', dur: 0.7, ease: 'out', team: 'rome', width: 4, path: [[CX, -60], [CX, -2]], lift: 5, hide: 'l14.On', head: true },
-    { at: 'l13.sent', dur: 1.2, ease: 'out', team: 'carthage', width: 5, path: [[CX, 92], [CX - 6, 150], [CX - 20, 220]], lift: 5, hide: 'l13.He#2', head: true },
-    // l14: closing in
-    { at: 'l14.surrounded', dur: 0.8, ease: 'out', team: 'rome', width: 3.6, path: [[CX, -40], [CX, 6]], lift: 5, hide: 'l14.fought', head: true },
-    { at: 'l14.surrounded', dur: 0.8, ease: 'out', team: 'rome', width: 3.6, path: [[CX, 130], [CX, 74]], lift: 5, hide: 'l14.fought', head: true },
-    { at: 'l14.sides', dur: 0.8, ease: 'out', team: 'rome', width: 3.0, path: [[-36, 40], [-12, 40]], lift: 5, hide: 'l14.fought', head: true },
-    { at: 'l14.sides', dur: 0.8, ease: 'out', team: 'rome', width: 3.0, path: [[26, 40], [6, 40]], lift: 5, hide: 'l14.fought', head: true },
+  // ------------------------------------------------------------------ scenes: sets and pre-planned cameras (the edit)
+  scenes: [
+    { id: 'S1', name: 'The invasion', at: 0, stage: 'aeg', inset: 'full', job: 'the biggest army ever seen marches into Greece; a few thousand Greeks wait at a gap in the mountains', set: { time: 0.1, haze: 1.0 },
+      shots: [
+        { at: 0, why: 'cold open on the Aegean: the Persian columns cross from Asia into Greece', from: { target: [64, -84], width: 330, pitch: 52, yaw: 0, mm: 35 },
+          moves: [{ at: 'l00.marched', until: 'l00.Greece,>', to: { target: [0, -92], width: 350 }, ease: 'cam' }] },
+        { at: 'l00.and', why: 'closer: a few thousand Greeks at the gap, held under the title', from: { target: [-70, -52], width: 210, pitch: 48, yaw: 6, mm: 35 },
+          moves: [{ until: 12.9, to: { target: [-82, -40], width: 140 }, ease: 'cam' }] },
+      ] },
+    { id: 'S2', name: 'King of Kings', at: 'l02', stage: 'emp', inset: 'full', transition: { type: 'dissolve', dur: 0.9 }, job: 'who is coming: Xerxes, an empire from Egypt to India, and how big his army really was', set: { time: 0.08, haze: 1.0 },
+      shots: [
+        { at: 'l02', why: 'change of world: the king of kings in his capital', from: { target: [86, 64], width: 360, pitch: 54, yaw: 0, mm: 35 },
+          moves: [{ until: 'l02.His', to: { width: 334 }, ease: 'cam' }] },
+        { at: 'l02.His', why: 'pull out to the whole empire as its armies rise from Egypt to India', from: { target: [50, 20], width: 860, pitch: 62, yaw: 0, mm: 35 },
+          moves: [{ until: 'l02.Ancient', to: { width: 830 }, ease: 'cam' }] },
+        { at: 'l02.Ancient', why: 'the numbers over the western armies: the ancient figure, then the modern one', from: { target: [-80, 24], width: 520, pitch: 44, yaw: 340, mm: 35 },
+          moves: [{ until: 'l02.more#1>', to: { yaw: 350, width: 500 }, ease: 'cam' }] },
+        { at: 'l02.Still,', why: 'cut on the punchline: low over the massed armies, still a lot', from: { target: [-40, 10], dist: 200, pitch: 12, yaw: 290, mm: 35 },
+          moves: [{ until: 'l03', to: { dist: 188 }, ease: 'cam' }] },
+      ] },
+    { id: 'S3', name: 'The allies', at: 'l03', stage: 'aeg', inset: 'full', transition: { type: 'dissolve', dur: 0.8 }, job: 'the Greek cities usually fight each other; this time some team up', set: { time: 0.08, haze: 1.0 },
+      shots: [
+        { at: 'l03', why: 'change of world, back to Greece: the rival cities', from: { target: [-58, 34], width: 240, pitch: 58, yaw: 0, mm: 35 },
+          moves: [{ until: 'l03.This', to: { width: 226 }, ease: 'cam' }] },
+        { at: 'l03.This', why: 'lower and turned toward the north: their routes converge on the pass', from: { target: [-86, -12], width: 250, pitch: 36, yaw: 24, mm: 35 },
+          moves: [{ until: 'l04', to: { target: [-88, -20], yaw: 16 }, ease: 'cam' }] },
+      ] },
+    { id: 'S4', name: 'The pass', at: 'l04', transition: { type: 'dissolve', dur: 0.9 }, job: 'why here: a road between a cliff and the sea where a giant army can only come a little at a time; who holds it', set: { time: 0.06, haze: 1.05, cloud: 0.3 },
+      shots: [
+        { at: 'l04', why: 'change of world: the pass from high in the south, the cliff wall and the sea', from: { target: [CX, -36], width: 440, pitch: 42, yaw: 4, mm: 35 },
+          moves: [{ until: 'l04.Thermopylae,>', to: { target: [CX, -16], width: 410 }, ease: 'cam' }] },
+        { at: 'l04.steep', why: 'low in the road at the narrowest point: mountains on one side, the sea on the other', from: { target: [CX, 4], dist: 150, pitch: 9, yaw: 0, mm: 30 },
+          moves: [{ until: 'l04.other.>', to: { dist: 138 }, ease: 'cam' }] },
+        { at: 'l04.A#1', why: 'top-down: the giant army squeezes into the road a little at a time', from: { target: [CX, -104], width: 300, pitch: 82, yaw: 0, mm: 35 },
+          moves: [{ at: 'l04.squeeze', until: 'l04.time.>', to: { target: [CX, -70], width: 280 }, ease: 'cam' }] },
+        { at: 'l05', why: 'the defenders: low behind the Greek wall at the narrowest point', from: { target: [CX, 14], dist: 140, pitch: 17, yaw: 352, mm: 35 },
+          moves: [{ until: 'l05.Spartans.>', to: { dist: 108 }, ease: 'cam' }] },
+      ] },
+    { id: 'S5', name: 'The wait', at: 'l06', job: 'Xerxes waits four days for them to run; they do not; then the arrows', set: { time: [0.45, 0.05], haze: 1.15, cloud: 0.3 },
+      shots: [
+        { at: 'l06', why: 'the other side: from high behind the tiny Greek wall to the host that fills the plain', from: { target: [CX, -150], width: 500, pitch: 30, yaw: 0, mm: 35 },
+          moves: [{ until: 'l06.away.', to: { width: 470 }, ease: 'cam' }] },
+        { at: 'l06.away.', why: 'cut on the punchline: low and close on the front rank, which does not move', from: { target: [CX, 22], dist: 64, pitch: 9, yaw: 336, mm: 40 },
+          moves: [{ until: 'l07', to: { dist: 60 }, ease: 'cam' }] },
+        { at: 'l07', why: 'Herodotus\' story: high over the archers drawn up in the pass as the sky fills with arrows', from: { target: [CX, -36], width: 300, pitch: 40, yaw: 12, mm: 35 },
+          moves: [{ until: 'l07.sun.>', to: { target: [CX, -14], width: 280, yaw: 8 }, ease: 'cam' }] },
+        { at: 'l07.Spartan', why: 'close on the Spartan front in the shadow, held for the answer', from: { target: [CX, 24], dist: 70, pitch: 13, yaw: 24, mm: 40 },
+          moves: [{ until: 'l08', to: { dist: 64, yaw: 18 }, ease: 'cam' }] },
+      ] },
+    { id: 'S6', name: 'Wave after wave', at: 'l08', job: 'the Persians attack for two days and cannot break the wall, not even the Immortals', set: { time: 0.04, haze: 1.05, cloud: 0.3 },
+      shots: [
+        { at: 'l08', why: 'reverse angle, the attackers\' side: behind the Persian waves pouring into the pass', from: { target: [CX, -20], dist: 200, pitch: 24, yaw: 176, mm: 35 },
+          moves: [{ until: 'l08.pass.>', to: { target: [CX, 0], dist: 184 }, ease: 'cam' }] },
+        { at: 'l08.Greeks', why: 'high and close over the shield wall: the front rank steps back and the next takes its place', from: { target: [CX, 30], width: 120, pitch: 60, yaw: 18, mm: 35 },
+          moves: [{ until: 'l09', to: { width: 112 }, ease: 'cam' }] },
+        { at: 'l09', why: 'low behind the Immortals as they charge the wall', from: { target: [CX, -40], dist: 120, pitch: 12, yaw: 184, mm: 35 },
+          moves: [{ until: 'l09.through.>', to: { target: [CX, -10], dist: 112 }, ease: 'cam' }] },
+        { at: 'l09.Herodotus', why: 'reaction: the king\'s standard on the slope above the pass', from: { target: [-50, -96], dist: 76, pitch: 16, yaw: 150, mm: 40 },
+          moves: [{ until: 'l10', to: { dist: 70 }, ease: 'cam' }] },
+        { at: 'l10', why: 'top-down, two days on: the wall stands where it stood', from: { target: [CX, 4], width: 260, pitch: 84, yaw: 0, mm: 35 },
+          moves: [{ until: 'l11', to: { width: 250 }, ease: 'cam' }] },
+      ] },
+    { id: 'S7', name: 'Surrounded', at: 'l11', climax: true, job: 'a traitor shows the Persians a way round; most Greeks leave; the Spartans and the Thespians stay and die', set: { time: 0.08, haze: 1.1, cloud: 0.3 },
+      shots: [
+        { at: 'l11', why: 'a new character: a local man walks into the Persian camp with a secret', from: { target: [-100, -128], dist: 130, pitch: 20, yaw: 116, mm: 35 },
+          moves: [{ until: 'l11.secret,>', to: { target: [-80, -122] }, ease: 'cam' }] },
+        { at: 'l11.hidden', why: 'top-down over the mountains: the hidden path, around and behind the Greeks', from: { target: [-110, -20], width: 500, pitch: 80, yaw: 0, mm: 35 },
+          moves: [{ until: 'l11.Greeks.>', to: { width: 480 }, ease: 'cam' }] },
+        { at: 'l12', why: 'change of time, night: follow the Immortals along the mountain path', from: { target: [-150, -150], width: 270, pitch: 50, yaw: 344, mm: 35 },
+          moves: [{ until: 'l13', to: { target: [-196, -30] }, ease: 'cam' }] },
+        { at: 'l13', why: 'dawn, high and wide: they come down behind the pass and most of the Greeks march away', from: { target: [-30, 66], width: 430, pitch: 56, yaw: 0, mm: 35 },
+          moves: [{ until: 'l13.He#2', to: { target: [-20, 76], width: 410 }, ease: 'cam' }] },
+        { at: 'l13.He#2', why: 'low and close on the ones who stay', from: { target: [CX, 44], dist: 92, pitch: 13, yaw: 340, mm: 40 },
+          moves: [{ until: 'l14', to: { dist: 84, yaw: 348 }, ease: 'cam' }] },
+        { at: 'l14', why: 'the decisive moment, wide and from above: the ring closes from both ends', from: { target: [CX, 36], width: 300, pitch: 86, yaw: 0, mm: 35 },
+          moves: [{ until: 'l14.they', to: { width: 284 }, ease: 'cam' }] },
+        { at: 'l14.they', why: 'the same moment closer and lower: the ranks thin to the end; pull back on the result', from: { target: [CX, 40], dist: 96, pitch: 18, yaw: 40, mm: 40 },
+          moves: [{ until: 'l15.They', to: { dist: 136, pitch: 24 }, ease: 'camLong' }] },
+      ] },
+    { id: 'S8', name: 'The war', at: 'l15.They', stage: 'aeg', inset: 'full', transition: { type: 'dissolve', dur: 0.9 }, job: 'why it mattered: they burn Athens, then lose at sea and on land', set: { time: 0.3, haze: 1.05 },
+      shots: [
+        { at: 'l15.They', why: 'change of world: the Persian march south and the smoke over Athens', from: { target: [-52, -20], width: 220, pitch: 52, yaw: 0, mm: 35 },
+          moves: [{ until: 'l15.story.>', to: { target: [-40, -4], width: 200 }, ease: 'cam' }] },
+        { at: 'l16', why: 'the time it bought: lower over the straits of Salamis', from: { target: [-34, 16], width: 130, pitch: 40, yaw: 340, mm: 35 },
+          moves: [{ until: 'l16.Salamis.>', to: { width: 122 }, ease: 'cam' }] },
+        { at: 'l16.In', why: 'the next year, on land: Plataea, beaten for good', from: { target: [-48, -4], width: 160, pitch: 54, yaw: 12, mm: 35 },
+          moves: [{ until: 'l17', to: { width: 150 }, ease: 'cam' }] },
+      ] },
+    { id: 'S9', name: 'The stone', at: 'l17', transition: { type: 'dissolve', dur: 1.0 }, job: 'the epitaph at the empty pass', set: { time: 0.7, haze: 1.2, cloud: 0.25 },
+      shots: [
+        { at: 'l17', why: 'change of time, today: the empty pass in the evening, a slow push on the stone', from: { target: [CX, 40], dist: 160, pitch: 16, yaw: 196, mm: 35 },
+          moves: [{ until: 'l17.Go', to: { target: [0, 46], dist: 120 }, ease: 'camLong' }] },
+      ] },
   ],
 
-  volleys: [
-    ...[0, 1, 2, 3, 4, 5, 6, 7].map((k) => ({ at: `l07.arrows+${k * 0.4}`, dur: 1.0, from: [CX, -90, 38], to: [CX, 28, 12], n: 90, flight: 1.5, arc: 70, team: 'rome' })),
-  ],
+  // ------------------------------------------------------------------ the legend (motion-graphics frame)
+  legend: {
+    title: { text: 'THERMOPYLAE', sub: 'The battle, August 480 BC', at: 'l02' },
+    show: [['l02', 'l17']],
+    sides: [
+      { id: 'persia', team: 'rome', name: 'PERSIA', commander: 'Xerxes', commanderAt: 'l02.Xerxes,', banner: 'banner', at: 'l02.Persia.', strength: 100000, strengthAt: 'l02.100' },
+      { id: 'greeks', team: 'carthage', name: 'GREEK ALLIES', commander: 'Leonidas of Sparta', commanderAt: 'l05.Leonidas', banner: 'lambda', at: 'l03.Greek', strength: 7000, strengthAt: 'l05.7' },
+    ],
+    key: { show: [['l04.Thermopylae,', 'l06'], ['l07.arrows', 'l08.front.>']] },
+    units: [
+      { id: 'inf', kind: 'infantry', name: 'Infantry', team: 'rome', at: 'l04.army' },
+      { id: 'hop', kind: 'elite', name: 'Hoplites', team: 'carthage', at: 'l05.Greeks,' },
+      { id: 'arch', kind: 'archers', name: 'Archers', team: 'rome', at: 'l07.arrows' },
+    ],
+    places: [
+      { id: 'pass', letter: 'A', glyph: 'pass', name: 'Thermopylae', at: 'l04.Thermopylae,', pos: [CX + 22, 24], y: 2, ldy: 0.05 },
+      { id: 'mountains', letter: 'B', glyph: 'mountain', name: 'The mountains', at: 'l04.mountains', pos: [-80, -20], y: 4, label: false },
+      { id: 'sea', letter: 'C', glyph: 'sea', name: 'The sea', at: 'l04.sea', pos: [70, 0], y: 1, label: false },
+      { id: 'path', letter: 'D', glyph: 'trail', name: 'The hidden path', at: 'l11.path', pos: HIDDEN[3], y: 4 },
+    ],
+    focus: [
+      { entry: 'arch', at: 'l07.arrows', until: 'l07.sun.>' }, { entry: 'hop', at: 'l08.wall', until: 'l08.front.>' },
+      { entry: 'persia', at: 'l15.Persians', until: 'l15.won.>' }, { entry: 'greeks', at: 'l16.Greek', until: 'l16.good.>' },
+    ],
+    scale: { unitM: 4, show: [['l04.A#1', 'l05']] },
+  },
 
   labels: [
-    // ---- l04 the place
-    L('l04.Thermopylae,', 'l04.steep', 'THERMOPYLAE', { pos: [CX, 14], y: 4, dy: -0.2, big: true }),
-    L('l04.steep', 'l04.the', 'STEEP MOUNTAINS', { pos: [-58, -10], y: 52, dy: -0.12, dx: 0.0, big: true }),
-    L('l04.the', 'l04.A#1', 'THE SEA', { pos: [38, 10], y: 2, dy: -0.15, dx: 0.1, big: true }),
-    L('l04.A#1', 'l04.so', 'A NARROW ROAD', { pos: [CX, 4], y: 2, dy: -0.18, big: true }),
-    L('l04.giant', 'l04.could', 'A GIANT ARMY', { pos: [CX, -130], y: 2, dy: -0.12, big: true, team: 'rome' }),
-    L('l04.squeeze', 'l04.little', 'SQUEEZE THROUGH', { pos: [CX, -60], y: 2, dy: -0.12, big: true, team: 'rome' }),
-    L('l04.little', 'l05', 'A LITTLE AT A TIME', { screen: [0.5, 0.1], big: true }),
-    // ---- l05 the Greeks
-    L('l05.led', 'l05.and', 'KING LEONIDAS OF SPARTA', { block: 'w1', team: 'carthage', dy: -0.2, dx: -0.14 }),
-    L('l05.300', 'l06', '300 SPARTANS', { block: 'w1', team: 'carthage', dy: -0.2, dx: 0.12, big: true }),
-    // ---- l06 the wait
-    L('l06.Xerxes', 'l06.waited', 'XERXES AND HIS ARMY', { block: 'horde', team: 'rome', dy: -0.14, big: true }),
-    L('l06.waited', 'l06.expecting', 'WAITING', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    L('l06.expecting', 'l06.They', 'WAITING FOR THE GREEKS TO RUN', { screen: [0.5, 0.1], big: true, team: 'rome', size: 0.85 }),
-    L('l06.They', 'l07', 'THEY DID NOT', { block: 'w1', team: 'carthage', dy: -0.21, dx: -0.12, big: true }),
-    // ---- l07 the shade
-    L('l07.Herodotus', 'l07.Someone', 'HERODOTUS TELLS A STORY', { screen: [0.5, 0.1], big: true }),
-    L('l07.arrows', 'l07.block', 'SO MANY ARROWS', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    L('l07.block', 'l07.Spartan', 'THEY BLOCK OUT THE SUN', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    L('l07.Spartan', 'l07.good', 'DIENEKES, A SPARTAN', { block: 'w1', team: 'carthage', dy: -0.21, dx: -0.14 }),
-    { at: 'l07.good', until: 'l07>', text: 'GOOD.', screen: [0.5, 0.33], style: 'text', big: true, size: 2.2, track: 0.14, weight: 800 },
-    L('l07.then', 'l07>', 'THEN WE WILL FIGHT IN THE SHADE.', { screen: [0.5, 0.5], big: true, size: 1.3, team: 'carthage' }),
-    // ---- l08 the attack
-    L('l08.fifth', 'l08.the#1', 'DAY FIVE: THE ATTACK', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    L('l08.wave', 'l08.poured', 'WAVE AFTER WAVE', { pos: [CX, -110], y: 2, dy: -0.12, big: true, team: 'rome' }),
-    L('l08.poured', 'l08.The#3', 'INTO THE PASS', { pos: [CX, -60], y: 2, dy: -0.12, big: true, team: 'rome' }),
-    L('l08.wall', 'l08.took', 'A WALL OF SHIELDS', { block: 'w1', team: 'carthage', dy: -0.2, dx: -0.15, big: true }),
-    L('l08.took', 'l09', 'TAKING TURNS AT THE FRONT', { screen: [0.5, 0.1], big: true, team: 'carthage', size: 0.9 }),
-    // ---- l09 the Immortals and the throne
-    L('l09.elite', 'l09.could', 'XERXES\' ELITE GUARD: THE IMMORTALS', { block: 'imm', team: 'rome', dy: -0.2, size: 0.9 }),
-    L('l09.break', 'l09.Herodotus', 'THEY CANNOT BREAK THROUGH', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    L('l09.Herodotus', 'l09.jumped', 'XERXES WATCHES', { pos: [-62, -62], y: 10, dy: -0.2, dx: 0.14, big: true, team: 'rome' }),
-    L('l09.jumped', 'l09.afraid', 'HE JUMPS UP, THREE TIMES', { screen: [0.5, 0.1], big: true, team: 'rome', size: 0.95 }),
-    L('l09.afraid', 'l10', 'AFRAID FOR HIS ARMY', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    // ---- l10
-    { at: 'l10.Two', until: 'l10.the', text: 'TWO DAYS', screen: [0.5, 0.5], style: 'text', big: true, size: 2.2, track: 0.14, weight: 800 },
-    L('l10.the', 'l11', 'THE PASS HELD', { screen: [0.5, 0.1], big: true, size: 1.5, team: 'carthage' }),
-    // ---- l11 the secret path
-    L('l11.Eff', 'l11.sold', 'EPHIALTES, A LOCAL MAN', { pos: [-76, -112], y: 6, dy: -0.18, dx: 0.0, big: true }),
-    L('l11.sold', 'l11.hidden', 'HE SELLS A SECRET', { pos: [-76, -112], y: 6, dy: -0.18, dx: 0.0, big: true, team: 'rome' }),
-    L('l11.hidden', 'l11.behind', 'A HIDDEN MOUNTAIN PATH', { pos: [-206, -50], y: 60, dy: -0.12, dx: 0.0, big: true, team: 'rome' }),
-    L('l11.behind', 'l12', 'BEHIND THE GREEKS', { pos: [-8, 128], y: 6, dy: -0.2, dx: 0.14, big: true, team: 'rome' }),
-    // ---- l12 the night climb
-    L('l12.That', 'l12.the', 'THAT NIGHT', { screen: [0.5, 0.1], big: true, size: 1.4 }),
-    L('l12.Immortals', 'l13', 'THE IMMORTALS CLIMB THE PATH', { block: 'imm2', team: 'rome', dy: -0.16, big: true }),
-    // ---- l13 leaving
-    L('l13.surrounded', 'l13.He#1', 'ABOUT TO BE SURROUNDED', { screen: [0.5, 0.1], big: true, team: 'carthage' }),
-    L('l13.sent', 'l13.He#2', 'MOST OF THE GREEKS SENT AWAY', { block: 'camp', team: 'carthage', dy: -0.2, big: true, size: 0.9 }),
-    L('l13.stayed', 'l13.with', 'LEONIDAS STAYS', { block: 'w1', team: 'carthage', dy: -0.2, dx: -0.14, big: true }),
-    L('l13.Spartans', 'l13.and', '300 SPARTANS', { block: 'w1', team: 'carthage', dy: -0.2, dx: -0.14 }),
-    L('l13.others', 'l13.like', 'A FEW OTHERS REFUSE TO LEAVE', { block: 'w3', team: 'carthage', dy: -0.2, dx: 0.17, size: 0.9 }),
-    L('l13.Thespier', 'l14', 'THE TOWN OF THESPIAE', { block: 'thesp', team: 'carthage', dy: -0.2, dx: 0.17 }),
-    // ---- l14 the end
-    L('l14.third', 'l14.surrounded', 'THE THIRD DAY', { screen: [0.5, 0.1], big: true }),
-    L('l14.surrounded', 'l14.they', 'SURROUNDED ON ALL SIDES', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    L('l14.they', 'l15', 'THEY FOUGHT TO THE VERY END', { screen: [0.5, 0.1], big: true, team: 'carthage' }),
-    L('l15.Persians', 'l15.They', 'THE PERSIANS WIN', { screen: [0.5, 0.1], big: true, team: 'rome' }),
-    // ---- l17 the stone
-    L('l17.stone', 'l17.Go', 'A STONE AT THE PASS', { pos: [CX, 6], y: 8, dy: -0.26, big: true }),
+    { at: 'l05.Leonidas', until: 'l05.300', text: 'LEONIDAS', block: 'w1', team: 'carthage', dx: -0.1, dy: -0.12 },
+    { at: 'l06.Xerxes', until: 'l06.expecting', text: 'XERXES', block: 'xerxes', team: 'rome', dx: 0.08, dy: -0.1 },
+    { at: 'l07.Spartan', until: 'l08', text: 'DIENEKES', block: 'w1', team: 'carthage', dx: 0.08, dy: -0.14 },
+    { at: 'l09.Immortals,', until: 'l09.Herodotus', text: 'THE IMMORTALS', block: 'imm', team: 'rome', dx: 0.08, dy: -0.12 },
+    { at: 'l09.king', until: 'l10', text: 'XERXES', block: 'xerxes', team: 'rome', dx: 0.08, dy: -0.14 },
+    { at: 'l11.named', until: 'l11.hidden', text: 'EPHIALTES', block: 'eph', dx: 0.06, dy: -0.12 },
+    { at: 'l17.stone', until: 'l17.Go', text: 'EPITAPH OF SIMONIDES', pos: [6, 48], y: 4, dx: 0.12, dy: -0.12 },
+    { at: 'l13.stayed', until: 'l13.700', text: 'LEONIDAS', block: 'w1', team: 'carthage', dx: -0.1, dy: -0.12 },
   ],
 
   counters: [
-    { at: 'l05.7', until: 'l06', block: 'camp', team: 'carthage', from: 0, to: 7000, countDur: 1.2, step: 100, suffix: 'GREEKS', dy: -0.2, dx: 0.0 },
-    { at: 'l13.700', until: 'l14', block: 'thesp', team: 'carthage', from: 0, to: 700, countDur: 0.9, step: 10, suffix: 'THESPIANS', dy: -0.3, dx: 0.2 },
+    { at: 'l05.300', until: 'l06', block: 'w1', team: 'carthage', from: 0, to: 300, countDur: 0.9, step: 10, suffix: 'SPARTANS', dx: 0.1, dy: -0.14 },
+    { at: 'l13.700', until: 'l14', block: 'thesp', team: 'carthage', from: 0, to: 700, countDur: 0.9, step: 10, suffix: 'THESPIANS', dx: 0.12, dy: -0.14 },
   ],
 
-  icons: [
-    // ---- l04 the place
-    I('l04.steep', 'l04.the', 'peak', { pos: [-62, -10], y: 40, size: 30, anim: 'bounce' }),
-    I('l04.the', 'l04.A#1', 'wave', { pos: [40, 12], y: 2, size: 16, anim: 'none' }),
-    I('l04.giant', 'l04.could', 'helmet', { block: 'D1', team: 'rome', size: 16, anim: 'sway' }),
-    // ---- l05
-    I('l05.Holding', 'l05.led', 'shield', { block: 'camp', team: 'carthage', size: 16, dy: -0.04, anim: 'bounce' }),
-    I('l05.Leonidas', 'l05.300', 'crown', { block: 'w1', size: 15, dx: 0.0, dy: -0.045, anim: 'bounce' }),
-    I('l05.300', 'l06', 'helmet', { block: 'w1', team: 'carthage', size: 17, dx: 0.0, dy: -0.045, anim: 'sway' }),
-    // ---- l06
-    I('l06.waited', 'l06.They', 'calendar', { screen: [0.9, 0.3], size: 0.24, fill: '1,0.65,DAY,4', anim: 'none' }),
-    I('l06.Xerxes', 'l06.They', 'tent', { pos: [-100, -246], y: 2, size: 22, team: 'rome' }), I('l06.Xerxes+0.2', 'l06.They', 'tent', { pos: [80, -246], y: 2, size: 22, team: 'rome' }),
-    I('l06.expecting', 'l06.run', 'question', { block: 'w1', size: 18, dy: -0.06, anim: 'bounce' }),
-    I('l06.run', 'l06.did', 'question', { block: 'w1', size: 18, dy: -0.06, anim: 'bounce' }),
-    I('l06.did', 'l07', 'no', { pos: [CX - 8, 70], y: 8, size: 22, anim: 'bounce' }),
-    I('l06.did', 'l07', 'check', { block: 'w1', size: 17, dx: 0.0, dy: -0.06, anim: 'bounce' }),
-    // ---- l07
-    I('l07.Herodotus', 'l07.Someone', 'book', { screen: [0.5, 0.45], size: 0.25, anim: 'bounce' }),
-    I('l07.block', 'l07.Spartan', 'sundim', { screen: [0.12, 0.3], size: 0.26, anim: 'none' }),
-    I('l07.Spartan', 'l07.good', 'helmet', { block: 'w1', team: 'carthage', size: 16, dy: -0.04, anim: 'sway' }),
-    I('l07.shade.', 'l07>', 'cool', { block: 'w1', team: 'carthage', size: 20, dy: -0.04, anim: 'bounce' }),
-    // ---- l08
-    I('l08.fifth', 'l10.Two', 'calendar', { screen: [0.9, 0.3], size: 0.24, fill: '5,0,DAY', anim: 'none' }),
-    I('l08.wall', 'l09', 'shield', { block: 'w1', team: 'carthage', size: 16, dx: -0.1, dy: 0.0, anim: 'bounce' }),
-    I('l08.wall+0.15', 'l09', 'shield', { block: 'w2', team: 'carthage', size: 14, dx: 0.1, dy: 0.0, anim: 'bounce' }),
-    ...[0, 1, 2, 3, 4, 5].map((k) => I(`l08.wave+${k * 0.6 + 3.3}`, `l08.wave+${k * 0.6 + 3.9}`, 'burst', { pos: [CX + WAVE_JIT[k] * 0.5, HIT + 4], y: 5, size: 16, anim: 'none' })),
-    // ---- l09
-    I('l09.through', 'l09.Herodotus', 'burst', { pos: [CX, HIT + 4], y: 5, size: 20, anim: 'none' }),
-    I('l09.through+0.1', 'l09.Herodotus', 'no', { pos: [CX, HIT - 12], y: 12, size: 20, anim: 'bounce' }),
-    I('l09.elite', 'l09.could', 'crown', { block: 'imm', size: 14, dy: -0.04, anim: 'bounce' }),
-    I('l09.jumped', 'l10', 'throne', { pos: [-62, -62], y: 2, size: 34, anim: 'none' }),
-    I('l09.afraid', 'l10', 'shout', { pos: [-62, -62], y: 26, size: 20, anim: 'bounce' }),
-    // ---- l10
-    I('l10.Two', 'l11', 'calendar', { screen: [0.9, 0.3], size: 0.24, fill: '5,0.95,DAY,6', anim: 'none' }),
-    I('l10.the', 'l11', 'shield', { screen: [0.38, 0.62], size: 0.2, team: 'carthage', anim: 'bounce' }),
-    I('l10.the', 'l11', 'check', { screen: [0.58, 0.62], size: 0.16, anim: 'bounce' }),
-    // ---- l11
-    I('l11.Eff', 'l12', 'bag', { pos: [-76, -112], y: 2, size: 22, anim: 'bounce' }),
-    I('l11.sold', 'l11.hidden', 'question', { pos: [-60, -112], y: 8, size: 14, anim: 'bounce' }),
-    I('l11.behind', 'l12', 'swords', { pos: [-8, 128], y: 12, size: 22, anim: 'bounce' }),
-    // ---- l12 night
-    I('l12.That', 'l13.He#1', 'moon', { screen: [0.88, 0.2], size: 0.2, anim: 'sway' }),
-    // ---- l13
-    I('l13.surrounded', 'l13.He#1', 'shout', { block: 'w1', size: 20, dy: -0.07, anim: 'bounce' }),
-    I('l13.sent', 'l13.He#2', 'door', { block: 'camp', size: 16, dy: -0.04, anim: 'bounce' }),
-    I('l13.stayed', 'l13.others', 'helmet', { block: 'w1', team: 'carthage', size: 16, dy: -0.04, anim: 'sway' }),
-    I('l13.refused', 'l13.like', 'no', { block: 'w3', size: 14, dx: 0.0, dy: -0.045, anim: 'bounce' }),
-    I('l13.Thespier', 'l14', 'city', { block: 'thesp', team: 'carthage', size: 14, dx: -0.06, dy: -0.04, anim: 'bounce' }),
-    // ---- l14
-    I('l14.third', 'l15', 'calendar', { screen: [0.9, 0.3], size: 0.24, fill: '7,0,DAY', anim: 'none' }),
-    I('l14.fought', 'l14.very', 'burst', { pos: [CX - 16, 30], y: 8, size: 18, anim: 'bounce' }),
-    I('l14.fought+0.4', 'l14.very', 'burst', { pos: [CX + 16, 40], y: 8, size: 16, anim: 'bounce' }),
-    I('l14.very', 'l15', 'laurel', { pos: [CX, 34], y: 10, size: 22, anim: 'bounce' }),
-    // ---- l17
-    I('l17.stone', 'l17.Go', 'stone', { pos: [CX, 6], y: 0, size: 15, anim: 'none' }),
+  icons: [],
+  markers: [{ id: 'stele', at: 'l17.stone', until: 170, pos: [6, 48], y: 1, glyph: 'stele', team: [0.15, 0.33, 0.74], label: false, size: 0.07 }],
+
+  arrows: [
+    { at: 'l04.narrow#1', dur: 0.8, ease: 'out', team: 'ink', width: 1.6, path: [[-50, 8], [-24, 8]], lift: 5, hide: 'l04.giant', head: true },
+    { at: 'l04.narrow#1', dur: 0.8, ease: 'out', team: 'ink', width: 1.6, path: [[42, 8], [18, 8]], lift: 5, hide: 'l04.giant', head: true },
+    { at: 'l06.run', dur: 0.9, ease: 'out', team: 'carthage', width: 3, style: 'dash', path: [[CX, 60], [CX - 6, 100], [CX - 16, 140]], lift: 5, hide: 'l06.not.', head: true },
+    { at: 'l09.elite', dur: 1.6, ease: 'out', team: 'rome', width: 2.6, path: [[CX, -80], [CX, 4]], lift: 5, hide: 'l09.through.>', head: true },
+    { id: 'hidden', at: 'l11.hidden', until: 'l11.Greeks.>', ease: 'cam', team: 'rome', style: 'dash', width: 2.8, path: HIDDEN, lift: 7, hide: 'l13.sent' },
+    { at: 'l13.surrounded.', dur: 0.8, ease: 'out', team: 'rome', width: 3, path: [[-60, 150], [CX - 6, 80]], lift: 5, hide: 'l13.He#2', head: true },
+    { at: 'l13.surrounded.+0.1', dur: 0.8, ease: 'out', team: 'rome', width: 3, path: [[CX, -70], [CX, -6]], lift: 5, hide: 'l13.He#2', head: true },
+    { at: 'l13.sent', dur: 1.2, ease: 'out', team: 'carthage', width: 4, path: [[CX, 104], [20, 160], [40, 230]], lift: 5, hide: 'l13.He#2', head: true },
+    { at: 'l14.surrounded', dur: 0.9, ease: 'out', team: 'rome', width: 3.6, path: [[CX, -50], [CX, 6]], lift: 5, hide: 'l14.fought', head: true },
+    { at: 'l14.surrounded', dur: 0.9, ease: 'out', team: 'rome', width: 3.6, path: [[CX, 130], [CX, 74]], lift: 5, hide: 'l14.fought', head: true },
   ],
 
-  dim: [
-    { at: 'l07.block', until: 'l07.shade.>', alpha: 0.5, fadeIn: 1.0, fadeOut: 0.7 },
-    { at: 'l12.That', until: 'l13.He#1', alpha: 0.6, color: nightVeil, stars: true, fadeIn: 0.9, fadeOut: 1.4 },
-  ],
-  light: [
-    { at: 'l07.arrows', dur: 2.5, to: { cloud: 0.9 }, ease: 'inOut' }, { at: 'l08.On', dur: 1.4, to: { cloud: 0.28 }, ease: 'inOut' },
-    { at: 'l12.That', dur: 1.2, to: { eve: 0.7, haze: 1.2 }, ease: 'inOut' },
-    { at: 'l13.He#1', dur: 1.8, to: { eve: 0, haze: 1 }, ease: 'inOut' },
-    { at: 'l15.So', dur: 4, to: { eve: 1, haze: 1.3 }, ease: 'inOut' },
-    { at: 'l17.Today,', dur: 3, to: { eve: 0.8 }, ease: 'inOut' },
-  ],
+  volleys: [0, 1, 2, 3, 4].map((k) => ({ at: `l07.arrows+${(k * 0.5).toFixed(1)}`, dur: 1.0, from: { block: 'arch' }, to: [CX, 30, 12], n: 70, flight: 1.5, arc: 70, spread: 0.35, team: 'rome' })),
 
-  camera: [
-    // l04: the place (the cliff wall on the west, the sea on the east, the road squeezing between)
-    { at: 12.9, target: [-10, -10], dist: 360, pitch: 26, yaw: 6, mm: 30 },
-    { at: 17.2, target: [-10, -10], dist: 340, pitch: 26, yaw: -4, mm: 30, ease: 'linear' },
-    { at: 'l04.They', target: [CX, -40], dist: 330, pitch: 30, yaw: 4, mm: 30, cut: true },
-    { at: 'l04.Thermopylae,', target: [CX, -10], dist: 270, pitch: 28, yaw: 0, mm: 30, ease: 'inOut' },
-    { at: 'l04.steep', target: [-52, -4], dist: 210, pitch: 17, yaw: 292, mm: 28, ease: 'inOut' },
-    { at: 'l04.the', target: [30, 0], dist: 200, pitch: 22, yaw: 38, mm: 28, ease: 'inOut' },
-    { at: 'l04.A#1', target: [CX, 0], dist: 220, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l04.giant', target: [CX, -70], dist: 340, pitch: 32, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l04.squeeze', target: [CX, -50], dist: 260, pitch: 42, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l04.little', target: [CX, -14], dist: 200, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    // l05: the Greeks
-    { at: 'l05.Holding', target: [CX, 50], dist: 200, pitch: 34, yaw: 8, mm: 35, ease: 'inOut' },
-    { at: 'l05.led', target: [CX, 28], dist: 120, pitch: 26, yaw: -8, mm: 35, ease: 'inOut' },
-    { at: 'l05.300', target: [CX, 30], dist: 100, pitch: 30, yaw: 6, mm: 35, ease: 'inOut' },
-    // l06: the wait
-    { at: 'l06.Xerxes', target: [CX, -130], dist: 340, pitch: 22, yaw: 0, mm: 30, ease: 'inOut' },
-    { at: 'l06.waited', target: [CX, -150], dist: 300, pitch: 28, yaw: 10, mm: 30, ease: 'inOut' },
-    { at: 'l06.expecting', target: [CX, 20], dist: 190, pitch: 26, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l06.They', target: [CX, 40], dist: 150, pitch: 22, yaw: -6, mm: 35, ease: 'inOut' },
-    // l07: the arrows block out the sun
-    { at: 'l07.Herodotus', target: [CX, 30], dist: 200, pitch: 30, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l07.arrows', target: [CX, -20], dist: 230, pitch: 18, yaw: 0, mm: 30, ease: 'inOut' },
-    { at: 'l07.Spartan', target: [CX, 28], dist: 110, pitch: 22, yaw: 10, mm: 35, ease: 'inOut' },
-    { at: 'l07.good', target: [CX, 30], dist: 90, pitch: 22, yaw: 0, mm: 35, ease: 'inOut' },
-    // l08: wave after wave
-    { at: 'l08.On', target: [CX, 20], dist: 240, pitch: 36, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l08.wave', target: [CX, -50], dist: 270, pitch: 36, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l08.wave+2.6', target: [CX, -20], dist: 230, pitch: 38, yaw: 8, mm: 35, ease: 'inOut' },
-    { at: 'l08.wall', target: [CX, 10], dist: 160, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l08.took', target: [CX, 26], dist: 130, pitch: 58, yaw: 0, mm: 35, ease: 'inOut' },
-    // l09: the Immortals and the throne
-    { at: 'l09.Even', target: [CX, -30], dist: 230, pitch: 30, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l09.elite', target: [CX, -28], dist: 160, pitch: 24, yaw: -6, mm: 32, ease: 'inOut' },
-    { at: 'l09.through', target: [CX, 0], dist: 100, pitch: 28, yaw: 10, mm: 35, ease: 'inOut' },
-    { at: 'l09.Herodotus', target: [-26, -90], dist: 300, pitch: 30, yaw: 352, mm: 35, ease: 'inOut' },
-    { at: 'l09.afraid', target: [-34, -84], dist: 250, pitch: 32, yaw: 346, mm: 35, ease: 'inOut' },
-    // l10
-    { at: 'l10.Two', target: [CX, 0], dist: 220, pitch: 62, yaw: 0, mm: 35, ease: 'inOut' },
-    // l11: Ephialtes and the path
-    { at: 'l11.Then', target: [CX, -100], dist: 250, pitch: 36, yaw: 352, mm: 35, ease: 'inOut' },
-    { at: 'l11.sold', target: [-50, -108], dist: 170, pitch: 30, yaw: 318, mm: 35, ease: 'inOut' },
-    { at: 'l11.hidden', target: [-100, -30], width: 740, pitch: 66, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l11.behind', target: [-100, -10], width: 760, pitch: 68, yaw: 0, mm: 35, ease: 'inOut' },
-    // l12: the night climb (the camera follows the Immortals around the mountain)
-    { at: 'l12.That', target: [-70, -190], dist: 240, pitch: 54, yaw: 340, mm: 35, ease: 'inOut' },
-    { at: 111.0, target: [-125, -165], dist: 240, pitch: 54, yaw: 350, mm: 35, ease: 'inOut' },
-    { at: 'l12.climbed', target: [-165, -135], dist: 240, pitch: 54, yaw: 354, mm: 35, ease: 'inOut' },
-    { at: 112.6, target: [-192, -85], dist: 240, pitch: 54, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l13.Leonidas', target: [-198, 25], dist: 240, pitch: 54, yaw: 8, mm: 35, ease: 'inOut' },
-    { at: 'l13.he', target: [-165, 85], dist: 240, pitch: 52, yaw: 24, mm: 35, ease: 'inOut' },
-    { at: 115.3, target: [-85, 135], dist: 230, pitch: 50, yaw: 30, mm: 35, ease: 'inOut' },
-    { at: 'l13.surrounded', target: [-22, 112], dist: 220, pitch: 48, yaw: 14, mm: 35, ease: 'inOut' },
-    // l13: leaving and staying
-    { at: 'l13.He#1', target: [CX, 80], dist: 260, pitch: 44, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l13.stayed', target: [CX, 34], dist: 130, pitch: 34, yaw: -8, mm: 35, ease: 'inOut' },
-    { at: 'l13.700', target: [CX, 44], dist: 120, pitch: 40, yaw: 10, mm: 35, ease: 'inOut' },
-    // l14: the end
-    { at: 'l14.On', target: [CX, 34], dist: 170, pitch: 56, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l14.fought', target: [CX, 38], dist: 120, pitch: 48, yaw: 12, mm: 35, ease: 'inOut' },
-    { at: 'l15.So', target: [CX, 36], dist: 150, pitch: 30, yaw: 20, mm: 35, ease: 'inOut' },
-    // l17: the stone
-    { at: 150.4, target: [CX, 40], dist: 220, pitch: 28, yaw: 16, mm: 30, cut: true },
-    { at: 'l17.stone', target: [CX, 8], dist: 150, pitch: 22, yaw: 6, mm: 35, ease: 'inOut' },
-    { at: 'l17.Go', target: [CX, 8], dist: 120, pitch: 22, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 160, target: [CX, 8], dist: 110, pitch: 22, yaw: 0, mm: 35, ease: 'linear' },
-  ],
-};
-
-// ====================================================================================== the film
-const T_END = cues.duration - cues.outro_s;
-const epi = wordT('l17', 'Go'); const eD = (w) => wordT('l17', w) - epi;
-export default {
-  marks: {},
-  look: { grade: { saturation: 0.98, contrast: 1.07, grain: 0.03, vignette: 0.32 } },
-  ...main,
-  stages: { emp, aeg },
-  msaaOn: [[41, 52]],
-  insets: [
-    { stage: 'aeg', at: 0, until: 12.95, rect: [0, 0, 1, 1], frame: false, pop: false, in: 0.05, out: 0.35, samples: 2 },
-    { stage: 'emp', at: 17.4, until: 34.6, rect: [0, 0, 1, 1], frame: false, pop: false, in: 0.9, out: 0.01, samples: 2 },
-    { stage: 'aeg', at: 34.3, until: 40.95, rect: [0, 0, 1, 1], frame: false, pop: false, in: 0.5, out: 0.5, samples: 2 },
-    { stage: 'aeg', at: 133.7, until: 149.9, rect: [0, 0, 1, 1], frame: false, pop: false, in: 0.7, out: 0.5, samples: 2 },
-  ],
   cards: [
-    { at: 0, until: 1.0, fill: 'rgb(8,4,2)', fadeIn: 0.01, fadeOut: 1.0, lines: [] },
-    { at: 12.95, until: 17.3, scrim: 0.9, scrimCenter: 'rgba(20,10,4,0.85)', fadeIn: 0.3, fadeOut: 0.8, lines: [
-      { text: 'THE BATTLE OF THERMOPYLAE', size: 0.07, y: 0.44, delay: 0.1 },
-      { text: '480 BC', size: 0.07, y: 0.585, delay: 1.1, colorTop: '#ffd9a0', colorBottom: '#e2873a' } ], ornaments: [{ y: 0.35, w: 0.8 }, { y: 0.68, w: 0.8 }] },
-    { at: epi - 0.1, until: T_END - 0.2, scrim: 0.9, scrimCenter: 'rgba(16,8,4,0.8)', fadeIn: 0.8, fadeOut: 0.5, lines: [
-      { text: 'GO TELL THE SPARTANS,', size: 0.062, y: 0.34, delay: 0.1 },
-      { text: 'PASSER BY,', size: 0.062, y: 0.46, delay: eD('passerby') + 0.1, colorTop: '#ffd9a0', colorBottom: '#e2873a' },
-      { text: 'THAT HERE, OBEYING THEIR ORDERS,', size: 0.05, y: 0.58, delay: eD('that') + 0.1 },
-      { text: 'WE LIE.', size: 0.09, y: 0.72, delay: eD('we') + 0.1, colorTop: '#fff0c4', colorBottom: '#e8b94f' } ], ornaments: [{ y: 0.26, w: 0.7 }, { y: 0.82, w: 0.7 }] },
-    { at: T_END, until: 170, fill: 'rgb(14,7,3)', fillAlpha: 0.84, fadeIn: 0.6, lines: [
-      { text: 'BATTLE MAP', size: 0.13, y: 0.43, delay: 0.1, track: 0.14 },
-      { text: 'The Battle of Thermopylae, 480 BC', size: 0.062, y: 0.6, delay: 0.7, font: 'Cormorant Garamond', italic: true, weight: 500, track: 0.04, colorTop: '#f6ecd0', colorBottom: '#e4c98c' } ], ornaments: [{ y: 0.33, w: 0.5 }, { y: 0.69, w: 0.5 }] },
+    { at: 0, until: 0.9, fill: 'rgb(8,4,2)', fadeIn: 0.01, fadeOut: 1.0, lines: [] },
+    { at: 12.95, until: 17.3, scrim: 0.82, scrimCenter: 'rgba(20,10,4,0.7)', fadeIn: 0.4, fadeOut: 0.8, lines: [
+      { text: 'THE BATTLE OF THERMOPYLAE', size: 0.072, y: 0.45, delay: 0.1, pop: false, weight: 600, track: 0.12 },
+      { text: '480 BC', size: 0.056, y: 0.575, delay: 1.1, pop: false, weight: 600, track: 0.3, colorTop: '#f3d9a0', colorBottom: '#d9a441' } ], ornaments: [{ y: 0.36, w: 0.56 }, { y: 0.65, w: 0.56 }] },
+    // night: a blue scrim over the low sun while the Immortals climb (a change of time, no stars, no clip art)
+    { at: 'l12', until: 'l13', scrim: 0.5, scrimCenter: 'rgba(12,20,48,0.6)', fadeIn: 0.8, fadeOut: 1.4, lines: [] },
+    // the epitaph, line by line on the words (154.21 Go, 155.61 passerby, 156.47 that, 158.97 we)
+    { at: 'l17.Go-0.1', until: 159.71, scrim: 0.86, scrimCenter: 'rgba(16,8,4,0.75)', fadeIn: 0.8, fadeOut: 0.5, lines: [
+      { text: 'GO TELL THE SPARTANS,', size: 0.058, y: 0.34, delay: 0.1, pop: false, weight: 600, track: 0.1 },
+      { text: 'PASSER BY,', size: 0.058, y: 0.46, delay: 1.5, pop: false, weight: 600, track: 0.1, colorTop: '#f3d9a0', colorBottom: '#d9a441' },
+      { text: 'THAT HERE, OBEYING THEIR ORDERS,', size: 0.048, y: 0.58, delay: 2.36, pop: false, weight: 600, track: 0.08 },
+      { text: 'WE LIE.', size: 0.08, y: 0.72, delay: 4.86, pop: false, weight: 600, track: 0.14, colorTop: '#fff0c4', colorBottom: '#e8b94f' } ], ornaments: [{ y: 0.26, w: 0.56 }, { y: 0.82, w: 0.56 }] },
+    { at: 159.913, until: 170, fill: 'rgb(14,7,3)', fillAlpha: 0.88, fadeIn: 0.6, lines: [
+      { text: 'BATTLE MAP', size: 0.11, y: 0.43, delay: 0.1, track: 0.16, pop: false, weight: 600 },
+      { text: 'The Battle of Thermopylae, 480 BC', size: 0.058, y: 0.58, delay: 0.7, font: 'Cormorant Garamond', italic: true, weight: 600, track: 0.04, pop: false, colorTop: '#f6ecd0', colorBottom: '#e4c98c' } ], ornaments: [{ y: 0.33, w: 0.44 }, { y: 0.67, w: 0.44 }] },
   ],
 };

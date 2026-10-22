@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Runner queue congested (about 30 stills runs queued behind the film renders): `stills.yml` now renders several frames per runner (`per_job`, default 4) and builders keep one stills run in flight at a time.
 - Hastings (8 scenes, 30 shots) and Agincourt (9 scenes, 29 shots, cuts motivated around the two Cutaway mud inserts) re-directed on Battle Map v2; Hastings render dispatched; Agincourt waits for its inserts. First free director run failed at the script stage (the live ranking picked tiny free models that cannot return JSON); the director is being fixed (curated free model list, discovery log, robust JSON, 429 back-off) and both jobs re-run.
 - Fix: Chatterbox failed to load on the runners (`perth.PerthImplicitWatermarker` was None: resemble-perth imports `pkg_resources`, gone from setuptools 81). `noor-sound.yml` and `film.yml` now pin `setuptools<81` in the TTS env.
 - Bamberg rendered (rc-render run 39790691570, -14 LUFS, no freezes); review found text overprinting at card changes (148 s); all 38 changes audited and fixed; re-render dispatched (run 39800373137).

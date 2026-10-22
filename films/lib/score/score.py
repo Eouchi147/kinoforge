@@ -600,8 +600,10 @@ class Composer:
 def finalise(mix, target_lufs=-23.0, ceiling_db=-3.5):
     """loudness-normalise (integrated, BS.1770) and peak-limit; returns the audio and its measurements"""
     lu = dsp.loudness(mix); y = mix * db(target_lufs - lu)
+    pre = float(dsp.lin2db(np.abs(y).max()))
     y = dsp.limiter(y, ceiling_db)
-    return y, {'lufs': round(dsp.loudness(y), 2), 'peak_dbfs': round(float(dsp.lin2db(np.abs(y).max())), 2)}
+    return y, {'lufs': round(dsp.loudness(y), 2), 'peak_dbfs': round(float(dsp.lin2db(np.abs(y).max())), 2),
+               'limiter_reduction_db': round(max(0.0, pre - ceiling_db), 1)}
 
 
 def render_plan(plan, engine='auto', target_lufs=-23.0, log=lambda *a: None):

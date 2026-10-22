@@ -182,7 +182,7 @@ def build_city(kit, M, lamps):
         yaw = float(rng.choice([0, math.pi / 2, math.pi, -math.pi / 2])) + float(rng.normal(0, 0.05))
         if _footprint_ok(land, x, y, w, d, yaw, taken, keep):
             arch.palazzo(kit, M, x, y, -0.022, w, d, h, yaw, seed=k + 100, water_door=False, name=f'vz_pal{k}'); taken.append((x, y, 0.5 * math.hypot(w, d))); k += 1
-    S.data['n_palazzi'] = k
+    S.data['n_palazzi'] = k; S.data['taken'] = taken
     # bridges: a white stone arch over the Grand Canal, small ones over the rios
     stone = (0.88, 0.86, 0.80)
     cw.bridge(kit, land, (-0.30, -0.46), (0.28, -0.95), width=0.07, arch=0.07, color=stone, name='vz_rialto')
