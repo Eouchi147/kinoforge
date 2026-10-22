@@ -16,7 +16,7 @@
   - Kleidion re-directed (done: 9 scenes, 29 shots instead of 64, opening in real time, fuller worlds); done and on Sam's Mac (`-v2`);
   - Arabia re-directed (done: pin-hole star sky in its own no-blur pass, 31 shots in 9 scenes instead of 49, fuller camp, cut-paper cards); rendering on free runners (24 parts, Blender, about 1 to 2 hours);
   - Bamberg polished (done: eight movements, every effect with a job); done and on Sam's Mac (`-v2`);
-  - director pipeline: done and free-only by default; first live jobs running: `films/studio/salamis/` and `films/studio/great-emu-war/` (watch their status.json).
+  - director pipeline: done and free-only by default; first live day: Salamis through script and sound, stopped at the picture spec by the free daily limit (1,000 requests); resumes 00:10 UTC by a scheduled task; Great Emu War after it.
   - new style **Cutaway** (Sam, 10:11): Blender kit and a four-look style board in `films/styles/cutaway/`, nothing rendered on runners yet. Sam (10:16) wants all four uses built: briefs in `films/cutaway/` (sample trade ad, Why Venice Sinks, Agincourt mud inserts, seasons loop); the kit's first usable version landed (516ec0b); four builders are on them now.
 - Next: re-render on GitHub runners (free), new stories through the free director, one render home for the studio.
 
