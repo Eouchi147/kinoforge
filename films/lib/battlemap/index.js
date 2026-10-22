@@ -32,7 +32,7 @@ export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
       const msaa = { cur: -1 }; const setMSAA = (k) => { if (msaa.cur === k) return; msaa.cur = k; for (const rt of [post.composer.renderTarget1, post.composer.renderTarget2]) { if (rt.samples !== k) { rt.samples = k; rt.dispose(); } } };
       // insets: framed panels (or full screen) showing another stage; scrim darkens the main map behind them
       const insets = (spec.insets || []).map((e) => { const [t0, t1] = clock.span(e, 1); const r = e.rect || [0, 0, 1, 1]; const rw = Math.round(Math.min(W, r[2] * W)), rh = Math.round(Math.min(H, r[3] * H));
-        const rt = new THREE.WebGLRenderTarget(rw, rh, { type: THREE.HalfFloatType, samples: 4, depthBuffer: true }); rt.texture.colorSpace = THREE.NoColorSpace;
+        const rt = new THREE.WebGLRenderTarget(rw, rh, { type: THREE.HalfFloatType, samples: e.samples ?? (r[2] * r[3] > 0.9 ? 2 : 4), depthBuffer: true }); rt.texture.colorSpace = THREE.NoColorSpace;
         const mat = new THREE.ShaderMaterial({ vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position, 1.0); }', fragmentShader: INSET_FRAG, transparent: true, depthTest: false, depthWrite: false, toneMapped: false,
           uniforms: { uTex: { value: rt.texture }, uAlpha: { value: 1 }, uFrame: { value: e.frame === false ? 0 : 1 }, uAspect: { value: rw / rh }, uTime: { value: 0 }, uInk: { value: new THREE.Color(0.012, 0.008, 0.006) }, uGold: { value: new THREE.Color(0.9, 0.62, 0.2) } } });
         const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), mat); mesh.renderOrder = 100; mesh.frustumCulled = false; mesh.visible = false; main.camera.add(mesh);

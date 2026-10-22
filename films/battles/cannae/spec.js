@@ -329,6 +329,6 @@ export default {
 
   insets: [
     { stage: 'med', at: 22.4, until: 33.5, rect: [0.1, 0.1, 0.8, 0.8], tilt: -1.2, in: 0.55, out: 0.45, scrim: 0.55 },
-    { stage: 'med', at: 127.6, until: 170, rect: [0, 0, 1, 1], frame: false, pop: false, in: 1.2, out: 0.01 },
+    { stage: 'med', at: 127.6, until: 170, rect: [0, 0, 1, 1], frame: false, pop: false, in: 1.2, out: 0.01, samples: 0 },
   ],
 };
