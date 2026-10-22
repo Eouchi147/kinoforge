@@ -6,7 +6,7 @@ export const FONT = { cap: 'italic 400 30px "Cormorant Garamond"', label: '500 2
 export function buildShots(cues, duration) {
   const L = Object.fromEntries(cues.lines.map((l) => [l.id, l]));
   const st = (id) => L[id].start, en = (id) => L[id].end;
-  const wd = (id, w, n = 0, edge = 0) => { const key = w.toLowerCase().replace(/[^a-z0-9]/g, ''); const ws = L[id].words.filter((x) => x[0].toLowerCase().replace(/[^a-z0-9]/g, '').startsWith(key)); const x = ws[Math.min(n, ws.length - 1)]; if (!x) throw new Error(`no word ${w} in ${id}`); return x[1 + edge]; };
+  const wd = (id, w, n = 0, edge = 0) => { const keys = [].concat(w).map((k) => k.toLowerCase().replace(/[^a-z0-9]/g, '')); const ws = L[id].words.filter((x) => keys.some((key) => x[0].toLowerCase().replace(/[^a-z0-9]/g, '').startsWith(key))); const x = ws[Math.min(n, ws.length - 1)]; if (!x) throw new Error(`no word ${w} in ${id}`); return x[1 + edge]; };
   const look = (px, py, mm = 35, x = 0, y = 0, z = 0) => ({ x, y, z, pan: -Math.atan((px - 640) / 1050), tilt: -Math.atan((py - 360) / 1050), mm });
   const list = []; let t = 0;
   const S = (id, set, t1, o = {}) => { const sh = { id, set, t0: t, t1: t1 ?? duration, cam: [[0, look(640, 360)]], breath: 0.35, ...o }; sh.dur = sh.t1 - sh.t0; t = sh.t1; list.push(sh); return sh; };
@@ -22,7 +22,7 @@ export function buildShots(cues, duration) {
   S('a2', 'cave', cut('w3'), { mode: 'dusk', cam: [[0, look(640, 380, 30)], [en('w2') - cut('w2') + 1, look(640, 370, 33)]] });
   S('a3', 'mountain', cut('w4'), { mode: 'dusk', cam: [[0, look(800, 330, 55)], [en('w3') - cut('w3') + 1.4, look(830, 290, 66)]],
     labels: [{ text: 'JABAL AN-NUR', sub: 'the Mountain of Light', in: wd('w3', 'Jabal'), out: wd('w3', 'cave') - 0.2, x: 250, y: 120 },
-             { text: 'HIRA', sub: 'the cave', in: wd('w3', 'Hira'), out: cut('w4') + 0.1, at: ['peak', 846, 250], x: 480, y: 150 }] });
+             { text: 'HIRA', sub: 'the cave', in: wd('w3', ['Hira', 'Hera', 'Heera']), out: cut('w4') + 0.1, at: ['peak', 846, 250], x: 480, y: 150 }] });
   // SCENE 3, the valley below: loud life, statues around the Kaaba
   S('b1', 'valley', cut('w6'), { mode: 'dusk', cam: [[0, look(860, 400, 32)], [cut('w6') - cut('w4'), look(560, 410, 36)]], breath: 0.4 });
   // SCENE 4, one man climbs: we only see his lantern on the path
@@ -33,7 +33,7 @@ export function buildShots(cues, duration) {
   // SCENE 5, the night: light fills the cave and the sky. No figure is ever shown.
   S('e1', 'cave', cut('e2'), { mode: 'light', lamp: 1, lightAt: wd('e1', 'alone') - cut('e1') - 0.6, lightLen: 3.5, cam: [[0, look(640, 360, 36)], [cut('e2') - cut('e1'), look(650, 330, 46)]] });
   S('e2', 'mountain', cut('e3'), { mode: 'light', lightAt: 0, lightLen: 1.2, lamp: 1, cityA: 0.6, cam: [[0, look(800, 380, 34)], [cut('e3') - cut('e2'), look(810, 360, 38)]] });
-  S('e3', 'sky', cut('e4'), { mode: 'word', word: { ar: 'iqra', at: wd('e3', 'Iqra') - 0.2, dur: 1.4, en: 'READ', enAt: wd('e3', 'Read') }, cam: [[0, look(640, 360, 36)], [cut('e4') - cut('e3'), look(640, 350, 40)]], breath: 0.2 });
+  S('e3', 'sky', cut('e4'), { mode: 'word', word: { ar: 'iqra', at: wd('e3', ['Iqra', 'Ikra', 'Ekra']) - 0.2, dur: 1.4, en: 'READ', enAt: wd('e3', 'Read') }, cam: [[0, look(640, 360, 36)], [cut('e4') - cut('e3'), look(640, 350, 40)]], breath: 0.2 });
   S('e4', 'cave', cut('e6'), { mode: 'pulses', lamp: 1, pulses: [wd('e4', 'answered'), wd('e5', 'Read')], cam: [[0, look(640, 330, 46)], [cut('e6') - cut('e4'), look(640, 340, 54)]] });
   // change of scale: down to the mat and the lamp, the place where he sits, as the third ask comes
   S('e6', 'cave', cut('e7'), { mode: 'pulses', lamp: 1, pulses: [wd('e6', 'Three'), wd('e6', 'Three', 1)], cam: [[0, look(600, 560, 58)], [cut('e7') - cut('e6'), look(620, 540, 64)]] });
@@ -46,7 +46,7 @@ export function buildShots(cues, duration) {
   // SCENE 8, time passing: the stars wheel over the mountain and dawn comes up (a dissolve: time)
   S('f4', 'mountain', cut('l1'), { mode: 'dawn', dissolve: 1.2, dawnAt: 2.0, dawnLen: Math.max(4, cut('l1') - cut('m5') - 3), cam: [[0, look(700, 360, 28)], [cut('l1') - cut('m5'), look(720, 340, 30)]] });
   // SCENE 9, the lantern sky: tonight's one lantern rises with the word; the end card
-  S('l', 'sky', null, { mode: 'lantern', dissolve: 1.0, rise: [wd('l1', 'lantern') - cut('l1') - 0.3, 9], word: { ar: 'iqra', at: wd('l1', 'word') - cut('l1') + 0.2 }, endAt: E[0], card: 'end',
+  S('l', 'sky', null, { mode: 'lantern', dissolve: 1.0, rise: [0.6, Math.max(5, wd('l1', 'word') - cut('l1') - 0.4)], word: { ar: 'iqra', at: wd('l1', 'word') - cut('l1') + 0.2 }, endAt: E[0], card: 'end',
     cam: [[0, look(640, 420, 30)], [duration - cut('l1'), look(640, 360, 33)]], breath: 0.2 });
   for (const s of list) { s.t0abs = s.t0; }
   return list;

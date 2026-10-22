@@ -16,7 +16,7 @@ export function resolver(cues) {
     const endish = ref.endsWith('>'); if (endish) ref = ref.slice(0, -1);
     const [id, w] = ref.split('.'); const l = L[id]; if (!l) throw new Error('no line ' + id);
     if (!w) return (endish ? l.end : l.start) + off;
-    const [ww, nth] = w.split('#'); const x = word(l, ww, +(nth || 0));
+    const [ww, nth] = w.split('#'); let x = null; for (const alt of ww.split('|')) { x = word(l, alt, +(nth || 0)); if (x) break; }
     if (!x) { console.warn('no word', ref); return (endish ? l.end : l.start) + off; }
     return (endish ? x[2] : x[1]) + off;
   };
@@ -43,13 +43,13 @@ export function buildShots(cues, duration) {
   const litStart = tt('w2.Many'), litEnd = tt('w2>') - 0.3; const lastOn = tt('w3.last');
   const lampTimes = Array.from({ length: 30 }, (_, i) => i < 29 ? litStart + (litEnd - litStart) * (i / 28) : lastOn);
   S('s03', 'path', cut('w2'), { mode: 'wide', lamps: lampTimes, cam: [[0, look(640, 340, 26, 0, 0.4, 0)], [cut('w2') - cut('w1'), look(640, 330, 28, 0, 0.4, -1.5)]],
-    gfx: [{ type: 'arches', n: 30, at: tt('w1.thirty'), out: cut('w2') + 99, lit: lampTimes, y: 92 }, { type: 'label', text: 'THIRTY PARTS', sub: 'each part is called a juz', at: tt('w1.juz') - 0.3, out: cut('w2') + 0.2, y: 150 }] });
+    gfx: [{ type: 'arches', n: 30, at: tt('w1.thirty|30'), out: cut('w2') + 99, lit: lampTimes, y: 92 }, { type: 'label', text: 'THIRTY PARTS', sub: 'each part is called a juz', at: tt('w1.juz') - 0.3, out: cut('w2') + 0.2, y: 150 }] });
   // 3b: change of scale: closer, the camera climbs with the lanterns as they light one night at a time; the last one lights on "the last one".
   S('s04', 'path', tt('w3.People') - 0.1, { mode: 'climb', lamps: lampTimes, cam: [[0, look(560, 520, 34, 0, 0, -6)], [tt('w3.People') - cut('w2'), look(720, 210, 36, 0, 0.6, -10)]],
     gfx: [{ type: 'arches', n: 30, at: 0, out: 9999, lit: lampTimes, y: 92 }, { type: 'label', text: 'JUZ THIRTY', sub: 'the last part', at: lastOn + 0.1, out: 9999, y: 150 }] });
   // ===== SCENE 4: THE NAME. Cut on "People call it": we leave the hill for the page where the first word is written.
   S('s05', 'page', cut('w4'), { mode: 'amma', cam: [[0, look(640, 330, 40)], [cut('w4') - tt('w3.People') + 0.1, look(640, 340, 44)]],
-    gfx: [{ type: 'arabic', key: 'amma', at: tt('w3.Amma') - 0.2, dur: 1.4, x: 640, y: 300, size: 150, glow: 0.5 }, { type: 'label', text: 'JUZ AMMA', sub: 'named for its first word', at: tt('w3.Amma') + 0.6, out: 9999, y: 520, small: true }] });
+    gfx: [{ type: 'arabic', key: 'amma', at: tt('w3.Amma|Alma|Ama') - 0.2, dur: 1.4, x: 640, y: 300, size: 150, glow: 0.5 }, { type: 'label', text: 'JUZ AMMA', sub: 'named for its first word', at: tt('w3.Amma|Alma|Ama') + 0.6, out: 9999, y: 520, small: true }] });
   // new information (how many surahs): the page pulls back and thirty-seven rosettes fill as the number counts up
   S('s06', 'page', cut('e1'), { mode: 'grid', cam: [[0, look(640, 360, 32)], [cut('e1') - cut('w4'), look(640, 360, 34)]],
     gfx: [{ type: 'grid37', at: tt('w4.holds'), settle: tt('w4.surahs') + 0.4, out: 9999 }, { type: 'count', to: 37, at: tt('w4.holds'), settle: tt('w4.surahs') + 0.4, x: 640, y: 150, label: 'SURAHS', out: 9999 }] });
@@ -72,9 +72,9 @@ export function buildShots(cues, duration) {
   // closer: the verse about a thousand months, then the count that turns it into a lifetime
   S('s12', 'night', cut('t2e'), { mode: 'close', noCap: ['t2c'], cam: [[0, look(620, 300, 36, 0, 0.6, -2)], [cut('t2e') - cut('t2c'), look(620, 290, 39, 0, 0.6, -3)]],
     gfx: [{ type: 'arabic', key: '97:3', at: tt('t2c') - 0.1, dur: 2.2, x: 640, y: 200, size: 60, glow: 0.35, meaning: 'The Night of Decree is better than a thousand months.', meaningAt: tt('t2c') + 0.3, out: tt('t2d') - 0.2, ref: 'AL-QADR 97:3' },
-      { type: 'count', to: 1000, from: 0, at: tt('t2d.thousand') - 0.4, settle: tt('t2d.months') + 0.3, x: 640, y: 210, label: 'MONTHS', commas: true, out: 9999, then: { text: '= MORE THAN 83 YEARS', at: tt('t2d.eighty') - 0.1 } }] });
+      { type: 'count', to: 1000, from: 0, at: tt('t2d.thousand') - 0.4, settle: tt('t2d.months') + 0.3, x: 640, y: 210, label: 'MONTHS', commas: true, out: 9999, then: { text: '= MORE THAN 83 YEARS', at: tt('t2d.eighty|83') - 0.1 } }] });
   // new information (when the night is): the last ten nights as ten lanterns on a rope over the roofs, the odd nights brighter
-  S('s13', 'night', cut('t3a'), { mode: 'ten', tenOn: tt('t2e.ten') - 0.2, oddOn: tt('t2e.odd') - 0.1, cam: [[0, look(640, 300, 32, 0, 0.5, -1)], [cut('t3a') - cut('t2e'), look(640, 300, 34, 0, 0.5, -2)]],
+  S('s13', 'night', cut('t3a'), { mode: 'ten', tenOn: tt('t2e.ten|10') - 0.2, oddOn: tt('t2e.odd') - 0.1, cam: [[0, look(640, 300, 32, 0, 0.5, -1)], [cut('t3a') - cut('t2e'), look(640, 300, 34, 0, 0.5, -2)]],
     gfx: [{ type: 'label', text: 'THE LAST TEN NIGHTS', sub: 'seek it on the odd nights', at: tt('t2e.last') - 0.2, out: 9999, y: 96 }] });
   // ===== SCENE 8: AL-IKHLAS. Back to the page: four short verses landing one by one.
   const ik = cues.lines.find((l) => l.id === 't3b');
@@ -87,7 +87,7 @@ export function buildShots(cues, duration) {
     gfx: [{ type: 'label', text: 'SURAH AL-IKHLAS', sub: 'four short verses', at: cut('t3c') + 0.2, out: 9999, y: 96 }, { type: 'third', at: tt('t3c.equal') - 0.2, settle: tt('t3c.third') + 0.6, out: 9999, x: 640, y: 300, r: 120, label: "ONE THIRD OF THE QUR'AN" }] });
   // ===== SCENE 9: BEFORE SLEEP. A child's room at night, nobody in it: the lamp is low, the blanket folded.
   S('s16', 'bedroom', cut('m3'), { mode: 'wide', cam: [[0, look(640, 380, 28, 0, 0, 0)], [cut('m3') - cut('m1'), look(660, 390, 31, 0, 0, -0.8)]],
-    gfx: [{ type: 'pair', a: { key: 'falaq', name: 'AL-FALAQ', at: tt('m1.Falaq') - 0.3 }, b: { key: 'nas', name: 'AN-NAS', at: tt('m1.Nas') - 0.2 }, out: tt('m2') - 0.1, y: 210, xa: 600, xb: 960 },
+    gfx: [{ type: 'pair', a: { key: 'falaq', name: 'AL-FALAQ', at: tt('m1.Falaq|Falak|Falaq') - 0.3 }, b: { key: 'nas', name: 'AN-NAS', at: tt('m1.Nas|Nahas|Naas|Nas') - 0.2 }, out: tt('m2') - 0.1, y: 210, xa: 600, xb: 960 },
       { type: 'label', text: 'EVERY NIGHT BEFORE SLEEP', sub: 'al-Ikhlas, al-Falaq and an-Nas', at: tt('m2.Every') + 0.3, out: cut('m3') + 0.3, y: 96 }] });
   // closer, to the lamp turned low by the bed: "you can do the same"
   S('s17', 'bedroom', cut('l1'), { mode: 'close', dim: [tt('m3'), tt('m3>') + 1.5], cam: [[0, lookAt(960, 490, 8, 36, 0, 0, -2.0)], [cut('l1') - cut('m3'), lookAt(950, 492, 8, 39, 0, 0, -2.4)]] });

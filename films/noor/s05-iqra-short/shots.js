@@ -3,12 +3,12 @@
 export const FONT = {};
 export function buildShots(cues, duration) {
   const L = Object.fromEntries(cues.lines.map((l) => [l.id, l])); const G = Object.fromEntries(cues.segments.map((s) => [s.name, s]));
-  const wd = (id, w, n = 0) => { const k = w.toLowerCase().replace(/[^a-z0-9]/g, ''); const ws = L[id].words.filter((x) => x[0].toLowerCase().replace(/[^a-z0-9]/g, '').startsWith(k)); return (ws[Math.min(n, ws.length - 1)] || L[id].words[0])[1]; };
+  const wd = (id, w, n = 0) => { const ks = [].concat(w).map((k) => k.toLowerCase().replace(/[^a-z0-9]/g, '')); const ws = L[id].words.filter((x) => ks.some((k) => x[0].toLowerCase().replace(/[^a-z0-9]/g, '').startsWith(k))); return (ws[Math.min(n, ws.length - 1)] || L[id].words[0])[1]; };
   const look = (px, py, mm = 22) => ({ x: 0, y: 0, z: 0, pan: -Math.atan((px - 640) / 1050), tilt: -Math.atan((py - 360) / 1050), mm });
   const list = []; let t = 0;
   const S = (id, set, t1, o = {}) => { const sh = { id, set, t0: t, t1: t1 ?? duration, cam: [[0, look(640, 360)]], breath: 0.3, ...o }; sh.dur = sh.t1 - sh.t0; t = sh.t1; list.push(sh); return sh; };
   // 1. the hook and the word: the sky fills with gold light, the word writes itself
-  S('w', 'sky', G.word.t1, { mode: 'word', word: { ar: 'iqra', at: wd('e3', 'Iqra') - 0.2, dur: 1.4, en: 'READ', enAt: wd('e3', 'Read') }, hook: cues.marks.hook, cam: [[0, look(640, 250, 20)], [G.word.t1, look(640, 240, 22)]] });
+  S('w', 'sky', G.word.t1, { mode: 'word', word: { ar: 'iqra', at: wd('e3', ['Iqra', 'Ikra', 'Ekra']) - 0.2, dur: 1.4, en: 'READ', enAt: wd('e3', 'Read') }, hook: cues.marks.hook, cam: [[0, look(640, 250, 20)], [G.word.t1, look(640, 240, 22)]] });
   // 2. the first words: the illuminated panel, verse by verse (a dissolve hides the join in the sound)
   S('v', 'sky', G.verses.t1, { mode: 'verse', card: 'verse', dissolve: 0.5, cam: [[0, look(640, 300, 20)], [G.verses.t1 - G.verses.t0, look(640, 290, 21)]], breath: 0.15 });
   // 3. what it means: the mountain at night, the word stays with us, then the series tag
