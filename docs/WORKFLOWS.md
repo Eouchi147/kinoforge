@@ -101,6 +101,15 @@ commit that touches that workflow file (a blank line is enough), wait about 20 s
 ## Web studio: make a film from a conversation
 Open https://kinoforge-studio.vercel.app (Vercel sign-in), Director tab, name a subject, agree the brief, tap "Build this film". The studio commits `films/studio/<id>/brief.json`; `film.yml` runs; the job page (`#job/<id>`) shows stages and spend from `films/studio/<id>/status.json`; the finished film appears under Films (release `films` of this repo). Media is streamed through `/api/media` from public releases (allow-list in `studio-web/lib/media.js`).
 
+## Re-render a hand-built film (Dark Corners, Battle Map) on free runners
+The film folder in this repo (`films/<series>/<id>/`: `film.json`, `cues.json`, `audio/mix.m4a`, `index.html` or
+`blender.py`) is rendered by rc-render's `films.yml` (parallel parts, join with the film's own sound, release
+`kino-films`; the same `id` replaces the old file). Dispatch through the REST API (GraphQL is blocked in Claude Code
+sessions); `ref` must be a branch or a **full** commit hash (a short hash fails the checkout):
+`gh api -X POST repos/Eouchi147/rc-render/actions/workflows/films.yml/dispatches -f ref=main -f 'inputs[film]=films/dark-corners/bamberg' -f 'inputs[parts]=14' -f "inputs[ref]=$(git rev-parse HEAD)"`.
+Web films: 12 to 20 parts, 10 to 25 minutes. Blender films: 24 parts, about 80 minutes. Costs nothing (GitHub runners;
+see the terms note in the handover).
+
 ## Film lanes (parked while ads come first)
 
 | Workflow | What | Trigger |
