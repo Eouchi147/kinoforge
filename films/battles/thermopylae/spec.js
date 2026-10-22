@@ -399,7 +399,7 @@ const main = {
     L('l08.wall', 'l08.took', 'A WALL OF SHIELDS', { block: 'w1', team: 'carthage', dy: -0.2, dx: -0.15, big: true }),
     L('l08.took', 'l09', 'TAKING TURNS AT THE FRONT', { screen: [0.5, 0.1], big: true, team: 'carthage', size: 0.9 }),
     // ---- l09 the Immortals and the throne
-    L('l09.elite', 'l09.could', 'XERXES\' ELITE GUARD: THE IMMORTALS', { block: 'imm', team: 'rome', dy: -0.14, size: 0.9 }),
+    L('l09.elite', 'l09.could', 'XERXES\' ELITE GUARD: THE IMMORTALS', { block: 'imm', team: 'rome', dy: -0.2, size: 0.9 }),
     L('l09.break', 'l09.Herodotus', 'THEY CANNOT BREAK THROUGH', { screen: [0.5, 0.1], big: true, team: 'rome' }),
     L('l09.Herodotus', 'l09.jumped', 'XERXES WATCHES', { pos: [-62, -62], y: 10, dy: -0.2, dx: 0.14, big: true, team: 'rome' }),
     L('l09.jumped', 'l09.afraid', 'HE JUMPS UP, THREE TIMES', { screen: [0.5, 0.1], big: true, team: 'rome', size: 0.95 }),
@@ -458,8 +458,8 @@ const main = {
     I('l07.shade.', 'l07>', 'cool', { block: 'w1', team: 'carthage', size: 20, dy: -0.04, anim: 'bounce' }),
     // ---- l08
     I('l08.fifth', 'l10.Two', 'calendar', { screen: [0.9, 0.3], size: 0.24, fill: '5,0,DAY', anim: 'none' }),
-    I('l08.wall', 'l09', 'shield', { block: 'w1', team: 'carthage', size: 18, dx: -0.05, dy: -0.04, anim: 'bounce' }),
-    I('l08.wall+0.15', 'l09', 'shield', { block: 'w2', team: 'carthage', size: 14, dx: 0.06, dy: -0.01, anim: 'bounce' }),
+    I('l08.wall', 'l09', 'shield', { block: 'w1', team: 'carthage', size: 16, dx: -0.1, dy: 0.0, anim: 'bounce' }),
+    I('l08.wall+0.15', 'l09', 'shield', { block: 'w2', team: 'carthage', size: 14, dx: 0.1, dy: 0.0, anim: 'bounce' }),
     ...[0, 1, 2, 3, 4, 5].map((k) => I(`l08.wave+${k * 0.6 + 3.3}`, `l08.wave+${k * 0.6 + 3.9}`, 'burst', { pos: [CX + WAVE_JIT[k] * 0.5, HIT + 4], y: 5, size: 16, anim: 'none' })),
     // ---- l09
     I('l09.through', 'l09.Herodotus', 'burst', { pos: [CX, HIT + 4], y: 5, size: 20, anim: 'none' }),
@@ -533,16 +533,16 @@ const main = {
     { at: 'l07.good', target: [CX, 30], dist: 90, pitch: 22, yaw: 0, mm: 35, ease: 'inOut' },
     // l08: wave after wave
     { at: 'l08.On', target: [CX, 20], dist: 240, pitch: 36, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l08.wave', target: [CX, -40], dist: 220, pitch: 40, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l08.wave+2.6', target: [CX, 4], dist: 130, pitch: 40, yaw: 12, mm: 35, ease: 'inOut' },
-    { at: 'l08.wall', target: [CX, 20], dist: 110, pitch: 48, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l08.took', target: [CX, 30], dist: 100, pitch: 60, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l08.wave', target: [CX, -50], dist: 270, pitch: 36, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l08.wave+2.6', target: [CX, -20], dist: 230, pitch: 38, yaw: 8, mm: 35, ease: 'inOut' },
+    { at: 'l08.wall', target: [CX, 10], dist: 160, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
+    { at: 'l08.took', target: [CX, 26], dist: 130, pitch: 58, yaw: 0, mm: 35, ease: 'inOut' },
     // l09: the Immortals and the throne
     { at: 'l09.Even', target: [CX, -20], dist: 190, pitch: 26, yaw: 0, mm: 35, ease: 'inOut' },
     { at: 'l09.elite', target: [CX, -28], dist: 160, pitch: 20, yaw: -6, mm: 32, ease: 'inOut' },
     { at: 'l09.through', target: [CX, 0], dist: 100, pitch: 28, yaw: 10, mm: 35, ease: 'inOut' },
-    { at: 'l09.Herodotus', target: [-56, -56], dist: 130, pitch: 26, yaw: 40, mm: 35, ease: 'inOut' },
-    { at: 'l09.afraid', target: [-56, -50], dist: 110, pitch: 24, yaw: 30, mm: 35, ease: 'inOut' },
+    { at: 'l09.Herodotus', target: [-50, -56], dist: 170, pitch: 26, yaw: 300, mm: 35, ease: 'inOut' },
+    { at: 'l09.afraid', target: [-56, -58], dist: 130, pitch: 24, yaw: 308, mm: 35, ease: 'inOut' },
     // l10
     { at: 'l10.Two', target: [CX, 0], dist: 220, pitch: 62, yaw: 0, mm: 35, ease: 'inOut' },
     // l11: Ephialtes and the path
