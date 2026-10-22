@@ -312,7 +312,6 @@ export default {
     birds: [{ center: [-60, -110], r: 50, h: 34, n: 6, speed: 6 }, { path: [[-300, 120], [300, -120]], n: 5, h: 40, speed: 9 }, { center: [100, 90], r: 34, h: 30, n: 5, speed: 5, dir: -1 }],
   },
   arrows: [
-    { at: 'l08.rode', until: 'l08.fought', ease: 'cam', team: 'rome', width: 5, path: [[6, 2], [-40, 0], [-82, 0]], lift: 6, hide: 'l08.pretended' },
     { at: 'l08.run', until: 'l08.valley.>', ease: 'cam', team: 'rome', style: 'dash', width: 5, path: [[-84, 0], [-30, 4], [30, 0], [96, 2]], lift: 6, hide: 'l09.charge' },
     { at: 'l09.charge', until: 'l09.him.>', ease: 'cam', team: 'carthage', width: 6, path: [[-112, -30], [-50, -24], [10, -24], [44, -24]], lift: 6, hide: 'l11.ambush.' },
     { at: 'l09.charge', until: 'l09.him.>', ease: 'cam', team: 'carthage', width: 6, path: [[-112, 30], [-50, 24], [10, 24], [44, 24]], lift: 6, hide: 'l11.ambush.' },
@@ -327,7 +326,7 @@ export default {
     { at: 'l06.3rd', until: 'l06.they', text: '3 SEPTEMBER 1260', screen: [0.5, 0.86], big: true },
     { at: 'l06.met', until: 'l06.spring', text: 'KITBUQA', block: 'monK', team: 'carthage', dx: 0.04, dy: -0.12 },
     { at: 'l08.Babers', until: 'l08.fought', text: 'BAYBARS', block: 'bay', team: 'rome', dx: 0.04, dy: -0.12 },
-    { at: 'l12.Khutuz', until: 'l12.rallied.>', text: 'QUTUZ', block: 'qutB', team: 'rome', dx: 0.05, dy: -0.12 },
+    { at: 'l12.Khutuz', until: 'l12.rallied.>', text: 'QUTUZ', block: 'qutB', team: 'rome', dx: 0.1, dy: 0.08 },
     { at: 'l13.Kitbuka', until: 'l13.Mongol', text: 'KITBUQA', block: 'monK', team: 'carthage', dx: -0.05, dy: -0.12 },
   ],
   cards: [

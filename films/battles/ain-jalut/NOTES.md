@@ -15,7 +15,7 @@ Film-side code (no engine change):
   at the end), with a thinner edge than v1. The v1 timeline bar is gone (the 250 years are now a caption, 1260 TO 1517).
 - The v1 `icons.js` (censored scroll, hat, mirror, copy, smirk, puff, horn, bush) is gone, and so are the bouncing crowns, bursts and
   question marks. The letters stay as the engine's flat scroll glyph riding the dashed message routes (a message really travelled).
-- The feigned retreat is told by the choreography and the ink: a red arrow out, a short fight, Baybars turns, a dashed red arrow "up the
+- The feigned retreat is told by the choreography and the ink: Baybars rides out, a short fight, he turns, a dashed red arrow "up the
   valley", the blue arrows of the chase drawn behind him; the hidden army only appears on "the main Mamluk army was waiting" (lettered
   place C, the Hills of Galilee, is highlighted on "Hidden in the hills").
 
@@ -36,7 +36,7 @@ horsemen for "their own favourite trick", the cut-free hold on Baybars for "Team
 | S3 Surrender or else | 28.4 to 42.1 | the threat and the answer | 3.1 above Damascus: HULAGU, his message (a scroll on a dashed blue route) rides to CAIRO; 3.2 reverse, low from the Egyptian side: MAMLUKS OF EGYPT join the legend, the answer rides back (red), hold on "Let's leave it at that" |
 | S4 Luck changes | 42.1 to 60.1 | the Khan dies, most Mongols go home, Egypt marches | 4.1 wide to KARAKORUM: caption AUGUST 1259, Hulagu rides most of the army back east on a long blue arrow; 4.2 back to Syria, closer: KITBUQA and the smaller army; 4.3 Egypt: SULTAN QUTUZ and BAYBARS march out on the red route |
 | S5 The valley | 60.1 to 74.7 | where they meet | dissolve to the valley. 5.1 low along the valley from the east, Baybars's small force in the foreground, the Mongols (KITBUQA) by the spring; caption 3 SEPTEMBER 1260; places A Ain Jalut, B the valley; 5.2 high over the valley: C the Hills of Galilee on both sides; 5.3 low on the Mongol horsemen, legend highlights Horse archers |
-| S6 The feigned retreat | 74.7 to 87.4 | the trick | 6.1 behind BAYBARS as he rides out (red arrow) and closes with the Mongols; 6.2 high angle: he turns and runs up the valley (red dashed arrow); 6.3 low behind the Mongol horsemen as they charge after him (blue arrows) |
+| S6 The feigned retreat | 74.7 to 87.4 | the trick | 6.1 behind BAYBARS as he rides out and closes with the Mongols; 6.2 high angle: he turns and runs up the valley (red dashed arrow); 6.3 low behind the Mongol horsemen as they charge after him (blue arrows) |
 | S7 Ambush (climax) | 87.4 to 113.7 | the hidden army strikes; the line bends, holds, and the Mongols break | 7.1 tilt up to the wooded hills: the main Mamluk army rises rank by rank; 7.2 the decisive moment top-down: four red arrows, hit from both sides; 7.3 closer and lower: the Mongols push back, the Mamluk line bows; 7.4 low on QUTUZ riding into the line (45 mm), the line straightens; 7.5 high and wide: the second charge, KITBUQA's block thins, the Mongol army drains west, MONGOL EMPIRE dims in the legend |
 | S8 Never conquered | 113.7 to 130.9 | the result | dissolve to the map: AIN JALUT marked, the long dashed blue arrow back from Mongolia stops short, the Mongol arrow toward Egypt stops at a gold dashed line; closer on the road home: Qutuz's standard fades, SULTAN BAYBARS |
 | S9 Two and a half centuries | 130.9 to 139.6 | why it mattered | high over Egypt as the red Mamluk realm spreads from Cairo to Syria; caption 1260 TO 1517; legend highlights the Mamluks; end card at 135.43 |
