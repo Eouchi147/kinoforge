@@ -1,0 +1,13 @@
+{
+ "rounds": [],
+ "drafts": {
+  "a": {
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "bytes": 32804
+  }
+ },
+ "draft_errors": {
+  "a": "nvidia/nemotron-3-ultra-550b-a55b:free: {'message': 'Upstream error from Nvidia: Service temporarily overloaded', 'code': 503, 'metadata': {'error_type': 'provider_overloaded'}}",
+  "b": "google/gemma-4-31b-it:free: 429 rate limited three times"
+ }
+}

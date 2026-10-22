@@ -3,7 +3,8 @@
  "total": 0.0,
  "by_seat": {
   "head": 0,
-  "deputy": 0
+  "deputy": 0,
+  "coder": 0
  },
  "calls": [
   {
@@ -201,6 +202,28 @@
    "note": null,
    "tok_in": 1800,
    "tok_out": 2738
+  },
+  {
+   "seat": "coder",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "spec draft a",
+   "usd": 0.0,
+   "s": 1.1,
+   "ok": false,
+   "note": null,
+   "tok_in": null,
+   "tok_out": null
+  },
+  {
+   "seat": "coder",
+   "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "task": "spec draft (fallback)",
+   "usd": 0.0,
+   "s": 669.3,
+   "ok": true,
+   "note": null,
+   "tok_in": 51978,
+   "tok_out": 15864
   }
  ]
 }

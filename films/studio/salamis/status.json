@@ -3,8 +3,8 @@
  "title": "The Battle of Salamis",
  "line": "battle-map",
  "stage": "spec",
- "state": "running",
- "message": "Two coders are drafting the picture: nvidia/nemotron-3-ultra-550b-a55b:free, google/gemma-4-31b-it:free.",
+ "state": "done",
+ "message": "1 drafts: A by nvidia/nemotron-3-ultra-550b-a55b:free.",
  "usd": 0.0,
  "cap_usd": 0.5,
  "outputs": {
@@ -43,12 +43,13 @@
    "ended_at": "2026-10-22T16:13:12Z"
   },
   "spec": {
-   "state": "running",
+   "state": "done",
    "started_at": "2026-10-22T16:13:19Z",
-   "usd": 0.0
+   "usd": 0.0,
+   "ended_at": "2026-10-22T16:25:04Z"
   }
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39805128221",
- "updated_at": "2026-10-22T16:13:19Z"
+ "updated_at": "2026-10-22T16:25:04Z"
 }
