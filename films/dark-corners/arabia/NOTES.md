@@ -197,23 +197,25 @@ Shots: 31, scenes: 9, average shot 5.7 s, shortest 1.2 s, longest 11.5 s.
 
 Number tiles arrive at 113.0, 113.8, 115.05 and 117.38 s; the verse is set word by word in S; the end card is in the last 2.6 s.
 
-## Render budget (720x1280, 24 spp, OIDN, measured with `time.process_time`)
+## Render budget (720x1280, OIDN, measured with `time.process_time` on a 2-core box at load 8 to 11)
 
-- CPU time per frame: about 65 to 95 CPU-s (night sky shots with the Milky Way and many tents at the top: 80 to 93; tents and faces 67).
-  On a 4 vCPU runner that is about 17 to 24 s wall per frame. Pair reuse halves the path-traced count to about 2,110 poses
-  (4,220 frames in all): about 45 CPU-hours, so about 11 hours of 4 vCPU time, in roughly 22 parts of 30 minutes.
-- Scene build takes 60 to 100 s once per part (the dev box here has 2 cores and a load of 8 to 11, so wall times in the logs are inflated).
-- Slightly over the 20 s per frame target on the busiest shots; the cheap lever if a runner is slow is `KF_ARABIA_SPP_CAP=18`.
+- Measured at 24 spp: 67 CPU-s (tents and faces), 80 to 93 (night sky with the Milky Way), 116 (Mecca street with a card). Contention inflates
+  these a little. The cap is now 20 spp (`SPP_CAP`), which should take roughly 15 percent off: about 60 to 100 CPU-s, so 15 to 25 s wall on a 4 vCPU runner.
+- Pair reuse halves the path-traced count to about 2,110 poses (4,220 frames in all): roughly 45 to 50 CPU-hours, about 12 hours of 4 vCPU time.
+  Split in about 24 parts of 30 minutes. This is above the 20 s per frame target on the busiest shots; the levers are `KF_ARABIA_SPP_CAP=16`
+  and fewer scatter tufts (`build_dress`).
+- Scene build takes 60 to 100 s once per part. A full no-render pass over every pose (build plus 2,110 poses) takes about 45 min here and raises no error.
+- Pair reuse was checked through the real harness (frames 2304 to 2307: each pair byte-identical).
 
 ## QC log
 
 - 36 stills at 360x640 (8 to 12 spp) over three passes at times through all nine scenes, a full-resolution check of the star sky
-  (720x1280, 24 spp, t=94: stars crisp and varied, Milky Way band, moon with painted halo, no bokeh) and of the number tiles, the cards and the foreground clusters.
+  (720x1280, 24 spp, t=94 and t=125.5: stars crisp and varied, Milky Way band, moon with painted halo, no bokeh) and of the number tiles, the cards and the foreground clusters.
 - Fixed in QC: sky showing the world gradient past the card ends and above the card (wings and a 24 m card), a V gap between the card and a
   wing (wings extended past the corner), the camera inside the terrain (ground clamp), rule line crossing the letters on cards, caravan lamps
   reading as a string of fairy lights (fewer, dimmer, irregular), far dunes near black (lighter paper colours), number tiles blurred in N3
   (camera stops short of the tiles, f/8 first, focus pulled to the field after 120.2 s), bare bottom third of low shots (denser scatter and foreground clusters).
-- A no-render dry run over every pose and a pair-reuse run through the real harness were done (see the report).
+- A no-render dry run over every pose (0 errors) and a pair-reuse run through the real harness (byte-identical pairs) were done.
 
 ## Known weak spots
 
