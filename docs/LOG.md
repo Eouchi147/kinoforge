@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Hastings, Hattin and Gaugamela on Battle Map v2 rendered, given the final score with `remux.yml` (-14.2 LUFS each), checked on contact sheets and copied to Sam's Mac (`-v2`). Ain Jalut's remux was cancelled once and re-run; Waterloo, Thermopylae, Arabia, the seasons loop, the drainage ad and Agincourt insert A are still in the runner queue.
 - Sample Cutaway trade ad built (`films/cutaway/ads/drainage/` v916 and v169, 15 s: soggy yard with a downspout, the clay band in the cut, the drain laid as a time-lapse under breaking sun, golden end with a robin; words in Inter Tight checked against R-2-08 in the build; free score at -14 LUFS); both formats dispatched for render. Known: framing crops the house at the left edge, the puddle reads weakly in stills.
 - Agincourt mud inserts built (`films/cutaway/agincourt-mud/` A: rain-soaked field and stakes, 1375 to 1727; B: knights sinking at the cut face, crows, 2081 to 2420); B1 getting one fix (legs visibly buried in the cut). rc-render `films.yml` now lays `inserts` from film.json frame-exactly (tested on dummy clips); Agincourt's film.json lists both.
 - NOOR Iqra and short: the single word Iqra (title, e3, lantern end, short opening) redrawn as a clean filled glyph run (no outline stroke): dark ink #2C2416 over a soft warm glow on bright light, gold over a soft dark halo at night; write-on by wipe. Re-rendering both.

@@ -51,10 +51,12 @@ gates, pole sections), `overlay.py` (labels, counter, title, arrows set in code)
    valve turning, the flow stopping (PUMPING STOPPED).
 6. **High water** (l13, city, overcast). Begins high on the campo as the sea pours in; ends low and close among the
    people on the raised walkways.
-7. **The wall under the sea** (l14 to l15, inlet then city). Begins wide on the inlet, gates on the seabed (78 GATES ON
-   THE SEABED); middle: side on through the cut, the gates fill with air and swing up (AIR PUMPED IN, the score's one
-   swell), the sea rises outside; wide again: sea high, lagoon calm (OCTOBER 2020, SEA, LAGOON); ends on the campo,
-   dry, people walking.
+7. **The wall under the sea** (l14 to l15, inlet then city, golden low sun, god rays over the sea, mist on the
+   lagoon). Begins wide on the inlet: the open channel between the dunes and the cut, the gates lying flat in their
+   caisson (78 GATES ON THE SEABED); middle: closer, three-quarter on the cut along the channel, in section the caisson,
+   the hinge and the gates; air in, water out (the tag on the gate as it happens), they swing up to about 45 degrees,
+   the score's one swell, and the choppier sea rises against them; wide again: sea high, lagoon calm (OCTOBER 2020,
+   SEA, LAGOON); ends on the campo, dry, people walking.
 8. **Dusk** (l16, city). A dip through the mist to dusk; the lamps and windows come on; a slow pull back to the whole
    city ends the film under the score's resolve.
 
