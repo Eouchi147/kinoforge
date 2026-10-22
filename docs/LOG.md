@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Seasons loop rendered (12 s, release `kino-films` as `cutaway-loop-seasons`), checked, copied to Sam's Mac. Agincourt insert A and both drainage ad formats rendered and wait only for their join jobs behind Venice's parts.
 - Mac lane (Sam, 17:09 to 17:12: render on his MacBook's M4, Blender installed): `harness/blender_render.py` takes `--device METAL` and its arguments after `--` inside the Blender app; `harness/mac/go.py` is a job watcher started in Blender's console by computer use; code copy in `Video Production/kinoforge-render/`. First test: Venice frames 1000 to 1019 at 1280x720 and 24 samples, about 7.5 s per frame on the M4 GPU (frames correct), roughly 7 GitHub runners' worth. A failed git clone was moved to `Video Production/_to_delete/` (deleting is not allowed there).
 - Arabia re-direction rendered (rc-render run 39810673282, 175.8 s, -14.0 LUFS), checked on a 2 s contact sheet, copied to Sam's Mac (`-v2`). Kleidion, Arabia and Bamberg re-makes from Sam's notes are all done (Zong was not in his notes). Agincourt insert A rendered.
 - Waterloo, Thermopylae and Ain Jalut on Battle Map v2 rendered, given the final score (-14.2 LUFS each), checked on contact sheets and copied to Sam's Mac (`-v2`). Seven of eight battles done; Agincourt renders after its two Cutaway inserts.
