@@ -1,0 +1,4 @@
+{"_": "A hill in Sussex: G dorian, lute and fiddle, dry tabor. Swell at the feigned flight; Harold's fall is sober; the coronation lifts; the French words at the end are light.",
+ "palette": "medieval_europe", "key": "G", "mode": "dorian", "tempo": 76,
+ "battle_line": "l08", "turn_line": "l12", "result_line": "l14", "result_mood": "aftermath", "epilogue_line": "l17",
+ "extra": [{"line": "l16", "mood": "triumph", "intensity": 0.6}]}

@@ -9,6 +9,7 @@ import { normaliseKey, CameraTrack, poseToCamera } from './camera.js';
 import { Blocks } from './blocks.js';
 import { Arrows } from './arrows.js';
 import { StageOverlay } from './overlay.js';
+import { Ambient } from './ambient.js';
 
 export const DEFAULT_LOOK = {
   sun: [1.25, 0.92, 0.55], sunEve: [1.5, 0.62, 0.28], sky: [0.20, 0.26, 0.42], bounce: [0.15, 0.10, 0.055], fog: [0.93, 0.78, 0.58], horizon: [0.95, 0.80, 0.60], zenith: [0.45, 0.62, 0.82],
@@ -30,9 +31,10 @@ export class Stage {
     this.sky = makeSky(shared); this.scene.add(this.sky);
     this.renderer = renderer; const amb = spec.ambient || {};
     this.blocks = new Blocks(this.scene, world, spec.blocks || {}, clock, mh, { armies: spec.armies || 'figures', shared, figures: spec.figures || {}, wind: amb.wind || [1.2, 0.4] }); this.blocks.applyMoves(spec.moves || []);
-    this.arrows = new Arrows(this.scene, this, spec.arrows || [], clock);
+    this.arrows = new Arrows(this.scene, this, spec.arrows || [], clock); this.ambient = new Ambient(this, amb, clock);
     this.light = {}; for (const k of ['eve', 'haze', 'cloud', 'glint']) this.light[k] = new Track(k === 'cloud' ? Lk.cloud : k === 'eve' ? 0 : 1);
-    for (const l of (spec.light || [])) { const [t0, t1] = clock.span(l, 1); for (const [k, v] of Object.entries(l.to)) { if (!this.light[k]) throw new Error('light: unknown prop ' + k); this.light[k].add(t0, t1, v, l.ease || 'inOut'); } }
+    const lights = (spec.light || []).map((l, i) => ({ l, i, t: clock.at(l.at) })).sort((a, b) => a.t - b.t || a.i - b.i).map((q) => q.l); // in time order, so each segment starts from the value the earlier ones left
+    for (const l of lights) { const [t0, t1] = clock.span(l, 1); for (const [k, v] of Object.entries(l.to)) { if (!this.light[k]) throw new Error('light: unknown prop ' + k); this.light[k].add(t0, t1, v, l.ease || 'inOut'); } }
     this.cam = new CameraTrack((spec.camera || []).map((k) => normaliseKey(k, clock, aspect)));
     this.overlay = new StageOverlay(this, spec, clock);
     this.pose = null; this.visible = true;
@@ -52,7 +54,8 @@ export class Stage {
     const sv = world.spec.sun || { azimuth: 300, elevation: 24 }, se = world.spec.sunEve || { azimuth: 288, elevation: 6 }; const az = lerp(sv.azimuth, se.azimuth, eve) * Math.PI / 180, el = lerp(sv.elevation, se.elevation, eve) * Math.PI / 180;
     const sunDir = [Math.sin(az) * Math.cos(el), Math.sin(el), -Math.cos(az) * Math.cos(el)]; sky.material.uniforms.uSunDir.value.set(...sunDir);
     const bu = blocks.uniforms; bu.uFogCol.value.copy(U.uFogCol.value); bu.uFog.value.copy(U.uFog.value); bu.uSkyCol.value.copy(U.uSkyCol.value); bu.uSunCol.value.copy(U.uSunCol.value).lerp(U.uSunColB.value, eve); bu.uSunDir.value.set(...sunDir);
-    if (blocks.figs) blocks.figs.setPx(camera, this.renderer.domElement.height);
+    if (blocks.figs) blocks.figs.setPx(camera, this.renderer.domElement.height); this.ambient.update(t);
+    const amb = this.spec.ambient || {}; const wd = this.ambient.windDir; U.uWind.value.set(wd[0], wd[1], t, amb.gusts ?? 0.6); const fl = amb.flow || {}; const fd = fl.dir || [1, 0]; const fdl = Math.hypot(fd[0], fd[1]) || 1; U.uFlow.value.set(fd[0] / fdl, fd[1] / fdl, fl.speed ?? 1, fl.glint ?? 1);
     blocks.update(t, camera, Lk, sunDir); if (new URLSearchParams(location.search).get('nb')) { blocks.mesh.visible = false; blocks.shadow.visible = false; } arrows.update(t, { col: U.uFogCol.value, v: U.uFog.value });
   }
 }

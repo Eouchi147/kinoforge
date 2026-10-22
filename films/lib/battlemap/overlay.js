@@ -6,7 +6,32 @@ import { EASE } from './timeline.js';
 import { drawIcon } from './icons.js';
 import { TEAMS } from './blocks.js';
 
-const INK = '#2a190e', CREAM = '#f6ecd0';
+const INK = '#2a190e', CREAM = '#f6ecd0', HALO = 'rgba(244,234,210,0.92)';
+export const FONTS = { display: 'Cinzel', text: 'Cormorant Garamond' };
+const teamInk = (team, k = 0.82) => team ? rgb(team.top, k) : INK;
+const eo = (x) => 1 - Math.pow(1 - clamp(x), 3);
+// v2 tag: small caps text with a paper halo, a hairline leader to a ringed dot on the anchor, a team rule drawn on under the text
+export function drawTag(g, text, ax, ay, px, py, size, o = {}) {
+  const team = o.team || null; const age = o.age ?? 9; const u = eo(age / 0.45); const lines = String(text).split('\n'); const lh = size * 1.18;
+  g.save(); g.font = `600 ${size}px "${FONTS.display}"`; g.letterSpacing = Math.round(size * 0.1) + 'px'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round';
+  const tw = Math.max(...lines.map((l) => g.measureText(l).width)); const align = o.align || 'center'; const x0 = align === 'left' ? px : align === 'right' ? px - tw : px - tw / 2; const yb = py - (lines.length - 1) * lh;
+  if (o.leader !== false && ax !== undefined) { const ex = Math.max(x0, Math.min(x0 + tw, ax)); const ey = py + size * 0.42; const d = Math.hypot(ax - ex, ay - ey);
+    if (d > size * 0.5) { const k = clamp(age / 0.3); const lx = lerp(ax, ex, k), ly = lerp(ay, ey, k); g.beginPath(); g.moveTo(ax, ay); g.lineTo(lx, ly); g.lineWidth = Math.max(2.6, size * 0.11); g.strokeStyle = HALO; g.stroke(); g.lineWidth = Math.max(1.1, size * 0.045); g.strokeStyle = INK; g.stroke(); }
+    const r = Math.max(2.6, size * 0.13); g.beginPath(); g.arc(ax, ay, r + 1.6, 0, 7); g.fillStyle = HALO; g.fill(); g.beginPath(); g.arc(ax, ay, r, 0, 7); g.fillStyle = team ? rgb(team.top) : INK; g.fill(); g.lineWidth = 1.2; g.strokeStyle = INK; g.stroke(); }
+  g.globalAlpha *= clamp(age / 0.3); const dy = (1 - u) * size * 0.18;
+  lines.forEach((l, i) => { const lw = g.measureText(l).width; const lx = align === 'left' ? x0 : align === 'right' ? x0 + tw - lw : px - lw / 2; const y = yb + i * lh + dy; g.lineWidth = size * 0.30; g.strokeStyle = HALO; g.strokeText(l, lx, y); g.fillStyle = o.color || INK; g.fillText(l, lx, y); });
+  if (o.rule !== false) { const ry = py + size * 0.34; const w = tw * u; const rx0 = align === 'left' ? x0 : align === 'right' ? x0 + tw - w : px - w / 2; g.beginPath(); g.moveTo(rx0, ry); g.lineTo(rx0 + w, ry); g.lineWidth = Math.max(3.4, size * 0.16); g.strokeStyle = HALO; g.lineCap = 'butt'; g.stroke(); g.lineWidth = Math.max(1.6, size * 0.075); g.strokeStyle = team ? rgb(team.top) : 'rgba(42,25,14,0.8)'; g.stroke(); }
+  g.restore(); return { x: x0, y: yb - size, w: tw, h: lh * lines.length };
+}
+// v2 caption: a documentary lower-third: cream small caps on a soft dark band, thin gold rules drawn outward
+export function drawCaption(g, text, x, y, size, o = {}) {
+  const age = o.age ?? 9; const u = eo(age / 0.6); const W = g.canvas.width; g.save(); g.font = `${o.weight || 600} ${size}px "${o.font || FONTS.display}"`; g.letterSpacing = Math.round(size * (o.track ?? 0.14)) + 'px'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  const tw = g.measureText(text).width; const bandW = Math.min(W * 0.96, tw + size * 6), bandH = size * 2.3;
+  const gr = g.createLinearGradient(x - bandW / 2, 0, x + bandW / 2, 0); gr.addColorStop(0, 'rgba(18,10,5,0)'); gr.addColorStop(0.22, 'rgba(18,10,5,0.46)'); gr.addColorStop(0.78, 'rgba(18,10,5,0.46)'); gr.addColorStop(1, 'rgba(18,10,5,0)');
+  g.globalAlpha *= clamp(age / 0.35); g.fillStyle = gr; g.fillRect(x - bandW / 2, y - bandH / 2, bandW, bandH);
+  const rw = (tw / 2 + size * 1.2) * u; g.strokeStyle = 'rgba(232,196,120,0.9)'; g.lineWidth = Math.max(1, size * 0.04); for (const yy of [y - bandH * 0.36, y + bandH * 0.36]) { g.beginPath(); g.moveTo(x - rw, yy); g.lineTo(x + rw, yy); g.stroke(); }
+  g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = size * 0.25; g.fillStyle = o.color || '#f6ecd0'; g.fillText(text, x, y + size * 0.04 + (1 - u) * size * 0.12); g.restore();
+}
 const rgb = (c, k = 1) => `rgb(${Math.round(Math.min(1, c[0] * k) * 255)},${Math.round(Math.min(1, c[1] * k) * 255)},${Math.round(Math.min(1, c[2] * k) * 255)})`;
 const _v = new THREE.Vector3();
 
@@ -39,7 +64,8 @@ export class StageOverlay {
     this.counters = (spec.counters || []).map((e) => { const [t0, t1] = win(e); const [c0, c1] = [t0, t0 + (e.countDur ?? 1.6)]; return { ...e, t0, t1, c0, c1 }; });
     this.icons = (spec.icons || []).map((e) => { const [t0, t1] = win(e); return { ...e, t0, t1, tf: e.fallAt !== undefined ? clock.at(e.fallAt) : undefined }; });
     this.volleys = (spec.volleys || []).map((e) => { const [t0, t1] = clock.span(e, 1.2); return { ...e, t0, t1 }; });
-    this.rings = []; this.sp = {};
+    this.markers = (spec.markers || []).map((e) => { const [t0, t1] = win(e); return { ...e, t0, t1, lt1: e.labelUntil !== undefined ? clock.at(e.labelUntil) : t0 + (e.labelDur ?? 4) }; });
+    this.v1 = spec.overlayStyle === 'v1'; this.rings = []; this.sp = {}; this.markerScreen = {};
   }
   anchor(it, t, view) { // world anchor of an item -> [x, y, z] or null (screen anchored)
     const st = this.stage; if (it.screen) return null;
@@ -51,6 +77,8 @@ export class StageOverlay {
   }
   draw(g, t, view) {
     const st = this.stage; const H = view.rect.h; const baseR = this.pxBase || 1;
+    if (st.ambient) st.ambient.drawOverlay(g, t, view);
+    this.markerScreen = {}; for (const m of this.markers) if (t >= m.t0 && t < m.t1 + 0.4) this.drawMarker(g, m, t, view);
     for (const v of this.volleys) if (t >= v.t0 && t < v.t1 + (v.flight ?? 0.9) + 0.3) this.drawVolley(g, v, t, view);
     for (const it of this.icons) if (t >= it.t0 && t < it.t1 + 0.4) this.drawIconItem(g, it, t, view);
     for (const it of this.labels) if (t >= it.t0 && t < it.t1 + 0.4) this.drawLabel(g, it, t, view);
@@ -63,41 +91,50 @@ export class StageOverlay {
     const p = view.project(A[0], A[1], A[2]); const edge = Math.min(1 - Math.abs(p.ndcx), 1 - Math.abs(p.ndcy)); return { x: p.x, y: p.y, ppu: view.pxPerUnit(p.depth), ok: p.depth > 1 && edge > -0.05, edge, depth: p.depth };
   }
   drawLabel(g, it, t, view) {
-    const a = this.fade(it, t); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok) return; const H = view.rect.h; const size = (it.size ?? 1) * H * (it.big ? 0.050 : 0.036); const age = t - it.t0; const sc = popScale(age);
-    const team = it.team ? TEAMS[it.team] : null; const edgeA = P.screen ? 1 : clamp((P.edge ?? 1) / 0.08);
-    g.save(); g.globalAlpha = a * edgeA; const dx = (it.dx || 0) * H, dy = (it.dy ?? (P.screen ? 0 : -0.06)) * H; const ax = P.x, ay = P.y; const px = P.x + dx, py = P.y + dy; const lift = !P.screen ? 0 : 0;
-    g.translate(px, py - lift); g.scale(sc, sc); g.translate(-px, -(py - lift));
-    if (it.leader !== false && !P.screen && (Math.abs(dy) > size * 0.9 || Math.abs(dx) > size)) { g.beginPath(); g.moveTo(px, py + size * 0.1); g.lineTo(ax, ay); g.lineWidth = Math.max(3, size * 0.14); g.strokeStyle = 'rgba(30,16,8,0.9)'; g.stroke(); g.lineWidth = Math.max(1.4, size * 0.05); g.strokeStyle = CREAM; g.stroke();
-      g.beginPath(); g.arc(ax, ay, Math.max(3, size * 0.14), 0, 7); g.fillStyle = team ? rgb(team.top) : '#f6ecd0'; g.fill(); g.lineWidth = 2; g.strokeStyle = INK; g.stroke(); }
-    if (it.style === 'text') drawOutlined(g, it.text, px, py, size, { weight: it.weight || 600, color: it.color, track: it.track });
-    else drawPlate(g, it.text, px, py + size * 0.55, size, { teamC: team ? team.top : null });
-    g.restore();
+    const a = this.fade(it, t); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok) return; const H = view.rect.h; const age = t - it.t0; const team = it.team ? TEAMS[it.team] : null; const edgeA = P.screen ? 1 : clamp((P.edge ?? 1) / 0.08);
+    const style = it.style || (this.v1 ? 'plate' : 'tag');
+    if (style === 'plate') { // v1 plate (kept for old specs that ask for it)
+      const size = (it.size ?? 1) * H * (it.big ? 0.050 : 0.036); const sc = popScale(age); g.save(); g.globalAlpha = a * edgeA; const dx = (it.dx || 0) * H, dy = (it.dy ?? (P.screen ? 0 : -0.06)) * H; const px = P.x + dx, py = P.y + dy;
+      g.translate(px, py); g.scale(sc, sc); g.translate(-px, -py); drawPlate(g, it.text, px, py + size * 0.55, size, { teamC: team ? team.top : null }); g.restore(); return; }
+    if (P.screen || style === 'caption' || style === 'text') { const size = (it.size ?? 1) * H * (it.big ? 0.044 : 0.034); g.save(); g.globalAlpha = a * edgeA; drawCaption(g, it.text, P.x + (it.dx || 0) * H, P.y + (P.screen ? 0 : (it.dy ?? -0.08) * H), size, { age, weight: it.weight, track: it.track, color: it.color }); g.restore(); return; }
+    const size = (it.size ?? 1) * H * (it.big ? 0.040 : 0.031); const dx = (it.dx || 0) * H, dy = (it.dy ?? -0.07) * H;
+    g.save(); g.globalAlpha = a * edgeA; drawTag(g, it.text, P.x, P.y, P.x + dx, P.y + dy, size, { team, age, leader: it.leader, align: it.align || (dx > size * 2 ? 'left' : dx < -size * 2 ? 'right' : 'center'), rule: it.rule }); g.restore();
   }
   drawCounter(g, it, t, view) {
-    const a = this.fade(it, t); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok) return; const H = view.rect.h; const size = (it.size ?? 1) * H * 0.052; const age = t - it.t0; const sc = popScale(age);
+    const a = this.fade(it, t); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok) return; const H = view.rect.h; const size = (it.size ?? 1) * H * 0.040; const age = t - it.t0;
     const u = clamp((t - it.c0) / Math.max(0.01, it.c1 - it.c0)); const e = 1 - Math.pow(1 - u, 3); const val = Math.round(lerp(it.from ?? 0, it.to, e) / (it.step ?? 100)) * (it.step ?? 100);
-    const txt = val.toLocaleString('en-US'); const team = it.team ? TEAMS[it.team] : TEAMS.neutral; const dx = (it.dx || 0) * H, dy = (it.dy ?? -0.12) * H; const px = P.x + dx, py = P.y + dy;
-    g.save(); g.globalAlpha = a * (P.screen ? 1 : clamp((P.edge ?? 1) / 0.08)); g.translate(px, py); g.scale(sc, sc); g.translate(-px, -py);
-    g.font = `800 ${size * 1.5}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.06) + 'px'; const nw = g.measureText(txt).width; g.font = `600 ${size * 0.62}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.18) + 'px'; const sw = g.measureText((it.suffix || 'SOLDIERS')).width;
-    const w = Math.max(nw, sw) + size * 1.5, h = size * 2.9; const x0 = px - w / 2, y0 = py - h;
-    if (it.leader !== false && !P.screen) { g.beginPath(); g.moveTo(px, py); g.lineTo(P.x, P.y); g.lineWidth = Math.max(3, size * 0.12); g.strokeStyle = 'rgba(30,16,8,0.9)'; g.stroke(); g.lineWidth = Math.max(1.4, size * 0.05); g.strokeStyle = CREAM; g.stroke(); }
-    g.shadowColor = 'rgba(25,12,4,0.5)'; g.shadowBlur = size * 0.5; g.shadowOffsetY = size * 0.2; g.beginPath(); g.roundRect(x0, y0, w, h, size * 0.34); g.fillStyle = rgb(team.side, 0.92); g.fill(); g.shadowColor = 'transparent';
-    g.lineWidth = Math.max(2.4, size * 0.1); g.strokeStyle = '#f6ecd0'; g.stroke(); g.beginPath(); g.roundRect(x0 + size * 0.14, y0 + size * 0.14, w - size * 0.28, h - size * 0.28, size * 0.22); g.lineWidth = 1; g.strokeStyle = 'rgba(246,236,208,0.4)'; g.stroke();
-    g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.font = `800 ${size * 1.5}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.06) + 'px'; g.fillStyle = '#fff3d2'; g.fillText(txt, px, y0 + size * 1.66);
-    g.font = `600 ${size * 0.62}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.18) + 'px'; g.fillStyle = rgb(team.light); g.fillText(it.suffix || 'SOLDIERS', px, y0 + size * 2.3); g.restore();
+    const txt = val.toLocaleString('en-US'); const team = it.team ? TEAMS[it.team] : TEAMS.neutral; const dx = (it.dx || 0) * H, dy = (it.dy ?? -0.10) * H; const px = P.x + dx, py = P.y + dy;
+    if (this.v1) { g.save(); g.globalAlpha = a; drawPlate(g, txt + ' ' + (it.suffix || 'SOLDIERS'), px, py, size * 0.8, { teamC: team.top }); g.restore(); return; }
+    g.save(); g.globalAlpha = a * (P.screen ? 1 : clamp((P.edge ?? 1) / 0.08));
+    if (it.leader !== false && !P.screen) { const d = Math.hypot(px - P.x, py - P.y); if (d > size) { g.beginPath(); g.moveTo(P.x, P.y); g.lineTo(px, py + size * 0.2); g.lineWidth = 2.6; g.strokeStyle = HALO; g.stroke(); g.lineWidth = 1.1; g.strokeStyle = INK; g.stroke(); } g.beginPath(); g.arc(P.x, P.y, 3.4, 0, 7); g.fillStyle = rgb(team.top); g.fill(); g.lineWidth = 1.2; g.strokeStyle = INK; g.stroke(); }
+    g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round'; g.font = `800 ${size * 1.5}px "${FONTS.display}"`; g.letterSpacing = Math.round(size * 0.04) + 'px'; g.fontVariantNumeric = 'tabular-nums';
+    const yN = py - size * 0.9; g.lineWidth = size * 0.36; g.strokeStyle = HALO; g.strokeText(txt, px, yN); g.fillStyle = rgb(team.top, 0.78); g.fillText(txt, px, yN);
+    const nw = g.measureText(txt).width; g.beginPath(); g.moveTo(px - nw / 2 * eo(age / 0.5), yN + size * 0.28); g.lineTo(px + nw / 2 * eo(age / 0.5), yN + size * 0.28); g.lineWidth = 4; g.strokeStyle = HALO; g.stroke(); g.lineWidth = 1.6; g.strokeStyle = rgb(team.top); g.stroke();
+    g.font = `600 ${size * 0.62}px "${FONTS.display}"`; g.letterSpacing = Math.round(size * 0.16) + 'px'; g.lineWidth = size * 0.22; g.strokeStyle = HALO; g.strokeText(it.suffix || 'SOLDIERS', px, yN + size * 0.98); g.fillStyle = INK; g.fillText(it.suffix || 'SOLDIERS', px, yN + size * 0.98); g.restore();
   }
   drawIconItem(g, it, t, view) {
     const a = this.fade(it, t, 0.3); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok && !P.screen) return; const age = t - it.t0;
-    const H = view.rect.h; const size = P.screen ? (it.size ?? 0.2) * H : (it.size ?? 12) * P.ppu * (it.zoom ?? 1); const pop = it.anim === 'none' ? 1 : popScale(age);
-    let bob = 0, rot = 0; if (it.anim === 'bounce') bob = -Math.abs(Math.sin(age * 5.5)) * size * 0.18; if (it.anim === 'walk') { bob = -Math.abs(Math.sin(age * 7)) * size * 0.06; rot = Math.sin(age * 7) * 0.035; } if (it.anim === 'sway') rot = Math.sin(age * 3) * 0.07;
+    const H = view.rect.h; let size = P.screen ? (it.size ?? 0.2) * H : (it.size ?? 12) * P.ppu * (it.zoom ?? 1); if (!P.screen && !this.v1) size = clamp(size, H * (it.minPx ?? 0.035), H * (it.maxPx ?? 0.16)); const pop = it.anim === 'none' ? 1 : (this.v1 ? popScale(age) : 0.86 + 0.14 * eo(age / 0.4));
+    let bob = 0, rot = 0; if (this.v1) { if (it.anim === 'bounce') bob = -Math.abs(Math.sin(age * 5.5)) * size * 0.18; if (it.anim === 'walk') { bob = -Math.abs(Math.sin(age * 7)) * size * 0.06; rot = Math.sin(age * 7) * 0.035; } if (it.anim === 'sway') rot = Math.sin(age * 3) * 0.07; }
+    else { if (it.anim === 'bounce' || it.anim === 'float') bob = -Math.sin(age * 2.2) * size * 0.025; if (it.anim === 'walk') { bob = -Math.abs(Math.sin(age * 5)) * size * 0.025; } if (it.anim === 'sway') rot = Math.sin(age * 1.6) * 0.03; }
     if (it.tf !== undefined && t > it.tf) { const u = clamp((t - it.tf) / (it.fallDur ?? 0.9)); bob += size * 1.1 * u * u; rot += u * 1.3; } // fallAt: the icon drops and tips over
-    const flip = it.flip ?? (it._dir ? it._dir < 0 : false); const spin = it.anim === 'slam' ? clamp((age - 0.1) / 0.18) : 1; const team = it.team || undefined;
+    const flip = it.flip ?? (it._dir ? it._dir < 0 : false); void 0; const team = it.team || undefined;
     // icon slides (pos2) or hops (hop) between two anchors
     let x = P.x + (it.dx || 0) * H, y = P.y + (it.dy || 0) * H;
     if (it.hop) { const hp = it.hop; const sw = hp.swaps.map((r) => this.clock.at(r)); const dur = hp.dur ?? 0.28; const ids = hp.between; let cur = hp.start ?? 0, fromI = cur, toI = cur, u = 1; for (let k = 0; k < sw.length; k++) { if (t >= sw[k]) { fromI = cur; cur = (cur + 1) % ids.length; toI = cur; u = clamp((t - sw[k]) / dur); } }
       const a0 = this.sp[ids[fromI]], a1 = this.sp[ids[toI]]; if (!a0 || !a1) return; const e = EASE.inOut(u); x = lerp(a0.x, a1.x, e); y = lerp(a0.y - a0.size * (hp.up ?? 0.95), a1.y - a1.size * (hp.up ?? 0.95), e) - Math.sin(Math.PI * e) * size * 0.55; }
     if (it.id) this.sp[it.id] = { x, y, size };
     g.save(); g.globalAlpha = a * (P.screen ? 1 : clamp((P.edge ?? 1) / 0.08)); g.translate(x, y + bob); g.scale(pop, pop); g.translate(-x, -(y + bob)); drawIcon(g, it.icon, x, y + bob, Math.max(10, size), { flip, team, t: age, rot, fill: it.fill }); g.restore();
+  }
+  drawMarker(g, m, t, view) { // a place on the map: its glyph, a lettered badge linked to the legend, and its name while it is introduced
+    const a = this.fade(m, t, 0.4); if (a <= 0.01) return; const P = this.place(m, t, view); if (!P.ok) return; const H = view.rect.h; const age = t - m.t0; const sz = H * (m.size ?? 0.06); const team = m.team ? TEAMS[m.team] : null;
+    const x = P.x + (m.dx || 0) * H, y = P.y + (m.dy || 0) * H; this.markerScreen[m.id] = { x, y: y - sz * 0.5, a };
+    g.save(); g.globalAlpha = a * clamp((P.edge ?? 1) / 0.08); const k = 0.86 + 0.14 * eo(age / 0.4); g.translate(x, y); g.scale(k, k); g.translate(-x, -y);
+    if (m.glyph) drawIcon(g, m.glyph, x, y, sz, { team: m.team, t: age });
+    if (m.letter) { const r = H * 0.017, bx = x + sz * 0.42, by = y - sz * 0.95; g.beginPath(); g.arc(bx, by, r + 1.5, 0, 7); g.fillStyle = HALO; g.fill(); g.beginPath(); g.arc(bx, by, r, 0, 7); g.fillStyle = team ? rgb(team.top) : INK; g.fill();
+      g.font = `700 ${r * 1.3}px "${FONTS.display}"`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#f6ecd0'; g.fillText(m.letter, bx, by + r * 0.06); }
+    g.restore();
+    if (m.label && t < m.lt1 + 0.4) { const la = (1 - clamp((t - m.lt1) / 0.4)) * a; g.save(); g.globalAlpha = la; drawTag(g, m.label, undefined, undefined, x + (m.ldx ?? 0) * H, y + (m.ldy ?? 0.045) * H, H * 0.028, { age, leader: false, team, align: m.align || 'center' }); g.restore(); }
   }
   drawVolley(g, v, t, view) { // a spread of arrows lofted on arcs from one block/area onto another
     const st = this.stage; const n = v.n ?? 36; const flight = v.flight ?? 0.9; const team = TEAMS[v.team || 'carthage'] || TEAMS.carthage; const sp = v.spread ?? 0.35; const H = view.rect.h;

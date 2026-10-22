@@ -299,7 +299,8 @@ class Tent:
                 x = -W + 2 * W * i / nx; z = roof_z(x, y); V.append((x, y, z + hand((x, y, z), 0.0012)))
         for j in range(ny):
             for i in range(nx): a = j * (nx + 1) + i; F.append((a, a + 1, a + nx + 2, a + nx + 1))
-        mk(bpy, name + '_roof', V, F, cloth, coll, root, noise_amp=0.0, seed=seed)
+        self.cloth_parts = []
+        self.cloth_parts.append(mk(bpy, name + '_roof', V, F, cloth, coll, root, noise_amp=0.0, seed=seed))
         # solid thickness lip is implied by the double-sided shader (cloth is thin); walls
         def wall(pts_top, pts_bot, nm):
             n = len(pts_top); Vw = []
@@ -307,7 +308,7 @@ class Tent:
                 for (tp, bt) in zip(pts_top, pts_bot):
                     t = k / 6.0; v = tuple(bt[a] + (tp[a] - bt[a]) * t for a in range(3)); Vw.append((v[0], v[1], v[2] + hand(v, 0.0015)))
             Fw = [(k * n + i, k * n + i + 1, (k + 1) * n + i + 1, (k + 1) * n + i) for k in range(6) for i in range(n - 1)]
-            mk(bpy, name + nm, Vw, Fw, cloth, coll, root, noise_amp=0.0, seed=seed)
+            self.cloth_parts.append(mk(bpy, name + nm, Vw, Fw, cloth, coll, root, noise_amp=0.0, seed=seed))
         ys = np.linspace(-DP * 0.35, DP, 14)
         for sx in (-1, 1):
             wall([(sx * W, y, roof_z(sx * W, y)) for y in ys], [(sx * W * 1.04, y, 0.0) for y in ys], f'_side{sx}')
@@ -352,6 +353,19 @@ class Tent:
             self.curtain = None
 
     def hide(self, h=True): hide(self.root, h)
+
+    def breathe(self, t, amp=1.0, phase=0.0):
+        """Wind in the goat-hair cloth: the roof lifts and settles in slow gusts, the walls billow a little (pure function of t)."""
+        if not hasattr(self, 'cloth_base'):
+            self.cloth_base = []
+            for o in self.cloth_parts:
+                n = len(o.data.vertices); a = np.empty(n * 3, np.float32); o.data.vertices.foreach_get('co', a); self.cloth_base.append(a.reshape(-1, 3))
+        gust = 0.55 + 0.45 * math.sin(t * 0.9 + phase)
+        for o, base in zip(self.cloth_parts, self.cloth_base):
+            V = base.copy(); h = np.clip(V[:, 2] / 0.12, 0.0, 1.0)
+            w = np.sin(t * 2.3 + phase + V[:, 0] * 14.0 + V[:, 1] * 9.0) * 0.6 + np.sin(t * 3.7 + phase * 1.7 + V[:, 1] * 17.0) * 0.4
+            V[:, 2] += 0.0030 * amp * gust * w * h; V[:, 0] += 0.0022 * amp * gust * w * h * np.sign(V[:, 0]); V[:, 1] += 0.0016 * amp * gust * w * h
+            o.data.vertices.foreach_set('co', V.ravel()); o.data.update()
 
     def show(self, sil=()):
         """Show the tent; silhouettes only for the names listed."""

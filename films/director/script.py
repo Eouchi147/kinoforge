@@ -58,7 +58,8 @@ def writer_system(job):
             "\"the chroniclers say\"); never invent quotes, names or numbers."
             + (" This series is for kids: no gore, no wounds, no cruelty described; losses are numbers." if L.get('kid_safe') else '') +
             "\nReturn the claims list: EVERY factual statement in the script (dates, places, numbers, names, who did what, outcomes), "
-            "each with the 0-based line index and the exact words of that line that state it.")
+            "each with the 0-based line index and the exact words of that line that state it."
+            + ("\n\n# The studio's craft rules (Sam's words are the ground truth; write so the picture can follow them)\n" + C.craft() if C.craft() else ''))
 
 
 def brief_text(b):

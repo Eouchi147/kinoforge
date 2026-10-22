@@ -1,0 +1,4 @@
+{"_": "The pass: archaic, severe (E phrygian). Swell when the Immortals climb the hidden path; elegy for the Spartans; a small lift at Salamis; the stone's message last.",
+ "palette": "ancient_med", "key": "E", "mode": "phrygian", "tempo": 58,
+ "battle_line": "l08", "turn_line": "l12", "result_line": "l15", "result_mood": "aftermath", "epilogue_line": "l17",
+ "extra": [{"line": "l16", "mood": "triumph", "intensity": 0.5}]}

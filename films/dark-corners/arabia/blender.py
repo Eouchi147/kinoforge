@@ -15,7 +15,7 @@ import props as P
 
 DURATION = 175.84
 SETTINGS = {'samples': 24, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast',
-            'exposure': 0.0, 'max_bounces': 4, 'clamp_indirect': 6.0}
+            'exposure': 0.0, 'max_bounces': 4, 'clamp_indirect': 6.0, 'film_transparent': True}
 FPS = 24
 SPP_CAP = 24      # the render workflow passes --samples 96 unless the queue overrides it; KF_ARABIA_SPP_CAP=0 lifts the cap
 
@@ -47,11 +47,43 @@ def make_materials(bpy):
     M['wall2'] = clay(bpy, 'mecca_wall2', (0.66, 0.50, 0.36), (0.58, 0.44, 0.32), rough=0.85, seed=59)
     M['glowwin'], M['glowwin_em'] = emissive(bpy, 'glowwin', (1.0, 0.68, 0.30), 4.0)
     M['glowdoor'], M['glowdoor_em'] = emissive(bpy, 'glowdoor', (1.0, 0.66, 0.28), 3.0)
+    M['rock'] = clay(bpy, 'rock', (0.50, 0.43, 0.36), (0.40, 0.35, 0.30), rough=0.85, seed=60)
+    M['tuft'] = clay(bpy, 'tuft', (0.66, 0.58, 0.32), (0.52, 0.44, 0.24), rough=0.8, sss=0.1, seed=61)
+    M['palm'] = clay(bpy, 'palm_trunk', (0.46, 0.33, 0.21), (0.36, 0.26, 0.17), rough=0.8, seed=62)
+    M['frond'] = clay(bpy, 'palm_frond', (0.22, 0.38, 0.17), (0.16, 0.29, 0.13), rough=0.7, sss=0.25, seed=63)
+    M['reed'] = clay(bpy, 'reed', (0.48, 0.54, 0.24), (0.38, 0.44, 0.19), rough=0.75, seed=64)
+    M['smoke'] = clay(bpy, 'smoke', (0.50, 0.47, 0.50), (0.42, 0.40, 0.44), rough=0.9, sss=0.15, seed=65)
+    M['ember'], M['ember_em'] = emissive(bpy, 'ember', (1.0, 0.42, 0.14), 6.0)
+    M['goat_a'] = clay(bpy, 'goat_a', (0.62, 0.48, 0.34), (0.50, 0.38, 0.27), rough=0.85, seed=66)
+    M['goat_b'] = clay(bpy, 'goat_b', (0.90, 0.86, 0.78), (0.78, 0.74, 0.66), rough=0.85, seed=67)
+    M['goat_c'] = clay(bpy, 'goat_c', (0.14, 0.10, 0.08), (0.10, 0.07, 0.06), rough=0.6, sss=0.0, seed=68)
+    M['horn'] = clay(bpy, 'horn', (0.74, 0.68, 0.54), (0.62, 0.56, 0.44), rough=0.5, seed=69)
+    M['grain'] = clay(bpy, 'grain', (0.80, 0.64, 0.44), (0.72, 0.56, 0.38), rough=0.9, sss=0.1, seed=70)
+    M['sack'] = clay(bpy, 'sack', (0.64, 0.52, 0.36), (0.52, 0.42, 0.30), rough=0.9, seed=71)
+    M['pot'] = clay(bpy, 'pot', (0.64, 0.36, 0.24), (0.52, 0.29, 0.19), rough=0.6, seed=72)
+    M['pot2'] = clay(bpy, 'pot2', (0.46, 0.30, 0.22), (0.38, 0.24, 0.18), rough=0.6, seed=73)
+    M['rug2'] = striped(bpy, 'rug2', [(0.16, 0.22, 0.40), (0.88, 0.74, 0.46), (0.60, 0.20, 0.16), (0.88, 0.74, 0.46), (0.16, 0.22, 0.40), (0.30, 0.24, 0.16)], period=0.026, axis=0, widths=[0.22, 0.06, 0.28, 0.06, 0.22, 0.16], rough=0.9)
     M['paper_far'] = [paper(bpy, f'far{k}', c, tuple(x * 0.92 for x in c), rough=0.95, stroke=(1.0, 1.0, 12.0), stroke_scale=3.0, tooth=0.0, mottle=2.0) for k, c in enumerate(((0.16, 0.20, 0.38), (0.12, 0.15, 0.31), (0.09, 0.11, 0.25)))]
     return M
 
 def mecca_h(x, y):
     return 0.010 * np.sin(1.3 * x + 0.5 * y) + 0.008 * np.sin(0.9 * y + 1.1) + 0.2 * W.smoothv(3.6, 4.6, y)
+
+def make_sky_scene(bpy, ctx, S):
+    """The sky (card, pin-hole stars, Milky Way, moon, wisps, dawn sun) in its own scene: Cycles, no depth of field, emission only."""
+    ss = bpy.data.scenes.new('sky'); S['sky_scene'] = ss
+    ss.render.engine = 'CYCLES'; ss.render.resolution_x = ctx['W']; ss.render.resolution_y = ctx['H']; ss.render.resolution_percentage = 100
+    ss.render.film_transparent = False; ss.cycles.device = 'CPU'; ss.cycles.samples = 12; ss.cycles.use_denoising = False; ss.cycles.use_adaptive_sampling = False
+    ss.cycles.max_bounces = 0; ss.cycles.transparent_max_bounces = 4; ss.cycles.seed = 0; ss.cycles.use_animated_seed = False; ss.cycles.filter_width = 1.25
+    ss.render.use_compositing = False
+    wd = bpy.data.worlds.new('skyworld'); ss.world = wd
+    try: wd.use_nodes = True
+    except Exception: pass
+    bg = wd.node_tree.nodes.get('Background')
+    if bg is not None: bg.inputs['Color'].default_value = (0.02, 0.03, 0.09, 1.0); bg.inputs['Strength'].default_value = 1.0; S['sky_bg'] = bg
+    cd = bpy.data.cameras.new('skycam'); cd.lens = 35.0; cd.sensor_width = 36.0; cd.clip_start = 0.01; cd.clip_end = 80.0; cd.dof.use_dof = False
+    co = bpy.data.objects.new('skycam', cd); ss.collection.objects.link(co); ss.camera = co; S['skycam'] = co
+    return ss
 
 def build(bpy, ctx):
     from mathutils import Vector
@@ -72,7 +104,9 @@ def build(bpy, ctx):
     # ---------------- set
     W.build_terrain(bpy, M['sand'], coll, region=(-4.2, 4.2, -1.5, 4.6), fine=[(-4.0, 0.6, 1.0, 3.2), (0.6, 3.3, 0.9, 2.7)])
     W.build_terrain(bpy, M['street'], coll, region=(6.4, 11.8, -1.5, 4.6), fine=[], fn=mecca_h, prints=False, name='mecca_ground')
-    W.build_sky(bpy, coll, S); W.build_moon(bpy, coll, S); W.make_lights(bpy, coll, S)
+    sc.render.film_transparent = True                 # the sky is a separate scene composited underneath (no depth of field on the stars)
+    ss = make_sky_scene(bpy, ctx, S)
+    W.build_sky(bpy, ss.collection, S); W.build_moon(bpy, ss.collection, S); W.build_ridge(bpy, ss.collection, S); W.make_lights(bpy, coll, S)
     for k, (y, base, amp) in enumerate(((4.18, 0.20, 0.30), (4.42, 0.30, 0.34), (4.68, 0.42, 0.36))):
         W.cut_dunes(bpy, coll, M['paper_far'][k], f'far_dunes{k}', y, -16.0, 5.5, base, amp, 20 + k)
     # ---------------- actors
@@ -93,6 +127,7 @@ def build(bpy, ctx):
 def finish_build(bpy, ctx, S, M, coll):
     import director as Dr
     Dr.build_props(bpy, ctx, S, M, coll)
+    import dress as Dz; Dz.build_dress(bpy, S, M, coll)
     # camera
     cd = bpy.data.cameras.new('cam'); cd.lens = 35.0; cd.sensor_width = 36.0; cd.clip_start = 0.01; cd.clip_end = 60.0
     cd.dof.use_dof = True; cd.dof.aperture_fstop = 5.6; cd.dof.aperture_blades = 7
@@ -102,8 +137,8 @@ def finish_build(bpy, ctx, S, M, coll):
     S['grain'] = []; S['comp'] = {}
     try:
         sc = bpy.context.scene
-        for with_hud in (False, True):
-            ng = bpy.data.node_groups.new('kf_finish_hud' if with_hud else 'kf_finish', 'CompositorNodeTree')
+        for with_sky, with_hud in ((False, False), (True, False), (True, True)):
+            ng = bpy.data.node_groups.new(f'kf_finish_{int(with_sky)}{int(with_hud)}', 'CompositorNodeTree')
             ng.interface.new_socket('Image', in_out='OUTPUT', socket_type='NodeSocketColor')
             N, Lk = ng.nodes, ng.links
             rl = N.new('CompositorNodeRLayers')
@@ -119,15 +154,17 @@ def finish_build(bpy, ctx, S, M, coll):
             gv2 = N.new('ShaderNodeMath'); gv2.operation = 'MULTIPLY'; Lk.new(gm.outputs['Value'], gv2.inputs[0]); Lk.new(vg.outputs['Value'], gv2.inputs[1])
             mix = N.new('ShaderNodeMix'); mix.data_type = 'RGBA'; mix.blend_type = 'MULTIPLY'; sock(mix.inputs, 'Factor_Float').default_value = 1.0
             Lk.new(gv2.outputs['Value'], sock(mix.inputs, 'B_Color'))
+            base = rl.outputs['Image']
+            if with_sky:
+                kl = N.new('CompositorNodeRLayers'); kl.scene = S['sky_scene']
+                ak = N.new('CompositorNodeAlphaOver'); Lk.new(kl.outputs['Image'], ak.inputs['Background']); Lk.new(rl.outputs['Image'], ak.inputs['Foreground']); base = ak.outputs['Image']
             if with_hud:
                 hl = N.new('CompositorNodeRLayers'); hl.scene = S['hud_scene']
-                ao = N.new('CompositorNodeAlphaOver'); Lk.new(rl.outputs['Image'], ao.inputs['Background']); Lk.new(hl.outputs['Image'], ao.inputs['Foreground'])
-                Lk.new(ao.outputs['Image'], sock(mix.inputs, 'A_Color'))
-            else:
-                Lk.new(rl.outputs['Image'], sock(mix.inputs, 'A_Color'))
+                ao = N.new('CompositorNodeAlphaOver'); Lk.new(base, ao.inputs['Background']); Lk.new(hl.outputs['Image'], ao.inputs['Foreground']); base = ao.outputs['Image']
+            Lk.new(base, sock(mix.inputs, 'A_Color'))
             out = N.new('NodeGroupOutput'); Lk.new(sock(mix.outputs, 'Result_Color'), out.inputs['Image'])
-            S['comp'][with_hud] = ng; S['grain'].append(wn)
-        sc.compositing_node_group = S['comp'][False]; sc.render.use_compositing = True
+            S['comp'][(with_sky, with_hud)] = ng; S['grain'].append(wn)
+        sc.compositing_node_group = S['comp'][(True, False)]; sc.render.use_compositing = True
     except Exception as e:
         print('arabia: compositor finish unavailable:', e)
     # on-2s pair reuse (odd frame right after its even partner: skip path tracing, copy the PNG)
@@ -169,4 +206,4 @@ def frame(bpy, ctx, S, i, t):
     Dr.render_pose(bpy, ctx, S, pf)
     for g in S.get('grain') or []: g.inputs['W'].default_value = pf * 0.731 + 0.17
     reuse = _pair_reuse(bpy, ctx, S, i)
-    if S.get('comp'): bpy.context.scene.compositing_node_group = S['comp'][bool(S.get('hud_on') and not reuse)]    # the title-card scene is only rendered when it has something to show
+    if S.get('comp'): bpy.context.scene.compositing_node_group = S['comp'][(not reuse, bool(S.get('hud_on') and not reuse))]    # the title-card scene is only rendered when it has something to show

@@ -1,0 +1,3 @@
+{"_": "Mamluks against the Mongols: Central Asian colour (E minor pentatonic, bowed solo, galloping steppe drum) over the Middle Eastern base. Swell at the ambush.",
+ "palette": "middle_east_central_asia", "key": "E", "mode": "minor_pent", "tempo": 84, "solo": "solo_violin", "drums": "steppe",
+ "battle_line": "l08", "turn_line": "l11", "result_line": "l14", "result_mood": "triumph", "epilogue_line": "l15"}

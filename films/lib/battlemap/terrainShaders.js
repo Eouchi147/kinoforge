@@ -196,6 +196,8 @@ uniform vec3 uSunCol, uSkyCol, uBounce, uSunColB, uFogCol;
 uniform vec4 uFog;         // density at y=0, height falloff, edge start, edge end (distance from camera on the ground)
 uniform vec4 uAtm;         // eve (0..1), cloud strength, cloud time, glint
 uniform vec4 uGrade;       // tone steps strength, world-edge fade width, spotlight, unused
+uniform vec4 uWind;        // wind direction x, z, time, sheen strength (v2 living world: gusts sweeping over the grass)
+uniform vec4 uFlow;        // river flow direction x, z, speed, glint strength
 varying vec3 vWorld;
 vec3 lin(vec3 c){ return pow(c, vec3(2.2)); }
 void main(){
@@ -207,7 +209,8 @@ void main(){
   { float Ls = dot(light, vec3(0.3, 0.55, 0.15)) + 1e-4; float qs = Ls*5.0; float Lq = (floor(qs) + smoothstep(0.55, 0.95, fract(qs)))/5.0; light *= mix(1.0, Lq/Ls, uGrade.x); }
   vec3 col = lin(S.rgb)*light;
   float water = S.a;
-  if (water > 0.5) { float g = vn(xz*vec2(2.4, 5.5) + vec2(uAtm.z*1.7, uAtm.z*0.6)); float sp = smoothstep(0.86, 0.99, g)*uAtm.w*clamp(sunT*1.4 + 0.2, 0.0, 1.0); col += vec3(1.0, 0.82, 0.5)*sp*0.30; }
+  if (uWind.w > 0.0) { vec2 wd = uWind.xy; vec2 q = xz - wd*uWind.z*7.0; float gust = vn(q*0.022 + 13.0)*0.6 + vn2(q*vec2(0.09, 0.05) + 3.0)*0.4; float sheen = smoothstep(0.55, 0.82, gust); col *= 1.0 + sheen*uWind.w*(1.0 - water)*0.10; col = mix(col, col*vec3(1.04, 1.03, 0.94), sheen*uWind.w*(1.0 - water)*0.5); }
+  if (water > 0.5) { vec2 fd = uFlow.xy; vec2 fp = xz - fd*uAtm.z*20.0*uFlow.z; float g = vn(fp*vec2(2.4, 2.4) + vec2(0.0, uAtm.z*0.6)); float g2 = vn2(fp*0.9 + 5.0); float sp = smoothstep(0.80, 0.97, g*0.7 + g2*0.3)*uAtm.w*clamp(sunT*1.4 + 0.2, 0.0, 1.0)*uFlow.w; col += vec3(1.0, 0.85, 0.55)*sp*0.38; col *= 0.96 + 0.08*vn(fp*0.35); }
   // haze: height fog + distance edge + the world's own edge (so a low camera never sees past the sheet)
   vec3 fogged = bmFog(col, vWorld, uFog, uFogCol); float a = 0.0;
   float ex = min(min(xz.x - uWorld.x, uWorld.x + uWorld.z - xz.x), min(xz.y - uWorld.y, uWorld.y + uWorld.w - xz.y)); float wedge = 1.0 - smoothstep(0.0, uGrade.y, ex);
@@ -219,7 +222,7 @@ export function makeTerrainMaterial(shared, world, sheet, uMapTex, uMapOrg) {
   return new THREE.ShaderMaterial({ vertexShader: TERRAIN_VERT, fragmentShader: TERRAIN_FRAG, side: THREE.FrontSide,
     uniforms: { uNoise: shared.uNoise, uSheet: { value: sheet }, uMap: { value: uMapTex }, uMapOrg: { value: uMapOrg }, uWorld: { value: new THREE.Vector4(world.x0, world.z0, world.W, world.D) },
       uSunCol: { value: new THREE.Color(1.4, 1.05, 0.7) }, uSunColB: { value: new THREE.Color(1.5, 0.7, 0.35) }, uSkyCol: { value: new THREE.Color(0.2, 0.25, 0.36) }, uBounce: { value: new THREE.Color(0.15, 0.1, 0.06) }, uFogCol: { value: new THREE.Color(0.86, 0.76, 0.62) },
-      uFog: { value: new THREE.Vector4(0.002, 0.03, 520, 820) }, uAtm: { value: new THREE.Vector4(0, 0.25, 0, 1) }, uGrade: { value: new THREE.Vector4(0.45, 60, 0, 0) } } });
+      uFog: { value: new THREE.Vector4(0.002, 0.03, 520, 820) }, uAtm: { value: new THREE.Vector4(0, 0.25, 0, 1) }, uGrade: { value: new THREE.Vector4(0.45, 60, 0, 0) }, uWind: { value: new THREE.Vector4(0.9, 0.3, 0, 0) }, uFlow: { value: new THREE.Vector4(1, 0, 1, 1) } } });
 }
 
 // ------------------------------------------------------------------ sky dome

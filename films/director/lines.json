@@ -40,7 +40,11 @@
    "Title card: the film title and the year over the title line (scrim card, as in the examples). End card over the outro (the last cues.outro_s seconds): BATTLE MAP, then the title and year in italic, until the end of the film.",
    "Kid-safe: armies are blocks, arrows and banners; losses are counters and fading blocks, never wounds. On-screen words in CAPITALS, short (at most 4 words), set in code; no em or en dashes and no '...'.",
    "Labels must not cover each other: when two show at once, offset them with dx/dy or give them different times; keep screen-anchored text between 0.06 and 0.94 of the frame.",
-   "Keep the spec under about 35 KB; plain data plus small helpers (Object.fromEntries, map) like the examples; no imports, no randomness, no clocks."
+   "Keep the spec under about 35 KB; plain data plus small helpers (Object.fromEntries, map) like the examples; no imports, no randomness, no clocks.",
+   "Write `scenes` first: 5 to 9 scenes, each `{ name, at, until, begin, middle, end, camera, why }` (place, dramatic question, the camera plan); the check rejects a spec without it.",
+   "Every cut has `why: '...'` (new information, place, time, reaction or scale): camera keys with `cut: true` and full-screen insets (`why` for the cut in, `why_out` for the cut out).",
+   "Camera in real time: a move between two keys crosses at most 0.25 frame widths per second and pushes at most 10 % per second (the check measures it); start moves earlier and hold longer instead of rushing.",
+   "No emoji and no clip-art icons (heart, hug, question, star, no, check, burst are rejected); use labels, the legend, banners, arrows and moves. A `legend` (sides, units, key places) frames the battlefield when the engine supports it."
   ],
   "free_voice_settings": {
    "exaggeration": 0.6,
@@ -48,7 +52,37 @@
    "temperature": 0.75,
    "speed": 1.0
   },
-  "music_style": "ambient, warm and living, like the Age of Empires and Anno soundtracks (Sam, 22 Oct): a calm bed under the narration, not a full score"
+  "music_style": "ambient, warm and living, like the Age of Empires and Anno soundtracks (Sam, 22 Oct): a calm bed under the narration, not a full score",
+  "craft": {
+   "_": "CRAFT.md section 9 checks done in code by check.cjs (and lint/battle-map.js for the camera)",
+   "require_scenes": true,
+   "scenes": [
+    5,
+    9
+   ],
+   "max_shots_per_3min": 40,
+   "avg_shot_s": [
+    4,
+    12
+   ],
+   "require_cut_why": true,
+   "require_legend": true,
+   "camera": {
+    "pan_frames_per_s": 0.25,
+    "push_per_s": 0.1,
+    "hard_factor": 2.0
+   },
+   "banned_icons": [
+    "heart",
+    "hug",
+    "question",
+    "star",
+    "no",
+    "check",
+    "burst"
+   ],
+   "icons_soft": true
+  }
  },
  "kinetic": {
   "series": "Dark Corners",
@@ -84,7 +118,9 @@
    "Read the cues: every narrated idea gets its words, dates, numbers or quotes on screen AT the word. Copy words exactly from the word lists given.",
    "Title card over the title line; the series end card over the outro (the last cues.outro_s seconds).",
    "Restraint: no gore, nothing shown suffering; documents, objects, light and absence carry the story. No em or en dashes and no '...' on screen.",
-   "Keep every text inside the 9:16 safe area; no imports, no randomness, no clocks."
+   "Keep every text inside the 9:16 safe area; no imports, no randomness, no clocks.",
+   "Write `scenes` first: 5 to 9 scenes, each `{ name, at, until, begin, middle, end, why }`; the check rejects a spec without it.",
+   "No emoji anywhere."
   ],
   "style_refs": [
    "films/dark-corners/bamberg"
@@ -95,6 +131,20 @@
    "temperature": 0.7,
    "speed": 0.95
   },
-  "music_style": "dark, restrained underscore"
+  "music_style": "dark, restrained underscore",
+  "craft": {
+   "require_scenes": true,
+   "scenes": [
+    5,
+    9
+   ],
+   "max_shots_per_3min": 40,
+   "avg_shot_s": [
+    3,
+    12
+   ],
+   "require_cut_why": false,
+   "require_legend": false
+  }
  }
 }

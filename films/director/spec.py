@@ -44,10 +44,13 @@ def context(job):
         "A spec is one ES module, `export default { ... };`, that drives a whole film from the narration's cue times. The picture follows the sound: "
         "never change timing, only refer to cue times.",
         '# The engine: SPEC.md\n' + rd(L['spec_md'])]
+    if C.craft(): parts.append("# The studio's craft rules (CRAFT.md; Sam's words are the ground truth; the checks enforce section 9)\n" + C.craft())
     for k, ex in enumerate(L['examples']):
         exc = json.load(open(os.path.join(C.ROOT, ex, 'cues.json')))
         parts.append(f"# Example film {k + 1}: {exc.get('title', ex)} ({ex})\n## Its narration (cues)\n{cue_lines(exc, words=False)}\n## Its spec.js\n```js\n{rd(ex + '/spec.js')}\n```")
     if L.get('style_refs'): parts.append('# Look reference (hand-built, not a spec): ' + ', '.join(L['style_refs']) + '. Match its restraint and rhythm.')
+    parts.append('Note: the example films were made before CRAFT.md. Learn the engine from them, not the craft: do not copy their '
+                 'clip-art icons, their missing scene list or their fast camera moves.')
     parts.append('# House rules for every spec of this line\n' + '\n'.join('- ' + r for r in L.get('spec_rules', [])))
     les = os.path.join(C.HERE, 'LESSONS.md')
     if os.path.exists(les): parts.append('# Lessons from earlier jobs (follow them)\n' + open(les).read())

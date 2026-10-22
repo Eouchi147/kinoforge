@@ -43,7 +43,9 @@ def score(job, cands):
         "and the narration heard at that moment. Score each candidate 0 to 10 on: clarity (could a child of 10 follow who is where and what happens), "
         "match (does each picture show what the words say at that moment), beauty (composition, readable labels, no clutter, nothing cut off). "
         "List up to 6 concrete fixes for each candidate, each naming the time or line id and what to change in the picture (camera, labels, timing, "
-        "which element to add or remove). Name the winner exactly as given."}]
+        "which element to add or remove). Name the winner exactly as given. Judge against the studio's craft rules below (Sam's verdicts are the "
+        "ground truth): intentional cuts, real-time camera, living full frames, no emoji or clip art, the legend on Battle Map, labels never "
+        "covering the action.\n\n" + C.craft()}]
     for c in cands:
         r = c['report']
         content += [{'type': 'text', 'text': f"Candidate {c['name']} (problems found in code: {len(r['hard'])} hard, {len(r['soft'])} soft)"},

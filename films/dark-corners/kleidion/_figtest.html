@@ -1,0 +1,18 @@
+<!doctype html><html><head><script type="importmap">{"imports":{"three":"/harness/node_modules/three/build/three.module.js","three/addons/":"/harness/node_modules/three/examples/jsm/"}}</script></head><body style="margin:0;background:#556"><canvas id="c" width="1600" height="900"></canvas>
+<script type="module">
+import { person, horse, PAL, banner } from './figs.js';
+import { hex } from './paint.js';
+const c = document.getElementById('c'); const g = c.getContext('2d'); g.fillStyle = '#6a6890'; g.fillRect(0, 0, 1600, 900);
+g.fillStyle = '#3a3850'; g.fillRect(0, 430, 1600, 4);
+// walk cycle: 8 phases
+for (let i = 0; i < 8; i++) person(g, { x: 80 + i * 90, y: 300, h: 220, face: 1, ph: i / 8, walk: 1, col: PAL.cloak, col2: PAL.cloak2, lantern: i % 4 === 0 ? { on: 0.8 } : null, staff: i === 4, head: -0.05 });
+for (let i = 0; i < 8; i++) person(g, { x: 80 + i * 90, y: 600, h: 220, face: 1, ph: i / 8, walk: 1, hood: false, skinCol: hex('#150e1c'), helm: true, plume: [120, 40, 50], spear: true, shield: PAL.purple, col: hex('#20162a'), col2: hex('#2e2238'), hem: 0.28, stride: 0.9 });
+// horses
+for (let i = 0; i < 4; i++) horse(g, { x: 880 + (i % 2) * 330, y: 220 + Math.floor(i / 2) * 0 + 0, h: 130, face: 1, ph: i / 4 * 0.5, gallop: 0, col: hex('#161224') });
+for (let i = 0; i < 4; i++) horse(g, { x: 880 + (i % 2) * 330, y: 430, h: 130, face: -1, ph: 0.1 + i * 0.22, gallop: 1, col: hex('#161224') });
+const hs = horse(g, { x: 1050, y: 700, h: 170, face: 1, ph: 0.3, gallop: 0.0, col: hex('#161224'), t: 1 });
+person(g, { x: hs.saddle[0], y: hs.saddle[1] + 0.5 * 170 * 1.15, h: 170 * 1.15, face: 1, noLegs: true, seat: true, walk: 0, col: hex('#4b1a24'), col2: hex('#5a2430'), cape: hex('#5a1a2a'), crown: true, hood: false, skinCol: hex('#140e1c'), reach: [0.22, 0.62] });
+const hs2 = horse(g, { x: 1400, y: 700, h: 170, face: -1, ph: 0.3, gallop: 1.0, col: hex('#161224'), t: 1 });
+person(g, { x: hs2.saddle[0], y: hs2.saddle[1] + 0.5 * 170 * 1.15, h: 170 * 1.15, face: -1, noLegs: true, seat: true, walk: 0, col: hex('#23283c'), col2: hex('#343c58'), hood: false, skinCol: hex('#140e1c'), reach: [0.22, 0.62] });
+window.DONE = true;
+</script></body></html>

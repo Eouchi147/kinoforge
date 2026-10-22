@@ -4,6 +4,7 @@
 import { Clock } from '/films/lib/battlemap/timeline.js';
 import { ICON_NAMES } from '/films/lib/battlemap/icons.js';
 import { TEAMS, KINDS } from '/films/lib/battlemap/blocks.js';
+import { normaliseKey, CameraTrack } from '/films/lib/battlemap/camera.js';
 
 const TIME_KEYS = ['at', 'until', 'hide', 'fallAt'];
 const MOVE_PROPS = ['x', 'z', 'heading', 'len', 'dep', 'bulge', 'scale', 'alpha', 'drop', 'lift', 'fade', 'sink', 'count', 'flag', 'glow'];
@@ -13,8 +14,9 @@ const EASES = ['linear', 'in', 'out', 'inOut', 'inQuad', 'outQuad', 'inOutQuad',
 const FEATURES = ['undulate', 'hill', 'ridge', 'mountains', 'river', 'sea', 'lake', 'land', 'woods', 'farms', 'road', 'flat'];
 const BAD_TEXT = /[—–]|\.\.\.|…/;
 
-export function lint(spec, cues) {
-  const errors = [], warnings = [];
+export function lint(spec, cues, opts = {}) {
+  const errors = [], warnings = []; const aspect = opts.aspect || 16 / 9; const craft = opts.craft || {};
+  const cuts = []; const cam = { worst: [] };
   const E = (p, m) => errors.push(`${p}: ${m}`), W = (p, m) => warnings.push(`${p}: ${m}`);
   if (!spec || typeof spec !== 'object') return { errors: ['the module has no default export object'], warnings };
   const dur = cues.duration; const clock = new Clock(cues, spec.marks || {});
@@ -23,6 +25,19 @@ export function lint(spec, cues) {
     else if (t > dur + 0.5 && /(^|\.)at$/.test(p)) W(p, `starts at ${t.toFixed(2)} s, after the film ends (${dur.toFixed(2)} s): never shown`); return t; }
     catch (e) { E(p, e.message); return null; } };
   for (const [k, v] of Object.entries(spec.marks || {})) T(`marks.${k}`, v);
+
+  // CRAFT.md 4: real time. A pan crosses the frame in 4 s or more; a push is 5 to 10 % of the frame per second.
+  const cameraSpeed = (keys, p, stageName) => {   // average speed of each move between two keys (a cut is not a move)
+    let K; try { K = keys.map((k, i) => ({ ...normaliseKey(k, clock, aspect), i })).sort((x, y) => x.t - y.t); } catch { return; }
+    const C = craft.camera; const width = (q) => 2 * q.dist * ((12 / q.mm) * aspect);   // ground width in view near the target
+    for (let j = 1; j < K.length; j++) { const a = K[j - 1], b = K[j]; const dt = b.t - a.t; if (b.cut || dt <= 0.05) continue;
+      const w = (width(a) + width(b)) / 2, d = (a.dist + b.dist) / 2, pitch = (a.pitch + b.pitch) / 2;
+      const lateral = (Math.hypot(b.x - a.x, b.z - a.z) + d * Math.cos(pitch * Math.PI / 180) * Math.abs(b.yaw - a.yaw) * Math.PI / 180) / w / dt;
+      const push = Math.abs(Math.log(b.dist / a.dist)) / dt; const r = Math.max(lateral / C.pan_frames_per_s, push / C.push_per_s);
+      if (r <= 1.25) continue;
+      const msg = `camera move from ${a.t.toFixed(1)} to ${b.t.toFixed(1)} s is too fast (${lateral.toFixed(2)} frame widths/s, limit ${C.pan_frames_per_s}; push ${(push * 100).toFixed(0)} %/s, limit ${(C.push_per_s * 100).toFixed(0)} %): start it earlier, move less, or cut (CRAFT.md 4)`;
+      (r > (C.hard_factor || 2) ? E : W)(`${p}[${b.i}]`, msg); }
+  };
 
   const stage = (sp, name) => {
     const P = (s) => (name === 'main' ? '' : `stages.${name}.`) + s;
@@ -76,6 +91,8 @@ export function lint(spec, cues) {
       if (k.target !== undefined && !Array.isArray(k.target)) E(p + '.target', 'must be [x, z]'); if (k.target === undefined && k.x === undefined) W(p, 'no target: looks at [0, 0]');
       if (k.pitch !== undefined && (k.pitch < 3 || k.pitch > 89.9)) E(p + '.pitch', 'must be between 3 and 89.9');
       if (k.ease && !EASES.includes(k.ease)) W(p + '.ease', `unknown easing ${k.ease} (falls back to inOut)`); });
+    if (cam.length && craft.camera) cameraSpeed(cam, P('camera'), name);
+    for (const [i, k] of cam.entries()) if (k.cut) { try { cuts.push({ t: clock.at(k.at), why: k.why, path: P(`camera[${i}]`) }); } catch {} }
     if (cam.length && name === 'main') { const t0 = (() => { try { return clock.at(cam[0].at); } catch { return 0; } })(); if (t0 > 0.01) W(P('camera[0].at'), 'the first key should be at 0'); }
   };
   stage(spec, 'main');
@@ -85,10 +102,15 @@ export function lint(spec, cues) {
   (spec.cards || []).forEach((c, i) => { const p = `cards[${i}]`; const t0 = T(p + '.at', c.at); if (c.until !== undefined) T(p + '.until', c.until);
     (c.lines || []).forEach((L, j) => { if (typeof L.text !== 'string') E(`${p}.lines[${j}].text`, 'missing'); else if (BAD_TEXT.test(L.text)) E(`${p}.lines[${j}].text`, 'no em or en dashes and no "..." on screen'); }); });
   (spec.msaaOn || []).forEach((r, i) => { if (!Array.isArray(r) || r.length !== 2) E(`msaaOn[${i}]`, 'must be [from, to]'); else { T(`msaaOn[${i}][0]`, r[0]); T(`msaaOn[${i}][1]`, r[1]); } });
+  for (const [i, e] of (spec.insets || []).entries()) { const full = !e.rect || (e.rect[2] >= 0.999 && e.rect[3] >= 0.999); if (!full) continue;
+    try { cuts.push({ t: clock.at(e.at), why: e.why, path: `insets[${i}]` }); if (e.until !== undefined) cuts.push({ t: clock.at(e.until), why: e.why_out || e.why, path: `insets[${i}].until` }); } catch {} }
+  for (const [i, c] of (spec.cards || []).entries()) { try { cuts.push({ t: clock.at(c.at), why: c.why || 'card', path: `cards[${i}]`, card: true }); } catch {} }
+  const ts = [...new Set(cuts.map((c) => Math.round(c.t * 10) / 10))].filter((t) => t > 0.2 && t < dur - 0.2).sort((a, b) => a - b);
+  const stats = { shots: ts.length + 1, avg_shot_s: +(dur / (ts.length + 1)).toFixed(2), cuts: cuts.filter((c) => !c.card).map((c) => ({ t: +c.t.toFixed(2), why: c.why || null, path: c.path })) };
   // the house: a title card around the title line, an end card over the outro
   const cards = (spec.cards || []).map((c) => { try { return [clock.at(c.at), c.until !== undefined ? clock.at(c.until) : clock.at(c.at) + (c.dur ?? 1), c]; } catch { return null; } }).filter(Boolean);
   const tl = cues.lines.find((l) => l.id === cues.title_line);
   if (tl && !cards.some(([a, b]) => a <= tl.end + 1.5 && b >= tl.start)) E('cards', `no title card around the title line ${tl.id} (${tl.start.toFixed(1)} to ${tl.end.toFixed(1)} s)`);
   if (!cards.some(([a, b]) => b >= dur - 0.6 && a >= dur - (cues.outro_s ?? 4) - 3)) E('cards', `no end card over the last ${(cues.outro_s ?? 4).toFixed(1)} s (the film ends at ${dur.toFixed(2)} s)`);
-  return { errors, warnings };
+  return { errors, warnings, stats };
 }

@@ -22,7 +22,7 @@ fs.mkdirSync(path.join(out, 'stills'), { recursive: true });
 const lines = JSON.parse(fs.readFileSync(path.join(__dirname, 'lines.json'), 'utf8'));
 const filmJson = JSON.parse(fs.readFileSync(path.join(filmAbs, 'film.json'), 'utf8'));
 let lineName = o.line || filmJson.line; if (!lineName) { try { lineName = JSON.parse(fs.readFileSync(path.join(filmAbs, 'brief.json'), 'utf8')).line; } catch {} } lineName = lineName || 'battle-map';
-const L = lines[lineName] || {}; const W = filmJson.render_w || (L.render || [1280])[0], H = filmJson.render_h || (L.render || [0, 720])[1];
+const L = { ...(lines[lineName] || {}) }; if (process.env.KF_CRAFT === '0') L.craft = {};   /* KF_CRAFT=0: engine checks only (tests, films made before CRAFT.md) */ const W = filmJson.render_w || (L.render || [1280])[0], H = filmJson.render_h || (L.render || [0, 720])[1];
 const cues = JSON.parse(fs.readFileSync(path.join(filmAbs, 'cues.json'), 'utf8'));
 const report = { film: filmRel, spec: o.spec, line: lineName, ok: false, hard: [], soft: [], lint: { errors: [], warnings: [] }, stills: [], page_errors: [], console_errors: [], ready_s: null, still_s: null, sheet: null };
 const save = () => fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify(report, null, 1));
@@ -37,6 +37,28 @@ catch (e) { const msg = String(e.stderr || e.message).split('\n').filter((l) => 
 const src = fs.readFileSync(specAbs, 'utf8');
 if (/^\s*import\s/m.test(src)) report.hard.push('the spec must not import anything (it is data: export default { ... })');
 if (/Math\.random|Date\.now|performance\.now/.test(src)) report.hard.push('the spec must be deterministic: no Math.random, Date.now or performance.now');
+
+// CRAFT.md section 9 in code: scene list, shot count and length, a reason for every cut, legend, no emoji or clip-art icons
+function craftChecks(sum) {
+  const C = L.craft || {}; const dur = cues.duration; const H_ = (m) => report.hard.push('craft: ' + m), S_ = (m) => report.soft.push('craft: ' + m);
+  let specMd = ''; try { specMd = fs.readFileSync(path.join(ROOT, L.spec_md), 'utf8'); } catch {}
+  report.craft = { scenes: sum.scenes ? sum.scenes.length : 0 };
+  if (/\p{Extended_Pictographic}/u.test(src)) H_('emoji in the spec: no emoji anywhere (CRAFT.md 6)');
+  if (C.require_scenes) {
+    if (!sum.scenes || !sum.scenes.length) H_('no scene list: add `scenes: [{ name, begin, middle, end, camera }]`, 5 to 9 scenes, written before any shot (CRAFT.md 2)');
+    else { const [a, b] = C.scenes || [5, 9]; if (sum.scenes.length < a || sum.scenes.length > b) S_(`${sum.scenes.length} scenes; a film is ${a} to ${b} scenes (CRAFT.md 2)`);
+      sum.scenes.forEach((keys, i) => { const has = (re) => keys.some((k) => re.test(k)); if (!(has(/^begin|^start|^open/i) && has(/^middle|^change|^turn/i) && has(/^end|^close|^result/i))) S_(`scenes[${i}] needs a beginning, a middle and an end (CRAFT.md 2)`); }); }
+  }
+  const st = report.stats || (sum.cards !== null ? { shots: sum.cards, avg_shot_s: +(dur / Math.max(1, sum.cards)).toFixed(2), cuts: [] } : null);
+  if (st) { Object.assign(report.craft, { shots: st.shots, avg_shot_s: st.avg_shot_s });
+    const max = Math.round((C.max_shots_per_3min || 40) * dur / 180); if (st.shots > max) H_(`${st.shots} shots in ${dur.toFixed(0)} s (at most ${max}): fewer, longer shots (CRAFT.md 2)`);
+    const [lo, hi] = C.avg_shot_s || [4, 12]; if (st.avg_shot_s < lo || st.avg_shot_s > hi) S_(`average shot ${st.avg_shot_s} s (aim ${lo} to ${hi} s; CRAFT.md 2)`);
+    if (C.require_cut_why) { const no = (st.cuts || []).filter((c) => !c.why); if (no.length) H_(`${no.length} cuts with no written reason: give each one \`why: '...'\` (new information, place, time, reaction, scale): ${no.slice(0, 5).map((c) => `${c.path} at ${c.t} s`).join(', ')} (CRAFT.md 3)`); } }
+  if (C.require_legend && !sum.legend) (/legend/i.test(specMd) ? H_ : S_)('no legend: frame the battlefield with a legend (sides, units, key places), each entry when the narration first names it (CRAFT.md 6)');
+  const banned = new Set(C.banned_icons || []); const used = [...new Set(sum.icons)];
+  for (const i of used.filter((x) => banned.has(x))) H_(`icon ${i} reads as emoji or clip art: remove it, say it with a label, a legend entry or a move (CRAFT.md 6)`);
+  if (C.icons_soft && used.filter((x) => !banned.has(x)).length) S_(`icons used (${used.filter((x) => !banned.has(x)).join(', ')}): keep only those with a job a label cannot do (CRAFT.md 1, 6)`);
+}
 
 // the times to look at: each narration line, the title card, the end card, plus a few word times the spec uses
 function stillTimes() {
@@ -83,10 +105,16 @@ const lineAt = (t) => { let cur = null; for (const l of cues.lines) if (t >= l.s
     report.ready_s = +((Date.now() - t0) / 1000).toFixed(1);
     // 2. lint (in the page: the engine's own modules resolve the time refs)
     if (L.lint) {
-      const lr = await page.evaluate(async ({ lint, spec, film }) => { try { const m = await import('/' + lint); const s = (await import(new URL(spec, location.origin + '/' + film + '/').href + '?lint')).default;
-        const c = await (await fetch('/' + film + '/cues.json')).json(); return m.lint(s, c); } catch (e) { return { errors: ['lint could not load the spec: ' + (e.message || e)], warnings: [] }; } }, { lint: L.lint, spec: o.spec, film: filmRel });
-      report.lint = { errors: uniq(lr.errors), warnings: uniq(lr.warnings) };
+      const lr = await page.evaluate(async ({ lint, spec, film, opts }) => { try { const m = await import('/' + lint); const s = (await import(new URL(spec, location.origin + '/' + film + '/').href + '?lint')).default;
+        const c = await (await fetch('/' + film + '/cues.json')).json(); return m.lint(s, c, opts); } catch (e) { return { errors: ['lint could not load the spec: ' + (e.message || e)], warnings: [] }; } }, { lint: L.lint, spec: o.spec, film: filmRel, opts: { aspect: W / H, craft: L.craft || {} } });
+      report.lint = { errors: uniq(lr.errors), warnings: uniq(lr.warnings) }; report.stats = lr.stats || null;
     }
+    // 2b. craft (CRAFT.md section 9), in code where code can judge it
+    const sum = await page.evaluate(async ({ spec, film }) => { try { const s = (await import(new URL(spec, location.origin + '/' + film + '/').href + '?craft')).default;
+        const icons = []; const walk = (o, d) => { if (!o || typeof o !== 'object' || d > 8) return; if (typeof o.icon === 'string') icons.push(o.icon); for (const v of Object.values(o)) walk(v, d + 1); }; walk(s, 0);
+        return { ok: true, scenes: Array.isArray(s.scenes) ? s.scenes.map((x) => (x && typeof x === 'object') ? Object.keys(x) : []) : null, legend: s.legend !== undefined && s.legend !== null && s.legend !== false,
+          icons, cards: Array.isArray(s.cards) ? s.cards.length : null }; } catch (e) { return { ok: false }; } }, { spec: o.spec, film: filmRel });
+    if (sum.ok) craftChecks(sum);
     // 3. stills
     if (ready) {
       const times = stillTimes(); const fps = filmJson.fps || 24; let tot = 0;

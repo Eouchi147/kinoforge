@@ -84,7 +84,13 @@ function elephantGeo() {
   B.box(0, -0.08, 0.08, 0.08, 1.30, 1.50, 0); B.cap(0, 1.50, -0.08, 0.07, 0.07, 1); // rider
   return B.done();
 }
-export const FIG_KINDS = { // geometry, cell spacing (front, depth) in map units, figure scale (fraction of the cell), tray
+function tentGeo() { // a ridge tent: canvas roof, team ridge cloth
+  const B = builder(); const a = [-0.5, 0, -0.42], b = [0.5, 0, -0.42], c = [0.5, 0, 0.42], d = [-0.5, 0, 0.42], ra = [-0.5, 0.62, 0], rb = [0.5, 0.62, 0];
+  B.quad(a, b, rb, ra, 9); B.quad(c, d, ra, rb, 9); B.tri(d, a, ra, 9); B.tri(b, c, rb, 9); B.beam([-0.52, 0.6, 0], [0.52, 0.6, 0], 0.05, 0); return B.done(); }
+function postGeo() { const B = builder(); B.box(0, 0, 0.09, 0.09, 0, 0.85, 3, 0.07, 0.07); B.cap(0, 0.85, 0, 0.07, 0.12, 3); return B.done(); }
+function fireGeo() { const B = builder(); for (let k = 0; k < 6; k++) { const a = k / 6 * Math.PI * 2; B.box(Math.cos(a) * 0.32, Math.sin(a) * 0.32, 0.08, 0.08, 0, 0.1, 5); } B.cap(0, 0.02, 0, 0.18, 0.32, 10); return B.done(); }
+export const FIG_KINDS = {
+  tent: { geo: tentGeo, sp: [3, 3], sc: 1 }, post: { geo: postGeo, sp: [1, 1], sc: 1 }, fire: { geo: fireGeo, sp: [1, 1], sc: 1 }, // geometry, cell spacing (front, depth) in map units, figure scale (fraction of the cell), tray
   infantry: { geo: () => infantryGeo(false), sp: [1.7, 1.7], sc: 1.15 },
   elite: { geo: () => infantryGeo(true), sp: [1.6, 1.6], sc: 1.2 },
   light: { geo: lightGeo, sp: [2.1, 2.1], sc: 1.05, loose: 0.35 },
@@ -110,7 +116,7 @@ void main(){
   vec3 n = vec3(r.x*aN.x + f.x*aN.z, aN.y, r.y*aN.x + f.y*aN.z);
   vN = n; vWorld = wp; vFade = iMeta.x;
   int role = int(aRole + 0.5); vec3 c = iCol.rgb;
-  if (role == 1) c = uMetal; else if (role == 2) c = iCol.rgb*0.62; else if (role == 3) c = uWood; else if (role == 5) c = uDark; else if (role == 6) c = uGold; else if (role == 7) c = uGrey; else if (role == 8) c = iLight;
+  if (role == 1) c = uMetal; else if (role == 2) c = iCol.rgb*0.62; else if (role == 3) c = uWood; else if (role == 5) c = uDark; else if (role == 6) c = uGold; else if (role == 7) c = uGrey; else if (role == 8) c = iLight; else if (role == 9) c = vec3(0.90, 0.85, 0.73); else if (role == 10) c = vec3(1.6, 0.75, 0.25);
   else if (role == 4) { float h = iCol.a; c = h < 0.35 ? vec3(0.42, 0.26, 0.15) : h < 0.65 ? vec3(0.55, 0.33, 0.18) : h < 0.85 ? vec3(0.24, 0.17, 0.12) : vec3(0.72, 0.68, 0.62); }
   vCol = c;
   gl_Position = projectionMatrix*viewMatrix*vec4(wp, 1.0);

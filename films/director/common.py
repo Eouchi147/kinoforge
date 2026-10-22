@@ -244,6 +244,12 @@ def code_block(text):
     return t.strip() + '\n'
 
 
+def craft():
+    """CRAFT.md: Sam's verdicts and the house rules of direction and editing (read by the writer, coder and eyes seats)."""
+    p = os.path.join(HERE, 'CRAFT.md')
+    return open(p).read() if os.path.exists(p) else ''
+
+
 # ------------------------------------------------------------------ house rules for words
 KID_UNSAFE = re.compile(r'\b(blood\w*|bloody|gore|gory|guts|behead\w*|decapitat\w*|disembowel\w*|torture\w*|rape\w*|corpses?|mutilat\w*|slaughter\w*|massacre\w*|butcher\w*|impale\w*|severed|entrails)\b', re.I)
 URL = re.compile(r'(https?://|www\.)\S+', re.I)

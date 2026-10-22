@@ -23,11 +23,14 @@ export function tex(canvas, { mip = true } = {}) {
 
 const planeVert = `varying vec2 vUv; varying vec3 vW;
 void main(){ vUv=uv; vec4 w=modelMatrix*vec4(position,1.0); vW=w.xyz; gl_Position=projectionMatrix*viewMatrix*w; }`;
+// wind: uSway = (amplitude in uv, ground line v (0 bottom .. 1 top), spatial frequency); texels above the ground line lean and shimmer with time (grass strips: ground line 0)
 const planeFrag = `${SRGB}
-uniform sampler2D map; uniform float uOpacity; uniform vec3 uTint; uniform vec2 uOffset; uniform int uNL; uniform vec4 uLP[${NL}]; uniform vec3 uLC[${NL}];
+uniform sampler2D map; uniform float uOpacity; uniform vec3 uTint; uniform vec2 uOffset; uniform vec3 uSway; uniform float uTime; uniform int uNL; uniform vec4 uLP[${NL}]; uniform vec3 uLC[${NL}];
 varying vec2 vUv; varying vec3 vW;
 void main(){
-  vec4 p=texture2D(map, vUv+uOffset); if(p.a<0.002) discard;
+  vec2 uvq=vUv+uOffset;
+  if(uSway.x>0.0){ float hgt=clamp((vUv.y-uSway.y)/max(0.05,1.0-uSway.y),0.0,1.0); uvq.x+=uSway.x*hgt*(sin(uTime*1.7+vUv.x*uSway.z)+0.6*sin(uTime*2.9+vUv.x*uSway.z*2.3+1.3)+0.5*sin(uTime*0.6)); }
+  vec4 p=texture2D(map, uvq); if(p.a<0.002) discard;
   vec3 c=srgbToLin(clamp(p.rgb/p.a,0.0,1.0));
   vec3 L=vec3(0.0);
   for(int i=0;i<${NL};i++){ if(i>=uNL) break; vec3 d=vW-uLP[i].xyz; float r=uLP[i].w; float f=1.0/(1.0+dot(d,d)/(r*r)); L+=uLC[i]*f*f; }
@@ -36,7 +39,7 @@ void main(){
 }`;
 export function paintMaterial(map) {
   return new THREE.ShaderMaterial({
-    uniforms: { map: { value: map }, uOpacity: { value: 1 }, uTint: { value: new THREE.Vector3(1, 1, 1) }, uOffset: { value: new THREE.Vector2() },
+    uniforms: { map: { value: map }, uOpacity: { value: 1 }, uTint: { value: new THREE.Vector3(1, 1, 1) }, uOffset: { value: new THREE.Vector2() }, uSway: { value: new THREE.Vector3() }, uTime: { value: 0 },
       uNL: { value: 0 }, uLP: { value: Array.from({ length: NL }, () => new THREE.Vector4()) }, uLC: { value: Array.from({ length: NL }, () => new THREE.Vector3()) } },
     vertexShader: planeVert, fragmentShader: planeFrag, transparent: true, depthTest: false, depthWrite: false,
     blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor,

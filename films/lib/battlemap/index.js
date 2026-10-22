@@ -7,6 +7,8 @@ import { noiseTexture, paperTexture } from './terrainShaders.js';
 import { Stage, DEFAULT_LOOK } from './stage.js';
 import { View, drawCard } from './overlay.js';
 import { normaliseKey } from './camera.js';
+import { compileScenes, applyScenes, reportText } from './scenes.js';
+import { Legend, legendMarkers } from './legend.js';
 
 const q = new URLSearchParams(location.search);
 const INSET_FRAG = `precision highp float; uniform sampler2D uTex; uniform float uAlpha, uFrame, uAspect, uTime; uniform vec3 uInk, uGold; varying vec2 vUv;
@@ -16,15 +18,22 @@ const INSET_FRAG = `precision highp float; uniform sampler2D uTex; uniform float
     col = mix(col, uInk, b1); col = mix(col, uGold, b2*0.9); col = mix(col, uInk, (1.0 - b3)*uFrame);
     gl_FragColor = vec4(col, uAlpha); }`;
 
+const FONT_CSS = ['cinzel/600', 'cinzel/700', 'cinzel/800', 'cormorant-garamond/500-italic', 'cormorant-garamond/600', 'cormorant-garamond/600-italic'];
+function ensureFonts() { for (const f of FONT_CSS) { const href = `/harness/node_modules/@fontsource/${f}.css`; if (document.querySelector(`link[href="${href}"]`)) continue; const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; document.head.appendChild(l); } }
 export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
+  ensureFonts();
   const spec = specUrl.endsWith('.js') ? (await import(new URL(specUrl, location.href).href)).default : await (await fetch(specUrl)).json(); const cues = await (await fetch(cuesUrl)).json();
   const look = { ...DEFAULT_LOOK, ...(spec.look || {}) }; const grade = { saturation: 0.95, contrast: 1.08, shadowTint: [-0.01, 0.0, 0.025], highlightTint: [0.04, 0.02, -0.01], grain: 0.03, grainSize: 1.4, vignette: 0.30, ...(spec.look?.grade || {}) };
   const clock = new Clock(cues, spec.marks || {}); const duration = cues.duration; let S = null;
   await boot({
-    fps, duration, toneMapping: THREE.NeutralToneMapping, exposure: spec.look?.exposure ?? 1.0, fonts: [['Cinzel', 600], ['Cinzel', 800]],
+    fps, duration, toneMapping: THREE.NeutralToneMapping, exposure: spec.look?.exposure ?? 1.0, fonts: [['Cinzel', 600], ['Cinzel', 700], ['Cinzel', 800], ['Cormorant Garamond', 600]],
     init: async (ctx) => {
       const { renderer, W, H } = ctx; const T0 = performance.now(); const lap = (m) => { if (q.get('dbg')) console.log('[init]', m, ((performance.now() - T0) / 1000).toFixed(2) + 's'); };
-      await document.fonts.load('italic 500 20px "Cormorant Garamond"').catch(() => {});
+      await document.fonts.load('italic 500 20px "Cormorant Garamond"').catch(() => {}); await document.fonts.load('italic 600 20px "Cormorant Garamond"').catch(() => {}); await document.fonts.load('600 20px "Cormorant Garamond"').catch(() => {}); await document.fonts.load('700 20px "Cinzel"').catch(() => {});
+      // v2: scenes -> camera keys, sets, insets (with the director's checks); legend places -> map markers
+      if (spec.scenes) { const R = compileScenes(spec, clock, W / H, { duration }); const txt = reportText(R); window.KF_SCENES = R; if (q.get('dbg') || R.errors.length) console.log('[scenes]\n' + txt); else console.log('[scenes] ' + txt.split('\n')[0] + (R.warnings.length ? ` (${R.warnings.length} warnings)` : ''));
+        if (R.errors.length && spec.sceneChecks !== 'warn') throw new Error('scene checks failed:\n' + R.errors.join('\n')); applyScenes(spec, R); }
+      legendMarkers(spec);
       const shared = { uNoise: { value: noiseTexture(11) }, uPaper: { value: paperTexture(1024, 2024) } };
       const main = new Stage({ renderer, shared, spec, look, clock, aspect: W / H, name: 'main' }); lap('main stage');
       const stages = {}; for (const [name, sp] of Object.entries(spec.stages || {})) { const used = (spec.insets || []).find((i) => i.stage === name); const r = used?.rect || [0, 0, 1, 1]; stages[name] = new Stage({ renderer, shared, spec: sp, look, clock, aspect: (r[2] * W) / (r[3] * H), name }); lap('stage ' + name); }
@@ -41,7 +50,13 @@ export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
       const scrim = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), scrimMat); scrim.renderOrder = 99; scrim.frustumCulled = false; scrim.visible = false; main.scene.add(scrim);
       const cards = (spec.cards || []).map((c) => { const [t0, t1] = clock.span(c, 1); return { ...c, t0, t1 }; });
       const msaaOn = (spec.msaaOn || []).map((r) => [clock.at(r[0]), clock.at(r[1])]);
-      S = { ctx, spec, look, clock, cues, main, stages, post, W, H, insets, scrim, cards, setMSAA, msaaOn, shared }; lap('ready');
+      const legend = new Legend(spec, clock);
+      // dissolves (scene transitions): the outgoing frame is rendered into a target and laid over the incoming one
+      const dissolves = (spec._dissolves || []).filter((d) => d.stage === 'main'); let dis = null;
+      if (dissolves.length) { const rt = new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 0, depthBuffer: true }); rt.texture.colorSpace = THREE.NoColorSpace;
+        const mat = new THREE.ShaderMaterial({ vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position, 1.0); }', fragmentShader: 'precision highp float; uniform sampler2D uTex; uniform float uAlpha; varying vec2 vUv; void main(){ gl_FragColor = vec4(texture2D(uTex, vUv).rgb, uAlpha); }', transparent: true, depthTest: false, depthWrite: false, toneMapped: false, uniforms: { uTex: { value: rt.texture }, uAlpha: { value: 0 } } });
+        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), mat); mesh.renderOrder = 98; mesh.frustumCulled = false; mesh.visible = false; main.camera.add(mesh); dis = { list: dissolves, rt, mat, mesh }; }
+      S = { ctx, spec, look, clock, cues, main, stages, post, W, H, insets, scrim, cards, setMSAA, msaaOn, shared, legend, dis }; lap('ready');
     },
     render: async (ctx, i, t) => {
       const { main, post, insets, scrim, cards, W, H } = S; const g = post.overlay.ctx; post.overlay.clear();
@@ -52,7 +67,11 @@ export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
       for (const e of act) { const a = clamp((t - e.t0) / e.tin) * (1 - clamp((t - e.t1) / e.tout)); const k = EASE.outBack(clamp((t - e.t0) / e.tin)); const full = e.rect[2] >= 0.999 && e.rect[3] >= 0.999;
         if (full && a >= 0.999) cover = true; scrimA = Math.max(scrimA, a * (e.scrim ?? (full ? 0 : 0.45))); }
       S.setMSAA(cover ? 0 : (q.get('msaa') !== null ? +q.get('msaa') : (S.msaaOn.some((r) => t >= r[0] && t < r[1]) ? 4 : 0)));
-      const tp0 = performance.now(); main.setVisible(!cover); if (!cover) main.update(t, pose); const tp1 = performance.now();
+      const tp0 = performance.now(); main.setVisible(!cover);
+      const D = S.dis ? S.dis.list.find((d) => t >= d.t0 && t < d.t1) : null; if (S.dis) S.dis.mesh.visible = false;
+      if (D && !cover && !pose) { const pa = main.cam.at(D.tc - 1e-3); main.update(t, pa); ctx.renderer.setRenderTarget(S.dis.rt); ctx.renderer.toneMapping = THREE.NoToneMapping; ctx.renderer.render(main.scene, main.camera); ctx.renderer.setRenderTarget(null); ctx.renderer.toneMapping = THREE.NeutralToneMapping; }
+      if (!cover) main.update(t, pose); const tp1 = performance.now();
+      if (D && !cover && !pose) { const u = clamp((t - D.t0) / (D.t1 - D.t0)); const cam = main.camera; const HD = 2.5; const hh = 2 * Math.tan(cam.fov * Math.PI / 360) * HD; S.dis.mesh.position.set(0, 0, -HD); S.dis.mesh.scale.set(hh * cam.aspect, hh, 1); S.dis.mat.uniforms.uAlpha.value = 1 - u * u * (3 - 2 * u); S.dis.mesh.visible = true; }
       // render inset stages into their targets, place their HUD quads
       const cam = main.camera; const HD = 3; const hh = 2 * Math.tan(cam.fov * Math.PI / 360) * HD, ww = hh * cam.aspect;
       for (const e of act) { const a = clamp((t - e.t0) / e.tin) * (1 - clamp((t - e.t1) / e.tout)); if (a <= 0.001) continue; const k = (e.pop === false ? 1 : lerp(0.88, 1, EASE.outBack(clamp((t - e.t0) / e.tin)))) * (1 - 0.06 * clamp((t - e.t1) / e.tout));
@@ -65,6 +84,8 @@ export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
       if (!cover) main.overlay.draw(g, t, new View(main.camera, full));
       for (const e of act) { if (!e.mesh.visible) continue; const r = e.rect; const k = e._k; const cx = (r[0] + r[2] / 2) * W, cy = (r[1] + r[3] / 2) * H; const rw = r[2] * W * k, rh = r[3] * H * k; const rect = { x: cx - rw / 2, y: cy - rh / 2 - (1 - e._a) * 0.03 * H * 0.5, w: rw, h: rh };
         g.save(); g.beginPath(); g.rect(rect.x, rect.y, rect.w, rect.h); g.clip(); g.globalAlpha = e._a; e.stage.overlay.draw(g, t, new View(e.stage.camera, rect)); g.restore(); }
+      { const mk = {}; if (!cover) Object.assign(mk, main.overlay.markerScreen); for (const e of act) if (e.mesh.visible) Object.assign(mk, e.stage.overlay.markerScreen);
+        S.legend.draw(g, t, W, H, { markers: mk, pose: cover ? null : main.pose, view: new View(main.camera, full), ground: (x, z) => main.mh(x, z) }); }
       for (const c of cards) drawCard(g, c, t, W, H);
       const tp2 = performance.now(); post.render(t); if (q.get('prof')) { ctx.renderer.getContext().finish(); console.log('[prof] update', (tp1 - tp0).toFixed(0), 'overlay', (tp2 - tp1).toFixed(0), 'render', (performance.now() - tp2).toFixed(0), 'ms'); }
     },

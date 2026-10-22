@@ -30,6 +30,11 @@ def ease(u, k):
     if k == 'i': return u * u
     if k == 'I': return u ** 3
     if k == 'h': return 0.0 if u < 1 else 1.0
+    if k == 't':      # camera-stand move: ease in over 25 %, steady middle, ease out over 25 % (a real operator's move)
+        a = 0.25; n = 1.0 - a
+        if u < a: return u * u / (2 * a) / n
+        if u < 1 - a: return (a / 2 + (u - a)) / n
+        return 1.0 - (1 - u) ** 2 / (2 * a * n)
     raise ValueError(k)
 
 def lerp(a, b, u):

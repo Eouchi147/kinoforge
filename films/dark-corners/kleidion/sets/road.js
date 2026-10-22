@@ -1,8 +1,9 @@
 // SET road: the long switchback road over a Balkan hillside at dusk (the Lantern Road). Wide shots of the captives, the lantern groups,
 // the title card and the last image. Planes at depth: sky 6000, peaks 2400, mid 1000, fog 420, hill (with the road painted on it) 170, foreground 70.
 import { Canvas, hex, mixc, mul, rgba, underpaint, ridged, clamp, lerp, smoothstep, ease, noise1, rng, WARM, det, bump, igniteEnv, flick, spline, ribbonPath, tintAll, lightsOn } from './common.js';
-import { paintSky, paintRange, pineTree, paintFog, paintRocks, paintTufts } from '../paint.js';
+import { paintSky, paintRange, pineTree, paintFog, paintRocks, paintTufts, paintHouse } from '../paint.js';
 import { person, banner, glowAt, torch, embers, hash1, PAL, STRIDE } from '../figs.js';
+import { birds, smoke, motes, hazeBand, paintGrassStrip } from '../ambient.js';
 
 export const ROAD_PTS = [[-70, 1330], [250, 1250], [620, 1175], [700, 1130], [560, 1085], [190, 1030], [60, 990], [110, 955], [430, 915], [640, 880], [670, 850], [560, 828], [300, 795], [215, 770], [260, 745], [430, 722], [520, 704], [500, 690], [440, 676], [412, 664]].map(([x, y]) => ({ x, y }));
 export const hwAt = (y) => 3 + (y - 650) * 0.2;           // half road width (design px) at hill row y
@@ -11,7 +12,7 @@ export const hgt = (y) => 0.9 * hwAt(y);                  // a 1.75 m person (ro
 export default function road(S, cams, env) {
   const cover = (D, m) => S.cover(D, cams, m);
   const D = { sky: 6000, peaks: 2400, mid: 1000, fog: 420, hill: 170, fg: 70 };
-  const planes = {};
+  const planes = {}; const HAM = { win: [], chim: [] };
   { const r = cover(D.sky); const C = new Canvas(r, { seed: 11 });
     paintSky(C, { stops: [[-500, hex('#0b0e30')], [0, hex('#141944')], [250, hex('#262c5d')], [420, hex('#444580')], [540, hex('#6a5f90')], [640, hex('#8f7a9c')]], glow: { x: 30, y: 600, rx: 820, ry: 300, col: hex('#e0a58e'), a: 0.75 },
       clouds: [{ y: 120, h: 13, x0: -300, x1: 1000, col: hex('#1f2454'), lit: hex('#5d5789'), litA: 0.6, sy: 0.03 }, { y: 280, h: 11, x0: -200, x1: 1100, col: hex('#2e3366'), lit: hex('#8f7c9f'), litA: 0.7, thr: 0.5, sy: 0.034 },
@@ -24,8 +25,11 @@ export default function road(S, cams, env) {
   { const r = cover(D.mid); r[3] = Math.min(r[3], 760); r[1] = Math.max(r[1], 440); const C = new Canvas(r, { seed: 31 });
     const ridge = (x) => 612 - bump(x, 560, 200, 60) - bump(x, 90, 150, 48) - bump(x, 340, 90, -14) - 14 * ridged(x * 0.01, 3, 3);
     paintRange(C, { ridge, top: hex('#262a55'), mid: hex('#2e325f'), base: hex('#45477a'), fall: 120, light: { dir: -1, col: hex('#3e4377'), amt: 0.4 }, shade: 0.12, haze: { col: hex('#5a5788'), y0: 640, y1: 740, a: 0.8 }, rim: hex('#5a5f92'), sizes: 0.9 });
+    // a far hamlet under the ridge: little houses, chimneys that smoke, windows that warm up at dusk
+    { const R = rng(3701); for (let k = 0; k < 10; k++) { const x = 486 + k * 12 + (R() - 0.5) * 6, yg = 606 + (k % 3) * 4 + R() * 3; const hh = paintHouse(C, x, yg, 8 + R() * 5, 5 + R() * 3, { wall: hex('#3c3f70'), roof: hex('#1f2250'), crest: hex('#6a6aa0'), win: hex('#15183a'), roofK: 0.5, gable: R() < 0.4, sideShade: 1, litLeft: 0.3 });
+        for (const w of hh.windows) HAM.win.push([w[0] + w[2] / 2, w[1] + w[3] / 2]); if (k === 2 || k === 6) HAM.chim.push([x + 1, hh.roofTop]); } }
     C.mottle({ amt: 0.05 }); planes.mid = S.plane('mid', D.mid, r, C.c); }
-  { const r0 = cover(D.fog, 90); const r = [r0[0], 600, r0[2], 760]; const C = new Canvas(r, { seed: 51 });
+  { const r0 = cover(D.fog, 150); const r = [r0[0], 600, r0[2], 760]; const C = new Canvas(r, { seed: 51 });
     paintFog(C, { y: (x) => 668 + 10 * Math.sin(x * 0.004), h: 30, col: hex('#5d5a88'), top: hex('#7b77a3'), a: 0.95, density: 1.5, wisp: 0.8, blur: 3 }); planes.fog = S.plane('fog', D.fog, r, C.c); planes.fog.userData.drift = 5; }
   // ---- the hillside with the road
   const dense = spline(ROAD_PTS, 12); const rb = ribbonPath(dense, hwAt, 0.3);
@@ -55,60 +59,79 @@ export default function road(S, cams, env) {
   { const r = cover(D.fg, 60); r[1] = Math.max(r[1], 940); const C = new Canvas(r, { seed: 91 });
     paintRocks(C, { rocks: [{ x: -20, y: 1290, rx: 260, ry: 110 }, { x: 420, y: 1360, rx: 220, ry: 80 }, { x: 800, y: 1300, rx: 260, ry: 110 }], col: hex('#080914'), lit: hex('#2f3458'), litA: 0.42, blur: 3.5 });
     planes.fg = S.plane('fg', D.fg, r, C.c); }
+  { const r = cover(D.fg, 60); planes.grass = paintGrassStrip(S, 'grass', D.fg - 1, [r[0], 1250, r[2], 1385], { seed: 93, col: hex('#07081a'), lit: hex('#2c3158'), h0: 26, h1: 70, step: 10, amp: 0.0045, freq: 18 }); }
+  // far hamlet windows: small warm lights
+  const hamGlows = HAM.win.map(([x, y]) => S.glow(x, y, D.mid, 9, { color: [1.0, 0.62, 0.28], core: 140 }, planes.mid));
   tintAll(S, 1);
 
-  const P0 = dense[0], total = dense.total;
-  const hillPx = (s) => dense.at(s / total);          // point on the road (design px of the hill plane) at arclength s
-  const SKIP = [];
-  // draw a walker (or a tiny stand-in when it is only a few pixels tall) at road arclength s
-  function walker(F, s, o) {
-    const p = hillPx(s); const hd = hgt(p.y) * (o.scale ?? 1); const off = (o.off ?? 0) * hwAt(p.y); const px = p.x + off * 0.9, py = p.y + off * 0.25;
+  const total = dense.total;
+  // metres from the bottom of the road: the road is 4 m wide (2 * hwAt px) and its ground is tilted by k = 0.3, so every step in px becomes a real step in metres.
+  // Everything that walks is driven in metres and metres per second, so a far walker is as slow as a near one (not a screen-speed slide).
+  const MB = new Float32Array(dense.length); for (let i = 1; i < dense.length; i++) { const a = dense[i - 1], b = dense[i]; MB[i] = MB[i - 1] + Math.hypot(b.x - a.x, (b.y - a.y) / 0.3) / (hwAt((a.y + b.y) / 2) / 2); }
+  const Mtot = MB[dense.length - 1];
+  const sOfM = (m) => { m = clamp(m, 0, Mtot); let a = 0, b = dense.length - 1; while (b - a > 1) { const k = (a + b) >> 1; if (MB[k] <= m) a = k; else b = k; } return lerp(dense[a].s, dense[b].s, (m - MB[a]) / Math.max(1e-6, MB[b] - MB[a])); };
+  const ptM = (m) => dense.at(sOfM(m) / total);
+  const mAtU = (u) => { const s = clamp(u, 0, 1) * total; let a = 0, b = dense.length - 1; while (b - a > 1) { const k = (a + b) >> 1; if (dense[k].s <= s) a = k; else b = k; } return lerp(MB[a], MB[b], (s - dense[a].s) / Math.max(1e-6, dense[b].s - dense[a].s)); };
+  // draw a walker (or a few-pixel stand-in when it is tiny) at road metre m. dir +1 walks up the road (m grows), -1 down. The figure turns through the hairpins.
+  function walker(F, m, o) {
+    const p = ptM(m); const hd = hgt(p.y) * (o.scale ?? 1); const off = (o.off ?? 0) * hwAt(p.y); const px = p.x + off * 0.9, py = p.y + off * 0.25;
     const q = F.P(D.hill, px, py), K = F.K(D.hill, px, py); const h = hd * K; if (h < 1.2) return null;
-    const dir = o.dir ?? 1; const face = (p.dx * dir) >= 0 ? 1 : -1;
+    const dir = o.dir ?? 1; const ddx = p.dx * dir, ddy = (p.dy * dir) / 0.3; const turn = ddx / (Math.hypot(ddx, ddy) || 1); const face = (turn < 0 ? -1 : 1) * Math.max(0.3, Math.pow(Math.abs(turn), 0.5));
     return { sy: q[1], draw(g) {
       if (h < 9) { g.fillStyle = rgba(o.col || hex('#1a1828')); g.beginPath(); g.ellipse(q[0], q[1] - h * 0.42, h * 0.16, h * 0.42, 0, 0, 7); g.fill(); g.beginPath(); g.arc(q[0], q[1] - h * 0.9, h * 0.1, 0, 7); g.fill();
-        if (o.staff) { g.strokeStyle = rgba(PAL.staff); g.lineWidth = 1; g.beginPath(); g.moveTo(q[0] + face * h * 0.2, q[1]); g.lineTo(q[0] + face * h * 0.16, q[1] - h * 1.25); g.stroke(); } return {}; }
-      const ph = Math.abs(s) / (STRIDE * hd) + (o.ph0 || 0);
-      return person(g, { x: q[0], y: q[1], h, face, ph, walk: o.walk ?? 1, col: o.col || PAL.cloak, col2: o.col2 || PAL.cloak2, head: o.head ?? -0.05, staff: o.staff, lantern: o.lantern, reach: o.reach, hem: 0.2 });
+        if (o.staff || o.spear) { g.strokeStyle = rgba(PAL.staff); g.lineWidth = 1; g.beginPath(); g.moveTo(q[0] + h * 0.2, q[1]); g.lineTo(q[0] + h * 0.16, q[1] - h * 1.25); g.stroke(); } return {}; }
+      const ph = (dir > 0 ? m : -m) / (STRIDE * 1.75 * (o.scale ?? 1)) + (o.ph0 || 0);
+      return person(g, { x: q[0], y: q[1], h, face, ph, walk: o.walk ?? 1, col: o.col || PAL.cloak, col2: o.col2 || PAL.cloak2, head: o.head ?? -0.05, staff: o.staff, spear: o.spear, helm: o.helm, plume: o.plume, shield: o.shield, hood: o.hood, skinCol: o.skinCol, dark: o.dark, lantern: o.lantern, reach: o.reach, hem: o.hem ?? 0.2, stride: o.stride, t: F.t });
     }, h, q, face, p, hd, plane: [px, py] };
   }
-  // a file of people: leader at arclength s0 moving dir (+1 up the road, -1 down), followers behind (hand on the shoulder ahead)
-  function fileOf(F, s0, dir, n, o = {}) {
-    const items = []; let s = s0;
-    for (let k = 0; k < n; k++) { const lead = k === 0; const p = hillPx(s); if (s < 0 || s > total) { s -= dir * 0.5 * hgt(p.y); continue; }
-      const w = walker(F, s, { dir, col: o.col, col2: o.col2, staff: lead && o.staff !== false && !o.bare, lantern: lead && o.lantern ? { on: o.on ?? 1 } : null, reach: !lead ? [0.3 + 0.04, 0.8] : null, head: o.head ?? -0.05, ph0: k * 0.37, off: o.off, scale: o.scale, walk: o.walk });
-      if (w) { w.lead = lead; items.push(w); } s -= dir * (o.gap ?? 0.5) * hgt(p.y) * (o.scale ?? 1); }
-    return items;
-  }
   const PURPLE = { col: PAL.purple, colLit: PAL.purpleLit };
+  const COL = [hex('#191726'), hex('#1b1a2c'), hex('#161425'), hex('#1e1b2e')];
+  // a file of people: leader at metre mL, followers behind (hand on the shoulder ahead), at walking pace
+  function file(F, mL, dir, n, o = {}) {
+    const out = []; const gap = o.gap ?? 0.82;
+    for (let k = 0; k < n; k++) { const m = mL - dir * k * gap; if (m < 0 || m > Mtot) continue; const lead = k === 0; const hv = hash1(k * 3.3 + (o.seed || 0)); const c = o.col || COL[(k + (o.seed || 0)) % 4];
+      const w = walker(F, m, { dir, col: c, col2: mixc(c, hex('#2b2842'), 0.6), staff: lead && !o.bare, lantern: lead && o.lantern ? { on: o.on ?? 1 } : null, reach: !lead ? [0.34, 0.8] : null, head: lead ? -0.02 : -0.16 - 0.08 * hv, ph0: k * 0.37 + hv, scale: 0.95 + 0.09 * hv, walk: o.walk ?? 0.85 });
+      if (w) { w.lead = lead; out.push(w); } }
+    return out;
+  }
   return {
-    planes, hillPx, dense, total, D, walker, fileOf,
+    planes, hillPx: (s) => dense.at(s / total), dense, total, D, walker, file, Mtot, mAtU,
     update(F) {
-      const t = F.t, lt = F.lt, sh = F.shot, S_ = F.S, g = F.g; const mode = sh.mode;
-      planes.fog.position.x = planes.fog.userData.base.x - planes.fog.userData.drift * t * planes.fog.userData.D / S_.f;
-      let dark = 1, items = [], lamps = [];
-      if (mode === 'captives') {
-        dark = 0.94; const spd = 17;
-        // the column comes down the road from the notch: spearmen along the flank, banners at intervals
-        let s = total * 0.985 - spd * t * 0 - (t * spd) % 1e9; s = total * 1.02 - spd * t; let k = 0;
-        while (s > -40 && k < 400) { const p = hillPx(clamp(s, 0, total)); const hd = hgt(p.y); const bannerK = k % 34 === 0 && k > 0; const guard = k % 7 === 3;
-          const w = walker(F, clamp(s, 0, total), { dir: -1, col: guard ? hex('#241f33') : hex('#191726'), col2: hex('#242238'), head: guard ? -0.02 : -0.22, staff: guard, off: guard ? (k % 14 === 3 ? 1.12 : -1.12) : ((k * 0.37) % 1 - 0.5) * 0.6, ph0: k * 0.37, walk: guard ? 1 : 0.8 });
-          if (w) { items.push(w); if (bannerK) { const dpx = w; items.push({ sy: w.q[1] - 0.1, draw: (gg) => banner(gg, { x: w.q[0], y: w.q[1] - w.h * 0.05, h: w.h * 2.7, w: w.h * 1.15, t, dir: -w.face, ...PURPLE, seed: k }) }); } }
-          s -= (0.55 + 0.25 * ((k * 0.618) % 1)) * hd; k++; }
-      } else if (mode === 'lanterns' || mode === 'title' || mode === 'end') {
-        const G = sh.groups || []; dark = sh.dark ?? 0.74;
-        for (const gr of G) { const on = gr.on != null ? igniteEnv(t, gr.on, gr.seed || 1) * (1 - smoothstep(gr.off ?? 1e9, (gr.off ?? 1e9) + 1.0, t)) : 1; const s0 = gr.u * total + (gr.dir || -1) * (gr.v ?? 9) * (t - (gr.t ?? 0));
-          const its = fileOf(F, s0, gr.dir || -1, gr.n ?? 9, { lantern: true, on: clamp(on, 0, 1), gap: 0.44, head: -0.02 }); for (const w of its) if (w.lead && w.h > 4) lamps.push({ w, on }); items.push(...its); }
+      const t = F.t, sh = F.shot, S_ = F.S, g = F.g; const mode = sh.mode;
+      let dark = 1; const items = []; const lamps = [];
+      if (mode === 'army') {
+        dark = 0.94; const G = 9, gap = 0.82, P = G * gap + 3.0, span = Mtot + 2 * P + 20, v = 1.0;
+        const m0 = (j, tt) => (((j * P - v * tt) % span) + span) % span; const NG = Math.ceil(span / P);
+        // the nearest groups light first (on the hits), the rest follow up the road
+        const vis = []; for (let j = 0; j < NG; j++) { const m = m0(j, sh.lit[0]); if (m > 0 && m < Mtot) vis.push({ j, m }); } vis.sort((a, b) => a.m - b.m);
+        const onT = new Map(); vis.forEach((e, r) => onT.set(e.j, r < sh.lit.length ? sh.lit[r] : lerp(sh.litRest[0], sh.litRest[1], clamp((r - sh.lit.length) / Math.max(1, vis.length - sh.lit.length)))));
+        for (let j = 0; j < NG; j++) { const on = igniteEnv(t, onT.get(j) ?? sh.litRest[1] + 0.4, j + 1); const its = file(F, m0(j, t), -1, G, { lantern: true, on: clamp(on, 0, 1), gap, seed: j * 5 }); for (const w of its) if (w.lead && w.h > 3.5) lamps.push({ w, on }); items.push(...its); }
+        // the escort: spearmen on both verges, a purple banner now and then; they march with the column, then halt at the roadside and let it go on alone
+        for (let i = 0; Mtot - 14 - i * 21 > 0; i++) { const halt = lerp(sh.halt[0], sh.halt[1], (i * 0.618) % 1); const m = Mtot - 8 - i * 21 - v * Math.min(t, halt); const side = i % 2 ? 1.32 : -1.32; const wk = 1 - smoothstep(halt - 0.5, halt, t);
+          const w = walker(F, m, { dir: -1, off: side, spear: true, helm: true, plume: i % 3 === 0 ? [96, 36, 56] : null, shield: i % 2 ? PAL.purple : null, hood: false, skinCol: hex('#150e1c'), col: hex('#241f33'), col2: hex('#30294a'), dark: hex('#150e1c'), head: -0.02, ph0: i * 0.23, walk: wk * 0.95, hem: 0.28, stride: 0.9 });
+          if (w) { items.push(w); if (i % 3 === 1 && w.h > 8) items.push({ sy: w.q[1] - 0.1, draw: (gg) => banner(gg, { x: w.q[0] + w.face * w.h * 0.28, y: w.q[1] - w.h * 0.05, h: w.h * 2.7, w: w.h * 1.15, t, dir: -Math.sign(w.face), ...PURPLE, seed: i }) }); } }
+      } else if (mode === 'groups') {
+        dark = sh.dark ?? 0.74;
+        for (const gr of sh.groups || []) { const on = gr.on != null ? igniteEnv(t, gr.on, gr.seed || 1) * (1 - smoothstep(gr.off ?? 1e9, (gr.off ?? 1e9) + 1.0, t)) : 1; const dir = gr.dir || -1;
+          const mL = mAtU(gr.u) + dir * (gr.v ?? 1.1) * (t - (gr.t ?? 0)); const its = file(F, mL, dir, gr.n ?? 9, { lantern: true, on: clamp(on, 0, 1), gap: 0.8, seed: Math.round((gr.seed || 1) * 7), walk: 0.9 }); for (const w of its) if (w.lead && w.h > 3.5) lamps.push({ w, on }); items.push(...its); }
       }
       tintAll(S_, dark, [0.97, 0.98, 1.06]);
+      // ---- ambient life: the hamlet (chimney smoke, windows warming), a flock of birds, drifting dust and haze
+      const kM = F.K(D.mid, 540, 600); const dusk = clamp(0.35 + 0.65 * smoothstep(0, 6, t) + (t > 90 ? 0.4 : 0), 0, 1.2) * 1.0;
+      hamGlows.forEach((gm, i) => { const on = smoothstep(2 + (i * 0.37) % 3, 4 + (i * 0.37) % 3, t < 20 ? t : 9) * 0.9; gm.visible = on > 0.01; gm.material.uniforms.uI.value = on * (0.8 + 0.2 * Math.sin(t * 1.3 + i)); });
+      HAM.chim.forEach(([x, y], i) => { const p = F.P(D.mid, x, y); smoke(g, t, p[0], p[1], { n: 7, rise: 70 * kM, wind: 9 * kM, r0: 1.6 * kM, r1: 7 * kM, a: 0.32, life: 8, seed: i + 3, col: [128, 120, 170] }); });
+      birds(g, t, { x0: -40, x1: 760, y0: 330, y1: 470, n: 7, seed: 3, size: 6.5, speed: 17, dir: 1, hz: 2.1, col: [18, 16, 40], a: 0.8 });
+      birds(g, t, { x0: -40, x1: 760, y0: 560, y1: 640, n: 3, seed: 8, size: 4.2, speed: -11, dir: 1, hz: 2.6, col: [16, 15, 36], a: 0.7 });
+      const gb = F.glow(); motes(gb, t, { x0: 0, y0: 560, x1: 720, y1: 1260 }, { n: 18, col: [190, 180, 240], a: 0.28, size: 1.1, seed: 4, drift: [6, -2] });
+      // ---- lanterns: glow canvas (parallax-exact) + relight the hillside + the figures near them
       items.sort((a, b) => a.sy - b.sy); const res = new Map(); for (const it of items) { const r = it.draw(g); if (r) res.set(it, r); }
-      // lanterns: glow canvas (parallax-exact) + relight the hillside + the figures near them
       const gl = lamps.length ? F.glow() : null; const hillLights = [];
-      for (const { w, on } of lamps) { const r = res.get(w); if (!r || !r.lantern || on < 0.01) continue; const [lx, ly] = r.lantern; const k = clamp(on, 0, 1.6);
-        glowAt(gl, lx, ly, Math.max(6, w.h * 0.9), 0.95 * k); glowAt(gl, lx, ly, Math.max(14, w.h * 3.2), 0.28 * k, [255, 140, 70]);
-        F.lights.push({ x: lx, y: ly, r: Math.max(14, w.h * 1.6), c: WARM, k: 2.8 * k });
-        hillLights.push({ p: S_.world(w.plane[0] + w.face * 0.19 * w.hd, w.plane[1] - 0.6 * w.hd, D.hill), r: Math.max(5, w.hd * 1.5) * D.hill / S_.f, c: WARM, k: 2.4 * k }); }
-      lightsOn(planes.hill, hillLights.slice(0, 8));
+      lamps.sort((a, b) => b.w.h - a.w.h);
+      for (const { w, on } of lamps) { const r = res.get(w); if (!r || !r.lantern || on < 0.01) continue; const [lx, ly] = r.lantern; const k = clamp(on, 0, 1.6); const fk = 1 + 0.06 * Math.sin(t * 9 + lx);
+        glowAt(gl, lx, ly, Math.max(5, w.h * 0.9), 0.95 * k * fk); glowAt(gl, lx, ly, Math.max(12, w.h * 3.2), 0.28 * k, [255, 140, 70]);
+        if (F.lights.length < 8) F.lights.push({ x: lx, y: ly, r: Math.max(14, w.h * 1.6), c: WARM, k: 2.8 * k });
+        if (hillLights.length < 8) hillLights.push({ p: S_.world(w.plane[0] + w.face * 0.19 * w.hd, w.plane[1] - 0.6 * w.hd, D.hill), r: Math.max(5, w.hd * 1.5) * D.hill / S_.f, c: WARM, k: 2.4 * k }); }
+      lightsOn(planes.hill, hillLights);
       F.amb = [0.9 * dark + 0.1, 0.9 * dark + 0.1, 1.0 * dark + 0.1];
     },
   };

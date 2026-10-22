@@ -14,6 +14,7 @@ import common as C
 C.agents.market = lambda: {}          # no network: seats fall back to their `prefer` lists
 C.agents._market = {}
 C.agents.account = lambda: {'remaining': 5.0}
+REAL_ASK, REAL_COMPLETE = C.ask, C.complete
 import script as S, spec as SP, look as LK, reflect as RF, start as ST, sound as SO
 
 HAST = os.path.join(C.ROOT, 'films', 'battles', 'hastings')
@@ -61,6 +62,10 @@ def install(m):
     C.ask, C.complete = m.ask, m.complete
 
 
+def install_real():
+    C.ask, C.complete = REAL_ASK, REAL_COMPLETE
+
+
 class Fast(unittest.TestCase):
     def tearDown(self): shutil.rmtree(JOB, ignore_errors=True)
 
@@ -105,8 +110,10 @@ class Fast(unittest.TestCase):
         checkers = [c for c in m.calls if c[2] == 'verdicts']
         self.assertTrue(all(C.provider(c[4]) != 'anthropic' for c in checkers), 'the checker must be another provider than the writer')
         ad = json.load(open(os.path.join(JOB, 'ad.json')))
-        self.assertEqual(ad['prep']['voice_cast'], ['elevenlabs/eleven-v4|brian']); self.assertTrue(ad['prep']['vo_words'])
+        self.assertTrue(C.FREE_ONLY)
+        self.assertEqual(ad['prep']['voice'], 'chatterbox'); self.assertEqual(ad['prep']['music']['engine'], 'procedural'); self.assertNotIn('voice_cast', ad['prep'])
         self.assertEqual(len(ad['prep']['vo']), 17); self.assertIn('Instrumental', ad['prep']['music']['prompt'])
+        self.assertIn('# Craft:', m.calls[0][5][0]['content'])                     # the writer reads CRAFT.md
         self.assertTrue(ad['_'].startswith('Battle Map: The Battle of Hastings'))
         st = json.load(open(os.path.join(JOB, 'status.json')))
         self.assertEqual((st['stage'], st['state']), ('script', 'done')); self.assertAlmostEqual(st['usd'], 0.04, places=4)
@@ -155,11 +162,48 @@ class Fast(unittest.TestCase):
             self.assertEqual(sum(1 for l in open(tmp) if l.startswith('- ')), RF.KEEP)
         finally: os.remove(tmp)
 
-    def test_spec_models(self):
-        job = make_job({'cap_usd': 0.9})
+    def test_spec_models_free(self):
+        job = make_job({'cap_usd': 1.5})
         ms = SP.spec_models(job); self.assertEqual(len(ms), 2); self.assertNotEqual(C.provider(ms[0][1]), C.provider(ms[1][1]))
-        self.assertEqual([s for s, _ in ms], ['coder', 'coder'])
-        job.brief['cap_usd'] = 1.5; self.assertEqual([s for s, _ in SP.spec_models(job)], ['head', 'coder'])
+        self.assertTrue(all(C.is_free(m) for _, m in ms), ms)
+
+    def test_free_guards(self):
+        install_real(); led = C.Ledger(1.0, None)
+        with self.assertRaises(C.PaidRefused): C.ask('head', [], {}, led, only='anthropic/claude-opus-5.5')
+        with self.assertRaises(C.PaidRefused): C.complete('coder', [], led, only='z-ai/glm-5.3')
+        orig = C.agents.ask
+        def charging(seat, messages, schema, ledger, only=None, **kw): ledger.add(seat=seat, model=only, usd=0.01); return {}, only
+        C.agents.ask = charging
+        try:
+            with self.assertRaises(C.OverBudget): C.ask('crew', [], {}, led)       # a 'free' model that charged stops the job
+        finally: C.agents.ask = orig
+        C.agents._market = None
+        mk = {'a/x:free': {'id': 'a/x:free', 'iq': 40, 'mods': ['text', 'image'], 'created': 1, 'in': 0, 'out': 0},
+              'b/y:free': {'id': 'b/y:free', 'iq': 50, 'mods': ['text'], 'created': 1, 'in': 0, 'out': 0},
+              'c/z': {'id': 'c/z', 'iq': 90, 'mods': ['text', 'image'], 'created': 1, 'in': 1, 'out': 1}}
+        old = C.agents.market; C.agents.market = lambda: mk
+        try:
+            self.assertEqual(C.free_chain('crew')[:2], ['b/y:free', 'a/x:free'])
+            self.assertEqual(C.free_chain('eyes'), ['a/x:free'])                      # eyes need image input
+        finally: C.agents.market = old
+
+    def test_free_sound(self):
+        """The free sound stage without the TTS: a recorded vo.json (Hastings lines), the placeholder pad, the beat map, the mix."""
+        job = make_job(with_sound=False)
+        cues = json.load(open(os.path.join(HAST, 'cues.json'))); vo = json.load(open(os.path.join(HAST, 'audio', 'vo.json')))
+        n = 5; os.makedirs(os.path.join(JOB, 'audio', 'vo'))
+        for k in range(n): shutil.copy(os.path.join(HAST, 'audio', 'vo', f'line{k}.mp3'), os.path.join(JOB, 'audio', 'vo'))
+        json.dump({'voice': 'chatterbox', 'lines': vo['lines'][:n]}, open(os.path.join(JOB, 'audio', 'vo.json'), 'w'))
+        json.dump({'title': 'The Battle of Hastings', 'year_label': '1066', 'lines': [{'id': f'l{k:02d}', 'text': l['text'], 'picture': 'x'} for k, l in enumerate(vo['lines'][:n])]},
+                  open(os.path.join(JOB, 'script.json'), 'w'))
+        json.dump(S.make_ad(C.Job(JOB), {'title': 'The Battle of Hastings', 'year_label': '1066', 'music_prompt': 'drums', 'lines': [{'text': l['text']} for l in vo['lines'][:n]]}),
+                  open(os.path.join(JOB, 'ad.json'), 'w'))
+        SO.main(JOB)
+        c = json.load(open(os.path.join(JOB, 'cues.json'))); f = json.load(open(os.path.join(JOB, 'film.json')))
+        self.assertEqual(len(c['lines']), n); self.assertTrue(c['beats']); self.assertEqual((f['render_w'], f['render_h']), (1280, 720))
+        self.assertTrue(os.path.getsize(os.path.join(JOB, 'audio', 'mix.m4a')) > 10000)
+        self.assertIn('placeholder', json.load(open(os.path.join(JOB, 'ad.json')))['prep'].get('music_note', ''))
+        self.assertIn("get('spec')", open(os.path.join(JOB, 'index.html')).read())
 
 
 class Chromium(unittest.TestCase):
@@ -167,7 +211,7 @@ class Chromium(unittest.TestCase):
     def tearDown(self): shutil.rmtree(JOB, ignore_errors=True)
 
     def test_spec_stage(self):
-        os.environ['KF_CHECK_MAX'] = '6'
+        os.environ['KF_CHECK_MAX'] = '6'; os.environ['KF_CRAFT'] = '0'   # Hastings predates CRAFT.md; the craft checks have their own test
         job = make_job()
         good = open(os.path.join(HAST, 'spec.js')).read()
         bad = good.replace("at: 'l06.stood'", "at: 'l06.zzzz'", 1); self.assertNotEqual(bad, good)
@@ -191,6 +235,19 @@ class Chromium(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.join(JOB, 'check', 'final', 'sheet.jpg')))
         st = json.load(open(os.path.join(JOB, 'status.json'))); self.assertEqual((st['stage'], st['state']), ('eyes', 'done'))
         self.assertIn('spec', st['outputs'])
+        os.environ.pop('KF_CRAFT', None)
+
+    def test_craft_checks(self):
+        """CRAFT.md section 9 in code, on a film made before it: every rule it breaks is reported."""
+        out = tempfile.mkdtemp(); os.environ.pop('KF_CRAFT', None)
+        import subprocess
+        subprocess.run(['node', os.path.join(C.HERE, 'check.cjs'), 'films/battles/hastings', '--line', 'battle-map', '--times', '30', '--out', out], cwd=C.ROOT, check=True, capture_output=True)
+        r = json.load(open(os.path.join(out, 'report.json'))); hard = ' | '.join(r['hard'])
+        self.assertFalse(r['ok'])
+        for k in ('no scene list', 'cuts with no written reason', 'icon star', 'camera move from'): self.assertIn(k, hard)
+        self.assertTrue(any('no legend' in x for x in r['soft'] + r['hard']))
+        self.assertEqual(r['craft']['shots'], 5)
+        shutil.rmtree(out)
 
 
 if __name__ == '__main__':
