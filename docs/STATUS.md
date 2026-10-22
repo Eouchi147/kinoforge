@@ -1,5 +1,10 @@
 # Status (updated 22 Oct 2026, 03:10 UTC)
 
+## Films (22 Oct)
+- Done, in rc-render release `kino-films` and on Sam's Mac (`Video Production/kino-films/`): Dark Corners Bamberg (Kinetic),
+  Zong and Kleidion (Lantern Road); Battle Map Cannae, Hastings, Agincourt, Waterloo. Arabia (Clay, Blender) in progress.
+- Engine for the battles: `films/lib/battlemap/` (spec format `SPEC.md`); sound for the battles: `films/lib/battle_mix.py`.
+
 ## Running now (22 Oct, overnight)
 - Films lane: Dark Corners restyled (`films/dark-corners/`: Bamberg Kinetic, Zong and Kleidion Lantern Road, Arabia Clay) and the
   Battle Map series in Terrain (`films/battles/`: Cannae, Hastings, Agincourt, Waterloo). Renders: rc-render `films.yml`,
