@@ -111,6 +111,7 @@ def _post(body, timeout):
 
 
 class Stop(Exception): pass
+class DailyLimit(Stop): pass
 
 
 def call(model, messages, ledger, seat, label, max_tokens, timeout, response_format=None):
@@ -138,7 +139,9 @@ def call(model, messages, ledger, seat, label, max_tokens, timeout, response_for
             msg = e.read().decode(errors='ignore')[:300]
             CALLS.append({'model': model, 'seat': seat, 'label': label, 'status': e.code, 's': round(time.time() - t0, 1), 'note': msg[:160]})
             if e.code == 402: raise Stop('OpenRouter answered 402 (no credit): stopped')
-            if e.code == 429: log(f'  {model}: 429 rate limited, waiting'); continue
+            if e.code == 429:
+                if re.search(r'per-day|per day|daily', msg, re.I): raise DailyLimit(f'the free models daily limit of this OpenRouter key is reached ({msg[:160]}); it resets at 00:00 UTC')
+                log(f'  {model}: 429 rate limited, waiting ({msg[:140]})'); continue
             if e.code == 400 and re.search(r'max_tokens|maximum|context', msg, re.I) and max_tokens > 8000:
                 max_tokens = 8000 if max_tokens <= 16000 else 16000; log(f'  {model}: 400 on the length, retrying with max_tokens {max_tokens}'); continue
             if e.code in (400,) and response_format: raise BadFormat(msg)
@@ -156,7 +159,7 @@ def bench(model, why):
         if model not in BENCH: BENCH[model] = why; log(f'  benched {model}: {why[:160]}')
 
 
-def ask(seat, messages, schema, ledger, name='reply', max_tokens=2000, validate=None, only=None, label='', timeout=None, **_):
+def _ask(seat, messages, schema, ledger, name='reply', max_tokens=2000, validate=None, only=None, label='', timeout=None, **_):
     """One JSON object from a free model of the seat's role. Returns (data, model)."""
     models = [only] if only else seat_chain(seat)
     if not models: raise RuntimeError(f'no free model for the seat {seat}')
@@ -197,7 +200,7 @@ def ask(seat, messages, schema, ledger, name='reply', max_tokens=2000, validate=
     raise RuntimeError(' | '.join(errors[-6:]) or 'no free model answered')
 
 
-def complete(seat, messages, ledger, max_tokens=24000, only=None, label='', validate=None, timeout=900):
+def _complete(seat, messages, ledger, max_tokens=24000, only=None, label='', validate=None, timeout=900):
     """Plain text (code) from a free model of the seat's role. Returns (text, model)."""
     models = [only] if only else seat_chain(seat); errors = []
     for model in models:
@@ -211,6 +214,31 @@ def complete(seat, messages, ledger, max_tokens=24000, only=None, label='', vali
         except Exception as e:
             errors.append(f'{model}: {str(e)[:180]}'); log(f'  {label}: {model} failed: {str(e)[:200]}')
     raise RuntimeError(' | '.join(errors[-6:]) or 'no free model answered')
+
+
+BUSY = re.compile(r'429|503|overloaded|rate limit|temporarily', re.I)
+
+
+def _patient(fn, *a, **kw):
+    """Every model busy (429, 503): wait 60, 120, 240 s and go down the list again before giving up."""
+    for wait in (0, 60, 120, 240):
+        if wait:
+            log(f'  every free model is busy; waiting {wait} s'); time.sleep(wait)
+            for m in list(COOL): COOL.pop(m, None)
+        try: return fn(*a, **kw)
+        except Stop: raise
+        except RuntimeError as e:
+            if not BUSY.search(str(e)) or wait == 240: raise
+
+
+def ask(*a, **kw):
+    """One JSON object from a free model of the seat's role (patient with busy models). Returns (data, model)."""
+    return _patient(_ask, *a, **kw)
+
+
+def complete(*a, **kw):
+    """Plain text (code) from a free model of the seat's role (patient with busy models). Returns (text, model)."""
+    return _patient(_complete, *a, **kw)
 
 
 def choose():
