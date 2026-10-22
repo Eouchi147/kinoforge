@@ -14,6 +14,7 @@ procedural (no downloaded assets, no paid calls).
 | `test/` | Motion test film (8 s, 24 fps, 1280x720 rendered, 1920x1080 delivered, 32 spp, look A, one eased 16 degree orbit; every motion loops on 8 s). Render: rc-render `films.yml` with `film=films/styles/cutaway/test`, `parts=24` (not dispatched yet) |
 | `stills/board/` | The whole board in one film folder for rc-render `stills.yml`: frame % 4 picks the look (frames 24,25,26,27 = A, B, C, D) |
 | `stills/A..D/` | One look per folder (same thing, one look) |
+| `stills/mixed/` | One stills run mixing looks and aspects: frame % 4 = 0 A 9:16, 1 B 16:9, 2 C 16:9, 3 D 9:16 |
 
 ## Use it from a film (the API)
 
@@ -57,10 +58,10 @@ those faces (run a river path past the edge, put a pond centre near the edge).
 | `season` | `'summer'`, `'spring'`, `'autumn'`, `'winter'` (snow on top, frosted water, bare-ish trees) or a dict overriding `cw.SEASONS` keys |
 | `zones(x, y, h)` | returns extra weights `{'rock', 'sand', 'path', 'grass'}` (arrays 0..1): paths, pale rock, beaches |
 | `grass`, `grass_height` | density and height multipliers (1, 1) |
-| `trees`, `tree_kinds`, `tree_spots` | count and kinds (`round`, `cone`, `tall`), or exact spots `[(x, y, scale, kind)]` |
+| `trees`, `tree_kinds`, `tree_spots` | count and kinds (`round`, `cone`; `tall` poplars exist but read toy-like), or exact spots `[(x, y, scale, kind)]` (each kind must be in `tree_kinds`) |
 | `boulders`, `flowers` | boulder count (12), flower amount 0..1 (0.5) |
 | `under`, `corals`, `lilies`, `reeds` | underwater stones and weed (True), coral count (0), lily pad count (0), reeds 0..1 (0) |
-| `shore_rock` | 0..1 pale cracked rock shelf around the water (lagoon look) |
+| `shore_rock` | 0..1 width of a shelf of raised pale limestone plates with sunken cracks around the water (lagoon look) |
 | `keep_clear` | `[(x, y, r)]` no grass or trees there (for buildings) |
 | `tree_scale` | multiplies every tree's size (1) |
 | `sway`, `water_tint`, `water_density`, `water_glow` | wind amount; water absorption colour and density; faint turquoise in-scatter glow (0.022; use 0 at dusk or night) |
