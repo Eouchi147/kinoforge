@@ -1,0 +1,52 @@
+{
+ "what": "drainage sample ad music: score engine cue, 0 to 15 s of a 22.5 s plan, end fade 2.4 s",
+ "engine": "samples+synth",
+ "lufs": -14.42,
+ "peak_dbfs": -2.0,
+ "seconds": 15.0,
+ "chords": [
+  [
+   0.0,
+   "calm",
+   0,
+   "open"
+  ],
+  [
+   3.0,
+   "curious",
+   5,
+   "add9"
+  ],
+  [
+   6.0,
+   "tension",
+   7,
+   "sus"
+  ],
+  [
+   8.0,
+   "turn",
+   5,
+   "triad"
+  ],
+  [
+   11.5,
+   "aftermath",
+   0,
+   "open"
+  ]
+ ],
+ "hits": [
+  [
+   6.5,
+   "swell",
+   0.7
+  ],
+  [
+   11.55,
+   "chime",
+   0.75
+  ]
+ ],
+ "plan": "../../score_plan.json"
+}
