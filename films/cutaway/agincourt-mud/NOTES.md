@@ -82,5 +82,8 @@ per frame for A2 and B1 close shots, about 2 to 3 min for the wides (64 spp, 128
 - Furrow crests close up (A2) still catch the grey sky and read slightly plastic; they do read wet.
 - The crows are small in B1 (they lift on "advanced" ahead of the file, top right of frame).
 
-- The mud does not deform around the boots (no dents or ruts); the collars of mud at the shins carry it.
+- B1 sinking in the section (coordinator, 22 Oct): file 0 straddles the cut plane until the Tramecourt wood; shin deep from
+  the start, knee deep on "knees"; each boot is pulled up to the surface as it swings forward (slow strides), a fat mud lip
+  rings each leg at the face, and every pulled-out boot leaves a dark hole in the section that closes up behind it.
+- The mud surface itself does not deform around the boots (no ruts on top); the lips and the section holes carry it.
 - Figures are rigid parts (no knees bending); the walk is a hip swing with a body bob.

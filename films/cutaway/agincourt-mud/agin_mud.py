@@ -733,9 +733,9 @@ class French:
         rng = np.random.default_rng(1415); self.M = M; self.sol = []
         self.t_knees = W('l10', 'knees'); self.t_adv = W('l10', 'advanced'); self.t_swing = W('l11', 'swing')
         dt = 1.0 / 480.0; self.ts = np.arange(self.T0, 102.0, dt)
-        v = 0.155 * (1 - 0.72 * cw.smooth(86.9, self.t_knees + 0.8, self.ts)) * (1 - 0.45 * cw.smooth(W('l11', 'woods'), W('l11', 'packed'), self.ts))
-        self.X = np.cumsum(v) * dt; self.X += -0.85 - np.interp(86.703, self.ts, self.X)
-        stride = 0.125 * (1 - 0.40 * cw.smooth(86.9, self.t_knees, self.ts))
+        v = 0.112 * (1 - 0.70 * cw.smooth(86.9, self.t_knees + 0.8, self.ts)) * (1 - 0.45 * cw.smooth(W('l11', 'woods'), W('l11', 'packed'), self.ts))
+        self.X = np.cumsum(v) * dt; self.X += -0.66 - np.interp(86.703, self.ts, self.X)
+        stride = 0.105 * (1 - 0.40 * cw.smooth(86.9, self.t_knees, self.ts))   # slow, effortful strides
         self.PH = np.cumsum(2 * np.pi * v / stride) * dt
         bodies = [soldier_body(bpy, M, 'fr', True, None, 'ag_frbody'), soldier_body(bpy, M, 'fr', True, 'gold', 'ag_frbody_p'),
                   soldier_body(bpy, M, 'fr', True, 'blue', 'ag_frbody_b')]
@@ -750,6 +750,7 @@ class French:
                     L = obj(bpy, kit, f'ag_fr{r}_{f}_l{s}', lm, b); L.location = (0, s * lw, HIP); legs.append(L)
                     if face: clip_front(L, cutter)
                 cols = [obj(bpy, kit, f'ag_fr{r}_{f}_c{s}', cm) for s in (0, 1)]
+                holes = [self._hole(bpy, kit, f'ag_fr{r}_{f}_h{s}') for s in (0, 1)] if face else None
                 if banner:
                     w = obj(bpy, kit, f'ag_fr{r}_{f}_pole', bpm, b); w.location = tuple(HAND_R)
                     fm = flag_mesh(bpy, M, 'flag_fr', f'ag_frflag{r}{f}'); fl = obj(bpy, kit, f'ag_fr{r}_{f}_flag', fm, w); fl.location = (0.0, 0, 0.243)
@@ -758,7 +759,26 @@ class French:
                 self.sol.append({'r': r, 'f': f, 'ob': b, 'legs': legs, 'cols': cols, 'w': w, 'flag': fm, 'lw': lw, 'face': face,
                                  'dx': 0.0 if face else float(rng.uniform(-0.022, 0.022)), 'dy': 0.0 if face else float(rng.uniform(-0.012, 0.012)),
                                  'ph': float(rng.uniform(0, 2 * np.pi)), 'sk': float(rng.uniform(-0.004, 0.004)), 'wph': float(rng.uniform(0, 6.28)),
-                                 'stuck': face and r == 3})
+                                 'stuck': face and r == 3, 'holes': holes})
+
+    _HM = None
+    HN = 18
+    def _hole(self, bpy, kit, name):
+        """The hole a boot leaves in the section when it is pulled out (a dark wet slot on the face that closes up)."""
+        if French._HM is None: French._HM = cw.mat_simple(kit, 'ag_hole', (0.04, 0.027, 0.016), 0.18)
+        n = self.HN; me = bpy.data.meshes.new(name)
+        me.from_pydata([(0, 0, 0)] * (n + 1), [], [(n, k, k + 1) for k in range(n - 1)]); me.materials.append(French._HM)
+        return obj(bpy, kit, name, me)
+
+    def _hole_pose(self, ob, x, zt, zb, w):
+        n = self.HN; P = []
+        if zb > zt - 0.003 or w < 0.002: ob.hide_render = True; return
+        ob.hide_render = False; zc = zb + w; m = 4; k = n - 2 * m
+        P += [(x - w, zt - (zt - zc) * i / (m - 1)) for i in range(m)]
+        P += [(x - w * math.cos(math.pi * j / (k + 1)), zc - w * math.sin(math.pi * j / (k + 1))) for j in range(1, k + 1)]
+        P += [(x + w, zc + (zt - zc) * i / (m - 1)) for i in range(m)]
+        V = [(px, YF - 0.0003, pz) for px, pz in P] + [(x, YF - 0.0003, (zt + zb) / 2)]
+        ob.data.vertices.foreach_set('co', np.asarray(V, np.float32).ravel()); ob.data.update()
 
     def Xf(self, T): return float(np.interp(T, self.ts, self.X))
     def Ph(self, T): return float(np.interp(T, self.ts, self.PH))
@@ -766,10 +786,10 @@ class French:
 
     @staticmethod
     def yfile(f, x):
-        b = float(near_bump(x)); yl = YF + min(1.0, b * 8.0) * (0.72 * b + 0.06); yu = float(y_far(x)) - 0.07
+        b = float(near_bump(x)); yl = YF + min(1.0, max(0.0, (b - 0.07) / 0.08)) * (0.72 * b + 0.06); yu = float(y_far(x)) - 0.07   # file 0 hugs the cut face until the wood
         return yl + (yu - yl) * f / (NF - 1)
 
-    def sink(self, T): return 0.013 + 0.031 * float(cw.smooth(self.t_adv - 0.4, self.t_knees, T))
+    def sink(self, T): return 0.021 + 0.025 * float(cw.smooth(self.t_adv - 0.6, self.t_knees, T))   # shin deep, knee deep on 'knees'
 
     def place(self, T):
         """x, y for every soldier at T (files never overlap: each rank stays behind the one in front)."""
@@ -797,16 +817,28 @@ class French:
                 k = T - (ts - 0.2); sink += 0.007 * min(1.0, k / 0.6)
                 roll += 0.16 * math.sin(2 * math.pi * 2.3 * k) * math.exp(-k / 1.1); pitch += 0.10 * min(1.0, k / 0.5)
                 amp *= math.exp(-k / 0.5)
-            gz = g1(x, y); z = gz - sink + 0.0035 * abs(math.cos(ph))
+            lifts = (max(0.0, -math.cos(ph)) ** 1.3, max(0.0, math.cos(ph)) ** 1.3)     # each boot is pulled out as it swings forward
+            if s['stuck'] and T > ts - 0.2: lifts = tuple(l * math.exp(-(T - ts + 0.2) / 0.4) for l in lifts)
+            pitch += 0.05 * max(lifts)
+            gz = g1(x, y); z = gz - sink + 0.004 * abs(math.cos(ph))
             s['ob'].location = (x, y, z); s['ob'].rotation_euler = (roll, pitch, yaw)
             sw = amp * math.sin(ph); R = Euler((roll, pitch, yaw), 'XYZ').to_matrix(); loc = Vector((x, y, z))
-            for L, sgn, ang, col in zip(s['legs'], (-1, 1), (sw, -sw), s['cols']):
-                L.rotation_euler = (0, ang, 0)
+            on_face = s['face'] and y < YF + 0.002
+            for li, (L, sgn, ang, col, lift) in enumerate(zip(s['legs'], (-1, 1), (sw, -sw), s['cols'], lifts)):
+                L.rotation_euler = (0, ang, 0); L.location = (0, sgn * s['lw'], HIP + (sink + 0.003) * lift)
+                if s['holes'] is not None:
+                    st = math.pi / 2 if li == 0 else 3 * math.pi / 2; phs = st + 2 * math.pi * math.floor((ph - st) / (2 * math.pi)); e = (ph - phs) / math.pi
+                    Ts = float(np.interp(phs - s['ph'], self.PH, self.ts)); c = min(1.0, max(0.0, (e - 0.12) / 1.1))
+                    xs = self.Xf(Ts) - s['r'] * self.dr(Ts) - 0.058 * math.sin(amp); D = self.sink(Ts) + s['sk'] + 0.004
+                    if on_face and Ts > 86.0:
+                        self._hole_pose(s['holes'][li], xs, g1(xs, YF) + 0.001, g1(xs, YF) - D * (1 - c) ** 1.2, 0.0105 * (0.45 + 0.55 * (1 - c)))
+                    else: s['holes'][li].hide_render = True
                 hip = loc + R @ Vector((0, sgn * s['lw'], HIP)); dv = R @ (Euler((0, ang, 0), 'XYZ').to_matrix() @ Vector((0, 0, -1)))
                 g = g1(hip.x, hip.y); depth = hip.z - g
                 if dv.z < -0.2 and 0 < depth / -dv.z < LEG:
                     p = hip + dv * (depth / -dv.z); col.location = (p.x, p.y, g + 0.001); col.hide_render = False
-                    col.rotation_euler = (0, 0, yaw); cs = 0.9 + 0.25 * min(1.0, (sink - 0.01) / 0.035); col.scale = (cs, cs, 1)
+                    col.rotation_euler = (0, 0, yaw); cs = 0.9 + 0.25 * min(1.0, (sink - 0.01) / 0.035)
+                    col.scale = (cs * 1.35, cs * 1.35, 1.9) if on_face else (cs, cs, 1)   # a fat mud lip where the leg goes in at the face
                 else:
                     col.hide_render = True
             if s['flag'] is not None:
