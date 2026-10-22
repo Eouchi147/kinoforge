@@ -1,0 +1,117 @@
+{
+ "cap": 0.5,
+ "total": 0.0,
+ "by_seat": {
+  "head": 0
+ },
+ "calls": [
+  {
+   "seat": "head",
+   "model": "nvidia/nemotron-3.5-super-vl:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 151.1,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "head",
+   "model": "thinkingmachines/inkling-small:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 0.2,
+   "ok": false,
+   "note": "403"
+  },
+  {
+   "seat": "head",
+   "model": "google/gemma-4-26b-a4b-it:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 0.3,
+   "ok": false,
+   "note": "429"
+  },
+  {
+   "seat": "head",
+   "model": "cohere/north-mini-code:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 42.5,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "head",
+   "model": "liquid/lfm-2.5-2.6b:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 501.5,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "head",
+   "model": "recursive/flint-v1.0:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 35.7,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "head",
+   "model": "nvidia/nemotron-3.5-super-vl:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 71.0,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "head",
+   "model": "thinkingmachines/inkling-small:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 0.2,
+   "ok": false,
+   "note": "403"
+  },
+  {
+   "seat": "head",
+   "model": "google/gemma-4-26b-a4b-it:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 0.2,
+   "ok": false,
+   "note": "429"
+  },
+  {
+   "seat": "head",
+   "model": "cohere/north-mini-code:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 79.3,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "head",
+   "model": "liquid/lfm-2.5-2.6b:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 505.4,
+   "ok": false,
+   "note": "ValueError"
+  },
+  {
+   "seat": "head",
+   "model": "recursive/flint-v1.0:free",
+   "task": "script draft",
+   "usd": 0,
+   "s": 30.3,
+   "ok": false,
+   "note": "ValueError"
+  }
+ ]
+}
