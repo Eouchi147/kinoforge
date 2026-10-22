@@ -165,12 +165,12 @@ export function title(E, c, ctx) {
     let w = 0;
     if (series) {
       const T1 = E.line({ txt: series, font: 'B', fit: 1.0, ls: 0.06, base, times: t0, mode: 'stamp', smear: true, color: ink, alpha: a, maxCap: 0.13 });
-      E.rule(E.AX, E.AX + T1.inkW, (base + 0.03) * E.H, t0 + 0.3, 0.3, Math.max(2, 0.0021 * E.H), rgba(ink, 0.5 * a), E.ink); w = T1.inkW; base += 0.085;
+      E.rule(E.AX, E.AX + T1.inkW, (base + 0.03) * E.H, t0 + 0.3, 0.3, Math.max(2, 0.0021 * E.H), rgba(ink, 0.5 * a), E.ink); w = T1.inkW; base += 0.105;
     }
     const ws = lines.join(' ').split(' '); let i = 0;
     lines.forEach((ln, li) => {
       const n = ln.split(' ').length, times = ln.split(' ').map((_, k) => t0 + 0.6 + (i + k) * 0.13); i += n;
-      E.line({ txt: ln, font: 'C', fit: w ? w / E.MEAS : 1.0, maxCap: 0.05, ls: 0, base: base + li * 0.062, times, mode: 'pop', popDur: 0.4, color: ink, alpha: a });
+      E.line({ txt: ln, font: 'C', fit: w ? w / E.MEAS : 1.0, maxCap: 0.05, ls: 0, base: base + li * 0.078, times, mode: 'pop', popDur: 0.4, color: ink, alpha: a });
     });
   };
   return { draw, hits: [[t0, 6, 5, 0.05]], lastT: t0 };
