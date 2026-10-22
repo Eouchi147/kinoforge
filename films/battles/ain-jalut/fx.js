@@ -4,7 +4,7 @@
 // Pure functions of t, so every frame is reproducible.
 import * as THREE from 'three';
 import { Stage } from '/films/lib/battlemap/stage.js';
-import { clamp, hash01 } from '/films/lib/battlemap/noise.js';
+import { clamp } from '/films/lib/battlemap/noise.js';
 import { EASE } from '/films/lib/battlemap/timeline.js';
 
 const K = 1.45; // canvas pixels per map unit for the ink layer
@@ -32,7 +32,7 @@ function buildInk(stage) {
     for (const it of prep) { const col = it.color || [0.14, 0.34, 0.86], dark = it.dark || [0.04, 0.09, 0.3]; const css = (c) => `rgb(${Math.round(c[0] * 255)},${Math.round(c[1] * 255)},${Math.round(c[2] * 255)})`;
       s.clearRect(0, 0, cw, ch); s.lineJoin = 'round'; let any = false; const R = []; for (const b of it.bl) { R.push(rs[k]); k += 2; }
       const fade = rs[k - 1] / 100;
-      for (let pass = 0; pass < 2; pass++) it.bl.forEach((b, i) => { if (R[i] <= 0.3) return; any = true; poly(s, b, R[i]); if (pass === 0) { s.lineWidth = 5.5; s.strokeStyle = css(dark); s.stroke(); } s.fillStyle = css(col); s.fill(); });
+      for (let pass = 0; pass < 2; pass++) it.bl.forEach((b, i) => { if (R[i] <= 0.3) return; any = true; poly(s, b, R[i]); if (pass === 0) { s.lineWidth = 3; s.strokeStyle = css(dark); s.stroke(); } s.fillStyle = css(col); s.fill(); });
       if (any) { g.globalAlpha = (it.alpha ?? 0.6) * fade; g.drawImage(scratch, 0, 0); g.globalAlpha = 1; } }
     tex.needsUpdate = true; } };
 }
