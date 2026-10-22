@@ -116,7 +116,7 @@ class DailyLimit(Stop): pass
 
 def call(model, messages, ledger, seat, label, max_tokens, timeout, response_format=None):
     """One reply from one free model, with 429 back-off. Returns (text, usage). Raises Stop for a charge or a 402."""
-    for wait in (0, 8, 25):
+    for wait in (0, 20):   # every request counts against the key's free daily quota (1000): one wait, then the next model
         if wait: time.sleep(wait)
         body = {'model': model, 'max_tokens': max_tokens, 'messages': messages, 'usage': {'include': True}}
         if response_format: body['response_format'] = response_format
@@ -148,7 +148,7 @@ def call(model, messages, ledger, seat, label, max_tokens, timeout, response_for
             if e.code in (401, 403, 404): bench(model, f'{e.code} {msg[:120]}')
             raise RuntimeError(f'{e.code} {msg[:200]}')
     COOL[model] = time.time() + 300
-    raise RuntimeError('429 rate limited three times (skipped for 5 minutes)')
+    raise RuntimeError('429 rate limited twice (skipped for 5 minutes)')
 
 
 class BadFormat(Exception): pass
@@ -221,7 +221,7 @@ BUSY = re.compile(r'429|503|overloaded|rate limit|temporarily', re.I)
 
 def _patient(fn, *a, **kw):
     """Every model busy (429, 503): wait 60, 120, 240 s and go down the list again before giving up."""
-    for wait in (0, 60, 120, 240):
+    for wait in (0, 90, 240):
         if wait:
             log(f'  every free model is busy; waiting {wait} s'); time.sleep(wait)
             for m in list(COOL): COOL.pop(m, None)
