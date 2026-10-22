@@ -1,0 +1,14 @@
+{
+ "id": "battle-map-thermopylae",
+ "series": "Battle Map",
+ "title": "The Battle of Thermopylae",
+ "style": "terrain",
+ "duration": 164.113,
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "audio": "audio/mix.m4a",
+ "note": "Picture in the KINOFORGE Terrain style; sound from films/lib/battle_mix.py."
+}
