@@ -119,6 +119,8 @@ ref), frames grouped per runner (`per_job`, default 4), files `<tag>-f<frame>.jp
 
 New sound on a finished film (re-score or re-mix, picture unchanged): rc-render `remux.yml` (inputs film, ref): takes `<id>.mp4` from `kino-films`, lays the folder's current `film.json` audio, republishes `<id>.mp4` and `<id>-preview.mp4`.
 
+Free narration and score for any film folder with an `ad.json` prep block: kinoforge `sound.yml` (inputs folder, voice; Kokoro or Chatterbox on the runner, the free score engine), commits `audio/`, `cues.json`, `film.json`.
+
 ## Film lanes (parked while ads come first)
 
 | Workflow | What | Trigger |
