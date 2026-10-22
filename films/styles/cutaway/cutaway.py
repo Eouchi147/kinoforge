@@ -376,9 +376,9 @@ def mat_top(kit, land):
     col = g.mix(g.math('MULTIPLY', band, 0.45), col, (0, 0, 0))
     if land.level is not None:
         under = g.math('MULTIPLY', g.math('SUBTRACT', level, z), 30.0, clamp=True)
-        bed = g.mix(n_mid.outputs['Fac'], srgb((0.86, 0.80, 0.64)), srgb((0.66, 0.62, 0.50)))
+        bed = g.mix(n_mid.outputs['Fac'], srgb(land.bed[0]), srgb(land.bed[1]))
         col = g.mix(g.math('MULTIPLY', under, 0.85), col, bed)
-        ca = _caustics(g, pos, level)
+        ca = _caustics(g, pos, level, strength=land.caustics)
         col = g.mix(ca, col, g.mix(0.5, col, (1.0, 1.0, 0.95), 'SCREEN'))
         col = g.mix(g.math('MINIMUM', g.math('MULTIPLY', ca, 0.6), 1.0), col, g.mix(1.0, col, (1.6, 1.6, 1.5), 'MULTIPLY'))
     if pal.get('snow', 0) > 0:
@@ -530,7 +530,7 @@ class Land:
 def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, seed=1, season='summer', zones=None,
           res=0.022, grass=1.0, grass_height=1.0, trees=10, tree_kinds=('round', 'round', 'cone', 'tall'), tree_scale=1.0, boulders=12,
           flowers=0.5, under=True, lilies=0, reeds=0.0, corals=0, shore_rock=0.0, keep_clear=(), tree_spots=None,
-          sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.6, water_glow=0.022, bottom=None, name='cw_block'):
+          sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.6, water_glow=0.022, bed=((0.86, 0.80, 0.64), (0.66, 0.62, 0.50)), caustics=1.6, bottom=None, name='cw_block'):
     """Build the block. Returns a Land.
     size (sx, sy) m; depth m; strata = list of layers (see STRATA); top = h(x, y) function or 2D array (rows y, cols x);
     water = list of river()/pond()/basin() regions (they share the first region's level for the water volume);
@@ -544,7 +544,7 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
     pal = dict(SEASONS['summer']); pal.update(SEASONS.get(season, {}) if isinstance(season, str) else season)
     level = water[0]['level'] if water else None
     L = Land(); L.kit = kit; L.size = (sx, sy); L.depth = depth; L.level = level; L.pal = pal; L.seed = seed; L.objects = {}; L.mats = {}
-    L.water = water; L.keep_clear = list(keep_clear)
+    L.water = water; L.keep_clear = list(keep_clear); L.bed = bed; L.caustics = caustics
 
     if top is None: top = rolling(0.08, 0.35, seed)
     if not callable(top):
@@ -1000,9 +1000,10 @@ def house(kit, L, x, y, w=0.16, d=0.12, h=0.10, roof=0.07, yaw=0.0, wall=(0.92, 
     A.add(V, [(0, 1, 2, 3), (3, 2, 5, 4), (0, 3, 4), (1, 5, 2), (0, 4, 5, 1)], 1)
     if chimney: v, f = _box(w * 0.2, 0.01, h, w * 0.2 + 0.022, 0.033, h + roof + 0.02); A.add(v, f, 1)
     e = 0.0012
+    ww = max(0.012, w * 0.09)
     for wx in (-w * 0.25, w * 0.25):
         for side in (-1, 1):
-            yy = side * (d / 2 + e); A.add([(wx - 0.012, yy, h * 0.45), (wx + 0.012, yy, h * 0.45), (wx + 0.012, yy, h * 0.75), (wx - 0.012, yy, h * 0.75)], [(0, 1, 2, 3) if side < 0 else (3, 2, 1, 0)], 2)
+            yy = side * (d / 2 + e); A.add([(wx - ww, yy, h * 0.40), (wx + ww, yy, h * 0.40), (wx + ww, yy, h * 0.78), (wx - ww, yy, h * 0.78)], [(0, 1, 2, 3) if side < 0 else (3, 2, 1, 0)], 2)
     A.add([(w / 2 + e, -0.012, 0.0), (w / 2 + e, 0.012, 0.0), (w / 2 + e, 0.012, h * 0.55), (w / 2 + e, -0.012, h * 0.55)], [(0, 1, 2, 3)], 3)
     key = (wall, roof_col, lit)
     if key not in _HOUSE_MATS:
