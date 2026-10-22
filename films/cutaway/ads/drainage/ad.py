@@ -665,6 +665,7 @@ def build_robin(kit):
     for dy in (-0.012, 0.012): H.add(V0 * 0.0032 + np.array([0.008, dy, 0.004]), F0, 2)
     v, f = cw._tube([(0.013, 0, 0.0), (0.030, 0, -0.003)], [0.004, 0.0005], 6); H.add(v, f, 2)
     head = H.build(bpy, 'robin_head', [back, breast, dark], True, kit.coll); head.parent = body; head.location = (0.032, 0.0, 0.054)
+    body.scale = (1.7, 1.7, 1.7)
     return body, head
 
 def build_toy_car(kit):
@@ -678,7 +679,7 @@ def build_toy_car(kit):
             v, f = cw._tube([(x, y - 0.004, 0.008), (x, y + 0.004, 0.008)], [0.0085, 0.0085], 12); A.add(v, f, 1)
     car = A.build(bpy, 'toy_car', [cw.mat_simple(kit, 'toy_red', (0.80, 0.10, 0.08), 0.25), cw.mat_simple(kit, 'toy_tyre', (0.04, 0.04, 0.04), 0.6),
                                    cw.mat_simple(kit, 'toy_glass', (0.45, 0.62, 0.72), 0.1)], False, kit.coll)
-    car.location = (-0.42, -SY / 2 + 0.006, -0.115); car.rotation_euler = (0.25, -0.35, 0.15)
+    car.scale = (1.7, 1.7, 1.7); car.location = (-0.40, -SY / 2 + 0.010, -0.13); car.rotation_euler = (0.25, -0.35, 0.15)
     return car
 
 # ================================================================================================ words
@@ -885,10 +886,10 @@ def build(bpy, ctx, aspect):
     S['sun'] = cw._sun(kit, 25.0, 50.0, 0.7, 30.0, (0.88, 0.92, 1.0), 'sun')
     cw.cloud_shadows(kit, 0.22)
     # ---- camera
-    cam = cw.camera(kit, land, aspect, az=-44, el=17 if not v else 18, lens=55 if v else 50, fill=0.80 if not v else 0.98, top_extra=0.62)
+    cam = cw.camera(kit, land, aspect, az=-44, el=17 if not v else 18, lens=55 if v else 50, fill=0.78 if not v else 0.98, top_extra=0.62)
     cd = cam.ob.data
     if v: cd.shift_y = 0.16
-    else: cd.shift_x = -0.14; cd.shift_y = 0.0
+    else: cd.shift_x = -0.17; cd.shift_y = 0.0
     S['cam'] = cam; S['d0'] = cam.dist; S['t0'] = tuple(cam.target)
     # ---- words
     fonts = {'bold': bpy.data.fonts.load(os.path.join(HERE, 'fonts', 'InterTight-ExtraBold.ttf')),
@@ -928,16 +929,16 @@ CAM = {  # per beat: (time, az, el, dist factor, target or None for the block ce
     '9:16': [(0.0, -44.0, 18.0, 1.00, None), (3.0, -40.0, 15.0, 0.92, None),
              (6.5, -12.0, 4.0, 0.31, (SX / 2, Y0 + 0.08, -0.20)),
              (11.5, -27.0, 17.0, 0.50, (0.85, -0.25, -0.24)), (15.0, -37.0, 21.0, 0.95, None)],
-    '16:9': [(0.0, -44.0, 17.0, 1.00, None), (3.0, -40.0, 14.0, 0.92, None),
+    '16:9': [(0.0, -44.0, 17.0, 1.06, None), (3.0, -40.0, 14.0, 0.97, None),
              (6.5, -12.0, 4.0, 0.34, (SX / 2, Y0 + 0.08, -0.18)),
-             (11.5, -27.0, 16.0, 0.54, (0.85, -0.25, -0.22)), (15.0, -37.0, 19.0, 0.95, None)],
+             (11.5, -27.0, 16.0, 0.54, (0.85, -0.25, -0.22)), (15.0, -38.0, 19.0, 1.12, None)],
 }
 
 def cam_pose(S, t):
     keys = CAM[S['aspect']]; t0 = np.array(S['t0'])
     for a, b in zip(keys[:-1], keys[1:]):
         if t <= b[0] or b is keys[-1]:
-            r = ramp(t, (a[0], b[0])); u = ease(r); ue = ease(min(1.0, r * 1.7)) if a[0] == 6.5 else u
+            r = ramp(t, (a[0], b[0])); u = ease(r) if a[0] != 11.5 else ease(min(1.0, r * 1.6)); ue = ease(min(1.0, r * 1.7)) if a[0] == 6.5 else u
             ta = t0 if a[4] is None else np.array(a[4]); tb = t0 if b[4] is None else np.array(b[4])
             return lerp(a[1], b[1], u), lerp(a[2], b[2], ue), S['d0'] * lerp(a[3], b[3], u), tuple(lerp(ta, tb, u))
 
@@ -945,25 +946,27 @@ def cam_pose(S, t):
 def life(S, t):
     """The robin flies in, pecks and pulls a worm; the kid's ball rolls out of the shrubs onto the dry lawn."""
     from mathutils import Quaternion, Vector
-    rb, hd = S['robin'], S['robin_head']; spot = np.array([0.52, 0.02]); yaw = 0.9
+    rb, hd = S['robin'], S['robin_head']; spot = np.array([1.02, 0.02]); yaw = 0.9
     fwd = np.array([math.cos(yaw), math.sin(yaw)]); hz = lambda p: float(S['land'].height(np.array([p[0]]), np.array([p[1]]))[0])
     u = ease_out(ramp(t, (11.2, 11.95))); start = spot + np.array([0.35, 0.45])
     p = start + (spot - start) * u; z = hz(p) - 0.003 + 0.75 * (1 - u) ** 2
     peck = ease(ramp(t, (12.2, 12.45))) * (1 - ease(ramp(t, (12.55, 12.8))))
     pull = ease(ramp(t, (12.6, 13.6))) * (1 - 0.6 * ease(ramp(t, (13.75, 14.2))))
-    back = 0.028 * ease(ramp(t, (12.7, 13.6)))
+    back = 0.045 * ease(ramp(t, (12.7, 13.6)))
     p = p - fwd * back
-    rb.location = (p[0], p[1], z); rb.rotation_euler = (0.0, 0.55 * peck - 0.30 * pull, yaw); rb.hide_render = t < 11.2
+    rb.location = (p[0], p[1], z); rb.rotation_euler = (0.0, 0.55 * peck - 0.30 * pull, yaw); rb.hide_render = t < 11.2; hd.hide_render = rb.hide_render
     flap = (1 - u) * math.sin(t * 60.0)
     hd.rotation_euler = (0.0, 0.35 * peck, 0.0)
     S['worm'].ob.hide_render = t < 12.45 or rb.hide_render
     if t >= 12.45:
-        tip = hd.matrix_world @ Vector((0.030, 0.0, -0.003)); g0 = np.array([spot[0] + fwd[0] * 0.05, spot[1] + fwd[1] * 0.05, hz(spot) - 0.004])
+        import bpy
+        bpy.context.view_layer.update()
+        tip = hd.matrix_world @ Vector((0.030, 0.0, -0.003)); g0 = np.array([spot[0] + fwd[0] * 0.088, spot[1] + fwd[1] * 0.088, hz(spot) - 0.006])
         tip = np.array(tip)
         if t < 13.65:
-            mid = (tip + g0) / 2 + np.array([0, 0, -0.004]); S['worm'].set([tip, mid, g0], 0.0028, 0.0034)
+            mid = (tip + g0) / 2 + np.array([0, 0, -0.004]); S['worm'].set([tip, mid, g0], 0.0045, 0.0055)
         else:
-            sw = 0.006 * math.sin(t * 7.0); S['worm'].set([tip, tip + np.array([0.004 + sw, 0, -0.018]), tip + np.array([0.002 - sw, 0.003, -0.034])], 0.0028, 0.0022)
+            sw = 0.006 * math.sin(t * 7.0); S['worm'].set([tip, tip + np.array([0.006 + sw, 0, -0.03]), tip + np.array([0.003 - sw, 0.004, -0.056])], 0.0045, 0.0035)
     del flap
     b = S['ball']; a0 = np.array([1.22, 1.20]); a1 = np.array([0.98, 0.60]); r = 0.042
     uu = ease_out(ramp(t, (11.9, 13.6))); q = a0 + (a1 - a0) * uu; d = np.linalg.norm(a1 - a0) * uu
@@ -1026,8 +1029,8 @@ def frame(bpy, ctx, S, i, t):
     el_[-1].color = cw.srgb(lerp3(lerp3((0.27, 0.31, 0.37), (0.30, 0.40, 0.54), b_), (0.26, 0.40, 0.60), g_))
     S['bg_light'].inputs['Color'].default_value = cw.srgb(lerp3(lerp3((0.78, 0.83, 0.90), (0.85, 0.88, 0.95), b_), (0.82, 0.82, 0.92), g_))
     S['bg_light'].inputs['Strength'].default_value = lerp(lerp(1.15, 0.9, b_), 0.75, g_)
-    V['mist'].default_value = 0.85 * (1 - ease(ramp(t, (7.9, 10.2)))) + 0.10 * g_; V['mist_t'].default_value = t
-    V['rays'].default_value = 0.55 * ease(ramp(t, (7.9, 9.0))) * (1 - 0.55 * g_); V['rays_t'].default_value = t
+    V['mist'].default_value = 0.85 * (1 - ease(ramp(t, (7.9, 10.2)))) + 0.04 * g_; V['mist_t'].default_value = t
+    V['rays'].default_value = 0.55 * ease(ramp(t, (7.9, 9.0))) * (1 - g_); V['rays_t'].default_value = t
     sv = (math.cos(math.radians(s_el)) * math.cos(math.radians(s_az)), math.cos(math.radians(s_el)) * math.sin(math.radians(s_az)), math.sin(math.radians(s_el)))
     S['rays'].update(sv, tuple(S['cam'].ob.location))
     for ob, *_ in S['rays'].obs: ob.hide_render = V['rays'].default_value < 0.01
