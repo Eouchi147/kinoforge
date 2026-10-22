@@ -11,8 +11,9 @@ procedural (no downloaded assets, no paid calls).
 | `scene.py` | Glue for `harness/blender_render.py`: `make(look, duration, move, samples)` returns `DURATION, SETTINGS, build, frame` |
 | `board.py` | Local still renderer: `python3 films/styles/cutaway/board.py A --aspect 16:9 --w 1920 --samples 96` |
 | `board/` | The style board stills (jpg q90) |
-| `test/` | Motion test film (8 s, 24 fps, 1280x720, look A, slow eased orbit) for rc-render `films.yml` |
-| `stills/A..D/` | One-frame film folders so the board stills can be rendered on free runners (rc-render `stills.yml`) |
+| `test/` | Motion test film (8 s, 24 fps, 1280x720 rendered, 1920x1080 delivered, 32 spp, look A, one eased 16 degree orbit; every motion loops on 8 s). Render: rc-render `films.yml` with `film=films/styles/cutaway/test`, `parts=24` (not dispatched yet) |
+| `stills/board/` | The whole board in one film folder for rc-render `stills.yml`: frame % 4 picks the look (frames 24,25,26,27 = A, B, C, D) |
+| `stills/A..D/` | One look per folder (same thing, one look) |
 
 ## Use it from a film (the API)
 
@@ -122,9 +123,9 @@ Render the board on free runners (one job per still), then download:
 
 ```bash
 gh api -X POST repos/Eouchi147/rc-render/actions/workflows/stills.yml/dispatches -f ref=main \
-  -f 'inputs[film]=films/styles/cutaway/stills/D' -f 'inputs[frames]=24' -f 'inputs[tag]=cutaway-D' \
+  -f 'inputs[film]=films/styles/cutaway/stills/board' -f 'inputs[frames]=24,25,26,27' -f 'inputs[per_job]=2' -f 'inputs[tag]=cutaway-b' \
   -f 'inputs[w]=1920' -f 'inputs[h]=1080' -f 'inputs[samples]=128' -f "inputs[ref]=$(git rev-parse HEAD)"
-bash /home/claude/rc-render/tools/getstills.sh cutaway-D out/
+bash /home/claude/rc-render/tools/getstills.sh cutaway-b out/      # one stills run in flight at a time (shared queue)
 ```
 
 Locally (slow on a 2-core box; use for 480 px checks): `python3 films/styles/cutaway/board.py A --w 480 --samples 12`
@@ -132,7 +133,22 @@ Locally (slow on a 2-core box; use for 480 px checks): `python3 films/styles/cut
 
 ## Render cost and weak spots
 
-COST_PLACEHOLDER
+Everything is free (CPU Cycles on GitHub's free runners). Measured on 22 Oct 2026:
+
+| Render | Where | Cost |
+| --- | --- | --- |
+| Scene build (any look) | anywhere | 2 to 9 s (numpy terrain, prototypes, scatter) |
+| Motion test frame, 1280x720, 32 spp, `fast=True`, denoised | 4-core runner | about 20 to 70 s per frame (from job step times, which include about 60 s of setup per job; job logs are not readable from the chat machine) |
+| Same frame, 48 spp, full bounces | this 2-core chat box | 470 CPU-seconds (so roughly 2 min wall on a free 4-core runner) |
+| Board still 1280x720, 64 spp | 4-core runner | about 1.5 to 6 min per job including setup (dusk is the fastest, the sky look the slowest) |
+| Board still 1920x1080, 128 spp | 4-core runner | about 5 to 12 min per still |
+| Preview 480x270, 12 spp | this 2-core box (shared) | 60 to 100 s wall |
+
+The 8 s motion test (192 frames) on `films.yml` with 24 parts is 8 frames per part: about 3 to 10 minutes per part.
+The main costs are the grass blades (millions of instanced triangles), the glass water (transmission depth) and, in the
+sky look, the stacked transparent mist and cloud cards. Levers: `samples`, `fast=True` in `scene.make`, `grass` density,
+`apply_cycles(bpy, fast=True)`, fewer mist layers.
+
 
 Weak spots (honest list):
 - Trees are lumpy-blob miniatures (trunk, branches, clustered leaf masses). They read as a diorama, not as real trees at close range; no leaf cards.
