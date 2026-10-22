@@ -1,0 +1,17 @@
+{
+ "id": "cutaway-loop-seasons",
+ "series": "Cutaway loops",
+ "title": "Four seasons over one block",
+ "style": "cutaway",
+ "duration": 12,
+ "fps": 24,
+ "frames": 288,
+ "render_w": 720,
+ "render_h": 1280,
+ "w": 1080,
+ "h": 1920,
+ "samples": 40,
+ "loop": true,
+ "audio": "audio/mix.m4a",
+ "note": "Seamless 12 s social loop, 9:16. Picture: Blender Cutaway kit (films/styles/cutaway), blender.py + szworld.py + szmats.py here; the world is 4-fold symmetric and the light turns with the camera so frame 287 flows into frame 0. Sound: audio/make_audio.py (free score engine + synthesised ambience, exact 12 s loop). Render with rc-render films.yml."
+}
