@@ -106,14 +106,15 @@ inside. This is cheap, and the cut stays perfectly clean.
 
 Job wall time includes about 1.5 min of setup (checkout, apt, pip bpy). The settings are adaptive sampling with OIDN denoise.
 
-| Frame | r2: 1280x720, 64 spp, threshold 0.02, tall haze volume | r3: 1920x1080, 48 spp, threshold 0.035, fog-only volume |
-| --- | --- | --- |
-| 24 map | 26.4 min | 48.2 min |
-| 84 ground | over 40 min (cancelled) | 43.7 min |
-| 150 crane | 5.0 min | 11.1 min |
-| 222 macro | 3.6 min | 6.3 min |
-| 270 hero | 14.2 min | 49.7 min |
+| Frame | r2: 1280x720, 64 spp, threshold 0.02, tall haze volume | r3: 1920x1080, 48 spp, threshold 0.035, fog-only volume | r4: same as r3 |
+| --- | --- | --- | --- |
+| 24 map | 26.4 min | 48.2 min | |
+| 84 ground | over 40 min (cancelled) | 43.7 min | |
+| 150 crane | 5.0 min | 11.1 min | 7.1 min |
+| 222 macro | 3.6 min | 6.3 min | |
+| 270 hero | 14.2 min | 49.7 min | **7.0 min** |
 
+- **Runner variance is large.** The same hero frame took 49.7 min on one run and 7.0 min on the next (the only change was a hollow mask, which cannot explain it), and the crane took 11.1 then 7.1 min. Busy runners or noisy neighbours are the likely cause, so treat single numbers with care.
 - **Scene build:** 4 to 9 s.
 - **Local 480x270 at 24 spp** (2-core chat box, loaded): about 26 s for a wide frame. Removing one thing at a time: fog volume -25 %, glass water -14 %, shafts -7 %, grass -9 %, trees and flowers about 0.
 - **Verdict: over the 90 s/frame budget.** Close shots of the cut face (crane, macro) cost about 2 to 4 min a frame at 1280x720 and 48 spp. Wide shots that see the whole living top and the fog (map, ground, hero) cost about 10 to 20 min. I did not find one culprit: the base kit scene (grass, glass water, about 35 lights) plus the fog volume add up, and they scale much worse on the runner than on the chat box.
