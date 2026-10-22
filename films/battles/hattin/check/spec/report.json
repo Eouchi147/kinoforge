@@ -1,0 +1,723 @@
+{
+ "film": "films/battles/hattin",
+ "spec": "./spec.js",
+ "line": "battle-map",
+ "ok": true,
+ "hard": [],
+ "soft": [
+  "craft: icons used (galley): keep only those with a job a label cannot do (CRAFT.md 1, 6)",
+  "overlapping text at 52.13 s (l05): \"20,000\" and \"CRUSADERS\"",
+  "overlapping text at 52.13 s (l05): \"20,000\" and \"King Guy of Jerusalem\"",
+  "text off screen at 124.88 s (l14): \"JERUSALEM\"",
+  "lint warning: arrows[1]: ends (32.46 s) before it starts (35.82 s): never shown"
+ ],
+ "lint": {
+  "errors": [],
+  "warnings": [
+   "arrows[1]: ends (32.46 s) before it starts (35.82 s): never shown"
+  ]
+ },
+ "stills": [
+  {
+   "t": 2.58,
+   "why": "l00",
+   "line": "l00",
+   "file": "stills/t000258.jpg",
+   "mean": 183,
+   "std": 30.7,
+   "texts": [
+    "GALILEE, 1187"
+   ],
+   "s": 51.38
+  },
+  {
+   "t": 11.83,
+   "why": "l01",
+   "line": "l01",
+   "file": "stills/t001183.jpg",
+   "mean": 58.1,
+   "std": 24.6,
+   "texts": [
+    "THE BATTLE OF HATTIN"
+   ],
+   "s": 3.36
+  },
+  {
+   "t": 13.25,
+   "why": "title card",
+   "line": "l01",
+   "file": "stills/t001325.jpg",
+   "mean": 57.5,
+   "std": 25,
+   "texts": [
+    "THE BATTLE OF HATTIN",
+    "1187"
+   ],
+   "s": 2.78
+  },
+  {
+   "t": 17.21,
+   "why": "l02",
+   "line": "l02",
+   "file": "stills/t001721.jpg",
+   "mean": 147.4,
+   "std": 38.3,
+   "texts": [
+    "DAMASCUS"
+   ],
+   "s": 3.09
+  },
+  {
+   "t": 19.13,
+   "why": "l02.Egypt",
+   "line": "l02",
+   "file": "stills/t001913.jpg",
+   "mean": 145.1,
+   "std": 40.7,
+   "texts": [
+    "DAMASCUS",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin"
+   ],
+   "s": 2.89
+  },
+  {
+   "t": 23.46,
+   "why": "l02.Europe",
+   "line": "l02",
+   "file": "stills/t002346.jpg",
+   "mean": 141.6,
+   "std": 37.9,
+   "texts": [
+    "CRUSADER STATES",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS"
+   ],
+   "s": 3.51
+  },
+  {
+   "t": 28.58,
+   "why": "l03",
+   "line": "l03",
+   "file": "stills/t002858.jpg",
+   "mean": 163,
+   "std": 36,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS"
+   ],
+   "s": 2.81
+  },
+  {
+   "t": 33.08,
+   "why": "l03.It",
+   "line": "l03",
+   "file": "stills/t003308.jpg",
+   "mean": 177.3,
+   "std": 39.2,
+   "texts": [
+    "TIBERIAS",
+    "SEA OF GALILEE",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee",
+    "10 km"
+   ],
+   "s": 3.01
+  },
+  {
+   "t": 38.21,
+   "why": "l04",
+   "line": "l04",
+   "file": "stills/t003821.jpg",
+   "mean": 170.5,
+   "std": 46.3,
+   "texts": [
+    "RAYMOND OF TRIPOLI",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee"
+   ],
+   "s": 3.33
+  },
+  {
+   "t": 52.13,
+   "why": "l05",
+   "line": "l05",
+   "file": "stills/t005213.jpg",
+   "mean": 193.6,
+   "std": 30.4,
+   "texts": [
+    "20,000",
+    "CRUSADERS",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee"
+   ],
+   "s": 3.57
+  },
+  {
+   "t": 59.17,
+   "why": "l06",
+   "line": "l06",
+   "file": "stills/t005917.jpg",
+   "mean": 184,
+   "std": 33,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS",
+    "FORCES",
+    "Infantry",
+    "Knights in heavy armour",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee",
+    "2 km"
+   ],
+   "s": 2.89
+  },
+  {
+   "t": 61.29,
+   "why": "l06.rode",
+   "line": "l06",
+   "file": "stills/t006129.jpg",
+   "mean": 182.3,
+   "std": 34.9,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS",
+    "FORCES",
+    "Infantry",
+    "Knights in heavy armour",
+    "Horse archers",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee",
+    "2 km"
+   ],
+   "s": 2.15
+  },
+  {
+   "t": 66.08,
+   "why": "l07",
+   "line": "l07",
+   "file": "stills/t006608.jpg",
+   "mean": 159.6,
+   "std": 50,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS",
+    "FORCES",
+    "Infantry",
+    "Knights in heavy armour",
+    "Horse archers",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee",
+    "5 km"
+   ],
+   "s": 2.91
+  },
+  {
+   "t": 70.08,
+   "why": "l07.army",
+   "line": "l07",
+   "file": "stills/t007008.jpg",
+   "mean": 155.6,
+   "std": 50.4,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS",
+    "FORCES",
+    "Infantry",
+    "Knights in heavy armour",
+    "Horse archers",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee",
+    "5 km"
+   ],
+   "s": 2.64
+  },
+  {
+   "t": 72.79,
+   "why": "l07.They",
+   "line": "l07",
+   "file": "stills/t007279.jpg",
+   "mean": 162,
+   "std": 45.3,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 2.88
+  },
+  {
+   "t": 76.92,
+   "why": "l08",
+   "line": "l08",
+   "file": "stills/t007692.jpg",
+   "mean": 96.4,
+   "std": 41.3,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 2.58
+  },
+  {
+   "t": 86.5,
+   "why": "l09",
+   "line": "l09",
+   "file": "stills/t008650.jpg",
+   "mean": 156.9,
+   "std": 42.2,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 2.92
+  },
+  {
+   "t": 91.33,
+   "why": "l09.Horns",
+   "line": "l09",
+   "file": "stills/t009133.jpg",
+   "mean": 168.2,
+   "std": 48.3,
+   "texts": [
+    "THE SPRINGS",
+    "HORNS OF HATTIN",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS",
+    "FORCES",
+    "Infantry",
+    "Knights in heavy armour",
+    "Horse archers",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee",
+    "The springs",
+    "Horns of Hattin"
+   ],
+   "s": 3.16
+  },
+  {
+   "t": 93.83,
+   "why": "l10",
+   "line": "l10",
+   "file": "stills/t009383.jpg",
+   "mean": 161.8,
+   "std": 54.1,
+   "texts": [
+    "HORNS OF HATTIN",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS",
+    "FORCES",
+    "Infantry",
+    "Knights in heavy armour",
+    "Horse archers",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee",
+    "The springs",
+    "Horns of Hattin",
+    "2 km"
+   ],
+   "s": 3.1
+  },
+  {
+   "t": 102.54,
+   "why": "l11",
+   "line": "l11",
+   "file": "stills/t010254.jpg",
+   "mean": 166.7,
+   "std": 45.6,
+   "texts": [
+    "KING GUY'S TENT",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS",
+    "FORCES",
+    "Infantry",
+    "Knights in heavy armour",
+    "Horse archers",
+    "PLACES",
+    "Tiberias",
+    "Sea of Galilee",
+    "The springs",
+    "Horns of Hattin"
+   ],
+   "s": 3.55
+  },
+  {
+   "t": 107.92,
+   "why": "l12",
+   "line": "l12",
+   "file": "stills/t010792.jpg",
+   "mean": 148.5,
+   "std": 49.9,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 6.51
+  },
+  {
+   "t": 115.63,
+   "why": "l13",
+   "line": "l13",
+   "file": "stills/t011563.jpg",
+   "mean": 144.2,
+   "std": 37.9,
+   "texts": [
+    "HATTIN",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 3.57
+  },
+  {
+   "t": 118.46,
+   "why": "l13.And",
+   "line": "l13",
+   "file": "stills/t011846.jpg",
+   "mean": 152.1,
+   "std": 35.4,
+   "texts": [
+    "JERUSALEM",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 3.85
+  },
+  {
+   "t": 123.25,
+   "why": "l13.massacre.",
+   "line": "l13",
+   "file": "stills/t012325.jpg",
+   "mean": 150.6,
+   "std": 35,
+   "texts": [
+    "JERUSALEM",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 4.26
+  },
+  {
+   "t": 124.88,
+   "why": "l14",
+   "line": "l14",
+   "file": "stills/t012488.jpg",
+   "mean": 131.9,
+   "std": 39.9,
+   "texts": [
+    "JERUSALEM",
+    "ACRE",
+    "1191",
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 4.66
+  },
+  {
+   "t": 132.25,
+   "why": "l15",
+   "line": "l15",
+   "file": "stills/t013225.jpg",
+   "mean": 181.2,
+   "std": 26.3,
+   "texts": [
+    "BATTLE OF HATTIN",
+    "4 July 1187",
+    "EGYPT AND SYRIA",
+    "Saladin",
+    "CRUSADERS",
+    "King Guy of Jerusalem",
+    "20,000",
+    "SOLDIERS"
+   ],
+   "s": 4.89
+  },
+  {
+   "t": 140.54,
+   "why": "end card",
+   "line": "l15",
+   "file": "stills/t014054.jpg",
+   "mean": 34.7,
+   "std": 13.6,
+   "texts": [
+    "BATTLE MAP",
+    "The Battle of Hattin, 1187"
+   ],
+   "s": 3.44
+  }
+ ],
+ "page_errors": [],
+ "console_errors": [],
+ "ready_s": 13.6,
+ "still_s": 5.18,
+ "sheet": "sheet.jpg",
+ "stats": {
+  "shots": 28,
+  "avg_shot_s": 5.06,
+  "cuts": [
+   {
+    "t": 7.71,
+    "why": "reverse angle from behind the Sultan's standard: he waits for the army to come to him",
+    "path": "shot S1.2"
+   },
+   {
+    "t": 10.4,
+    "why": "crane up to the map of the hills under the title",
+    "path": "shot S1.3"
+   },
+   {
+    "t": 16,
+    "why": "change of world: the Levant; Saladin rules Egypt and Syria",
+    "path": "shot S2.1"
+   },
+   {
+    "t": 20.34,
+    "why": "lower along the coast: the crusader states, Jerusalem and the string of castles",
+    "path": "shot S2.2"
+   },
+   {
+    "t": 27.38,
+    "why": "back in Galilee: Saladin swings round the lake and attacks Tiberias",
+    "path": "shot S3.1"
+   },
+   {
+    "t": 32.38,
+    "why": "wide to the whole map: the bait, and the army at Saffuriya it is meant for",
+    "path": "shot S3.2"
+   },
+   {
+    "t": 36.99,
+    "why": "low in the crusader camp at Saffuriya: the lords say do not go",
+    "path": "shot S3.3"
+   },
+   {
+    "t": 39.97,
+    "why": "high along the road east: July, and no water between here and the lake",
+    "path": "shot S3.4"
+   },
+   {
+    "t": 43.17,
+    "why": "Tiberias: the lord's wife trapped inside",
+    "path": "shot S3.5"
+   },
+   {
+    "t": 48.13,
+    "why": "back in camp: King Guy gives the order anyway",
+    "path": "shot S3.6"
+   },
+   {
+    "t": 50.95,
+    "why": "low beside the road: the column marches past, into the heat",
+    "path": "shot S4.1"
+   },
+   {
+    "t": 57.96,
+    "why": "high over the column: Saladin's horse archers ride round it, shooting",
+    "path": "shot S4.2"
+   },
+   {
+    "t": 62.52,
+    "why": "low from the east, behind the horse archers: the way to water is blocked",
+    "path": "shot S4.3"
+   },
+   {
+    "t": 64.88,
+    "why": "high over the plateau at evening: stuck, and Saladin's army arrives between them and the lake",
+    "path": "shot S5.1"
+   },
+   {
+    "t": 72.1,
+    "why": "low over the crusaders' shoulders: the water they can see and cannot reach",
+    "path": "shot S5.2"
+   },
+   {
+    "t": 75.7,
+    "why": "night: low along the dry grass as Saladin's men set it alight",
+    "path": "shot S5.3"
+   },
+   {
+    "t": 79.8,
+    "why": "high and wide: the smoke blows straight into the crusader camp",
+    "path": "shot S5.4"
+   },
+   {
+    "t": 85.29,
+    "why": "morning, wide and high: the break-out toward the springs by the two hills",
+    "path": "shot S6.1"
+   },
+   {
+    "t": 92.62,
+    "why": "the decisive moment from above: the army breaks into pieces and the ring closes on the horns",
+    "path": "shot S6.2"
+   },
+   {
+    "t": 97.96,
+    "why": "closer and lower, circling the saddle: King Guy's red tent, surrounded, and it falls",
+    "path": "shot S6.3"
+   },
+   {
+    "t": 104.43,
+    "why": "low on the king as he is taken",
+    "path": "shot S6.4"
+   },
+   {
+    "t": 106.72,
+    "why": "low at dusk: Saladin walks up through the ring to the exhausted king",
+    "path": "shot S7.1"
+   },
+   {
+    "t": 111.32,
+    "why": "pull back over the Horns: a life spared, the battle over",
+    "path": "shot S7.2"
+   },
+   {
+    "t": 114.41,
+    "why": "change of world: three months later, Saladin marches on Jerusalem",
+    "path": "shot S8.1"
+   },
+   {
+    "t": 117.75,
+    "why": "closer and lower on the city: taken without a massacre, unlike 1099",
+    "path": "shot S8.2"
+   },
+   {
+    "t": 123.69,
+    "why": "wide over the sea: a new crusade from Europe under Richard the Lionheart, and Jerusalem stays",
+    "path": "shot S8.3"
+   },
+   {
+    "t": 131.03,
+    "why": "back over the dry hills and the Horns, empty now: the lesson",
+    "path": "shot S9.1"
+   }
+  ]
+ },
+ "craft": {
+  "scenes": 9,
+  "shots": 28,
+  "avg_shot_s": 5.06
+ }
+}

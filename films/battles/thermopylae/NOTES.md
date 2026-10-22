@@ -1,23 +1,54 @@
-# The Battle of Thermopylae (480 BC): Battle Map film notes
+# The Battle of Thermopylae (480 BC): Battle Map film notes (v2)
 
-Engine: `films/lib/battlemap/` (spec: `SPEC.md` there). 16:9, 24 fps, 164.113 s, Terrain style. Persians red (team `rome`), Greeks blue (team `carthage`). All times come from `cues.json` words.
-The ASR spelled some words oddly in the cues: "Dianik," (Dienekes), "Effialty's" (Ephialtes), "Thespier", and "past" for "pass" (l10, l17): the spec uses prefixes or neighbouring words.
+Engine: `films/lib/battlemap/` v2 (spec format: `SPEC.md` there; reference film `films/battles/cannae/`). Film spec: `spec.js`.
+16:9, 24 fps, 164.113 s. Narration timing is locked to `cues.json` (line starts never change; the score is re-done around them).
+Persians red (team `rome`), Greeks blue (team `carthage`). The ASR spelled some words oddly in the cues: "Dianik," (Dienekes),
+"Effialty's" (Ephialtes), "Thespier" (Thespiae), "past" for "pass" (l10, l17); the spec refers to neighbouring words.
+`node films/lib/battlemap/tools/scenes.mjs films/battles/thermopylae` prints the plan below with the checks.
 
-## Film-side code (no engine change)
-- `icons.js`: throne (hops 3x with a counter bubble), calendar (`fill: "start,stepSeconds,HEADER,max"`), sundim, cool (helmet in sunglasses), moon, burn, bag, stone, peak, wave, hourglass, shout.
-- `fx.js`: patches `StageOverlay.draw` for `spec.dim` (veil, stars for the night), `spec.regions` (hatched ground area that sweeps west to east, with sea holes: the Persian Empire) and `spec.nums` (the "millions" plate that crashes to "100,000+").
+Film-side additions (`units.js`, registered from `index.html`; no engine file changed): four flat glyphs in the v2 style (one ink
+weight, flat fills, no faces): `pass` (a cliff, a narrow road and the sea: the place glyph of Thermopylae), `trail` (a mountain with a
+dashed path over it: the hidden path), `stele` (the stone with the epitaph) and `lambda` (a Spartan shield, the Greek side's banner in the
+legend). The terrain needs no new feature: the pass is the engine's `mountains` wall against a `sea`, the coast road a `road`, and the
+hidden mountain path a thin `road` drawn over the mountains. The old `icons.js` (throne, calendar, sunglasses helmet, moon, money bag,
+hourglass, shout marks) and `fx.js` (an overlay patch for a screen veil with stars, a hatched empire and a bouncing number plate) are
+removed; the night is a blue scrim card over a low sun, the empire is shown by its armies rising from Egypt to India, and the numbers are
+engine counters.
 
-## Structure
-- Main stage: the pass (cliff wall west, sea east, road between; sun from the east so the cliff face is lit), x east, z south, Persians come from the north.
-- Stage `aeg` (Aegean): hook 0 to 12.95, the squabbling cities 34.3 to 40.95, Athens/Salamis/Plataea 133.7 to 149.9. Stage `emp` (Persian Empire): 17.4 to 34.6.
-- Title card 12.95; epitaph card from 154.1 (lines timed on the cue words); end card from 159.913.
+## How the battle is explained (CRAFT.md section 7)
+Stakes first (S1: the biggest army ever seen against a few thousand Greeks at a gap; S2: who Xerxes is, how big his empire and his army),
+then the Greeks (S3: rival cities that team up), the place and why it was chosen (S4: a road between a cliff and the sea where a giant army
+can only come a little at a time; the defenders and their numbers), the waiting and the arrows (S5), the fighting (S6: waves that break on
+a shield wall that takes turns at the front; even the Immortals fail), the turn (S7: the hidden path, the night climb, the Greeks sent away,
+the last stand shown twice: wide from above as the ring closes, then low and close as the ranks thin), the result and why it mattered
+(S8: Athens burns, then Salamis and Plataea), and the stone (S9). Humour stays in the narration and the timing: the cut to the Greek front
+rank on "They did not.", the hold on the close shot through "fight in the shade", the king's standard that jumps three times on the words,
+the low shot over the massed armies on "Still, a lot."
 
-## Shot list (seconds)
-0 to 12.9 hook on the Aegean (480 BC, army floods across the Hellespont, tiny Greek block at the gap) / 12.95 title / 17.4 empire shading Egypt to India, "millions" plate crashes to 100,000+, "STILL: A LOT." / 34.3 cities squabble (arrows) then team up / 41 pass: steep mountains, sea, narrow road, army squeezes / 53 Greeks (7,000 counter, Leonidas, 300) / 60 Xerxes waits, calendar DAY 1 to 4, Greeks do not run / 66 Herodotus, arrows darken the sky, Dienekes plate, "fight in the shade" / 79 DAY 5, waves, shield wall rotates / 89 Immortals bounce, throne hops 3x / 99 TWO DAYS, DAY 6, THE PASS HELD / 102 Ephialtes, dotted path around the mountain / 110 night climb / 113 surrounded, most Greeks leave, Spartans + 700 Thespians stay / 126 DAY 7, they fought to the end (blocks fade) / 132 Persians win, Athens burns / 139 Salamis ships, Plataea 479 BC / 150 stone, epitaph / 159.9 end card.
+## Scene list (9 scenes, 32 shots)
 
-## Measured
-1280x720 SwiftShader: stills 0.5 to 1.5 s; a 5 s stretch (frames 1976 to 2096, the waves) rendered at 0.56 s/frame.
+| scene | cue | job | camera plan |
+| --- | --- | --- | --- |
+| S1 The invasion (Aegean map) | 0 to l02 | the biggest army ever seen marches into Greece; a few thousand Greeks wait at a gap in the mountains | 1.1 the Persian columns cross from Asia into Greece (caption 480 BC), slow follow west; 1.2 push in to the tiny Greek block at the gap, held under the title card |
+| S2 King of Kings (empire map) | l02 to l03 | who is coming: Xerxes, an empire from Egypt to India, an army of a million, or a hundred thousand | dissolve. 2.1 the capital, XERXES; 2.2 the whole empire: armies rise from Egypt to India in order as the line names them; 2.3 the numbers: 1,000,000 by the ancient writers counts down to 100,000 by the modern ones; 2.4 cut on "Still, a lot.": low over the massed armies |
+| S3 The allies (Aegean map) | l03 to l04 | the Greek cities usually fight each other; this time some team up | dissolve. 3.1 the cities, thin ink arrows between rivals; 3.2 lower and turned: blue routes converge on Thermopylae |
+| S4 The pass | l04 to l06 | why here: a road between a cliff and the sea where a giant army can only come a little at a time; who holds it | dissolve. 4.1 high down the pass from the south (legend: A Thermopylae); 4.2 low in the road at the narrowest point, cliff on one side (B), sea on the other (C); 4.3 top-down: the army squeezes into the road; 4.4 low behind the Greek wall: about 7,000 Greeks, LEONIDAS, 300 SPARTANS |
+| S5 The wait | l06 to l08 | Xerxes waits four days for them to run; they do not; the arrows story | 5.1 high from the south over the tiny Greek wall to the host filling the plain (XERXES); 5.2 cut on the punchline: low and close on the front rank; 5.3 the archers draw up and the sky fills with arrows (legend highlights Archers, the cloud darkens); 5.4 close on the Spartan front in the shade: DIENEKES |
+| S6 Wave after wave | l08 to l11 | the Persians attack for two days and cannot break the wall, not even the Immortals | 6.1 reverse angle behind the Persian waves pouring into the pass; 6.2 high and close over the shield wall: the front rank steps back through its lane and the next takes its place; 6.3 low behind the Immortals as they charge and fail; 6.4 reaction: the king's standard on the slope, jumping three times; 6.5 top-down: two days on, the wall stands where it stood |
+| S7 Surrounded (climax) | l11 to l15.They | a traitor shows the Persians a way round; most Greeks leave, the Spartans and the Thespians stay and die | 7.1 EPHIALTES walks into the Persian camp; 7.2 top-down over the mountains: the hidden path (D) drawn round behind the Greeks; 7.3 night (blue scrim, low sun): follow the Immortals along the path; 7.4 dawn, high and wide: they come down behind the pass, most Greeks march away; 7.5 low and close on those who stay (700 THESPIANS); 7.6 the decisive moment wide from above: the ring closes from both ends; 7.7 the same moment closer and lower: the ranks thin to the end, pull back on "So, the Persians won." |
+| S8 The war (Aegean map) | l15.They to l17 | why it mattered: they burn Athens, then lose at sea and on land | dissolve. 8.1 the march south, smoke over Athens; 8.2 Salamis: the Greek galleys row in and the Persian galleys capsize; 8.3 Plataea, 479 BC: beaten on land for good (legend highlights the Greeks) |
+| S9 The stone | l17 to end | the epitaph at the empty pass | dissolve back to the pass in the evening, quiet: slow push on the stone (marker), then the epitaph card on the words and the end card |
 
-## Known weak spots
-- Persian waves are a few red blocks (stylised); the Aegean/Empire coasts are simplified; the Immortals block bends when the path turns sharply.
-- Camera keys on the night climb are hand-placed along the path; check them if the voice is re-cut.
+Legend: title THE BATTLE OF THERMOPYLAE, August 480 BC; sides PERSIA (Xerxes, 100,000, the modern estimate the line gives) and GREEK
+ALLIES (Leonidas of Sparta, 7,000), each on the word that names it; units Hoplites (Greek), Infantry and Archers (Persian); places A
+Thermopylae, B the mountains, C the sea, D the hidden path, each entering on its word.
+
+Living world: cloud shadows, wind and gusts, the sea glinting along the coast, the Persian camp (tents, fires, smoke, people) and the Greek
+camp, walkers on the coast road, gulls over the sea and a hawk over the cliffs, dust along every front.
+
+## Removed from v1
+Cartoon icons (throne hops with a counter bubble, calendar pages, a helmet in sunglasses, moon, money bag, question marks, stop signs, bursts,
+laurels, an hourglass, shout marks, a door), the bouncing number plate, the hatched empire overlay, the screen veil, the bouncing blocks, and
+the labels that only repeated the narration (THE BIGGEST ARMY EVER SEEN, STOP THEM!, FIGHTING EACH OTHER, A NARROW ROAD, SQUEEZE THROUGH,
+WAITING, THEY DID NOT, SO MANY ARROWS, GOOD., WAVE AFTER WAVE, THEY CANNOT BREAK THROUGH, TWO DAYS, THE PASS HELD, HE SELLS A SECRET, THAT
+NIGHT, ABOUT TO BE SURROUNDED, THEY FOUGHT TO THE VERY END, THE END? and the rest). Kept: names, dates, numbers.
