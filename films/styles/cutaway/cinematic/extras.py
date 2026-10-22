@@ -73,12 +73,17 @@ def mat(kit, name, color, rough=0.6, **kw):
     return kit.mats[key]
 
 def mat_pbr(kit, name, color, rough=0.5, metallic=0.0, emission=None, strength=0.0, film=0.0, coat=0.0, bump=0.0, bump_scale=60.0,
-            transmission=0.0, flecks=0.0):
+            transmission=0.0, flecks=0.0, cavity=0.0):
     """Principled with optional thin film (nacre), coat, voronoi facet bump (glitter) and emissive flecks."""
     key = ('ex', name)
     if key in kit.mats: return kit.mats[key]
     m = cw._new_mat(kit.bpy, name); g = G(m.node_tree, kit)
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb(color), 'Roughness': rough, 'Metallic': metallic})
+    if cavity:     # darker in creases and hollows (pointiness), lighter on edges: aged, readable form
+        geo = g.node('ShaderNodeNewGeometry'); pt = g.math('MULTIPLY', g.math('SUBTRACT', geo.outputs['Pointiness'], 0.5), 6.0)
+        dk = g.math('MULTIPLY', g.math('SUBTRACT', 0.0, pt), cavity, clamp=True); lt = g.math('MULTIPLY', pt, cavity * 0.5, clamp=True)
+        col = g.mix(dk, srgb(color), srgb(tuple(c * 0.45 for c in color))); col = g.mix(lt, col, srgb(tuple(min(1, c * 1.15) for c in color)))
+        g.put(p, 'Base Color', col)
     if film: g.put(p, 'Thin Film Thickness', film); g.put(p, 'Thin Film IOR', 1.45)
     if coat: g.put(p, 'Coat Weight', coat); g.put(p, 'Coat Roughness', 0.08)
     if transmission: g.put(p, 'Transmission Weight', transmission); g.put(p, 'IOR', 1.55)
@@ -640,7 +645,7 @@ class Eggs:
     def dino(self, face, u, z, scale=1.0, light=5.0):
         """A tyrannosaur skeleton lying in the shale, head thrown back (the classic fossil pose), tiny arms."""
         kit = self.kit; s = scale; y0 = 0.004
-        bone = mat_pbr(kit, 'ex_bone', (0.84, 0.77, 0.62), 0.6, coat=0.1, bump=0.3, bump_scale=140.0); dark = mat(kit, 'ex_socket', (0.06, 0.05, 0.04), 0.9)
+        bone = mat_pbr(kit, 'ex_bone', (0.84, 0.77, 0.62), 0.6, coat=0.1, bump=0.3, bump_scale=140.0, cavity=0.9); dark = mat(kit, 'ex_socket', (0.06, 0.05, 0.04), 0.9)
         tooth = mat_pbr(kit, 'ex_tooth', (0.96, 0.93, 0.84), 0.35)
         def pt(P2, r0, r1, ring=8, m=0, n=14):
             C = cw.catmull(P2, n); R = np.linspace(r0, r1, n); out = []
