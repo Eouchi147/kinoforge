@@ -1,0 +1,210 @@
+# sound: free narration + free procedural score + mix for any film folder that holds an ad.json with a prep block.
+# Costs nothing (no API, no key): voice with Kokoro (Apache 2.0) or Chatterbox (MIT) on the runner through
+# films/director/voice_free.py (word timings, Whisper recognition check), lines placed on a beat grid by
+# films/lib/battle_mix.py (cues.json, film.json), then the score from films/lib/score/ (plan_from_cues.py steered by
+# ad.json prep.score, the same keys as films/lib/score/hints/*.json) and the final mix by remix.py (audio/mix.m4a).
+#
+#   gh api -X POST repos/Eouchi147/kinoforge/actions/workflows/sound.yml/dispatches -f ref=main \
+#     -f 'inputs[folder]=films/cutaway/venice' -f 'inputs[voice]=kokoro|bf_emma'
+#
+# Inputs: folder (required); voice (overrides ad.json prep.voice, e.g. kokoro|bm_george, chatterbox); redo=true re-voices
+# (deletes audio/vo*); audition=a comma list of voices (or "ad" for ad.json prep.audition.voices): voices only
+# prep.audition.lines (default the first two) with each voice into <folder>/audition/<voice>/ plus report.json (rate,
+# pitch range, pauses, recognition), and makes nothing else. Kokoro British voices (bf_*, bm_*) are phonemised en-gb.
+# Writes and commits: audio/vo/*.mp3, audio/vo.json, audio/score_plan.json, audio/score.json, audio/mix.m4a, cues.json,
+# film.json (git pull --rebase before push; many agents share the repo).
+name: sound
+on:
+  workflow_dispatch:
+    inputs:
+      folder: { description: 'film folder holding ad.json, e.g. films/cutaway/venice', required: true }
+      voice: { description: 'voice override (kokoro|bf_emma, kokoro|bm_george, chatterbox); blank = ad.json prep.voice', default: '' }
+      redo: { description: 'true = re-voice (delete audio/vo.json and audio/vo/)', default: 'false' }
+      audition: { description: 'comma list of voices to audition on the first lines (or "ad"); blank = make the sound', default: '' }
+permissions:
+  contents: write
+jobs:
+  sound:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    concurrency: { group: 'sound-${{ inputs.folder }}', cancel-in-progress: false }
+    env:
+      PYTHONUNBUFFERED: '1'
+      GH_TOKEN: ${{ github.token }}
+      F: ${{ inputs.folder }}
+      VOICE: ${{ inputs.voice }}
+      AUDITION: ${{ inputs.audition }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: what is needed
+        id: need
+        run: |
+          F="${F%/}"; test -f "$F/ad.json" || { echo "::error::no $F/ad.json"; exit 1; }
+          echo "F=$F" >> "$GITHUB_ENV"
+          python3 - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json, os
+          ad = json.load(open(os.path.join(os.environ['F'], 'ad.json'))); P = ad['prep']
+          aud = os.environ.get('AUDITION', '').strip()
+          if aud == 'ad': aud = ','.join(P.get('audition', {}).get('voices', []))
+          vs = [v.strip() for v in aud.split(',') if v.strip()] if aud else [os.environ.get('VOICE') or P.get('voice', 'chatterbox')]
+          eng = {v.split('|')[0] for v in vs}
+          print('kokoro=' + str('kokoro' in eng).lower()); print('chatterbox=' + str('chatterbox' in eng).lower())
+          print('audition=' + ','.join(vs) if aud else 'audition=')
+          EOF
+          cat "$GITHUB_OUTPUT"
+      - name: tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q numpy scipy soundfile librosa
+          pip --version; uv --version 2>/dev/null || pip install -q uv
+      - name: Kokoro (Apache 2.0) in its own Python 3.11
+        if: steps.need.outputs.kokoro == 'true'
+        run: |
+          uv venv -q -p 3.11 "$RUNNER_TEMP/kok"
+          VIRTUAL_ENV="$RUNNER_TEMP/kok" uv pip install -q kokoro-onnx soundfile scipy faster-whisper numpy
+          mkdir -p "$RUNNER_TEMP/kokoro"; for f in kokoro-v1.0.onnx voices-v1.0.bin; do
+            curl -sSL -o "$RUNNER_TEMP/kokoro/$f" "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/$f"; done
+          echo "KOKORO_DIR=$RUNNER_TEMP/kokoro" >> "$GITHUB_ENV"
+      - name: Chatterbox (MIT) in its own Python 3.11
+        if: steps.need.outputs.chatterbox == 'true'
+        run: |
+          uv venv -q -p 3.11 "$RUNNER_TEMP/cb"
+          VIRTUAL_ENV="$RUNNER_TEMP/cb" uv pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
+          VIRTUAL_ENV="$RUNNER_TEMP/cb" uv pip install -q chatterbox-tts faster-whisper
+      - name: voice runner
+        run: |
+          # runs films/director/voice_free.py for one folder with the right Python; Kokoro British voices get en-gb phonemes
+          cat > "$RUNNER_TEMP/vf.py" <<'EOF'
+          import sys, os, runpy
+          sys.path.insert(0, os.path.join(os.getcwd(), 'harness', 'audio'))
+          if os.environ.get('KOKORO_DIR'):
+              try:
+                  import tts
+                  _say = tts.say
+                  def say(text, voice='af_heart', speed=1.0, lang=None, **k):
+                      return _say(text, voice=voice, speed=speed, lang=lang or ('en-gb' if voice[:1] == 'b' else 'en-us'), **k)
+                  tts.say = say
+              except Exception as e: print('kokoro patch skipped:', e)
+          sys.argv = ['voice_free.py', sys.argv[1]]
+          runpy.run_path(os.path.join(os.getcwd(), 'films', 'director', 'voice_free.py'), run_name='__main__')
+          EOF
+          cat > "$RUNNER_TEMP/voice.sh" <<'EOF'
+          # usage: voice.sh <folder> <voice>
+          e="${2%%|*}"; if [ "$e" = "kokoro" ]; then PY="$RUNNER_TEMP/kok/bin/python"; else PY="$RUNNER_TEMP/cb/bin/python"; fi
+          python3 - "$1" "$2" <<'PY'
+          import json, sys
+          p = sys.argv[1] + '/ad.json'; ad = json.load(open(p)); ad['prep']['voice'] = sys.argv[2]; json.dump(ad, open(p, 'w'), indent=1)
+          PY
+          "$PY" "$RUNNER_TEMP/vf.py" "$1"
+          EOF
+      - name: audition
+        if: steps.need.outputs.audition != ''
+        env: { VOICES: '${{ steps.need.outputs.audition }}' }
+        run: |
+          set -e -o pipefail
+          exec > >(tee -a "$RUNNER_TEMP/sound.log") 2>&1
+          mkdir -p "$F/audition"
+          for v in $(echo "$VOICES" | tr ',' ' '); do
+            s=$(echo "$v" | tr '|/' '__'); T="$RUNNER_TEMP/aud/$s"; rm -rf "$T"; mkdir -p "$T"
+            python3 - "$F" "$T" <<'PY'
+          import json, sys
+          ad = json.load(open(sys.argv[1] + '/ad.json')); P = ad['prep']; keep = P.get('audition', {}).get('lines', [0, 1])
+          P['vo'] = [P['vo'][k] for k in keep]; P['audition_lines'] = keep; json.dump(ad, open(sys.argv[2] + '/ad.json', 'w'), indent=1)
+          PY
+            echo "::group::$v"; bash "$RUNNER_TEMP/voice.sh" "$T" "$v"; echo "::endgroup::"
+            rm -rf "$F/audition/$s"; mkdir -p "$F/audition/$s"; cp "$T"/audio/vo/*.mp3 "$T/audio/vo.json" "$F/audition/$s/"
+          done
+          python3 - "$F" "$VOICES" <<'PY'
+          import json, sys, os, subprocess, numpy as np, librosa
+          F, voices = sys.argv[1], sys.argv[2].split(','); rep = {'_': 'Audition by analysis: rate (words per second while speaking), pitch range (semitones, 10th to 90th percentile) and movement (semitones per second; flat, robotic reads are low), pause share, recognition (word error rate). Higher pitch movement and a rate of 2.3 to 3.0 words/s read as natural documentary narration.', 'voices': {}}
+          for v in voices:
+              s = v.replace('|', '_').replace('/', '_'); vo = json.load(open(f'{F}/audition/{s}/vo.json')); rows = []
+              for k, l in enumerate(vo['lines']):
+                  y, sr = librosa.load(f'{F}/audition/{s}/line{k}.mp3', sr=22050, mono=True)
+                  f0, vf, _ = librosa.pyin(y, fmin=60, fmax=400, sr=sr, frame_length=1024)
+                  f0 = f0[vf & ~np.isnan(f0)]; st = 12 * np.log2(f0 / np.median(f0)) if len(f0) else np.zeros(1)
+                  hop = 512 / sr; mv = float(np.abs(np.diff(st)).mean() / hop) if len(st) > 2 else 0
+                  rms = librosa.feature.rms(y=y)[0]; pause = float((rms < 0.1 * rms.max()).mean())
+                  w = l.get('words', []); speak = (w[-1][2] - w[0][1]) if w else l['dur']
+                  rows.append({'line': k, 'dur': l['dur'], 'words_per_s': round(len(l['text'].split()) / max(speak, 0.1), 2), 'pitch_median_hz': round(float(np.median(f0)), 1) if len(f0) else 0,
+                               'pitch_range_st': round(float(np.percentile(st, 90) - np.percentile(st, 10)), 2), 'pitch_move_st_per_s': round(mv, 2), 'pause_share': round(pause, 3),
+                               'wer': l.get('wer'), 'heard': l.get('heard')})
+              rep['voices'][v] = {'lines': rows, 'mean': {k: round(float(np.mean([r[k] for r in rows])), 3) for k in ('words_per_s', 'pitch_range_st', 'pitch_move_st_per_s', 'pause_share', 'wer')}}
+              print(v, rep['voices'][v]['mean'])
+          json.dump(rep, open(f'{F}/audition/report.json', 'w'), indent=1)
+          PY
+      - name: score samples (VSCO-2 CE, CC0), cached
+        if: steps.need.outputs.audition == ''
+        id: vsco
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/vsco
+          key: vsco-2-ce-score-v1
+      - name: score samples, fetch on a cache miss
+        if: steps.need.outputs.audition == '' && steps.vsco.outputs.cache-hit != 'true'
+        run: |
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/sgossner/VSCO-2-CE.git "$RUNNER_TEMP/vsco-src"
+          git -C "$RUNNER_TEMP/vsco-src" sparse-checkout set --no-cone \
+            '/Strings/Cello Section/susvib/' '/Strings/Viola Section/susvib/' '/Strings/Violin Section/susVib/' \
+            '/Strings/Violin Section/Pizz/' '/Strings/Harp/' '/Strings/Solo Violin/Arco Vib/' \
+            '/Woodwinds/Flute/susvib/' '/Woodwinds/Flute/expvib/' '/Woodwinds/Clarinet/susLong/' '/Woodwinds/Bassoon/sus/' \
+            '/LICENSE'
+          mkdir -p "$RUNNER_TEMP/vsco"; cp -r "$RUNNER_TEMP/vsco-src/Strings" "$RUNNER_TEMP/vsco-src/Woodwinds" "$RUNNER_TEMP/vsco-src/LICENSE" "$RUNNER_TEMP/vsco/"
+          rm -rf "$RUNNER_TEMP/vsco-src"
+      - name: narrate, place, score, mix
+        if: steps.need.outputs.audition == ''
+        env: { SCORE_SAMPLES: '${{ runner.temp }}/vsco', REDO: '${{ inputs.redo }}' }
+        run: |
+          set -e -o pipefail
+          exec > >(tee -a "$RUNNER_TEMP/sound.log") 2>&1
+          A="$F/audio"; mkdir -p "$A"
+          if [ "$REDO" = "true" ]; then rm -rf "$A/vo" "$A/vo.json"; fi
+          V="${VOICE:-$(python3 -c "import json;print(json.load(open('$F/ad.json'))['prep'].get('voice','chatterbox'))")}"
+          echo "::group::voice $V"
+          if [ -f "$A/vo.json" ]; then echo "vo.json exists, kept (redo=true re-voices)"; else bash "$RUNNER_TEMP/voice.sh" "$F" "$V"; fi
+          echo "::endgroup::"
+          echo "::group::beat grid (a quiet pad made in code) and line placement"
+          python3 - "$F" <<'PY'
+          import json, sys, os, numpy as np, librosa
+          sys.path.insert(0, 'films/director'); import pad
+          F = sys.argv[1]; A = F + '/audio'; ad = json.load(open(F + '/ad.json')); vo = json.load(open(A + '/vo.json'))
+          secs = sum(l['dur'] for l in vo['lines']) + len(vo['lines']) * 1.4 + 16; mus = A + '/music.mp3'
+          pad.make(mus, secs, bpm=int(ad['prep'].get('pad_bpm', 96)), mood='warm')
+          y, sr = librosa.load(mus, sr=22050, mono=True)
+          tempo, frames = librosa.beat.beat_track(y=y, sr=sr, units='frames'); beats = librosa.frames_to_time(frames, sr=sr).round(3).tolist()
+          hop = int(sr * 0.1); rms = librosa.feature.rms(y=y, frame_length=hop * 2, hop_length=hop)[0]; rms = (rms / (rms.max() + 1e-9)).round(3)
+          onset = librosa.onset.onset_strength(y=y, sr=sr)
+          phase = int(np.argmax([sum(onset[f] for f in frames[p::4] if f < len(onset)) for p in range(4)])) if len(frames) >= 8 else 0
+          jump = np.diff(np.convolve(rms, np.ones(5) / 5, mode='same'))
+          json.dump({'bpm': round(float(np.atleast_1d(tempo)[0]), 2), 'beats': beats, 'downbeats': beats[phase::4], 'energy_hop_s': 0.1, 'energy': rms.tolist(),
+                     'biggest_rise_s': round(float((int(np.argmax(jump)) + 1) * 0.1), 2), 'duration': round(len(y) / sr, 3)}, open(A + '/music.json', 'w'))
+          PY
+          python3 films/lib/battle_mix.py "$F" --title-line "$(python3 -c "import json;print(json.load(open('$F/ad.json'))['prep'].get('title_line',1))")"
+          echo "::endgroup::"
+          echo "::group::score (plan from the story, steered by ad.json prep.score) and the final mix"
+          python3 - "$F" <<'PY'
+          import json, sys
+          sys.path.insert(0, 'films/lib/score'); import plan_from_cues
+          F = sys.argv[1]; ad = json.load(open(F + '/ad.json')); hints = ad['prep'].get('score')
+          plan = plan_from_cues.build(F, hints=hints) if hints else plan_from_cues.build(F)
+          json.dump(plan, open(F + '/audio/score_plan.json', 'w'), indent=1); print(json.dumps(plan['sections']))
+          PY
+          python3 films/lib/score/remix.py "$F" --keep-plan
+          rm -f "$A/mix_lyria.m4a" "$A/music.mp3" "$A/music_ext.wav" "$A/score.wav"
+          echo "::endgroup::"
+          python3 -c "import json;c=json.load(open('$F/cues.json'));print('duration',c['duration']);[print(l['id'],l['start'],l['end']) for l in c['lines']]"
+      - name: keep the log
+        if: always()
+        run: |
+          N="sound-$(basename "$F").log"; cp "$RUNNER_TEMP/sound.log" "$N" 2>/dev/null || echo "no log" > "$N"
+          gh release upload logs "$N" --clobber || true
+      - name: commit
+        run: |
+          git config user.name "kinoforge-sound"; git config user.email "sound@users.noreply.github.com"
+          git checkout -- "$F/ad.json" 2>/dev/null || true
+          for p in "$F/audio" "$F/audition" "$F/cues.json" "$F/film.json"; do [ -e "$p" ] && git add "$p"; done; git status --short | head -40
+          git commit -q -m "sound: $F (${{ steps.need.outputs.audition != '' && 'audition' || 'narration, score, mix' }})" || echo "nothing to commit"
+          for i in 1 2 3 4 5; do git pull -q --rebase --autostash && git push -q && break || sleep $((i * 4)); done

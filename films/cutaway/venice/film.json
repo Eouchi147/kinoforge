@@ -1,0 +1,13 @@
+{
+ "id": "under-the-surface-venice",
+ "series": "Under the Surface",
+ "title": "Why Venice Sinks",
+ "style": "cutaway",
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "audio": "audio/mix.m4a",
+ "note": "Picture: Blender Cutaway kit (films/styles/cutaway), blender.py here. Sound: .github/workflows/sound.yml (free voice, free score)."
+}

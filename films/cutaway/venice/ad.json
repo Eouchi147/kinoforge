@@ -1,0 +1,112 @@
+{
+ "_": "Under the Surface: Why Venice Sinks (2026). Free narration (films/director/voice_free.py) and the free procedural score (films/lib/score/), made by .github/workflows/sound.yml. Words exactly as script.md.",
+ "id": "under-the-surface-venice",
+ "cap_usd": 0,
+ "prep": {
+  "voice": "kokoro|bf_emma",
+  "voice_settings": {
+   "speed": 1.0
+  },
+  "pad_bpm": 76,
+  "audition": {
+   "lines": [
+    0,
+    1,
+    7
+   ],
+   "voices": [
+    "kokoro|bf_emma",
+    "kokoro|bm_george",
+    "chatterbox"
+   ]
+  },
+  "vo": [
+   {
+    "text": "A city of palaces, churches and bell towers, standing in the middle of the sea. Here is the strange part. Underneath it, there is almost no solid ground."
+   },
+   {
+    "text": "Why Venice Sinks."
+   },
+   {
+    "text": "About fifteen hundred years ago, people running from war hid on small muddy islands in a lagoon: a shallow bay, protected from the sea by a long strip of sand."
+   },
+   {
+    "text": "Mud is a terrible place to build. Put a stone house on it, and the house slowly sinks, like a spoon in pudding."
+   },
+   {
+    "text": "So the Venetians did something clever. They hammered wooden poles straight down into the mud. Millions of them."
+   },
+   {
+    "text": "Each pole was a tree trunk, sharpened at the end, of oak, alder or pine. They packed them tight, side by side, all the way down to a harder layer of clay."
+   },
+   {
+    "text": "On top of the poles they laid thick wooden boards. On the boards, waterproof white stone. And only then, the walls."
+   },
+   {
+    "text": "One church alone, Santa Maria della Sa-lootay, stands on more than a million of these poles.",
+    "script": "One church alone, Santa Maria della Salute, stands on more than a million of these poles.",
+    "why": "spoken spelling so the free voice says sa-LOO-tay, not the English word salute"
+   },
+   {
+    "text": "But wait. Wood in water rots, right? Not down there. Deep in the mud there is almost no air, and the tiny creatures that eat wood need air to live."
+   },
+   {
+    "text": "So for hundreds of years the poles have stayed strong, and minerals in the water have soaked into them and made them even harder."
+   },
+   {
+    "text": "So why is Venice sinking? Two reasons. First, the mud under the city is still being squeezed, very slowly, by everything standing on top of it."
+   },
+   {
+    "text": "Second, the sea is rising. A little more water every year, a slightly lower city."
+   },
+   {
+    "text": "In the last century, factories nearby made it worse. They pumped water up from under the ground, the mud squeezed down, and the city dropped faster. Then the pumping was stopped."
+   },
+   {
+    "text": "Today, on the worst days, the sea pours into the squares, and people walk to work on raised wooden walkways."
+   },
+   {
+    "text": "So Venice built a wall that hides under the sea. Seventy-eight giant gates lie on the seabed at the three openings of the lagoon. When a big tide comes, air is pumped in, and they float up to hold the sea back."
+   },
+   {
+    "text": "They rose for real for the first time in October twenty twenty. The squares stayed dry.",
+    "script": "They rose for real for the first time in October 2020. The squares stayed dry.",
+    "why": "spoken spelling: twenty twenty, not two thousand and twenty"
+   },
+   {
+    "text": "A city standing on an upside down forest, in the middle of the sea, for fifteen hundred years. Just keep your feet dry."
+   }
+  ],
+  "music": {
+   "engine": "procedural"
+  },
+  "score": {
+   "_": "Venetian colour: harp and pizzicato strings, a solo flute, soft string pads; D dorian; light frame drum only when the city sinks; one swell as the MOSE gates rise (l14), a dry-square lift (l15), dusk resolve (l16).",
+   "palette": "early_modern_europe",
+   "key": "D",
+   "mode": "dorian",
+   "tempo": 72,
+   "solo": "flute",
+   "drums": "frame",
+   "plan_line": "l04",
+   "battle_line": "l12",
+   "turn_line": "l14",
+   "result_line": "l15",
+   "result_mood": "triumph",
+   "epilogue_line": "l16",
+   "extra": [
+    {
+     "line": "l08",
+     "mood": "curious",
+     "intensity": 0.36
+    },
+    {
+     "line": "l10",
+     "mood": "curious",
+     "intensity": 0.5
+    }
+   ],
+   "swell_len": 9
+  }
+ }
+}
