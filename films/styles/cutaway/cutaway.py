@@ -70,8 +70,8 @@ def srgb(c):
 # =============================================================================================== palettes
 # Strata: list of layers from the top down: (name, thickness m, sRGB colour, pebble density 0..1). The last layer fills the rest.
 STRATA = {
-    'meadow': [('topsoil', 0.07, (0.19, 0.13, 0.08), 0.05), ('sand', 0.16, (0.80, 0.68, 0.50), 0.10), ('clay', 0.20, (0.66, 0.62, 0.56), 0.02),
-               ('loam', 0.30, (0.48, 0.33, 0.21), 0.25), ('gravel', 0.14, (0.58, 0.51, 0.43), 0.85), ('deep', 1.0, (0.33, 0.25, 0.19), 0.30)],
+    'meadow': [('topsoil', 0.07, (0.30, 0.20, 0.12), 0.05), ('sand', 0.16, (0.74, 0.60, 0.42), 0.10), ('clay', 0.20, (0.58, 0.53, 0.47), 0.03),
+               ('loam', 0.30, (0.45, 0.30, 0.19), 0.25), ('gravel', 0.14, (0.55, 0.47, 0.38), 0.85), ('deep', 1.0, (0.31, 0.23, 0.17), 0.30)],
     'red': [('topsoil', 0.06, (0.22, 0.14, 0.09), 0.05), ('ochre', 0.18, (0.66, 0.42, 0.26), 0.12), ('pale', 0.08, (0.80, 0.66, 0.50), 0.05),
             ('rust', 0.28, (0.52, 0.30, 0.19), 0.30), ('band', 0.06, (0.70, 0.52, 0.36), 0.10), ('deep', 1.0, (0.40, 0.25, 0.17), 0.25)],
     'limestone': [('topsoil', 0.05, (0.24, 0.17, 0.11), 0.05), ('chalk', 0.22, (0.86, 0.82, 0.72), 0.06), ('marl', 0.18, (0.66, 0.58, 0.46), 0.15),
@@ -432,7 +432,7 @@ def mat_strata(kit, layers, seed=0, level=None):
         wt = g.math('MULTIPLY', g.math('SUBTRACT', level - 0.04, g.math('ADD', sx[2], g.math('MULTIPLY', wob.outputs['Fac'], 0.06))), 8.0, clamp=True)
         col = g.mix(g.math('MULTIPLY', wt, 0.38), col, g.mix(1.0, col, srgb((0.55, 0.58, 0.62)), 'MULTIPLY'))
     top_dark = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', dtop, 30.0), clamp=True)
-    col = g.mix(g.math('MULTIPLY', top_dark, 0.5), col, srgb((0.10, 0.08, 0.05)))
+    col = g.mix(g.math('MULTIPLY', top_dark, 0.35), col, srgb((0.16, 0.11, 0.07)))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.92})
     h = g.math('ADD', g.math('MULTIPLY', n1.outputs['Fac'], 0.3), g.math('ADD', g.math('MULTIPLY', peb, 0.8), g.math('MULTIPLY', root, 0.4)))
     b = g.node('ShaderNodeBump', ins={'Strength': 0.45, 'Height': h, 'Distance': 0.006}); g.put(p, 'Normal', b)
@@ -821,7 +821,7 @@ def proto_trees(kit, pal, kinds=('round', 'cone', 'tall'), per_kind=3, seed=0, h
             obs.append(A.build(bpy, f'cw_tree_{kind}{v}', [birch if (kind == 'tall' and v % 2) else bark, leaf], True, None))
     return obs
 
-def proto_weed(kit, n=4, seed=0, height=0.14, colors=((0.20, 0.42, 0.14), (0.36, 0.48, 0.12), (0.16, 0.34, 0.20))):
+def proto_weed(kit, n=4, seed=0, height=0.14, colors=((0.30, 0.56, 0.18), (0.48, 0.60, 0.16), (0.26, 0.50, 0.30))):
     bpy = kit.bpy; rng = np.random.default_rng(seed + 13); obs = []
     mat = mat_varied(kit, 'cw_weed', list(colors), rough=0.5, translucent=0.35, bump=0.0)
     for k in range(n):
@@ -1000,8 +1000,9 @@ def house(kit, L, x, y, w=0.16, d=0.12, h=0.10, roof=0.07, yaw=0.0, wall=(0.92, 
         lo = bpy.data.objects.new(name + '_glow', ld); kit.coll.objects.link(lo); lo.location = (ob.location.x + 0.13 * math.cos(yaw), ob.location.y + 0.13 * math.sin(yaw), ob.location.z + h * 0.6)
     return ob
 
-def mill(kit, L, x, y, yaw=0.0, wheel_r=0.09, rpm=6.0, lit=0.0, name='cw_mill'):
-    """A watermill: a house plus a paddle wheel on its +X side that turns with time (rpm, looping-safe)."""
+def mill(kit, L, x, y, yaw=0.0, wheel_r=0.09, rpm=6.0, lit=0.0, wheel_off=0.2, name='cw_mill'):
+    """A watermill: a house plus a paddle wheel `wheel_off` m out along its yaw direction (put that on the water), turning
+    with time (rpm, looping-safe)."""
     bpy = kit.bpy; hs = house(kit, L, x, y, 0.18, 0.13, 0.13, 0.08, yaw, (0.82, 0.74, 0.62), (0.40, 0.24, 0.16), lit, True, name)
     A = _Acc(); wood = mat_simple(kit, 'cw_millwood', (0.36, 0.24, 0.15), 0.8, noise_amt=0.3)
     for side in (-1, 1):
@@ -1014,7 +1015,7 @@ def mill(kit, L, x, y, yaw=0.0, wheel_r=0.09, rpm=6.0, lit=0.0, name='cw_mill'):
         A.add([(p[0] * c - p[2] * s, p[1], p[0] * s + p[2] * c) for p in v], f)
     v, f = _tube([(0, -0.05, 0), (0, 0.05, 0)], [0.008, 0.008], 8); A.add(v, f)
     wh = A.build(bpy, name + '_wheel', [wood], False, kit.coll)
-    off = 0.09 + 0.03; wh.location = (hs.location.x + off * math.cos(yaw), hs.location.y + off * math.sin(yaw), (L.level if L.level is not None else hs.location.z) + wheel_r * 0.55)
+    off = wheel_off; wh.location = (hs.location.x + off * math.cos(yaw), hs.location.y + off * math.sin(yaw), (L.level if L.level is not None else hs.location.z) + wheel_r * 0.55)
     wh.rotation_euler = (0, 0, yaw + math.pi / 2)
     @kit.on_frame
     def _spin(t): wh.rotation_euler = (kit.cycles(t, rpm / 60.0), 0, yaw + math.pi / 2)
@@ -1120,11 +1121,19 @@ def sky(kit, top=(0.58, 0.68, 0.80), horizon=(0.80, 0.84, 0.89), sun_az=-120.0, 
             for at in ('visible_diffuse', 'visible_glossy', 'visible_shadow', 'visible_transmission'): setattr(ob, at, False)
     cloud_shadows(kit, 0.35)
 
-def dusk(kit, top=(0.16, 0.20, 0.36), horizon=(0.86, 0.56, 0.40), floor=(0.30, 0.28, 0.34), sun_az=-150.0, sun_el=9.0, sun=2.2, land=None):
+def dusk(kit, top=(0.16, 0.20, 0.36), horizon=(0.80, 0.52, 0.42), floor=(0.40, 0.34, 0.44), sun_az=-150.0, sun_el=9.0, sun=2.2, land=None):
     """Dusk studio: a deep blue-to-amber gradient, a low warm sun, a cool fill, a dark seamless floor."""
     mat_gradient_bg(kit, top, horizon, 1.0, (0.45, 0.55, 0.95), 0.55)
     _sun(kit, sun_az, sun_el, sun, 3.0, (1.0, 0.62, 0.36))
-    fz = -land.depth if land else -1.4; _plane(kit, 'cw_floor', 40, fz - 0.0005, mat_simple(kit, 'cw_floor', floor, 0.9))
+    fz = -land.depth if land else -1.4; _plane(kit, 'cw_floor', 40, fz - 0.0005, mat_backdrop(kit, 'cw_floor', top, horizon, floor))
+
+def mat_backdrop(kit, name, top, horizon, floor, glow=0.35):
+    """A seamless floor that reads as a dusk backdrop: screen-space gradient (amber glow up the frame, deep blue at the
+    bottom) as a faint emission over a matte surface that still takes the block's shadow."""
+    m = _new_mat(kit.bpy, name); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); wy = g.sep(tc.outputs['Window'])[1]
+    col = g.ramp(wy, [(0.0, tuple(c * 0.55 for c in top)), (0.55, floor), (1.0, horizon)])
+    p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.9})
+    g.put(p, 'Emission Color', col); g.put(p, 'Emission Strength', glow); _finish(g, p); return m
 
 def birds(kit, n=4, center=(0.0, 0.0), radius=2.4, height=1.4, seed=5, size=0.04, color=(0.10, 0.10, 0.11)):
     """A few birds gliding on loose circles above the block, flapping in bursts. Loop-safe."""

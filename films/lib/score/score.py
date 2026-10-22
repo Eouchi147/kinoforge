@@ -130,7 +130,7 @@ class Composer:
                     sl = p['swell_len']; ts = max(last[0] + 0.5, s['t'] - sl)
                     add(ts, prev); add(ts + sl * 0.5, prev + (v0 - prev) * 0.22); add(ts + sl * 0.82, prev + (v0 - prev) * 0.62)
                     add(s['t'] + 0.6, v0); hold = min(s['t1'] - 0.5, s['t'] + 3.0); add(hold, v0); hold_until = hold
-                    if s['t1'] - hold > 9: add(hold + 6.0, v1 + (v0 - v1) * 0.35)        # the peak is brief: most of the drop comes at once
+                    if s['t1'] - hold > 6: add(min(hold + 8.0, s['t1'] - 1.0), v1)           # the peak is brief: it settles within ~8 s
                 else:
                     r = p['settle'] if p['sections'][i - 1]['mood'] == 'turn' else 4.0
                     a = max(s['t'] - r / 2 if p['sections'][i - 1]['mood'] != 'turn' else s['t'], hold_until)
@@ -384,7 +384,7 @@ class Composer:
                 glide = pal['glide'] if (k == 0 and rng.random() < 0.45) else 0.0
                 events.append((ts + o + float(rng.normal(0, 0.025)), int(m), float(d), vel, inst_name, glide))
             first = False
-            t = ts + plen + float(rng.uniform(*M['rest']))
+            t = ts + plen + float(rng.uniform(*M['rest'])) * (1 + (0.8 if mood == 'turn' else 0) * (1 - cur(self.curves['I'], ts)))
         # the last phrase: falls home to the tonic and rests there
         notes, base = self.scale_idx_walk(int(np.clip(pal['centre'] - 2, 56, 80)))
         fin = [base + 3, base + 2, base + 1, base]
@@ -466,7 +466,7 @@ class Composer:
                 dirn = -dirn; t = ts + k * sp + float(rng.uniform(*M['pluck']))
             elif mood == 'tension':
                 tn_low = tones(ch, 43, 57); tn_mid = tones(ch, 55, 72)
-                bar = 4 * beat; ev_t = grid0 + np.ceil((t - grid0) / bar - 1e-6) * bar; vel_b = 0.34 + 0.22 * I   # on the drums' bar line
+                bar = 4 * beat; ev_t = grid0 + np.ceil((t - grid0) / bar - 1e-6) * bar; vel_b = 0.26 + 0.16 * I   # on the drums' bar line
                 for q in range(4):                                                      # one bar: the ostinato rides the drum pulse
                     tq = ev_t + q * beat
                     root = tn_low[0] if q % 2 == 0 else tn_low[min(len(tn_low) - 1, 2)]
@@ -480,7 +480,7 @@ class Composer:
                     for j in range(k): ev.append((max(s['t'] - 0.1, 0) + j * sp, tn[min(len(tn) - 1, 2 + j)], 4.5, 0.42 + 0.05 * j / k, which))
                     t = max(t, s['t'] + 0.9)
                 for j in range(3): ev.append((t + j * beat * .5 + float(rng.normal(0, 0.012)), tn[min(len(tn) - 1, 3 + int(rng.integers(0, 6)))], 3.5, 0.34 + 0.12 * rng.random(), which))
-                t += float(rng.uniform(1.0, 1.6)) + beat
+                t += (float(rng.uniform(1.0, 1.6)) + beat) * (1 + 1.5 * (1 - I))                 # thins out as the peak passes
             else:  # triumph: flowing arpeggios
                 tn = tones(ch, 52, 84); k = int(rng.integers(4, 7)); sp = float(rng.uniform(0.28, 0.42)); i0 = int(rng.integers(0, max(1, len(tn) - 6)))
                 for j in range(k):
@@ -493,7 +493,7 @@ class Composer:
         pan0 = pal['pluck_pan']
         for (t, m, ring, vel, which) in sorted(ev):
             if t < 0 or t > D - 0.5: continue
-            x = self.pluck_note(int(m), ring, float(vel), rng, which)
+            x = self.pluck_note(int(m), ring, float(vel) * (0.6 + 0.4 * cur(self.curves['I'], t)), rng, which)
             vel_h = 1 + float(rng.normal(0, 0.05))
             bus.add(x, t, vel_h, pan=pan0 + 0.35 * np.sin(t * 0.21))
         self.pluck = bus
@@ -559,7 +559,7 @@ class Composer:
         tt = np.arange(n) / SR
         I_s = np.interp(tt * CR, np.arange(len(I)), I).astype(np.float32); B_s = np.interp(tt * CR, np.arange(len(B)), B).astype(np.float32)
         # strings: gain follows intensity (about 14 dB between calm and the peak of the swell); brightness opens with it
-        g = 10 ** (-14.0 * (1 - I_s) ** 1.1 / 20.0)
+        g = 10 ** ((-15.0 * (1 - I_s) ** 1.1 + 2.0 * dsp.smoothstep(I_s, 0.8, 1.0)) / 20.0)
         body = (self.strings.buf + self.synth_pad.buf)
         dark = dsp.lowpass(body, 1500, 2, axis=0); mid = dsp.lowpass(body, 3600, 2, axis=0); bright = dsp.lowpass(body, 9500, 2, axis=0)
         w_d = np.clip(1 - 2 * B_s, 0, 1); w_b = np.clip(2 * B_s - 1, 0, 1); w_m = 1 - w_d - w_b

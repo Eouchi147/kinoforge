@@ -1,0 +1,22 @@
+{
+ "palette": "early_modern_europe",
+ "key": "F",
+ "mode": "ionian",
+ "tempo": 84,
+ "duration": 15.0,
+ "seed": 3,
+ "solo": "flute",
+ "drums": "frame",
+ "sections": [
+  {"t": 0.0, "mood": "calm", "intensity": 0.32},
+  {"t": 3.0, "mood": "curious"},
+  {"t": 6.5, "mood": "turn"}
+ ],
+ "hits": [
+  {"t": 6.5, "kind": "swell", "level": 0.6},
+  {"t": 11.5, "kind": "chime", "level": 0.7}
+ ],
+ "swell_len": 3.0,
+ "settle": 4.0,
+ "end_fade": 1.6
+}

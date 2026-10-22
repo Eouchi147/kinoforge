@@ -11,7 +11,8 @@ def look_a(bpy, kit, aspect='16:9'):
                     top=cw.rolling(amp=0.10, freq=0.32, seed=4, base=0.02),
                     water=[cw.river(RIVER, width=0.72, depth=0.34, level=-0.05, shelf=0.22)],
                     trees=16, tree_kinds=('round', 'round', 'cone'), boulders=14, flowers=0.6, lilies=22, reeds=0.5)
-    cw.studio(kit, color=(0.94, 0.935, 0.925), key_az=-150, key_el=50, key=3.4, angle=6, fill=0.95, land=land)
+    cw.studio(kit, color=(0.94, 0.935, 0.925), key_az=-150, key_el=50, key=3.4, angle=6, fill=0.95, land=land, shadows=0.22)
+    cw.birds(kit, 3, center=(0.3, 0.5), radius=2.0, height=1.2)
     cam = cw.camera(kit, land, aspect, az=-42, el=33 if aspect == '16:9' else 38, lens=60, fill=0.84 if aspect == '16:9' else 0.92)
     return {'land': land, 'cam': cam, 'look': 'AgX - Base Contrast', 'exposure': 0.25}
 
@@ -45,8 +46,8 @@ def look_c(bpy, kit, aspect='16:9'):
 def look_d(bpy, kit, aspect='16:9'):
     """D, Mill at dusk: the river block at dusk with a little village, a turning watermill, a bridge and lamps."""
     houses = [(-1.15, -0.55, 0.3), (-1.45, 0.25, -0.2), (-0.95, 0.85, 0.5), (1.25, 0.9, 1.2), (1.45, 0.1, 1.6), (-1.6, -1.25, 0.0)]
-    mill_at = (0.95, -0.75)
-    clear = [(x, y, 0.16) for x, y, _ in houses] + [(mill_at[0], mill_at[1], 0.2)]
+    mill_at = (0.74, -0.80)
+    clear = [(x, y, 0.2) for x, y, _ in houses] + [(mill_at[0], mill_at[1], 0.24)]
     def zones(x, y, h):
         # a dirt lane from the bridge through the village
         P = np.array([(-1.8, -1.6), (-1.2, -0.9), (-0.7, -0.15), (-0.25, 0.25), (0.75, 0.3), (1.6, 0.45)]); d = np.full(np.shape(x), 9.0)
@@ -58,16 +59,16 @@ def look_d(bpy, kit, aspect='16:9'):
                     water=[cw.river(RIVER, width=0.72, depth=0.34, level=-0.05, shelf=0.22)], zones=zones, keep_clear=clear,
                     trees=11, tree_kinds=('round', 'cone', 'cone'), boulders=10, flowers=0.3, lilies=10, reeds=0.5,
                     water_density=2.8)
-    cw.dusk(kit, land=land, sun_az=-160, sun_el=10, sun=2.4)
+    cw.dusk(kit, land=land, sun_az=-165, sun_el=12, sun=3.0)
     for k, (x, y, yaw) in enumerate(houses):
-        cw.house(kit, land, x, y, yaw=yaw, lit=1.0, roof_col=[(0.55, 0.22, 0.14), (0.30, 0.30, 0.34), (0.48, 0.28, 0.18)][k % 3], name=f'cw_house{k}')
-    cw.mill(kit, land, mill_at[0], mill_at[1], yaw=math.pi, lit=1.0)
+        cw.house(kit, land, x, y, w=0.21, d=0.15, h=0.13, roof=0.09, yaw=yaw, lit=1.5, roof_col=[(0.55, 0.22, 0.14), (0.30, 0.30, 0.34), (0.48, 0.28, 0.18)][k % 3], name=f'cw_house{k}')
+    cw.mill(kit, land, mill_at[0], mill_at[1], yaw=math.pi, lit=1.5, wheel_r=0.11, wheel_off=0.21)
     cw.bridge(kit, land, (-0.25, 0.25), (0.75, 0.30), width=0.09, arch=0.06)
     for k, (x, y) in enumerate([(-0.85, -0.35), (-0.35, 0.12), (0.88, 0.18), (-1.3, -1.0)]):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
     cw.birds(kit, 3, center=(0.4, 0.6), radius=2.0, height=1.1)
     cam = cw.camera(kit, land, aspect, az=-40, el=31 if aspect == '16:9' else 37, lens=60, fill=0.84 if aspect == '16:9' else 0.92)
-    return {'land': land, 'cam': cam, 'look': 'AgX - Medium High Contrast', 'exposure': 0.35}
+    return {'land': land, 'cam': cam, 'look': 'AgX - Medium High Contrast', 'exposure': 0.9}
 
 LOOKS = {'A': look_a, 'B': look_b, 'C': look_c, 'D': look_d}
 NAMES = {'A': 'studio-block', 'B': 'floating-island', 'C': 'lagoon-cut', 'D': 'mill-at-dusk'}
