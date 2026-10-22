@@ -1,5 +1,5 @@
 // p03 scene-local helpers: multiplane placement, relightable paint material, glow sprites, fine-brush detail pass.
-// (Kept out of harness/kit on purpose — scene-local per the author brief.)
+// (Kept out of harness/kit on purpose, scene-local per the author brief.)
 import * as THREE from 'three';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 

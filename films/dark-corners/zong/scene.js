@@ -57,7 +57,7 @@ await boot({
       bloom: { strength: 0.5, radius: 0.42, threshold: 0.8 }, grade: 'painterly', overlayAfterFinish: true,
       finish: { saturation: 1.1, contrast: 1.04, shadowTint: [-0.008, 0.0, 0.035], highlightTint: [0.05, 0.022, -0.02], halation: 0.25, grain: 0.035, vignette: 0.35 },
     });
-    post.finish.kuwaharaRadius.value = +(ctx.q.get('kr') || 3);
+    post.finish.kuwaharaRadius.value = +(ctx.q.get('kr') || 2);
     detail = makeDetailPass(post, W, H);
     window.__zong = { SHOTS, cache };
   },
@@ -72,7 +72,7 @@ await boot({
     detail.pass.uniforms.useDetail.value = useDetail; detail.sync(t);
     // ---- words on screen (crisp, after the finish pass)
     { let ca = 0; for (const c of CAPS) ca = Math.max(ca, smoothstep(c.in, c.in + 0.22, t) * (1 - smoothstep(c.out - 0.28, c.out, t)));
-      const sk = sh.set && sh.set.startsWith('doc:') ? 0.62 : (sh.set.startsWith('lantern:') ? 0.5 : 0.28); if (ca > 0.002) { const y0 = 0.70 * H, gr = oc.createLinearGradient(0, y0, 0, H); gr.addColorStop(0, 'rgba(4,4,12,0)'); gr.addColorStop(0.55, `rgba(4,4,12,${(sk * ca).toFixed(3)})`); gr.addColorStop(1, `rgba(4,4,12,${(sk * ca).toFixed(3)})`); oc.fillStyle = gr; oc.fillRect(0, y0, W, H - y0); } }
+      const sk = sh.set && sh.set.startsWith('doc:') ? 0.62 : (sh.set?.startsWith('lantern:') ? 0.5 : 0.28); if (ca > 0.002) { const y0 = 0.70 * H, gr = oc.createLinearGradient(0, y0, 0, H); gr.addColorStop(0, 'rgba(4,4,12,0)'); gr.addColorStop(0.55, `rgba(4,4,12,${(sk * ca).toFixed(3)})`); gr.addColorStop(1, `rgba(4,4,12,${(sk * ca).toFixed(3)})`); oc.fillStyle = gr; oc.fillRect(0, y0, W, H - y0); } }
     for (const c of CAPS) { const a = smoothstep(c.in, c.in + 0.22, t) * (1 - smoothstep(c.out - 0.28, c.out, t)); if (a > 0.002) drawCaption(oc, c.text, a); }
     for (const l of LABELS) { const a = smoothstep(l.in, l.in + 0.7, t) * (1 - smoothstep(l.out - 0.7, l.out, t)); if (a > 0.002) drawLabel(oc, l.lines, a, l.y); }
     if (sh.words) for (const w of sh.words(t)) { if (w.a > 0.002) drawText(oc, w.text, { x: W / 2, y: w.y * H, font: w.sub ? `italic 400 ${Math.round(w.px * SC)}px "Cormorant Garamond"` : `500 ${Math.round(w.px * SC)}px "Cinzel"`, color: w.col || '#eadfc6', alpha: w.a, spacing: (w.sub ? 1.2 : 8) * SC, shadow: 14 * SC, shadowColor: 'rgba(3,3,12,0.9)' }); }
