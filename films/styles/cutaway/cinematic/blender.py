@@ -67,7 +67,7 @@ def build(bpy, ctx):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
 
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.9, amb=0.24)
-    atmos, fog_gain = ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), ceiling=float(os.environ.get('EX_CEIL', 1.1)), spill=0.3, aniso=0.7)
+    atmos, fog_gain = ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.0)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), ceiling=float(os.environ.get('EX_CEIL', 0.25)), spill=0.3, aniso=0.7)
     ex.gobo(kit, land, rig['sun_dir'])
     # the hero tree: the big round tree by the mill sits right in front of the sun from the hero camera (rays round its crown)
     T = np.asarray(land.trees); k = int(np.argmin(np.hypot(T[:, 0] - 1.33, T[:, 1] + 0.88))); gz = float(land.height(T[k:k + 1, 0], T[k:k + 1, 1])[0])

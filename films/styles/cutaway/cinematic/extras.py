@@ -171,7 +171,10 @@ def atmosphere(kit, land, haze=0.10, fog=2.4, fog_top=0.11, mist=1.0, spill=0.5,
     # distance outside the footprint -> fade
     ox = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', px), sx / 2), 0.0)
     oy = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', py), sy / 2), 0.0)
-    out = g.math('MAXIMUM', ox, oy); edge = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', out, 1.0 / spill), clamp=True)
+    out = g.math('MAXIMUM', ox, oy)
+    ix = g.math('SUBTRACT', g.math('ABSOLUTE', px), sx / 2); iy = g.math('SUBTRACT', g.math('ABSOLUTE', py), sy / 2)
+    sdd = g.math('MAXIMUM', ix, iy)        # signed distance to the footprint edge (negative inside)
+    edge = g.math('POWER', g.math('DIVIDE', g.math('SUBTRACT', spill, sdd), spill + 0.6), 1.0); edge = g.math('MINIMUM', g.math('MAXIMUM', edge, 0.0), 1.0)
     hfall = g.math('EXPONENT', g.math('MULTIPLY', g.math('MAXIMUM', pz, 0.0), -1.4))
     # drifting noise
     drift = g.comb(g.math('MULTIPLY', tv, -wind[0]), g.math('MULTIPLY', tv, -wind[1]), 0.0)
