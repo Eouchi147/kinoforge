@@ -1,4 +1,17 @@
-# Status (updated 22 Oct 2026, 03:10 UTC)
+# Status (updated 22 Oct 2026, 14:00 UTC)
+
+## Rework after Sam's verdicts (22 Oct, 09:20 Toronto): in progress
+- **Spend nothing.** Free models and free tools only. The paid director test job (battle-of-tours) was cancelled after
+  US$0.36. The studio key shows $0 left; the director chat runs on a free model.
+- The verdicts and the house rules are in `films/director/CRAFT.md` (read before any film work); lessons in `LESSONS.md`.
+- Running (agents, nothing rendered yet):
+  - free procedural score engine (`films/lib/score/`, CC0 VSCO-2 samples plus synthesis, Age of Empires / Anno feel) and the 8 battles re-scored with it (narration kept);
+  - Battle Map engine v2 (no emoji, refined heraldic graphics, legend panel, formations that never overlap, planned camera per scene, living world) with Cannae as the reference film; the 7 other battles follow on v2;
+  - Kleidion re-directed (about 25 shots instead of 64, no sped-up opening, fuller worlds);
+  - Arabia re-directed (pin-hole star sky, scene-based cuts, fuller tabletop world, paper-and-clay graphics);
+  - Bamberg polished (every effect with a job, 6 to 9 movements);
+  - director pipeline made free-only (free model seats, free narration, procedural music hook).
+- Next: re-render on GitHub runners (free), new stories through the free director, one render home for the studio.
 
 ## Web studio (22 Oct, studio-web/)
 - Reworked: `/api/media` streams release assets (allow-list: rc-render `kino-films`, kinoforge `films` and `gallery`; Range forwarded, no token) so previews play and seek; the old pilot clips in `studio-web/public/media/` are now committed (`.gitignore` exception) and deploy.
