@@ -2,9 +2,9 @@
  "id": "battle-of-tours",
  "title": "The Battle of Tours",
  "line": "battle-map",
- "stage": "sound",
- "state": "done",
- "message": "10 lines on the score, 100.4 s, voice elevenlabs/eleven-v4|brian.",
+ "stage": "spec",
+ "state": "running",
+ "message": "Two coders are drafting the picture: xiaomi/mimo-v2.6-pro, z-ai/glm-5.3.",
  "usd": 0.3618,
  "cap_usd": 0.9,
  "outputs": {
@@ -24,9 +24,14 @@
    "started_at": "2026-10-22T13:12:00Z",
    "usd": 0.3618,
    "ended_at": "2026-10-22T13:13:24Z"
+  },
+  "spec": {
+   "state": "running",
+   "started_at": "2026-10-22T13:13:28Z",
+   "usd": 0.3618
   }
  },
  "approved_at": "2026-10-22T13:15:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39784277702",
- "updated_at": "2026-10-22T13:13:24Z"
+ "updated_at": "2026-10-22T13:13:28Z"
 }
