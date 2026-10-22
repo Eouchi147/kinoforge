@@ -9,7 +9,7 @@
   - Battle Map engine v2 (no emoji, refined heraldic graphics, legend panel, formations that never overlap, planned camera per scene, living world) with Cannae as the reference film; the 7 other battles follow on v2;
   - Kleidion re-directed (about 25 shots instead of 64, no sped-up opening, fuller worlds);
   - Arabia re-directed (pin-hole star sky, scene-based cuts, fuller tabletop world, paper-and-clay graphics);
-  - Bamberg polished (every effect with a job, 6 to 9 movements);
+  - Bamberg polished (done: eight movements, every effect with a job); re-rendering now on free runners (rc-render run 39790536486);
   - director pipeline made free-only (free model seats, free narration, procedural music hook).
 - Next: re-render on GitHub runners (free), new stories through the free director, one render home for the studio.
 
