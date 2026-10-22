@@ -115,6 +115,8 @@ Check stills (no video; one run in flight per builder, at most 8 frames, because
 ref), frames grouped per runner (`per_job`, default 4), files `<tag>-f<frame>.jpg` in release `stills`; download with
 `bash tools/getstills.sh <tag> <dir>` in rc-render (REST; `gh release download` needs GraphQL, which is blocked in Claude Code sessions).
 
+New sound on a finished film (re-score or re-mix, picture unchanged): rc-render `remux.yml` (inputs film, ref): takes `<id>.mp4` from `kino-films`, lays the folder's current `film.json` audio, republishes `<id>.mp4` and `<id>-preview.mp4`.
+
 ## Film lanes (parked while ads come first)
 
 | Workflow | What | Trigger |
