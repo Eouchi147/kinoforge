@@ -50,6 +50,17 @@ def fbm(x, y, seed=0, octaves=4, freq=1.0, gain=0.5):
         s = s + a * vnoise(x * freq * 2 ** o + 17.1 * o, y * freq * 2 ** o - 9.3 * o, seed + o * 101); n += a; a *= gain
     return s / n
 
+def cells(x, y, cell=0.26, seed=0):
+    """Numpy cellular noise: (distance to the nearest cell edge in metres, random value per cell 0..1)."""
+    gx = np.asarray(x, float) / cell; gy = np.asarray(y, float) / cell; ix = np.floor(gx).astype(np.int64); iy = np.floor(gy).astype(np.int64)
+    b1 = np.full(gx.shape, 9.0); b2 = np.full(gx.shape, 9.0); rid = np.zeros(gx.shape)
+    for dx in (-1, 0, 1):
+        for dy in (-1, 0, 1):
+            cx = ix + dx; cy = iy + dy
+            d = np.hypot(gx - (cx + 0.1 + 0.8 * _h2(cx, cy, seed)), gy - (cy + 0.1 + 0.8 * _h2(cx, cy, seed + 7)))
+            closer = d < b1; b2 = np.where(closer, b1, np.minimum(b2, d)); rid = np.where(closer, _h2(cx, cy, seed + 13), rid); b1 = np.minimum(b1, d)
+    return (b2 - b1) * 0.5 * cell, rid
+
 def rnd(seed, tag):
     return (zlib.crc32(f'{seed}|{tag}'.encode()) & 0xffffffff) / 4294967295.0
 
@@ -361,10 +372,10 @@ def mat_top(kit, land):
     ground = g.mix(g.math('MULTIPLY', n_fine.outputs['Fac'], 0.6), ground, g.mix(0.6, ground, (0, 0, 0), 'MULTIPLY'))
     sand = g.mix(n_fine.outputs['Fac'], srgb((0.72, 0.64, 0.50)), srgb((0.84, 0.78, 0.64)))
     # pale cracked limestone: voronoi plates, dark crack lines, slight colour per plate
-    vo = g.voronoi(pos, 6.0, 'DISTANCE_TO_EDGE'); vc = g.voronoi(pos, 6.0, 'F1')
-    crack = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vo.outputs['Distance'], 22.0), clamp=True)
+    crack = g.math('POWER', g.attr('crack').outputs['Fac'], 0.6)
     vo2 = g.voronoi(pos, 19.0, 'DISTANCE_TO_EDGE'); crack2 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vo2.outputs['Distance'], 30.0), clamp=True)
-    plate = g.mix(g.sep(vc.outputs['Color'])[0], srgb((0.74, 0.71, 0.64)), srgb((0.86, 0.84, 0.78)))
+    crack2 = g.math('MULTIPLY', crack2, g.math('MULTIPLY', g.noise(pos, 3.0, 2.0).outputs['Fac'], 1.2, clamp=True))
+    plate = g.mix(g.attr('plate').outputs['Fac'], srgb((0.72, 0.69, 0.62)), srgb((0.88, 0.86, 0.80)))
     plate = g.mix(g.math('MULTIPLY', n_mid.outputs['Fac'], 0.4), plate, srgb((0.62, 0.60, 0.55)))
     rock = g.mix(g.math('MAXIMUM', crack, g.math('MULTIPLY', crack2, 0.6)), plate, srgb((0.30, 0.28, 0.25)))
     col = g.mix(A['w_sand'], dirt, sand)
@@ -587,6 +598,13 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
                     if k == 'grass': v = v * (1 - F['w_rock']) * (1 - np.clip(F['w_sand'], 0, 1))
                     F['w_' + k] = np.maximum(F['w_' + k], v)
                     if k != 'grass': F['w_grass'] = F['w_grass'] * (1 - v)
+        if np.any(F['w_rock'] > 0):   # raised limestone plates with sunken cracks
+            edge, rid = cells(x, y, 0.27, seed + 5); crack = 1 - smooth(0.0, 0.018, edge)
+            dry = F['w_rock'] * smooth(-0.01, 0.03, F['sd']) if water else F['w_rock']
+            F['h'] = F['h'] + dry * (0.010 + 0.016 * rid - 0.012 * crack); F['plate'] = rid; F['crack'] = crack * F['w_rock']
+            F['depth'] = (level if level is not None else -99) - F['h']
+        else:
+            F['plate'] = np.zeros_like(h); F['crack'] = np.zeros_like(h)
         for (cx, cy, r) in L.keep_clear:
             F['w_grass'] = F['w_grass'] * smooth(r * 0.7, r, np.hypot(x - cx, y - cy))
         return F
@@ -599,7 +617,7 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
     V = np.stack([X.ravel(), Y.ravel(), Hm.ravel()], 1)
     ii = np.arange(nx * ny).reshape(ny, nx)
     Ft = np.stack([ii[:-1, :-1].ravel(), ii[:-1, 1:].ravel(), ii[1:, 1:].ravel(), ii[1:, :-1].ravel()], 1)
-    attrs = {k: ('FLOAT', F[k].ravel()) for k in ('w_grass', 'w_sand', 'w_rock', 'w_path')}
+    attrs = {k: ('FLOAT', F[k].ravel()) for k in ('w_grass', 'w_sand', 'w_rock', 'w_path', 'plate', 'crack')}
     mats = {'top': mat_top(kit, L), 'strata': mat_strata(kit, strata, seed, level), 'bottom': mat_simple(kit, 'cw_bottom', (0.16, 0.12, 0.09), 0.95)}
     L.mats.update(mats)
     top_ob = mk_mesh(bpy, name + '_top', V, Ft, [mats['top']], None, True, kit.coll, attrs)
@@ -928,7 +946,7 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, tree_scale, b
         L.trees = T
     # boulders: some on the banks, some in the grass
     if boulders:
-        rk = proto_rocks(kit, 6, s, moss=0.6 if pal.get('snow', 0) < 0.5 else 0.0, snow=pal.get('snow', 0))
+        rk = proto_rocks(kit, 6, s, moss=0.3 if pal.get('snow', 0) < 0.5 else 0.0, snow=pal.get('snow', 0))
         def okb(p):
             f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] < -0.01
         B = _darts(rng, sx, sy, boulders, 0.12, okb, 0.1)
@@ -936,7 +954,8 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, tree_scale, b
         if L.water:
             q = _jitter_grid(rng, sx, sy, 0.09, 0.08); Fq = L.field(q[:, 0], q[:, 1])
             keep = (np.abs(Fq['sd'] - 0.02) < 0.05) & (rng.uniform(0, 1, len(q)) < 0.5)
-            if keep.any(): scatter(kit, L, 'cw_bankstones', rk, q[keep], scale=rng.uniform(0.03, 0.08, keep.sum()), sink=0.015)
+            rk2 = proto_rocks(kit, 5, s + 9, color=(0.60, 0.58, 0.54), moss=0.0, snow=pal.get('snow', 0), name='cw_bankrock')
+            if keep.any(): scatter(kit, L, 'cw_bankstones', rk2, q[keep], scale=rng.uniform(0.03, 0.08, keep.sum()), sink=0.015)
     if L.water and under:
         q = _jitter_grid(rng, sx, sy, 0.05, 0.03); Fq = L.field(q[:, 0], q[:, 1])
         sel = (Fq['depth'] > 0.06) & (rng.uniform(0, 1, len(q)) < 0.12)
