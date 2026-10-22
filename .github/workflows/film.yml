@@ -98,7 +98,7 @@ jobs:
             echo "KOKORO_DIR=$RUNNER_TEMP/kokoro" >> "$GITHUB_ENV"
           else
             uv pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
-            uv pip install -q chatterbox-tts faster-whisper
+            uv pip install -q chatterbox-tts faster-whisper "setuptools<81"
           fi
           echo "KF_TTS_PYTHON=$RUNNER_TEMP/tts/bin/python" >> "$GITHUB_ENV"
           "$RUNNER_TEMP/tts/bin/python" -c "import faster_whisper; print('tts env ready')"

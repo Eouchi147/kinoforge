@@ -37,7 +37,7 @@ jobs:
           uv venv -q -p 3.11 "$RUNNER_TEMP/tts"
           export VIRTUAL_ENV="$RUNNER_TEMP/tts"
           uv pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
-          uv pip install -q chatterbox-tts faster-whisper
+          uv pip install -q chatterbox-tts faster-whisper "setuptools<81"
           "$RUNNER_TEMP/tts/bin/python" -c "import chatterbox, faster_whisper; print('tts env ready')"
       - name: narrate, place, score, mix
         env: { FILMS: '${{ inputs.films }}' }
