@@ -53,15 +53,15 @@ def span(name):
 
 
 # ============================================================================================ the field
-SX, SY, DEPTH = 4.2, 3.2, 0.9
+SX, SY, DEPTH = 4.2, 3.2, 0.66
 YF = -SY / 2                  # the -Y cut face (the French front file walks on it)
-PER, AMP = 0.085, 0.011       # plough furrows: period along x, half height
+PER, AMP = 0.088, 0.012       # plough furrows: period along x, half height
 LV = -0.0085                  # puddle water level
 RES = 0.012
-SOFT = 0.065                  # soft wet top layer thickness
-STRATA = [('soft mud', SOFT, (0.22, 0.14, 0.08), 0.0), ('wet loam', 0.10, (0.44, 0.29, 0.16), 0.08),
-          ('clay', 0.13, (0.62, 0.48, 0.33), 0.03), ('chalky marl', 0.15, (0.84, 0.77, 0.62), 0.22),
-          ('deep', 1.0, (0.54, 0.40, 0.27), 0.30)]
+SOFT = 0.078                  # soft wet top layer thickness (swallows a boot to the knee)
+STRATA = [('soft mud', SOFT, (0.16, 0.10, 0.06), 0.0), ('wet loam', 0.085, (0.52, 0.34, 0.18), 0.10),
+          ('clay', 0.11, (0.72, 0.56, 0.38), 0.03), ('chalky marl', 0.12, (0.93, 0.88, 0.76), 0.25),
+          ('deep', 1.0, (0.62, 0.47, 0.31), 0.30)]
 FR = {'top': (0.13, 0.33, 0.80), 'trim': (0.98, 0.84, 0.46)}     # Battle Map TEAMS.carthage
 EN = {'top': (0.78, 0.11, 0.12), 'trim': (0.98, 0.84, 0.46)}     # Battle Map TEAMS.rome
 
@@ -82,13 +82,38 @@ def mask(x, y):
 
 def _base(x, y): return 0.009 * cw.fbm(x, y, 7, 3, 0.55) + 0.004 * cw.fbm(x, y, 8, 2, 2.5)
 def _wood(x, y): return 0.022 + 0.008 * cw.fbm(x, y, 11, 3, 2.5)
-def _phase(x, y): return 2 * np.pi * (x + 0.05 * cw.fbm(x * 0.3, y * 0.9, 9, 2, 1.0)) / PER
-def furrow(x, y): return 0.5 + 0.5 * np.cos(_phase(np.asarray(x, float), np.asarray(y, float)))   # 1 crest, 0 trough
+def _phase(x, y):
+    return 2 * np.pi * (x + 0.11 * cw.fbm(x * 0.6, y * 1.3, 9, 3, 1.0) + 0.012 * cw.fbm(x * 4, y * 4, 19, 2, 1.0)) / PER
+def furrow(x, y):   # 1 on the rounded crest, 0 in the trough (crests broad and rounded, troughs narrower: water sits there)
+    return (0.5 + 0.5 * np.cos(_phase(np.asarray(x, float), np.asarray(y, float)))) ** 0.7
+
+
+_HOLES = None
+def _holes():
+    """Boot and hoof holes in the field: (x, y, rx, ry, depth)."""
+    global _HOLES
+    if _HOLES is None:
+        rng = np.random.default_rng(1025); H = []
+        while len(H) < 320:
+            x, y = rng.uniform(-SX / 2 + 0.05, 1.35), rng.uniform(-SY / 2 + 0.03, 0.75)
+            if float(mask(np.array([x]), np.array([y]))[0]) > 0.9:
+                r = rng.uniform(0.009, 0.016); H.append((x, y, r * rng.uniform(1.0, 1.5), r, rng.uniform(0.006, 0.013)))
+        _HOLES = np.array(H)
+    return _HOLES
+
+
+def holes(x, y):
+    out = np.zeros(np.shape(x))
+    for hx, hy, rx, ry, d in _holes():
+        dx = x - hx; dy = y - hy; near = (np.abs(dx) < 4 * rx) & (np.abs(dy) < 4 * ry)
+        if near.any(): out[near] -= d * np.exp(-((dx[near] / rx) ** 2 + (dy[near] / ry) ** 2) ** 1.5)
+    return out
 
 
 def top(x, y):
     x = np.asarray(x, float); y = np.asarray(y, float); m = mask(x, y)
-    fur = AMP * np.cos(_phase(x, y)) * (0.85 + 0.3 * cw.fbm(x, y, 10, 2, 1.5))
+    amp = AMP * (0.55 + 0.9 * (0.5 + 0.5 * cw.fbm(x, y, 10, 2, 1.3)))
+    fur = amp * (2 * furrow(x, y) - 1) + 0.0028 * cw.fbm(x, y, 12, 3, 22.0) + holes(x, y)
     return _base(x, y) + m * fur + (1 - m) * _wood(x, y)
 
 
@@ -224,16 +249,18 @@ def mat_mud(kit, rain):
     fur = g.attr('ag_fur').outputs['Fac']; fld = g.attr('w_path').outputs['Fac']
     n_mid = g.noise(pos, 7.0, 4.0); n_fine = g.noise(pos, 70.0, 4.0); vo = g.voronoi(pos, 85.0, 'F1')
     crest = g.math('POWER', fur, 1.5)
-    mud = g.mix(crest, cw.srgb((0.10, 0.07, 0.045)), cw.srgb((0.30, 0.215, 0.135)))
+    mud = g.mix(crest, cw.srgb((0.075, 0.048, 0.028)), cw.srgb((0.25, 0.165, 0.095)))
     mud = g.mix(g.math('MULTIPLY', n_mid.outputs['Fac'], 0.55), mud, g.mix(0.6, mud, (0.0, 0.0, 0.0), 'MULTIPLY'))
     clod = g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vo.outputs['Distance'], 2.2), clamp=True), crest)
-    mud = g.mix(g.math('MULTIPLY', clod, 0.45), mud, cw.srgb((0.38, 0.29, 0.19)))
+    mud = g.mix(g.math('MULTIPLY', clod, 0.45), mud, cw.srgb((0.33, 0.23, 0.14)))
     floor = g.mix(n_mid.outputs['Fac'], cw.srgb((0.14, 0.11, 0.06)), cw.srgb((0.25, 0.20, 0.10)))
     col = g.mix(fld, floor, mud)
-    wet = 0.10 if rain else 0.16
-    r_mud = g.math('MULTIPLY_ADD', crest, 0.42, wet)
+    wet = 0.07 if rain else 0.12
+    r_mud = g.math('MULTIPLY_ADD', g.math('POWER', crest, 2.0), 0.55, wet)
     rough = g.mix(fld, 0.85, r_mud, dtype='FLOAT')
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': rough})
+    g.put(p, 'Coat Weight', g.math('MULTIPLY', fld, g.math('MULTIPLY', g.math('SUBTRACT', 1.0, crest), 0.5)))
+    g.put(p, 'Coat Roughness', 0.04)
     h = g.math('ADD', g.math('MULTIPLY', n_fine.outputs['Fac'], 0.6), g.math('MULTIPLY', clod, 0.8))
     b = g.node('ShaderNodeBump', ins={'Strength': 0.35, 'Height': h, 'Distance': 0.004}); g.put(p, 'Normal', b)
     _out(g, p); return m
@@ -249,9 +276,9 @@ def patch_strata(kit, mat):
     wet = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('SUBTRACT', sd, edge), 1 / 0.012, clamp=True))
     lk = next(l for l in nt.links if l.to_node == p and l.to_socket.name == 'Base Color'); src = lk.from_socket
     seep = g.noise(g.comb(g.math('MULTIPLY', g.math('ADD', sx[0], sx[1]), 30.0), g.math('MULTIPLY', sd, 4.0), 0.0), 2.0, 2.0)
-    dark = g.mix(g.math('MULTIPLY', wet, 0.65), src, cw.srgb((0.17, 0.105, 0.06)))
+    dark = g.mix(g.math('MULTIPLY', wet, 0.80), src, cw.srgb((0.10, 0.062, 0.035)))
     g.link(dark, p.inputs['Base Color'])
-    g.put(p, 'Roughness', g.math('MULTIPLY_ADD', wet, -0.55, 0.92))
+    g.put(p, 'Roughness', g.math('MULTIPLY_ADD', wet, -0.62, 0.90))
     for n in nt.nodes:   # no roots in a ploughed field: switch off the kit's root lines (the mix toward the root colour)
         if n.bl_idname == 'ShaderNodeMix' and n.data_type == 'RGBA':
             bc = n.inputs['B_Color'] if 'B_Color' in n.inputs else n.inputs[7]
@@ -260,7 +287,7 @@ def patch_strata(kit, mat):
                 for l in list(fs.links): nt.links.remove(l)
                 fs.default_value = 0.0
     try:
-        g.put(p, 'Coat Weight', g.math('MULTIPLY', wet, g.math('MULTIPLY_ADD', seep.outputs['Fac'], 0.35, 0.22)))
+        g.put(p, 'Coat Weight', g.math('MULTIPLY', wet, g.math('MULTIPLY_ADD', seep.outputs['Fac'], 0.45, 0.40)))
         g.put(p, 'Coat Roughness', 0.06)
     except KeyError: pass
 
@@ -290,8 +317,9 @@ def mat_puddle(kit, rain):
 
 def mat_rain(kit):
     m, g = _mat(kit, 'ag_rain')
-    em = g.node('ShaderNodeEmission', ins={'Color': cw.srgb((0.86, 0.89, 0.93)), 'Strength': 1.15})
-    tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader'); g.put(mx, 0, 0.70)
+    em = g.node('ShaderNodeEmission', ins={'Color': cw.srgb((0.86, 0.89, 0.93)), 'Strength': 0.9})
+    tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
+    rv = g.attr('rv').outputs['Fac']; g.link(g.math('ADD', 0.62, g.math('MULTIPLY', g.math('POWER', rv, 0.7), 0.38)), mx.inputs[0])   # head 38 %, tail fades out
     g.link(em, mx.inputs[1]); g.link(tr, mx.inputs[2]); _out(g, mx); return m
 
 
@@ -503,7 +531,7 @@ def clip_front(ob, cutter):
 
 class Rain:
     """Rain streaks over the block (one mesh, camera-facing quads rebuilt every frame from T; loop-free, deterministic)."""
-    def __init__(self, kit, land, n=3800, seed=5, speed=3.4, length=0.085, width=0.0012, top=1.7, wind=(0.55, 0.22)):
+    def __init__(self, kit, land, n=1900, seed=5, speed=3.4, length=0.10, width=0.0008, top=1.7, wind=(0.55, 0.22)):
         bpy = kit.bpy; rng = np.random.default_rng(seed); self.n = n
         self.x0 = rng.uniform(-SX / 2, SX / 2, n); self.y0 = rng.uniform(-SY / 2, SY / 2, n)
         self.sp = speed * rng.uniform(0.85, 1.15, n); self.wind = np.array(wind); self.top = top
@@ -512,6 +540,7 @@ class Rain:
         self.H = top - self.floor; self.off = rng.uniform(0, 1, n); self.len = length * rng.uniform(0.8, 1.2, n); self.w = width
         F = [(4 * k, 4 * k + 1, 4 * k + 2, 4 * k + 3) for k in range(n)]
         me = bpy.data.meshes.new('ag_rain'); me.from_pydata([(0, 0, 0)] * (4 * n), [], F); me.materials.append(mat_rain(kit))
+        at = me.attributes.new('rv', 'FLOAT', 'POINT'); at.data.foreach_set('value', np.tile(np.array([0, 0, 1, 1], np.float32), n))
         self.me = me; self.ob = obj(bpy, kit, 'ag_rain', me)
         for a in ('visible_diffuse', 'visible_glossy', 'visible_shadow', 'visible_transmission', 'visible_volume_scatter'): setattr(self.ob, a, False)
     def update(self, T, cam):
@@ -521,7 +550,7 @@ class Rain:
         view = np.asarray(cam, float)[None, :] - P; side = np.cross(dirv, view); side /= np.linalg.norm(side, axis=1)[:, None] + 1e-9
         dist = np.linalg.norm(view, axis=1); wv = self.w * np.clip(dist / 2.0, 0.5, 2.0)[:, None]
         tail = P - dirv * self.len[:, None]
-        V = np.stack([P - side * wv, P + side * wv, tail + side * wv * 0.4, tail - side * wv * 0.4], 1)
+        V = np.stack([P - side * wv, P + side * wv, tail + side * wv * 0.2, tail - side * wv * 0.2], 1)
         inside = (np.abs(P[:, 0]) < SX / 2) & (np.abs(P[:, 1]) < SY / 2)
         V[~inside] = 0.0
         self.me.vertices.foreach_set('co', V.reshape(-1).astype(np.float32)); self.me.update()
@@ -544,7 +573,27 @@ def build_world(bpy, kit, rain):
     return land, tv
 
 
+def mist(kit, opacity, seed=3):
+    """Low mist lying in the woods: soft noise cards (camera rays only), kept inside the block footprint."""
+    bpy = kit.bpy
+    def card(name, x0, x1, y0, y1, z, op):
+        m, g = _mat(kit, name); tc = g.node('ShaderNodeTexCoord'); u = g.sep(tc.outputs['Generated']); zo, w = g.phase(0.03)
+        ex = g.math('MINIMUM', g.math('MULTIPLY', g.math('MINIMUM', u[0], g.math('SUBTRACT', 1.0, u[0])), 8.0), 1.0)
+        ey = g.math('MINIMUM', g.math('MULTIPLY', g.math('MINIMUM', u[1], g.math('SUBTRACT', 1.0, u[1])), 6.0), 1.0)
+        n = g.noise(g.comb(g.math('MULTIPLY', u[0], (x1 - x0) * 2.5), g.math('MULTIPLY', u[1], (y1 - y0) * 2.5), zo), 1.6, 3.0, 0.55, '4D', w)
+        a = g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.32), 2.4, clamp=True), g.math('MULTIPLY', ex, ey)), op)
+        em = g.node('ShaderNodeEmission', ins={'Color': cw.srgb((0.80, 0.82, 0.84)), 'Strength': 1.0}); tr = g.node('ShaderNodeBsdfTransparent')
+        mx = g.node('ShaderNodeMixShader'); g.link(a, mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(em, mx.inputs[2]); _out(g, mx)
+        V = [(x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z)]
+        ob = cw.mk_mesh(bpy, name, V, [(0, 1, 2, 3)], [m], None, False, kit.coll)
+        for at in ('visible_diffuse', 'visible_glossy', 'visible_shadow', 'visible_transmission', 'visible_volume_scatter'): setattr(ob, at, False)
+    for k, (z, op) in enumerate(((0.10, 1.0), (0.22, 0.75), (0.36, 0.45))):
+        card(f'ag_mist_far{k}', -SX / 2 + 0.01, SX / 2 - 0.01, 0.42, SY / 2 - 0.01, z, opacity * op)
+        card(f'ag_mist_near{k}', -0.65, 1.15, YF + 0.01, -1.05, z, opacity * op)
+
+
 def light(kit, land, mood):
+    cw._sun(kit, -88, 22, 0.55 if mood == 'rain' else 0.7, 30.0, (0.95, 0.93, 0.90), 'ag_facefill')   # lifts the cut faces
     if mood == 'rain':
         cw.studio(kit, color=(0.47, 0.50, 0.53), key_az=-115, key_el=62, key=0.9, angle=35, fill=1.0, land=land)
         cw.mat_gradient_bg(kit, (0.56, 0.59, 0.62), (0.36, 0.38, 0.40), 1.0, (0.90, 0.90, 0.90), 1.25)

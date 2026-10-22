@@ -29,7 +29,7 @@ T_PULL = W('l07', 'Then') - 0.5
 def build(bpy, ctx):
     kit = cw.Kit(bpy, seed=6, loop=0)
     land, tv = am.build_world(bpy, kit, rain=True)
-    am.light(kit, land, 'rain')
+    am.light(kit, land, 'rain'); am.mist(kit, 0.55)
     M = am.materials(kit); cutter = am.make_cutter(bpy, land)
     en = am.English(bpy, kit, M, cutter, 'A')
     rain = am.Rain(kit, land)
@@ -41,7 +41,7 @@ def build(bpy, ctx):
 def shot(T, S):
     if T < CUT:                                          # A1: high, wide, one slow push down
         e = ease((T - T0) / (CUT - T0))
-        return dict(az=-151 + 4 * e, el=46 - 5 * e, dist=S['dfit'] * (1.0 - 0.10 * e), target=(0.10 + 0.20 * e, 0.0, -0.33 + 0.05 * e),
+        return dict(az=-151 + 4 * e, el=44 - 5 * e, dist=S['dfit'] * (0.84 - 0.08 * e), target=(0.22 + 0.18 * e, 0.05, -0.20 + 0.04 * e),
                     lens=50, f=None)
     d = ease((T - CUT) / (T_PULL - CUT))                 # A2: a slow drift while the stakes go in ...
     e = ease((T - T_PULL) / (T1 - T_PULL))               # ... then up and back to the line facing the field

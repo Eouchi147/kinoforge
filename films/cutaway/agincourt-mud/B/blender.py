@@ -26,7 +26,7 @@ CUT = W('l11', 'The') - 0.15
 def build(bpy, ctx):
     kit = cw.Kit(bpy, seed=7, loop=0)
     land, tv = am.build_world(bpy, kit, rain=False)
-    am.light(kit, land, 'after')
+    am.light(kit, land, 'after'); am.mist(kit, 0.28)
     M = am.materials(kit); cutter = am.make_cutter(bpy, land)
     en = am.English(bpy, kit, M, cutter, 'B'); fr = am.French(bpy, kit, M, cutter)
     cw.birds(kit, 4, center=(0.2, 1.1), radius=1.5, height=1.1, size=0.035)
@@ -42,7 +42,7 @@ def shot(T, S):
         e = ease((T - T0) / (CUT - 0.5 - T0)); x = S['xa'] + 0.13 + (S['xb'] + 0.04 - S['xa'] - 0.13) * e
         return dict(az=-91 + 3 * e, el=6.0, dist=1.0, target=(x, YF + 0.02, -0.035), lens=45, f=6.0)
     e = ease((T - CUT) / (T1 - CUT))                     # B2: high behind the English, rising slowly
-    return dict(az=-24 + 4 * e, el=30 + 9 * e, dist=S['dfit'] * (0.86 + 0.04 * e), target=(0.12 + 0.06 * e, 0.02, -0.34), lens=45, f=None)
+    return dict(az=-24 + 4 * e, el=30 + 9 * e, dist=S['dfit'] * (0.86 + 0.04 * e), target=(0.12 + 0.06 * e, 0.02, -0.24), lens=45, f=None)
 
 
 def frame(bpy, ctx, S, i, t):
