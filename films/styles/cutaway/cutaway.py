@@ -798,13 +798,16 @@ def proto_trees(kit, pal, kinds=('round', 'cone', 'tall'), per_kind=3, seed=0, h
         for v in range(per_kind):
             rng = np.random.default_rng(seed * 101 + i); i += 1; A = _Acc(); H = height * rng.uniform(0.85, 1.15)
             lean = rng.uniform(-0.03, 0.03, 2)
-            if kind == 'cone':
+            if kind in ('cone', 'tall'):
+                tall = kind == 'tall'
                 tr = [(0, 0, -0.02), (lean[0] * 0.3, lean[1] * 0.3, H * 0.4), (lean[0], lean[1], H * 0.85)]
                 tv, tf = _tube(catmull(tr, 8), np.linspace(0.018, 0.004, 8) * H / 0.55, 8); A.add(tv, tf, 0)  # trunk
                 nbl = int(30 * min(1.0, dens + 0.15))
                 for s in range(nbl):
-                    u = rng.uniform(0, 1) ** 0.85; R = (0.19 * (1 - u) + 0.02) * H; a = rng.uniform(0, 6.28); rr = R * rng.uniform(0.35, 0.95)
-                    r = (0.075 * (1 - u) + 0.04) * H; zc = H * (0.20 + 0.74 * u)
+                    u = rng.uniform(0, 1) ** 0.85; a = rng.uniform(0, 6.28)
+                    if tall: u = rng.uniform(0, 1); R = 0.11 * H * math.sin(math.pi * min(1, u * 0.9 + 0.08)) ** 0.7; r = 0.055 * H; zc = H * (0.30 + 0.66 * u)
+                    else: R = (0.19 * (1 - u) + 0.02) * H; r = (0.075 * (1 - u) + 0.04) * H; zc = H * (0.20 + 0.74 * u)
+                    rr = R * rng.uniform(0.35, 0.95)
                     c = np.array([lean[0] * (0.3 + u) + rr * math.cos(a), lean[1] * (0.3 + u) + rr * math.sin(a), zc])
                     Vb = _lumpy(V0, seed + i * 7 + s, 0.26, 3.2, 0.12, 9.0) * np.array([r, r, r * 0.7]) + c
                     A.add(Vb, F0, 1)

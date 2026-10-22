@@ -1,7 +1,8 @@
-// The Battle of Agincourt (1415): Battle Map spec. Times come from the cue words (see films/lib/battlemap/SPEC.md).
-// Battlefield: x east, z south, about 1 unit = 5 m. England (red) starts in the south facing north; France (blue) in the north facing south.
-// The two woods squeeze the field in the middle (Agincourt wood west, Tramecourt wood east). The Channel map is a second stage shown full screen
-// for the invasion; the same battlefield is baked twice (dry, then wet and brown) so the mud really arrives with the rain.
+// The Battle of Agincourt (1415): Battle Map v2 spec (engine: films/lib/battlemap/SPEC.md; scene list and reasons: NOTES.md).
+// Battlefield: x east, z south, about 1 unit = 5 m. England (red) in the south facing north; France (blue) in the north facing south.
+// The two woods squeeze the field in the middle (Agincourt wood west, Tramecourt wood east). The Channel map is a second stage; the same
+// battlefield is baked twice (dry, then wet and brown) so the mud arrives with the night's rain. fx.js adds `rain`.
+// Times come from the cue words (never l01: the ASR misspelled it); the line starts never change.
 const ENG = { team: 'rome' }, FRA = { team: 'carthage' };
 
 // ------------------------------------------------------------------ the battlefield
@@ -20,6 +21,16 @@ const fieldWorld = (wet) => ({
     { type: 'woods', poly: woodPoly(-1) }, { type: 'woods', poly: woodPoly(1) },
     { type: 'road', path: [[-30, 270], [-8, 160], [10, 40], [-6, -90], [8, -270]], w: 1.6, meander: 3 },
   ],
+});
+const fieldAmbient = (wet) => ({
+  wind: wet ? [1.4, 0.5] : [1.1, 0.35], gusts: wet ? 0.3 : 0.6,
+  camps: [{ pos: [30, 205], size: [56, 30], team: 'rome', style: 'scatter', tents: 18, fires: 3, people: 12, palisade: false },
+    { pos: [-10, -232], size: [90, 34], team: 'carthage', style: 'grid', fires: 4, people: 16 }],
+  walkers: [{ path: [[-30, 270], [-8, 160], [-2, 130]], n: 3, gap: 5, speed: 1.1, kind: 'light', team: 'neutral', until: 'l07' },
+    { path: [[8, -270], [2, -200]], n: 3, gap: 5, speed: 1.0, kind: 'light', team: 'neutral', offset: 12 }],
+  smoke: [{ pos: [30, 205], n: 8, alpha: 0.14, height: 8 }, { pos: [-10, -232], n: 10, alpha: 0.16, height: 9 },
+    ...(wet ? [{ pos: [0, -48], n: 14, alpha: 0.2, height: 10, at: 'l12' }, { pos: [-40, -60], n: 8, alpha: 0.16, height: 8, at: 'l13' }] : [])],
+  birds: [{ center: [-170, -60], r: 40, h: 26, n: 7, speed: 6 }, { center: [180, 30], r: 36, h: 24, n: 6, speed: 5, dir: -1 }, { path: [[-300, 120], [300, -100]], n: 4, h: 36, speed: 8 }],
 });
 
 // ------------------------------------------------------------------ the Channel map (England, the sea, northern France), 1 unit about 1.2 km
@@ -40,403 +51,281 @@ const channel = {
       { type: 'road', path: [[-48, 70], [-20, 30], [10, 8], [38, -20], [49, -66]], w: 1.4, meander: 4 },
     ],
   },
+  ambient: { wind: [1, 0.3], gusts: 0.4, flow: { dir: [1, 0.15], speed: 0.6, glint: 1.2 },
+    birds: [{ center: [-90, 0], r: 30, h: 20, n: 6, speed: 5 }, { center: [80, -90], r: 26, h: 20, n: 5, speed: 5, dir: -1 }],
+    smoke: [{ pos: [-52, 74], n: 8, alpha: 0.18, height: 7, at: 'l02.captured' }],
+    walkers: [{ path: [[-48, 70], [-20, 30], [10, 8], [38, -20], [49, -66]], n: 4, gap: 5, speed: 1.0, kind: 'light', team: 'neutral' }] },
   blocks: {
-    hen: { ...ENG, kind: 'infantry', x: -128, z: -62, heading: 150, len: 22, dep: 10, height: 4, hidden: true, bannerScale: 1.5 },
-    frBlock: { ...FRA, kind: 'infantry', x: 62, z: -36, heading: 200, len: 40, dep: 14, height: 4, hidden: true, bannerScale: 1.5 },
+    hen: { ...ENG, kind: 'infantry', x: -128, z: -62, heading: 150, len: 20, dep: 9, hidden: true, bannerScale: 1.4, figScale: 1.4 },
+    frBlock: { ...FRA, kind: 'infantry', x: 60, z: -38, heading: 200, len: 36, dep: 12, hidden: true, bannerScale: 1.4, figScale: 1.4 },
+    henT: { ...ENG, kind: 'elite', x: 52, z: 196, heading: 0, len: 14, dep: 8, hidden: true, bannerScale: 1.6, figScale: 1.4 },
   },
   moves: [
-    { block: 'hen', at: 'l02.Henry', dur: 0.9, appear: true, appearFrom: 30 },
-    { block: 'hen', at: 'l02.invaded', dur: 2.1, path: [[-110, -30], [-84, 6], [-60, 40], [-38, 58]], ease: 'inOut' },
-    { block: 'hen', at: 'l02.lot', dur: 1.5, to: { scale: 0.58 }, ease: 'inOut' },
-    { block: 'hen', at: 'l02.very', dur: 1.4, to: { scale: 0.38 }, ease: 'inOut' },
-    { block: 'hen', at: 'l03.march', dur: 4.6, path: [[-30, 42], [4, 14], [26, -2], [42, -12]], ease: 'inOut' },
-    { block: 'frBlock', at: 'l03.French#1', dur: 0.9, appear: true, appearFrom: 30 },
+    { block: 'hen', at: 'l02.Henry', dur: 0.9, appear: true },
+    { block: 'hen', at: 'l02.invaded', dur: 2.4, path: [[-110, -30], [-84, 6], [-60, 40], [-38, 58]], ease: 'cam' },
+    { block: 'hen', at: 'l02.sick.', dur: 1.2, fadeTo: 0.45, alphaTo: 0.9 },
+    { block: 'hen', at: 'l02.Very,', dur: 1.4, fadeTo: 0.75, alphaTo: 0.85 },
+    { block: 'hen', at: 'l03.march', dur: 4.6, path: [[-30, 42], [4, 14], [26, -2], [40, -14]], ease: 'cam' },
+    { block: 'frBlock', at: 'l03.French#1', dur: 0.9, appear: true },
+    { blocks: ['hen', 'frBlock'], at: 'l04', dur: 0.5, vanish: true },
+    { block: 'henT', at: 'l16.marry', dur: 0.9, appear: true },
   ],
   arrows: [
-    { id: 'cross', at: 'l02.invaded', until: 'l02.crown.+0.7', ease: 'inOut', team: 'rome', style: 'dash', width: 2.4, path: [[-128, -58], [-110, -30], [-84, 6], [-60, 40], [-48, 66]], head: true, lift: 4, hide: 'l02.He' },
-    { id: 'march', at: 'l03.march', until: 'l03.home.', ease: 'inOut', team: 'rome', style: 'dash', width: 2.4, path: [[-48, 66], [-30, 42], [4, 14], [28, -4], [50, -24], [58, -52]], head: true, lift: 4, hide: 'l03.The' },
+    { id: 'cross', at: 'l02.invaded', until: 'l02.crown.>', ease: 'cam', team: 'rome', style: 'dash', width: 2.2, path: [[-128, -58], [-110, -30], [-84, 6], [-60, 40], [-48, 62]], lift: 4, hide: 'l02.He' },
+    { at: 'l03.march', until: 'l03.home.>', ease: 'cam', team: 'rome', style: 'dash', width: 2.2, path: [[-40, 60], [-30, 42], [4, 14], [28, -4], [44, -24], [52, -56]], lift: 4, hide: 'l04' },
   ],
   labels: [
-    { at: 'l02.King', until: 'l02.had', text: 'KING HENRY V', pos: [-128, -62], y: 8, team: 'rome', dy: -0.2, dx: -0.04, big: true },
-    { at: 'l02.England', until: 'l02.invaded', text: 'ENGLAND', pos: [-170, -105], leader: false, big: true, team: 'rome' },
-    { at: 'l02.invaded', until: 'l02.to', text: 'THE CHANNEL', pos: [-90, 0], leader: false },
-    { at: 'l02.France', until: 'l02.He', text: 'FRANCE', pos: [34, 110], leader: false, big: true, team: 'carthage' },
-    { at: 'l02.captured', until: 'l02.And', text: 'HARFLEUR', pos: [-52, 74], y: 4, team: 'rome', dy: -0.2, dx: 0.17 },
-    { at: 'l02.port', until: 'l02.And', text: 'PORT CAPTURED', pos: [-52, 74], y: 4, team: 'rome', dy: -0.32, dx: 0.17 },
-    { at: 'l02.sick.', until: 'l02.Very,', text: 'THE ARMY GETS SICK', pos: [-38, 58], y: 6, team: 'rome', dy: -0.22, dx: -0.2 },
-    { at: 'l02.very', until: 'l02.Let\'s', text: 'VERY, VERY SICK', pos: [-38, 58], y: 6, team: 'rome', dy: -0.22, dx: -0.2, big: true },
-    { at: 'l02.bushes', until: 'l03.So', text: 'BUSHES WERE BUSY', pos: [-62, 80], y: 4, dy: -0.3, dx: 0.3, big: true },
-    { at: 'l03.Calais,', until: 'l03.an', text: 'CALAIS', pos: [54, -64], y: 6, team: 'rome', dy: -0.18, dx: 0.12, big: true },
-    { at: 'l03.English', until: 'l03.and', text: 'AN ENGLISH TOWN', pos: [54, -64], y: 6, team: 'rome', dy: -0.3, dx: 0.14 },
-    { at: 'l03.go', until: 'l03.The', text: 'GO HOME', screen: [0.5, 0.87], big: true },
-    { at: 'l03.French#1', until: 'l04.On', text: 'THE FRENCH ARMY', pos: [62, -36], y: 8, team: 'carthage', dy: -0.2, dx: 0.16, big: true },
-    { at: 'l03.blocked', until: 'l04.On', text: 'ROAD BLOCKED', screen: [0.5, 0.87], big: true, team: 'carthage' },
+    { at: 'l02.England', until: 'l02.He', text: 'ENGLAND', pos: [-170, -70], leader: false, rule: false, team: 'rome' },
+    { at: 'l02.France', until: 'l02.He', text: 'FRANCE', pos: [0, 92], leader: false, rule: false, team: 'carthage' },
+    { at: 'l02.King', until: 'l02.invaded', text: 'KING HENRY V', block: 'hen', team: 'rome', dx: -0.06, dy: -0.12 },
+    { at: 'l15.Shakespeare', until: 'l16', text: 'HENRY V, BY WILLIAM SHAKESPEARE, ABOUT 1599', screen: [0.5, 0.86], big: true },
+    { at: 'l15.Almost', until: 'l16', text: 'LONDON', pos: [-30, -128], y: 2, team: 'rome', dx: 0.08, dy: -0.08 },
+    { at: 'l16.marry', until: 'l16.And#1', text: 'TROYES, 1420', block: 'henT', team: 'rome', dx: 0.1, dy: -0.1 },
   ],
   icons: [
-    { at: 'l02.King', until: 'l02.had', icon: 'helmet', team: 'rome', pos: [-128, -62], y: 6, size: 22, anim: 'bounce' },
-    { follow: 'cross', at: 'l02.invaded', until: 'l02.captured', icon: 'ship', team: 'rome', size: 28 },
-    { at: 'l02.crown.', until: 'l02.He', icon: 'crown', pos: [60, 96], y: 10, size: 30, anim: 'bounce' },
-    { at: 'l02.captured', until: 'l03.So', icon: 'city', team: 'rome', pos: [-52, 74], y: 6, size: 24 },
-    { at: 'l02.captured', until: 'l03.So', icon: 'flag', team: 'rome', pos: [-62, 74], y: 12, size: 14 },
-    { at: 'l02.sick.', until: 'l03.So', icon: 'sick', pos: [-38, 58], y: 8, size: 18, anim: 'bounce', dx: -0.06 },
-    { at: 'l02.very#1', until: 'l03.So', icon: 'thermo', pos: [-38, 58], y: 8, size: 18, anim: 'bounce', dx: 0.06 },
-    { at: 'l02.bushes', until: 'l03.So', icon: 'bush', pos: [-64, 80], y: 2, size: 16, anim: 'bounce' },
-    { at: 'l02.bushes+0.18', until: 'l03.So', icon: 'bush', pos: [-34, 90], y: 2, size: 14, anim: 'bounce' },
-    { at: 'l02.bushes+0.34', until: 'l03.So', icon: 'bush', pos: [-82, 62], y: 2, size: 15, anim: 'bounce' },
-    { at: 'l02.were', until: 'l03.So', icon: 'bush', pos: [-22, 64], y: 2, size: 14, anim: 'bounce' },
-    { at: 'l02.busy.', until: 'l03.So', icon: 'bush', pos: [-52, 98], y: 2, size: 15, anim: 'bounce' },
-    { at: 'l03.Calais,', until: 'l04.On', icon: 'city', team: 'rome', pos: [54, -64], y: 6, size: 28 },
-    { at: 'l03.Calais,', until: 'l04.On', icon: 'flag', team: 'rome', pos: [63, -64], y: 12, size: 16 },
-    { at: 'l03.blocked', until: 'l04.On', icon: 'no', pos: [62, -36], y: 12, size: 24 },
+    { follow: 'cross', at: 'l02.invaded', until: 'l02.captured', icon: 'galley', team: 'rome', size: 18, minPx: 0.045, maxPx: 0.065 },
   ],
-  camera: [
-    { at: 16.3, target: [-20, 0], width: 660, pitch: 62, yaw: 0, mm: 35 },
-    { at: 'l02.Henry', target: [-90, -20], width: 340, pitch: 55, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.invaded', target: [-92, -6], width: 300, pitch: 52, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.France', target: [-70, 20], width: 290, pitch: 50, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.claim', target: [-12, 50], width: 470, pitch: 58, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.captured', target: [-46, 50], width: 250, pitch: 50, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.very', target: [-48, 66], width: 190, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l02.bushes', target: [-50, 72], width: 205, pitch: 44, yaw: 6, mm: 35, ease: 'inOut' },
-    { at: 'l03.So', target: [-10, 20], width: 400, pitch: 58, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l03.march', target: [-6, 12], width: 330, pitch: 54, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l03.English', target: [26, -28], width: 270, pitch: 52, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l03.French#1', target: [38, -30], width: 220, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l04.On', target: [40, -30], width: 195, pitch: 44, yaw: 8, mm: 35, ease: 'linear' },
-  ],
+  rain: [{ at: 'l16.always', until: 160, density: 1.0, fadeIn: 1.2 }],
+  light: [{ at: 'l16.And#1', dur: 2.4, to: { cloud: 0.85 }, ease: 'inOut' }],
 };
 
 // ------------------------------------------------------------------ the battle (shared by the dry and the wet stage)
-const L = (at, until, text, o = {}) => ({ at, until, text, ...o });
-const I = (at, until, icon, o = {}) => ({ at, until, icon, ...o });
 const FR = ['fr.0.0', 'fr.1.0', 'fr.2.0', 'fr.3.0', 'fr.4.0'];     // the rear rank (France faces south, so rank 2 is the front)
-const FRONT = ['fr.0.2', 'fr.1.2', 'fr.2.2', 'fr.3.2', 'fr.4.2'];
-
+const ENGL = ['engW', 'engC', 'engE'];
+const ZZ = (z) => Array.from({ length: 43 }, (_, i) => [-84 + i * 4, z + (i % 2 ? 1.6 : -1.6)]); // a row of stakes across the English front
 const battle = {
   blocks: {
-    engW: { ...ENG, kind: 'elite', x: -56, z: 96, heading: 0, len: 46, dep: 12, hidden: true, bannerScale: 1.0 },
-    engC: { ...ENG, kind: 'infantry', x: 0, z: 104, heading: 0, len: 56, dep: 14, hidden: true, bannerScale: 1.8, count: 8000 },
-    engE: { ...ENG, kind: 'elite', x: 56, z: 96, heading: 0, len: 46, dep: 12, hidden: true, bannerScale: 1.0 },
-    stakes: { team: 'wood', kind: 'cavalry', x: 0, z: 85, heading: 0, len: 168, dep: 7, grid: { cols: 26, ranks: 2, gap: 1.0 }, hidden: true, height: 4.4, banner: false },
+    engW: { ...ENG, kind: 'archers', x: -56, z: 96, heading: 0, len: 46, dep: 12, hidden: true, banner: false },
+    engC: { ...ENG, kind: 'elite', x: 0, z: 104, heading: 0, len: 52, dep: 14, hidden: true, bannerScale: 1.6, count: 8000 },
+    engE: { ...ENG, kind: 'archers', x: 56, z: 96, heading: 0, len: 46, dep: 12, hidden: true, banner: false },
     fr: { ...FRA, kind: 'infantry', x: 0, z: -140, heading: 180, len: 190, dep: 66, grid: { cols: 5, ranks: 3, gap: 3 }, hidden: true, bannerScale: 0.9 },
-    frCavW: { ...FRA, kind: 'cavalry', x: -62, z: -98, heading: 180, len: 44, dep: 16, hidden: true, bannerScale: 1.0 },
-    frCavE: { ...FRA, kind: 'cavalry', x: 62, z: -98, heading: 180, len: 44, dep: 16, hidden: true, bannerScale: 1.0 },
+    frCavW: { ...FRA, kind: 'cavalry', x: -62, z: -94, heading: 180, len: 44, dep: 16, hidden: true },
+    frCavE: { ...FRA, kind: 'cavalry', x: 62, z: -94, heading: 180, len: 44, dep: 16, hidden: true },
   },
 
   moves: [
-    // hook: England's small block, then France's huge host drops in block by block
-    { block: 'engC', at: 'l00.small,', dur: 0.7, appear: true, appearFrom: 16 },
-    { group: 'fr', at: 'l00.biggest', dur: 0.7, stagger: 0.15, appear: true, appearFrom: 26 },
+    // S1: England's small army, then France's huge host rises block by block; both leave under the title card
+    { block: 'engC', at: 'l00.small,', dur: 0.9, appear: true },
+    { group: 'fr', at: 'l00.biggest', dur: 0.8, stagger: 0.12, appear: true },
     { blocks: ['engC', 'fr'], at: 13.3, dur: 0.5, vanish: true },
-    // the field: both armies take their places
-    { blocks: ['engW', 'engC', 'engE'], at: 'l04.armies', dur: 0.7, stagger: 0.12, appear: true, appearFrom: 18 },
-    { group: 'fr', at: 'l04.faced', dur: 0.7, stagger: 0.1, appear: true, appearFrom: 20 },
-    // numbers: Henry's archers on the flanks, then France's size and its knights
-    { blocks: ['engW', 'engE'], at: 'l05.archers', dur: 0.25, to: { scale: 1.22 }, ease: 'out' }, { blocks: ['engW', 'engE'], at: 'l05.archers+0.25', dur: 0.5, to: { scale: 1 }, ease: 'inOut' },
-    { group: 'fr', at: 'l05.far', dur: 0.25, to: { scale: 1.07 }, ease: 'out' }, { group: 'fr', at: 'l05.far+0.25', dur: 0.5, to: { scale: 1 }, ease: 'inOut' },
-    { blocks: ['frCavW', 'frCavE'], at: 'l05.knights', dur: 0.7, stagger: 0.2, appear: true, appearFrom: 20 },
-    // stakes go in, then the army walks forward to bowshot
-    { group: 'stakes', at: 'l07.hammered', dur: 0.4, stagger: 0.045, appear: true, appearFrom: 12 },
-    { blocks: ['engW', 'engC', 'engE'], at: 'l07.moved', dur: 2.9, by: { z: -120 }, ease: 'inOut' },
-    { group: 'stakes', at: 'l07.moved', dur: 2.9, by: { z: -120 }, ease: 'inOut' },
-    // arrows fall on the French: a ripple of little hops
-    { group: 'fr', at: 'l08.came+0.5', dur: 0.15, stagger: 0.05, to: { lift: 1.4 }, ease: 'out' },
-    { group: 'fr', at: 'l08.came+0.65', dur: 0.3, stagger: 0.05, to: { lift: 0 }, ease: 'in' },
-    // the cavalry charge: fast, slowed by the mud, stopped by the stakes, turned back into their own lines
-    { block: 'frCavW', at: 'l09.horseback', dur: 1.9, to: { z: -72 }, ease: 'in' },
-    { block: 'frCavE', at: 'l09.horseback+0.12', dur: 1.9, to: { z: -72 }, ease: 'in' },
-    { blocks: ['frCavW', 'frCavE'], at: 'l09.mud', dur: 1.6, to: { z: -52 }, ease: 'out' },
-    { blocks: ['frCavW', 'frCavE'], at: 'l09.mud', dur: 1.6, to: { sink: 0.75 }, ease: 'out' },
-    { blocks: ['frCavW', 'frCavE'], at: 'l09.stopped', dur: 0.3, to: { z: -50 }, ease: 'out' },
-    { blocks: ['frCavW', 'frCavE'], at: 'l09.turned', dur: 0.5, to: { heading: 0 }, ease: 'out' },
-    { blocks: ['frCavW', 'frCavE'], at: 'l09.galloped', dur: 1.3, to: { z: -122 }, ease: 'in' },
-    { blocks: ['frCavW', 'frCavE'], at: 'l09.own', dur: 0.5, vanish: true },
-    { blocks: FRONT, at: 'l09.own', dur: 0.25, by: { z: -3 }, ease: 'out' }, { blocks: FRONT, at: 'l09.own+0.25', dur: 0.5, by: { z: 3 }, ease: 'inOut' },
-    // France on foot: quick at first, slower in the mud, sinking to the knees
-    { group: 'fr', at: 'l10.Then', dur: 2.6, by: { z: 24 }, ease: 'inOut' },
-    { group: 'fr', at: 'l10.through', dur: 3.9, by: { z: 20 }, ease: 'out' },
+    // S3: both armies take their places; the knights on France's wings
+    { blocks: ENGL, at: 'l04.armies', dur: 0.8, stagger: 0.15, appear: true },
+    { group: 'fr', at: 'l04.faced', dur: 0.8, stagger: 0.08, appear: true },
+    { blocks: ['frCavW', 'frCavE'], at: 'l05.knights', dur: 0.8, stagger: 0.2, appear: true },
+    // S4: the whole line walks forward to bowshot (the stakes are the zigzag ink lines in `arrows`)
+    { blocks: ENGL, at: 'l07.moved', dur: 3.2, by: { z: -120 }, ease: 'cam' },
+    // S5: the cavalry charge: fast, slowed and sinking in the mud, stopped short of the stakes, turned back into their own lines
+    { block: 'frCavW', at: 'l09.horseback', dur: 1.9, to: { z: -72 }, ease: 'inQuad' },
+    { block: 'frCavE', at: 'l09.horseback+0.12', dur: 1.9, to: { z: -72 }, ease: 'inQuad' },
+    { blocks: ['frCavW', 'frCavE'], at: 'l09.mud', dur: 1.8, to: { z: -54 }, ease: 'out' },
+    { blocks: ['frCavW', 'frCavE'], at: 'l09.mud', dur: 1.6, to: { sink: 0.6 }, ease: 'out' },
+    { blocks: ['frCavW', 'frCavE'], at: 'l09.stopped', dur: 0.4, fadeTo: 0.3, alphaTo: 0.9 },
+    { blocks: ['frCavW', 'frCavE'], at: 'l09.turned', dur: 0.8, to: { heading: 0 }, ease: 'cam' },
+    { blocks: ['frCavW', 'frCavE'], at: 'l09.galloped', dur: 1.6, to: { z: -112, sink: 0 }, ease: 'inQuad' },
+    { blocks: ['frCavW', 'frCavE'], at: 'l09.side.', dur: 0.9, vanish: true },
+    // S6: France on foot: steady at first, slower in the mud, sinking to the knees; the woods squeeze them, they pack tight
+    { group: 'fr', at: 'l10.Then', dur: 3.0, by: { z: 24 }, ease: 'cam' },
+    { group: 'fr', at: 'l10.through', dur: 3.6, by: { z: 18 }, ease: 'out' },
     { group: 'fr', at: 'l10.through', dur: 1.2, to: { sink: 0.5 }, ease: 'out' },
     { group: 'fr', at: 'l10.up', dur: 1.4, to: { sink: 0.85 }, ease: 'out' },
-    // the woods squeeze them, then they are packed
-    { group: 'fr', at: 'l11.squeezed', dur: 2.6, squeeze: { about: [0, -96], kx: 0.72, kz: 1, lenK: 0.72, depK: 1.1 }, ease: 'inOut' },
+    { group: 'fr', at: 'l11.squeezed', dur: 2.6, squeeze: { about: [0, -98], kx: 0.72, kz: 1, lenK: 0.72, depK: 1.1 }, ease: 'inOut' },
     { group: 'fr', at: 'l11.squeezed', dur: 2.6, by: { z: 4 }, ease: 'inOut' },
-    { group: 'fr', at: 'l11.packed', dur: 2.0, squeeze: { about: [0, -90], kx: 0.82, kz: 1, lenK: 0.9, depK: 1.05 }, ease: 'inOut' },
-    // contact, the archers drop their bows and swing in on the flanks
-    { group: 'fr', at: 'l12.reached', dur: 1.4, by: { z: 14 }, ease: 'inOut' },
-    { block: 'engW', at: 'l12.joined', dur: 1.0, to: { x: -64, z: -50, heading: 28 }, ease: 'inOut' },
-    { block: 'engE', at: 'l12.joined', dur: 1.0, to: { x: 64, z: -50, heading: 332 }, ease: 'inOut' },
-    // the back pushes the front: chaos
-    { blocks: FR, at: 'l13.pushing', dur: 1.1, by: { z: 20 }, ease: 'inOut' },
-    { blocks: FR, at: 'l13.pushing', dur: 0.3, to: { lift: 1.6 }, ease: 'out' },
-    { group: 'fr', at: 'l13.chaos', dur: 0.2, to: { heading: 168 }, ease: 'out' },
-    { group: 'fr', at: 'l13.chaos+0.3', dur: 0.2, to: { heading: 192 }, ease: 'out' },
-    { group: 'fr', at: 'l13.chaos+0.6', dur: 0.2, to: { heading: 170 }, ease: 'out' },
-    { group: 'fr', at: 'l13.chaos+0.9', dur: 0.2, to: { heading: 180 }, ease: 'out' },
-    // by evening: France fades by numbers, England loses far fewer
-    { group: 'fr', at: 'l14.soldiers', dur: 3.2, stagger: 0.18, fadeTo: 1, alphaTo: 0.12, sinkTo: 0.95 },
-    { blocks: ['engW', 'engC', 'engE'], at: 'l14.lost', dur: 1.0, to: { scale: 0.88 }, ease: 'inOut' },
+    { group: 'fr', at: 'l11.packed', dur: 2.0, squeeze: { about: [0, -92], kx: 0.82, kz: 1, lenK: 0.9, depK: 1.05 }, ease: 'inOut' },
+    // S7: they reach the line exhausted; the archers wheel in on both flanks; the back pushes the front
+    { group: 'fr', at: 'l12.reached', dur: 1.8, by: { z: 22 }, ease: 'cam' },
+    { block: 'engW', at: 'l12.joined', dur: 1.4, to: { x: -66, z: -52, heading: 40 }, ease: 'cam' },
+    { block: 'engE', at: 'l12.joined', dur: 1.4, to: { x: 66, z: -52, heading: 320 }, ease: 'cam' },
+    { blocks: FR, at: 'l13.pushing', dur: 1.6, by: { z: 16 }, ease: 'cam' },
+    { group: 'fr', at: 'l13.chaos.', dur: 1.2, squeeze: { about: [0, -60], kx: 0.94, kz: 0.9, lenK: 0.96, depK: 0.9 }, ease: 'inOut' },
+    // S8: within a few hours: France thins by numbers (never wounds), England loses a few hundred
+    { group: 'fr', at: 'l14.Thousands', dur: 3.4, stagger: 0.16, fadeTo: 1, alphaTo: 0.5, sinkTo: 0.95 },
+    { blocks: ENGL, at: 'l14.lost', dur: 1.0, fadeTo: 0.12, alphaTo: 0.95 },
   ],
 
   arrows: [
-    { at: 'l07.moved', until: 'l07.close', ease: 'inOut', team: 'rome', width: 5, path: [[0, 84], [0, 6]], lift: 5, hide: 'l07.enough' },
-    { at: 'l07.moved', until: 'l07.close', ease: 'inOut', team: 'rome', width: 5, path: [[-56, 78], [-56, -4]], lift: 5, hide: 'l07.enough' },
-    { at: 'l07.moved', until: 'l07.close', ease: 'inOut', team: 'rome', width: 5, path: [[56, 78], [56, -4]], lift: 5, hide: 'l07.enough' },
-    { at: 'l09.horseback', until: 'l09.mud', ease: 'in', team: 'carthage', width: 4, path: [[-62, -96], [-62, -66]], lift: 5, hide: 'l09.slowed' },
-    { at: 'l09.horseback+0.12', until: 'l09.mud', ease: 'in', team: 'carthage', width: 4, path: [[62, -96], [62, -66]], lift: 5, hide: 'l09.slowed' },
-    { at: 'l09.turned', dur: 0.5, ease: 'out', team: 'carthage', width: 4, style: 'dash', path: [[-62, -52], [-72, -86]], lift: 5, hide: 'l10.Then' },
-    { at: 'l09.turned', dur: 0.5, ease: 'out', team: 'carthage', width: 4, style: 'dash', path: [[62, -52], [72, -86]], lift: 5, hide: 'l10.Then' },
-    { at: 'l10.Then', until: 'l10.advanced', ease: 'inOut', team: 'carthage', width: 6, path: [[0, -150], [0, -118]], lift: 6, hide: 'l10.wearing' },
-    { at: 'l11.squeezed', dur: 1.1, ease: 'out', team: 'green', width: 5, path: [[-142, -102], [-100, -96]], lift: 8, hide: 'l11.They' },
-    { at: 'l11.squeezed', dur: 1.1, ease: 'out', team: 'green', width: 5, path: [[142, -102], [100, -96]], lift: 8, hide: 'l11.They' },
-    { at: 'l12.joined', dur: 0.9, ease: 'out', team: 'rome', width: 5, path: [[-56, -26], [-62, -48]], lift: 6, hide: 'l13.The' },
-    { at: 'l12.joined', dur: 0.9, ease: 'out', team: 'rome', width: 5, path: [[56, -26], [62, -48]], lift: 6, hide: 'l13.The' },
-    { at: 'l13.pushing', until: 'l13.front,', ease: 'out', team: 'carthage', width: 5, path: [[0, -112], [0, -76]], lift: 7, hide: 'l14.Within' },
+    // the stakes: a zigzag ink line (the map symbol for a row of stakes), hammered in from west to east, then planted again at bowshot
+    { at: 'l07.hammered', until: 'l07.them.>', ease: 'linear', team: 'ink', width: 1.6, taper: 1, head: false, smooth: false, path: ZZ(86), lift: 3, hide: 'l07.moved' },
+    { at: 'l07.shoot.', dur: 0.9, ease: 'out', team: 'ink', width: 1.6, taper: 1, head: false, smooth: false, path: ZZ(-36), lift: 3, hide: 'l15' },
+    { at: 'l07.moved', until: 'l07.close', ease: 'cam', team: 'rome', width: 4, path: [[0, 76], [0, 4]], lift: 5, hide: 'l07.shoot.' },
+    { at: 'l07.moved', until: 'l07.close', ease: 'cam', team: 'rome', width: 4, path: [[-56, 70], [-56, -2]], lift: 5, hide: 'l07.shoot.' },
+    { at: 'l07.moved', until: 'l07.close', ease: 'cam', team: 'rome', width: 4, path: [[56, 70], [56, -2]], lift: 5, hide: 'l07.shoot.' },
+    { at: 'l09.horseback', until: 'l09.mud', ease: 'out', team: 'carthage', width: 4, path: [[-62, -98], [-62, -60]], lift: 5, hide: 'l09.stopped' },
+    { at: 'l09.horseback+0.12', until: 'l09.mud', ease: 'out', team: 'carthage', width: 4, path: [[62, -98], [62, -60]], lift: 5, hide: 'l09.stopped' },
+    { at: 'l09.galloped', dur: 0.9, ease: 'out', team: 'carthage', width: 3.4, style: 'dash', path: [[-62, -56], [-66, -100]], lift: 5, hide: 'l10' },
+    { at: 'l09.galloped', dur: 0.9, ease: 'out', team: 'carthage', width: 3.4, style: 'dash', path: [[62, -56], [66, -100]], lift: 5, hide: 'l10' },
+    { at: 'l10.Then', until: 'l10.foot.', ease: 'cam', team: 'carthage', width: 5, path: [[0, -100], [0, -66]], lift: 6, hide: 'l10.through' },
+    { at: 'l11.squeezed', dur: 1.2, ease: 'out', team: 'ink', width: 2.4, path: [[-120, -100], [-90, -98]], lift: 8, hide: 'l11.They' },
+    { at: 'l11.squeezed', dur: 1.2, ease: 'out', team: 'ink', width: 2.4, path: [[120, -100], [90, -98]], lift: 8, hide: 'l11.They' },
+    { at: 'l12.joined', dur: 1.0, ease: 'out', team: 'rome', width: 4, path: [[-58, -28], [-66, -48]], lift: 6, hide: 'l13' },
+    { at: 'l12.joined', dur: 1.0, ease: 'out', team: 'rome', width: 4, path: [[58, -28], [66, -48]], lift: 6, hide: 'l13' },
+    { at: 'l13.pushing', until: 'l13.front,', ease: 'out', team: 'carthage', width: 4, path: [[0, -118], [0, -86]], lift: 7, hide: 'l14' },
   ],
 
   volleys: [
-    { at: 'l08.Thousands', dur: 0.9, from: { block: 'engW' }, to: [-30, -128, 42], n: 56, flight: 1.5, arc: 44, team: 'rome' },
-    { at: 'l08.Thousands+0.1', dur: 0.9, from: { block: 'engE' }, to: [30, -128, 42], n: 56, flight: 1.5, arc: 44, team: 'rome' },
-    { at: 'l08.Thousands+0.3', dur: 1.0, from: { block: 'engC' }, to: [0, -124, 50], n: 56, flight: 1.5, arc: 44, team: 'rome' },
-    { at: 'l08.went', dur: 1.2, from: { block: 'engW' }, to: [-40, -132, 48], n: 70, flight: 1.5, arc: 50, team: 'rome' },
-    { at: 'l08.went', dur: 1.2, from: { block: 'engE' }, to: [40, -132, 48], n: 70, flight: 1.5, arc: 50, team: 'rome' },
-    { at: 'l08.and', dur: 1.2, from: { block: 'engC' }, to: [0, -128, 60], n: 70, flight: 1.5, arc: 50, team: 'rome' },
-    { at: 'l08.came', dur: 1.4, from: { block: 'engW' }, to: [-20, -134, 56], n: 70, flight: 1.4, arc: 44, team: 'rome' },
-    { at: 'l08.came', dur: 1.4, from: { block: 'engE' }, to: [20, -134, 56], n: 70, flight: 1.4, arc: 44, team: 'rome' },
+    { at: 'l08.Thousands', dur: 1.0, from: { block: 'engW' }, to: [-30, -120, 40], n: 48, flight: 1.5, arc: 44, team: 'rome' },
+    { at: 'l08.Thousands+0.15', dur: 1.0, from: { block: 'engE' }, to: [30, -120, 40], n: 48, flight: 1.5, arc: 44, team: 'rome' },
+    { at: 'l08.went', dur: 1.2, from: { block: 'engW' }, to: [-40, -126, 46], n: 56, flight: 1.5, arc: 48, team: 'rome' },
+    { at: 'l08.went+0.15', dur: 1.2, from: { block: 'engE' }, to: [40, -126, 46], n: 56, flight: 1.5, arc: 48, team: 'rome' },
+    { at: 'l08.came', dur: 1.3, from: { block: 'engW' }, to: [-20, -128, 52], n: 56, flight: 1.4, arc: 44, team: 'rome' },
+    { at: 'l08.came', dur: 1.3, from: { block: 'engE' }, to: [20, -128, 52], n: 56, flight: 1.4, arc: 44, team: 'rome' },
   ],
 
   labels: [
-    // ---- hook
-    { at: 1.39, until: 3.2, text: '1415', screen: [0.5, 0.17], style: 'text', big: true, size: 1.9, track: 0.16, weight: 800 },
-    L('l00.small,', 'l00.sick,', 'SMALL', { block: 'engC', team: 'rome', dy: 0.12, big: true }),
-    L('l00.sick,', 'l00.soaking', 'SICK', { block: 'engC', team: 'rome', dy: 0.12, big: true }),
-    L('l00.soaking', 'l00.English', 'SOAKING WET', { block: 'engC', team: 'rome', dy: 0.12, big: true }),
-    L('l00.English', 'l00.about', 'ENGLAND', { block: 'engC', team: 'rome', dy: 0.12, big: true }),
-    L('l00.biggest', 'l00.Spoiler,', 'ONE OF FRANCE\'S BIGGEST ARMIES', { block: 'fr', team: 'carthage', dy: 0.0, big: true }),
-    L('l00.mud', 'l00>', 'MUD PICKS ENGLAND', { block: 'engC', team: 'rome', dy: -0.2, big: true }),
-    // ---- the field
-    L('l04.On', 'l04.faced', '25 OCTOBER 1415', { screen: [0.5, 0.11], big: true }),
-    L('l04.armies', 'l04.freshly', 'ENGLAND', { block: 'engC', team: 'rome', dy: -0.14 }),
-    L('l04.faced', 'l04.freshly', 'FRANCE', { block: 'fr', team: 'carthage', dy: -0.04 }),
-    L('l04.freshly', 'l04.thick', 'FRESHLY PLOUGHED FIELD', { pos: [0, 30], dy: -0.1, leader: false, big: true }),
-    L('l04.thick', 'l05.Henry', 'AGINCOURT WOOD', { pos: [-122, 0], y: 14, dy: -0.04, leader: false, big: true }),
-    L('l04.thick', 'l05.Henry', 'TRAMECOURT WOOD', { pos: [122, 0], y: 14, dy: -0.04, leader: false, big: true }),
-    // ---- numbers
-    L('l05.Henry', 'l05.maybe', 'KING HENRY V', { block: 'engC', team: 'rome', dy: -0.2 }),
-    L('l05.Most', 'l05.The', 'LONGBOW ARCHERS', { block: 'engW', team: 'rome', dy: -0.17, dx: -0.05 }),
-    L('l05.Most', 'l05.The', 'LONGBOW ARCHERS', { block: 'engE', team: 'rome', dy: -0.17, dx: 0.05 }),
-    L('l05.far', 'l05.many', 'FAR MORE', { block: 'fr', team: 'carthage', dy: -0.04, big: true }),
-    L('l05.knights', 'l06.It', 'KNIGHTS IN HEAVY ARMOUR', { block: 'frCavW', team: 'carthage', dy: -0.17, dx: 0.1 }),
-    // ---- rain and mud
-    L('l06.rained', 'l06.The', 'IT RAINED ALL NIGHT', { screen: [0.5, 0.11], big: true }),
-    L('l06.deep', 'l07.The', 'DEEP, STICKY MUD', { screen: [0.5, 0.11], big: true }),
-    // ---- stakes and the advance
-    L('l07.sharp', 'l07.Then', 'SHARP WOODEN STAKES', { block: 'stakes', team: 'wood', dy: -0.17, big: true }),
-    L('l07.Henry', 'l07.close', 'HENRY MOVES FORWARD', { block: 'engC', team: 'rome', dy: -0.2, big: true }),
-    L('l07.close', 'l08.Thousands', 'CLOSE ENOUGH TO SHOOT', { screen: [0.5, 0.11], big: true, team: 'rome' }),
-    // ---- arrows
-    L('l08.Thousands', 'l08.came', 'THOUSANDS OF ARROWS', { screen: [0.5, 0.11], big: true, team: 'rome' }),
-    L('l08.came', 'l09.French', 'DOWN ON THE FRENCH', { screen: [0.5, 0.11], big: true, team: 'carthage' }),
-    // ---- the cavalry
-    L('l09.knights', 'l09.but', 'FRENCH KNIGHTS CHARGE', { block: 'frCavW', team: 'carthage', dy: -0.17, dx: 0.12, big: true }),
-    L('l09.but', 'l09.and', 'THE MUD SLOWS THEM', { block: 'frCavE', team: 'carthage', dy: -0.17, dx: -0.1 }),
-    L('l09.stakes', 'l09.Their', 'THE STAKES STOP THEM', { pos: [0, -40], y: 4, dy: -0.2, big: true }),
-    L('l09.Their', 'l09.into', 'THEY TURN BACK', { block: 'frCavW', team: 'carthage', dy: -0.15, dx: 0.1 }),
-    L('l09.into', 'l10.Then', 'INTO THEIR OWN LINES', { block: 'fr', team: 'carthage', dy: -0.04, big: true }),
-    // ---- on foot
-    L('l10.Then', 'l10.wearing', 'FRENCH SOLDIERS ON FOOT', { block: 'fr', team: 'carthage', dy: -0.04, big: true }),
-    L('l10.wearing', 'l10.through', 'HEAVY ARMOUR', { block: 'fr', team: 'carthage', dy: -0.04, big: true }),
-    L('l10.through', 'l10.up', 'THROUGH THE MUD', { block: 'fr', team: 'carthage', dy: -0.04, big: true }),
-    L('l10.up', 'l11.The', 'UP TO THEIR KNEES', { block: 'fr', team: 'carthage', dy: -0.04, big: true }),
-    // ---- the funnel
-    L('l11.The', 'l11.into', 'THE WOODS SQUEEZE THEM', { screen: [0.5, 0.11], big: true, team: 'green' }),
-    L('l11.narrow', 'l11.They', 'A NARROW SPACE', { pos: [0, -90], y: 6, dy: -0.25, big: true }),
-    L('l11.packed', 'l11.could', 'PACKED SO TIGHTLY', { block: 'fr', team: 'carthage', dy: -0.04, big: true }),
-    L('l11.could', 'l12.By', 'NO ROOM TO SWING A WEAPON', { screen: [0.5, 0.11], big: true }),
-    // ---- the melee
-    L('l12.reached', 'l12.exhausted,', 'THE ENGLISH LINE', { block: 'engC', team: 'rome', dy: -0.2 }),
-    L('l12.exhausted,', 'l12.dropped', 'EXHAUSTED', { block: 'fr', team: 'carthage', dy: -0.04, big: true }),
-    L('l12.dropped', 'l12.grabbed', 'ARCHERS DROP THEIR BOWS', { screen: [0.5, 0.11], big: true, team: 'rome' }),
-    L('l12.grabbed', 'l12.joined', 'HAMMERS AND AXES', { screen: [0.5, 0.11], big: true, team: 'rome' }),
-    L('l12.joined', 'l13.The', 'ARCHERS JOIN IN', { screen: [0.5, 0.11], big: true, team: 'rome' }),
-    L('l13.lines', 'l13.chaos,', 'THE BACK PUSHES THE FRONT', { screen: [0.5, 0.11], big: true, team: 'carthage' }),
-    L('l13.chaos,', 'l14.Within', 'CHAOS', { block: 'fr', team: 'carthage', dy: -0.04, big: true, size: 1.5 }),
-    // ---- evening
-    L('l14.Within', 'l14.Thousands', 'OVER IN A FEW HOURS', { screen: [0.5, 0.11], big: true }),
-    L('l14.Thousands', 'l14.including', 'THOUSANDS OF FRENCH KILLED OR CAPTURED', { block: 'fr', team: 'carthage', dy: -0.04, big: true, size: 0.8 }),
-    L('l14.including', 'l14.The', 'MANY OF FRANCE\'S GREATEST LORDS', { screen: [0.5, 0.11], big: true, team: 'carthage' }),
-    L('l14.The', 'l15.Almost', 'THE ENGLISH LOST A FEW HUNDRED', { block: 'engC', team: 'rome', dy: -0.2, big: true }),
-    // ---- Shakespeare and the aftermath
-    L('l15.Almost', 'l15.Shakespeare', 'ALMOST 200 YEARS LATER', { screen: [0.5, 0.11], big: true }),
-    L('l15.Shakespeare', 'l16.Henry', 'HENRY V\nA PLAY BY SHAKESPEARE', { screen: [0.5, 0.34], big: true, size: 1.1 }),
-    { at: 'l15.We', until: 'l16.Henry', text: 'WE FEW.', screen: [0.5, 0.6], style: 'text', big: true, size: 1.5, track: 0.14, weight: 800 },
-    { at: 'l15.happy', until: 'l16.Henry', text: 'WE HAPPY FEW.', screen: [0.5, 0.74], style: 'text', big: true, size: 1.5, track: 0.14, weight: 800 },
-    L('l16.marry', 'l16.was', 'HENRY MARRIES\nTHE FRENCH KING\'S DAUGHTER', { screen: [0.5, 0.24], big: true, size: 0.9 }),
-    L('l16.was', 'l16.And', 'HEIR TO FRANCE', { screen: [0.5, 0.11], big: true }),
-    L('l16.And', 'l16.always', 'A LESSON FOR FRENCH KNIGHTS', { screen: [0.5, 0.11], big: true, team: 'carthage' }),
-    L('l16.always', 143.05, 'ALWAYS CHECK THE WEATHER', { screen: [0.5, 0.11], big: true }),
+    { at: 1.39, until: 3.6, text: '1415', screen: [0.5, 0.16], big: true },
+    { at: 'l04.On', until: 'l04.faced', text: '25 OCTOBER 1415', screen: [0.5, 0.86], big: true },
+    { at: 'l05.Henry', until: 'l05.Most', text: 'KING HENRY V', block: 'engC', team: 'rome', dx: 0.12, dy: -0.12 },
+    { at: 'l09.stakes', until: 'l09.Their', text: 'STAKES', pos: [-40, -36], y: 1, dx: 0.1, dy: -0.1 },
   ],
 
   counters: [
-    { at: 'l05.8', until: 'l05.The', block: 'engC', team: 'rome', from: 0, to: 8000, countDur: 1.0, step: 100, suffix: 'ENGLISH', dy: -0.19 },
+    { at: 'l05.8', until: 'l05.Most', block: 'engC', team: 'rome', from: 0, to: 8000, countDur: 1.0, step: 100, suffix: 'MEN', dx: -0.12, dy: -0.12 },
   ],
 
-  icons: [
-    // ---- hook
-    I('l00.sick,', 'l00.English', 'sick', { block: 'engC', size: 18, dx: -0.05, dy: -0.05, anim: 'bounce' }),
-    I('l00.sick,', 'l00.English', 'thermo', { block: 'engC', size: 18, dx: 0.0, dy: -0.05, anim: 'bounce' }),
-    I('l00.soaking', 'l00.about', 'rain', { block: 'engC', size: 26, dx: 0.06, dy: -0.04, anim: 'sway' }),
-    I('l00.mud', 'l00>', 'mud', { block: 'engC', size: 28, dx: -0.11, dy: -0.04, anim: 'bounce' }),
-    I('l00.aside.', 'l00>', 'check', { block: 'engC', size: 20, dx: 0.11, dy: -0.03, anim: 'bounce' }),
-    // ---- the field
-    I('l05.Henry', 'l05.maybe', 'crown', { block: 'engC', size: 16, dx: 0.0, dy: -0.04, anim: 'bounce' }),
-    I('l05.Most', 'l05.The', 'bow', { block: 'engW', size: 24, dy: -0.05, anim: 'bounce' }),
-    I('l05.Most', 'l05.The', 'bow', { block: 'engE', size: 24, dy: -0.05, anim: 'bounce' }),
-    I('l05.knights', 'l06.It', 'helmet', { block: 'frCavW', team: 'carthage', size: 20, dy: -0.02, anim: 'sway' }),
-    I('l05.knights', 'l06.It', 'helmet', { block: 'frCavE', team: 'carthage', size: 20, dy: -0.02, anim: 'sway' }),
-    // ---- rain and mud
-    I('l06.rained', 'l06.The', 'rain', { screen: [0.5, 0.58], size: 0.26, anim: 'sway' }),
-    I('l06.deep', 'l07.The', 'mud', { screen: [0.5, 0.64], size: 0.2, anim: 'bounce' }),
-    I('l06.sticky', 'l07.The', 'mud', { pos: [-40, 40], size: 38, anim: 'bounce' }),
-    I('l06.mud.', 'l07.The', 'mud', { pos: [45, 6], size: 34, anim: 'bounce' }),
-    I('l06.deep+0.1', 'l07.The', 'mud', { pos: [0, -60], size: 36, anim: 'bounce' }),
-    // ---- stakes
-    I('l07.hammered', 'l07.Then', 'hammer', { block: 'engW', size: 26, dy: -0.04, anim: 'none' }),
-    I('l07.hammered+0.15', 'l07.Then', 'hammer', { block: 'engE', size: 26, dy: -0.04, anim: 'none' }),
-    I('l07.close', 'l08.Thousands', 'bow', { screen: [0.5, 0.3], size: 0.15, anim: 'bounce' }),
-    // ---- the arrows
-    I('l08.arrows', 'l08.came', 'bow', { block: 'engW', size: 24, dy: -0.04, anim: 'bounce' }),
-    I('l08.arrows', 'l08.came', 'bow', { block: 'engE', size: 24, dy: -0.04, anim: 'bounce' }),
-    I('l08.French.', 'l09.French', 'burst', { block: 'fr', size: 28, dy: -0.02 }),
-    // ---- the cavalry
-    I('l09.stopped', 'l09.Their', 'burst', { pos: [-40, -40], y: 6, size: 24 }),
-    I('l09.stopped', 'l09.Their', 'burst', { pos: [40, -40], y: 6, size: 24 }),
-    I('l09.stopped', 'l09.Their', 'no', { pos: [0, -44], y: 8, size: 30 }),
-    I('l09.mud', 'l09.and', 'mud', { block: 'frCavW', size: 22, dy: -0.04, anim: 'bounce' }),
-    I('l09.mud', 'l09.and', 'mud', { block: 'frCavE', size: 22, dy: -0.04, anim: 'bounce' }),
-    I('l09.own', 'l10.Then', 'burst', { block: 'fr', size: 28, dy: -0.01 }),
-    // ---- on foot
-    I('l10.wearing', 'l10.through', 'helmet', { block: 'fr', team: 'carthage', size: 20, dy: -0.12, anim: 'sway' }),
-    I('l10.mud', 'l11.The', 'mud', { pos: [-60, -150], size: 24, anim: 'bounce' }),
-    I('l10.mud+0.2', 'l11.The', 'mud', { pos: [-10, -156], size: 24, anim: 'bounce' }),
-    I('l10.mud+0.4', 'l11.The', 'mud', { pos: [40, -150], size: 24, anim: 'bounce' }),
-    I('l10.mud+0.6', 'l11.The', 'mud', { pos: [80, -144], size: 22, anim: 'bounce' }),
-    I('l10.up', 'l11.The', 'mud', { block: 'fr', size: 30, dy: -0.12, anim: 'bounce' }),
-    // ---- the funnel
-    I('l11.packed', 'l11.could', 'heart', { block: 'fr', size: 30, dy: -0.14, anim: 'bounce' }),
-    I('l11.swing', 'l12.By', 'sword', { block: 'fr', size: 30, dy: -0.12 }),
-    I('l11.swing', 'l12.By', 'no', { block: 'fr', size: 34, dy: -0.12 }),
-    // ---- the melee
-    I('l12.exhausted,', 'l12.dropped', 'sweat', { block: 'fr', size: 28, dy: -0.12, anim: 'bounce' }),
-    I('l12.dropped', 'l12.grabbed', 'fall', { block: 'engW', size: 26, dy: -0.07, anim: 'none' }),
-    I('l12.dropped', 'l12.grabbed', 'fall', { block: 'engE', size: 26, dy: -0.07, anim: 'none' }),
-    I('l12.hammers', 'l12.joined', 'hammer', { block: 'engW', size: 24, dy: -0.06, dx: -0.02, anim: 'none' }),
-    I('l12.axes,', 'l12.joined', 'axe', { block: 'engW', size: 22, dy: -0.06, dx: 0.03 }),
-    I('l12.hammers', 'l12.joined', 'hammer', { block: 'engE', size: 24, dy: -0.06, dx: 0.02, anim: 'none' }),
-    I('l12.axes,', 'l12.joined', 'axe', { block: 'engE', size: 22, dy: -0.06, dx: -0.03 }),
-    I('l12.joined', 'l13.The', 'swords', { pos: [-62, -62], y: 8, size: 30 }),
-    I('l12.joined', 'l13.The', 'swords', { pos: [62, -62], y: 8, size: 30 }),
-    I('l13.chaos,', 'l14.Within', 'burst', { pos: [-50, -80], y: 8, size: 30, anim: 'bounce' }),
-    I('l13.chaos,+0.15', 'l14.Within', 'burst', { pos: [10, -92], y: 8, size: 34, anim: 'bounce' }),
-    I('l13.chaos,+0.3', 'l14.Within', 'burst', { pos: [52, -76], y: 8, size: 28, anim: 'bounce' }),
-    // ---- evening
-    I('l14.Within', 'l14.Thousands', 'clock', { screen: [0.5, 0.64], size: 0.2, anim: 'bounce' }),
-    I('l14.including', 'l14.The', 'crown', { screen: [0.38, 0.64], size: 0.12, anim: 'bounce' }),
-    I('l14.including+0.15', 'l14.The', 'crown', { screen: [0.5, 0.64], size: 0.15, anim: 'bounce' }),
-    I('l14.including+0.3', 'l14.The', 'crown', { screen: [0.62, 0.64], size: 0.12, anim: 'bounce' }),
-    I('l14.The', 'l15.Almost', 'laurel', { block: 'engC', size: 18, dy: -0.04 }),
-    // ---- Shakespeare and after
-    I('l15.Shakespeare', 'l16.Henry', 'quill', { screen: [0.2, 0.55], size: 0.24, anim: 'sway' }),
-    I('l15.Shakespeare', 'l16.Henry', 'crown', { screen: [0.8, 0.5], size: 0.17, anim: 'bounce' }),
-    I('l16.marry', 'l16.was', 'helmet', { team: 'rome', screen: [0.38, 0.72], size: 0.2, anim: 'sway' }),
-    I('l16.marry', 'l16.was', 'heart', { screen: [0.5, 0.64], size: 0.14, anim: 'bounce' }),
-    I('l16.marry', 'l16.was', 'crown', { screen: [0.62, 0.72], size: 0.2, anim: 'bounce' }),
-    I('l16.was', 'l16.And', 'crown', { screen: [0.5, 0.74], size: 0.3, anim: 'bounce' }),
-    I('l16.And', 'l16.always', 'helmet', { team: 'carthage', screen: [0.5, 0.74], size: 0.26, anim: 'sway' }),
-    I('l16.always', 143.05, 'weather', { screen: [0.5, 0.76], size: 0.34, anim: 'bounce' }),
-  ],
+  icons: [],
 
   rain: [
-    { at: 'l00.soaking', until: 'l00.Spoiler,', density: 1.0 },
-    { at: 'l06.rained', until: 'l07.The', density: 1.4 },
-  ],
-  dim: [
-    { at: 'l15.Shakespeare', until: 'l16.Henry', alpha: 0.5, curtains: true },
-    { at: 'l16.Henry', until: 143.1, alpha: 0.32, fadeIn: 0.6 },
-  ],
-
-  light: [
-    { at: 'l00.soaking', dur: 1.2, to: { cloud: 0.85 }, ease: 'inOut' },
-    { at: 'l00.Spoiler,', dur: 1.6, to: { cloud: 0.3 }, ease: 'inOut' },
-    { at: 'l06.rained', dur: 1.4, to: { cloud: 0.8, haze: 1.5 }, ease: 'inOut' },
-    { at: 'l07.Then', dur: 2.0, to: { cloud: 0.55 }, ease: 'inOut' },
-    { at: 'l14.over', dur: 3.4, to: { eve: 1, haze: 1.3 }, ease: 'inOut' },
-  ],
-
-  camera: [
-    // hook: low on England's small block, then pull back to show the huge French host
-    { at: 0, target: [0, 98], dist: 170, pitch: 17, yaw: -8, mm: 30 },
-    { at: 'l00.sick,', target: [0, 100], dist: 125, pitch: 13, yaw: 6, mm: 30, ease: 'inOut' },
-    { at: 'l00.army', target: [0, 96], dist: 150, pitch: 17, yaw: 0, mm: 30, ease: 'inOut' },
-    { at: 'l00.face', target: [0, 96], dist: 152, pitch: 17, yaw: 0, mm: 30, ease: 'linear' },
-    { at: 'l00.armies+0.5', target: [0, 5], width: 430, pitch: 38, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l00.Spoiler,', target: [0, 10], width: 420, pitch: 39, yaw: 0, mm: 35, ease: 'linear' },
-    { at: 'l00.mud', target: [0, 40], width: 340, pitch: 38, yaw: 4, mm: 35, ease: 'inOut' },
-    { at: 12.9, target: [0, 10], width: 620, pitch: 80, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 16.3, target: [0, 10], width: 620, pitch: 80, yaw: 0, mm: 35, ease: 'linear' },
-    // the field
-    { at: 'l04.On', target: [0, -5], width: 560, pitch: 58, yaw: 0, mm: 35, ease: 'linear' },
-    { at: 'l04.armies', target: [0, 0], width: 540, pitch: 42, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l04.freshly', target: [0, 10], width: 500, pitch: 52, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l04.woods', target: [0, -5], width: 600, pitch: 62, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l05.Henry', target: [0, 82], dist: 190, pitch: 32, yaw: -8, mm: 35, ease: 'inOut' },
-    { at: 'l05.archers', target: [0, 86], dist: 175, pitch: 30, yaw: 10, mm: 35, ease: 'inOut' },
-    { at: 'l05.The', target: [0, -60], dist: 330, pitch: 30, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l05.knights', target: [0, -100], dist: 250, pitch: 28, yaw: 6, mm: 35, ease: 'inOut' },
-    { at: 'l06.It', target: [0, -10], width: 560, pitch: 70, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l06.deep', target: [0, 20], dist: 210, pitch: 24, yaw: 8, mm: 32, ease: 'inOut' },
-    { at: 'l07.The', target: [0, 95], dist: 150, pitch: 32, yaw: 14, mm: 35, ease: 'inOut' },
-    { at: 'l07.Then', target: [0, 80], width: 340, pitch: 48, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l07.shoot.', target: [0, -30], dist: 270, pitch: 30, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l08.Thousands', target: [0, -45], dist: 210, pitch: 20, yaw: 0, mm: 30, ease: 'inOut' },
-    { at: 'l08.came', target: [0, -100], dist: 200, pitch: 26, yaw: 0, mm: 30, ease: 'inOut' },
-    { at: 'l09.French', target: [0, -75], width: 340, pitch: 52, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l09.mud', target: [0, -70], width: 260, pitch: 46, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l09.turned', target: [0, -85], width: 300, pitch: 54, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l10.Then', target: [0, -105], width: 340, pitch: 52, yaw: 14, mm: 35, ease: 'inOut' },
-    { at: 'l10.mud', target: [0, -100], dist: 170, pitch: 24, yaw: 16, mm: 32, ease: 'inOut' },
-    { at: 'l11.The', target: [0, -80], width: 420, pitch: 82, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l11.packed', target: [0, -78], width: 270, pitch: 70, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 'l12.By', target: [0, -62], width: 250, pitch: 55, yaw: 12, mm: 35, ease: 'inOut' },
-    { at: 'l12.dropped', target: [0, -48], width: 210, pitch: 52, yaw: -10, mm: 35, ease: 'inOut' },
-    { at: 'l13.The', target: [0, -66], dist: 170, pitch: 40, yaw: 20, mm: 35, ease: 'inOut' },
-    { at: 'l13.chaos,', target: [0, -72], dist: 150, pitch: 36, yaw: -15, mm: 35, ease: 'inOut' },
-    { at: 'l14.Within', target: [0, -45], dist: 210, pitch: 24, yaw: 20, mm: 30, ease: 'inOut' },
-    { at: 'l14.Thousands', target: [0, -65], dist: 230, pitch: 22, yaw: 34, mm: 30, ease: 'linear' },
-    { at: 'l15.Almost', target: [0, -60], width: 560, pitch: 62, yaw: 30, mm: 35, ease: 'inOut' },
-    { at: 'l16.Henry', target: [0, -60], width: 620, pitch: 70, yaw: 0, mm: 35, ease: 'inOut' },
-    { at: 146, target: [0, -60], width: 600, pitch: 72, yaw: 0, mm: 35, ease: 'linear' },
+    { at: 'l00.soaking', until: 'l00.Spoiler,', density: 0.9 },
+    { at: 'l06.rained', until: 'l07.The', density: 1.3 },
   ],
 };
+const wetMarkers = [
+  { id: 'aginW', at: 'l11.woods', until: 'l12', pos: [-130, -100], glyph: 'woods', letter: 'C', label: 'AGINCOURT WOOD', labelDur: 2.6, size: 0.05 },
+  { id: 'tramW', at: 'l11.woods', until: 'l12', pos: [130, -100], glyph: 'woods', letter: 'D', label: 'TRAMECOURT WOOD', labelDur: 2.6, size: 0.05 },
+];
 
 // ------------------------------------------------------------------ the film
 export default {
   marks: {},
-  look: { grade: { saturation: 0.98, contrast: 1.07, grain: 0.03, vignette: 0.32 } },
+  look: { grade: { saturation: 0.98, contrast: 1.07, grain: 0.03, vignette: 0.30 } },
   world: fieldWorld(false),
   ...battle,
-  stages: { chan: channel, wet: { world: fieldWorld(true), ...battle } },
-  msaaOn: [[0, 13]],
-  insets: [
-    { stage: 'chan', at: 16.3, until: 'l04.On', rect: [0, 0, 1, 1], frame: false, pop: false, in: 0.8, out: 0.01, samples: 0 },
-    { stage: 'wet', at: 'l06.It', until: 160, rect: [0, 0, 1, 1], frame: false, pop: false, in: 1.8, out: 0.01, samples: 0 },
+  ambient: fieldAmbient(false),
+  stages: { chan: channel, wet: { world: fieldWorld(true), ...battle, ambient: fieldAmbient(true), markers: wetMarkers } },
+
+  // ------------------------------------------------------------------ scenes: sets and pre-planned cameras (the edit)
+  scenes: [
+    { id: 'S1', name: 'The odds', at: 0, job: 'a small, sick, soaked army against one of France\'s biggest; spoiler: the mud', set: { time: 0.15, haze: 1.35, cloud: 0.8 },
+      shots: [
+        { at: 0, why: 'cold open low behind the small English army in the rain: who we follow, and how small', from: { target: [0, 94], dist: 150, pitch: 14, yaw: -4, mm: 30 },
+          moves: [{ until: 'l00.face', to: { dist: 128, pitch: 15, yaw: 2 } }] },
+        { at: 'l00.one', why: 'change of scale: high and wide, France\'s host rises across the field', from: { target: [0, -30], width: 460, pitch: 36, yaw: 0, mm: 35 },
+          moves: [{ until: 'l00.France.>', to: { target: [0, -46], width: 480 } }] },
+        { at: 'l00.Spoiler,', why: 'crane up to the field from above: the place that will decide it (under the title)', from: { target: [0, 10], width: 340, pitch: 30, yaw: 40, mm: 35 },
+          moves: [{ until: 17.6, to: { width: 600, pitch: 82, yaw: 0 }, ease: 'camLong' }] },
+      ] },
+    { id: 'S2', name: 'The road to Calais', at: 'l02', stage: 'chan', inset: 'full', transition: { type: 'dissolve', dur: 0.8 }, job: 'why Henry is in France, and why his army is small, sick and trapped', set: { time: 0.08, haze: 1.0, cloud: 0.3 },
+      shots: [
+        { at: 'l02', why: 'change of world: the Channel map, Henry crosses from England to claim the crown', from: { target: [-92, -14], width: 380, pitch: 56, yaw: 0, mm: 35 },
+          moves: [{ until: 'l02.crown.>', to: { target: [-70, 18], width: 360 } }] },
+        { at: 'l02.He', why: 'closer on the port he takes; hold on the sickness and the bushes', from: { target: [-46, 60], width: 230, pitch: 50, yaw: 10, mm: 35 },
+          moves: [{ until: 'l02.sick.#1>', to: { target: [-42, 58], width: 206 } }] },
+        { at: 'l03', why: 'wider: follow the march north toward Calais and home', from: { target: [-12, 30], width: 380, pitch: 58, yaw: 0, mm: 35 },
+          moves: [{ until: 'l03.home.>', to: { target: [18, -8], width: 360 } }] },
+        { at: 'l03.The#1', why: 'closer on the road ahead: the French army blocks it', from: { target: [44, -34], width: 230, pitch: 46, yaw: 20, mm: 35 },
+          moves: [{ until: 'l04', to: { width: 212 } }] },
+      ] },
+    { id: 'S3', name: 'The field', at: 'l04', transition: { type: 'dissolve', dur: 0.8 }, job: 'where and how many: a ploughed field between two woods; 8,000 mostly archers against far more, many knights', set: { time: 0.05, haze: 1.1, cloud: 0.35 },
+      shots: [
+        { at: 'l04', why: 'change of world, back on the field: establish it from the English side as both armies take their places', from: { target: [0, -10], width: 540, pitch: 40, yaw: 0, mm: 35 },
+          moves: [{ until: 'l04.other>', to: { target: [0, -20], width: 500 } }] },
+        { at: 'l04.freshly', why: 'top down: the ploughed field and the two woods that pinch it', from: { target: [0, -10], width: 480, pitch: 86, yaw: 0, mm: 35 },
+          moves: [{ until: 'l04.sides.>', to: { width: 520 } }] },
+        { at: 'l05', why: 'low behind the English: Henry, his 8,000, archers on both wings', from: { target: [0, 80], dist: 180, pitch: 22, yaw: -10, mm: 35 },
+          moves: [{ until: 'l05.bows.>', to: { dist: 162, yaw: 2 } }] },
+        { at: 'l05.The', why: 'reverse, high behind the French looking south: far more, knights on the wings; the field the rain will soak', from: { target: [0, -60], dist: 300, pitch: 32, yaw: 180, mm: 35 },
+          moves: [{ until: 'l05.armor.>', to: { dist: 282 } }] },
+      ] },
+    { id: 'S4', name: 'Rain and stakes', at: 'l06', stage: 'wet', inset: 'full', transition: { type: 'dissolve', dur: 1.8 }, job: 'overnight the field turns to mud; the English stake their line and walk to bowshot', set: { time: 0.1, haze: 1.45, cloud: 0.8 },
+      shots: [
+        { at: 'l06', why: 'change of time, the same view from the French side: the night\'s rain turns the field to mud', from: { target: [0, 0], width: 520, pitch: 46, yaw: 180, mm: 35 },
+          moves: [{ until: 'l06.mud.>', to: { width: 470, pitch: 52 } }] },
+        { at: 'l07', why: 'low along the English line: the stakes go in, a wave from west to east', from: { target: [-30, 86], dist: 96, pitch: 12, yaw: 80, mm: 40 },
+          moves: [{ until: 'l07.them.>', to: { target: [-6, 86], dist: 90 } }] },
+        { at: 'l07.Then', why: 'high from the west: the whole line and its stakes walk forward to bowshot', from: { target: [0, 46], dist: 270, pitch: 34, yaw: 90, mm: 35 },
+          moves: [{ until: 'l07>', to: { target: [0, 6] } }] },
+      ] },
+    { id: 'S5', name: 'Arrows and horses', at: 'l07>', stage: 'wet', inset: 'full', job: 'the arrows fall; the knights charge, the mud slows them, the stakes stop them, they flee into their own lines', set: { time: [0.1, 0.18], haze: 1.3, cloud: 0.6 },
+      shots: [
+        { at: 'l07>', why: 'out of the mud insert, top down: the consequence, the line now forward behind its stakes; the first volley rises', from: { target: [0, -40], width: 420, pitch: 82, yaw: 0, mm: 35 },
+          moves: [{ until: 'l08.came', to: { target: [0, -56], width: 400 } }] },
+        { at: 'l08.came', why: 'low from the French side under the falling arrows', from: { target: [0, -100], dist: 124, pitch: 14, yaw: 186, mm: 35 },
+          moves: [{ until: 'l09', to: { dist: 112 } }] },
+        { at: 'l09', why: 'high from the east: both wings of knights charge', from: { target: [0, -72], dist: 280, pitch: 36, yaw: 270, mm: 35 },
+          moves: [{ until: 'l09.charged,>', to: { target: [0, -64], dist: 268 } }] },
+        { at: 'l09.but', why: 'closer and low behind the west wing: the mud slows them, the stakes stop them', from: { target: [-60, -48], dist: 104, pitch: 16, yaw: 162, mm: 35 },
+          moves: [{ until: 'l09.them.#1>', to: { dist: 94 } }] },
+        { at: 'l09.Their', why: 'high and wide: the horses gallop back into their own lines; the ground the rest must now cross', from: { target: [0, -90], width: 400, pitch: 64, yaw: 0, mm: 35 },
+          moves: [{ until: 'l09.side.>', to: { width: 380 } }] },
+      ] },
+    { id: 'S6', name: 'The funnel', at: 'l10', stage: 'wet', inset: 'full', job: 'the French on foot in mud to the knees; the woods squeeze them', set: { time: 0.18, haze: 1.25 },
+      shots: [
+        { at: 'l10', why: 'low beside the French front, France left, England right: they slow and sink as they come', from: { target: [-30, -84], dist: 112, pitch: 13, yaw: 90, mm: 40 },
+          moves: [{ until: 'l10.knees.>', to: { target: [-30, -66], dist: 106 } }] },
+        { at: 'l11', why: 'high behind the English stakes, a slow rise: the woods squeeze the column into the neck', from: { target: [0, -84], dist: 220, pitch: 32, yaw: 0, mm: 35 },
+          moves: [{ until: 'l11>', to: { pitch: 44, dist: 232 }, ease: 'camLong' }] },
+      ] },
+    { id: 'S7', name: 'The crush', at: 'l11>', stage: 'wet', inset: 'full', climax: true, job: 'exhausted, they reach the line; the archers join in; the rear pushes the front: chaos', set: { time: [0.2, 0.3], haze: 1.25 },
+      shots: [
+        { at: 'l11>', why: 'out of the funnel insert, the decisive moment wide and from above: the packed mass reaches the stakes', from: { target: [0, -58], width: 360, pitch: 86, yaw: 0, mm: 35 },
+          moves: [{ until: 'l12.and', to: { width: 336 } }] },
+        { at: 'l12.and', why: 'closer and low on the west flank: how it worked, the archers drop their bows and wheel in', from: { target: [-56, -50], dist: 112, pitch: 18, yaw: 58, mm: 35 },
+          moves: [{ until: 'l12.in.>', to: { yaw: 72, dist: 102 }, ease: 'camSoft' }] },
+        { at: 'l13', why: 'behind the French rear over the press: the back ranks push into the front', from: { target: [0, -78], dist: 144, pitch: 22, yaw: 180, mm: 35 },
+          moves: [{ until: 'l13.chaos.>', to: { dist: 128 } }] },
+      ] },
+    { id: 'S8', name: 'The cost', at: 'l14', stage: 'wet', inset: 'full', job: 'over in a few hours: thousands of French killed or captured, a few hundred English', set: { time: [0.4, 1.0], haze: [1.2, 1.35] },
+      shots: [
+        { at: 'l14', why: 'a long pull back as the sun goes down: the French ranks thin', from: { target: [0, -60], dist: 160, pitch: 18, yaw: 30, mm: 35 },
+          moves: [{ until: 'l14.France.>', to: { dist: 250, pitch: 30, yaw: 46 }, ease: 'camLong' }] },
+        { at: 'l14.The#1', why: 'cut on the line: low on the English standard, nearly whole', from: { target: [0, -18], dist: 84, pitch: 12, yaw: 196, mm: 40 },
+          moves: [{ until: 'l14>', to: { dist: 78 } }] },
+      ] },
+    { id: 'S9', name: 'After', at: 'l15', stage: 'chan', inset: 'full', transition: { type: 'dissolve', dur: 1.0 }, job: 'a famous play, a marriage, an heir to France, and a lesson', set: { time: [0.2, 0.3], haze: 1.0, cloud: 0.35 },
+      shots: [
+        { at: 'l15', why: 'change of time and world: two centuries on, toward England and the play', from: { target: [-60, -76], width: 420, pitch: 58, yaw: 0, mm: 35 },
+          moves: [{ until: 'l15.play.>', to: { target: [-46, -96], width: 380 } }] },
+        { at: 'l16', why: 'across to France: Henry at Troyes, married and named heir', from: { target: [40, 160], width: 380, pitch: 56, yaw: 0, mm: 35 },
+          moves: [{ until: 'l16.France.>', to: { target: [46, 172], width: 350 } }] },
+        { at: 'l16.And#1', why: 'pull back over northern France as the cloud rolls in: the lesson arrives as rain', from: { target: [0, 40], width: 520, pitch: 62, yaw: 0, mm: 35 },
+          moves: [{ until: 146.8, to: { width: 600, pitch: 72 }, ease: 'camLong' }] },
+      ] },
   ],
+
+  // ------------------------------------------------------------------ the legend (motion-graphics frame)
+  legend: {
+    title: { text: 'BATTLE OF AGINCOURT', sub: '25 October 1415', at: 'l02' },
+    show: [['l02', 'l16.weather.>']],
+    sides: [
+      { id: 'england', team: 'rome', name: 'ENGLAND', commander: 'King Henry V', commanderAt: 'l02.England', banner: 'banner', at: 'l02.England', strength: 8000, strengthAt: 'l05.8', strengthLabel: 'MEN, ABOUT' },
+      { id: 'france', team: 'carthage', name: 'FRANCE', commander: 'Constable d\'Albret', commanderAt: 'l03.French#1', banner: 'banner', at: 'l02.France', dimAt: 'l14.Thousands' },
+    ],
+    key: { show: [['l02.port', 'l03>'], ['l04', 'l14']] },
+    units: [
+      { id: 'arch', kind: 'archers', name: 'Archers', team: 'rome', at: 'l05.archers' },
+      { id: 'kn', kind: 'cavalry', name: 'Knights', team: 'carthage', at: 'l05.knights' },
+      { id: 'foot', kind: 'infantry', name: 'Foot soldiers', teams: ['rome', 'carthage'], at: 'l10.soldiers' },
+    ],
+    places: [
+      { id: 'harfleur', letter: 'A', glyph: 'town', name: 'Harfleur', at: 'l02.port', pos: [-52, 74], y: 2, stage: 'chan', label: 'HARFLEUR', team: 'carthage' },
+      { id: 'calais', letter: 'B', glyph: 'town', name: 'Calais', at: 'l03.Calais,', pos: [54, -64], y: 2, stage: 'chan', label: 'CALAIS', team: 'rome' },
+      { id: 'agin', letter: 'C', glyph: 'woods', name: 'Agincourt wood', at: 'l04.woods', pos: [-132, -40], label: 'AGINCOURT WOOD' },
+      { id: 'tram', letter: 'D', glyph: 'woods', name: 'Tramecourt wood', at: 'l04.both', pos: [132, -40], label: 'TRAMECOURT WOOD' },
+    ],
+    focus: [
+      { entry: 'arch', at: 'l05.archers', until: 'l05.The' }, { entry: 'kn', at: 'l05.knights', until: 'l06' },
+      { entry: 'kn', at: 'l09.knights', until: 'l09.but' }, { entry: 'arch', at: 'l12.archers', until: 'l13' },
+      { entry: 'england', at: 'l14.English', until: 'l15' }, { entry: 'england', at: 'l16.heir', until: 'l16.And#1' },
+    ],
+    scale: { unitM: 5, show: [['l04', 'l05>']] },
+  },
+
   cards: [
-    { at: 0, until: 1.0, fill: 'rgb(8,4,2)', fadeIn: 0.01, fadeOut: 1.0, lines: [] },
-    { at: 12.95, until: 16.3, scrim: 0.9, scrimCenter: 'rgba(20,10,4,0.85)', fadeIn: 0.3, fadeOut: 0.7, lines: [
-      { text: 'THE BATTLE OF AGINCOURT', size: 0.074, y: 0.44, delay: 0.1 },
-      { text: '1415', size: 0.07, y: 0.585, delay: 1.1, colorTop: '#ffd9a0', colorBottom: '#e2873a' } ], ornaments: [{ y: 0.35, w: 0.7 }, { y: 0.68, w: 0.7 }] },
-    { at: 143.078, until: 170, fill: 'rgb(14,7,3)', fillAlpha: 0.84, fadeIn: 0.6, lines: [
-      { text: 'BATTLE MAP', size: 0.13, y: 0.43, delay: 0.1, track: 0.14 },
-      { text: 'The Battle of Agincourt, 1415', size: 0.062, y: 0.6, delay: 0.7, font: 'Cormorant Garamond', italic: true, weight: 500, track: 0.04, colorTop: '#f6ecd0', colorBottom: '#e4c98c' } ], ornaments: [{ y: 0.33, w: 0.5 }, { y: 0.69, w: 0.5 }] },
+    { at: 0, until: 0.8, fill: 'rgb(8,4,2)', fadeIn: 0.01, fadeOut: 1.0, lines: [] },
+    { at: 12.95, until: 16.3, scrim: 0.82, scrimCenter: 'rgba(20,10,4,0.7)', fadeIn: 0.4, fadeOut: 0.8, lines: [
+      { text: 'THE BATTLE OF AGINCOURT', size: 0.074, y: 0.45, delay: 0, pop: false, weight: 600, track: 0.14 },
+      { text: '1415', size: 0.056, y: 0.575, delay: 1.0, pop: false, weight: 600, track: 0.3, colorTop: '#f3d9a0', colorBottom: '#d9a441' } ], ornaments: [{ y: 0.36, w: 0.5 }, { y: 0.65, w: 0.5 }] },
+    { at: 143.078, until: 170, fill: 'rgb(14,7,3)', fillAlpha: 0.84, fadeIn: 0.8, lines: [
+      { text: 'BATTLE MAP', size: 0.11, y: 0.43, delay: 0.1, track: 0.16, pop: false, weight: 600 },
+      { text: 'The Battle of Agincourt, 1415', size: 0.058, y: 0.58, delay: 0.7, font: 'Cormorant Garamond', italic: true, weight: 600, track: 0.04, pop: false, colorTop: '#f6ecd0', colorBottom: '#e4c98c' } ], ornaments: [{ y: 0.33, w: 0.44 }, { y: 0.67, w: 0.44 }] },
   ],
 };

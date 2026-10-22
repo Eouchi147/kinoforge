@@ -83,7 +83,7 @@ def plan():
         why='open: arrive on Venice floating in the mist; the narration names it')
     add('city', E('l00', 0.7), K(-74, 13, 4.6, (-0.62, -2.0, -0.12), 50), K(-72, 8, 3.7, (-0.62, -2.0, -0.40), 50), env='mist',
         why='end of the sentence "standing in the middle of the sea"; change of scale: push to the cut face to see what is under it (water, then mud)')
-    add('city', E('l01', 2.4), K(-40, 40, 15.5, (0.1, 0.1, -0.35), 50), K(-36, 40, 15.0, (0.1, 0.1, -0.35), 50), env='mist',
+    add('city', E('l01', 2.4), K(-40, 38, 16.5, (0.1, 0.1, 0.05), 50), K(-36, 38, 16.0, (0.1, 0.1, 0.05), 50), env='mist',
         why='the title card: the question of the film over the whole city', title=(S('l01', -0.2), E('l01', 2.2)))
     # 2. The lagoon, 1,500 years ago ----------------------------------------------------------------------------------
     add('lagoon', E('l02', 0.6), K(-36, 34, 13.2, (0, 0, -0.45), 50), K(-46, 31, 12.4, (0, 0, -0.45), 50), env='day',
@@ -211,8 +211,8 @@ def build(bpy, ctx):
     font = os.path.join(ROOT, 'ads', 'fonts', 'InstrumentSans.ttf')
     O = ov.Overlay(kit, cam.ob, font, ctx['W'], ctx['H'], exposure=SETTINGS['exposure'])
     r = ctx['W'] / REF_W
-    G = {'title': O.text('vz_title', 'Why Venice Sinks', 84 * r, ov.INK, 'CENTER', 1.0),
-         'kicker': O.text('vz_kicker', 'UNDER THE SURFACE', 19 * r, ov.INK, 'CENTER', 1.35),
+    G = {'title': O.text('vz_title', 'Why Venice Sinks', 92 * r, ov.INK, 'CENTER', 1.0, bold=1.2),
+         'kicker': O.text('vz_kicker', 'UNDER THE SURFACE', 24 * r, ov.INK, 'CENTER', 1.4, bold=0.6),
          'rule': O.line('vz_rule', ov.INK),
          'count': O.text('vz_count', '0', 64 * r, ov.INK, 'CENTER', 1.0),
          'countcap': O.text('vz_countcap', 'POLES UNDER ONE CHURCH', 17 * r, ov.INK, 'CENTER', 1.15),
@@ -224,7 +224,7 @@ def build(bpy, ctx):
     labels = {}
     for p in PLAN:
         for (key, body, *_rest) in p.get('labels', []):
-            if key not in labels: labels[key] = ov.Label(O, 'vz_lb_' + key, body, 17 * r)
+            if key not in labels: labels[key] = ov.Label(O, 'vz_lb_' + key, body, 22 * r)
     sc = bpy.context.scene; sc.view_settings.look = SETTINGS['look']; sc.view_settings.exposure = SETTINGS['exposure']
     return {'kit': kit, 'M': M, 'lamps': lamps, 'sets': built, 'ramp': ramp, 'bgl': bgl, 'sun': sun, 'cam': cam, 'O': O, 'G': G, 'labels': labels,
             'r': r, 'shown': None}
@@ -268,9 +268,9 @@ def frame(bpy, ctx, S, i, t):
     W2, H2 = ctx['W'] / 2, ctx['H'] / 2
     if 'title' in p:
         a = ov.fade(t, p['title'][0], p['title'][1], 0.6, 0.6)
-        G['kicker'].set_alpha(a); G['kicker'].place_text(0, 300 * r)
-        G['title'].set_alpha(a); G['title'].place_text(0, 228 * r)
-        G['rule'].set_alpha(a); G['rule'].line_shape((-46 * r, 272 * r), (46 * r, 272 * r), 1.6 * r)
+        G['kicker'].set_alpha(a); G['kicker'].place_text(0, 410 * r)
+        G['title'].set_alpha(a); G['title'].place_text(0, 330 * r)
+        G['rule'].set_alpha(a); G['rule'].line_shape((-60 * r, 383 * r), (60 * r, 383 * r), 2.2 * r)
     for (key, body, t0, t1, pos, anchor) in p.get('labels', []):
         a = ov.fade(t, t0, t1); lb = S['labels'][key]
         if isinstance(anchor, tuple) and anchor and anchor[0] == 'wl':        # the water line on the gauge (moves with the sea)

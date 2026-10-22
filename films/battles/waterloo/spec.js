@@ -57,8 +57,8 @@ const PARIS = [-177, -30], ELBA = [-69, 68];
 Object.assign(eur, {
   arrows: [
     { id: 'exile', at: 'l02.sent', until: 'l02.island.', ease: 'cam', team: 'carthage', style: 'dash', width: 3.0, path: [[-168, -22], [-148, 8], [-114, 40], [-82, 62]], head: true, lift: 5, hide: 'l02.escaped,' },
-    { id: 'sail', at: 'l02.escaped,', until: 'l02.France,', ease: 'cam', team: 'carthage', style: 'dash', width: 3.0, path: [[-72, 66], [-92, 60], [-113, 52]], lift: 5, hide: 'l02.So' },
-    { id: 'march', at: 'l02.France,', until: 'l02.again.', ease: 'out', team: 'carthage', width: 3.6, path: [[-113, 52], [-130, 20], [-152, -8], [-170, -26]], lift: 5, hide: 'l02.So' },
+    { id: 'sail', at: 'l02.escaped,', until: 'l02.France#1', ease: 'cam', team: 'carthage', style: 'dash', width: 3.0, path: [[-72, 66], [-92, 60], [-113, 52]], lift: 5, hide: 'l02.So' },
+    { id: 'march', at: 'l02.France#1', until: 'l02.again.', ease: 'out', team: 'carthage', width: 3.6, path: [[-113, 52], [-130, 20], [-152, -8], [-170, -26]], lift: 5, hide: 'l02.So' },
     ...[[[-250, -108], [-200, -44]], [[-270, 110], [-216, 24]], [[20, -24], [-100, -14]], [[-26, -96], [-130, -42]], [[240, -140], [-98, -30]], [[-30, 96], [-110, 34]]].map((p, i) => ({ at: { line: 'l02', word: 'declared', offset: i * 0.14 }, until: { line: 'l02', word: 'him,', offset: 0.2 }, ease: 'out', team: 'rome', width: 5, path: p, lift: 5, hide: 'l03' })),
   ],
   labels: [
@@ -70,13 +70,13 @@ Object.assign(eur, {
   icons: [
     { at: 'l00.Napoleon,', until: 'l02.beaten', icon: 'tricolore', pos: PARIS, y: 4, size: 26, minPx: 0.06, maxPx: 0.075 },
     { follow: 'exile', at: 'l02.sent', until: 'l02.escaped,', icon: 'brig', team: 'carthage', size: 22, minPx: 0.05, maxPx: 0.065 },
-    { follow: 'sail', at: 'l02.escaped,', until: 'l02.France,', icon: 'brig', team: 'carthage', size: 22, minPx: 0.05, maxPx: 0.065, flip: true },
+    { follow: 'sail', at: 'l02.escaped,', until: 'l02.France#1', icon: 'brig', team: 'carthage', size: 22, minPx: 0.05, maxPx: 0.065, flip: true },
     { at: 'l02.took', until: 'l03', icon: 'tricolore', pos: PARIS, y: 4, size: 26, minPx: 0.06, maxPx: 0.075 },
   ],
   markers: [{ id: 'paris', at: 'l00.Napoleon,', until: 'l03', pos: PARIS, glyph: 'town', team: [0.15, 0.33, 0.74], label: 'PARIS', labelUntil: 'l00.back.', size: 0.055 }],
 });
 // the red bake fades in on "All of it" (a manual inset over the scene's own); its camera holds the closing frame of S1.3
-eurW.camera = [{ at: 0, target: [-96, -18], width: 780, pitch: 60, yaw: 0, mm: 35 }];
+eurW.camera = [{ at: 0, target: [-86, -18], width: 690, pitch: 60, yaw: 0, mm: 35 }];
 
 // ------------------------------------------------------------------ the South Atlantic (Saint Helena)
 const SH = [95, 72];
@@ -129,12 +129,12 @@ Object.assign(blocks, {
   hayeA: { ...BR, kind: 'infantry', x: 16, z: 32, heading: 180, len: 14, dep: 9, hidden: true, weight: 2, bannerScale: 1.2 },
   bCav: { ...BR, kind: 'cavalry', x: 0, z: -84, heading: 180, len: 34, dep: 12, hidden: true },
   fCavA: { ...FR, kind: 'cavalry', x: -88, z: 70, heading: 0, len: 26, dep: 10, hidden: true },
-  fCavB: { ...FR, kind: 'cavalry', x: 0, z: 70, heading: 0, len: 30, dep: 10, hidden: true },
+  fCavB: { ...FR, kind: 'cavalry', x: -22, z: 70, heading: 0, len: 30, dep: 10, hidden: true },
   fCavC: { ...FR, kind: 'cavalry', x: 88, z: 70, heading: 0, len: 26, dep: 10, hidden: true },
   guard: { ...FR, kind: 'elite', x: 0, z: 112, heading: 0, len: 40, dep: 16, hidden: true, bannerScale: 1.3 },
-  g1: { ...FR, kind: 'artillery', x: -76, z: 100, heading: 0, len: 40, dep: 6, hidden: true, banner: false },
-  g2: { ...FR, kind: 'artillery', x: 76, z: 100, heading: 0, len: 40, dep: 6, hidden: true, banner: false },
-  g3: { ...FR, kind: 'artillery', x: 150, z: 100, heading: 0, len: 34, dep: 6, hidden: true, banner: false },
+  g1: { ...FR, kind: 'marker', figures: 'artillery', x: -76, z: 100, heading: 0, len: 40, dep: 6, hidden: true, banner: false },
+  g2: { ...FR, kind: 'marker', figures: 'artillery', x: 76, z: 100, heading: 0, len: 40, dep: 6, hidden: true, banner: false },
+  g3: { ...FR, kind: 'marker', figures: 'artillery', x: 150, z: 100, heading: 0, len: 34, dep: 6, hidden: true, banner: false },
 });
 prs.forEach((id, i) => { blocks[id] = { ...PR, kind: 'infantry', x: 340 + (i % 2) * 40, z: -100 + Math.floor(i / 2) * 30, heading: 220, len: 34, dep: 14, hidden: true }; });
 
@@ -161,7 +161,7 @@ const moves = [
   { blocks: ['fr4', 'fr5'], at: 'l09.back', dur: 1.5, by: { z: 44 }, ease: 'out' }, { blocks: ['fr4', 'fr5'], at: 'l09.back', dur: 1.5, fadeTo: 0.5 },
   { block: 'bCav', at: 'l09.back', dur: 1.5, to: { z: 70 }, ease: 'out' },
   { blocks: ['fr4', 'fr5'], at: 'l09.and', dur: 1.2, vanish: true },
-  { block: 'bCav', at: 'l09.then', dur: 1.8, path: [[-24, 70], [10, 84], [42, 90]], ease: 'inOut' },
+  { block: 'bCav', at: 'l09.then#1', dur: 1.8, path: [[-24, 70], [10, 84], [42, 90]], ease: 'inOut' },
   { block: 'bCav', at: 'l09.far.', dur: 1.4, fadeTo: 1, alphaTo: 0.5, sinkTo: 0.9 },
   { block: 'bCav', at: 'l10.thousands', dur: 1.0, vanish: true },
   { blocks: ['fr4', 'fr5'], at: 'l10.thousands', dur: 0.05, to: { z: FR_Z, len: 54 } }, { block: 'fr4', at: 'l10.thousands', dur: 0.05, to: { x: -30 } }, { block: 'fr5', at: 'l10.thousands', dur: 0.05, to: { x: 30 } },
@@ -171,7 +171,7 @@ const moves = [
   { blocks: wel, at: 'l10.rode', dur: 1.8, to: { z: SQ_Z }, ease: 'inOut' },
   ...SQ.map((i) => ({ block: wel[i], at: 'l10.formed', dur: 1.3, to: { z: SQ_Z + 9, len: 22, dep: 4 }, ease: 'inOut' })),
   { blocks: SQ.flatMap((i) => ['sqN' + i, 'sqE' + i, 'sqW' + i]), at: 'l10.formed+0.3', dur: 1.1, stagger: 0.05, appear: true },
-  ...[['fCavA', -88], ['fCavB', 0], ['fCavC', 88]].flatMap(([id, x]) => [
+  ...[['fCavA', -88], ['fCavB', -22], ['fCavC', 88]].flatMap(([id, x]) => [
     { block: id, at: 'l10.rode', dur: 2.2, to: { z: -6 }, ease: 'inOut' },
     { block: id, at: 'l10.squares', dur: 2.8, path: [[x, -6], [x, -50], [x, -92]], ease: 'inOut' },
     { block: id, at: 'l10.would', dur: 2.6, path: [[x, -92], [x + (x >= 0 ? 16 : -16), -104], [x, -80], [x, -20], [x, 50]], ease: 'inOut' },
@@ -194,12 +194,12 @@ const moves = [
   ...SQ.map((i) => ({ block: wel[i], at: 'l12.By+0.4', dur: 2.0, to: { z: LINE_Z, len: 60, dep: 16 }, ease: 'inOut' })),
   { blocks: ['wel1', 'wel6'], at: 'l12.By+0.4', dur: 2.0, to: { z: LINE_Z }, ease: 'inOut' },
   { block: 'guard', at: 'l12.sent', dur: 1.0, appear: true },
-  { block: 'guard', at: 'l12.Imperial', dur: 5.0, path: [[0, 112], [2, 60], [2, -6]], ease: 'inOut' },
+  { block: 'guard', at: 'l12.Imperial', dur: 5.0, path: [[0, 112], [-16, 60], [-24, -6]], ease: 'inOut' },
   // S8: the line rises and fires; the Guard falls back; the whole army runs
   { blocks: wel, at: 'l13.rose', dur: 1.0, to: { z: -36 }, ease: 'out' },
   { block: 'guard', at: 'l13.fired.', dur: 1.4, fadeTo: 0.5 },
   { block: 'guard', at: 'l13.guard', dur: 1.6, to: { z: 36 }, ease: 'out' },
-  { block: 'guard', at: 'l13.back,', dur: 1.4, to: { z: 92 }, ease: 'inOut' },
+  { block: 'guard', at: 'l13.back#1', dur: 1.4, to: { z: 92 }, ease: 'inOut' },
   { block: 'napoleon', at: 'l13.army', dur: 3.0, path: [[16, 164], [40, 230], [44, 300]], ease: 'in' },
   ...[['fr1', -330], ['fr2', -250], ['fr3', -160], ['fr4', -70], ['fr5', 70], ['fr6', 160], ['fr7', 200], ['fr8', 214]].map(([id, x], k) => ({ block: id, at: { line: 'l13', word: 'army', offset: k * 0.1 }, dur: 3.2, to: { x, z: 300, heading: 180 }, ease: 'in' })),
   { block: 'guard', at: 'l13.ran.+0.4', dur: 3.0, to: { z: 300, heading: 180 }, ease: 'in' },
@@ -236,21 +236,21 @@ export default {
     { id: 'S1', name: 'The return', at: 0, until: 'l02.all', stage: 'eur', inset: 'full', job: 'Napoleon is back, and this time all of Europe turns on him', set: { time: 0.08, haze: 1.0 },
       shots: [
         { at: 0, why: 'cold open on the map of Europe in June 1815; push to Paris as he is named, pull back to the continent that has had enough, crane up under the title',
-          from: { target: [-110, -10], width: 820, pitch: 58, yaw: 0, mm: 35 },
-          moves: [{ at: 1.8, until: 'l00.back.>', to: { target: [-160, -22], width: 520 }, ease: 'cam' }, { until: 'l00.enough.>', to: { target: [-112, -14], width: 700 }, ease: 'cam' }, { until: 'l02', to: { pitch: 66, width: 760 }, ease: 'camSoft' }] },
+          from: { target: [-100, -12], width: 720, pitch: 58, yaw: 0, mm: 35 },
+          moves: [{ at: 1.8, until: 'l00.back.>', to: { target: [-160, -22], width: 520 }, ease: 'cam' }, { until: 'l00.enough.>', to: { target: [-104, -14], width: 660 }, ease: 'cam' }, { until: 'l02', to: { pitch: 66, width: 690 }, ease: 'camSoft' }] },
         { at: 'l02', why: 'closer on France: his fall, the exile to Elba and the escape back to Paris, following the routes', from: { target: [-150, 6], width: 400, pitch: 50, yaw: 0, mm: 35 },
           moves: [{ at: 'l02.sent', until: 'l02.island.>', to: { target: [-118, 28] } }, { at: 'l02.escaped,', until: 'l02.again.', to: { target: [-146, 0] } }] },
-        { at: 'l02.again.', why: 'pull out to the whole continent: every army converges on France, then all of Europe turns red', from: { target: [-90, -20], width: 840, pitch: 60, yaw: 0, mm: 35 },
-          moves: [{ until: 'l02.all', to: { target: [-96, -18], width: 780 } }] },
+        { at: 'l02.again.', why: 'pull out to the whole continent: every army converges on France, then all of Europe turns red', from: { target: [-80, -20], width: 720, pitch: 60, yaw: 0, mm: 35 },
+          moves: [{ until: 'l02.all', to: { target: [-86, -18], width: 690 } }] },
       ] },
     { id: 'S2', name: 'Two armies', at: 'l03', transition: { type: 'dissolve', dur: 1.0 }, job: 'who waits for him in Belgium, and his plan to beat them one at a time', set: { time: 0.18, haze: 1.2, cloud: 0.35 },
       shots: [
-        { at: 'l03', why: 'change of world: the field in Belgium from high in the south, the French line arriving on its ridge', from: { target: [0, 10], width: 760, pitch: 48, yaw: 0, mm: 35 },
-          moves: [{ until: 'l03.British', to: { target: [0, -10], width: 700 } }] },
+        { at: 'l03', why: 'change of world: the field in Belgium from high in the south, the French line arriving on its ridge', from: { target: [0, 64], width: 560, pitch: 44, yaw: 0, mm: 35 },
+          moves: [{ until: 'l03.British', to: { target: [0, 48], width: 530 } }] },
         { at: 'l03.British', why: 'closer on the first enemy: Wellington\'s British-led army in column behind the ridge', from: { target: [-10, -150], width: 330, pitch: 38, yaw: 336, mm: 35 },
           moves: [{ until: 'l03.Wellington,>', to: { width: 300, target: [0, -146] } }] },
-        { at: 'l03.and', why: 'change of place, far to the east: the Prussians and their seventy-two year old marshal', from: { target: [362, -100], width: 300, pitch: 30, yaw: 296, mm: 35 },
-          moves: [{ until: 'l03.up.>', to: { yaw: 284, width: 272 } }] },
+        { at: 'l03.and', why: 'change of place, far to the east: the Prussians and their seventy-two year old marshal', from: { target: [356, -94], width: 300, pitch: 30, yaw: 68, mm: 35 },
+          moves: [{ until: 'l03.up.>', to: { yaw: 80, width: 272 } }] },
         { at: 'l04', why: 'the plan on the map from above: a wedge between two armies that want to join', from: { target: [70, -40], width: 800, pitch: 86, yaw: 0, mm: 35 },
           moves: [{ until: 'l04.up.>', to: { width: 770, target: [74, -38] } }] },
       ] },
@@ -258,10 +258,10 @@ export default {
       shots: [
         { at: 'l05', why: 'the day of battle: high from the French side as the army files onto the ridge near Waterloo', from: { target: [0, -60], width: 560, pitch: 40, yaw: 8, mm: 35 },
           moves: [{ until: 'l05.Waterloo.>', to: { target: [0, -70], width: 500, yaw: 2 } }] },
-        { at: 'l05.Most', why: 'low behind the French guns looking up the slope: the line steps back and drops out of sight', from: { target: [0, -34], dist: 240, pitch: 6.5, yaw: 0, mm: 35 },
-          moves: [{ until: 'l05.guns.>', to: { dist: 216 } }] },
-        { at: 'l06', why: 'high over the valley: the two farms in front of the ridge, each with its garrison', from: { target: [-62, 18], width: 330, pitch: 50, yaw: 342, mm: 35 },
-          moves: [{ until: 'l06.middle.>', to: { target: [-30, 22], width: 300, yaw: 350 } }] },
+        { at: 'l05.Most', why: 'low behind the French guns looking up the slope: the line steps back and drops out of sight', from: { target: [0, 10], dist: 224, pitch: 8, yaw: 0, mm: 35 },
+          moves: [{ until: 'l05.guns.>', to: { dist: 204 } }] },
+        { at: 'l06', why: 'high over the valley: the two farms in front of the ridge, each with its garrison', from: { target: [-76, 2], width: 320, pitch: 50, yaw: 342, mm: 35 },
+          moves: [{ until: 'l06.middle.>', to: { target: [-46, 8], width: 296, yaw: 350 } }] },
       ] },
     { id: 'S4', name: 'The lie in', at: 'l07', job: 'rain all night, and the Emperor waits until almost midday', set: { time: [0.1, 0.0], haze: [2.6, 1.05], cloud: [0.95, 0.25] },
       shots: [
@@ -287,8 +287,8 @@ export default {
           moves: [{ until: 'l10.ridge.>', to: { target: [0, 0], dist: 168 } }] },
         { at: 'l10.Wellington', why: 'top-down: the line folds into hollow squares and the horsemen flow through the gaps', from: { target: [4, -46], width: 380, pitch: 82, yaw: 0, mm: 35 },
           moves: [{ until: 'l10.bayonets.>', to: { width: 350 } }] },
-        { at: 'l10.horses', why: 'low and close beside one square: the horses will not go in', from: { target: [-50, -44], dist: 74, pitch: 15, yaw: 58, mm: 40 },
-          moves: [{ until: 'l11', to: { yaw: 72, dist: 70 } }] },
+        { at: 'l10.horses', why: 'low and close beside one square: the horses will not go in', from: { target: [-50, -42], dist: 72, pitch: 12, yaw: 338, mm: 40 },
+          moves: [{ until: 'l11', to: { yaw: 350, dist: 68 } }] },
       ] },
     { id: 'S7', name: 'The Prussians come', at: 'l11', job: 'the Prussians arrive late but they arrive, and Napoleon plays his last card', set: { time: [0.3, 0.6], haze: 1.15, cloud: 0.25 },
       shots: [
@@ -296,15 +296,15 @@ export default {
           moves: [{ until: 'l11.coming.>', to: { target: [290, 40] } }] },
         { at: 'l12', why: 'evening, closer: they smash into the French flank, which wheels to face them', from: { target: [230, 120], width: 300, pitch: 46, yaw: 246, mm: 35 },
           moves: [{ until: 'l12.side,>', to: { width: 280 } }] },
-        { at: 'l12.so', why: 'low behind Napoleon\'s last and best soldiers as they climb the road to the ridge', from: { target: [0, 124], dist: 160, pitch: 11, yaw: 0, mm: 35 },
-          moves: [{ until: 'l13', to: { target: [0, 56], dist: 150 } }] },
+        { at: 'l12.so', why: 'low behind Napoleon\'s last and best soldiers as they climb the road to the ridge', from: { target: [-6, 72], dist: 124, pitch: 24, yaw: 0, mm: 35 },
+          moves: [{ until: 'l13', to: { target: [-14, 34], dist: 118 } }] },
       ] },
     { id: 'S8', name: 'The turn', at: 'l13', climax: true, job: 'the decisive moment, wide then close, the rout, and what it cost', set: { time: [0.75, 0.95], haze: 1.2, cloud: 0.1 },
       shots: [
         { at: 'l13', why: 'the decisive moment, wide and from above: the line rises out of the corn and fires', from: { target: [0, -16], width: 340, pitch: 70, yaw: 0, mm: 35 },
           moves: [{ until: 'l13.fired.>', to: { width: 320 } }] },
-        { at: 'l13.guard', why: 'the same moment closer and lower: the Guard reels back under the smoke', from: { target: [0, 4], dist: 92, pitch: 13, yaw: 122, mm: 40 },
-          moves: [{ until: 'l13.And#1', to: { dist: 86 } }] },
+        { at: 'l13.guard', why: 'the same moment closer and lower: the Guard reels back under the smoke', from: { target: [-20, 6], dist: 112, pitch: 12, yaw: 330, mm: 40 },
+          moves: [{ until: 'l13.And#1', to: { dist: 104 } }] },
         { at: 'l13.And#1', why: 'pull high and wide: when the Guard breaks, the whole French army runs', from: { target: [0, 130], width: 660, pitch: 64, yaw: 0, mm: 35 },
           moves: [{ until: 'l13.ran.>', to: { width: 720 } }] },
         { at: 'l14', why: 'the low evening light over the emptied field, under the Duke\'s words', from: { target: [0, 40], dist: 380, pitch: 13, yaw: 48, mm: 30 },
@@ -378,13 +378,13 @@ export default {
     // the centre and the cavalry
     { at: 'l09.marched', dur: 1.6, ease: 'out', team: 'carthage', width: 6, path: [[0, 120], [0, 50]], lift: 6, hide: 'l09.British' },
     { at: 'l09.charged', dur: 1.2, ease: 'out', team: 'rome', width: 6, path: [[0, -70], [-6, -20], [-20, 26]], lift: 6, hide: 'l09.and' },
-    { at: 'l09.then', until: 'l09.far.', ease: 'out', team: 'rome', width: 4, style: 'dash', path: [[-24, 72], [10, 86], [44, 92]], lift: 6, hide: 'l10' },
-    ...[-88, 0, 88].map((x) => ({ at: 'l10.rode', dur: 1.4, ease: 'out', team: 'carthage', width: 4, path: [[x, 66], [x, 4]], lift: 6, hide: 'l10.Wellington' })),
+    { at: 'l09.then#1', until: 'l09.far.', ease: 'out', team: 'rome', width: 4, style: 'dash', path: [[-24, 72], [10, 86], [44, 92]], lift: 6, hide: 'l10' },
+    ...[-88, -22, 88].map((x) => ({ at: 'l10.rode', dur: 1.4, ease: 'out', team: 'carthage', width: 4, path: [[x, 66], [x, 4]], lift: 6, hide: 'l10.Wellington' })),
     // S7 the Prussian road, then the blow on the flank; the Guard goes up the road
     { at: 'l11.marching,', until: 'l11.coming.>', ease: 'cam', team: 'green', style: 'dash', width: 4, path: [[372, -110], [330, -40], [298, 40], [268, 112]], lift: 6, hide: 'l12.smashing' },
     { at: 'l12.smashing', dur: 1.0, ease: 'out', team: 'green', width: 5, path: [[270, 100], [234, 100]], lift: 6, hide: 'l12.so' },
     { at: 'l12.smashing+0.2', dur: 1.0, ease: 'out', team: 'green', width: 5, path: [[270, 156], [232, 158]], lift: 6, hide: 'l12.so' },
-    { at: 'l12.straight', until: 'l12.ridge.>', ease: 'out', team: 'carthage', width: 6, path: [[0, 104], [2, 50], [2, 6]], lift: 6, hide: 'l13.fired.' },
+    { at: 'l12.straight', until: 'l12.ridge.>', ease: 'out', team: 'carthage', width: 6, path: [[0, 104], [-16, 50], [-24, 6]], lift: 6, hide: 'l13.fired.' },
     // S8 the rout
     ...[[-1, 0], [0, 1], [1, 2]].map(([s, k]) => ({ at: { line: 'l13', word: 'ran.', offset: k * 0.12 }, dur: 1.0, ease: 'out', team: 'carthage', width: 5, path: [[s * 60, 170], [s * 150, 260]], lift: 6, hide: 'l14' })),
   ],
@@ -413,5 +413,5 @@ export default {
 
   // "All of it": S1 ends on the word and its Europe inset fades off (the S2 dissolve sets its out to 1 s), revealing the red bake of the
   // same map under it; the red map then dissolves into the battlefield at l03 (a manual inset: insets listed here draw under the scenes')
-  insets: [{ stage: 'eurW', at: 'l02.all', until: 'l03', rect: [0, 0, 1, 1], frame: false, pop: false, in: 0.01, out: 1.0, samples: 0 }],
+  insets: [{ why: 'All of it: the same map, every country but France turned red (a change of state, not of place)', stage: 'eurW', at: 'l02.all', until: 'l03', rect: [0, 0, 1, 1], frame: false, pop: false, in: 0.01, out: 1.0, samples: 0 }],
 };

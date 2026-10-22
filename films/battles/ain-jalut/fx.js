@@ -1,11 +1,9 @@
-// Ain Jalut: film-side effects installed on top of the Battle Map engine (no engine fork).
+// Ain Jalut: one film-side map graphic installed on top of the Battle Map engine (no engine fork).
 //  - spec.ink: territory that spreads over the ground like ink. One item = { at, spread, team colour, origin:[x,z], blobs:[[x,z,r],...] }.
 //    The blobs are baked into a canvas (outline then fill, so overlaps stay one flat colour), draped on the terrain as one mesh under the blocks.
-//  - spec.bar: a timeline bar that grows across the lower third (the Mamluks' 250+ years).
 // Pure functions of t, so every frame is reproducible.
 import * as THREE from 'three';
 import { Stage } from '/films/lib/battlemap/stage.js';
-import { StageOverlay, drawOutlined } from '/films/lib/battlemap/overlay.js';
 import { clamp, hash01 } from '/films/lib/battlemap/noise.js';
 import { EASE } from '/films/lib/battlemap/timeline.js';
 
@@ -42,20 +40,4 @@ function buildInk(stage) {
 export function installFx() {
   const upd0 = Stage.prototype.update;
   Stage.prototype.update = function (t, pose) { if (this._ink === undefined) this._ink = buildInk(this); if (this._ink) this._ink.update(t); return upd0.call(this, t, pose); };
-  const draw0 = StageOverlay.prototype.draw;
-  StageOverlay.prototype.draw = function (g, t, view) {
-    draw0.call(this, g, t, view);
-    const bars = this.stage.spec.bar; if (bars && bars.length) { if (!this._bar) this._bar = bars.map((b) => ({ ...b, t0: this.clock.at(b.at), t1: this.clock.at(b.until), tg: this.clock.at(b.growEnd), te: b.endAt !== undefined ? this.clock.at(b.endAt) : undefined })); for (const b of this._bar) if (t >= b.t0 && t < b.t1 + 0.5) drawBar(g, t, view.rect, b); }
-  };
-}
-
-function drawBar(g, t, r, b) {
-  const a = clamp((t - b.t0) / 0.35) * (1 - clamp((t - b.t1) / 0.5)); if (a <= 0.01) return; const H = r.h, W = r.w; const x0 = r.x + W * 0.12, x1 = r.x + W * 0.88, y = r.y + H * (b.y ?? 0.84), bh = H * 0.052;
-  const u = EASE.inOut(clamp((t - b.t0 - 0.3) / Math.max(0.1, b.tg - b.t0 - 0.3))); const xe = x0 + (x1 - x0) * u;
-  g.save(); g.globalAlpha = a; g.shadowColor = 'rgba(25,12,4,0.5)'; g.shadowBlur = H * 0.02; g.shadowOffsetY = H * 0.008; g.beginPath(); g.roundRect(x0 - 6, y - 6, x1 - x0 + 12, bh + 12, bh * 0.5); g.fillStyle = 'rgba(246,236,208,0.95)'; g.fill(); g.shadowColor = 'transparent'; g.lineWidth = 3; g.strokeStyle = '#2a190e'; g.stroke();
-  if (xe > x0 + 2) { g.save(); g.beginPath(); g.roundRect(x0, y, x1 - x0, bh, bh * 0.5); g.clip(); const gr = g.createLinearGradient(x0, 0, x1, 0); gr.addColorStop(0, '#c52a2a'); gr.addColorStop(1, '#e8a02e'); g.fillStyle = gr; g.fillRect(x0, y, xe - x0, bh); g.restore(); }
-  g.lineWidth = 2; g.strokeStyle = 'rgba(42,25,14,0.75)'; for (let k = 1; k < 5; k++) { const x = x0 + (x1 - x0) * k / 5; g.beginPath(); g.moveTo(x, y + bh * 0.12); g.lineTo(x, y + bh * 0.88); g.stroke(); }
-  drawOutlined(g, b.startText || '1260', x0, y - H * 0.022, H * 0.044, { weight: 800 });
-  if (b.te !== undefined && t >= b.te) { const age = t - b.te; const sc = 0.6 + 0.4 * EASE.outBack(clamp(age / 0.4)); g.save(); g.translate(x1, y - H * 0.022); g.scale(sc, sc); drawOutlined(g, b.endText, 0, 0, H * 0.056, { weight: 800, color: '#ffe08a' }); g.restore(); }
-  g.restore();
 }

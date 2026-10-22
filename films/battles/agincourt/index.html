@@ -5,7 +5,6 @@
 <script type="importmap">{"imports":{"three":"/harness/node_modules/three/build/three.module.js","three/addons/":"/harness/node_modules/three/examples/jsm/"}}</script>
 </head><body><script type="module">
 import { startBattleMap } from '/films/lib/battlemap/index.js';
-import './icons.js';
 import { installFx } from './fx.js';
 installFx();
 await startBattleMap({ specUrl: './spec.js', cuesUrl: './cues.json' });

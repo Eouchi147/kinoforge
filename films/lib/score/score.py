@@ -106,7 +106,6 @@ class Composer:
             if engine == 'samples' and not self.inst: raise RuntimeError('engine=samples but no sample folder found (set SCORE_SAMPLES)')
         self.use_samples = bool(self.inst)
         self.log(f'engine: {"samples+synth" if self.use_samples else "synth"} ({len(self.inst)} sampled instruments found)')
-        self.tonic_midi_bass = 36 + self.tonic                                   # tonic in the bass octave, 36..47
         self.info = {'chords': [], 'hits': [], 'solo': [], 'beats': []}
         self.turn_t = next((s['t'] for s in p['sections'] if s['mood'] == 'turn'), None)
 
@@ -123,7 +122,6 @@ class Composer:
             for i, s in enumerate(p['sections']):
                 M = P.MOODS[s['mood']]; v0, v1 = M[key]
                 if key == 'I' and 'intensity' in s: v0 = v1 = s['intensity']
-                v0e = v0
                 if i == 0:
                     add(0.0, v0); add(max(s['t1'] - 2, 0.1), v1); prev = v1; continue
                 if s['mood'] == 'turn':
@@ -217,8 +215,8 @@ class Composer:
             elif i == 0:
                 push(t, m, root=0, ctype='open'); t0 = t
             else:
-                if chords and chords[-1]['t'] > t - 2.0 and m != 'turn':               # a chord has just begun: let it breathe
-                    t = chords[-1]['t'] + max(2.0, (chords[-1]['t'] - t) * 0 + 2.0)
+                if chords and chords[-1]['t'] > t - 2.0:                               # a chord has just begun: let it breathe
+                    t = chords[-1]['t'] + 2.0
                 push(t, m, role=role); t0 = t
             t = t0 + float(rng.uniform(lo, hi))
             while t < s['t1'] - 5.0:
@@ -245,9 +243,6 @@ class Composer:
         for a, b in self.plan['voice']:
             if a <= t < b and b - t <= window: return b + 0.12
         return t
-
-    def sample_or_synth(self, name):
-        s = self.inst.get(name); return s
 
     # ---- pads: bowed strings (long, evolving)
     def render_pad(self):
@@ -330,8 +325,6 @@ class Composer:
         pending_apex = self.turn_t
         while t < end_solo:
             s = self.section_at(t); mood = s['mood']; M = P.MOODS[mood]
-            if mood == 'turn' and pending_apex is not None and t >= pending_apex - 1:
-                pass
             inst_name = self.solo_choose(rng, mood)
             lo_i, hi_i = P.INSTRUMENTS[inst_name][2]
             centre = int(np.clip(pal['centre'] + M['reg'] + (4 if inst_name == 'bassoon' else 0) - (12 if inst_name == 'bassoon' else 0), lo_i + 4, hi_i - 5))
@@ -529,9 +522,9 @@ class Composer:
         p = self.plan; rng = self.rngs['hits']; D = self.D
         self.hitbus = Bus(self.n); self.hit_air = Bus(self.n)
         hits = list(p['hits'])
-        f_boom = float(dsp.midi_hz(self.tonic + 24))                               # the tonic, in the 50 to 100 Hz octave
-        while f_boom < 50: f_boom *= 2
-        while f_boom >= 100: f_boom /= 2
+        f_boom = float(dsp.midi_hz(self.tonic + 24))                               # the tonic, in the 62 to 124 Hz octave
+        while f_boom < 62: f_boom *= 2
+        while f_boom >= 124: f_boom /= 2
         pitch = f_boom / 44.0
         for h in hits:
             t = float(h['t']); lv = float(h.get('level', 0.8)); kind = h.get('kind', 'low')

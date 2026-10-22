@@ -48,21 +48,21 @@ DEPTH = 1.0
 RES = 0.022
 # strata top-down: (name, thickness m, sRGB, pebble density); clay top sits 0.22 m below the lawn
 STRATA = [('turf', 0.05, (0.20, 0.14, 0.09), 0.02), ('topsoil', 0.07, (0.31, 0.22, 0.14), 0.08),
-          ('loam', 0.10, (0.47, 0.35, 0.23), 0.18), ('clay', 0.34, (0.55, 0.55, 0.54), 0.01),
-          ('clay2', 0.16, (0.46, 0.47, 0.48), 0.03), ('deep', 1.0, (0.40, 0.34, 0.28), 0.25)]
+          ('loam', 0.10, (0.47, 0.35, 0.23), 0.18), ('clay', 0.34, (0.40, 0.40, 0.39), 0.01),
+          ('clay2', 0.16, (0.34, 0.35, 0.36), 0.03), ('deep', 1.0, (0.40, 0.34, 0.28), 0.25)]
 CLAY_S = 0.22                         # strata coordinate of the clay top
-H0 = 0.075                            # perched water above the clay at the start (m)
+H0 = 0.09                            # perched water above the clay at the start (m)
 LAWN = 0.04                           # lawn height
-PUD_C = (0.05, 0.28)                  # puddle centre and radii (a shallow bowl in the lawn)
-PUD_R = (0.56, 0.34)
-PUD_D = 0.034                         # bowl depth
-PUD_LEVEL = LAWN - PUD_D * 0.42       # water level in the bowl
+PUD_C = (0.05, 0.36)                  # puddle centre and radii (a shallow bowl in the lawn)
+PUD_R = (0.62, 0.38)
+PUD_D = 0.065                         # bowl depth
+PUD_LEVEL = LAWN - PUD_D * 0.22       # water level in the bowl
 Y0 = -0.32                            # trench centre line (runs along x, from X_START to the +X cut face)
-TW = 0.20                             # trench width
+TW = 0.26                             # trench width
 X_START = -0.95
 DTR = 0.40                            # trench floor depth (below z = 0)
 BED = 0.06                            # gravel bed under the pipe
-PR = 0.046                            # pipe radius
+PR = 0.055                            # pipe radius
 COVER_Z = -0.12                       # top of the gravel cover
 PATIO = (-SX / 2, -0.80, -SY / 2, -0.86)   # x0, x1, y0, y1
 
@@ -712,10 +712,10 @@ def build(bpy, ctx, aspect):
 CAM = {  # per beat: (time, az, el, dist factor, target or None for the block centre)
     '9:16': [(0.0, -46.0, 35.0, 1.00, None), (3.0, -43.0, 34.0, 0.95, None),
              (6.5, -14.0, 13.0, 0.36, (SX / 2, Y0 + 0.05, -0.30)),
-             (11.5, -30.0, 27.0, 0.66, (0.55, -0.15, -0.30)), (15.0, -38.0, 33.0, 0.93, None)],
+             (11.5, -28.0, 24.0, 0.50, (0.95, -0.25, -0.28)), (15.0, -38.0, 33.0, 0.93, None)],
     '16:9': [(0.0, -46.0, 33.0, 1.00, None), (3.0, -43.0, 32.0, 0.95, None),
              (6.5, -14.0, 12.0, 0.40, (SX / 2, Y0 + 0.05, -0.27)),
-             (11.5, -30.0, 25.0, 0.68, (0.55, -0.15, -0.30)), (15.0, -38.0, 31.0, 0.93, None)],
+             (11.5, -28.0, 22.0, 0.54, (0.95, -0.25, -0.26)), (15.0, -38.0, 31.0, 0.93, None)],
 }
 
 def cam_pose(S, t):

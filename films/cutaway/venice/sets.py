@@ -143,14 +143,14 @@ def build_city(kit, M, lamps):
     rio1 = [(-2.7, -0.05), (-1.7, -0.32), (-1.0, -0.78), (-0.42, -1.12)]
     rio2 = [(0.72, 2.7), (0.95, 1.6), (0.86, 0.62), (0.62, -0.02)]
     def lag(x, y): return np.minimum(1.62 - y, x + 1.62) + 0.03 * cw.fbm(x, y, 4, 2, 2.0)
-    water = [cw.river(canal_path, width=0.50, depth=0.24, level=LV, shelf=0.10), cw.river(rio1, width=0.15, depth=0.14, level=LV, shelf=0.05),
-             cw.river(rio2, width=0.15, depth=0.14, level=LV, shelf=0.05), cw.basin(lag, depth=0.20, level=LV, shelf=0.25)]
+    water = [cw.river(canal_path, width=0.50, depth=0.38, level=LV, shelf=0.10), cw.river(rio1, width=0.15, depth=0.22, level=LV, shelf=0.05),
+             cw.river(rio2, width=0.15, depth=0.22, level=LV, shelf=0.05), cw.basin(lag, depth=0.32, level=LV, shelf=0.25)]
     top = lambda x, y: -0.022 + 0.002 * cw.fbm(x, y, 9, 2, 3.0)
     campo = (-0.52, 0.42); campo_r = 0.30
     def zones(x, y, h):
         return {'rock': np.ones_like(x)}
     land = cw.block(kit, size=(4.0, 4.0), depth=DEPTH, strata=VZ_STRATA, top=top, water=water, seed=21, zones=zones, grass=0, trees=0,
-                    boulders=0, flowers=0, under=True, water_tint=WATER_TINT, water_density=3.2, name='city')
+                    boulders=0, flowers=0, under=True, water_tint=WATER_TINT, water_density=4.2, name='city')
     S.land = land; zm = _zmean(land); grid(land)
     keep = [(1.62, -1.58, 0.44), (campo[0], campo[1], campo_r)]
     taken = []

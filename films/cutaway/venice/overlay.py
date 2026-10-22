@@ -58,7 +58,7 @@ class Overlay:
     # --------------------------------------------------------------------- elements
     def text(self, name, body, px, color=INK, align='CENTER', spacing=1.0, bold=0.0):
         bpy = self.bpy; cu = bpy.data.curves.new(name, 'FONT'); cu.body = body; cu.font = self.font; cu.align_x = align; cu.align_y = 'CENTER'
-        cu.space_character = spacing; cu.offset = bold * 0.02; cu.resolution_u = 6
+        cu.space_character = spacing; cu.offset = bold * 0.018; cu.resolution_u = 6
         ob = bpy.data.objects.new(name, cu); self.kit.coll.objects.link(ob)
         m, a, em = self._mat(name + '_m', color); cu.materials.append(m)
         e = Elem(self, ob, a, kind='text'); e.px = px; e.em = em; self._obj(ob); self.items.append(e); return e
@@ -146,7 +146,7 @@ class Label:
     """Small caps label on a paper pill, with an optional hairline leader to a world anchor and a dot on the anchor."""
     def __init__(self, ov, name, body, px=17, leader=True, color=INK, paper=PAPER):
         self.ov = ov; self.body = body.upper()
-        self.plate = ov.pill(name + '_pl', paper); self.txt = ov.text(name + '_tx', self.body, px, color, 'CENTER', 1.12)
+        self.plate = ov.pill(name + '_pl', paper); self.txt = ov.text(name + '_tx', self.body, px, color, 'CENTER', 1.12, bold=0.5)
         self.lead = ov.line(name + '_ld', color) if leader else None; self.dot = ov.dot(name + '_dt', color) if leader else None
         self.size = None
 

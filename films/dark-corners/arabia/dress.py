@@ -379,9 +379,9 @@ def fg_place(S, pos, tgt, which=(0, 3), side=(-1.0, 1.0)):
     fx, fy = tgt[0] - pos[0], tgt[1] - pos[1]; n = math.hypot(fx, fy)
     if n < 1e-6: return
     fx, fy = fx / n, fy / n; rx, ry = fy, -fx
-    d = 0.28 + 2.0 * max(0.0, h - 0.10); sc = d / 0.30
+    d = 0.28 + 2.0 * max(0.0, h - 0.10); sc = 1.7 * d / 0.30
     for k, sd in zip(which, side):
-        x = pos[0] + fx * d * (1.0 + 0.12 * sd) + rx * sd * 0.56 * d; y = pos[1] + fy * d * (1.0 + 0.12 * sd) + ry * sd * 0.56 * d
+        x = pos[0] + fx * d * (1.0 + 0.12 * sd) + rx * sd * 0.40 * d; y = pos[1] + fy * d * (1.0 + 0.12 * sd) + ry * sd * 0.40 * d
         o = S['fgc'][k]; o.hide_render = False; o.location = (x, y, gz(x, y) - 0.004); o.rotation_euler = (0, 0, 1.7 * k + 0.9 * sd); o.scale = (sc, sc, sc)
 
 def build_dress(bpy, S, M, coll):
