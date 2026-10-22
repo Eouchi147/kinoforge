@@ -1,16 +1,14 @@
 """Four seasons loop: the land, the pond and the timeline (pure numpy, no bpy).
 
-Why the world is 4-fold symmetric: the camera turns 90 degrees per loop, so the last frame looks at the world from an
-angle 90 degrees past the first. The loop is seamless only if the world at t = 12 s equals the world at t = 0 turned by
-90 degrees. Everything visible at the seam is therefore built once in the quadrant Q = {x >= 0, y < 0} and copied four
-times (land, pond, trees, grass, frogs), noise is read through rotation-invariant coordinates, and the light turns with
-the camera. Things that exist only in the middle of the loop (falling leaves, snow, dragonflies) need no symmetry.
+The loop closes because the year closes: every season curve is periodic over 12 s (spring at the seam on both sides),
+every motion repeats on the loop (kit.Kit(loop=12)), and the camera only sways a few degrees on a 12 s sine. So the
+world can be natural and asymmetric: one pond cut open on the front (-Y) face, a stream feeding it from the back, mounds.
 """
 import math
 import numpy as np
 
 LOOP = 12.0
-S = 3.0                  # block size (m)
+S = 3.2                  # block size (m)
 H = S / 2
 DEPTH = 1.25
 LV = -0.05               # water level
@@ -41,62 +39,50 @@ def fbm(x, y, seed=0, octaves=3, freq=1.0):
         s = s + a * vnoise(x * freq * 2 ** o + 17.1 * o, y * freq * 2 ** o - 9.3 * o, seed + o * 101); n += a; a *= 0.5
     return s / n
 
-def inv2(x, y):
-    """Two coordinates that do not change when (x, y) turns by 90 degrees (continuous, mildly stretched)."""
-    r = np.hypot(x, y); p = 4 * np.arctan2(y, x)
-    return 0.5 * r * np.cos(p), 0.5 * r * np.sin(p) + 0.85 * r
-
-def ifbm(x, y, seed, octaves=3, freq=1.0):
-    u, v = inv2(np.asarray(x, float), np.asarray(y, float)); return fbm(u, v, seed, octaves, freq)
-
-def rot(P, k):
-    """Turn points (N x 2 or N x 3) by k * 90 degrees counter-clockwise about the z axis."""
-    P = np.array(P, float)
-    for _ in range(k % 4):
-        x = P[:, 0].copy(); P[:, 0] = -P[:, 1]; P[:, 1] = x
-    return P
-
-def c4(P, *per_point):
-    """Four copies of points in Q (and their per-point arrays). Yaw arrays get + k * 90 degrees if named via c4yaw."""
-    out = [np.vstack([rot(P, k) for k in range(4)])]
-    for a in per_point: out.append(np.concatenate([np.asarray(a)] * 4))
-    return out
-
-def c4yaw(yaw):
-    yaw = np.asarray(yaw, float); return np.concatenate([yaw + k * math.pi / 2 for k in range(4)])
-
 # ------------------------------------------------------------------ pond and land
-RC = 0.56                 # central pool radius
+POND_C, POND_R = (0.22, -1.32), (0.88, 0.68)          # centre past nothing: the -Y face (y = -1.5) cuts it open
+STREAM = [(-0.95, 2.2), (-0.85, 1.25), (-0.30, 0.55), (-0.32, -0.15), (0.05, -0.75)]
+
+def _seg_dist(P, x, y):
+    d = np.full(np.shape(x), 1e9)
+    for a, b in zip(P[:-1], P[1:]):
+        ab = b - a; L2 = ab @ ab + 1e-12
+        t = np.clip(((x - a[0]) * ab[0] + (y - a[1]) * ab[1]) / L2, 0, 1)
+        d = np.minimum(d, np.hypot(x - a[0] - t * ab[0], y - a[1] - t * ab[1]))
+    return d
+
+def _catmull(points, n):
+    P = np.asarray(points, float); m = len(P); P = np.vstack([2 * P[0] - P[1], P, 2 * P[-1] - P[-2]]); out = []
+    for k in range(n):
+        s = k / (n - 1) * (m - 1); i = min(int(s), m - 2); u = s - i
+        p0, p1, p2, p3 = P[i], P[i + 1], P[i + 2], P[i + 3]
+        out.append(0.5 * (2 * p1 + (-p0 + p2) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u + (-p0 + 3 * p1 - 3 * p2 + p3) * u ** 3))
+    return np.array(out)
+
+_SP = _catmull(STREAM, 60)
 
 def pond_sd(x, y):
-    """Signed distance to the pond (negative in the water): a central pool with four coves that bend like a pinwheel
-    and open on the four faces (centred on each face, so the cut shows a wide glass window)."""
+    """Signed distance to the water (negative inside): an oval pond against the front face, a stream from the back."""
     x = np.asarray(x, float); y = np.asarray(y, float)
-    d = np.hypot(x, y) - RC
-    for k in range(4):
-        c, s = math.cos(-k * math.pi / 2), math.sin(-k * math.pi / 2)
-        xc = x * c - y * s; yc = x * s + y * c                    # this cove along -Y
-        a = -yc
-        bend = 0.17 * np.sin(math.pi * np.clip(a / 1.5, 0, 1))
-        b = np.abs(xc - bend)
-        w = 0.17 + 0.33 * smooth(0.7, 1.52, a)
-        dk = np.where(a > 0, b - w, np.hypot(b, a) - 0.17)
-        d = smin(d, dk, 0.16)
-    return d + 0.04 * ifbm(x, y, 21, 3, 2.2)
+    q = np.hypot((x - POND_C[0]) / POND_R[0], (y - POND_C[1]) / POND_R[1]); ang = np.arctan2(y - POND_C[1], x - POND_C[0])
+    dp = (q - 1 + 0.06 * np.sin(3 * ang + 1.0) + 0.04 * np.sin(5 * ang + 2.0)) * min(POND_R)
+    t = np.clip((y + 0.8) / 2.8, 0, 1); w = 0.13 + 0.05 * np.sin(4 * t)              # the stream narrows upstream
+    ds = _seg_dist(_SP, x, y) - w
+    return smin(dp, ds, 0.18) + 0.03 * fbm(x, y, 21, 3, 2.2)
 
 def land_h(x, y):
-    """Dry land before the pond is carved: low mounds in the four corners, gentle rolling."""
-    x = np.asarray(x, float); y = np.asarray(y, float); m = 0.0
-    for cx, cy in ((1, 1), (-1, 1), (-1, -1), (1, -1)):
-        m = m + np.exp(-((x - 1.08 * cx) ** 2 + (y - 1.08 * cy) ** 2) / 0.28)
-    return 0.035 + 0.11 * m + 0.035 * ifbm(x, y, 5, 3, 1.4)
+    """Dry land: a hill in the back right, a low rise back left, gentle rolling."""
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    hill = 0.20 * np.exp(-((x - 1.0) ** 2 + (y - 0.95) ** 2) / 0.55) + 0.10 * np.exp(-((x + 1.05) ** 2 + (y - 0.6) ** 2) / 0.35)
+    return 0.035 + hill + 0.035 * fbm(x, y, 5, 3, 1.4)
 
 def field(x, y):
     """h (top height), sd (signed distance to the water), wg (grass), ws (sand), depth below the water level."""
     x = np.asarray(x, float); y = np.asarray(y, float)
-    h = land_h(x, y); sd = pond_sd(x, y); r = np.hypot(x, y)
-    D = 0.30 + 0.12 * smooth(1.0, 0.25, r)
-    bed = LV - 0.02 - D * smooth(0, 0.30, -sd) * (0.93 + 0.07 * ifbm(x, y, 9, 3, 3.0))
+    h = land_h(x, y); sd = pond_sd(x, y)
+    r = np.hypot((x - POND_C[0]) / POND_R[0], (y - POND_C[1]) / POND_R[1])
+    D = 0.16 + 0.24 * smooth(1.6, 0.4, r)          # the stream is shallow, the pond deep
+    bed = LV - 0.02 - D * smooth(0, 0.30, -sd) * (0.93 + 0.07 * fbm(x, y, 9, 3, 3.0))
     bank = LV + 0.012 + 0.55 * np.maximum(sd, 0)
     target = np.where(sd < 0, bed, bank)
     k2 = 0.03; hmin = np.minimum(h, target); hh = h - target
@@ -104,7 +90,7 @@ def field(x, y):
     depth = LV - h
     near = smooth(0.09, 0.0, sd)
     ws = np.where(depth > 0, 1.0, near)
-    dry = 0.5 + 0.5 * ifbm(x, y, 41, 3, 1.3)
+    dry = 0.5 + 0.5 * fbm(x, y, 41, 3, 1.3)
     wg = np.clip(1 - ws, 0, 1) * smooth(0.12, 0.3, dry + 0.25)
     return {'h': h, 'sd': sd, 'wg': wg, 'ws': ws, 'depth': depth}
 

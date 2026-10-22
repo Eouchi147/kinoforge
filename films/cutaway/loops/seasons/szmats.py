@@ -1,9 +1,7 @@
 """Four seasons loop: season-driven materials and the node patches that keep the loop seamless (bpy, built on the kit).
 
 The kit bakes a season into its materials at build time. Here every season-dependent colour or amount is a Value, RGB or
-ColorRamp node that `Drive` sets each frame from the timeline in world.py. Noise is read through coordinates that do
-not change under a 90 degree turn (`inv_vec` on the top, `fold_vec` on the walls) and per-instance colour comes from a
-turn-invariant function of the instance position (`inv_rand`), so the four copies of each plant look the same.
+ColorRamp node that `Drive` sets each frame from the timeline in szworld.py, so the year can turn inside one render.
 """
 import math
 import cutaway as cw
@@ -34,30 +32,9 @@ class Drive:
         for cr in self.r.get(name, []):
             for el, c in zip(cr.elements, cols): el.color = srgb(c)
 
-# ------------------------------------------------------------------ invariant coordinates
-def inv_vec(g, pos, zscale=1.0):
-    """Cone embedding: a 90 degree wedge rolled into a cone, so 3D noise read here is the same under a 90 degree turn,
-    continuous everywhere and undistorted (locally isometric) except at the centre."""
-    s = g.sep(pos); x, y, z = s[0], s[1], s[2]
-    r = g.math('SQRT', g.math('ADD', g.math('MULTIPLY', x, x), g.math('MULTIPLY', y, y)))
-    p4 = g.math('MULTIPLY', g.math('ARCTAN2', y, x), 4.0); q = g.math('MULTIPLY', r, 0.25)
-    return g.comb(g.math('MULTIPLY', g.math('COSINE', p4), q), g.math('MULTIPLY', g.math('SINE', p4), q),
-                  g.math('ADD', g.math('MULTIPLY', r, 0.9682), g.math('MULTIPLY', z, zscale)))
-
-def fold_vec(g, pos):
-    """Walls: turn every face onto the -Y face, so the four faces carry the same texture (seams only on the corners)."""
-    s = g.sep(pos); th = g.math('ARCTAN2', s[1], s[0])
-    k = g.math('FLOOR', g.math('DIVIDE', g.math('ADD', th, 3 * PI / 4), PI / 2))
-    vr = g.node('ShaderNodeVectorRotate', rotation_type='Z_AXIS'); g.put(vr, 'Vector', pos); g.put(vr, 'Angle', g.math('MULTIPLY', k, -PI / 2))
-    return vr.outputs['Vector']
-
-def inv_rand(g, scale=37.0):
-    """Per-instance random in 0..1 that is identical for the four turned copies (built from x*x + y*y and x*x*y*y)."""
-    oi = g.node('ShaderNodeObjectInfo'); s = g.sep(oi.outputs['Location'])
-    xx = g.math('MULTIPLY', s[0], s[0]); yy = g.math('MULTIPLY', s[1], s[1])
-    v = g.comb(g.math('MULTIPLY', g.math('ADD', xx, yy), 3.1), g.math('MULTIPLY', g.math('MULTIPLY', xx, yy), 5.3), g.math('MULTIPLY', s[2], 7.0))
-    n = g.noise(v, scale, 0.0, 0.5)
-    return g.math('MULTIPLY_ADD', g.math('SUBTRACT', n.outputs['Fac'], 0.5), 2.6, 0.5, clamp=True)
+# ------------------------------------------------------------------ helpers
+def inv_rand(g):
+    return g.node('ShaderNodeObjectInfo').outputs['Random']
 
 def _principled(nt):
     return next(n for n in nt.nodes if n.bl_idname == 'ShaderNodeBsdfPrincipled')
@@ -66,14 +43,6 @@ def _base_src(g, p, key='Base Color'):
     s = p.inputs[key]
     if s.is_linked: src = s.links[0].from_socket; g.t.links.remove(s.links[0]); return src
     return tuple(s.default_value)
-
-def patch_random(mat):
-    """Replace Object Info Random (differs between the four copies) with inv_rand."""
-    nt = mat.node_tree; g = G(nt); links = [l for l in nt.links if l.from_node.bl_idname == 'ShaderNodeObjectInfo' and l.from_socket.name == 'Random']
-    if not links: return
-    r = inv_rand(g)
-    for l in links:
-        to = l.to_socket; nt.links.remove(l); nt.links.new(r, to)
 
 def patch_snow(mat, D, kit, up=0.55, tint=None):
     """Snow on the upward faces (amount driven by 'snow'); optional seasonal colour tint (driven RGB `tint`)."""
@@ -89,7 +58,7 @@ def patch_snow(mat, D, kit, up=0.55, tint=None):
 # ------------------------------------------------------------------ materials
 def mat_top(kit, D):
     m = cw._new_mat(kit.bpy, 'sz_top'); g = G(m.node_tree, kit)
-    tc = g.node('ShaderNodeTexCoord'); pos = tc.outputs['Object']; geo = g.node('ShaderNodeNewGeometry'); P = inv_vec(g, pos)
+    tc = g.node('ShaderNodeTexCoord'); pos = tc.outputs['Object']; geo = g.node('ShaderNodeNewGeometry'); P = pos
     wg = g.attr('wg').outputs['Fac']; ws = g.attr('ws').outputs['Fac']
     n_big = g.noise(P, 1.6, 3.0); n_mid = g.noise(P, 8.0, 4.0); n_fine = g.noise(P, 45.0, 4.0)
     dirt = g.mix(n_mid.outputs['Fac'], srgb((0.24, 0.17, 0.11)), srgb((0.38, 0.28, 0.18)))
@@ -109,16 +78,14 @@ def mat_top(kit, D):
     deep = g.math('MULTIPLY', g.math('SUBTRACT', W.LV - 0.03, z), 12.0, clamp=True)   # caustics need some depth
     bed = g.mix(n_mid.outputs['Fac'], D.rgb(g, 'bedA'), D.rgb(g, 'bedB'))
     col = g.mix(g.math('MULTIPLY', under, 0.85), col, bed)
-    # caustics (looping, read through the invariant coordinates; faded at the cone apex in the pool centre)
+    # caustics (looping), kept faint
     zoff, w = g.phase(0.25); Pc = g.vmath('ADD', P, g.comb(0.0, 0.0, zoff))
     v1 = g.voronoi(Pc, 7.0, 'DISTANCE_TO_EDGE', '4D', w); v2 = g.voronoi(g.vmath('SCALE', Pc, scale=1.37), 9.0, 'DISTANCE_TO_EDGE', '4D', g.math('MULTIPLY', w, 1.3))
     c1 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', v1.outputs['Distance'], 9.0), clamp=True)
     c2 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', v2.outputs['Distance'], 11.0), clamp=True)
     c = g.math('POWER', g.math('MAXIMUM', c1, c2), 2.0); d = g.math('SUBTRACT', W.LV, z)
-    rr = g.math('SQRT', g.math('ADD', g.math('POWER', g.sep(pos)[0], 2.0), g.math('POWER', g.sep(pos)[1], 2.0)))
-    apex = g.math('MULTIPLY', g.math('SUBTRACT', rr, 0.08), 4.0, clamp=True)
     ca = g.math('MULTIPLY', g.math('MULTIPLY', c, g.math('MULTIPLY', deep, g.math('EXPONENT', g.math('MULTIPLY', d, -2.0)))),
-                g.math('MULTIPLY', D.val(g, 'caus', 1.0), g.math('MULTIPLY', apex, 0.9)))
+                g.math('MULTIPLY', D.val(g, 'caus', 1.0), 0.35))   # faint: a hint of light on the bed
     col = g.mix(ca, col, g.mix(0.5, col, (1.0, 1.0, 0.95), 'SCREEN'))
     col = g.mix(g.math('MINIMUM', g.math('MULTIPLY', ca, 0.6), 1.0), col, g.mix(1.0, col, (1.6, 1.6, 1.5), 'MULTIPLY'))
     # meltwater: the thawed ground is dark and glossy for a moment
@@ -136,12 +103,12 @@ def mat_top(kit, D):
     cw._finish(g, p); return m
 
 def mat_strata(kit, D, layers, burrow):
-    """Cross-section walls (as the kit's, read through fold_vec), plus: a snow cap, fine roots that grow in spring,
+    """Cross-section walls (as the kit's), plus: a snow cap, fine roots that grow in spring,
     and the frog's chamber cut into the mud under each cove (a hole that opens to the cavity behind it)."""
     m = cw._new_mat(kit.bpy, 'sz_strata'); g = G(m.node_tree, kit)
-    tc = g.node('ShaderNodeTexCoord'); pos = fold_vec(g, tc.outputs['Object']); sx = g.sep(pos)
+    tc = g.node('ShaderNodeTexCoord'); pos = tc.outputs['Object']; sx = g.sep(pos)
     sd = g.attr('sd').outputs['Fac']; dtop = g.attr('dtop').outputs['Fac']
-    hz = sx[0]
+    hz = g.math('ADD', sx[0], sx[1])                                          # runs along the two front faces
     wob = g.noise(g.comb(hz, 0.0, g.math('MULTIPLY', sd, 0.2)), 2.2, 3.0)
     s = g.math('ADD', sd, g.math('MULTIPLY', g.math('SUBTRACT', wob.outputs['Fac'], 0.5), 0.07))
     total = sum(l[1] for l in layers[:-1]) + 0.6; stops = []; pstops = []; acc = 0.0; soft = 0.012
@@ -184,8 +151,10 @@ def mat_strata(kit, D, layers, burrow):
     hole = g.math('LESS_THAN', e, g.math('MULTIPLY', op, 1.0))
     slot = g.math('MULTIPLY', g.math('LESS_THAN', g.math('ABSOLUTE', g.math('SUBTRACT', sx[0], bx)), g.math('MULTIPLY', tn, 0.024)),
                   g.math('MULTIPLY', g.math('GREATER_THAN', sx[2], bz), g.math('LESS_THAN', sx[2], bed_z + 0.004)))
+    front = g.math('LESS_THAN', sx[1], -W.H + 0.01)                            # the chamber is on the front (-Y) face only
+    hole = g.math('MULTIPLY', hole, front); slot = g.math('MULTIPLY', slot, front)
     cut = g.math('MAXIMUM', hole, slot)
-    rim = g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', e, g.math('MULTIPLY', op, 1.0))), 9.0), clamp=True), g.math('GREATER_THAN', op, 0.05))
+    rim = g.math('MULTIPLY', front, g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', e, g.math('MULTIPLY', op, 1.0))), 9.0), clamp=True), g.math('GREATER_THAN', op, 0.05)))
     col = g.mix(g.math('MULTIPLY', rim, 0.55), col, srgb((0.10, 0.07, 0.05)))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.92})
     h = g.math('ADD', g.math('MULTIPLY', n1.outputs['Fac'], 0.3), g.math('ADD', g.math('MULTIPLY', peb, 0.8), g.math('MULTIPLY', root, 0.4)))
@@ -195,24 +164,31 @@ def mat_strata(kit, D, layers, burrow):
     cw._finish(g, mx); return m
 
 def mat_water(kit, D):
+    """Calm clear water: glass with a broad, very low swell (soft reflections, no chop), a faint in-water glow so it
+    reads clear, a thin bright meniscus where the surface meets the cut face, seasonal absorption colour."""
     m = cw._new_mat(kit.bpy, 'sz_water'); g = G(m.node_tree, kit)
-    tc = g.node('ShaderNodeTexCoord'); geo = g.node('ShaderNodeNewGeometry'); P = inv_vec(g, tc.outputs['Object'])
-    zoff, w = g.phase(0.45); p = g.vmath('ADD', P, g.comb(0.0, 0.0, zoff))
-    r1 = g.noise(p, 9.0, 3.0, 0.55, '4D', w); r2 = g.noise(g.vmath('SCALE', p, scale=2.7), 9.0, 2.0, 0.5, '4D', g.math('MULTIPLY', w, 1.6))
-    hgt = g.math('ADD', r1.outputs['Fac'], g.math('MULTIPLY', r2.outputs['Fac'], 0.45))
+    tc = g.node('ShaderNodeTexCoord'); geo = g.node('ShaderNodeNewGeometry'); pos = tc.outputs['Object']; sx = g.sep(pos)
+    zoff, w = g.phase(0.12); p = g.comb(sx[0], sx[1], zoff)
+    r1 = g.noise(p, 2.2, 1.0, 0.4, '4D', w)
     topmask = g.math('GREATER_THAN', g.sep(geo.outputs['Normal'])[2], 0.7)
-    bump = g.node('ShaderNodeBump', ins={'Strength': g.math('MULTIPLY', topmask, 0.18), 'Height': hgt, 'Distance': 0.02})
-    glass = g.node('ShaderNodeBsdfGlass', ins={'Color': (1, 1, 1), 'Roughness': 0.015, 'IOR': 1.33}, distribution='GGX'); g.put(glass, 'Normal', bump)
+    bump = g.node('ShaderNodeBump', ins={'Strength': g.math('MULTIPLY', topmask, 0.035), 'Height': r1.outputs['Fac'], 'Distance': 0.02})
+    glass = g.node('ShaderNodeBsdfGlass', ins={'Color': (1, 1, 1), 'Roughness': 0.02, 'IOR': 1.33}, distribution='GGX'); g.put(glass, 'Normal', bump)
     tr = g.node('ShaderNodeBsdfTransparent'); lp = g.node('ShaderNodeLightPath'); mx = g.node('ShaderNodeMixShader')
     g.link(lp.outputs['Is Shadow Ray'], mx.inputs[0]); g.link(glass, mx.inputs[1]); g.link(tr, mx.inputs[2])
+    glow = g.node('ShaderNodeEmission', ins={'Strength': 0.05}); g.put(glow, 'Color', D.rgb(g, 'wtint', (0.2, 0.78, 0.74)))
+    ad = g.node('ShaderNodeAddShader'); g.link(mx, ad.inputs[0]); g.link(glow, ad.inputs[1])
+    side = g.math('LESS_THAN', g.sep(geo.outputs['Normal'])[2], 0.5)
+    men = g.math('MULTIPLY', side, g.math('MULTIPLY', g.math('SUBTRACT', sx[2], W.LV - 0.004), 250.0, clamp=True))
+    wl = g.node('ShaderNodeEmission', ins={'Color': (1.0, 1.0, 1.0), 'Strength': 1.4}); m3 = g.node('ShaderNodeMixShader')
+    g.link(men, m3.inputs[0]); g.link(ad, m3.inputs[1]); g.link(wl, m3.inputs[2])
     vol = g.node('ShaderNodeVolumeAbsorption'); g.put(vol, 'Color', D.rgb(g, 'wtint', (0.2, 0.78, 0.74))); g.put(vol, 'Density', D.val(g, 'wdens', 3.2))
-    cw._finish(g, mx, vol); return m
+    cw._finish(g, m3, vol); return m
 
 def mat_ice(kit, D):
     """Pond ice: frosted and pale, present where the freeze front has reached (from the banks inwards), cracked, with
     snow dusting the top. Transparent where not frozen."""
     m = cw._new_mat(kit.bpy, 'sz_ice'); g = G(m.node_tree, kit)
-    tc = g.node('ShaderNodeTexCoord'); P = inv_vec(g, tc.outputs['Object']); geo = g.node('ShaderNodeNewGeometry')
+    tc = g.node('ShaderNodeTexCoord'); P = tc.outputs['Object']; geo = g.node('ShaderNodeNewGeometry')
     sd = g.attr('sdw').outputs['Fac']; n = g.noise(P, 6.0, 3.0)
     front = g.math('ADD', g.math('MULTIPLY', D.val(g, 'ice'), 0.95), g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.5), 0.18))
     a = g.math('MULTIPLY', g.math('ADD', sd, g.math('SUBTRACT', front, 0.02)), 60.0, clamp=True)
@@ -290,17 +266,3 @@ def mat_leafbits(kit):
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.55})
     tr = g.node('ShaderNodeBsdfTranslucent', ins={'Color': col}); mx = g.node('ShaderNodeMixShader')
     g.put(mx, 0, 0.3); g.link(p, mx.inputs[1]); g.link(tr, mx.inputs[2]); cw._finish(g, mx); return m
-
-def patch_wind(kit):
-    """The kit's wind reads point positions; feed it turn-invariant coordinates so the four copies sway alike."""
-    bpy = kit.bpy; ng = bpy.data.node_groups.get('cw_sway')
-    if ng is None or ng.get('sz_inv'): return
-    posn = [n for n in ng.nodes if n.bl_idname == 'GeometryNodeInputPosition']
-    links = [l for l in ng.links if l.from_node in posn]
-    g = G(ng, kit); src = posn[0].outputs[0]; s = g.sep(src); x, y, z = s[0], s[1], s[2]
-    r = g.math('SQRT', g.math('ADD', g.math('MULTIPLY', x, x), g.math('MULTIPLY', y, y)))
-    p4 = g.math('MULTIPLY', g.math('ARCTAN2', y, x), 4.0); q = g.math('MULTIPLY', r, 0.5)
-    v = g.comb(g.math('MULTIPLY', g.math('COSINE', p4), q), g.math('MULTIPLY', g.math('SINE', p4), q), z)
-    for l in links:
-        to = l.to_socket; ng.links.remove(l); ng.links.new(v, to)
-    ng['sz_inv'] = 1

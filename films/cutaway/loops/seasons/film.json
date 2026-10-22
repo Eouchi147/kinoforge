@@ -13,5 +13,5 @@
  "samples": 40,
  "loop": true,
  "audio": "audio/mix.m4a",
- "note": "Seamless 12 s social loop, 9:16. Picture: Blender Cutaway kit (films/styles/cutaway), blender.py + szworld.py + szmats.py here; the world is 4-fold symmetric and the light turns with the camera so frame 287 flows into frame 0. Sound: audio/make_audio.py (free score engine + synthesised ambience, exact 12 s loop). Render with rc-render films.yml."
+ "note": "Seamless 12 s social loop, 9:16. Picture: Blender Cutaway kit (films/styles/cutaway), blender.py + szworld.py + szmats.py here; the year itself loops (spring on both sides of the seam), all motion repeats on 12 s, the camera sways 3 degrees on a 12 s sine, so frame 287 flows into frame 0. Sound: audio/make_audio.py (free score engine voices + synthesised ambience, exact 12 s loop). Render with rc-render films.yml."
 }
