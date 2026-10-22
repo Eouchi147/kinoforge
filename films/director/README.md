@@ -11,10 +11,11 @@ intelligence, one per provider first; the eyes seat only gets free models that t
 in code (`PaidRefused`), and any call that reports a cost stops the job (`OverBudget`). The sound stage is free too:
 the narration is read by **Chatterbox** (MIT, CPU, in its own Python 3.11 env on the runner; `voice: "chatterbox"` or
 `"chatterbox|path/to/ref.wav"` for a reference voice in this repo) or **Kokoro** (Apache 2.0, `voice: "kokoro|bm_george"`),
-every line checked by Whisper (a take with word error above 0.15 is redone, at most 3 takes); the score comes from the
-free procedural engine through the hook `music_engines.procedural` in `config.json` (contract: `python3
-films/lib/score/score.py <job dir> <out.mp3> <seconds>`, reading `ad.json` `prep.music`), and until that engine exists a
-quiet placeholder pad made in code (`pad.py`) so a film can still be finished. Only Sam turns free-only off
+every line checked by Whisper (a take with word error above 0.15 is redone, at most 3 takes); the narration is placed on the beat grid of a quiet pad made in code (`pad.py`), the mix
+runs, then the free procedural score engine re-scores it (`films/lib/score/remix.py <job dir>`, hook
+`music_engines.procedural.remix` in `config.json`: it reads `cues.json`, `audio/vo/line*.mp3` and `ad.json`, writes
+`audio/score_plan.json`, `audio/score.json` and a new `audio/mix.m4a`); if the engine is missing or fails, the pad stays
+as the score and `status.json` says so. Only Sam turns free-only off
 (`free_only: false`, or `KF_FREE_ONLY=0` in the workflow env); then the paid path (ElevenLabs, Lyria, paid seats) is used.
 
 ## Craft checks (CRAFT.md section 9, in `check.cjs`)

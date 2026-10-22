@@ -63,7 +63,7 @@ def make_materials(bpy):
     M['pot'] = clay(bpy, 'pot', (0.64, 0.36, 0.24), (0.52, 0.29, 0.19), rough=0.6, seed=72)
     M['pot2'] = clay(bpy, 'pot2', (0.46, 0.30, 0.22), (0.38, 0.24, 0.18), rough=0.6, seed=73)
     M['rug2'] = striped(bpy, 'rug2', [(0.16, 0.22, 0.40), (0.88, 0.74, 0.46), (0.60, 0.20, 0.16), (0.88, 0.74, 0.46), (0.16, 0.22, 0.40), (0.30, 0.24, 0.16)], period=0.026, axis=0, widths=[0.22, 0.06, 0.28, 0.06, 0.22, 0.16], rough=0.9)
-    M['paper_far'] = [paper(bpy, f'far{k}', c, tuple(x * 0.92 for x in c), rough=0.95, stroke=(1.0, 1.0, 12.0), stroke_scale=3.0, tooth=0.0, mottle=2.0) for k, c in enumerate(((0.16, 0.20, 0.38), (0.12, 0.15, 0.31), (0.09, 0.11, 0.25)))]
+    M['paper_far'] = [paper(bpy, f'far{k}', c, tuple(x * 0.92 for x in c), rough=0.95, stroke=(1.0, 1.0, 12.0), stroke_scale=3.0, tooth=0.0, mottle=2.0) for k, c in enumerate(((0.30, 0.36, 0.58), (0.22, 0.28, 0.48), (0.15, 0.20, 0.40)))]
     return M
 
 def mecca_h(x, y):
@@ -80,7 +80,19 @@ def make_sky_scene(bpy, ctx, S):
     try: wd.use_nodes = True
     except Exception: pass
     bg = wd.node_tree.nodes.get('Background')
-    if bg is not None: bg.inputs['Color'].default_value = (0.02, 0.03, 0.09, 1.0); bg.inputs['Strength'].default_value = 1.0; S['sky_bg'] = bg
+    if bg is not None:
+        N, Lk = wd.node_tree.nodes, wd.node_tree.links
+        tc = N.new('ShaderNodeTexCoord'); sp = N.new('ShaderNodeSeparateXYZ'); Lk.new(tc.outputs['Generated'], sp.inputs['Vector'])
+        mr = N.new('ShaderNodeMapRange'); mr.inputs['From Min'].default_value = -0.05; mr.inputs['From Max'].default_value = 0.75; mr.clamp = True; Lk.new(sp.outputs['Z'], mr.inputs['Value'])
+        def rmp(stops):
+            r = N.new('ShaderNodeValToRGB'); r.color_ramp.interpolation = 'EASE'
+            while len(r.color_ramp.elements) < len(stops): r.color_ramp.elements.new(0.5)
+            for i, (pos, c) in enumerate(stops): r.color_ramp.elements[i].position = pos; r.color_ramp.elements[i].color = srgb(c)
+            Lk.new(mr.outputs['Result'], r.inputs['Fac']); return r
+        nt = rmp([(0.0, (0.20, 0.27, 0.50)), (0.45, (0.10, 0.145, 0.36)), (1.0, (0.030, 0.045, 0.15))]); dw = rmp([(0.0, (1.0, 0.66, 0.42)), (0.4, (0.70, 0.52, 0.62)), (1.0, (0.20, 0.25, 0.50))])
+        dv = N.new('ShaderNodeValue'); dv.outputs[0].default_value = 0.0; mx = N.new('ShaderNodeMix'); mx.data_type = 'RGBA'
+        Lk.new(dv.outputs[0], sock(mx.inputs, 'Factor_Float')); Lk.new(nt.outputs['Color'], sock(mx.inputs, 'A_Color')); Lk.new(dw.outputs['Color'], sock(mx.inputs, 'B_Color'))
+        Lk.new(sock(mx.outputs, 'Result_Color'), bg.inputs['Color']); bg.inputs['Strength'].default_value = 0.9; S['sky_bg_dawn'] = dv
     cd = bpy.data.cameras.new('skycam'); cd.lens = 35.0; cd.sensor_width = 36.0; cd.clip_start = 0.01; cd.clip_end = 80.0; cd.dof.use_dof = False
     co = bpy.data.objects.new('skycam', cd); ss.collection.objects.link(co); ss.camera = co; S['skycam'] = co
     return ss

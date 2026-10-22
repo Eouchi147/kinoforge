@@ -442,6 +442,7 @@ class Composer:
         names = pal['pluck']; wts = np.array(pal['pluck_weights'], float)
         beat = 60.0 / p['tempo']
         t = 2.0 + float(rng.uniform(0, 1.5)); idx_state = 0; dirn = 1; rolled = False
+        on = np.where(self.curves['perc'] > 0.05)[0]; grid0 = max(0.0, on[0] / CR - 1.0) if len(on) else 0.0
         end = D - 12.0
         def tones(ch, lo, hi):
             return sorted(m for m in range(lo, hi + 1) if m % 12 in ch['pcs'])
@@ -464,7 +465,7 @@ class Composer:
                 dirn = -dirn; t = ts + k * sp + float(rng.uniform(*M['pluck']))
             elif mood == 'tension':
                 tn_low = tones(ch, 43, 57); tn_mid = tones(ch, 55, 72)
-                ev_t = t; vel_b = 0.34 + 0.22 * I
+                bar = 4 * beat; ev_t = grid0 + np.ceil((t - grid0) / bar - 1e-6) * bar; vel_b = 0.34 + 0.22 * I   # on the drums' bar line
                 for q in range(4):                                                      # one bar: the ostinato rides the drum pulse
                     tq = ev_t + q * beat
                     root = tn_low[0] if q % 2 == 0 else tn_low[min(len(tn_low) - 1, 2)]
@@ -556,16 +557,23 @@ class Composer:
         n = self.n; I = self.curves['I']; B = self.curves['bright']
         tt = np.arange(n) / SR
         I_s = np.interp(tt * CR, np.arange(len(I)), I).astype(np.float32); B_s = np.interp(tt * CR, np.arange(len(B)), B).astype(np.float32)
-        # strings: gain follows intensity (about 12 dB between calm and the peak of the swell); brightness opens with it
-        g = 10 ** (-12.0 * (1 - I_s) ** 1.1 / 20.0)
+        # strings: gain follows intensity (about 14 dB between calm and the peak of the swell); brightness opens with it
+        g = 10 ** (-14.0 * (1 - I_s) ** 1.1 / 20.0)
         body = (self.strings.buf + self.synth_pad.buf)
-        dark = dsp.lowpass(body, 1100, 2, axis=0); mid = dsp.lowpass(body, 2800, 2, axis=0); bright = dsp.lowpass(body, 7500, 2, axis=0)
+        dark = dsp.lowpass(body, 1500, 2, axis=0); mid = dsp.lowpass(body, 3600, 2, axis=0); bright = dsp.lowpass(body, 9500, 2, axis=0)
         w_d = np.clip(1 - 2 * B_s, 0, 1); w_b = np.clip(2 * B_s - 1, 0, 1); w_m = 1 - w_d - w_b
         pad = (dark * w_d[:, None] + mid * w_m[:, None] + bright * w_b[:, None]) * g[:, None]
         del dark, mid, bright, body
-        solo = self.solo.buf * (10 ** (-3.0 / 20)) * (10 ** (-3.0 * (1 - I_s) / 20)).astype(np.float32)[:, None]
+        solo = self.solo.buf * (10 ** (-1.0 / 20)) * (10 ** (-3.0 * (1 - I_s) / 20)).astype(np.float32)[:, None]
         pluck = self.pluck.buf * (10 ** (-2.5 / 20))
         drums = self.drums.buf * (10 ** (-6.0 / 20)); hitbus = self.hitbus.buf * (10 ** (-3.0 / 20)); air = self.hit_air.buf
+        # balance report: RMS of each bus in each section, before the room (what the arrangement is doing)
+        self.balance = []
+        for s in self.plan['sections']:
+            a, b = int(s['t'] * SR), int(min(s['t1'], self.D) * SR)
+            if b - a < SR: continue
+            r = lambda x: round(float(10 * np.log10((x[a:b] ** 2).mean() + 1e-12)), 1)
+            self.balance.append({'t': round(s['t'], 1), 'mood': s['mood'], 'pad': r(pad), 'solo': r(solo), 'pluck': r(pluck), 'drums': r(drums), 'hits': r(hitbus)})
         rt = self.pal['rt60']
         hall = dsp.make_ir(rt, np.random.default_rng(self.plan['seed'] + 101)); room = dsp.make_ir(0.8, np.random.default_rng(self.plan['seed'] + 202), predelay=0.008)
         send_hall = pad * 0.30 + solo * 0.50 + pluck * 0.38 + hitbus * 0.30 + air * 0.5
@@ -576,7 +584,7 @@ class Composer:
         del wet, send_hall, send_room
         # master EQ: tidy the lows, a gentle scoop where the voice lives, soften the top
         mix = dsp.highpass(mix, 38, 2, axis=0)
-        mix = dsp.eq(mix, [dsp.peaking_sos(2300, -2.5, 0.7), dsp.peaking_sos(220, 1.2, 0.8), dsp.high_shelf_sos(6500, -2.5)], axis=0)
+        mix = dsp.eq(mix, [dsp.peaking_sos(2300, -2.5, 0.7), dsp.peaking_sos(220, 1.2, 0.8), dsp.high_shelf_sos(7000, -1.0)], axis=0)
         mix = dsp.lowpass(mix, 13500, 1, axis=0)
         # fades: in at the start, the end fade
         D = self.D; ef = self.plan['end_fade']
@@ -598,7 +606,7 @@ def render_plan(plan, engine='auto', target_lufs=-23.0, log=lambda *a: None):
     y, meas = finalise(mix, target_lufs)
     info = {'plan': c.plan, 'engine': 'samples+synth' if c.use_samples else 'synth', **meas, 'chords': c.info['chords'], 'hits': c.info['hits'],
             'beats': c.beats[:2000], 'curves': {k: [round(float(v), 3) for v in c.curves[k][::CR // 5]] for k in c.curves}, 'curve_hz': 5,
-            'solo_events': len(c.info['solo']), 'tonic': plan.get('key', c.pal['key']), 'mode': c.plan['mode']}
+            'solo_events': len(c.info['solo']), 'balance_db': c.balance, 'tonic': plan.get('key', c.pal['key']), 'mode': c.plan['mode']}
     return y, info
 
 

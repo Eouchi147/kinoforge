@@ -67,6 +67,7 @@ export function hazeBand(gg, t, o) {
 // a painted grass strip (own plane): blades along the bottom, to be swayed by the wind uniform. rect in design px.
 export function paintGrassStrip(S, name, D, rect, { seed = 1, col = hex('#0d0f20'), lit = hex('#3a3f70'), h0 = 18, h1 = 46, step = 8, amp = 0.006, freq = 22 } = {}) {
   const C = new Canvas(rect, { seed, q: 1 }); const R = C.R; const [x0, y0, x1, y1] = rect;
+  C.g.fillStyle = rgba(mul(col, 0.9), 1); C.g.fillRect(x0 - 4, y1 - h0 * 0.55, x1 - x0 + 8, h0 * 0.7 + 12);
   for (let x = x0 - 6; x < x1 + 6; x += step * (0.4 + R())) {
     const h = lerp(h0, h1, Math.pow(R(), 1.4)); const yb = y1 + 4 + R() * 6; const k = 3 + Math.floor(R() * 3);
     for (let i = 0; i < k; i++) { const a = -Math.PI / 2 + (R() - 0.5) * 0.7; const c = mixc(mul(col, 0.7 + R() * 0.6), lit, R() < 0.18 ? 0.5 : 0);

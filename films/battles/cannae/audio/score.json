@@ -1,7 +1,7 @@
 {
  "engine": "samples+synth",
  "lufs": -23.0,
- "peak_dbfs": -6.69,
+ "peak_dbfs": -6.64,
  "chords": [
   [
    0.0,
@@ -2573,7 +2573,7 @@
    "mood": "calm",
    "pad": -35.4,
    "solo": -34.7,
-   "pluck": -35.5,
+   "pluck": -34.9,
    "drums": -120.0,
    "hits": -37.2
   },
@@ -2582,7 +2582,7 @@
    "mood": "curious",
    "pad": -31.6,
    "solo": -34.7,
-   "pluck": -29.9,
+   "pluck": -29.7,
    "drums": -120.0,
    "hits": -120.0
   },
@@ -2600,7 +2600,7 @@
    "mood": "tension",
    "pad": -28.4,
    "solo": -32.8,
-   "pluck": -28.7,
+   "pluck": -29.6,
    "drums": -35.2,
    "hits": -35.8
   },
@@ -2609,7 +2609,7 @@
    "mood": "turn",
    "pad": -24.7,
    "solo": -31.6,
-   "pluck": -27.9,
+   "pluck": -29.6,
    "drums": -34.3,
    "hits": -35.2
   },
@@ -2618,7 +2618,7 @@
    "mood": "aftermath",
    "pad": -29.0,
    "solo": -31.1,
-   "pluck": -36.1,
+   "pluck": -37.1,
    "drums": -37.9,
    "hits": -120.0
   },
@@ -2627,7 +2627,7 @@
    "mood": "aftermath",
    "pad": -36.4,
    "solo": -35.6,
-   "pluck": -37.7,
+   "pluck": -37.0,
    "drums": -120.0,
    "hits": -120.0
   }
@@ -2692,44 +2692,44 @@
  ],
  "mix": {
   "voice_lufs_before": -21.8,
-  "mix_lufs": -14.09,
+  "mix_lufs": -14.1,
   "mix_peak_dbfs": -2.0,
-  "voice_over_score_while_speaking_db": 16.5,
+  "voice_over_score_while_speaking_db": 16.6,
   "by_section": [
    {
     "t": 0.0,
     "mood": "calm",
-    "voice_over_music_db": 19.9
+    "voice_over_music_db": 19.7
    },
    {
     "t": 22.5,
     "mood": "curious",
-    "voice_over_music_db": 17.6
+    "voice_over_music_db": 17.3
    },
    {
     "t": 51.4,
     "mood": "curious",
-    "voice_over_music_db": 17.1
+    "voice_over_music_db": 16.9
    },
    {
     "t": 75.4,
     "mood": "tension",
-    "voice_over_music_db": 14.9
+    "voice_over_music_db": 15.3
    },
    {
     "t": 98.8,
     "mood": "turn",
-    "voice_over_music_db": 12.8
+    "voice_over_music_db": 13.0
    },
    {
     "t": 117.9,
     "mood": "aftermath",
-    "voice_over_music_db": 16.8
+    "voice_over_music_db": 16.7
    },
    {
     "t": 127.8,
     "mood": "aftermath",
-    "voice_over_music_db": 21.9
+    "voice_over_music_db": 21.6
    }
   ],
   "clipped_samples": 0

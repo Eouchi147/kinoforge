@@ -30,7 +30,7 @@ export function buildShots(cues, duration) {
   S('c3c', 'table', 34.992, { mode: 'tally', marks: [31.95, 34.5, 39], base: 0.3, cam: [[0, look(360, 640, 34)], [3.18, look(360, 640, 39)]], breath: 0.3 });
   // ================= SCENE 4: NEAR-DEATH (34.99 to 44.6). How close did each of them come to dying?
   // 4a: Basil's ambush: riders in the gorge, stones from the rim on the hits, one cloak turns and escapes toward us
-  S('n4a', 'gorge', 38.73, { mode: 'ride', riders: 6, hits: [36.27, 37.222], cam: [[0, look(360, 780, 30)], [3.74, look(360, 810, 33)]], breath: 0.6 });
+  S('n4a', 'gorge', 38.73, { mode: 'ride', riders: 6, hits: [36.27, 37.222], cam: [[0, look(360, 800, 35)], [3.74, look(360, 840, 38)]], breath: 0.6 });
   // 4b: Samuel among the dead: the night field, the push toward one still figure, a breath, and at the end he lifts his head
   S('n4b', 'field', 44.606, { mode: 'dead', fx: 330, fy: 1000, rise: 43.0, cam: [[0, look(360, 780, 30)], [5.876, look(350, 985, 42)]], breath: 0.4 });
   // ================= SCENE 5: KLEIDION (44.6 to 76.74). Will the wall hold?
@@ -52,7 +52,7 @@ export function buildShots(cues, duration) {
   // 6b: not over: the Bulgarian fires are relit one by one
   S('e6b', 'camp', 85.31, { noSamuel: true, banners: true, farStagger: false, fireT0: 82.826, fireStep: 0.12, lit: 1, cam: [[0, look(380, 920, 31)], [2.624, look(400, 960, 34)]], breath: 0.5 });
   // 6c: the governor's men in a gorge: stones, dust, a banner that lies down
-  S('e6c', 'gorge', 90.878, { mode: 'column', men: 9, fallAt: 87.4, t0: 85.31, hits: [85.867, 86.912, 87.4, 89.141, 89.466], cam: [[0, look(360, 770, 30)], [5.568, look(360, 740, 33)]], breath: 0.5 });
+  S('e6c', 'gorge', 90.878, { mode: 'column', men: 9, fallAt: 87.4, t0: 85.31, hits: [85.867, 86.912, 87.4, 89.141, 89.466], cam: [[0, look(360, 800, 34)], [5.568, look(360, 780, 37)]], breath: 0.5 });
   // ================= SCENE 7: THE ORDER (90.88 to 112.36). What did Basil order, and how was it written?
   S('o7a', 'table', 93.344, { mode: 'seal', sealAt: 91.951, base: 0.3, cam: [[0, look(360, 600, 32)], [2.466, look(360, 690, 38)]], breath: 0.3 });
   S('o7b', 'page', 100.774, { capShade: 0.72, cam: [[0, look(360, 470, 32)], [3.0, look(360, 560, 34)], [7.43, look(360, 700, 38)]] });

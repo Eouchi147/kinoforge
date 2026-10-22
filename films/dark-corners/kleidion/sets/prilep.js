@@ -3,15 +3,18 @@
 import { Canvas, hex, mixc, mul, rgba, underpaint, ridged, clamp, lerp, smoothstep, ease, noise1, rng, WARM, det, bump, fireFlick, tintAll, spline, ribbonPath, paintCliff } from './common.js';
 import { paintSky, paintRange, pineTree, paintFog, paintTufts, paintRocks } from '../paint.js';
 import { person, glowAt, embers, hash1, PAL } from '../figs.js';
+import { birds, smoke, motes, hazeBand } from '../ambient.js';
+import { horizonGlow } from './light.js';
 
 const ROAD = spline([{ x: 440, y: 612 }, { x: 400, y: 640 }, { x: 330, y: 690 }, { x: 290, y: 760 }, { x: 350, y: 850 }, { x: 420, y: 960 }, { x: 330, y: 1100 }, { x: 250, y: 1300 }], 12);
 export default function prilep(S, cams) {
   const cover = (D, m) => S.cover(D, cams, m); const D = { sky: 6000, far: 2200, plain: 700, keep: 380, ramp: 95, fg: 48 }; const planes = {};
-  const skies = { dusk: { stops: [[-500, '#0d0f30'], [0, '#1a1c4c'], [300, '#3a2f66'], [480, '#7a4a6e'], [580, '#d88a6a'], [640, '#f3b27a']], glow: { x: 250, y: 620, rx: 520, ry: 190, col: '#ffc08a', a: 0.8 } },
-    dawn: { stops: [[-500, '#243060'], [0, '#3a4880'], [300, '#7a78a8'], [480, '#d8a0a0'], [580, '#f6c8a0'], [640, '#fde0b0']], glow: { x: 360, y: 640, rx: 560, ry: 200, col: '#ffe0b0', a: 0.9 } } };
+  const skies = { dusk: { stops: [[-500, '#0d0f30'], [0, '#1a1c4c'], [300, '#3a2f66'], [480, '#7a4a6e'], [580, '#d88a6a'], [640, '#f3b27a']], glow: { x: 250, y: 630, rx: 560, ry: 120, col: '#ffc08a', a: 0.55 } },
+    dawn: { stops: [[-500, '#243060'], [0, '#3a4880'], [300, '#7a78a8'], [480, '#d8a0a0'], [580, '#f6c8a0'], [640, '#fde0b0']], glow: { x: 360, y: 640, rx: 620, ry: 130, col: '#ffe0b0', a: 0.6 } } };
   for (const k of Object.keys(skies)) { const o = skies[k]; const r = cover(D.sky); const C = new Canvas(r, { seed: k === 'dusk' ? 1311 : 1312 });
     paintSky(C, { stops: o.stops.map(([y, c]) => [y, hex(c)]), glow: { ...o.glow, col: hex(o.glow.col) }, clouds: [{ y: 220, h: 12, x0: -300, x1: 1000, col: hex(k === 'dusk' ? '#2a2058' : '#6a6a9a'), lit: hex(k === 'dusk' ? '#c87a7a' : '#f4b890'), litA: 0.7, sy: 0.03 }, { y: 430, h: 10, x0: -100, x1: 1000, col: hex(k === 'dusk' ? '#4a3066' : '#9a8aa8'), lit: hex(k === 'dusk' ? '#f0a478' : '#ffd8a8'), litA: 0.8, thr: 0.5, sy: 0.04 }] });
     if (k === 'dusk') { const R = rng(13111); for (let i = 0; i < 70; i++) { const x = lerp(r[0], r[2], R()), y = lerp(r[1], 380, R()); C.g.fillStyle = rgba([220, 225, 255], 0.2 + R() * 0.5); C.g.beginPath(); C.g.arc(x, y, 0.5 + R(), 0, 7); C.g.fill(); } }
+    horizonGlow(C, { y: 636, x0: r[0], x1: r[2], h: 150, col: k === 'dusk' ? [255, 170, 120] : [255, 215, 160], a: 0.55, streaks: 6, seed: 5 });
     C.mottle({ amt: 0.05 }); planes['sky_' + k] = S.plane('sky_' + k, D.sky, r, C.c); }
   { const r = cover(D.far); r[1] = Math.max(r[1], 300); r[3] = Math.min(r[3], 700); const C = new Canvas(r, { seed: 1321 });
     paintRange(C, { ridge: (x) => 610 - bump(x, 120, 200, 130) - bump(x, 600, 160, 90) - 24 * ridged(x * 0.007, 4, 5), top: hex('#4a3a66'), mid: hex('#3a2f5c'), base: hex('#30284e'), fall: 180, light: { dir: 1, col: hex('#c07a7a'), amt: 0.35 }, haze: { col: hex('#c08a8a'), y0: 560, y1: 690, a: 0.8 }, rim: hex('#f0a478') });
@@ -58,18 +61,26 @@ export default function prilep(S, cams) {
       const t = F.t, sh = F.shot, g = F.g, lt = F.lt; const gl = F.glow(); const dawn = sh.dawn ? 1 : 0;
       planes.sky_dusk.visible = !dawn; planes.sky_dawn.visible = !!dawn; const k = dawn ? 0.85 : 0.7; tintAll(S, k, dawn ? [1.1, 1.0, 0.95] : [1, 1, 1.05]);
       // the lantern line on the plain: each leader a warm point, a dark huddle behind it; they appear as the shot goes, nearer ones drift closer
-      if (sh.lanterns) { const [n0, t0, t1] = sh.lanterns; const n = Math.floor(n0 * smoothstep(t0, t1, t) + 0.5);
-        for (let i = 0; i < n; i++) { const u0 = 0.08 + i * (0.8 / n0); const u = clamp(u0 + 0.05 * (t - t0) * 0.1, 0, 0.99); const pp = ROAD.at(1 - u); const q = F.P(D.plain, pp.x, pp.y), K = F.K(D.plain, pp.x, pp.y); const age = clamp((t - (t0 + (t1 - t0) * i / n0)) / 0.8); const f = fireFlick(t, i);
-          const sx = q[0], sy = q[1]; const h = (5 + (pp.y - 600) * 0.045) * K; g.fillStyle = rgba(hex('#0c0814'), 0.92 * age);
-          for (let j = 1; j <= 3; j++) { const p2 = ROAD.at(clamp(1 - u - j * 0.009, 0, 1)); const q2 = F.P(D.plain, p2.x + (j % 2 ? 3 : -3), p2.y), K2 = F.K(D.plain, p2.x, p2.y); const h2 = (5 + (p2.y - 600) * 0.045) * K2; g.beginPath(); g.ellipse(q2[0], q2[1] - h2 * 0.5, h2 * 0.17 + 0.4, h2 * 0.5 + 0.8, 0, 0, 7); g.fill(); }
-          g.beginPath(); g.ellipse(sx, sy - h * 0.5, h * 0.17 + 0.4, h * 0.5 + 0.8, 0, 0, 7); g.fill();
-          glowAt(gl, sx + h * 0.2, sy - h * 0.55, 5 * K + h * 0.7, 0.95 * f * age, [255, 175, 90]); glowAt(gl, sx + h * 0.2, sy - h * 0.55, 10 * K + h * 2.2, 0.26 * f * age, [255, 140, 70]); } }
+      if (sh.lanterns) { const [n0, t0, t1] = sh.lanterns; const NG = 8; const n = Math.floor(NG * smoothstep(t0, t1, t) + 0.5);
+        // groups of men, each led by one with a lantern; the others walk behind with a hand on the shoulder in front; every group a little nearer as the shot goes
+        for (let i = 0; i < n; i++) { const u0 = 0.05 + i * 0.112; const u = clamp(u0 + 0.004 * (t - t0), 0, 0.99); const age = clamp((t - (t0 + (t1 - t0) * i / NG)) / 0.8); const f = fireFlick(t, i);
+          const men = 6; const pts = []; for (let j = 0; j < men; j++) { const uj = clamp(u - j * 0.0095, 0, 1); const pj = ROAD.at(1 - uj); const q = F.P(D.plain, pj.x + (j % 2 ? 2 : -2), pj.y), K = F.K(D.plain, pj.x, pj.y); pts.push({ q, h: (5 + (pj.y - 600) * 0.045) * K * 2.0, j }); }
+          for (let j = men - 1; j >= 0; j--) { const { q, h } = pts[j]; const bob = Math.sin(t * 5.2 + j * 1.7 + i) * h * 0.012; g.fillStyle = rgba(hex(j === 0 ? '#15101c' : '#0c0814'), 0.94 * age);
+            g.beginPath(); g.moveTo(q[0] - h * 0.13, q[1]); g.lineTo(q[0] - h * 0.09, q[1] - h * 0.66 + bob); g.lineTo(q[0] + h * 0.09, q[1] - h * 0.66 + bob); g.lineTo(q[0] + h * 0.14, q[1]); g.closePath(); g.fill(); g.beginPath(); g.arc(q[0], q[1] - h * 0.8 + bob, h * 0.1, 0, 7); g.fill();
+            if (j > 0) { const fr = pts[j - 1]; g.strokeStyle = rgba(hex('#0c0814'), 0.9 * age); g.lineWidth = Math.max(0.8, h * 0.05); g.lineCap = 'round'; g.beginPath(); g.moveTo(q[0], q[1] - h * 0.6 + bob); g.lineTo(fr.q[0] + h * 0.03, fr.q[1] - h * 0.62); g.stroke(); } }
+          const L = pts[0]; const lx = L.q[0] + L.h * 0.24, ly = L.q[1] - L.h * 0.52; g.strokeStyle = rgba(hex('#15101c'), 0.9 * age); g.lineWidth = Math.max(0.8, L.h * 0.04); g.beginPath(); g.moveTo(L.q[0], L.q[1] - L.h * 0.6); g.lineTo(lx, ly - L.h * 0.08); g.stroke();
+          glowAt(gl, lx, ly, 3 + L.h * 0.34, 0.95 * f * age, [255, 190, 110]); glowAt(gl, lx, ly, 6 + L.h * 1.5, 0.34 * f * age, [255, 150, 80]); glowAt(gl, lx, ly, 10 + L.h * 4, 0.1 * f * age, [255, 130, 60]); } }
       // the keep window: lit, then out at `windowOut`
       if (sh.window) { const kp = F.P(D.keep, KEEP.wx, KEEP.wy), K = F.K(D.keep, KEEP.wx, KEEP.wy); const on = 1 - smoothstep(sh.window, sh.window + 0.5, t); const f = fireFlick(t, 7) * on; g.fillStyle = rgba([255, 190, 110], 0.92 * on); g.fillRect(kp[0] - 6 * K, kp[1] - 12 * K, 12 * K, 24 * K); glowAt(gl, kp[0], kp[1], 120 * K, 0.5 * f, [255, 160, 80]); F.lights.push({ x: kp[0], y: kp[1], r: 150 * K, c: WARM, k: 0.6 * on }); }
       // Samuel on the parapet
       if (sh.samuel) { const o = sh.samuel; const sp = F.P(D.ramp, o.x ?? 300, 1010 + 6), K = F.K(D.ramp, 300, 1010); const hh = (o.h ?? 330) * K; const col = clamp((t - (sh.collapse ?? 1e9)) / 1.1); const e = ease.inQuad(col);
         g.save(); g.translate(sp[0], sp[1]); if (col > 0) { g.translate(-hh * 0.1 * e, hh * 0.02 * e); g.rotate(-1.35 * e); } person(g, { x: 0, y: 0, h: hh, face: o.face ?? 1, walk: 0, col: hex('#4b1a24'), col2: hex('#5a2430'), cape: hex('#5a1a2a'), crown: true, hood: false, skinCol: hex('#140e1c'), head: 0.06 - 0.18 * e, warm: undefined, reach: [0.2, 0.5 + 0.2 * e] }); g.restore();
         if (sh.guard && t > sh.collapse + 0.4) { const gu = clamp((t - sh.collapse - 0.4) / 0.7); const gp = F.P(D.ramp, 520 - 120 * ease.outQuad(gu), 1016); person(g, { x: gp[0], y: gp[1], h: 300 * K, face: -1, ph: t * 1.6, walk: 1 - gu, col: hex('#2a2038'), col2: hex('#3a2c4a'), hood: false, skinCol: hex('#140e1c'), reach: [-0.3, 0.7] }); } }
+      // life: swifts over the plain, hearth smoke under the fortress, a mist sliding over the fields, drifting motes
+      { const kp = F.P(D.keep, 420, 760), KK = F.K(D.keep); for (const [dx, sd] of [[0, 1], [150, 2], [260, 3]]) smoke(g, t, kp[0] + dx * KK, kp[1], { n: 5, rise: 90 * KK, wind: 8, r0: 1.5 * KK + 0.5, r1: 9 * KK + 2, a: dawn ? 0.2 : 0.16, col: dawn ? [200, 170, 180] : [130, 100, 140], life: 8, seed: sd }); }
+      birds(g, t, { x0: -60, x1: 780, y0: 320, y1: 520, n: dawn ? 8 : 5, seed: dawn ? 5 : 6, size: 5.5, speed: 15, dir: dawn ? 1 : -1, hz: 2.2, col: dawn ? [60, 44, 80] : [26, 16, 44], a: 0.8 });
+      hazeBand(gl, t, { y: 720, n: 6, h: 55, w: 340, a: dawn ? 0.06 : 0.04, col: dawn ? [255, 210, 190] : [200, 150, 190], speed: 5, seed: 8 });
+      motes(gl, t, { x0: 0, y0: 600, x1: 720, y1: 1100 }, { n: 14, col: dawn ? [255, 230, 190] : [255, 190, 140], a: 0.25, size: 1.0, seed: 12, drift: [4, -2] });
       if (!dawn && sh.glowSky !== false) { const sp = F.P(D.sky, 250, 620); glowAt(gl, sp[0], sp[1], 520, 0.12, [255, 170, 110]); }
       if (dawn) { const sp = F.P(D.sky, 360, 640); glowAt(gl, sp[0], sp[1], 600, 0.07 + 0.05 * smoothstep(0, 3, lt), [255, 200, 140]); }
       if (!dawn) embers(gl, t, { x0: 0, y0: 600, x1: 720, y1: 1000 }, 10, { size: 1.0, col: [255, 190, 130], a: 0.25, wind: 6, rise: 0.2, seed: 21 });

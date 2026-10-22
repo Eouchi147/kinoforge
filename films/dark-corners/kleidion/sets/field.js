@@ -5,6 +5,7 @@ import { paintSky, paintRange, paintFog, paintRocks, paintTufts } from '../paint
 import { person, horse, banner, glowAt, torch, embers, hash1, PAL } from '../figs.js';
 import { birds, smoke, motes, hazeBand, paintGrassStrip } from '../ambient.js';
 
+const STRIDE = 0.6;
 const gh = (y) => 0.36 * (y - 560) + 20;           // person height (plane px) at ground row y
 
 export default function field(S, cams) {
@@ -37,15 +38,15 @@ export default function field(S, cams) {
       g.strokeStyle = rgba(mixc(hex('#10121e'), tone, 0.5)); g.lineWidth = T * 0.42; g.lineCap = 'round'; g.beginPath(); g.moveTo(L * 0.1, -T * 0.4); g.lineTo(L * 0.34 + h * 0.06, T * 0.0 - (R() - 0.5) * T); g.stroke(); g.restore(); };
     for (const it of items) { const h = gh2(it.y) * 0.5; const { x, y } = it; if (h < 4) continue;
       if (it.k < 0.4) prone(x, y, h * 1.5, it.d, R() < 0.3 ? hex('#4a2430') : hex('#2a3052'));
-      else if (it.k < 0.58) { g.save(); g.translate(x, y); g.rotate((R() - 0.5) * 0.3); const rx = h * 0.34, ry = rx * (0.22 + 0.2 * R()); g.fillStyle = 'rgba(4,5,12,0.4)'; g.beginPath(); g.ellipse(2, ry * 0.7, rx * 1.05, ry * 0.8, 0, 0, 7); g.fill(); g.fillStyle = rgba(mixc(hex('#241c34'), hex('#4b2468'), R() * 0.8)); g.beginPath(); g.ellipse(0, 0, rx, ry, 0, 0, 7); g.fill(); g.strokeStyle = 'rgba(150,160,230,0.5)'; g.lineWidth = Math.max(1, h * 0.012); g.beginPath(); g.ellipse(0, 0, rx, ry, 0, Math.PI * 1.02, Math.PI * 1.98); g.stroke(); g.strokeStyle = 'rgba(8,8,16,0.6)'; g.beginPath(); g.ellipse(0, 0, rx * 0.65, ry * 0.65, 0, 0, 7); g.stroke(); g.fillStyle = rgba([150, 150, 190], 0.65); g.beginPath(); g.ellipse(0, -ry * 0.1, rx * 0.15, ry * 0.2, 0, 0, 7); g.fill(); g.restore(); }
+      else if (it.k < 0.58) { g.save(); g.translate(x, y); g.rotate((R() - 0.5) * 0.4); const rx = h * 0.3, ry = rx * (0.14 + 0.1 * R()); g.fillStyle = 'rgba(4,5,12,0.45)'; g.beginPath(); g.ellipse(3, ry * 0.9, rx * 1.05, ry * 0.7, 0, 0, 7); g.fill();
+        const tone = R() < 0.35 ? hex('#3a2230') : hex('#252a44'); g.fillStyle = rgba(tone); g.beginPath(); g.moveTo(-rx, 0); g.quadraticCurveTo(0, -ry * 2.6, rx, 0); g.quadraticCurveTo(0, ry * 1.4, -rx, 0); g.fill();
+        g.strokeStyle = 'rgba(160,170,235,0.55)'; g.lineWidth = Math.max(1, h * 0.014); g.beginPath(); g.moveTo(-rx, 0); g.quadraticCurveTo(0, -ry * 2.6, rx, 0); g.stroke(); g.fillStyle = rgba([170, 175, 215], 0.6); g.beginPath(); g.ellipse(rx * 0.05, -ry * 0.9, rx * 0.13, ry * 0.28, 0, 0, 7); g.fill(); g.restore(); }
       else if (it.k < 0.78) { const a = (R() - 0.5) * 0.7; const L2 = h * (1.2 + R() * 0.9); g.strokeStyle = rgba(hex('#2a2030')); g.lineWidth = Math.max(1.2, h * 0.02); g.lineCap = 'round'; g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.sin(a) * L2, y - Math.cos(a) * L2); g.stroke(); if (R() < 0.5) { g.fillStyle = rgba(hex('#3a1c28'), 0.8); g.beginPath(); g.moveTo(x + Math.sin(a) * L2, y - Math.cos(a) * L2); g.lineTo(x + Math.sin(a) * L2 * 0.9 + h * 0.18, y - Math.cos(a) * L2 * 0.93); g.lineTo(x + Math.sin(a) * L2 * 0.88 + h * 0.1, y - Math.cos(a) * L2 * 0.84); g.fill(); } else { g.fillStyle = rgba([150, 160, 210], 0.5); g.beginPath(); g.moveTo(x + Math.sin(a) * L2, y - Math.cos(a) * L2); g.lineTo(x + Math.sin(a) * L2 * 1.07 + 0.4, y - Math.cos(a) * L2 * 1.07); g.lineTo(x + Math.sin(a) * L2 + h * 0.03, y - Math.cos(a) * L2 + h * 0.08); g.fill(); } }
       else { for (let k = 0; k < 3; k++) { const a = -Math.PI / 2 + 0.4 + (R() - 0.5) * 0.9; const L3 = h * (0.5 + 0.2 * R()); g.strokeStyle = rgba(hex('#1c1a2a')); g.lineWidth = Math.max(1, h * 0.012); g.beginPath(); g.moveTo(x + k * h * 0.07, y); g.lineTo(x + k * h * 0.07 + Math.cos(a) * L3, y + Math.sin(a) * L3 * 0.6); g.stroke(); } } }
     { const gr = g.createLinearGradient(0, 556, 0, 720); gr.addColorStop(0, 'rgba(70,76,130,0.9)'); gr.addColorStop(1, 'rgba(70,76,130,0)'); g.fillStyle = gr; g.fillRect(r[0], 556, r[2] - r[0], 170); g.save(); g.globalCompositeOperation = 'destination-out'; const g2 = g.createLinearGradient(0, 556, 0, 600); g2.addColorStop(0, 'rgba(0,0,0,1)'); g2.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = g2; g.fillRect(r[0], 540, r[2] - r[0], 70); g.restore(); }
     C.mottle({ amt: 0.06 }); planes.ground = S.plane('ground', D.ground, r, C.c); }
   { const r = cover(D.mist, 150); r[1] = Math.max(r[1], 560); r[3] = Math.min(r[3], 900); const C = new Canvas(r, { seed: 1141 });
     paintFog(C, { y: (x) => 690 + 14 * Math.sin(x * 0.004), h: 60, col: hex('#5a5e94'), top: hex('#7a7eb4'), a: 0.8, density: 1.4, wisp: 0.8, blur: 3 }); planes.mist = S.plane('mist', D.mist, r, C.c); planes.mist.userData.drift = 3; }
-  { const r = cover(D.fg, 40); r[1] = Math.max(r[1], 1100); const C = new Canvas(r, { seed: 1151 });
-    paintRocks(C, { rocks: [{ x: 30, y: 1320, rx: 200, ry: 90 }, { x: 720, y: 1330, rx: 260, ry: 100 }], col: hex('#05050c'), lit: hex('#1c2040'), litA: 0.4, blur: 3 }); planes.fg = S.plane('fg', D.fg, r, C.c); }
   { const r = cover(D.fg, 40); planes.grass = paintGrassStrip(S, 'grass', D.fg - 1, [r[0], 1230, r[2], 1385], { seed: 99, col: hex('#05060f'), lit: hex('#2a3060'), h0: 30, h1: 78, step: 12, amp: 0.005, freq: 15 }); }
   tintAll(S, 1);
   const flame = (g, x, y, s, t, seed) => torch(g, x, y, s, t, seed, 1);
@@ -64,7 +65,7 @@ export default function field(S, cams) {
       if (mode === 'dead') {
         // one figure lying among the fallen: breath (and, in the cold, its vapour), a hand; at `rise` he lifts his head
         const x = sh.fx ?? 360, y = sh.fy ?? 960; const { p, K, h } = solid(x, y); const br = 0.008 * Math.sin(t * 1.4); const rise = sh.rise ? smoothstep(sh.rise, sh.rise + 0.9, t) : 0;
-        g.save(); g.translate(p[0], p[1]); g.fillStyle = 'rgba(4,5,12,0.5)'; g.beginPath(); g.ellipse(0, h * 0.02, h * 0.64, h * 0.07, 0, 0, 7); g.fill();
+        g.save(); g.translate(p[0], p[1]); g.fillStyle = 'rgba(4,5,12,0.32)'; g.beginPath(); g.ellipse(-h * 0.04, h * 0.015, h * 0.58, h * 0.045, 0, 0, 7); g.fill();
         g.fillStyle = rgba(hex('#241a32')); g.beginPath(); g.moveTo(-h * 0.5, -h * 0.01); g.quadraticCurveTo(-h * 0.54, -h * 0.14, -h * 0.25, -h * (0.17 + br)); g.quadraticCurveTo(h * 0.15, -h * (0.22 + br + rise * 0.03), h * 0.32, -h * (0.15 + rise * 0.04)); g.quadraticCurveTo(h * 0.44, -h * 0.06, h * 0.34, h * 0.0); g.closePath(); g.fill();
         g.fillStyle = rgba(P_.crimson, 0.85); g.beginPath(); g.moveTo(-h * 0.3, -h * 0.12); g.quadraticCurveTo(-h * 0.05, -h * 0.2, h * 0.28, -h * 0.13); g.lineTo(h * 0.22, -h * 0.02); g.lineTo(-h * 0.3, -h * 0.02); g.closePath(); g.fill();   // his cloak
         g.beginPath(); g.moveTo(-h * 0.48, -h * 0.06); g.lineTo(-h * 0.7, -h * 0.1); g.lineTo(-h * 0.76, h * 0.0); g.lineTo(-h * 0.48, h * 0.0); g.closePath(); g.fillStyle = rgba(hex('#1a1426')); g.fill();
@@ -79,14 +80,15 @@ export default function field(S, cams) {
         const dist = (u0) => { const e = Math.max(0, u - u0); return e < 0.9 ? 3.5 * e * e / 1.8 : 3.5 * 0.9 / 2 + 3.5 * (e - 0.9); };   // metres: accelerates to a canter, then a steady 3.5 m/s...
         const dA = (u < 4.0 ? 0 : (7.0 * (u - 4.0) * Math.min(1, (u - 4.0) / 0.8) * 0.5 + 7.0 * Math.max(0, u - 4.8) * 0.5)), dB = (u < 4.15 ? 0 : (7.0 * (u - 4.15) * Math.min(1, (u - 4.15) / 0.8) * 0.5 + 7.0 * Math.max(0, u - 4.95) * 0.5));
         // pursuers: a jog (2.6 m/s) from the left edge, torches high; they slow to a walk as they see the riders leave
-        for (let k = 0; k < 8; k++) { const y = 700 + (k * 53) % 190; const m = MPX(y); const sp = u < 3.4 ? 2.6 : lerp(2.6, 0.3, clamp((u - 3.4) / 1.2)); const dx = u < 3.4 ? sp * u : 2.6 * 3.4 + (sp + 2.6) * 0.5 * (u - 3.4) * (u < 4.6 ? 1 : 0) + (u >= 4.6 ? 0.3 * (u - 4.6) : 0) + (u >= 4.6 ? (2.6 + sp) * 0.5 * 1.2 - (2.6 + sp) * 0.5 * (u < 4.6 ? 1 : 0) * 0 : 0);
-          const x = -150 + k * 46 + (k % 2) * 30 + dx * m * 1.0; const ph = dx / (STRIDE * 1.75 * 1.2) + k * 0.37; const wk = u < 4.6 ? 1 : lerp(1, 0.3, clamp((u - 4.6) / 0.8));
+        for (let k = 0; k < 8; k++) { const y = 700 + (k * 53) % 190; const m = MPX(y); const e = clamp(u - 3.4, 0, 1.2); const dx = 2.3 * Math.min(u, 3.4) + 2.3 * e - (2.3 - 0.3) * e * e / 2.4 + 0.3 * Math.max(0, u - 4.6);
+          const x = -430 + k * 34 + (k % 2) * 26 + dx * m; const ph = dx / (STRIDE * 1.75 * 1.2) + k * 0.37; const wk = u < 4.6 ? 1 : lerp(1, 0.3, clamp((u - 4.6) / 0.8));
           arr.push({ y, fn: () => { const { p, K, h } = solid(x, y); if (h < 4 || p[0] < -90 || p[0] > 820) return; const a = person(g, { x: p[0], y: p[1], h, face: 1, ph, walk: wk, col: hex('#241a30'), col2: hex('#3a2848'), hood: false, skinCol: hex('#140e1c'), helm: true, hem: 0.3, stride: 1.2, reach: [0.3, 0.8], t });
               const f = flame(g, a.hand[0] + h * 0.04, a.hand[1] - h * 0.08, h * 0.17, t, k); glowAt(gg, f[0], f[1], h * 1.4, 0.55 * fireFlick(t, k), [255, 170, 90]); if (F.lights.length < 6) F.lights.push({ x: f[0], y: f[1], r: h * 1.6, c: WARM, k: 0.45 }); } }); }
         // the horses (a plain standing horse until the ride begins)
         const horseAt = (x, y, d, o) => { const { p, K, h } = solid(x + d * MPX(y), y); const hw = h * 0.8; return { p, hw, h, K }; };
         const walkLen = 1.4, hwM = 1.4;
-        const hA = (() => { const x = xA + dA * MPX(yA); const { p, h } = solid(x, yA); return { p, h, hw: h * 0.8 }; })(); const hB = (() => { const x = xB + dB * MPX(yB); const { p, h } = solid(x, yB); return { p, h, hw: h * 0.8 }; })();
+        const rec = (u0) => 75 * ease.inOutSine(clamp((u - u0) / 2.4)); const yAr = yA - rec(4.0), yBr = yB - rec(4.15);
+        const hA = (() => { const x = xA + dA * MPX(yA); const { p, h } = solid(x, yAr); return { p, h, hw: h * 0.8 }; })(); const hB = (() => { const x = xB + dB * MPX(yB); const { p, h } = solid(x, yBr); return { p, h, hw: h * 0.8 }; })();
         const phA = dA / (2.25 * 1.4) + 0.0, phB = dB / (2.25 * 1.4) + 0.15; const gA = u < 4.0 ? 0 : 1, gBb = u < 4.15 ? 0 : 1;
         arr.push({ y: yA, fn: () => { const hs = horse(g, { x: hA.p[0], y: hA.p[1], h: hA.hw, face: 1, ph: phA, gallop: gA, stand: u < 4.0, col: hex('#161224'), t }); const lift = smoothstep(2.0, 3.4, u);
             // the father: helped along, then lifted up

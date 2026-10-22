@@ -2,6 +2,7 @@
 // the valley the cooler lights of the Byzantine camp. Samuel stands by the fire as a tall cloaked silhouette.
 import { Canvas, hex, mixc, mul, rgba, underpaint, ridged, clamp, lerp, smoothstep, ease, noise1, rng, WARM, det, bump, igniteEnv, flick, fireFlick, tintAll, lightsOn, nn } from './common.js';
 import { paintSky, paintRange, pineTree, paintFog, paintTufts, paintRocks } from '../paint.js';
+import { birds, smoke, motes, hazeBand } from '../ambient.js';
 import { person, banner, glowAt, torch, embers, hash1, PAL, STRIDE } from '../figs.js';
 
 function tent(C, x, yb, w, h, col, lit, door = true) {
@@ -56,7 +57,7 @@ export default function camp(S, cams) {
       const t = F.t, sh = F.shot, g = F.g, S_ = F.S; const fl = fireFlick(t, 1); const ign = (i, base = 0) => clamp(igniteEnv(t, (sh.fireT0 ?? 0) + base + i * (sh.fireStep ?? 0.05), i), 0, 1.5);
       const lit = sh.lit ?? 1; const dim = sh.dim ?? 1;
       farGlow.forEach((gm, i) => { const on = sh.far === false ? 0 : (sh.farStagger ? ign(i, sh.farT0 ?? 0) : 1); gm.visible = on > 0.01; gm.material.uniforms.uI.value = 0.9 * on * flick(t, i * 1.3) * dim; });
-      midGlow.forEach((gm, i) => { const on = sh.farStagger ? ign(i, (sh.farT0 ?? 0) + 0.4) : 1; gm.visible = on > 0.01; gm.material.uniforms.uI.value = 0.9 * on * flick(t, i * 2.1) * dim * lit; });
+      midGlow.forEach((gm, i) => { const on = sh.farStagger ? ign(i, (sh.midT0 != null ? sh.midT0 - (sh.fireT0 ?? 0) : (sh.farT0 ?? 0) + 0.4)) : 1; gm.visible = on > 0.01; gm.material.uniforms.uI.value = 0.9 * on * flick(t, i * 2.1) * dim * lit; });
       const fp = F.P(D.near, FIRE.x, FIRE.y), K = F.K(D.near, FIRE.x, FIRE.y); const gg = F.glow();
       // big fire: logs aflame, flames drawn as layered teardrops, glow, sparks
       const fa = lit * dim;
@@ -76,6 +77,11 @@ export default function camp(S, cams) {
       }
       // banners
       if (sh.banners !== false) for (const [bx, by, h, dir, seed] of [[150, 1000, 360, 1, 1], [560, 976, 330, -1, 2]]) { const p = F.P(D.near, bx, by); banner(g, { x: p[0], y: p[1], h: h * K, w: 130 * K, t, dir, col: PAL.red, colLit: PAL.redLit, trim: hex('#d8b868'), emblem: 'none', seed, amp: 0.1 }); }
+      // life of the camp: smoke from the great fire, crows going home across the dusk, a haze of woodsmoke between the tents, sparks and motes
+      if (fa > 0.01) smoke(g, t, fp[0], fp[1] - 110 * K, { n: 8, rise: 420 * K, wind: 26, r0: 6 * K + 1, r1: 34 * K + 4, a: 0.2 * fa, col: [90, 70, 100], life: 7, seed: 5 });
+      birds(g, t, { x0: -60, x1: 780, y0: 260, y1: 480, n: 6, seed: 9, size: 6, speed: 16, dir: -1, hz: 2.0, col: [26, 14, 46], a: 0.8 });
+      hazeBand(gg, t, { y: 820, n: 6, h: 60, w: 320, a: 0.05, col: [200, 140, 140], speed: 5, seed: 6 });
+      motes(gg, t, { x0: 0, y0: 500, x1: 720, y1: 1200 }, { n: 14, col: [255, 190, 130], a: 0.3, size: 1.0, seed: 14, drift: [5, -3] });
       F.amb = [0.9, 0.85, 0.95]; F.bloom = 0.55;
       tintAll(S_, 0.9 * dim + 0.05, [1, 1, 1.05]);
     },

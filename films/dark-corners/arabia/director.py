@@ -328,6 +328,7 @@ def render_pose(bpy, ctx, S, pf):
     # camera (+ per-pose hand jitter of the stand: +-0.4 mm, +-0.03 deg)
     cam, cd = S['cam'], S['camd']; cs = c.cam
     pos = Vector(cs['pos']) + Vector((jit(pf, 'cx', 0.0004), jit(pf, 'cy', 0.0004), jit(pf, 'cz', 0.0004)))
+    pos.z = max(pos.z, gz(pos.x, pos.y) + 0.032)         # the stand never sinks into the sand
     tgt = Vector(cs['tgt']); cam.location = pos
     q = (tgt - pos).to_track_quat('-Z', 'Y')
     if cs['roll']: q = q @ Quaternion((0, 0, 1), math.radians(cs['roll']))
@@ -348,7 +349,7 @@ def render_pose(bpy, ctx, S, pf):
     for dv in S['sky_dawn_nodes']: dv.outputs[0].default_value = L['dawn']
     S['sky_em'].inputs['Strength'].default_value = L['sky_em']
     for (st, base), tw in zip(S['stars_st'], S['stars_tw']): st.inputs[1].default_value = base * L['stars']; tw.outputs[0].default_value = t
-    kd = L['dawn']; S['sky_bg'].inputs['Color'].default_value = (0.02 + 0.45 * kd, 0.03 + 0.30 * kd, 0.09 + 0.38 * kd, 1.0)
+    S['sky_bg_dawn'].outputs[0].default_value = L['dawn']
     S['sky_root'].location = (0.006 * t, 0.0, 0.0); S['ridge_dawn'].outputs[0].default_value = L['dawn']; W.place_caravan(S, t, L['dawn'])
     for (o, x0, z0) in S['wisps']: o.location = (x0 + 0.028 * t, o.location[1], z0 + 0.012 * math.sin(t * 0.05 + x0))
     mx_, mz_ = getattr(c, 'moon_pos', (-0.7, 2.15)); S['moon'].location = (mx_, 4.80, mz_); S['moon_halo'].location = (mx_, 4.82, mz_)
@@ -483,8 +484,8 @@ def A1(c, t, u):
 @shot(6.6, 11.656, 'A2_tracks_to_glow', scene=1, why='New information at the turn of the narration ("what he found that night"): the tracks he follows lead to a glow. The slider pan carries the eye from the prints to the far tents and their smoke.')
 def A2(c, t, u):
     S = c.S; night(c, moon=0.9, az=-160, el=14, fill=0.10)
-    pos, tgt = cam_keys(t, [(6.6, (-3.60, 2.92, 0.100), (-2.75, 2.58, 0.040)), (11.656, (-3.10, 2.76, 0.105), (0.60, 1.60, 0.120))])
-    foc = (-3.05, 2.62, 0.03) if t < 9.2 else ez(t, 9.2, 10.8, (-3.05, 2.62, 0.03), (1.45, 1.55, 0.12), 's')
+    pos, tgt = cam_keys(t, [(6.6, (-3.55, 2.45, 0.075), (-2.75, 2.58, 0.040)), (11.656, (-2.85, 2.05, 0.150), (1.10, 1.70, 0.120))])
+    foc = (-3.0, 2.62, 0.03) if t < 9.0 else ez(t, 9.0, 10.8, (-3.0, 2.62, 0.03), (1.45, 1.55, 0.12), 's')
     c.camera(pos, tgt, lens=30.0, fstop=3.2, focus=foc)
     tents_lit(S, c, t, glow=1.6 + 1.6 * ez(t, 8.0, 9.0, 0.0, 1.0), p1=0.0)
     S['lamps'][0].pose((0, 0, -5), 0.0); fire_on(S, 'fire1'); camp_row(S, 1.6, t=t)

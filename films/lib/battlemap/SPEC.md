@@ -284,6 +284,7 @@ legend: {
              label: 'RIVER AUFIDUS' | false, labelDur: 4, markerSize: 0.06, until }],
   focus: [{ entry: 'vets', at: 'l11.best', until: 'l11.left,' }],   // highlight a row while the narration talks about it
   scale: { unitM: 20, show: [['l04', 'l12']] }, compass: true,       // scale bar and north arrow, on views pitched above 50 degrees
+  scaleUI: 1.08,                                                    // panel size multiplier (phone legibility)
 }
 ```
 

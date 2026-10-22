@@ -2,6 +2,7 @@
 // ink written in the detail layer (revealed by time), candle flames that relight the paper, dust motes in the beam.
 import { Canvas, hex, mixc, mul, rgba, underpaint, clamp, lerp, smoothstep, ease, noise1, rng, WARM, det, igniteEnv, fireFlick, tintAll, lightsOn, nn, nn2 } from './common.js';
 import { glowAt, embers, hash1 } from '../figs.js';
+import { smoke, motes } from '../ambient.js';
 
 export function paintDesk(C, { dark = 1, planks = 7, y0 = null } = {}) {
   const [x0, y0_, x1, y1] = C.rect; const g = C.g; const R = C.R;
@@ -54,8 +55,8 @@ export default function page(S, cams) {
   return {
     planes,
     update(F) {
-      const t = F.t, g = F.g; const fl = candles.map((c, i) => fireFlick(t, i * 3.3 + 1));
-      tintAll(S, 0.3);
+      const t = F.t, g = F.g; const sh = F.shot; const dim = sh.dimTo ? lerp(1, sh.dimTo, smoothstep(sh.dimAt[0], sh.dimAt[1], t)) : 1; const fl = candles.map((c, i) => fireFlick(t, i * 3.3 + 1) * dim);
+      tintAll(S, 0.3 * dim);
       // candle lights on the desk + sheets
       const Ls = candles.map((c, i) => ({ p: S.world(c.x, c.y, D.desk), r: 3.2 * D.desk / 10 * (S.f / 1866), c: WARM, k: 1.5 * fl[i] }));
       const sheetL = candles.map((c, i) => ({ p: S.world(c.x, c.y, D.sheet), r: 3.0 * D.sheet / 10, c: WARM, k: 0.75 * fl[i] }));
@@ -66,6 +67,8 @@ export default function page(S, cams) {
         // candle stub + flame (only when roughly on screen)
         if (p[0] > -80 && p[0] < DWc + 80 && p[1] > -80 && p[1] < DHc + 80) { g.fillStyle = rgba(hex('#cfc3a0')); g.fillRect(p[0] - 9 * K, p[1], 18 * K, 70 * K); g.fillStyle = rgba(hex('#3a2c20')); g.fillRect(p[0] - 14 * K, p[1] + 70 * K, 28 * K, 6 * K);
           const hf = 26 * K * (0.9 + 0.2 * fl[i]); g.fillStyle = rgba([255, 205, 120], 0.95); g.beginPath(); g.moveTo(p[0] - 5 * K, p[1]); g.quadraticCurveTo(p[0] - 6 * K, p[1] - hf * 0.6, p[0] + 1.5 * K * Math.sin(t * 7 + i), p[1] - hf); g.quadraticCurveTo(p[0] + 7 * K, p[1] - hf * 0.5, p[0] + 5 * K, p[1]); g.fill(); }
+        if (p[0] > -80 && p[0] < DWc + 80 && p[1] > -120 && p[1] < DHc + 80) { smoke(g, t, p[0], p[1] - 26 * K, { n: 5, rise: 150 * K, wind: 10, r0: 1.2 * K + 0.5, r1: 7 * K + 1, a: 0.14 * dim, col: [200, 190, 210], life: 4, seed: i + 3 });
+          const ma = t * 2.3 + i * 2, mr = (34 + 10 * Math.sin(t * 0.7 + i)) * K; const mx = p[0] + Math.cos(ma) * mr, my = p[1] - 28 * K + Math.sin(ma * 1.3) * mr * 0.55; const fl2 = Math.sin(t * 38 + i) * 0.7; g.fillStyle = 'rgba(30,22,26,0.9)'; g.beginPath(); g.ellipse(mx, my, 1.6 * K, 4 * K, 0.3, 0, 7); g.fill(); g.fillStyle = 'rgba(210,190,160,0.75)'; for (const sd of [-1, 1]) { g.beginPath(); g.ellipse(mx + sd * 4 * K, my - 1 * K, 4.6 * K * Math.abs(0.4 + fl2), 2.4 * K, sd * 0.5, 0, 7); g.fill(); } }
         F.lights.push({ x: p[0], y: p[1], r: 300 * K, c: WARM, k: 0.5 * fl[i] }); }
       // sheets
       for (const [key, s] of Object.entries(SHEETS)) {
@@ -74,7 +77,7 @@ export default function page(S, cams) {
         const lx = -s.w / 2 + 56, tw = s.w - 112;
         // pseudo script lines: above and below the passage; written down over time
         const scribLines = []; for (let i = 0; i < 6; i++) scribLines.push(-s.h / 2 + 64 + i * 34); for (let i = 0; i < 7; i++) scribLines.push(32 + 118 + i * 34 - (key === 'kek' ? 10 : 0));
-        scribLines.forEach((yy, i) => { const per = (tx.scrib[1] - tx.scrib[0]) / scribLines.length; const pr = rev(t, tx.scrib[0] + i * per, tx.scrib[0] + (i + 1) * per * 1.3); if (pr > 0) script(g, lx, yy, tw * (0.78 + 0.2 * hash1(i * 5 + (key === 'sky' ? 1 : 9))), 100 + i * 7 + (key === 'sky' ? 0 : 50), pr, 13, 0.62); });
+        scribLines.forEach((yy, i) => { const sc = key === 'sky' && sh.scribe ? sh.scribe : tx.scrib; const per = (sc[1] - sc[0]) / scribLines.length; const pr = rev(t, sc[0] + i * per, sc[0] + (i + 1) * per * 1.3); if (pr > 0) script(g, lx, yy, tw * (0.78 + 0.2 * hash1(i * 5 + (key === 'sky' ? 1 : 9))), 100 + i * 7 + (key === 'sky' ? 0 : 50), pr, 13, 0.62); });
         // the passage: header (small), body (large), real type
         g.font = 'italic 400 22px "Cormorant Garamond"'; g.textBaseline = 'alphabetic'; g.fillStyle = 'rgba(40,24,14,0.92)';
         const textLine = (str, x, y, p, font, col) => { if (p <= 0) return; g.save(); g.font = font; g.beginPath(); g.rect(x - 6, y - 40, (g.measureText(str).width + 12) * p, 60); g.clip(); g.fillStyle = col; g.fillText(str, x, y); g.restore(); };
@@ -87,6 +90,7 @@ export default function page(S, cams) {
             const sp = rev(t, tx.strike[0], tx.strike[1]); if (sp > 0) { g.strokeStyle = 'rgba(30,14,10,0.92)'; g.lineWidth = 4; g.lineCap = 'round'; g.beginPath(); const ym = by + i * 46 - 10; for (let k = 0; k <= 24 * sp; k++) { const u = k / 24; const xx = xs - 10 + (xe - xs + 20) * u; const yy = ym + (k % 2 ? 4 : -4) * 0.8 + Math.sin(u * 9) * 2; k ? g.lineTo(xx, yy) : g.moveTo(xx, yy); } g.stroke(); } } });
         g.restore();
       }
+      motes(F.glow(), t, { x0: 60, y0: 200, x1: 660, y1: 1200 }, { n: 18, col: [255, 214, 160], a: 0.4 * dim, size: 1.1, seed: 22, drift: [3, -3] });
       embers(F.glow(), t, { x0: 0, y0: 100, x1: 720, y1: 1250 }, 26, { size: 1.4, col: [255, 200, 120], a: 0.45, wind: 4, speed: 8, rise: 0.4, seed: 7 });
       F.amb = [0.85, 0.85, 0.85]; F.bloom = 0.35;
     },

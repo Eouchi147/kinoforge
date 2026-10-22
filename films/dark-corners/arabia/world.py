@@ -243,11 +243,11 @@ def star_mesh(bpy, name, pts, mat, coll, seg=8, glint=False):
     me.materials.append(mat)
     ob = bpy.data.objects.new(name, me); coll.objects.link(ob); return ob
 
-def build_sky(bpy, coll, S, W=(-7.0, 15.5)):
+def build_sky(bpy, coll, S, W=(-14.0, 26.0)):
     rs = np.random.RandomState(7)
     mat, dv, em = sky_material(bpy); S['sky_dawn_nodes'] = [dv]; S['sky_em'] = em
     sroot = bpy.data.objects.new('sky_root', None); coll.objects.link(sroot); S['sky_root'] = sroot
-    nx, nz = 100, 36; V, F = [], []
+    nx, nz = 140, 36; V, F = [], []
     for j in range(nz + 1):
         z = -0.3 + 11.0 * j / nz
         for i in range(nx + 1):
@@ -267,12 +267,17 @@ def build_sky(bpy, coll, S, W=(-7.0, 15.5)):
             out.append((x, ypos(x, z), z, rs.uniform(rlo, rhi), tints[rs.randint(len(tints))], rs.uniform(0, 6.283)))
         return out
     # (name, count, radius range [m] ~ 0.35..1.7 px at 720x1280, strength, glint)
-    classes = [('st_bright', 90, 0.0048, 0.0066, 55.0, True, None), ('st_mid', 1300, 0.0036, 0.0052, 26.0, False, None), ('st_small', 3600, 0.0022, 0.0034, 14.0, False, None), ('st_dust', 2200, 0.0013, 0.0020, 7.0, False, 0.30)]
+    classes = [('st_bright', 160, 0.0048, 0.0066, 55.0, True, None), ('st_mid', 2300, 0.0036, 0.0052, 26.0, False, None), ('st_small', 6400, 0.0022, 0.0034, 14.0, False, None), ('st_dust', 3600, 0.0013, 0.0020, 7.0, False, 0.30)]
     S['stars'] = []; S['stars_tw'] = []; S['stars_st'] = []
     for (nm, n, rlo, rhi, strength, glint, band) in classes:
         sm, tw, st = star_material(bpy, nm, strength); pts = scatter(n, rlo, rhi, 0.30, 7.5 if band is None else 6.0, band)
         ob = star_mesh(bpy, nm, pts, sm, coll, seg=8 if rhi > 0.003 else 6, glint=glint); ob.parent = sroot
         S['stars'].append(ob); S['stars_tw'].append(tw); S['stars_st'].append((st, strength))
+    # two wings, the same card and stars turned to the sides, so the sky is there however the camera pans along the table
+    for nm, (ox, oy, rot) in (('wingL', (W[0] + SKY_Y, 5.0, 90.0)), ('wingR', (W[1] - SKY_Y, 5.0 + 22.0, -90.0))):
+        er = bpy.data.objects.new('sky_' + nm, None); coll.objects.link(er); er.parent = sroot; er.location = (ox, oy, 0.0); er.rotation_euler = (0, 0, math.radians(rot))
+        for src in [S['sky_obj']] + S['stars']:
+            o = bpy.data.objects.new(src.name + '_' + nm, src.data); coll.objects.link(o); o.parent = er
     # painted wisps of cloud drifting along the card (moon-lit, they blush at dawn)
     cm = wisp_material(bpy, 'wisp'); S['wisps'] = []
     for k, (x, z, sx, sz) in enumerate(((-2.6, 2.9, 1.5, 0.16), (0.9, 3.5, 1.9, 0.20), (-0.6, 1.55, 1.1, 0.11), (3.4, 2.5, 1.6, 0.14), (8.6, 2.6, 1.8, 0.17), (10.8, 1.5, 1.2, 0.12), (6.4, 3.4, 1.5, 0.15))):

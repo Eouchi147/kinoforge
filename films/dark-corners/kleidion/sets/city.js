@@ -1,6 +1,7 @@
 // SET city: Constantinople at dusk, Byzantine purple and gold. A terrace in the foreground (Basil, banners), the sea walls with
 // lanterns, the domed skyline, a gold afterglow. Used for the emperor, the city wide, the nickname and the time-lapse.
-import { Canvas, hex, mixc, mul, rgba, underpaint, ridged, clamp, lerp, smoothstep, ease, noise1, rng, WARM, det, bump, igniteEnv, flick, tintAll, lightsOn, nn } from './common.js';
+import { Canvas, hex, mixc, mul, rgba, underpaint, ridged, clamp, lerp, smoothstep, ease, noise1, rng, WARM, det, bump, igniteEnv, flick, fireFlick, tintAll, lightsOn, nn } from './common.js';
+import { birds, smoke, motes, hazeBand } from '../ambient.js';
 import { paintSky, paintRange, pineTree, paintFog, paintHouse, paintTufts } from '../paint.js';
 import { person, banner, glowAt, embers, hash1, PAL } from '../figs.js';
 
@@ -45,7 +46,7 @@ function seaWall(C, x0, x1, yTop, yBase, col, lit, towers) {
 export default function city(S, cams) {
   const cover = (D, m) => S.cover(D, cams, m); const D = { sky: 6000, hills: 3000, city: 500, wall: 250, water: 140, terrace: 30 }; const planes = {}; const gl = { lamps: [], wins: [] };
   { const r = cover(D.sky); const C = new Canvas(r, { seed: 611 });
-    paintSky(C, { stops: [[-600, hex('#140c30')], [0, hex('#24143f')], [260, hex('#4c2a66')], [480, hex('#8a4a78')], [650, hex('#d1785f')], [760, hex('#f2b062')], [820, hex('#f7c97a')]], glow: { x: 400, y: 800, rx: 520, ry: 300, col: hex('#ffd58a'), a: 0.85 },
+    paintSky(C, { stops: [[-600, hex('#140c30')], [0, hex('#24143f')], [260, hex('#4c2a66')], [480, hex('#8a4a78')], [650, hex('#d1785f')], [760, hex('#f2b062')], [820, hex('#f7c97a')]], glow: { x: 400, y: 810, rx: 560, ry: 170, col: hex('#ffd58a'), a: 0.6 },
       clouds: [{ y: 360, h: 14, x0: -300, x1: 1100, col: hex('#3a2058'), lit: hex('#d98d7a'), litA: 0.75, sy: 0.03 }, { y: 520, h: 12, x0: -200, x1: 1100, col: hex('#5a3068'), lit: hex('#f2a468'), litA: 0.85, thr: 0.5, sy: 0.034 }, { y: 660, h: 10, x0: -100, x1: 900, col: hex('#7a3e70'), lit: hex('#ffc47a'), litA: 0.9, thr: 0.5, sy: 0.04 }, { y: 150, h: 16, x0: -300, x1: 1000, col: hex('#1b0f38'), lit: hex('#4a2a66'), litA: 0.6, sy: 0.026 }] });
     C.mottle({ amt: 0.05 }); planes.sky = S.plane('sky', D.sky, r, C.c); }
   { const r = cover(D.hills); r[1] = Math.max(r[1], 640); r[3] = Math.min(r[3], 900); const C = new Canvas(r, { seed: 621 });
@@ -106,18 +107,31 @@ export default function city(S, cams) {
       tintAll(S_, day, [1 - 0.55 * nightK * 0.8, 1 - 0.3 * nightK * 0.5, 1 + 0.1 * nightK]);
       const lampT = sh.lamps || []; const lampOn = (i) => (sh.lampsAll ? 1 : igniteEnv(t, lampT[i] ?? 1e9, i + 1)) * (1 + 0.0);
       towerGlows.forEach((gm, i) => { const on = clamp(lampOn(i % Math.max(1, lampT.length || 6)), 0, 1.5) * (sh.lampsAll ? 1 : 1); gm.visible = on > 0.01; gm.material.uniforms.uI.value = 1.5 * on * (1 + 0.2 * nightK); });
-      const winAmt = sh.windows ?? 0.5 + nightK * 0.6; winGlows.forEach((gm, i) => { const w = gl.wins[i]; const on = smoothstep(w[4] * 0.9, w[4] * 0.9 + 0.15, winAmt + (sh.lampsAll ? 0.5 : 0)); gm.visible = on > 0.01; gm.material.uniforms.uI.value = 0.9 * on * flick(t, i * 1.7); });
+      const winAmt = sh.windowsTo ? lerp(sh.windowsTo[0], sh.windowsTo[1], clamp(lt / sh.dur)) : (sh.windows ?? 0.5 + nightK * 0.6); winGlows.forEach((gm, i) => { const w = gl.wins[i]; const on = smoothstep(w[4] * 0.9, w[4] * 0.9 + 0.15, winAmt + (sh.lampsAll ? 0.5 : 0)); gm.visible = on > 0.01; gm.material.uniforms.uI.value = 0.9 * on * flick(t, i * 1.7); });
       // lamp light on the wall and the water
       const lights = []; gl.towers.forEach((tw, i) => { const on = towerGlows[i].visible ? towerGlows[i].material.uniforms.uI.value / 1.5 : 0; lights.push({ p: S_.world(tw.x, tw.y, D.wall), r: 20 * D.wall / S_.f * 9, c: WARM, k: 2.2 * on }); });
       lightsOn(planes.wall, lights.filter((l) => l.k > 0.01).slice(0, 8));
       // Basil on the terrace, banners at the posts
-      if (sh.basil !== false) {
+      const fb = sh.fadeBasil ? 1 - smoothstep(sh.fadeBasil[0], sh.fadeBasil[1], t) : 1;
+      if (sh.basil !== false && fb > 0.01) { g.save(); g.globalAlpha = fb;
         const bs = BASIL; const q = F.P(D.terrace, bs.x, bs.y), K = F.K(D.terrace, bs.x, bs.y); const h = bs.h * K;
         const sun = F.P(D.sky, 400, 800);
         // the banners (two poles on the terrace)
         for (const [bx, by, bh, dirb, seed] of [[150, 1100, 560, 1, 1], [660, 1096, 520, -1, 2]]) { const p = F.P(D.terrace, bx, by); banner(g, { x: p[0], y: p[1], h: bh * K, w: 190 * K, t, dir: dirb, seed, amp: 0.1 }); }
         if (!sh.noBasil) person(g, { x: q[0], y: q[1], h, face: -1, ph: 0, walk: 0, col: hex('#3a1e56'), col2: hex('#5a2f82'), dark: hex('#1c1030'), hood: false, crown: true, cape: hex('#4b2468'), head: 0.04 + 0.01 * Math.sin(t * 0.8), hem: 0.06, skinCol: hex('#241633'), lantern: null, reach: [0.02, 0.5], warm: { x: sun[0], y: sun[1] - 50 * K, r: 520 * K, a: 0.22 } });
-      }
+      g.restore(); }
+      // the living city: gulls over the harbour, smoke from the hearths, boats under sail, a patrol on the sea wall, sun glints on the water, flickering lanterns on the terrace
+      { const gg2 = F.glow(); const nightish = 1 - 0.7 * nightK;
+        birds(g, t, { x0: -60, x1: 780, y0: 330, y1: 560, n: 6, seed: 7, size: 6, speed: 16, dir: 1, hz: 1.8, col: [52, 28, 70], a: 0.8 * nightish });
+        for (const [cx, cy, sd] of [[250, 884, 1], [545, 872, 2], [90, 880, 3], [690, 884, 4]]) { const p = F.P(D.city, cx, cy), K = F.K(D.city); smoke(g, t, p[0], p[1], { n: 6, rise: 120 * K, wind: 10, r0: 2 * K + 1, r1: 12 * K + 3, a: 0.2 * nightish, col: [150, 118, 150], life: 8, seed: sd }); }
+        for (const [bx, by, v, sd, sc] of [[-60, 1030, 3.2, 1, 1], [200, 1074, -4.2, 2, 1.4], [520, 1120, 5.0, 3, 2]]) { const span = 1000; const x = ((bx + v * t * 3 + 200) % span + span) % span - 200; const p = F.P(D.water, x, by), K = F.K(D.water) * sc; const bob = Math.sin(t * 0.8 + sd) * 1.5 * K, dir = v > 0 ? 1 : -1;
+          g.save(); g.translate(p[0], p[1] + bob); g.scale(dir, 1); g.rotate(Math.sin(t * 0.6 + sd * 2) * 0.02); g.fillStyle = rgba(hex('#1c1230'), 0.95); g.beginPath(); g.moveTo(-26 * K, -4 * K); g.lineTo(28 * K, -5 * K); g.quadraticCurveTo(20 * K, 6 * K, -18 * K, 5 * K); g.closePath(); g.fill();
+          g.fillStyle = rgba(hex('#2a1a3a'), 1); g.fillRect(-1 * K, -52 * K, 2 * K, 50 * K); const sg = g.createLinearGradient(-18 * K, 0, 18 * K, 0); sg.addColorStop(0, rgba(hex('#e8a878'), 0.95)); sg.addColorStop(1, rgba(hex('#7a4a70'), 0.95)); g.fillStyle = sg; g.beginPath(); g.moveTo(1 * K, -50 * K); g.quadraticCurveTo(22 * K, -30 * K, 18 * K, -8 * K); g.lineTo(1 * K, -8 * K); g.closePath(); g.fill();
+          g.fillStyle = rgba(hex('#2a1a3a'), 0.8); g.beginPath(); g.moveTo(-1 * K, -42 * K); g.quadraticCurveTo(-12 * K, -26 * K, -16 * K, -8 * K); g.lineTo(-1 * K, -8 * K); g.closePath(); g.fill(); g.restore(); }
+        for (let k = 0; k < 3; k++) { const L = 700; const x = (((k * 260 + 30 * t * (k % 2 ? 1 : -1) * 0.72) % L) + L) % L - 40; const p = F.P(D.wall, x, 950), K = F.K(D.wall); const hh = 34 * K; if (hh > 3) person(g, { x: p[0], y: p[1], h: hh, face: k % 2 ? 1 : -1, ph: (x / (0.6 * 1.75 * 20)) * (k % 2 ? 1 : -1) + k, walk: 1, col: hex('#241838'), col2: hex('#3a2848'), hood: false, skinCol: hex('#140e1c'), helm: true, spear: true, stride: 0.9, t }); }
+        for (let i = 0; i < 70; i++) { const r1 = hash1(i * 3.3), r2 = hash1(i * 7.1); const gx = 400 + (r1 - 0.5) * 300, gy = 1010 + r2 * 260; const p = F.P(D.water, gx, gy), K = F.K(D.water); const tw = Math.max(0, Math.sin(t * (0.8 + r2 * 1.6) + i * 2.7)); const w = 14 * K * (1 + r2); gg2.fillStyle = `rgba(255,214,150,${0.5 * tw * (1 - Math.abs(r1 - 0.5) * 1.4) * nightish})`; gg2.fillRect(p[0] - w / 2, p[1], w, Math.max(1, 1.2 * K)); }
+        if (sh.basil !== false) for (const [lx, ly] of [[90, 950], [650, 950]]) { const p = F.P(D.terrace, lx, ly), K = F.K(D.terrace); glowAt(gg2, p[0], p[1], 46 * K, 0.5 * fireFlick(t, lx), [255, 170, 90]); }
+        motes(gg2, t, { x0: 0, y0: 600, x1: 720, y1: 1250 }, { n: 14, col: [255, 214, 160], a: 0.3, size: 1.0, seed: 9, drift: [4, -2] }); }
       if (sh.cloth) this.cloth && this.cloth(F);
       const gg = F.glow(); const sunp = F.P(D.sky, 400, 800); glowAt(gg, sunp[0], sunp[1] - 40, 420 * Math.max(1, F.K(D.sky)), 0.10 + 0.08 * (1 - nightK), [255, 190, 110]);
       for (let i = 0; i < towerGlows.length; i++) { const tw = gl.towers[i]; const on = towerGlows[i].visible ? 1 : 0; if (!on) continue; const p = F.P(D.wall, tw.x, tw.y + 120); const k = F.K(D.wall, tw.x, tw.y); glowAt(gg, p[0], p[1], 8 * k + 6, 0.35 * Math.min(1, towerGlows[i].material.uniforms.uI.value / 1.5), [255, 170, 90]); }

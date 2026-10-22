@@ -202,7 +202,10 @@ class Fast(unittest.TestCase):
         c = json.load(open(os.path.join(JOB, 'cues.json'))); f = json.load(open(os.path.join(JOB, 'film.json')))
         self.assertEqual(len(c['lines']), n); self.assertTrue(c['beats']); self.assertEqual((f['render_w'], f['render_h']), (1280, 720))
         self.assertTrue(os.path.getsize(os.path.join(JOB, 'audio', 'mix.m4a')) > 10000)
-        self.assertIn('placeholder', json.load(open(os.path.join(JOB, 'ad.json')))['prep'].get('music_note', ''))
+        note = json.load(open(os.path.join(JOB, 'ad.json')))['prep'].get('music_note', '')
+        if os.path.exists(os.path.join(C.ROOT, 'films/lib/score/remix.py')):
+            self.assertEqual(note, 'Score: procedural engine.'); self.assertTrue(os.path.exists(os.path.join(JOB, 'audio', 'score.json')))
+        else: self.assertIn('placeholder', note)
         self.assertIn("get('spec')", open(os.path.join(JOB, 'index.html')).read())
 
 

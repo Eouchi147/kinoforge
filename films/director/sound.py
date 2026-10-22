@@ -3,8 +3,9 @@
     python3 films/director/sound.py films/studio/<id>
 
 Free-only mode (default, films/director/config.json): the narration with a free open voice on the runner
-(voice_free.py: Chatterbox or Kokoro, checked by Whisper) and the score from the free procedural engine (hook in
-config.json; a placeholder pad until it exists). Paid mode: harness/shots/prep.py (ElevenLabs, Lyria). Then the line's mix
+(voice_free.py: Chatterbox or Kokoro, checked by Whisper); the narration is placed on the beat grid of a quiet pad made in
+code (pad.py), then the free procedural score engine (config.json music_engines: films/lib/score/remix.py) re-scores it
+and writes the final mix (the pad stays as the score if the engine is missing or fails). Paid mode: harness/shots/prep.py (ElevenLabs, Lyria). Then the line's mix
 (films/lib/battle_mix.py: narration on the score's beat grid, title line on the biggest rise, -14 LUFS), so the folder
 gets audio/, cues.json, film.json (sizes from the line) and index.html (the line's example page, loading ./spec.js).
 Every paid call is booked in the job's ledger.json against brief.cap_usd (prep reads ad.json cap_usd).
@@ -37,17 +38,9 @@ def free_sound(job, P):
         run([os.environ.get('KF_TTS_PYTHON', sys.executable), 'films/director/voice_free.py', C.rel(job.dir)])
     vo = json.load(open(job.p('audio', 'vo.json')))
     mus = job.p('audio', 'music.mp3')
-    if not os.path.exists(mus):
-        m = P.get('music') or {}; eng = C.CONFIG.get('music_engines', {}).get(m.get('engine', 'procedural'), {})
+    if not os.path.exists(mus):   # the beat grid (and the stand-in score): a quiet pad made in code
         secs = sum(l['dur'] for l in vo['lines']) + len(vo['lines']) * 0.9 + 14
-        cmd = [str(a).format(job=C.rel(job.dir), out=C.rel(mus), seconds=round(secs, 1)) for a in eng.get('cmd', [])]
-        script = next((a for a in cmd if a.endswith('.py') or a.endswith('.js') or a.endswith('.cjs')), None)
-        if cmd and script and os.path.exists(os.path.join(C.ROOT, script)):
-            run(cmd)
-        else:
-            C.log(f'music engine {m.get("engine")!r} not found ({script}); laying the placeholder pad')
-            import pad; pad.make(mus, secs, mood='dark' if not job.line.get('kid_safe') else 'warm')
-            P['music_note'] = 'placeholder pad (films/director/pad.py): the procedural score engine was not there'
+        import pad; pad.make(mus, secs, mood='dark' if not job.line.get('kid_safe') else 'warm')
     sys.path.insert(0, os.path.join(C.ROOT, 'harness', 'shots'))
     from prep import beat_map
     json.dump(beat_map(mus), open(job.p('audio', 'music.json'), 'w'))
@@ -64,7 +57,7 @@ def main(d):
                                 'line': L['name'], 'fps': L['fps'], 'render_w': L['render'][0], 'render_h': L['render'][1],
                                 'w': L['delivery'][0], 'h': L['delivery'][1], 'audio': 'audio/mix.m4a',
                                 'note': 'Made by the KINOFORGE director (films/director/). Picture: ' + L['engine'] + '.'})
-    ad = job.read('ad.json'); P = ad['prep']
+    ad = job.read('ad.json'); P = ad['prep']; music_note = ''
     if P.get('voice') or (P.get('music') or {}).get('engine'):
         free_sound(job, P); job.write('ad.json', ad)         # free engines on the runner
     else:
@@ -74,12 +67,22 @@ def main(d):
     if len(vo['lines']) != len(script['lines']): raise RuntimeError(f'{len(vo["lines"])} voice lines for {len(script["lines"])} script lines')
     if not job.has('audio', 'music.mp3'): raise RuntimeError('no score: see the log')
     run([sys.executable, L['mix'], C.rel(job.dir), '--title-line', str(L.get('title_line', 1))])
+    music_note = ''
+    eng = (P.get('music') or {}).get('engine')
+    if eng:   # the free score engine re-scores the placed narration and writes a new mix
+        cmd = [str(a).format(job=C.rel(job.dir)) for a in C.CONFIG.get('music_engines', {}).get(eng, {}).get('remix', [])]
+        tool = next((a for a in cmd if a.endswith('.py')), None)
+        if tool and os.path.exists(os.path.join(C.ROOT, tool)):
+            try: run(cmd); music_note = f' Score: {eng} engine.'
+            except RuntimeError as e: music_note = f' Score: placeholder pad ({eng} engine failed: {e}).'
+        else: music_note = f' Score: placeholder pad ({eng} engine not found).'
+        P['music_note'] = music_note.strip(); job.write('ad.json', ad)
     cues = job.read('cues.json'); film = job.read('film.json')
     film['duration'] = cues['duration']; job.write('film.json', film)
     nowords = [l['id'] for l in cues['lines'] if not l.get('words')]
     open(job.p('index.html'), 'w').write(index_html(job, script['title']))
     job.ledger = C.Ledger(job.brief['cap_usd'], job.p('ledger.json'))
-    msg = f'{len(cues["lines"])} lines on the score, {cues["duration"]:.1f} s, voice {vo["voice"]}.' + (f' No word timings for {", ".join(nowords)}.' if nowords else '')
+    msg = f'{len(cues["lines"])} lines on the score, {cues["duration"]:.1f} s, voice {vo["voice"]}.' + (f' No word timings for {", ".join(nowords)}.' if nowords else '') + music_note
     C.set_status(job.dir, 'sound', 'done', msg, outputs={'audio': C.rel(job.p('audio', 'mix.m4a')), 'duration': cues['duration']})
 
 

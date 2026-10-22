@@ -74,16 +74,16 @@ def build_scatter(bpy, S, M, coll, region, nrock, ntuft, nscrub, seed=5, rock_ma
         big = rs.rand() < 0.12; n = 1 if big else rs.randint(1, 4)
         for q in range(n):
             ox, oy = (0, 0) if q == 0 else (rs.uniform(-0.05, 0.05), rs.uniform(-0.05, 0.05)); px, py = x + ox, y + oy
-            r = rs.uniform(0.032, 0.058) if big else rs.uniform(0.006, 0.020) * (0.6 if q else 1.0)
+            r = rs.uniform(0.040, 0.075) if big else rs.uniform(0.010, 0.030) * (0.6 if q else 1.0)
             v, f = rock_mesh(rs, r); yaw = rs.uniform(0, 6.28); c, s_ = math.cos(yaw), math.sin(yaw); z0 = gz(px, py) - 0.006
             b = len(V); V += [(px + c * a - s_ * bb, py + s_ * a + c * bb, z0 + zz) for a, bb, zz in v]; F += [tuple(b + i for i in tri) for tri in f]
     S[name + '_rocks'] = raw_obj(bpy, name + '_rocks', V, F, rock_mat or M['rock'], coll)
     # tufts: 5 to 9 curved blades each, base weights kept for the sway
     V, F, BASE, WGT, PH = [], [], [], [], []
     for (x, y) in place(ntuft, 0.02):
-        z0 = gz(x, y) - 0.002; nb = rs.randint(5, 10); hh = rs.uniform(0.012, 0.034); ph = rs.uniform(0, 6.28)
+        z0 = gz(x, y) - 0.002; nb = rs.randint(5, 10); hh = rs.uniform(0.022, 0.055); ph = rs.uniform(0, 6.28)
         for q in range(nb):
-            a = rs.uniform(0, 6.28); lean = rs.uniform(0.10, 0.55); h = hh * rs.uniform(0.6, 1.0); w = 0.0013
+            a = rs.uniform(0, 6.28); lean = rs.uniform(0.10, 0.55); h = hh * rs.uniform(0.6, 1.0); w = 0.0020
             dx, dy = math.cos(a), math.sin(a); nx_, ny_ = -dy, dx; b = len(V)
             for k in range(4):
                 u = k / 3.0; px = x + dx * lean * h * u * u + 0.0; py = y + dy * lean * h * u * u; pz = z0 + h * u; ww = w * (1 - 0.8 * u * u)
@@ -349,7 +349,7 @@ def build_dress(bpy, S, M, coll):
     """Everything that makes the table look lived in. Called once, after the props (it needs the lamp field)."""
     S['paths'] = [[(x, y) for x, y in W.TRACK_PTS], [(1.0, 1.05), (0.45, 0.88), (-0.25, 0.72), (-1.0, 0.74), (-1.7, 0.98), (-2.3, 1.22)], [(-3.2, 2.20), (-2.6, 2.05), (-1.9, 2.18), (-1.2, 2.35), (-0.5, 2.28)]]
     S['keepout'] = [(FIRE1[0], FIRE1[1], 0.08), (FIRE2[0], FIRE2[1], 0.10), (OASIS_R[0], OASIS_R[1], 0.30), (OASIS_L[0], OASIS_L[1], 0.24), (-1.85, 1.05, 0.12), (-2.72, 0.95, 0.30), (0.0, 0.35, 0.16), (0.0, 0.95, 0.30)]
-    build_scatter(bpy, S, M, coll, (-4.0, 4.0, -0.7, 3.6), 70, 300, 32, seed=5, name='sc')
+    build_scatter(bpy, S, M, coll, (-4.0, 4.0, -0.7, 3.6), 110, 650, 40, seed=5, name='sc')
     S['keepout'] = [(FIRE3[0], FIRE3[1], 0.10), (9.0, 1.25, 0.14), (9.0, 1.9, 0.5), (8.8, 1.9, 0.3), (9.4, 1.1, 0.5), (10.4, 1.35, 0.3)]
     build_scatter(bpy, S, M, coll, (6.7, 11.5, -0.6, 2.2), 26, 70, 8, seed=8, name='mc')
     # oases and palms

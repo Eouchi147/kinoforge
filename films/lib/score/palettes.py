@@ -40,7 +40,7 @@ MENUS = {
 MOODS = {
     'calm':      dict(I=(.21, .23), perc=(0, 0), bright=(.22, .30), chord=(15, 20), pluck=(2.8, 4.6), rest=(6, 11), notes=(3, 5), dur=[1.8, 2.4, 3.2, 4.2], reg=0, pad=1.0),
     'curious':   dict(I=(.34, .44), perc=(0, 0), bright=(.38, .50), chord=(11, 15), pluck=(1.2, 2.4), rest=(3.5, 7), notes=(4, 7), dur=[0.9, 1.3, 1.8, 2.6], reg=1, pad=1.0),
-    'tension':   dict(I=(.50, .68), perc=(.45, .80), bright=(.45, .62), chord=(8.5, 11), pluck=(0.5, 0.5), rest=(7, 11), notes=(2, 4), dur=[1.6, 2.2, 3.2], reg=-4, pad=1.0),
+    'tension':   dict(I=(.44, .58), perc=(.45, .80), bright=(.42, .56), chord=(8.5, 11), pluck=(0.5, 0.5), rest=(7, 11), notes=(2, 4), dur=[1.6, 2.2, 3.2], reg=-4, pad=1.0),
     'turn':      dict(I=(1.0, .66), perc=(1.0, .72), bright=(1.0, .72), chord=(7.5, 9.5), pluck=(0.5, 0.9), rest=(2.5, 5), notes=(3, 5), dur=[1.2, 1.8, 2.8], reg=5, pad=1.0),
     'triumph':   dict(I=(.74, .58), perc=(.40, 0.0), bright=(.82, .62), chord=(10, 13), pluck=(0.55, 1.1), rest=(3, 6), notes=(4, 6), dur=[1.0, 1.5, 2.2, 3.4], reg=3, pad=1.0),
     'aftermath': dict(I=(.20, .13), perc=(0, 0), bright=(.24, .18), chord=(16, 22), pluck=(4.5, 7.5), rest=(8, 14), notes=(2, 4), dur=[2.4, 3.2, 4.6], reg=-1, pad=1.0),

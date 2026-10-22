@@ -101,13 +101,17 @@ class Sampled:
         x = self._shifted(f, midi - m)
         need = int((dur + release) * SR)
         if len(x) < need and not pluck:
-            xf = int(xfade * SR); out = x * self._norm(f)
+            # chain takes: each is used up to just before its recorded tail (the natural release would dip the level)
+            trim = int(1.5 * SR); xf = int(xfade * SR)
+            out = (x * self._norm(f))[:max(len(x) - trim, len(x) // 2)]
             guard = 0
             while len(out) < need and guard < 40:
                 guard += 1
                 m2, f2 = self._pick(midi, rng); y = self._shifted(f2, midi - m2) * self._norm(f2)
                 skip = int(0.35 * SR) if len(y) > 2 * SR else 0
-                y = y[skip:]; k = min(xf, len(out) // 3, len(y) // 3)
+                last = len(out) + len(y) - skip - trim >= need
+                y = y[skip:] if last else y[skip:max(len(y) - trim, skip + len(y) // 2)]
+                k = min(xf, len(out) // 3, len(y) // 3)
                 a = np.cos(np.linspace(0, np.pi / 2, k))[:, None]; b = np.sin(np.linspace(0, np.pi / 2, k))[:, None]
                 out = np.concatenate([out[:-k], out[-k:] * a + y[:k] * b, y[k:]])
             x = out

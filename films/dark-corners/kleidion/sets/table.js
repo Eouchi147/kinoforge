@@ -2,6 +2,7 @@
 // the cup of cold water and the oil lamp that gutters out. Everything animated is drawn in the detail layer; the wood is painted once.
 import { Canvas, hex, mixc, mul, rgba, underpaint, clamp, lerp, smoothstep, ease, noise1, rng, WARM, fireFlick, tintAll, lightsOn, nn } from './common.js';
 import { glowAt, embers, hash1 } from '../figs.js';
+import { smoke, motes } from '../ambient.js';
 import { paintDesk, paintSheet } from './page.js';
 
 export default function table(S, cams) {
@@ -28,6 +29,15 @@ export default function table(S, cams) {
       lightsOn(planes.desk, mk(D.desk)); lightsOn(planes.plank, mk(D.plank)); lightsOn(planes.sheet, mk(D.sheet));
       for (let i = 0; i < cs.length; i++) { const c = cs[i]; const p = F.P(D.desk, c.x, c.y), K = F.K(D.desk, c.x, c.y); glowAt(gl, p[0], p[1], 240 * K * fl[i], 0.16, [255, 150, 70]); glowAt(gl, p[0], p[1], 26 * K, 0.9 * fl[i]);
         if (p[0] > -80 && p[0] < 800 && p[1] > -80 && p[1] < 1360) { g.fillStyle = rgba(hex('#cfc3a0')); g.fillRect(p[0] - 9 * K, p[1], 18 * K, 70 * K); flame(g, p[0], p[1], K, fl[i], t, i); } F.lights.push({ x: p[0], y: p[1], r: 300 * K, c: WARM, k: 0.5 * fl[i] }); }
+      // the life of the table: candle smoke, a moth circling the flame, wax drips on the candle, an ink pot and a quill at the edge of the light, drifting dust
+      for (let i = 0; i < cs.length; i++) { const c = cs[i]; const p = F.P(D.desk, c.x, c.y), K = F.K(D.desk, c.x, c.y); if (!(p[0] > -80 && p[0] < 800 && p[1] > -120 && p[1] < 1360)) continue;
+        smoke(g, t, p[0], p[1] - 26 * K, { n: 5, rise: 150 * K, wind: 10, r0: 1.2 * K + 0.5, r1: 7 * K + 1, a: 0.14, col: [200, 190, 210], life: 4, seed: i + 3 });
+        g.strokeStyle = 'rgba(235,225,190,0.55)'; g.lineWidth = Math.max(1, 2.2 * K); g.lineCap = 'round'; for (const dx of [-6, 3]) { g.beginPath(); g.moveTo(p[0] + dx * K, p[1] + 4 * K); g.lineTo(p[0] + dx * K, p[1] + (22 + 10 * hash1(dx + i)) * K); g.stroke(); }
+        const ma = t * 2.3 + i * 2, mr = (34 + 10 * Math.sin(t * 0.7)) * K; const mx = p[0] + Math.cos(ma) * mr, my = p[1] - 28 * K + Math.sin(ma * 1.3) * mr * 0.55; const fl2 = Math.sin(t * 38 + i) * 0.7;
+        g.fillStyle = 'rgba(30,22,26,0.9)'; g.beginPath(); g.ellipse(mx, my, 1.6 * K, 4 * K, 0.3, 0, 7); g.fill(); g.fillStyle = 'rgba(210,190,160,0.75)'; for (const sd of [-1, 1]) { g.beginPath(); g.ellipse(mx + sd * 4 * K, my - 1 * K, 4.6 * K * Math.abs(0.4 + fl2), 2.4 * K, sd * 0.5, 0, 7); g.fill(); } }
+      { const ip = F.P(D.desk, 70, 800), IK = F.K(D.desk, 70, 800) * 0.75; if (ip[0] > -150 && ip[0] < 900) { g.save(); g.translate(ip[0], ip[1]); g.scale(IK, IK); g.fillStyle = 'rgba(0,0,0,0.4)'; g.beginPath(); g.ellipse(10, 14, 52, 12, 0, 0, 7); g.fill(); g.fillStyle = rgba(hex('#241a16')); g.beginPath(); g.moveTo(-34, 6); g.lineTo(-30, -34); g.lineTo(30, -34); g.lineTo(34, 6); g.quadraticCurveTo(0, 16, -34, 6); g.fill(); g.fillStyle = rgba(hex('#0a0806')); g.beginPath(); g.ellipse(0, -34, 28, 8, 0, 0, 7); g.fill(); g.strokeStyle = 'rgba(255,190,130,0.4)'; g.lineWidth = 2; g.beginPath(); g.moveTo(-34, 4); g.lineTo(-30, -33); g.stroke();
+          g.strokeStyle = rgba(hex('#d8cdb0')); g.lineWidth = 3; g.beginPath(); g.moveTo(10, -36); g.lineTo(160, -150); g.stroke(); g.fillStyle = rgba(hex('#cfc3a0'), 0.95); g.beginPath(); g.moveTo(60, -78); g.quadraticCurveTo(120, -170, 168, -154); g.quadraticCurveTo(130, -120, 70, -70); g.fill(); g.restore(); } }
+      motes(gl, t, { x0: 60, y0: 200, x1: 660, y1: 1200 }, { n: 20, col: [255, 214, 160], a: 0.4, size: 1.1, seed: 21, drift: [3, -3] });
       if (mode === 'tally') {
         const [t0, t1, n] = sh.marks; const cnt = n * ease.inOutSine(clamp((t - t0) / (t1 - t0))); const P = (x, y) => F.P(D.plank, x, y), K = F.K(D.plank, 360, 600);
         const pc = P(360, 615); const sx = K * Math.cos(-0.025), sy = K; g.save(); g.translate(pc[0], pc[1]); g.rotate(0.025); g.scale(K, K); // plank-local px, origin at the middle

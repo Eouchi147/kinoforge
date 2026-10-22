@@ -36,7 +36,7 @@ export class Legend {
   panel(g, x, y, w, h, a, k) { g.save(); g.globalAlpha = a; g.shadowColor = 'rgba(30,15,5,0.35)'; g.shadowBlur = 14 * k; g.shadowOffsetY = 4 * k; g.beginPath(); g.roundRect(x, y, w, h, 5 * k); g.fillStyle = PAPER; g.fill(); g.shadowColor = 'transparent';
     g.lineWidth = 1.2 * k; g.strokeStyle = 'rgba(42,25,14,0.85)'; g.stroke(); g.beginPath(); g.roundRect(x + 4 * k, y + 4 * k, w - 8 * k, h - 8 * k, 3 * k); g.lineWidth = 0.9 * k; g.strokeStyle = 'rgba(170,120,45,0.7)'; g.stroke(); g.restore(); }
   draw(g, t, W, H, ctx = {}) {
-    if (!this.L) return; const k = H / 720; this.rows = {};
+    if (!this.L) return; const k = H / 720 * (this.L.scaleUI ?? 1.08); this.rows = {};
     this.drawSides(g, t, W, H, k); this.drawKey(g, t, W, H, k, ctx); if (this.scaleOn || this.compass) this.drawScale(g, t, W, H, k, ctx);
   }
   drawSides(g, t, W, H, k) {

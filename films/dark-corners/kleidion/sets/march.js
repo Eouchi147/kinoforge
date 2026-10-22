@@ -1,6 +1,7 @@
 // SET march: medium shots of a group walking home at dusk: hooded lantern leader, followers with a hand on the shoulder ahead.
 // The camera tracks beside them (lateral dolly); the ground plane slides at exactly the speed the planted feet need.
 import { Canvas, hex, mixc, mul, rgba, underpaint, ridged, clamp, lerp, smoothstep, ease, noise1, rng, WARM, det, bump, igniteEnv, flick, tintAll, lightsOn } from './common.js';
+import { birds, smoke, motes, hazeBand } from '../ambient.js';
 import { paintSky, paintRange, paintPineRidge, pineTree, paintFog, paintRocks, paintTufts } from '../paint.js';
 import { person, glowAt, hash1, PAL } from '../figs.js';
 
@@ -61,6 +62,11 @@ export default function march(S, cams) {
       if (leadA && leadA.lantern && on > 0.01) { const [lx, ly] = leadA.lantern; const gl = F.glow(); glowAt(gl, lx, ly, 70, 0.9 * on); glowAt(gl, lx, ly, 380, 0.3 * on, [255, 140, 70]);
         F.lights.push({ x: lx, y: ly, r: 330, c: WARM, k: 0.8 * on }); const w = F.W(D.ground, lx, ly + 220); const ws = F.W(D.slope, lx, ly);
         lightsOn(planes.ground, [{ p: w, r: 1.9 * D.ground / 9, c: WARM, k: 3.6 * on }]); lightsOn(planes.slope, [{ p: ws, r: 7, c: WARM, k: 1.4 * on }]); }
+      // life: dust lifted at the feet, crows in the dusk, a ground haze sliding by, motes in the lantern light
+      { const gg = F.glow(); smoke(g, t, lx0 - (n - 1) * gapK * h * 0.5, footY, { n: 7, rise: 0.12 * h, wind: -60, r0: 0.01 * h + 1, r1: 0.07 * h, a: 0.14, col: [150, 130, 160], life: 3, seed: 3 });
+        birds(g, t, { x0: -60, x1: 780, y0: 220, y1: 420, n: 5, seed: 3, size: 6, speed: 14, dir: -1, hz: 2.1, col: [20, 14, 40], a: 0.8 });
+        hazeBand(gg, t, { y: 900, n: 5, h: 60, w: 320, a: 0.04, col: [190, 150, 180], speed: -7, seed: 4 });
+        motes(gg, t, { x0: 0, y0: 500, x1: 720, y1: 1200 }, { n: 12, col: [255, 190, 130], a: 0.25 * clamp(on, 0, 1), size: 1.0, seed: 16, drift: [-6, -2] }); }
       F.amb = [0.9 * dark + 0.1, 0.9 * dark + 0.1, dark + 0.1];
     },
   };

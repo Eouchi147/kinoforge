@@ -30,7 +30,9 @@ export function compileScenes(spec, clock, aspect = 16 / 9, opts = {}) {
     for (const [k, v] of Object.entries({ eve: set.time, haze: set.haze, cloud: set.cloud, glint: set.glint })) { if (v === undefined) continue; const a = Array.isArray(v) ? v[0] : v, b = Array.isArray(v) ? v[1] : v;
       lt.push({ at: s.t0, dur: Math.max(0.001, blend), to: { [k]: a }, ease: 'inOut' }); if (b !== a) lt.push({ at: s.t0 + blend + 0.002, until: s.t1, to: { [k]: b }, ease: 'linear' }); }
     if (s.inset) { const full = s.inset === 'full' || s.inset === true; const r = full ? { rect: [0, 0, 1, 1], frame: false, pop: false, samples: 0 } : s.inset; out.insets.push({ stage: st, at: s.t0, until: s.t1, in: blend || 0.01, out: s.outDur ?? 0.01, ...r }); }
-    if (typeof tr === 'object' && tr.type === 'dissolve' && !s.inset) out.dissolves.push({ stage: st, t0: s.t0, t1: s.t0 + blend, tc: s.t0 }); // the outgoing frame (held) fades off the incoming shot
+    const prevS = scenes[scenes.indexOf(s) - 1]; const prevInset = prevS && prevS.inset ? out.insets.find((e) => e.stage === (prevS.stage || 'main') && Math.abs(e.until - prevS.t1) < 1e-6) : null;
+    if (typeof tr === 'object' && tr.type === 'dissolve') { if (prevInset && !s.inset) prevInset.out = blend; // leaving another map: its inset fades off the incoming shot
+      else if (!s.inset && (!prevS || (prevS.stage || 'main') === st)) out.dissolves.push({ stage: st, t0: s.t0, t1: s.t0 + blend, tc: s.t0 }); } // same map: the outgoing frame (held) fades off the incoming shot
     const shots = (s.shots || []).map((sh, j) => ({ ...sh, j, t0: clock.at(sh.at ?? s.at) })).sort((a, b) => a.t0 - b.t0); if (!shots.length) out.errors.push(`${id}: a scene needs at least one shot`);
     shots.forEach((sh, j) => { sh.t1 = shots[j + 1] ? shots[j + 1].t0 : s.t1; });
     const sc = { id, name: s.name || '', job: s.job || '', t0: s.t0, t1: s.t1, stage: st, shots: [] }; out.scenes.push(sc);
