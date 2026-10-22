@@ -1,0 +1,195 @@
+{
+ "film": "films/studio/salamis",
+ "spec": "./cand/a.js",
+ "line": "battle-map",
+ "ok": false,
+ "hard": [
+  "page error: scene checks failed:\nS1.2: move 3.9 to 5.9 s is faster than a real camera (zoom 0.22 > 0.16): start earlier, move less, or hold longer\nS2.1: move 15.0 to 16.0 s is faster than a real camera (zoom 0.64 > 0.16): start earlier, move less, or hold longer\nS5.1: move 42.5 to 44.5 s is faster than a real camera (pan 0.71 > 0.26, zoom 0.36 > 0.16): start earlier, move less, or hold longer\nS5.2: move 44.5 ",
+  "lint: labels[0].at: word \"Salamis\" (#0) not found in l00: In September 480 BC a Persian fleet of roughly seven hundred ships met three hundred Greek triremes in a channel barely a kilometre wide.",
+  "lint: labels[8].at: word \"ferry\" (#0) not found in l13: Today the strait is a ferry lane and the only triremes are replicas rowed by tourists who argue about the oar timing.",
+  "lint: icons[4].icon: unknown icon undefined (known: banner pennant vexillum flag shield u-infantry u-heavy u-elite u-cavalry u-light u-archers u-elephant u-ships u-artillery u-commander town city village fort camp river ford hill mountain alps woods bridge sea plain crown helmet commander star laurel book scroll sword swords clash burst no check question gate door ring heart envelop hug elephant ship galley bow tent tapestry cross)",
+  "lint: icons[5].icon: unknown icon temple (known: banner pennant vexillum flag shield u-infantry u-heavy u-elite u-cavalry u-light u-archers u-elephant u-ships u-artillery u-commander town city village fort camp river ford hill mountain alps woods bridge sea plain crown helmet commander star laurel book scroll sword swords clash burst no check question gate door ring heart envelop hug elephant ship galley bow tent tapestry cross)",
+  "lint: icons[6].at: word \"ferry\" (#0) not found in l13: Today the strait is a ferry lane and the only triremes are replicas rowed by tourists who argue about the oar timing.",
+  "lint: stages.strait.moves[37].to: unknown prop y (known: x z heading len dep bulge scale alpha drop lift fade sink count flag glow)",
+  "lint: stages.strait.moves[38].to: unknown prop y (known: x z heading len dep bulge scale alpha drop lift fade sink count flag glow)",
+  "lint: stages.strait.labels[10].at: word \"500\" (#0) not found in l07: The narrow strait caused general disorder; Persian rear ranks pressed forward jamming the centre against a wall of Greek bronze.",
+  "lint: stages.strait.counters[3].to: must be a number",
+  "lint: stages.strait.icons[7].icon: unknown icon temple (known: banner pennant vexillum flag shield u-infantry u-heavy u-elite u-cavalry u-light u-archers u-elephant u-ships u-artillery u-commander town city village fort camp river ford hill mountain alps woods bridge sea plain crown helmet commander star laurel book scroll sword swords clash burst no check question gate door ring heart envelop hug elephant ship galley bow tent tapestry cross)",
+  "lint: stages.strait.icons[9].at: word \"ferry\" (#0) not found in l13: Today the strait is a ferry lane and the only triremes are replicas rowed by tourists who argue about the oar timing.",
+  "lint: scenes: S1.2: move 3.9 to 5.9 s is faster than a real camera (zoom 0.22 > 0.16): start earlier, move less, or hold longer",
+  "lint: scenes: S2.1: move 15.0 to 16.0 s is faster than a real camera (zoom 0.64 > 0.16): start earlier, move less, or hold longer",
+  "lint: scenes: S5.1: move 42.5 to 44.5 s is faster than a real camera (pan 0.71 > 0.26, zoom 0.36 > 0.16): start earlier, move less, or hold longer",
+  "lint: scenes: S5.2: move 44.5 to 47.0 s is faster than a real camera (zoom 0.18 > 0.16): start earlier, move less, or hold longer",
+  "lint: scenes: S7.1: move 65.0 to 66.9 s is faster than a real camera (zoom 0.21 > 0.16): start earlier, move less, or hold longer",
+  "lint: scenes: S9.1: move 80.0 to 81.1 s is faster than a real camera (pan 0.33 > 0.26, zoom 0.35 > 0.16): start earlier, move less, or hold longer",
+  "lint: scenes: S9.2: move 81.7 to 84.3 s is faster than a real camera (pan 0.38 > 0.26): start earlier, move less, or hold longer"
+ ],
+ "soft": [
+  "craft: 11 scenes; a film is 5 to 9 scenes (CRAFT.md 2)",
+  "craft: icons used (crown, helmet, question, swords, clash, temple, galley): keep only those with a job a label cannot do (CRAFT.md 1, 6)",
+  "lint warning: scenes: S1.1: a move ends at 8.0 s, after the shot is cut (3.9 s)",
+  "lint warning: scenes: scene count 11 (wanted 5 to 9)",
+  "lint warning: scenes: S2.1: 1.0 s shot (under 2 s is for the climax only)",
+  "lint warning: scenes: S5.1: 1.9 s shot (under 2 s is for the climax only)",
+  "lint warning: scenes: S9.1: 1.7 s shot (under 2 s is for the climax only)",
+  "lint warning: scenes: S6.1 > S6.2: jump cut (same subject, 5 deg, size x1.13): change angle by 30 degrees or the size by a step",
+  "lint warning: scenes: S9.3 > S10.1: jump cut (same subject, 20 deg, size x1.17): change angle by 30 degrees or the size by a step",
+  "lint warning: scenes: S11.1 > S11.2: jump cut (same subject, 0 deg, size x1.17): change angle by 30 degrees or the size by a step"
+ ],
+ "lint": {
+  "errors": [
+   "labels[0].at: word \"Salamis\" (#0) not found in l00: In September 480 BC a Persian fleet of roughly seven hundred ships met three hundred Greek triremes in a channel barely a kilometre wide.",
+   "labels[8].at: word \"ferry\" (#0) not found in l13: Today the strait is a ferry lane and the only triremes are replicas rowed by tourists who argue about the oar timing.",
+   "icons[4].icon: unknown icon undefined (known: banner pennant vexillum flag shield u-infantry u-heavy u-elite u-cavalry u-light u-archers u-elephant u-ships u-artillery u-commander town city village fort camp river ford hill mountain alps woods bridge sea plain crown helmet commander star laurel book scroll sword swords clash burst no check question gate door ring heart envelop hug elephant ship galley bow tent tapestry cross)",
+   "icons[5].icon: unknown icon temple (known: banner pennant vexillum flag shield u-infantry u-heavy u-elite u-cavalry u-light u-archers u-elephant u-ships u-artillery u-commander town city village fort camp river ford hill mountain alps woods bridge sea plain crown helmet commander star laurel book scroll sword swords clash burst no check question gate door ring heart envelop hug elephant ship galley bow tent tapestry cross)",
+   "icons[6].at: word \"ferry\" (#0) not found in l13: Today the strait is a ferry lane and the only triremes are replicas rowed by tourists who argue about the oar timing.",
+   "stages.strait.moves[37].to: unknown prop y (known: x z heading len dep bulge scale alpha drop lift fade sink count flag glow)",
+   "stages.strait.moves[38].to: unknown prop y (known: x z heading len dep bulge scale alpha drop lift fade sink count flag glow)",
+   "stages.strait.labels[10].at: word \"500\" (#0) not found in l07: The narrow strait caused general disorder; Persian rear ranks pressed forward jamming the centre against a wall of Greek bronze.",
+   "stages.strait.counters[3].to: must be a number",
+   "stages.strait.icons[7].icon: unknown icon temple (known: banner pennant vexillum flag shield u-infantry u-heavy u-elite u-cavalry u-light u-archers u-elephant u-ships u-artillery u-commander town city village fort camp river ford hill mountain alps woods bridge sea plain crown helmet commander star laurel book scroll sword swords clash burst no check question gate door ring heart envelop hug elephant ship galley bow tent tapestry cross)",
+   "stages.strait.icons[9].at: word \"ferry\" (#0) not found in l13: Today the strait is a ferry lane and the only triremes are replicas rowed by tourists who argue about the oar timing.",
+   "scenes: S1.2: move 3.9 to 5.9 s is faster than a real camera (zoom 0.22 > 0.16): start earlier, move less, or hold longer",
+   "scenes: S2.1: move 15.0 to 16.0 s is faster than a real camera (zoom 0.64 > 0.16): start earlier, move less, or hold longer",
+   "scenes: S5.1: move 42.5 to 44.5 s is faster than a real camera (pan 0.71 > 0.26, zoom 0.36 > 0.16): start earlier, move less, or hold longer",
+   "scenes: S5.2: move 44.5 to 47.0 s is faster than a real camera (zoom 0.18 > 0.16): start earlier, move less, or hold longer",
+   "scenes: S7.1: move 65.0 to 66.9 s is faster than a real camera (zoom 0.21 > 0.16): start earlier, move less, or hold longer",
+   "scenes: S9.1: move 80.0 to 81.1 s is faster than a real camera (pan 0.33 > 0.26, zoom 0.35 > 0.16): start earlier, move less, or hold longer",
+   "scenes: S9.2: move 81.7 to 84.3 s is faster than a real camera (pan 0.38 > 0.26): start earlier, move less, or hold longer"
+  ],
+  "warnings": [
+   "scenes: S1.1: a move ends at 8.0 s, after the shot is cut (3.9 s)",
+   "scenes: scene count 11 (wanted 5 to 9)",
+   "scenes: S2.1: 1.0 s shot (under 2 s is for the climax only)",
+   "scenes: S5.1: 1.9 s shot (under 2 s is for the climax only)",
+   "scenes: S9.1: 1.7 s shot (under 2 s is for the climax only)",
+   "scenes: S6.1 > S6.2: jump cut (same subject, 5 deg, size x1.13): change angle by 30 degrees or the size by a step",
+   "scenes: S9.3 > S10.1: jump cut (same subject, 20 deg, size x1.17): change angle by 30 degrees or the size by a step",
+   "scenes: S11.1 > S11.2: jump cut (same subject, 0 deg, size x1.17): change angle by 30 degrees or the size by a step"
+  ]
+ },
+ "stills": [],
+ "page_errors": [
+  "scene checks failed:\nS1.2: move 3.9 to 5.9 s is faster than a real camera (zoom 0.22 > 0.16): start earlier, move less, or hold longer\nS2.1: move 15.0 to 16.0 s is faster than a real camera (zoom 0.64 > 0.16): start earlier, move less, or hold longer\nS5.1: move 42.5 to 44.5 s is faster than a real camera (pan 0.71 > 0.26, zoom 0.36 > 0.16): start earlier, move less, or hold longer\nS5.2: move 44.5 "
+ ],
+ "console_errors": [],
+ "ready_s": 0.4,
+ "still_s": null,
+ "sheet": null,
+ "stats": {
+  "shots": 22,
+  "avg_shot_s": 5.42,
+  "cuts": [
+   {
+    "t": 3.87,
+    "why": "push in on the red fleet jamming the channel",
+    "path": "shot S1.2"
+   },
+   {
+    "t": 5.91,
+    "why": "reverse to the blue fleet in the wide bay behind Salamis",
+    "path": "shot S1.3"
+   },
+   {
+    "t": 15.02,
+    "why": "change of world: the region map, Mount Aegaleos above the strait",
+    "path": "shot S2.1"
+   },
+   {
+    "t": 16.02,
+    "why": "low on the slope: the throne, the man, the fleet far below",
+    "path": "shot S2.2"
+   },
+   {
+    "t": 22.52,
+    "why": "shift to the Greek bay: the two commanders on the flagship",
+    "path": "shot S3.1"
+   },
+   {
+    "t": 26.88,
+    "why": "draw the trap on the map: the narrowing point",
+    "path": "shot S3.2"
+   },
+   {
+    "t": 32.53,
+    "why": "back in the strait at night: the messenger darts from bay to throne",
+    "path": "shot S4.1"
+   },
+   {
+    "t": 38.33,
+    "why": "Persian columns advance into the narrows",
+    "path": "shot S4.2"
+   },
+   {
+    "t": 42.54,
+    "why": "low behind the Greek line: the charge into the strait",
+    "path": "shot S5.1"
+   },
+   {
+    "t": 44.48,
+    "why": "close on the impact: oars tangle, ships cannot turn",
+    "path": "shot S5.2"
+   },
+   {
+    "t": 50.04,
+    "why": "high and wide: debris fields where 200 ships were smashed",
+    "path": "shot S6.1"
+   },
+   {
+    "t": 57.54,
+    "why": "the disorder: rear ranks press forward, jamming the centre",
+    "path": "shot S6.2"
+   },
+   {
+    "t": 65.04,
+    "why": "close on the throne: the leap, the torn robe",
+    "path": "shot S7.1"
+   },
+   {
+    "t": 66.88,
+    "why": "wide behind him: the fleet dissolving into a debris field",
+    "path": "shot S7.2"
+   },
+   {
+    "t": 72.54,
+    "why": "top-down the strait: the debris, the intact Greek line, the counters",
+    "path": "shot S8.1"
+   },
+   {
+    "t": 80.04,
+    "why": "region map: the retreat north along the coast",
+    "path": "shot S9.1"
+   },
+   {
+    "t": 81.72,
+    "why": "Xerxes and his army turn inland",
+    "path": "shot S9.2"
+   },
+   {
+    "t": 87.54,
+    "why": "Athens safe, the Greek cities free",
+    "path": "shot S9.3"
+   },
+   {
+    "t": 95.04,
+    "why": "Athens: the temple, gold flowing from debris",
+    "path": "shot S10.1"
+   },
+   {
+    "t": 102.54,
+    "why": "modern overlay: ferries cross the ancient trap",
+    "path": "shot S11.1"
+   },
+   {
+    "t": 110.02,
+    "why": "child squeezes a tight door; inset the strait: big fleet stuck, small fleet wins",
+    "path": "shot S11.2"
+   }
+  ]
+ },
+ "craft": {
+  "scenes": 11,
+  "shots": 22,
+  "avg_shot_s": 5.42
+ }
+}
