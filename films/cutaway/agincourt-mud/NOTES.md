@@ -70,7 +70,17 @@ the poleaxes clatter into each other.
 Local build (no render) on the shared 2-core box: about 5 to 8 s; frame pose and evaluation about 1 to 3 s (the face
 legs use the Manifold boolean solver; EXACT was about 40 s per frame for B).
 
+## Check stills (rc-render stills.yml, release "stills")
+
+Last approved-by-eye rounds: A `agin-r5A-f*` (commit 90a37e1), B `agin-r7B-f*` (commit 0ee3b60). Local copies:
+`/tmp/claude-0/-home-claude/b576bd3d-71d2-5bea-b286-3ba8d53b8c9d/scratchpad/agincourt-board/`. Runner time: about 3 to 4 min
+per frame for A2 and B1 close shots, about 2 to 3 min for the wides (64 spp, 1280x720).
+
 ## Known weak spots
+- God rays in B are subtle (thin haze, low sun 13 degrees behind the Agincourt wood): the light is warm and raking with
+  long shadows, but there are no strong shafts. More haze makes B1 milky; a separate shafts pass would be the next step.
+- Furrow crests close up (A2) still catch the grey sky and read slightly plastic; they do read wet.
+- The crows are small in B1 (they lift on "advanced" ahead of the file, top right of frame).
 
 - The mud does not deform around the boots (no dents or ruts); the collars of mud at the shins carry it.
 - Figures are rigid parts (no knees bending); the walk is a hip swing with a body bob.
