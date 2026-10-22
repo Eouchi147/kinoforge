@@ -107,7 +107,7 @@ def plan():
         why='change of place: the clever trick; one pole hammered down, seen above and through the cut', site={'stage': 'one'})
     add('site', W('l05', 'end', 0.35), K(-46, 30, 11.0, (0.6, -0.8, -0.35), 50), K(-40, 31, 10.2, (0.6, -0.8, -0.35), 50), env='day',
         why='"Millions of them": close to wide, later the same day; many poles in, three drivers, the stack of tree trunks', site={'stage': 'many'})
-    add('site', C('l05', 0.9), K(-84, 4, 2.5, (1.30, -2.0, -0.22), 50), K(-84, 2, 2.5, (1.30, -2.0, -0.50), 50), env='day',
+    add('site', C('l05', 0.9), K(-66, 12, 2.6, (1.35, -2.0, -0.22), 50), K(-68, 9, 2.5, (1.40, -2.0, -0.50), 50), env='day',
         why='wide to close on the cut: the poles packed side by side reach the pale, harder clay; the camera tilts down them',
         site={'stage': 'done'},
         labels=[('wood', 'OAK, ALDER, PINE', W('l05', 'oak', -0.3, False), E('l05', 0.6), (-260, 250), (1.26, -2.0, -0.26)),
@@ -123,10 +123,10 @@ def plan():
         counter=(W('l07', 'stands', -0.2, False), E('l07', 1.1), W('l07', 'million', 0.3)),
         labels=[('salute', 'SANTA MARIA DELLA SALUTE', S('l07', 0.6), E('l07', 1.1), (-420, 330), (1.55, -1.5, 0.12))])
     # 4. Why the wood lasts -------------------------------------------------------------------------------------------
-    add('pole', C('l08', 0.8), K(-90, 8, 3.2, (0.0, -0.7, -0.40), 50), K(-90, 6, 2.9, (0.0, -0.7, -0.46), 50), env='day',
+    add('pole', C('l08', 0.8), K(-62, 17, 2.7, (0.0, -0.6, -0.36), 50), K(-66, 14, 2.45, (0.0, -0.62, -0.42), 50), env='day',
         why='change of scale: one pole deep in the mud; bubbles near the water stop deeper down',
         labels=[('noair', 'NO AIR', W('l08', 'air', -0.5, False), E('l08', 0.7), (330, -170), (0.04, -0.7, -0.62))])
-    add('pole', C('l09', 1.0), K(-90, 4, 2.2, (0.0, -0.7, -0.52), 50), K(-90, 3, 2.0, (0.0, -0.7, -0.55), 50), env='day',
+    add('pole', C('l09', 1.0), K(-72, 10, 1.7, (0.04, -0.7, -0.55), 50), K(-74, 9, 1.6, (0.04, -0.7, -0.58), 50), env='day',
         why='closer: the change happens in the wood itself; it turns stony grey as minerals soak in',
         pole={'stone': (S('l09', 1.5), E('l09', 0.4))},
         labels=[('min', 'MINERALS', W('l09', 'minerals', -0.4, False), E('l09', 0.9), (-360, 160), (-0.09, -0.7, -0.40))])

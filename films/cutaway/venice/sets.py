@@ -474,13 +474,16 @@ def build_pole(kit, M):
     S.land = land; zm = _zmean(land); bed = float(land.height(np.array([0.0]), np.array([-sz / 2 + 0.01]))[0])
     sec_m = arch.mat_pole_section(kit, 'vz_polecut_big', WOOD_POLE, (0.60, 0.60, 0.58))
     zc = strata_z(bed, zm, CARANTO_SD[0] + 0.07); top = bed - 0.05
-    pole = arch.section_mesh(kit, 'vz_bigpole', sec_m, 2); arch.set_quads(pole, arch.pole_quads('-Y', 0.0, zc, top, 0.06, sz, sz, 0.09))
+    pole = arch.section_mesh(kit, 'vz_bigpole', sec_m, 2); arch.set_quads(pole, arch.pole_quads('-Y', 0.0, zc, top, 0.06, sz, sz, 0.09, 0.0028))
+    # the section drawn in code (coloured layers, no root lines that would read as cracks), the caranto around the tips
+    draw_section(kit, land, [('silt', (0.56, 0.53, 0.46), bed - 0.08, 0.0), ('mud', (0.42, 0.40, 0.36), zc + 0.20, 0.02), ('clay', (0.50, 0.49, 0.46), zc + 0.06, 0.0),
+                             ('caranto', (0.84, 0.69, 0.42), zc - 0.07, 0.05), ('sand', (0.70, 0.62, 0.47), zc - 0.26, 0.45), ('deep', (0.45, 0.39, 0.32), -DEPTH - 0.002, 0.15)], 'vz_psec')
     S.data.update(pole_mat=sec_m, bed=bed, zc=zc, top=top, sz=sz)
     # neighbouring poles at the edges of the frame, so it reads as one of many
     sm = arch.section_mesh(kit, 'vz_nbpoles', sec_m, 8)
     Q = []
     for s in (-0.40, -0.25, 0.25, 0.40):
-        Q += arch.pole_quads('-Y', s, zc + 0.03 * abs(s), top - 0.01, 0.05, sz, sz, 0.08)
+        Q += arch.pole_quads('-Y', s, zc + 0.03 * abs(s), top - 0.01, 0.05, sz, sz, 0.08, 0.0028)
     arch.set_quads(sm, Q)
     # bubbles: on the face, in the water and the top of the mud; none deeper down
     bub_m = cw.mat_simple(kit, 'vz_bubble', (0.95, 0.97, 1.0), 0.1); rng = np.random.default_rng(9); bubbles = []
@@ -494,7 +497,7 @@ def build_pole(kit, M):
         ob = cw.mk_mesh(bpy, f'vz_spk{k}', V0 * 0.0035, F0, [spk_m], None, True, kit.coll)
         specks.append((ob, float(rng.uniform(-0.3, 0.3)), float(rng.uniform(zc + 0.05, top - 0.02)), float(rng.uniform(0, 1))))
     stone_sock = vsock(sec_m, 'stone')
-    life.coin(kit, M, '-Y', 0.13, zc + 0.10, 0.012, sz, sz, name='vz_pcoin')
+    cn = life.coin(kit, M, '-Y', 0.13, zc + 0.10, 0.012, sz, sz, name='vz_pcoin'); cn.location.y -= 0.0015
     life.fish(kit, M, [(-0.25, -0.67, bed + 0.08, 0.06), (0.3, -0.665, bed + 0.12, 0.05)], 'vz_pfish')
 
     def update(t, shot):
