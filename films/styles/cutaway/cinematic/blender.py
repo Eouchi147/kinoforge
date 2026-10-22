@@ -34,9 +34,9 @@ SETTINGS = {'samples': 64, 'denoise': True, 'motion_blur': False, 'view_transfor
 SHAFT_GAIN = {'map': 0.35, 'ground': 1.0, 'crane': 0.8, 'macro': 0.0, 'hero': 1.0}
 SUN_AZ, SUN_EL = 135.0, 11.0
 RIVER = [(-0.7, 2.6), (-0.55, 1.4), (0.25, 0.6), (0.05, -0.4), (0.35, -1.3), (0.4, -2.6)]
-STRATA = [('topsoil', 0.07, (0.30, 0.20, 0.12), 0.05), ('sand', 0.10, (0.76, 0.60, 0.40), 0.10), ('clay', 0.14, (0.62, 0.50, 0.40), 0.03),
-          ('loam', 0.18, (0.50, 0.33, 0.20), 0.22), ('ochre', 0.05, (0.68, 0.48, 0.27), 0.15), ('gravel', 0.10, (0.55, 0.46, 0.36), 0.85),
-          ('shale', 0.50, (0.50, 0.47, 0.44), 0.06), ('chalk', 0.16, (0.74, 0.70, 0.62), 0.04), ('deep', 1.0, (0.33, 0.28, 0.26), 0.30)]
+STRATA = [('topsoil', 0.07, (0.26, 0.17, 0.10), 0.05), ('sand', 0.10, (0.90, 0.74, 0.46), 0.08), ('clay', 0.14, (0.78, 0.44, 0.28), 0.03),
+          ('loam', 0.16, (0.56, 0.36, 0.22), 0.20), ('gravel', 0.10, (0.62, 0.58, 0.54), 0.9), ('ochre', 0.05, (0.84, 0.60, 0.28), 0.12),
+          ('limestone', 0.68, (0.88, 0.84, 0.74), 0.05), ('bedrock', 1.0, (0.24, 0.25, 0.30), 0.35)]   # time runs down: recent soil, Roman loam, fossil limestone, ancient bedrock
 HOUSES = [(1.20, 0.90, 1.2), (1.48, 0.15, 1.6), (1.05, -0.30, 0.4), (-1.15, 0.75, 0.3), (-1.50, 1.45, -0.2), (-1.35, 0.05, 0.9)]
 MILL = (0.98, -1.05)
 LANE = [(-2.1, 0.3), (-1.4, 0.35), (-0.8, 0.15), (-0.3, 0.06), (0.6, 0.16), (1.1, 0.35), (1.7, 0.55), (2.1, 0.6)]
@@ -65,7 +65,7 @@ def build(bpy, ctx):
     for k, (x, y) in enumerate([(-0.85, 0.24), (-0.38, -0.03), (0.75, 0.05), (1.45, 0.62)]):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
 
-    rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.6, amb=0.2)
+    rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.9, amb=0.24)
     ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), aniso=0.7)
     ex.gobo(kit, land, rig['sun_dir'])
     # the hero tree: the big round tree by the mill sits right in front of the sun from the hero camera (rays round its crown)
@@ -85,7 +85,11 @@ def build(bpy, ctx):
     eggs.hedgehog('+X', -1.05, fx.top(-1.05) - 0.17)
     eggs.geode('+X', -0.45, -1.06)
     eggs.well('+X', 0.62, r=0.07)
+    eggs.geode('-Y', 0.42, -1.43, a=0.085, b=0.07)
     eggs.finish()
+    ex.soften_roots(land)
+    ex.edge_spill(kit, land, '-Y')
+    ex.edge_spill(kit, land, '+X', power=35.0)
 
     # ---- life
     ex.deer(kit, land, -1.05, -1.22, 0.25, lift_at=5.4, lower_at=9.8)

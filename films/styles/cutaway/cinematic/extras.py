@@ -369,10 +369,10 @@ def half_tube(P2, r, ring=10):
             a = k * (ring + 1) + j; F.append((a, a + ring + 1, a + ring + 2, a + 1))
     return V, F
 
-def mat_cavity(kit, color=(0.32, 0.22, 0.13)):
-    key = ('ex', 'cavity')
+def mat_cavity(kit, color=(0.32, 0.22, 0.13), name='ex_cavity'):
+    key = ('ex', name)
     if key in kit.mats: return kit.mats[key]
-    m = cw._new_mat(kit.bpy, 'ex_cavity'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
+    m = cw._new_mat(kit.bpy, name); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
     n = g.noise(tc.outputs['Object'], 90.0, 4.0); n2 = g.noise(tc.outputs['Object'], 14.0, 3.0)
     col = g.mix(n2.outputs['Fac'], srgb(color), srgb(tuple(c * 1.6 for c in color)))
     col = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.5), col, srgb((0.05, 0.035, 0.02)))
@@ -398,8 +398,8 @@ class Eggs:
         ob.visible_camera = False; return ob
     def obj(self, name, pieces, mats, face, u, z, d=0.0, tilt=0.0):
         ob = part(self.kit, name, pieces, mats); self.faces[face].put(ob, u, z, d, tilt); return ob
-    def hole_ellipse(self, face, u, z, a, b, depth, name):
-        V, F = bowl(a * 1.03, b * 1.03, depth); ob = part(self.kit, name, [(V, F, 0)], [mat_cavity(self.kit)])
+    def hole_ellipse(self, face, u, z, a, b, depth, name, material=None):
+        V, F = bowl(a * 1.03, b * 1.03, depth); ob = part(self.kit, name, [(V, F, 0)], [material or mat_cavity(self.kit)])
         self.faces[face].put(ob, u, z, 0.0015); self.openings.append((face, 'ell', (u, z, a, b))); return ob
     def hole_tunnel(self, face, P2, r, name, material=None):
         P2 = np.asarray(P2, float); V, F = half_tube(P2, r * 1.03)
@@ -644,33 +644,44 @@ class Eggs:
 
     def dino(self, face, u, z, scale=1.0, light=5.0):
         """A tyrannosaur skeleton lying in the shale, head thrown back (the classic fossil pose), tiny arms."""
-        kit = self.kit; s = scale; y0 = 0.004
-        bone = mat_pbr(kit, 'ex_bone', (0.84, 0.77, 0.62), 0.6, coat=0.1, bump=0.3, bump_scale=140.0, cavity=0.9); dark = mat(kit, 'ex_socket', (0.06, 0.05, 0.04), 0.9)
+        kit = self.kit; s = scale; y0 = 0.028
+        # partly dug out: a shallow excavated pocket of sandy matrix around the skeleton
+        self.hole_ellipse(face, u - 0.12 * s, z + 0.06 * s, 0.50 * s, 0.33 * s, 0.05, 'ex_dino_pocket',
+                          material=mat_cavity(kit, (0.50, 0.40, 0.28), 'ex_dig'))
+        bone = mat_pbr(kit, 'ex_bone', (0.90, 0.83, 0.68), 0.6, coat=0.1, bump=0.3, bump_scale=140.0, cavity=0.9); dark = mat(kit, 'ex_socket', (0.06, 0.05, 0.04), 0.9)
         tooth = mat_pbr(kit, 'ex_tooth', (0.96, 0.93, 0.84), 0.35)
         def pt(P2, r0, r1, ring=8, m=0, n=14):
             C = cw.catmull(P2, n); R = np.linspace(r0, r1, n); out = []
             for (a, c), rr in zip(C, R): out.append((a * s, y0, c * s))
             v, f = cw._tube(out, R * s, ring); return (v, f, m)
+        def knob(a, c, r): return (*ell((a * s, y0, c * s), (r * s, r * s * 0.9, r * s * 0.85), 1), 0)
         P = []
-        spine = [(-0.56, -0.03), (-0.44, 0.0), (-0.30, 0.03), (-0.16, 0.05), (0.0, 0.06), (0.12, 0.075), (0.22, 0.07), (0.29, 0.10), (0.31, 0.17), (0.27, 0.23), (0.21, 0.26)]
-        C = cw.catmull(spine, 70)
-        for k, (a, c) in enumerate(C):                       # vertebrae beads, bigger at the hip, tiny at the tail tip
-            w_ = k / (len(C) - 1); r = (0.005 + 0.010 * math.sin(math.pi * min(1.0, w_ * 1.25)) ** 0.8) * s
-            v, f = ell((a * s, y0, c * s), (r * 0.9, r, r * 1.05), 1); P.append((v, f, 0))
-            if 0.35 < w_ < 0.75 and k % 2 == 0:              # neural spines on the back
-                v, f = cw._tube([(a * s, y0, c * s), (a * s - 0.004 * s, y0, c * s + 0.03 * s)], [r * 0.45, r * 0.25], 5); P.append((v, f, 0))
-        for k, a in enumerate(np.linspace(0.02, 0.21, 9)):      # ribs
-            c = float(np.interp(a, [0.0, 0.12, 0.22], [0.06, 0.075, 0.07])); L = 0.12 - 0.035 * abs(k - 4) / 4
-            P.append(pt([(a, c), (a + 0.025, c - L * 0.5), (a + 0.012, c - L)], 0.0045, 0.0022, 6))
-        P.append((*ell((0.0, y0, 0.07 * s), (0.075 * s, 0.012 * s, 0.032 * s), 2), 0))       # pelvis
-        P.append(pt([(0.0, 0.05), (0.05, -0.02), (0.07, -0.08)], 0.012, 0.009))              # femur
-        P.append(pt([(0.07, -0.08), (0.04, -0.14), (0.0, -0.19)], 0.009, 0.007))             # tibia
-        P.append(pt([(0.0, -0.19), (0.03, -0.205), (0.05, -0.21)], 0.006, 0.005))             # foot
-        for k in range(3): P.append(pt([(0.05, -0.21), (0.068 + 0.006 * k, -0.215 + 0.008 * (k - 1)), (0.082 + 0.008 * k, -0.222 + 0.012 * (k - 1))], 0.004, 0.0015, 5))
-        P.append(pt([(-0.03, 0.04), (0.04, -0.03), (0.035, -0.09), (-0.01, -0.15)], 0.009, 0.006))   # far leg (offset)
-        P.append(pt([(0.21, 0.05), (0.235, 0.02), (0.255, 0.005)], 0.004, 0.003, 6))          # the tiny arms
-        for k in range(2): P.append(pt([(0.255, 0.005), (0.27, -0.002 + 0.006 * k)], 0.0025, 0.001, 5))
-        P.append(pt([(0.195, 0.045), (0.215, 0.015), (0.232, 0.006)], 0.0035, 0.0025, 6))
+        spine = [(-0.56, -0.03), (-0.44, 0.0), (-0.30, 0.03), (-0.16, 0.05), (0.0, 0.07), (0.12, 0.085), (0.22, 0.08), (0.29, 0.11), (0.31, 0.18), (0.27, 0.24), (0.21, 0.27)]
+        C = cw.catmull(spine, 64)
+        for k, (a, c) in enumerate(C):                       # vertebrae: big at the hips, tapering to a fine tail tip
+            w_ = k / (len(C) - 1); r = (0.0035 + 0.016 * math.sin(math.pi * min(1.0, w_ * 1.15)) ** 0.9) * s
+            v, f = ell((a * s, y0, c * s), (r * 0.95, r, r * 1.1), 1); P.append((v, f, 0))
+            if 0.33 < w_ < 0.78 and k % 2 == 0:              # neural spines on the back
+                v, f = cw._tube([(a * s, y0, c * s), (a * s - 0.006 * s, y0, c * s + 0.042 * s)], [r * 0.55, r * 0.3], 6); P.append((v, f, 0))
+            if 0.06 < w_ < 0.33 and k % 2 == 0:              # chevrons under the tail
+                v, f = cw._tube([(a * s, y0, c * s), (a * s + 0.004 * s, y0, c * s - 0.03 * s * (w_ + 0.3))], [r * 0.45, r * 0.25], 5); P.append((v, f, 0))
+        for k, a in enumerate(np.linspace(0.0, 0.23, 11)):     # the rib cage
+            c = float(np.interp(a, [0.0, 0.12, 0.23], [0.07, 0.085, 0.08])); L = 0.17 - 0.06 * abs(k - 5) / 5
+            P.append(pt([(a, c), (a + 0.045, c - L * 0.35), (a + 0.035, c - L * 0.8), (a + 0.005, c - L)], 0.0075, 0.0035, 7))
+        for a in np.linspace(0.02, 0.21, 9):                  # belly ribs
+            c = 0.07 - 0.165 + 0.02 * math.sin(a * 14); P.append(pt([(a - 0.012, c), (a + 0.012, c - 0.006)], 0.004, 0.003, 5))
+        P.append((*ell((0.0, y0, 0.085 * s), (0.10 * s, 0.016 * s, 0.045 * s), 2), 0))                 # ilium
+        P.append(pt([(0.0, 0.05), (0.035, -0.02), (0.06, -0.08)], 0.012, 0.009)); P.append(knob(0.065, -0.085, 0.02))   # pubis and its boot
+        P.append(pt([(-0.02, 0.05), (-0.05, 0.0), (-0.075, -0.045)], 0.01, 0.006))                   # ischium
+        P.append(knob(0.0, 0.05, 0.026)); P.append(pt([(0.0, 0.05), (0.06, -0.02), (0.085, -0.10)], 0.022, 0.018, 10))     # femur
+        P.append(knob(0.085, -0.10, 0.022)); P.append(pt([(0.085, -0.10), (0.05, -0.17), (0.01, -0.23)], 0.017, 0.012, 10))  # tibia
+        P.append(knob(0.01, -0.23, 0.015)); P.append(pt([(0.01, -0.23), (0.045, -0.245), (0.075, -0.25)], 0.011, 0.009))      # foot
+        for k in range(3): P.append(pt([(0.075, -0.25), (0.095 + 0.006 * k, -0.255 + 0.01 * (k - 1)), (0.115 + 0.008 * k, -0.265 + 0.014 * (k - 1))], 0.006, 0.0018, 6))
+        P.append(pt([(-0.04, 0.04), (0.03, -0.04), (0.025, -0.11), (-0.02, -0.18)], 0.014, 0.009))     # the far leg
+        P.append((*ell((0.20 * s, y0, 0.065 * s), (0.05 * s, 0.01 * s, 0.017 * s), 2), 0))             # shoulder blade
+        P.append(pt([(0.21, 0.05), (0.24, 0.015), (0.258, -0.002)], 0.0085, 0.0065, 7))                # the tiny arms
+        for k in range(2): P.append(pt([(0.258, -0.002), (0.274, -0.008 + 0.009 * k)], 0.004, 0.0012, 5))
+        P.append(pt([(0.195, 0.045), (0.218, 0.012), (0.236, 0.0)], 0.006, 0.0045, 6))
         body = self.obj('ex_dino', P, [bone, dark], face, u, z)
         # the skull: lofted sections, jaw slightly open, dark eye socket and window, teeth
         Ls = 0.20 * s; secs = 22; ring = 14; V = []; F = []; JV = []; JF = []
@@ -683,7 +694,7 @@ class Eggs:
             for j in range(ring):
                 a = 2 * math.pi * j / ring; V.append((xx, y0 + ww * rnd_ * math.cos(a), zc + rz * rnd_ * math.sin(a)))
             if i < secs and 0.04 < q < 0.96:
-                jt = zb + 0.002 * s; jb = jt - (0.026 * (1 - 0.45 * q)) * s; jc = (jt + jb) / 2; jr = (jt - jb) / 2
+                jt = zb + 0.002 * s; jb = jt - (0.040 * (1 - 0.45 * q)) * s; jc = (jt + jb) / 2; jr = (jt - jb) / 2
                 for j in range(ring): a = 2 * math.pi * j / ring; JV.append((xx, y0 + ww * 0.85 * math.cos(a), jc + jr * math.sin(a)))
         for i in range(secs):
             for j in range(ring): a = i * ring + j; b_ = i * ring + (j + 1) % ring; F.append((a, b_, b_ + ring, a + ring))
@@ -702,7 +713,7 @@ class Eggs:
         sk = part(kit, 'ex_dino_skull', SP, [bone, dark, tooth])
         # skull at the end of the neck, pointing back and up (head thrown back)
         F_ = self.faces[face]; base = np.array([0.21, 0.26]) * s
-        sk.parent = body; sk.location = (base[0], 0.0, base[1]); sk.rotation_euler = (0.0, math.radians(22), 0.0)
+        sk.parent = body; sk.location = (base[0], 0.0, base[1]); sk.rotation_euler = (0.0, math.radians(22), 0.0); sk.scale = (1.25, 1.0, 1.25)
         self.spot(face, u + 0.05, z + 0.02, 5.0 * light / 5.0, out=0.75, up=0.45, size=46, name='ex_spot_dino')
         self.spot(face, u + 0.20 * s, z + 0.28 * s, 0.8 * light / 5.0, out=0.32, up=0.16, size=30, side=0.08, name='ex_spot_skull')
         self.items['dino'] = (face, u, z); self.items['skull'] = (face, u + 0.12 * s, z + 0.28 * s)
@@ -727,6 +738,8 @@ class Eggs:
             nv, nf = ell(c, (0.0022, 0.001, 0.0018), 1); A.append((nv, nf, 1))
         self.obj('ex_goldvein', A, [quartz, gold], face, 0.0, 0.0)
         mid = P[len(P) // 2]; self.spot(face, mid[0], mid[1], 3.0 * light / 3.0, out=0.6, up=0.35, size=48, name='ex_spot_gold')
+        for k, q in enumerate((0.3, 0.7)):      # a grazing rim light along the vein so the gold glints
+            pq = P[int(q * (len(P) - 1))]; self.spot(face, pq[0], pq[1], 2.5 * light / 3.0, out=0.18, up=0.06, size=40, side=-0.75, color=(1.0, 0.82, 0.55), name=f'ex_rim_gold{k}')
         self.items['gold'] = (face, float(mid[0]), float(mid[1]))
 
     def well(self, face, u, z_bottom=-0.78, r=0.055, light=3.0):
@@ -1069,3 +1082,32 @@ def butterflies(kit, land, spots, seed=81, name='ex_bfly'):
             a = 1.1 * math.sin(2 * math.pi * 7.0 * t + ph[1])
             for k, w in enumerate(wings): w.rotation_euler = ((-1) ** k * (0.35 + 0.8 * max(0.0, a)), 0, 0)
         kit.on_frame(pose); pose(0.0)
+
+
+# =============================================================================================== cut-face finish
+def soften_roots(land, amount=0.35, width=2.0, keep=0.7, color=(0.34, 0.25, 0.17)):
+    """The kit paints hanging roots on the walls as dark lines; on a film's own material instance, make them fewer
+    (keep: fraction of lanes dropped), finer (width x) and lighter. Matches nodes by their kit values; no-op if not found."""
+    nt = land.mats['strata'].node_tree; hit = 0
+    for n in nt.nodes:
+        if n.bl_idname != 'ShaderNodeMath': continue
+        v1 = n.inputs[1].default_value
+        if n.operation == 'MULTIPLY' and abs(v1 - 0.85) < 1e-6 and n.inputs[0].is_linked:
+            n.inputs[1].default_value = amount; hit += 1
+            for l in n.outputs[0].links:
+                mx = l.to_node
+                if mx.bl_idname == 'ShaderNodeMix':
+                    for sk in mx.inputs:
+                        if sk.name == 'B' and sk.type == 'RGBA' and not sk.is_linked: sk.default_value = cw.srgb(color)
+        elif n.operation == 'MULTIPLY' and abs(v1 - 16.0) < 1e-6: n.inputs[1].default_value = 16.0 * width; hit += 1
+        elif n.operation == 'GREATER_THAN' and abs(v1 - 0.35) < 1e-6: n.inputs[1].default_value = keep; hit += 1
+    return hit
+
+def edge_spill(kit, land, face='-Y', power=70.0, color=(1.0, 0.70, 0.42)):
+    """Warm late sun spilling over the cut edge: a soft spot grazing the top layers of a face from above and to the side
+    (the sun itself is behind the block, so the face would otherwise be all shade)."""
+    bpy = kit.bpy; F = Face(land, face); sx = land.size[0]
+    ld = bpy.data.lights.new('ex_edge_spill', 'SPOT'); ld.energy = power; ld.color = color; ld.spot_size = math.radians(70); ld.spot_blend = 0.9; ld.shadow_soft_size = 0.4
+    ob = bpy.data.objects.new('ex_edge_spill', ld); kit.coll.objects.link(ob); ob.location = tuple(F.world(-sx * 0.75, 0.9, 0.35))
+    look_at(ob, F.world(0.3, -0.25, 0.0)); ob.visible_camera = False
+    return ob
