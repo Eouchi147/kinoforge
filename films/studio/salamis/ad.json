@@ -1,0 +1,68 @@
+{
+ "_": "Battle Map: The Battle of Salamis (480 BC). Narration by films/director/script.py; free sound by films/director/sound.py.",
+ "id": "salamis",
+ "cap_usd": 0.5,
+ "prep": {
+  "voice": "chatterbox",
+  "voice_settings": {
+   "exaggeration": 0.6,
+   "cfg": 0.4,
+   "temperature": 0.75,
+   "speed": 1.0
+  },
+  "vo_words": true,
+  "music": {
+   "engine": "procedural",
+   "prompt": "Ambient strategy-game score for ancient Greece 480 BC. Warm evolving pads, plucked lyre and bowed strings, soft hand drums (tympanon), solo aulos melody for Greek themes, low drones for Persian mass. Tempo slow and deliberate 60 BPM. Swell at the turn (line 8) with rising strings and drum roll, settle to calm resolve after line 11. No percussion hits on cuts. Long chords under narration. Stereo field: Greek blue theme left, Persian red theme right, converge at clash. Instrumental only, no vocals.",
+   "line": "battle-map",
+   "style": "ambient, warm and living, like the Age of Empires and Anno soundtracks (Sam, 22 Oct): a calm bed under the narration, not a full score"
+  },
+  "vo": [
+   {
+    "text": "In September 480 BC a Persian fleet of roughly seven hundred ships met three hundred Greek triremes in a channel barely a kilometre wide."
+   },
+   {
+    "text": "The Battle of Salamis."
+   },
+   {
+    "text": "Xerxes sat on a golden throne on Mount Aegaleos convinced his numbers would crush the Greeks before noon."
+   },
+   {
+    "text": "Themistocles, the Athenian strategist, knew the narrow strait would turn Persian size into a trap, while the Spartan admiral Eurybiades held overall command."
+   },
+   {
+    "text": "Herodotus reports that Themistocles sent a messenger with a lie that the Greeks would flee, but the story lacks independent confirmation; Xerxes moved his fleet into the strait at night, though the link to the message is unproven."
+   },
+   {
+    "text": "At first light the Greek line surged forward ramming the Persian flank where oars tangled and ships could not turn."
+   },
+   {
+    "text": "About two hundred Persian ships were smashed or captured during the battle their crews counted as losses not casualties."
+   },
+   {
+    "text": "The narrow strait caused general disorder; Persian rear ranks pressed forward jamming the centre against a wall of Greek bronze."
+   },
+   {
+    "text": "Xerxes leapt from his throne tearing his robes as he saw his fleet dissolve into splinters and floating debris."
+   },
+   {
+    "text": "Herodotus records roughly two hundred Persian ships lost and forty Greek ships lost a ratio that still stuns admirals today."
+   },
+   {
+    "text": "The Persian fleet fled to the Hellespont leaving Xerxes to march home with his army and a very bruised ego."
+   },
+   {
+    "text": "Athens was saved and the Greek city states kept their freedom because one man trusted a narrow strip of water more than a million men."
+   },
+   {
+    "text": "Themistocles dedicated spoils to the gods though a specific temple to Artemis funded by prize money is not firmly documented."
+   },
+   {
+    "text": "Today the strait is a ferry lane and the only triremes are replicas rowed by tourists who argue about the oar timing."
+   },
+   {
+    "text": "Next time you squeeze through a tight door remember Salamis where the big fleet got stuck and the small fleet won."
+   }
+  ]
+ }
+}

@@ -1,0 +1,332 @@
+{
+ "title": "The Battle of Salamis",
+ "year_label": "480 BC",
+ "line": "battle-map",
+ "series": "Battle Map",
+ "lines": [
+  {
+   "id": "l00",
+   "text": "In September 480 BC a Persian fleet of roughly seven hundred ships met three hundred Greek triremes in a channel barely a kilometre wide.",
+   "picture": "Top-down map of the Salamis strait: Persian red fleet of 700 ship icons crowding the narrow channel, Greek blue fleet of 300 icons waiting in the wider bay behind Salamis island. Width label '1 km' pops on the strait. Xerxes throne icon on mainland shore."
+  },
+  {
+   "id": "l01",
+   "text": "The Battle of Salamis.",
+   "picture": "Title card: 'The Battle of Salamis' in Greek-inspired lettering. Red and blue banners flank the text. Fade to map view."
+  },
+  {
+   "id": "l02",
+   "text": "Xerxes sat on a golden throne on Mount Aegaleos convinced his numbers would crush the Greeks before noon.",
+   "picture": "Camera pushes to mainland shore: Xerxes throne on hill slope, gold icon. Persian fleet red blocks fill strait below. Greek blue blocks small in distance. 'Xerxes' label on throne."
+  },
+  {
+   "id": "l03",
+   "text": "Themistocles, the Athenian strategist, knew the narrow strait would turn Persian size into a trap, while the Spartan admiral Eurybiades held overall command.",
+   "picture": "Camera shifts to Greek flagship in bay: blue commander icon 'Themistocles' on lead trireme, Spartan admiral icon 'Eurybiades' beside him. Arrow draws from strait narrowing point labelled 'Trap'."
+  },
+  {
+   "id": "l04",
+   "text": "Herodotus reports that Themistocles sent a messenger with a lie that the Greeks would flee, but the story lacks independent confirmation; Xerxes moved his fleet into the strait at night, though the link to the message is unproven.",
+   "picture": "Night scene: small messenger icon darts from Greek bay to Xerxes throne with a question mark overhead. Persian fleet icons move forward into strait in tight columns. Arrow shows Persian advance. 'Dawn attack' label with 'unconfirmed' tag."
+  },
+  {
+   "id": "l05",
+   "text": "At first light the Greek line surged forward ramming the Persian flank where oars tangled and ships could not turn.",
+   "picture": "Blue arrow draws Greek charge from bay into strait flank. Red ships at edge show tangled oar icons. 'Ram' impact markers. Greek ships push red blocks sideways."
+  },
+  {
+   "id": "l06",
+   "text": "About two hundred Persian ships were smashed or captured during the battle their crews counted as losses not casualties.",
+   "picture": "200 red ship icons fade to translucent debris in strait. Counter 'Persian losses: 200' ticks up. Greek blue ships intact. No crew icons shown."
+  },
+  {
+   "id": "l07",
+   "text": "The narrow strait caused general disorder; Persian rear ranks pressed forward jamming the centre against a wall of Greek bronze.",
+   "picture": "Red centre blocks press forward into narrowing strait. Rear red blocks pile up behind. Channel width label shrinks to '500 m'. Bronze ram icons on Greek prows glow."
+  },
+  {
+   "id": "l08",
+   "text": "Xerxes leapt from his throne tearing his robes as he saw his fleet dissolve into splinters and floating debris.",
+   "picture": "Close on throne: Xerxes icon jumps up, robe tear animation. Wide view behind him: red fleet dissolving into debris field. 'Xerxes' reaction bubble."
+  },
+  {
+   "id": "l09",
+   "text": "Herodotus records roughly two hundred Persian ships lost and forty Greek ships lost a ratio that still stuns admirals today.",
+   "picture": "Counters final: 'Persian lost: 200' 'Greek lost: 40'. Red fleet mostly gone. Blue fleet mostly intact. Ratio '5 to 1' appears."
+  },
+  {
+   "id": "l10",
+   "text": "The Persian fleet fled to the Hellespont leaving Xerxes to march home with his army and a very bruised ego.",
+   "picture": "Red fleet remnants retreat north along coast arrow to 'Hellespont'. Xerxes throne icon walks away inland with army block. 'Ego -100' humorous label."
+  },
+  {
+   "id": "l11",
+   "text": "Athens was saved and the Greek city states kept their freedom because one man trusted a narrow strip of water more than a million men.",
+   "picture": "Map wide: Athens icon safe. Greek city icons glow blue. Themistocles icon stands at strait. Persian million-man army icon fades. 'Freedom' banner."
+  },
+  {
+   "id": "l12",
+   "text": "Themistocles dedicated spoils to the gods though a specific temple to Artemis funded by prize money is not firmly documented.",
+   "picture": "Temple icon rises at Athens. Gold coins flow from battle debris to temple. Themistocles icon bows. 'Offerings' label with note 'Temple to Artemis not confirmed'."
+  },
+  {
+   "id": "l13",
+   "text": "Today the strait is a ferry lane and the only triremes are replicas rowed by tourists who argue about the oar timing.",
+   "picture": "Modern map overlay: ferry icons cross strait. Small replica trireme icons with tourist figures. Speech bubble 'Stroke! Stroke!'"
+  },
+  {
+   "id": "l14",
+   "text": "Next time you squeeze through a tight door remember Salamis where the big fleet got stuck and the small fleet won.",
+   "picture": "Child opens narrow door. Map inset: red fleet stuck, blue fleet wins. 'Salamis' label. Fade to series logo."
+  }
+ ],
+ "words": 313,
+ "claims": [
+  {
+   "id": "c1",
+   "claim": "The Battle of Salamis took place in September 480 BC",
+   "line": 0,
+   "quote": "In September 480 BC"
+  },
+  {
+   "id": "c2",
+   "claim": "Modern scholarship estimates the Persian fleet at roughly 600–800 ships",
+   "line": 0,
+   "quote": "a Persian fleet of roughly seven hundred ships"
+  },
+  {
+   "id": "c3",
+   "claim": "The Greek fleet numbered around three hundred triremes",
+   "line": 0,
+   "quote": "three hundred Greek triremes"
+  },
+  {
+   "id": "c4",
+   "claim": "The battle occurred in a channel about one kilometre wide",
+   "line": 0,
+   "quote": "a channel barely a kilometre wide"
+  },
+  {
+   "id": "c5",
+   "claim": "Xerxes watched the battle from a throne on Mount Aegaleos",
+   "line": 2,
+   "quote": "Xerxes sat on a golden throne on Mount Aegaleos"
+  },
+  {
+   "id": "c6",
+   "claim": "Themistocles was the chief Athenian commander and strategic architect",
+   "line": 3,
+   "quote": "Themistocles, the Athenian strategist"
+  },
+  {
+   "id": "c7",
+   "claim": "The fleet was nominally led by the Spartan admiral Eurybiades",
+   "line": 3,
+   "quote": "the Spartan admiral Eurybiades held overall command"
+  },
+  {
+   "id": "c8",
+   "claim": "Herodotus reports that Themistocles sent a messenger with false intelligence that the Greeks would flee, but the story lacks independent confirmation",
+   "line": 4,
+   "quote": "Herodotus reports that Themistocles sent a messenger with a lie that the Greeks would flee, but the story lacks independent confirmation"
+  },
+  {
+   "id": "c9",
+   "claim": "Xerxes moved his fleet into the strait at night, though the link to the message is unproven",
+   "line": 4,
+   "quote": "Xerxes moved his fleet into the strait at night, though the link to the message is unproven"
+  },
+  {
+   "id": "c11",
+   "claim": "Greek ships held position in the wider bay behind Salamis",
+   "line": 5,
+   "quote": "Greek ships held position in the wider bay behind Salamis"
+  },
+  {
+   "id": "c12",
+   "claim": "At dawn the Greeks attacked the Persian flank in the strait",
+   "line": 6,
+   "quote": "At first light the Greek line surged forward ramming the Persian flank"
+  },
+  {
+   "id": "c13",
+   "claim": "Persian oars tangled and ships could not maneuver",
+   "line": 6,
+   "quote": "where oars tangled and ships could not turn"
+  },
+  {
+   "id": "c14",
+   "claim": "Approximately 200 Persian ships were lost during the battle",
+   "line": 7,
+   "quote": "About two hundred Persian ships were smashed or captured during the battle"
+  },
+  {
+   "id": "c15",
+   "claim": "The narrow strait caused general disorder and Persian rear ranks pressed forward jamming the centre",
+   "line": 8,
+   "quote": "The narrow strait caused general disorder; Persian rear ranks pressed forward jamming the centre"
+  },
+  {
+   "id": "c16",
+   "claim": "Xerxes reacted with distress as he saw his fleet destroyed",
+   "line": 9,
+   "quote": "Xerxes leapt from his throne tearing his robes as he saw his fleet dissolve"
+  },
+  {
+   "id": "c18",
+   "claim": "Herodotus records roughly 200 Persian ships lost and 40 Greek ships lost",
+   "line": 11,
+   "quote": "Herodotus records roughly two hundred Persian ships lost and forty Greek ships lost"
+  },
+  {
+   "id": "c19",
+   "claim": "The Persian fleet retreated to the Hellespont and Xerxes marched his army home",
+   "line": 12,
+   "quote": "The Persian fleet fled to the Hellespont leaving Xerxes to march home with his army"
+  },
+  {
+   "id": "c20",
+   "claim": "Athens was saved and the Greek city-states maintained their independence",
+   "line": 13,
+   "quote": "Athens was saved and the Greek city states kept their freedom"
+  },
+  {
+   "id": "c21",
+   "claim": "Themistocles dedicated spoils to the gods but a temple to Artemis funded by prize money is not firmly documented",
+   "line": 14,
+   "quote": "Themistocles dedicated spoils to the gods though a specific temple to Artemis funded by prize money is not firmly documented"
+  },
+  {
+   "id": "c22",
+   "claim": "Today the strait is used by ferries and replica triremes rowed by tourists",
+   "line": 15,
+   "quote": "Today the strait is a ferry lane and the only triremes are replicas rowed by tourists"
+  }
+ ],
+ "verdicts": [
+  {
+   "id": "c10",
+   "verdict": "doubtful",
+   "reason": "Herodotus mentions three Persian lines, but the exact battle formation is uncertain and may be a literary simplification.",
+   "correction": "The Persian fleet's precise formation is not definitively known; Herodotus describes three lines, but this may be a literary device."
+  },
+  {
+   "id": "c17",
+   "verdict": "doubtful",
+   "reason": "The image of Greek ships circling jammed Persian vessels and Persian arrows falling harmless is a dramatic reconstruction not directly attested.",
+   "correction": "Greek ships attacked the jammed Persian vessels, but the specific tactics of circling and arrow ineffectiveness are not securely documented."
+  }
+ ],
+ "rounds": [
+  {
+   "round": 0,
+   "writer": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "checker": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "claims": 20,
+   "not_true": [
+    {
+     "id": "c2",
+     "verdict": "doubtful",
+     "reason": "Ancient sources claim about 1,200 ships but modern estimates are lower (600–800).",
+     "correction": "Modern scholarship estimates the Persian fleet at roughly 600–800 ships."
+    },
+    {
+     "id": "c6",
+     "verdict": "doubtful",
+     "reason": "Themistocles was the principal strategist but overall command was shared with Spartan admiral Eurybiades.",
+     "correction": "Themistocles was the chief Athenian commander and strategic architect, while the fleet was nominally led by the Spartan Eurybiades."
+    },
+    {
+     "id": "c9",
+     "verdict": "doubtful",
+     "reason": "Herodotus mentions Persian ships drawn up in three lines, but the exact “three ships wide” formation is not securely attested.",
+     "correction": "Sources say the Persians formed three lines, not necessarily three ships abreast."
+    },
+    {
+     "id": "c13",
+     "verdict": "false",
+     "reason": "No ancient source specifies that 200 Persian ships were lost in the first hour; total Persian losses were around 200–300 over the whole battle.",
+     "correction": "Approximately 200–300 Persian ships were lost over the course of the entire battle, not in the first hour."
+    },
+    {
+     "id": "c14",
+     "verdict": "doubtful",
+     "reason": "The narrowing channel caused congestion, but the specific mechanism of the centre being jammed by the rear is a later reconstruction.",
+     "correction": "The narrow strait caused general disorder; detailed jam dynamics are not explicitly recorded."
+    },
+    {
+     "id": "c17",
+     "verdict": "doubtful",
+     "reason": "Herodotus gives about 200 Persian ships lost and 40 Greek ships lost; the claim of ~300 Persian losses is at the high end of estimates.",
+     "correction": "Herodotus records roughly 200 Persian ships lost and 40 Greek ships lost."
+    },
+    {
+     "id": "c20",
+     "verdict": "doubtful",
+     "reason": "Ancient sources mention Themistocles dedicating spoils, but a specific temple to Artemis funded by prize money is not securely attested.",
+     "correction": "Themistocles may have dedicated offerings, but a temple to Artemis built with victory prize money is not firmly documented."
+    }
+   ],
+   "guards": []
+  },
+  {
+   "round": 1,
+   "writer": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "checker": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "claims": 22,
+   "not_true": [
+    {
+     "id": "c8",
+     "verdict": "doubtful",
+     "reason": "The story of Themistocles sending a messenger (Sicinnus) with false intelligence appears only in Herodotus and its historicity is debated; some scholars consider it a possible later embellishment.",
+     "correction": "Herodotus reports that Themistocles sent a messenger with false intelligence, but the event lacks independent confirmation and may be legendary."
+    },
+    {
+     "id": "c9",
+     "verdict": "doubtful",
+     "reason": "Herodotus links Xerxes' night deployment to the alleged message, but the causal connection is not corroborated and may reflect narrative shaping rather than documented fact.",
+     "correction": "Herodotus says Xerxes moved his fleet into the strait at night, but the claim that this was directly due to Themistocles' false message is unproven."
+    }
+   ],
+   "guards": []
+  },
+  {
+   "round": 2,
+   "writer": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "checker": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "claims": 22,
+   "not_true": [
+    {
+     "id": "c10",
+     "verdict": "doubtful",
+     "reason": "Herodotus mentions three Persian lines, but the exact battle formation is uncertain and may be a literary simplification.",
+     "correction": "The Persian fleet's precise formation is not definitively known; Herodotus describes three lines, but this may be a literary device."
+    },
+    {
+     "id": "c17",
+     "verdict": "doubtful",
+     "reason": "The image of Greek ships circling jammed Persian vessels and Persian arrows falling harmless is a dramatic reconstruction not directly attested.",
+     "correction": "Greek ships attacked the jammed Persian vessels, but the specific tactics of circling and arrow ineffectiveness are not securely documented."
+    }
+   ],
+   "guards": []
+  }
+ ],
+ "cuts": [
+  {
+   "claim": "c10",
+   "cut": "line",
+   "line": 5
+  },
+  {
+   "claim": "c17",
+   "cut": "line",
+   "line": 10
+  }
+ ],
+ "notes": "Adjusted the messenger story to reflect Herodotus as the sole source and its uncertain historicity, per fact-check. Kept the kid-clear map picture simple by omitting squadron details, the Psyttaleia landing, and exact ship count debates.",
+ "music_prompt": "Ambient strategy-game score for ancient Greece 480 BC. Warm evolving pads, plucked lyre and bowed strings, soft hand drums (tympanon), solo aulos melody for Greek themes, low drones for Persian mass. Tempo slow and deliberate 60 BPM. Swell at the turn (line 8) with rising strings and drum roll, settle to calm resolve after line 11. No percussion hits on cuts. Long chords under narration. Stereo field: Greek blue theme left, Persian red theme right, converge at clash.",
+ "writer": "nvidia/nemotron-3-ultra-550b-a55b:free",
+ "checker": "nvidia/nemotron-3-ultra-550b-a55b:free",
+ "usd": 0.0
+}

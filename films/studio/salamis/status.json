@@ -3,8 +3,8 @@
  "title": "The Battle of Salamis",
  "line": "battle-map",
  "stage": "script",
- "state": "running",
- "message": "The writer is drafting the narration.",
+ "state": "done",
+ "message": "15 lines, 313 words, 20 claims checked, 2 cut.",
  "usd": 0.0,
  "cap_usd": 0.5,
  "outputs": {
@@ -24,16 +24,18 @@
     "google/gemma-4-26b-a4b-it:free",
     "nvidia/nemotron-3.5-super-vl:free"
    ]
-  }
+  },
+  "script": "films/studio/salamis/script.json"
  },
  "stages": {
   "script": {
-   "state": "running",
+   "state": "done",
    "started_at": "2026-10-22T15:31:57Z",
-   "usd": 0.0
+   "usd": 0.0,
+   "ended_at": "2026-10-22T15:55:59Z"
   }
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39805128221",
- "updated_at": "2026-10-22T15:31:57Z"
+ "updated_at": "2026-10-22T15:55:59Z"
 }
