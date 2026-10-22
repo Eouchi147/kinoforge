@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Battle Map: The Battle of Hattin</title>
+<link rel="stylesheet" href="/harness/node_modules/@fontsource/cinzel/600.css">
+<link rel="stylesheet" href="/harness/node_modules/@fontsource/cinzel/800.css">
+<link rel="stylesheet" href="/harness/node_modules/@fontsource/cormorant-garamond/500-italic.css">
+<script type="importmap">{"imports":{"three":"/harness/node_modules/three/build/three.module.js","three/addons/":"/harness/node_modules/three/examples/jsm/"}}</script>
+</head><body><script type="module">
+import { startBattleMap } from '/films/lib/battlemap/index.js';
+import './icons.js';
+import { installFx } from './fx.js';
+installFx();
+await startBattleMap({ specUrl: './spec.js', cuesUrl: './cues.json' });
+</script></body></html>
