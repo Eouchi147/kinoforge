@@ -64,7 +64,29 @@ never sped up; pushes stay under 5 % of frame per second, orbits under 1.5 degre
 
 | Shot | In | Out | Len | Set | Camera (eased) | Why this cut |
 | --- | --- | --- | --- | --- | --- | --- |
-TABLE_ROWS
+| 1a | 0.0 | 7.0 | 7.0 | city | el 30, orbit +8 deg, push in 9 % | open: arrive on Venice floating in the mist; the narration names it |
+| 1b | 7.0 | 12.8 | 5.8 | city | el 13, orbit +2 deg, push in 20 %, tilt down | end of the sentence "standing in the middle of the sea"; change of scale: push to the cut face to see what is under it (water, then mud) |
+| 1c | 12.8 | 16.8 | 4.0 | city | el 38, orbit +4 deg, push in 3 % | the title card: the question of the film over the whole city |
+| 2a | 16.8 | 29.2 | 12.5 | lagoon | el 34, orbit -10 deg, push in 6 % | change of time (1,500 years earlier), shown by a dip through the mist; the empty lagoon, boats arrive |
+| 2b | 29.2 | 37.1 | 7.8 | lagoon | el 16, orbit +4 deg, push in 10 %, tilt down | end of line; wide to close: the stone house on the mud, at the cut, sinks like a spoon in pudding |
+| 3a | 37.1 | 42.3 | 5.2 | site | el 14, orbit +2 deg, push in 7 %, tilt down | change of place: the clever trick; one pole hammered down, seen above and through the cut |
+| 3b | 42.3 | 47.0 | 4.8 | site | el 30, orbit +6 deg, push in 7 % | "Millions of them": close to wide, later the same day; many poles in, three drivers, the stack of tree trunks |
+| 3c | 47.0 | 55.2 | 8.2 | site | el 4, tilt down | wide to close on the cut: the poles packed side by side reach the pale, harder clay; the camera tilts down them |
+| 3d | 55.2 | 63.2 | 8.0 | site | el 26, orbit -6 deg, push in 7 %, tilt up | new information: what goes on top of the poles, in order; the camera holds on the corner while it builds |
+| 3e | 63.2 | 70.2 | 7.0 | city | el 21, orbit -6 deg, push in 7 %, tilt down | change of place: the real church built this way; low angle for its scale, the cut face packed with poles |
+| 4a | 70.2 | 80.0 | 9.7 | pole | el 8, push in 9 %, tilt down | change of scale: one pole deep in the mud; bubbles near the water stop deeper down |
+| 4b | 80.0 | 88.2 | 8.3 | pole | el 4, push in 9 %, tilt down | closer: the change happens in the wood itself; it turns stony grey as minerals soak in |
+| 5a | 88.2 | 98.1 | 9.9 | sink | el 16, orbit +2 deg, push in 6 %, tilt down | change of place and question: why it sinks; reason one, the mud squeezed under the city |
+| 5b | 98.1 | 104.2 | 6.1 | sink | el 13, orbit -2 deg, push in 6 % | reason two: cut to the sea wall and its gauge; the water line creeps up |
+| 5c | 104.2 | 113.0 | 8.8 | sink | el 15, orbit +4 deg, push in 7 %, tilt down | new information: the factories; the pipe pulls water from the deep sand, the ground drops |
+| 5d | 113.0 | 115.7 | 2.6 | sink | el 18, push in 6 % | closer, the detail that answers the line: the valve turns, the flow stops |
+| 6a | 115.7 | 119.8 | 4.1 | city | el 34, orbit +4 deg, push in 6 % | change of place and time: today, a high tide; the sea pours into the campo |
+| 6b | 119.8 | 123.8 | 4.0 | city | el 10, orbit +4 deg, push in 4 % | low and close for people: walking to work on the raised walkways |
+| 7a | 123.8 | 132.2 | 8.4 | inlet | el 32, orbit -6 deg, push in 6 % | change of place: an opening of the lagoon; the gates lie on the seabed |
+| 7b | 132.2 | 138.2 | 6.0 | inlet | el 5, push in 4 %, tilt up | close, side on through the cut: the gates fill with air and swing up (the score swells here) |
+| 7c | 138.2 | 141.4 | 3.2 | inlet | el 22, orbit -4 deg, push in 5 % | wide again for the result: the sea high outside, the lagoon calm behind the gates |
+| 7d | 141.4 | 145.1 | 3.7 | city | el 22, orbit -4 deg, push in 5 % | cut on "The squares stayed dry": the campo, dry, people walking |
+| 8a | 145.1 | 157.0 | 11.8 | city | el 31, orbit -6 deg, pull back 44 %, tilt down | passing time to dusk (a dip through the mist): the city lights up; the slow pull back ends the film |
 
 Cuts after a line hold at least 0.8 s on the picture the line explained, but never run more than 0.25 s into the
 next line (the next sentence then leads across the cut, a short J-cut). Transitions: hard cuts, except two dips

@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Waterloo (9 scenes, 28 shots, film-side artillery, hollow squares) and Thermopylae (9 scenes, 32 shots, the pass and the hidden path) re-directed on Battle Map v2; renders dispatched. Engine notes for later: an artillery kind, a night light setting, the scene speed check's default ease.
 - Gaugamela (9 scenes, 27 shots, film-side scythed chariots), Hattin (9 scenes, 28 shots, brush fire, the Horns, thirst shown through the water places) and Ain Jalut (9 scenes, 23 shots, the feigned retreat) re-directed on Battle Map v2 (0 check errors); renders dispatched.
 - Runner queue congested (about 30 stills runs queued behind the film renders): `stills.yml` now renders several frames per runner (`per_job`, default 4) and builders keep one stills run in flight at a time.
 - Hastings (8 scenes, 30 shots) and Agincourt (9 scenes, 29 shots, cuts motivated around the two Cutaway mud inserts) re-directed on Battle Map v2; Hastings render dispatched; Agincourt waits for its inserts. First free director run failed at the script stage (the live ranking picked tiny free models that cannot return JSON); the director is being fixed (curated free model list, discovery log, robust JSON, 429 back-off) and both jobs re-run.

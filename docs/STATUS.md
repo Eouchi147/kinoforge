@@ -10,7 +10,7 @@
 - The verdicts and the house rules are in `films/director/CRAFT.md` (read before any film work); lessons in `LESSONS.md`.
 - Running (agents, nothing rendered yet):
   - free procedural score engine (`films/lib/score/`, CC0 VSCO-2 samples plus synthesis, Age of Empires / Anno feel) and the 8 battles re-scored with it (narration kept);
-  - Battle Map engine v2 (no emoji, refined heraldic graphics, legend panel, formations that never overlap, planned camera per scene, living world) with Cannae as the reference film: done (9 scenes, 26 shots, 0 check errors), Cannae v2 rendering on free runners; the 7 other battles are being re-directed on v2 by three builders;
+  - Battle Map engine v2 (no emoji, refined heraldic graphics, legend panel, formations that never overlap, planned camera per scene, living world) with Cannae as the reference film: done (9 scenes, 26 shots, 0 check errors), Cannae v2 rendering on free runners; the other battles are re-directed on v2 (Hastings, Waterloo, Thermopylae, Gaugamela, Hattin, Ain Jalut rendering; Agincourt waits for its two Cutaway inserts);
   - Kleidion re-directed (done: 9 scenes, 29 shots instead of 64, opening in real time, fuller worlds); re-rendering on free runners (rc-render films.yml, 16 parts);
   - Arabia re-directed (pin-hole star sky, scene-based cuts, fuller tabletop world, paper-and-clay graphics);
   - Bamberg polished (done: eight movements, every effect with a job); re-rendering now on free runners (rc-render run 39790691570);

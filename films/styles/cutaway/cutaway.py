@@ -605,8 +605,9 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
             F['depth'] = (level if level is not None else -99) - F['h']
         else:
             F['plate'] = np.zeros_like(h); F['crack'] = np.zeros_like(h)
+        F['clear'] = np.zeros_like(h)    # keep_clear: no grass blades or trees there, but the ground stays green
         for (cx, cy, r) in L.keep_clear:
-            F['w_grass'] = F['w_grass'] * smooth(r * 0.7, r, np.hypot(x - cx, y - cy))
+            F['clear'] = np.maximum(F['clear'], smooth(r, r * 0.7, np.hypot(x - cx, y - cy)))
         return F
     L.field = field; L.height = lambda x, y: field(x, y)['h']
 
@@ -921,13 +922,13 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, tree_scale, b
     # grass: a dense jittered grid, kept where the grass weight wins a random draw
     if grass > 0:
         step = 0.028 / math.sqrt(grass); P = _jitter_grid(rng, sx, sy, step, 0.004); F = L.field(P[:, 0], P[:, 1])
-        keep = (rng.uniform(0, 1, len(P)) < F['w_grass'] ** 1.3) & (F['depth'] < -0.006); P = P[keep]
+        keep = (rng.uniform(0, 1, len(P)) < (F['w_grass'] * (1 - F['clear'])) ** 1.3) & (F['depth'] < -0.006); P = P[keep]
         tufts = proto_tufts(kit, pal, 7, 0.05 * grass_height, s) + proto_tufts(kit, pal, 3, 0.085 * grass_height, s + 1, (16, 26))
         scatter(kit, L, 'cw_grass', tufts, P, scale=rng.uniform(0.7, 1.3, len(P)), sway=0.22 * sway, speed=0.9)
         if flowers > 0 and pal.get('flowers', 1) > 0:
             q = _jitter_grid(rng, sx, sy, 0.05, 0.02); Fq = L.field(q[:, 0], q[:, 1])
             fz = 0.5 + 0.5 * fbm(q[:, 0], q[:, 1], s + 51, 2, 1.6)
-            keep = (Fq['w_grass'] > 0.6) & (fz > 1.0 - 0.32 * flowers * pal.get('flowers', 1)) & (rng.uniform(0, 1, len(q)) < 0.5)
+            keep = (Fq['w_grass'] * (1 - Fq['clear']) > 0.6) & (fz > 1.0 - 0.32 * flowers * pal.get('flowers', 1)) & (rng.uniform(0, 1, len(q)) < 0.5)
             scatter(kit, L, 'cw_flowers', proto_flowers(kit, 4, s), q[keep], sway=0.18 * sway, speed=0.9)
     # trees
     if tree_spots is not None or trees:
@@ -939,7 +940,7 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, tree_scale, b
         else:
             def ok(p):
                 f = L.field(np.array([p[0]]), np.array([p[1]]))
-                return f['w_grass'][0] > 0.4 and f['sd'][0] > 0.12 and f['depth'][0] < -0.03
+                return f['w_grass'][0] * (1 - f['clear'][0]) > 0.4 and f['sd'][0] > 0.12 and f['depth'][0] < -0.03
             T = _darts(rng, sx, sy, trees, 0.36, ok, 0.2); sc = rng.uniform(0.6, 1.35, len(T))
             var = np.array([kinds.index(tree_kinds[int(rng.integers(0, len(tree_kinds)))]) * 3 + int(rng.integers(0, 3)) for _ in range(len(T))])
         if len(T): scatter(kit, L, 'cw_trees', protos, T, scale=sc * tree_scale, variant=var, sway=0.025 * sway, speed=0.5, sink=0.01)
@@ -948,7 +949,7 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, tree_scale, b
     if boulders:
         rk = proto_rocks(kit, 6, s, moss=0.3 if pal.get('snow', 0) < 0.5 else 0.0, snow=pal.get('snow', 0))
         def okb(p):
-            f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] < -0.01
+            f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] < -0.01 and f['clear'][0] < 0.5
         B = _darts(rng, sx, sy, boulders, 0.12, okb, 0.1)
         if len(B): scatter(kit, L, 'cw_boulders', rk, B, scale=rng.uniform(0.06, 0.15, len(B)), sink=0.025)
         if L.water:
