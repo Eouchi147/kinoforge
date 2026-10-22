@@ -1,0 +1,9 @@
+{
+ "_": "Director pipeline switches. free_only (Sam, 22 Oct 2026 09:20: spend nothing): every model seat uses OpenRouter models whose id ends in ':free', any paid model is refused in code, and the sound stage uses free engines on the runner (voice: Chatterbox or Kokoro; music: the procedural score engine). Only Sam turns this off (set false here, or KF_FREE_ONLY=0 in the workflow env).",
+ "free_only": true,
+ "free_voice": "chatterbox",
+ "free_music": {"engine": "procedural"},
+ "music_engines": {
+  "procedural": {"cmd": ["python3", "films/lib/score/procedural.py", "{job}", "{out}"], "note": "the free procedural score engine (another agent is building it). Called with the job folder and the output mp3; it reads ad.json prep.music and cues the length from audio/vo.json. If it is missing, sound.py lays a quiet placeholder pad (films/director/pad.py) so the film can still be finished and checked."}
+ }
+}

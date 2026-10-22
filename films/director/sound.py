@@ -2,7 +2,9 @@
 
     python3 films/director/sound.py films/studio/<id>
 
-Runs harness/shots/prep.py (voice from brief.voice, Lyria score, Whisper word timings) then the line's mix
+Free-only mode (default, films/director/config.json): the narration with a free open voice on the runner
+(voice_free.py: Chatterbox or Kokoro, checked by Whisper) and the score from the free procedural engine (hook in
+config.json; a placeholder pad until it exists). Paid mode: harness/shots/prep.py (ElevenLabs, Lyria). Then the line's mix
 (films/lib/battle_mix.py: narration on the score's beat grid, title line on the biggest rise, -14 LUFS), so the folder
 gets audio/, cues.json, film.json (sizes from the line) and index.html (the line's example page, loading ./spec.js).
 Every paid call is booked in the job's ledger.json against brief.cap_usd (prep reads ad.json cap_usd).
@@ -28,6 +30,29 @@ def run(cmd):
     if r.returncode: raise RuntimeError(f'{os.path.basename(cmd[1])} failed (exit {r.returncode})')
 
 
+def free_sound(job, P):
+    """Narration with a free open voice (voice_free.py, in the TTS python: $KF_TTS_PYTHON) and the score from a free
+    engine (config.json music_engines; the placeholder pad when the engine is not there), then the beat map."""
+    if not job.has('audio', 'vo.json'):
+        run([os.environ.get('KF_TTS_PYTHON', sys.executable), 'films/director/voice_free.py', C.rel(job.dir)])
+    vo = json.load(open(job.p('audio', 'vo.json')))
+    mus = job.p('audio', 'music.mp3')
+    if not os.path.exists(mus):
+        m = P.get('music') or {}; eng = C.CONFIG.get('music_engines', {}).get(m.get('engine', 'procedural'), {})
+        secs = sum(l['dur'] for l in vo['lines']) + len(vo['lines']) * 0.9 + 14
+        cmd = [str(a).format(job=C.rel(job.dir), out=C.rel(mus), seconds=round(secs, 1)) for a in eng.get('cmd', [])]
+        script = next((a for a in cmd if a.endswith('.py') or a.endswith('.js') or a.endswith('.cjs')), None)
+        if cmd and script and os.path.exists(os.path.join(C.ROOT, script)):
+            run(cmd)
+        else:
+            C.log(f'music engine {m.get("engine")!r} not found ({script}); laying the placeholder pad')
+            import pad; pad.make(mus, secs, mood='dark' if not job.line.get('kid_safe') else 'warm')
+            P['music_note'] = 'placeholder pad (films/director/pad.py): the procedural score engine was not there'
+    sys.path.insert(0, os.path.join(C.ROOT, 'harness', 'shots'))
+    from prep import beat_map
+    json.dump(beat_map(mus), open(job.p('audio', 'music.json'), 'w'))
+
+
 def main(d):
     job = C.Job(d); L = job.line; script = job.read('script.json')
     if not script: raise RuntimeError('no script.json: run the script stage first')
@@ -39,10 +64,15 @@ def main(d):
                                 'line': L['name'], 'fps': L['fps'], 'render_w': L['render'][0], 'render_h': L['render'][1],
                                 'w': L['delivery'][0], 'h': L['delivery'][1], 'audio': 'audio/mix.m4a',
                                 'note': 'Made by the KINOFORGE director (films/director/). Picture: ' + L['engine'] + '.'})
-    run([sys.executable, 'harness/shots/prep.py', C.rel(job.dir)])
+    ad = job.read('ad.json'); P = ad['prep']
+    if P.get('voice') or (P.get('music') or {}).get('engine'):
+        free_sound(job, P); job.write('ad.json', ad)         # free engines on the runner
+    else:
+        if C.FREE_ONLY: raise RuntimeError('free-only mode: ad.json asks for paid sound (ElevenLabs, Lyria); re-run the script stage')
+        run([sys.executable, 'harness/shots/prep.py', C.rel(job.dir)])
     vo = json.load(open(job.p('audio', 'vo.json')))
     if len(vo['lines']) != len(script['lines']): raise RuntimeError(f'{len(vo["lines"])} voice lines for {len(script["lines"])} script lines')
-    if not job.has('audio', 'music.mp3'): raise RuntimeError('no score (Lyria failed): see the log')
+    if not job.has('audio', 'music.mp3'): raise RuntimeError('no score: see the log')
     run([sys.executable, L['mix'], C.rel(job.dir), '--title-line', str(L.get('title_line', 1))])
     cues = job.read('cues.json'); film = job.read('film.json')
     film['duration'] = cues['duration']; job.write('film.json', film)

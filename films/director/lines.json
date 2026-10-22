@@ -41,7 +41,14 @@
    "Kid-safe: armies are blocks, arrows and banners; losses are counters and fading blocks, never wounds. On-screen words in CAPITALS, short (at most 4 words), set in code; no em or en dashes and no '...'.",
    "Labels must not cover each other: when two show at once, offset them with dx/dy or give them different times; keep screen-anchored text between 0.06 and 0.94 of the frame.",
    "Keep the spec under about 35 KB; plain data plus small helpers (Object.fromEntries, map) like the examples; no imports, no randomness, no clocks."
-  ]
+  ],
+  "free_voice_settings": {
+   "exaggeration": 0.6,
+   "cfg": 0.4,
+   "temperature": 0.75,
+   "speed": 1.0
+  },
+  "music_style": "ambient, warm and living, like the Age of Empires and Anno soundtracks (Sam, 22 Oct): a calm bed under the narration, not a full score"
  },
  "kinetic": {
   "series": "Dark Corners",
@@ -81,6 +88,13 @@
   ],
   "style_refs": [
    "films/dark-corners/bamberg"
-  ]
+  ],
+  "free_voice_settings": {
+   "exaggeration": 0.4,
+   "cfg": 0.3,
+   "temperature": 0.7,
+   "speed": 0.95
+  },
+  "music_style": "dark, restrained underscore"
  }
 }

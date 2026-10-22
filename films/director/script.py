@@ -49,7 +49,8 @@ def writer_system(job):
             f"Write the narration for one film. Length: about {T['words']} words in about {T['lines']} lines (target {int(b['target_seconds'])} seconds of film). "
             "A line is one to three short sentences, at most 35 words.\n"
             f"Structure: {L['structure']}\n"
-            "Beats are linked by but and therefore (never and then, and then). One clear picture idea per line, written in the `picture` field "
+            "Beats are linked by the logic of but and therefore, never and then (do not start lines with the words But or Therefore "
+            "more than once or twice; vary: so, then, which meant, until). One clear picture idea per line, written in the `picture` field "
             f"(it will be animated in the {L['style']} style). {L['picture_rules']}\n"
             f"Tone: {b.get('tone') or L['default_tone']}.\n"
             "House rules: plain spoken English for the ear; no em or en dashes; no \"...\"; no URLs; no stage directions or [tags]; numbers the "
@@ -127,6 +128,13 @@ def make_ad(job, data):
     L, b = job.line, job.brief
     mp = (data.get('music_prompt') or '').strip() or L['music_prompt']
     if 'instrumental' not in mp.lower(): mp += ' Instrumental only, no vocals.'
+    if C.FREE_ONLY:   # free engines on the runner: no ElevenLabs, no Lyria
+        v = b['voice'] if b['voice'].split('|')[0] in ('chatterbox', 'kokoro') else C.CONFIG.get('free_voice', 'chatterbox')
+        return {'_': f"{L['series']}: {data['title']} ({data['year_label']}). Narration by films/director/script.py; free sound by films/director/sound.py.",
+                'id': job.id, 'cap_usd': b['cap_usd'],
+                'prep': {'voice': v, 'voice_settings': L.get('free_voice_settings', {}), 'vo_words': True,
+                         'music': {**C.CONFIG.get('free_music', {'engine': 'procedural'}), 'prompt': mp, 'line': L['name'], 'style': L.get('music_style', '')},
+                         'vo': [{'text': l['text']} for l in data['lines']]}}
     return {'_': f"{L['series']}: {data['title']} ({data['year_label']}). Narration by films/director/script.py; prepared by harness/shots/prep.py.",
             'id': job.id, 'cap_usd': b['cap_usd'],
             'prep': {'music': {'prompt': mp, 'models': ['google/lyria-3-pro-preview', 'google/lyria-3-clip-preview']},

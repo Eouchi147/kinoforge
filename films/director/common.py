@@ -15,7 +15,10 @@ import agents  # noqa: E402  (seats, Ledger, ask, OverBudget, AllFailed)
 from agents import Ledger, OverBudget, AllFailed  # noqa: E402,F401
 
 STAGES = ['script', 'sound', 'spec', 'check', 'eyes', 'render', 'reflect', 'done']
-DEFAULTS = {'target_seconds': 150, 'cap_usd': 1.5, 'voice': 'elevenlabs/eleven-v4|brian', 'line': 'battle-map'}
+CONFIG = json.load(open(os.path.join(HERE, 'config.json')))
+FREE_ONLY = os.environ.get('KF_FREE_ONLY', '1' if CONFIG.get('free_only', True) else '0') != '0'
+DEFAULTS = {'target_seconds': 150, 'cap_usd': 1.5, 'voice': CONFIG.get('free_voice', 'chatterbox') if FREE_ONLY else 'elevenlabs/eleven-v4|brian',
+            'line': 'battle-map'}
 RELEASE = 'films'
 
 
@@ -138,11 +141,53 @@ def git_commit(paths, msg):
 
 
 # ------------------------------------------------------------------ models
-ask = agents.ask   # JSON replies (strict schema), through the seat's chain and the ledger
+class PaidRefused(Exception): pass
+
+
+def is_free(model): return bool(model) and model.endswith(':free')
+
+
+def free_chain(seat_name, n=6):
+    """Free models (id ends in ':free') that have the seat's input abilities, best published intelligence first, one per
+    provider first, then the crew's `free` prefer list. Used for every seat in free-only mode."""
+    needs = agents.CREW['seats'].get(seat_name, {}).get('needs', ['text']); mk = agents.market()
+    ok = [m for m in mk.values() if is_free(m['id']) and all(x in m['mods'] for x in needs)]
+    ranked = sorted(ok, key=lambda m: (m['iq'] is None, -(m['iq'] or 0), -m['created']))
+    out, seen = [], set()
+    for m in ranked:
+        p = provider(m['id'])
+        if p not in seen: out.append(m['id']); seen.add(p)
+    for m in ranked:
+        if m['id'] not in out: out.append(m['id'])
+    for m in agents.CREW['seats']['free']['prefer']:
+        if m not in out and (not mk or (m in mk and all(x in mk[m]['mods'] for x in needs))): out.append(m)
+    return out[:n]
+
+
+def _guard_free(model, ledger, before):
+    if FREE_ONLY and ledger.total > before + 1e-9:
+        raise OverBudget(f'free-only mode: {model} charged US${ledger.total - before:.4f}; stopped')
+
+
+def ask(seat_name, messages, schema, ledger, only=None, **kw):
+    """JSON replies (strict schema), through the seat's chain and the ledger. Free-only mode: free models only, two passes
+    (free models are rate limited), any paid model refused, any charge stops the job."""
+    if not FREE_ONLY: return agents.ask(seat_name, messages, schema, ledger, only=only, **kw)
+    if only and not is_free(only): raise PaidRefused(f'free-only mode: {only} is not a free model')
+    chain = [only] if only else free_chain(seat_name); errors = []
+    for attempt in range(2):
+        for m in chain:
+            before = ledger.total
+            try:
+                r = agents.ask(seat_name, messages, schema, ledger, only=m, **kw); _guard_free(m, ledger, before); return r
+            except OverBudget: raise
+            except Exception as e: errors.append(f'{m}: {str(e)[:160]}')
+        if attempt == 0: time.sleep(20)
+    raise AllFailed(' | '.join(errors[-8:]))
 
 
 def seat_models(name):
-    return agents.seat(name)
+    return free_chain(name) if FREE_ONLY else agents.seat(name)
 
 
 def provider(model):
@@ -151,7 +196,9 @@ def provider(model):
 
 def complete(seat_name, messages, ledger, max_tokens=24000, only=None, label='', validate=None):
     """A plain-text reply (for code), through the seat's chain and the ledger. Returns (text, model)."""
-    mk = agents.market(); chain = [only] if only else agents.seat(seat_name)
+    if FREE_ONLY and only and not is_free(only): raise PaidRefused(f'free-only mode: {only} is not a free model')
+    mk = agents.market(); chain = [only] if only else seat_models(seat_name)
+    if FREE_ONLY: chain = [m for m in chain if is_free(m)] * 2   # two passes: free models are rate limited
     in_tok = len(json.dumps(messages)) // 3.5; errors = []
     timeout = max(600, agents.CREW['seats'][seat_name].get('timeout_s', 60) * 1.5)   # long code replies
     for model in chain:
@@ -172,6 +219,7 @@ def complete(seat_name, messages, ledger, max_tokens=24000, only=None, label='',
             if not problem and validate: problem = validate(text)
             ledger.add(seat=seat_name, model=j.get('model', model), task=label, usd=round(cost, 6), s=round(time.time() - t0, 1), ok=not problem, note=problem,
                        tok_in=u.get('prompt_tokens'), tok_out=u.get('completion_tokens'))
+            if FREE_ONLY and cost > 0: raise OverBudget(f'free-only mode: {model} charged US${cost:.4f}; stopped')
             if problem: errors.append(f'{model}: {problem}'); continue
             return text, model
         except urllib.error.HTTPError as e:
@@ -179,6 +227,7 @@ def complete(seat_name, messages, ledger, max_tokens=24000, only=None, label='',
             ledger.add(seat=seat_name, model=model, task=label, usd=0, s=round(time.time() - t0, 1), ok=False, note=f'{e.code}')
             if e.code == 402: raise OverBudget('OpenRouter key limit reached (HTTP 402)')
             if e.code == 429: time.sleep(15)
+        except OverBudget: raise
         except Exception as e:
             errors.append(f'{model}: {type(e).__name__} {e}'[:200])
             ledger.add(seat=seat_name, model=model, task=label, usd=0, s=round(time.time() - t0, 1), ok=False, note=type(e).__name__)
