@@ -156,12 +156,12 @@ const moves = [
   { blocks: ['fr1', 'fr2'], at: 'l08.never', dur: 1.4, fadeTo: 0.55 },
   // the centre: two French columns climb, the British cavalry comes through the gap and throws them back, then runs on into the guns
   { block: 'fr4', at: 'l09.marched', dur: 3.0, to: { x: -26, z: 44, len: 48 }, ease: 'inOut' }, { block: 'fr5', at: 'l09.marched', dur: 3.0, to: { x: 26, z: 44, len: 48 }, ease: 'inOut' },
-  { block: 'bCav', at: 'l09.British', dur: 0.7, appear: true },
-  { block: 'bCav', at: 'l09.charged', dur: 1.8, path: [[0, -84], [0, -40], [-14, 0], [-24, 30]], ease: 'inQuad' },
-  { blocks: ['fr4', 'fr5'], at: 'l09.back', dur: 1.5, by: { z: 44 }, ease: 'out' }, { blocks: ['fr4', 'fr5'], at: 'l09.back', dur: 1.5, fadeTo: 0.5 },
-  { block: 'bCav', at: 'l09.back', dur: 1.5, to: { z: 70 }, ease: 'out' },
+  { block: 'bCav', at: 'l09.ridge.', dur: 0.8, appear: true },   // forms up behind the line, out of sight of the low shot S5.2
+  { block: 'bCav', at: 'l09.British', dur: 2.0, path: [[0, -84], [0, -40], [-14, 0], [-24, 30]], ease: 'inQuad' },
+  { blocks: ['fr4', 'fr5'], at: 'l09.down', dur: 1.5, by: { z: 44 }, ease: 'out' }, { blocks: ['fr4', 'fr5'], at: 'l09.down', dur: 1.5, fadeTo: 0.5 },
+  { block: 'bCav', at: 'l09.slope,+0.2', dur: 0.85, to: { z: 66 }, ease: 'out' },
   { blocks: ['fr4', 'fr5'], at: 'l09.and', dur: 1.2, vanish: true },
-  { block: 'bCav', at: 'l09.then#1', dur: 1.8, path: [[-24, 70], [10, 84], [42, 90]], ease: 'inOut' },
+  { block: 'bCav', at: 'l09.then#1', dur: 1.8, path: [[-24, 66], [10, 84], [42, 90]], ease: 'inOut' },
   { block: 'bCav', at: 'l09.far.', dur: 1.4, fadeTo: 1, alphaTo: 0.5, sinkTo: 0.9 },
   { block: 'bCav', at: 'l10.thousands', dur: 1.0, vanish: true },
   { blocks: ['fr4', 'fr5'], at: 'l10.thousands', dur: 0.05, to: { z: FR_Z, len: 54 } }, { block: 'fr4', at: 'l10.thousands', dur: 0.05, to: { x: -30 } }, { block: 'fr5', at: 'l10.thousands', dur: 0.05, to: { x: 30 } },
@@ -293,8 +293,8 @@ export default {
       ] },
     { id: 'S7', name: 'The Prussians come', at: 'l11', job: 'the Prussians arrive late but they arrive, and Napoleon plays his last card', set: { time: [0.3, 0.6], haze: 1.15, cloud: 0.25 },
       shots: [
-        { at: 'l11', why: 'change of place, far off to the east: the Prussians on the long road through the mud', from: { target: [322, -40], width: 380, pitch: 42, yaw: 32, mm: 35 },
-          moves: [{ until: 'l11.coming.>', to: { target: [286, 40] } }] },
+        { at: 'l11', why: 'change of place, far off to the east: the Prussians on the long road through the mud', from: { target: [326, -36], width: 380, pitch: 44, yaw: 176, mm: 35 },
+          moves: [{ until: 'l11.coming.>', to: { target: [292, 36] } }] },
         { at: 'l12', why: 'evening, closer: they smash into the French flank, which wheels to face them', from: { target: [232, 116], width: 300, pitch: 46, yaw: 340, mm: 35 },
           moves: [{ until: 'l12.side,>', to: { width: 280 } }] },
         { at: 'l12.so', why: 'low behind Napoleon\'s last and best soldiers as they climb the road to the ridge', from: { target: [-8, 92], dist: 124, pitch: 24, yaw: 0, mm: 35 },

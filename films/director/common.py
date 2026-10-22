@@ -147,21 +147,10 @@ class PaidRefused(Exception): pass
 def is_free(model): return bool(model) and model.endswith(':free')
 
 
-def free_chain(seat_name, n=6):
-    """Free models (id ends in ':free') that have the seat's input abilities, best published intelligence first, one per
-    provider first, then the crew's `free` prefer list. Used for every seat in free-only mode."""
-    needs = agents.CREW['seats'].get(seat_name, {}).get('needs', ['text']); mk = agents.market()
-    ok = [m for m in mk.values() if is_free(m['id']) and all(x in m['mods'] for x in needs)]
-    ranked = sorted(ok, key=lambda m: (m['iq'] is None, -(m['iq'] or 0), -m['created']))
-    out, seen = [], set()
-    for m in ranked:
-        p = provider(m['id'])
-        if p not in seen: out.append(m['id']); seen.add(p)
-    for m in ranked:
-        if m['id'] not in out: out.append(m['id'])
-    for m in agents.CREW['seats']['free']['prefer']:
-        if m not in out and (not mk or (m in mk and all(x in mk[m]['mods'] for x in needs))): out.append(m)
-    return out[:n]
+def free_chain(seat_name, n=8):
+    """Free models for a seat (films/director/free.py: curated per role, intersected with the live ':free' list)."""
+    import free
+    return free.seat_chain(seat_name)[:n]
 
 
 def _guard_free(model, ledger, before):
@@ -170,20 +159,15 @@ def _guard_free(model, ledger, before):
 
 
 def ask(seat_name, messages, schema, ledger, only=None, **kw):
-    """JSON replies (strict schema), through the seat's chain and the ledger. Free-only mode: free models only, two passes
-    (free models are rate limited), any paid model refused, any charge stops the job."""
+    """JSON replies (strict schema), through the seat's chain and the ledger. Free-only mode: films/director/free.py (curated
+    free models, robust JSON, 429 back-off, a paid model refused, any charge stops the job)."""
     if not FREE_ONLY: return agents.ask(seat_name, messages, schema, ledger, only=only, **kw)
     if only and not is_free(only): raise PaidRefused(f'free-only mode: {only} is not a free model')
-    chain = [only] if only else free_chain(seat_name); errors = []
-    for attempt in range(2):
-        for m in chain:
-            before = ledger.total
-            try:
-                r = agents.ask(seat_name, messages, schema, ledger, only=m, **kw); _guard_free(m, ledger, before); return r
-            except OverBudget: raise
-            except Exception as e: errors.append(f'{m}: {str(e)[:160]}')
-        if attempt == 0: time.sleep(20)
-    raise AllFailed(' | '.join(errors[-8:]))
+    import free
+    kw.pop('allow_free', None)
+    try: return free.ask(seat_name, messages, schema, ledger, only=only, **kw)
+    except free.Stop as e: raise OverBudget(str(e))
+    except RuntimeError as e: raise AllFailed(str(e))
 
 
 def seat_models(name):
@@ -196,6 +180,12 @@ def provider(model):
 
 def complete(seat_name, messages, ledger, max_tokens=24000, only=None, label='', validate=None):
     """A plain-text reply (for code), through the seat's chain and the ledger. Returns (text, model)."""
+    if FREE_ONLY:
+        if only and not is_free(only): raise PaidRefused(f'free-only mode: {only} is not a free model')
+        import free
+        try: return free.complete(seat_name, messages, ledger, max_tokens=max_tokens, only=only, label=label, validate=validate)
+        except free.Stop as e: raise OverBudget(str(e))
+        except RuntimeError as e: raise AllFailed(str(e))
     if FREE_ONLY and only and not is_free(only): raise PaidRefused(f'free-only mode: {only} is not a free model')
     mk = agents.market(); chain = [only] if only else seat_models(seat_name)
     if FREE_ONLY: chain = [m for m in chain if is_free(m)] * 2   # two passes: free models are rate limited

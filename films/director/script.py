@@ -90,7 +90,9 @@ def check_claims(job, data, avoid_provider, round_no):
              'in mainstream scholarship), "doubtful" (disputed, uncertain, legendary, or stated with more certainty than the sources allow), or "false". '
              'Judge the claim as worded in its line. Give a one-sentence reason and, when not true, the accurate statement. Return a verdict for every id.'},
             {'role': 'user', 'content': f'Film subject: {job.brief.get("subject") or job.brief.get("title")}\n\nClaims:\n' + json.dumps(claims, indent=1, ensure_ascii=False)}]
-    models = [m for m in C.seat_models(job.brief.get('seats', {}).get('checker', 'deputy')) if C.provider(m) != avoid_provider]
+    pool = C.seat_models(job.brief.get('seats', {}).get('checker', 'deputy'))
+    models = [m for m in pool if C.provider(m) != avoid_provider]
+    models += [m for m in pool if m not in models][:1]   # last resort: another model of the same provider (logged in script.json)
     last = None
     for m in models or [None]:
         try:
@@ -102,7 +104,7 @@ def check_claims(job, data, avoid_provider, round_no):
             return got, used
         except C.OverBudget: raise
         except Exception as e: last = e; C.log('checker failed:', m, str(e)[:200])
-    raise C.AllFailed(f'no checker from a provider other than {avoid_provider}: {last}')
+    raise C.AllFailed(f'no checker answered (writer provider {avoid_provider}): {last}')
 
 
 def cut(data, bad_ids, title_line):

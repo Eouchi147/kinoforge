@@ -74,6 +74,8 @@ jobs:
           test -f "$D/brief.json" || { echo "::error::no $D/brief.json"; exit 1; }
           python3 films/director/start.py "$D" --from "${{ inputs.from || 'resume' }}" ${{ github.event_name == 'push' && '--push' || '' }} > "$RUNNER_TEMP/open.out"
           cat "$RUNNER_TEMP/open.out"; grep -E '^(render|sound|tts)=' "$RUNNER_TEMP/open.out" >> "$GITHUB_OUTPUT"
+      - name: free seats (the live free models on OpenRouter, the seat chosen for each role)
+        run: python3 films/director/free.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - uses: actions/setup-node@v4
@@ -115,12 +117,13 @@ jobs:
         if: always()
         run: |
           N=$(basename "$D")-film.log; cp "$RUNNER_TEMP/film.log" "$N" 2>/dev/null || echo "no log" > "$N"
-          gh release upload logs "$N" --clobber || true
+          [ -f "$D/seats.json" ] && cp "$D/seats.json" "$(basename "$D")-seats.json" && gh release upload logs "$(basename "$D")-seats.json" --clobber || true
+          gh release upload logs "$N" --clobber || true   # the whole log, not a tail
       - name: mark failed
         if: failure()
         run: |
           L="https://github.com/$GH_REPO/releases/download/logs/$(basename "$D")-film.log"
-          M=$(grep -E 'Error|error|failed|Traceback' "$RUNNER_TEMP/film.log" 2>/dev/null | tail -n 1 | cut -c1-300)
+          M=$(grep -E 'Error|error|failed|Traceback' "$RUNNER_TEMP/film.log" 2>/dev/null | tail -n 1 | cut -c1-900)
           git pull -q --rebase --autostash || true
           python films/director/start.py "$D" --failed "Stopped: ${M:-see the log}" --log "$L"
   render:

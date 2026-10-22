@@ -14,5 +14,126 @@
    ],
    "note": "the free procedural score engine (films/lib/score/, Age of Empires and Anno feel). It scores a film that already has cues.json and audio/vo/line*.mp3, so sound.py first places the narration on the beat grid of a quiet pad made in code (pad.py; the pad also stands in as the score if the engine is missing or fails), runs the mix, then runs remix.py, which writes audio/score_plan.json, score.json and a new audio/mix.m4a."
   }
+ },
+ "free_seats": {
+  "_": "Free models per role, best first (id prefixes or substrings, matched against the live ':free' list on the runner by films/director/free.py). text = writer, fact checker, crew; code = spec drafts and repairs; vision = eyes. Models not listed must clear min_params_b or min_iq and must not match exclude or known_bad. minimax-m3.1-flash:free is known good (the web studio's director chat runs on it).",
+  "min_params_b": 30,
+  "min_iq": 40,
+  "known_bad": [
+   "thinkingmachines/inkling",
+   "liquid/",
+   "recursive/flint",
+   "cohere/north-mini"
+  ],
+  "text": {
+   "prefer": [
+    "minimax/minimax-m3",
+    "deepseek/deepseek-v4",
+    "deepseek/deepseek-v3",
+    "deepseek/deepseek-chat",
+    "deepseek/deepseek-r1",
+    "moonshotai/kimi-k2",
+    "z-ai/glm-5",
+    "z-ai/glm-4",
+    "qwen/qwen3.5",
+    "qwen/qwen3-235b",
+    "qwen/qwen3-next",
+    "meta-llama/llama-4-maverick",
+    "openai/gpt-oss-120b",
+    "mistralai/mistral-large",
+    "mistralai/mistral-medium",
+    "nousresearch/hermes-4-405b",
+    "nvidia/llama-3.1-nemotron-ultra",
+    "meta-llama/llama-3.3-70b",
+    "google/gemma-4-31b",
+    "google/gemma-3-27b"
+   ],
+   "exclude": [
+    "-vl",
+    "vision",
+    "coder",
+    "-code",
+    "-mini(\\b|-)",
+    "nano",
+    "small",
+    "tiny",
+    "-lite",
+    "(?<![0-9a-z.])([1-9]|1[0-9]|2[0-9])(\\.\\d+)?b(?![a-z])",
+    "guard",
+    "embed",
+    "flint",
+    "lfm",
+    "inkling"
+   ],
+   "offline": [
+    "minimax/minimax-m3.1-flash:free",
+    "meta-llama/llama-4-maverick:free"
+   ]
+  },
+  "code": {
+   "prefer": [
+    "qwen/qwen3-coder",
+    "minimax/minimax-m3",
+    "deepseek/deepseek-v4",
+    "deepseek/deepseek-v3",
+    "deepseek/deepseek-chat",
+    "moonshotai/kimi-k2",
+    "z-ai/glm-5",
+    "z-ai/glm-4",
+    "qwen/qwen3.5",
+    "qwen/qwen3-235b",
+    "openai/gpt-oss-120b",
+    "mistralai/devstral",
+    "meta-llama/llama-4-maverick",
+    "mistralai/mistral-large",
+    "deepseek/deepseek-r1"
+   ],
+   "exclude": [
+    "-vl",
+    "vision",
+    "-mini(\\b|-)",
+    "nano",
+    "small",
+    "tiny",
+    "-lite",
+    "(?<![0-9a-z.])([1-9]|1[0-9]|2[0-9])(\\.\\d+)?b(?![a-z])",
+    "guard",
+    "embed",
+    "flint",
+    "lfm",
+    "inkling"
+   ],
+   "offline": [
+    "minimax/minimax-m3.1-flash:free",
+    "meta-llama/llama-4-maverick:free"
+   ]
+  },
+  "vision": {
+   "prefer": [
+    "meta-llama/llama-4-maverick",
+    "qwen/qwen3-vl-235b",
+    "qwen/qwen3.5",
+    "qwen/qwen2.5-vl-72b",
+    "qwen/qwen3-vl",
+    "google/gemma-4",
+    "google/gemma-3-27b",
+    "mistralai/mistral-medium",
+    "mistralai/mistral-small-3",
+    "moonshotai/kimi-vl",
+    "minimax/",
+    "nvidia/nemotron"
+   ],
+   "exclude": [
+    "nano",
+    "tiny",
+    "inkling",
+    "flint",
+    "lfm",
+    "(?<![0-9a-z.])[1-9](\\.\\d+)?b(?![a-z])"
+   ],
+   "offline": [
+    "meta-llama/llama-4-maverick:free"
+   ]
+  }
  }
 }

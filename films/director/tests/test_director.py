@@ -14,6 +14,8 @@ import common as C
 C.agents.market = lambda: {}          # no network: seats fall back to their `prefer` lists
 C.agents._market = {}
 C.agents.account = lambda: {'remaining': 5.0}
+import free as FR
+FR._market = {}                        # no network: the free seats fall back to their offline lists
 REAL_ASK, REAL_COMPLETE = C.ask, C.complete
 import script as S, spec as SP, look as LK, reflect as RF, start as ST, sound as SO
 
@@ -171,21 +173,25 @@ class Fast(unittest.TestCase):
         install_real(); led = C.Ledger(1.0, None)
         with self.assertRaises(C.PaidRefused): C.ask('head', [], {}, led, only='anthropic/claude-opus-5.5')
         with self.assertRaises(C.PaidRefused): C.complete('coder', [], led, only='z-ai/glm-5.3')
-        orig = C.agents.ask
-        def charging(seat, messages, schema, ledger, only=None, **kw): ledger.add(seat=seat, model=only, usd=0.01); return {}, only
-        C.agents.ask = charging
+        orig = FR._post
+        FR._post = lambda body, timeout: {'model': body['model'], 'usage': {'cost': 0.01}, 'choices': [{'message': {'content': '{"a": 1}'}, 'finish_reason': 'stop'}]}
         try:
-            with self.assertRaises(C.OverBudget): C.ask('crew', [], {}, led)       # a 'free' model that charged stops the job
-        finally: C.agents.ask = orig
-        C.agents._market = None
-        mk = {'a/x:free': {'id': 'a/x:free', 'iq': 40, 'mods': ['text', 'image'], 'created': 1, 'in': 0, 'out': 0},
-              'b/y:free': {'id': 'b/y:free', 'iq': 50, 'mods': ['text'], 'created': 1, 'in': 0, 'out': 0},
-              'c/z': {'id': 'c/z', 'iq': 90, 'mods': ['text', 'image'], 'created': 1, 'in': 1, 'out': 1}}
-        old = C.agents.market; C.agents.market = lambda: mk
-        try:
-            self.assertEqual(C.free_chain('crew')[:2], ['b/y:free', 'a/x:free'])
-            self.assertEqual(C.free_chain('eyes'), ['a/x:free'])                      # eyes need image input
-        finally: C.agents.market = old
+            with self.assertRaises(C.OverBudget): C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)
+            # prose around the JSON, then a reply with no JSON and a good retry
+            FR._post = lambda body, timeout: {'model': body['model'], 'usage': {'cost': 0}, 'choices': [{'message': {'content': 'Here you go:\n```json\n{"a": 2}\n```\nDone.'}, 'finish_reason': 'stop'}]}
+            self.assertEqual(C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)[0], {'a': 2})
+            replies = iter(['I think the answer is two.', '{"a": 3}'])
+            FR._post = lambda body, timeout: {'model': body['model'], 'usage': {}, 'choices': [{'message': {'content': next(replies)}, 'finish_reason': 'stop'}]}
+            self.assertEqual(C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)[0], {'a': 3})
+        finally: FR._post = orig
+        mk = {m: {'id': m, 'name': '', 'ctx': 1, 'mods': ['text', 'image'] if 'maverick' in m else ['text'], 'params': [], 'created': 0, 'iq': None, 'size_b': FR.size_b(m)}
+              for m in ['liquid/lfm-2.5-2.6b:free', 'recursive/flint-v1.0:free', 'cohere/north-mini-code:free', 'thinkingmachines/inkling-small:free',
+                        'google/gemma-4-26b-a4b-it:free', 'minimax/minimax-m3.1-flash:free', 'qwen/qwen3-235b-a22b:free', 'qwen/qwen3-coder:free',
+                        'meta-llama/llama-4-maverick:free', 'openai/gpt-oss-20b:free', 'big/thing-405b:free']}
+        self.assertEqual(FR.chain('text', mk), ['minimax/minimax-m3.1-flash:free', 'qwen/qwen3-235b-a22b:free', 'meta-llama/llama-4-maverick:free', 'big/thing-405b:free'])
+        self.assertEqual(FR.chain('code', mk)[0], 'qwen/qwen3-coder:free')
+        self.assertEqual(FR.chain('vision', mk), ['meta-llama/llama-4-maverick:free'])
+        self.assertEqual(FR.size_b('qwen/qwen3-235b-a22b'), 235); self.assertIsNone(FR.size_b('minimax/minimax-m3.1-flash'))
 
     def test_free_sound(self):
         """The free sound stage without the TTS: a recorded vo.json (Hastings lines), the placeholder pad, the beat map, the mix."""
