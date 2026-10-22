@@ -127,8 +127,8 @@ export function buildEnd(E) {
         E.ink.save(); drawFold(E, t); E.ink.restore();
       }
       // ---- "He wrote: I am innocent."  the one red mark of the film
-      if (t >= 134.6 && t < 138.4) {
-        const al = 1 - clamp((t - 138.0) / 0.3);
+      if (t >= 134.6 && t < 138.15) {
+        const al = 1 - clamp((t - 137.85) / 0.25);
         E.slotLine(0.5 * (1 - clamp((t - 134.47) / 0.7)));
         E.line({ color: cream, txt: 'HE WROTE:', font: 'B', cap: 0.04, ls: 0.2, base: 0.20, times: [tw('e3', 'he'), tw('e3', 'wrote:')], alpha: al });
         const emA = E.emFit('C', 'innocent.', 0.98), tg = tw('e3', 'innocent.') + 0.3;
@@ -147,8 +147,8 @@ export function buildEnd(E) {
         E.hand({ txt: 'you again.', em: 0.048, base: 0.62, times: [tw('e4', 'you'), tw('e4', 'again.')], color: cream, trem: () => 1.0, seed: 34, alpha: 0.65 * fade, lastDur: 0.9, maxWord: 0.9 });
       }
       // ---- "That August, Johannes Junius was executed."
-      if (t >= 144.8 && t < 149.1) {
-        const al = 1 - clamp((t - 148.85) / 0.25);
+      if (t >= 144.8 && t < 149.25) {
+        const al = 1 - clamp((t - 149.05) / 0.15);
         E.line({ color: cream, txt: 'THAT', font: 'B', cap: 0.035, ls: 0.3, base: 0.185, times: tw('f1', 'that'), alpha: al });
         E.line({ color: cream, txt: 'AUGUST', font: 'B', fit: 1.0, maxCap: 0.135, ls: 0.03, base: 0.335, times: tw('f1', 'August,'), mode: 'stamp', smear: true, alpha: al });
         E.line({ color: cream, txt: '1628', font: 'C', em: 0.036, base: 0.385, times: tw('f1', 'August,') + 0.5, mode: 'pop', alpha: 0.85 * al });
@@ -158,16 +158,16 @@ export function buildEnd(E) {
         if (t >= ts) { const p = ease.outCubic(clamp((t - ts) / 0.35)), y = nm.base - nm.cap * 0.5; I.fillStyle = rgba(cream, 0.9 * al); I.fillRect(nm.inkL - 6 * U, y, (nm.inkW + 12 * U) * p, Math.max(2, 0.0026 * H)); }
       }
       // ---- "His letter probably never reached his daughter." the folded letter comes up from below (the lower half of the desk)
-      if (t >= 148.9 && t < 152.3) {
+      if (t >= 148.9 && t < 152.2) {
         const p = ease.outBack(clamp((t - 148.97) / 0.5));
         if (t < 152.95) drawStrip(g, W * 0.5, lerp(1.02 * H, 0.745 * H, p), 0.56 * W, -0.035 + 0.02 * ease.outCubic(clamp((t - 149.0) / 1.2)), clamp((t - 148.97) / 0.1));
         B([
-          { txt: 'HIS LETTER', font: 'B', cap: 0.04, ls: 0.2, times: [tw('f2', 'His'), tw('f2', 'letter')] },
+          { txt: 'HIS LETTER', font: 'B', cap: 0.04, ls: 0.2, times: [149.30, 149.36] },
           { txt: 'PROBABLY', font: 'B', fit: 0.6, maxCap: 0.04, ls: 0.12, times: tw('f2', 'probably') },
           { txt: 'NEVER', font: 'B', fit: 0.8, maxCap: 0.13, ls: 0.03, times: tw('f2', 'never'), curve: E.PAYOFF },
           { txt: 'REACHED', font: 'B', fit: 0.8, maxCap: 0.07, ls: 0.04, times: tw('f2', 'reached'), curve: E.HEAVY },
           { txt: 'HIS DAUGHTER.', font: 'B', fit: 1.0, maxCap: 0.045, ls: 0.06, times: [tw('f2', 'his', 1), tw('f2', 'daughter.')] },
-        ], 0.15, { out: 152.12, outDur: 0.22, k: 0.3 });
+        ], 0.15, { out: 151.95, outDur: 0.15, k: 0.3 });
       }
       // ---- the drawer rises under the letter; "The court kept it in his file."  the letter goes into the folder and the cover closes
       if (t >= 151.9 && t < 154.8) {
@@ -177,18 +177,18 @@ export function buildEnd(E) {
           { txt: 'THE COURT', font: 'B', fit: 1.0, maxCap: 0.05, ls: 0.1, times: [tw('f2', 'The'), tw('f2', 'court')] },
           { txt: 'KEPT IT', font: 'B', fit: 1.0, maxCap: 0.055, ls: 0.06, times: [tw('f2', 'kept'), tw('f2', 'it')] },
           { txt: 'IN HIS FILE.', font: 'B', fit: 1.0, maxCap: 0.075, ls: 0.04, times: [tw('f2', 'in'), tw('f2', 'his', 2), tw('f2', 'file.')], curves: [null, null, E.PAYOFF] },
-        ], 0.15, { out: 154.66, outDur: 0.2, k: 0.3 });
+        ], 0.15, { out: 154.50, outDur: 0.12, k: 0.3 });
       }
       // ---- "And that is why, almost four hundred years later, we can still read it."  the drawer, shut, then opened on the letter in a pool of warm light
       if (t >= 154.7) {
         const k = clamp((t - 154.72) / 4.1), tO = [158.86, 159.34], open = ease.outCubic(clamp((t - tO[0]) / (tO[1] - tO[0]))), glow = smoothstep(158.95, 159.8, t) * (0.9 + 0.1 * Math.sin(t * 2.1));
         drawDrawer(E, t, { open, strip: t >= tO[0] ? { y: (FO.y0 + FO.y1) / 2, a: 1 } : null, glow, dust: 1, push: t < 158.8 ? 0.05 * k : 0.05 + 0.012 * clamp((t - 158.8) / 1.9) });
-        if (t < 158.85) B([
+        if (t < 158.8) B([
           { txt: 'AND THAT IS WHY,', font: 'B', fit: 1.0, maxCap: 0.034, ls: 0.14, times: [tw('f3', 'And'), tw('f3', 'that'), tw('f3', 'is'), tw('f3', 'why,')] },
           { txt: 'ALMOST FOUR HUNDRED', font: 'B', fit: 1.0, maxCap: 0.05, ls: 0.04, times: [tw('f3', 'almost'), tw('f3', 'four'), tw('f3', 'hundred')], curves: [null, E.HEAVY, E.HEAVY] },
           { txt: 'YEARS LATER,', font: 'B', fit: 1.0, maxCap: 0.075, ls: 0.04, times: [tw('f3', 'years'), tw('f3', 'later,')], curves: [null, E.PAYOFF] },
-        ], 0.15, { out: 158.75, outDur: 0.2, k: 0.3 });
-        if (t >= 158.75) B([
+        ], 0.15, { out: 158.62, outDur: 0.15, k: 0.3 });
+        if (t >= 158.7) B([
           { txt: 'WE CAN STILL', font: 'B', fit: 1.0, maxCap: 0.06, ls: 0.06, times: [tw('f3', 'we'), tw('f3', 'can'), tw('f3', 'still')] },
           { txt: 'READ IT.', font: 'B', fit: 1.0, maxCap: 0.115, ls: 0.04, times: [tw('f3', 'read'), tw('f3', 'it.')], curves: [E.HEAVY, E.PAYOFF] },
         ], 0.15, { k: 0.3 });

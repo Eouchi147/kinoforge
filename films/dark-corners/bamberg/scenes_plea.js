@@ -27,34 +27,34 @@ export function buildPlea(E) {
       // ---- the silence after "Eight times": the tally stays a moment on the dark and then goes
       const ta = 0.8 * (1 - clamp((t - 87.6) / 1.2)); if (ta > 0) tally(I, ta);
       // ---- "Then something strange happened."
-      if (t < 90.35) B([
+      if (t < 90.25) B([
         { txt: 'THEN SOMETHING', font: 'B', fit: 1.0, maxCap: 0.05, ls: 0.06, times: [tw('k1', 'then'), tw('k1', 'something')] },
         { txt: 'STRANGE', font: 'B', fit: 1.0, maxCap: 0.12, ls: 0.03, times: tw('k1', 'strange'), curve: E.PAYOFF },
         { txt: 'HAPPENED.', font: 'B', fit: 1.0, maxCap: 0.075, ls: 0.03, times: tw('k1', 'happened.'), curve: E.HEAVY },
-      ], 0.24, { out: 90.12, outDur: 0.22 });
+      ], 0.24, { out: 90.0, outDur: 0.2 });
       // ---- "The executioner, the man who had just tortured him, begged him:"
-      if (t >= 90.15 && t < 95.4) {
-        const o = { out: 95.0, outDur: 0.22 };
+      if (t >= 90.15 && t < 95.2) {
+        const o = { out: 94.95, outDur: 0.15 };
         B([{ txt: 'THE', font: 'B', cap: 0.038, ls: 0.22, times: tw('k2', 'the') }, { txt: 'EXECUTIONER', font: 'B', fit: 1.0, maxCap: 0.075, ls: 0.02, times: tw('k2', 'executioner,'), curve: E.PAYOFF }], 0.18, o);
-        const em = 0.034, al = 0.9 * (1 - clamp((t - 95.0) / 0.22));
+        const em = 0.034, al = 0.9 * (1 - clamp((t - 94.95) / 0.15));
         E.line({ color: cream, txt: 'the man who had', font: 'C5', em, base: 0.375, times: [tw('k2', 'the', 1), tw('k2', 'man'), tw('k2', 'who'), tw('k2', 'had')], mode: 'pop', alpha: al });
         E.line({ color: cream, txt: 'just tortured him,', font: 'C5', em, base: 0.418, times: [tw('k2', 'just'), tw('k2', 'tortured'), tw('k2', 'him,')], mode: 'pop', alpha: al });
         B([{ txt: 'BEGGED HIM:', font: 'B', fit: 1.0, maxCap: 0.085, ls: 0.04, times: [tw('k2', 'begged'), tw('k2', 'him:')], mode: 'pop', popDur: 0.5 }], 0.49, o);
       }
       // ---- the plea: another hand (IM Fell English, struck twice a hair off register, tilted). It holds after "stop." and is not echoed.
-      if (t >= 95.1 && t < 102.9) {
-        const al = 1 - clamp((t - 102.45) / 0.25);
+      if (t >= 95.1 && t < 102.6) {
+        const al = 1 - clamp((t - 102.30) / 0.2);
         I.save(); I.translate(AX, 0.4 * H); I.rotate(-0.018); I.translate(-AX, -0.4 * H);
         for (const l of plea) { const spec = { txt: l.txt, font: 'F', em: emP, base: l.base, times: l.words.map((w) => tw('k3', w)), mode: 'pop', popDur: 0.45, color: PALE, alpha: al }; E.line(spec); E.line({ ...spec, x: AX + 1.3 * U, base: l.base + 0.0012, alpha: 0.38 * al }); }
         I.restore();
       }
       // ---- "So Junius lied. He made up a story about meeting the devil."  The lie is a double image.
-      if (t >= 102.5 && t < 104.75) B([
+      if (t >= 102.5 && t < 104.70) B([
         { txt: 'SO JUNIUS', font: 'B', fit: 1.0, maxCap: 0.085, ls: 0.03, times: [tw('l1', 'So'), tw('l1', 'Junius')] },
         { txt: 'LIED.', font: 'B', fit: 0.62, maxCap: 0.14, ls: 0.04, times: tw('l1', 'lied.'), curve: E.PAYOFF },
-      ], 0.22, { out: 104.62, outDur: 0.2 });
-      if (t >= 104.6 && t < 109.35) {
-        const out = 109.1, al = 1 - clamp((t - out) / 0.25);
+      ], 0.22, { out: 104.50, outDur: 0.15 });
+      if (t >= 104.6 && t < 109.15) {
+        const out = 108.95, al = 1 - clamp((t - out) / 0.15);
         E.line({ txt: 'HE MADE UP A STORY', font: 'T', cap: 0.0235, ls: 0.02, base: 0.245, times: ['he', 'made', 'up', 'a', 'story'].map((w) => tw('l1', w)), mode: 'type', color: COLD, perChar: 0.045, alpha: al });
         E.line({ txt: 'ABOUT MEETING', font: 'T', cap: 0.0235, ls: 0.02, base: 0.295, times: [tw('l1', 'about'), tw('l1', 'meeting')], mode: 'type', color: COLD, perChar: 0.045, alpha: al });
         for (const s of E.stk([{ txt: 'THE', font: 'B', cap: 0.04, ls: 0.22, times: tw('l1', 'the') }, { txt: 'DEVIL.', font: 'B', fit: 1.0, maxCap: 0.14, ls: 0.04, times: tw('l1', 'devil.'), curve: E.PAYOFF }], 0.37, 0.3).lines) {
@@ -63,32 +63,32 @@ export function buildPlea(E) {
         }
       }
       // ---- "Then they wanted names."
-      if (t >= 109.1 && t < 111.2) B([
+      if (t >= 109.1 && t < 111.1) B([
         { txt: 'THEN THEY', font: 'B', fit: 1.0, maxCap: 0.045, ls: 0.08, times: [tw('l2', 'then'), tw('l2', 'they')] },
         { txt: 'WANTED', font: 'B', fit: 1.0, maxCap: 0.085, ls: 0.03, times: tw('l2', 'wanted'), curve: E.HEAVY },
         { txt: 'NAMES.', font: 'B', fit: 1.0, maxCap: 0.15, ls: 0.04, times: tw('l2', 'names.'), curve: E.PAYOFF },
-      ], 0.22, { out: 110.95, outDur: 0.22 });
+      ], 0.22, { out: 110.95, outDur: 0.10 });
       // ---- the walk: the plan comes back, the camera goes down to street level, the pen follows three streets, then the town fills with names
       if (t >= 110.9) {
         const c = M.cam(t); M.drawPlan(t, 111.0, 2.4, 0.95, c); M.drawWalk(t, c); kit.dim(0.47, 0.86);
-        if (t < 112.5) B([{ txt: 'THEY MADE HIM WALK', font: 'B', fit: 1.0, maxCap: 0.06, ls: 0.04, times: [tw('l3', 'they'), tw('l3', 'made'), tw('l3', 'him'), tw('l3', 'walk')], curves: [null, null, null, E.HEAVY] }], 0.20, { out: 112.42, outDur: 0.2 });
-        else if (t < 115.0) {
-          const al = 1 - clamp((t - 114.9) / 0.2);
+        if (t < 112.46) B([{ txt: 'THEY MADE HIM WALK', font: 'B', fit: 1.0, maxCap: 0.06, ls: 0.04, times: [tw('l3', 'they'), tw('l3', 'made'), tw('l3', 'him'), tw('l3', 'walk')], curves: [null, null, null, E.HEAVY] }], 0.20, { out: 112.30, outDur: 0.15 });
+        else if (t < 114.96) {
+          const al = 1 - clamp((t - 114.75) / 0.2);
           B([{ txt: 'THROUGH HIS OWN TOWN', font: 'B', fit: 1.0, maxCap: 0.05, ls: 0.04, times: [tw('l3', 'through'), tw('l3', 'his'), tw('l3', 'own'), tw('l3', 'town')], curves: [null, null, null, E.HEAVY] }], 0.20, { alpha: al });
           E.line({ color: cream, txt: 'in his mind,', font: 'C', fit: 0.9, ls: 0, base: 0.30, times: [tw('l3', 'in'), tw('l3', 'his', 1), tw('l3', 'mind,')], mode: 'pop', popDur: 0.35, alpha: al });
-        } else if (t < 117.5) B([
+        } else if (t < 117.48) B([
           { txt: 'STREET BY STREET,', font: 'B', fit: 1.0, maxCap: 0.07, ls: 0.04, times: [tw('l3', 'street'), tw('l3', 'by'), tw('l3', 'street,')], curve: E.PAYOFF },
           { txt: 'AND NAME PEOPLE.', font: 'B', fit: 1.0, maxCap: 0.055, ls: 0.04, times: [tw('l3', 'and'), tw('l3', 'name'), tw('l3', 'people.')], curves: [null, E.HEAVY, E.PAYOFF] },
-        ], 0.205, { out: 117.45, outDur: 0.18 });
-        if (t >= 117.4 && t < 119.55) B([
+        ], 0.205, { out: 117.32, outDur: 0.15 });
+        if (t >= 117.4 && t < 119.51) B([
           { txt: "WHEN HE COULDN'T", font: 'B', fit: 1.0, maxCap: 0.05, ls: 0.05, times: [tw('l4', 'when'), tw('l4', 'he'), tw('l4', "couldn't")] },
           { txt: 'THINK OF ANYONE,', font: 'B', fit: 1.0, maxCap: 0.05, ls: 0.05, times: [tw('l4', 'think'), tw('l4', 'of'), tw('l4', 'anyone,')], curves: [null, null, E.HEAVY] },
-        ], 0.20, { out: 119.45, outDur: 0.18 });
-        if (t >= 119.4 && t < 121.55) B([
+        ], 0.20, { out: 119.35, outDur: 0.15 });
+        if (t >= 119.4 && t < 121.5) B([
           { txt: 'THEY GAVE', font: 'B', fit: 1.0, maxCap: 0.055, ls: 0.06, times: [tw('l4', 'they'), tw('l4', 'gave')] },
           { txt: 'HIM A NAME.', font: 'B', fit: 1.0, maxCap: 0.085, ls: 0.04, times: [tw('l4', 'him'), tw('l4', 'a'), tw('l4', 'name.')], curves: [null, null, E.PAYOFF] },
-        ], 0.20, { out: 121.45, outDur: 0.18 });
-        if (t >= 121.45) B([
+        ], 0.20, { out: 121.35, outDur: 0.15 });
+        if (t >= 121.4) B([
           { txt: 'AND HE', font: 'B', fit: 1.0, maxCap: 0.05, ls: 0.1, times: [tw('l4', 'and'), tw('l4', 'he', 1)] },
           { txt: 'REPEATED IT.', font: 'B', fit: 1.0, maxCap: 0.085, ls: 0.04, times: [tw('l4', 'repeated'), tw('l4', 'it.')], curves: [E.HEAVY, E.PAYOFF] },
         ], 0.20);

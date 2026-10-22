@@ -15,18 +15,18 @@ export function buildRecord(E) {
     name: 'M3 record 1: 28 June, testimony', t0: 49.2, bg: 'cold', trans: { kind: 'slideIn', dir: 'right', dur: 0.66, ease: 'inOutCubic' },
     hits: [[49.946, 4, 5], [tw('a3', 'judges') + 0.05, 6, 5]],        // a date stamped on the page; the black bar of the judges struck across the answer
     draw(E) {
-      const t = E.t, tA2 = 55.05, tA3 = 59.60;
+      const t = E.t, tA2 = 55.10, tA3 = 59.60;
       header(49.50);
-      if (t < tA3) BL({ txt: '28 JUNE 1628', font: 'B', fit: 1.0, maxCap: 0.085, ls: 0.04, base: 0.285, times: tw('a1', 'court,'), mode: 'stamp', pivotX: AX });
-      if (t < tA2 + 0.2) [
+      if (t < tA3) BL({ txt: '28 JUNE 1628', font: 'B', fit: 1.0, maxCap: 0.085, ls: 0.04, base: 0.285, times: tw('a1', 'court,'), mode: 'stamp', pivotX: AX, out: 59.40, outDur: 0.12 });
+      if (t < tA2) [
         { txt: 'A WOMAN SAID SHE SAW', words: ['a', 'woman', 'said', 'she', 'saw'] },
         { txt: 'HIM DANCING WITH', words: ['him', 'dancing', 'with'] },
         { txt: 'WITCHES IN THE FOREST.', words: ['witches', 'in', 'the', 'forest.'] },
-      ].forEach((l, k) => TY({ txt: l.txt, cap: 0.0225, base: 0.37 + k * 0.055, times: l.words.map((w) => tw('a1', w, w === 'in' ? 1 : 0)), out: tA2, outDur: 0.18 }));
-      else if (t < tA3) {
+      ].forEach((l, k) => TY({ txt: l.txt, cap: 0.0225, base: 0.37 + k * 0.055, times: l.words.map((w) => tw('a1', w, w === 'in' ? 1 : 0)), out: 54.98, outDur: 0.12 }));
+      if (t >= tA2 - 0.02 && t < tA3 + 0.1) {
         [{ txt: 'HE ASKED HER HOW', words: ['he', 'asked', 'her', 'how'] }, { txt: 'SHE COULD HAVE', words: ['she', 'could', 'have'] }, { txt: 'SEEN THAT.', words: ['seen', 'that.'] }]
-          .forEach((l, k) => TY({ txt: l.txt, cap: 0.0225, base: 0.37 + k * 0.05, times: l.words.map((w) => tw('a2', w)) }));
-        TY({ txt: 'SHE SAID:', cap: 0.0235, ls: 0.06, base: 0.545, times: [tw('a2', 'she', 1), tw('a2', 'said:')] });
+          .forEach((l, k) => TY({ txt: l.txt, cap: 0.0225, base: 0.37 + k * 0.05, times: l.words.map((w) => tw('a2', w)), out: 59.45, outDur: 0.12 }));
+        TY({ txt: 'SHE SAID:', cap: 0.0235, ls: 0.06, base: 0.545, times: [tw('a2', 'she', 1), tw('a2', 'said:')], out: 59.45, outDur: 0.12 });
       }
       if (t >= tw('a2', 'I') - 0.02) {
         const id = BL({ txt: "I DON'T KNOW.", font: 'B', fit: 1.0, maxCap: 0.085, ls: 0.03, base: t < tA3 ? 0.625 : 0.60, times: [tw('a2', 'I'), tw('a2', "don't"), tw('a2', 'know.')], curves: [null, null, E.PAYOFF] });
@@ -57,12 +57,12 @@ export function buildRecord(E) {
         if (idx === 0) dayCell(days[0], 0, a0); else { dayCell(days[idx - 1], -roll * cap * 1.25, 1 - roll); dayCell(days[idx], (1 - roll) * cap * 1.25, roll); }
         E.line({ txt: 'JUNE 1628', font: 'B', em: G.size / H, ls: 0.04, x: G.ox + adv2 - rest.l, base: 0.285, times: 61.55, mode: 'stamp', pivotX: G.ox + adv2, color: K });
       }
-      TY({ txt: 'TWO DAYS LATER', cap: 0.0235, ls: 0.12, base: 0.34, times: [tw('t1', 'two'), tw('t1', 'days'), tw('t1', 'later,')], out: 64.50, outDur: 0.18 });
-      if (t < 64.72) for (const s of E.stk([
+      TY({ txt: 'TWO DAYS LATER', cap: 0.0235, ls: 0.12, base: 0.34, times: [tw('t1', 'two'), tw('t1', 'days'), tw('t1', 'later,')], out: 64.40, outDur: 0.15 });
+      if (t < 64.65) for (const s of E.stk([
         { txt: 'THEY', font: 'B', cap: 0.04, ls: 0.2, times: tw('t1', 'they') },
         { txt: 'TORTURED', font: 'B', fit: 1.0, maxCap: 0.095, ls: 0.03, times: tw('t1', 'tortured'), curve: E.PAYOFF },
         { txt: 'HIM.', font: 'B', fit: 0.5, maxCap: 0.095, ls: 0.03, times: tw('t1', 'him.'), curve: E.HEAVY },
-      ], 0.40, 0.3).lines) BL({ ...s, out: 64.50, outDur: 0.2 });
+      ], 0.40, 0.3).lines) BL({ ...s, out: 64.45, outDur: 0.15 });
       // t2: the court wrote down that he felt no pain (stamped, boxed)
       if (t >= tw('t2', 'the') - 0.05) {
         TY({ txt: 'THE COURT WROTE', cap: 0.0235, ls: 0.06, base: 0.36, times: [tw('t2', 'the'), tw('t2', 'court'), tw('t2', 'wrote')] });
@@ -94,7 +94,7 @@ export function buildRecord(E) {
   const PULL = [
     { txt: 'pulled', base: 0.205, times: [tw('t4', 'pulled')] }, { txt: 'him up', base: 0.205 + P, times: [tw('t4', 'him'), tw('t4', 'up')] }, { txt: 'by a rope,', base: 0.205 + 2 * P, times: [tw('t4', 'by'), tw('t4', 'a'), tw('t4', 'rope,')] },
   ];
-  const tDrop = 81.58, tImp0 = tDrop + 0.22, T8 = [83.56, 83.87, 84.22, 84.50, 84.80, 85.08, 85.40, 85.72], tCue = 79.95;
+  const tDrop = 81.58, tImp0 = tDrop + 0.22, T8 = [83.56, 83.87, 84.22, 84.50, 84.80, 85.08, 85.40, 85.72], tCue = 80.20;
   const HIGH = 0.31, LOW = 0.465, PEAK = 0.385, ropeX = 0.5 * W;
   const bounce = (s) => (s < 0 ? 0 : 0.02 * Math.exp(-9 * s) * Math.sin(s * 32));
   const yHang = (t) => {                                                    // the hanging word: baseline (H units) as a pure function of time
@@ -117,8 +117,8 @@ export function buildRecord(E) {
         { txt: 'VERY', font: 'B', cap: 0.05, ls: 0.2, times: tw('t3', 'very') },
         { txt: 'DIFFERENT.', font: 'B', fit: 1.0, maxCap: 0.105, ls: 0.03, times: tw('t3', 'different.'), curve: E.PAYOFF },
       ], 0.19, { color: ink, out: 70.84, outDur: 0.2 });
-      else if (t < 75.35) {
-        const a = 1 - clamp((t - 75.02) / 0.3); I.save(); I.globalAlpha = a;
+      else if (t < 75.15) {
+        const a = 1 - clamp((t - 74.90) / 0.2); I.save(); I.globalAlpha = a;
         HL.forEach((l, k) => E.hand({ ...l, em, color: ink, trem: () => 0.5 + 0.12 * k, seed: 40 + k, squash: k === 1 ? { w: 1, k: (tt) => 1 - 0.30 * ease.outCubic(clamp((tt - tw('t3', 'thumbs') - 0.12) / 0.2)) } : null }));
         const tt = tw('t3', 'thumbs') + 0.04, p = ease.outCubic(clamp((t - tt) / 0.22));       // the plates close on "thumbs": the one image of the act, objects only
         if (t >= tt) {
@@ -129,8 +129,8 @@ export function buildRecord(E) {
         }
         I.restore();
       }
-      if (t >= 75.1 && t < 78.40) TIE.forEach((l, k) => E.hand({ ...l, em, color: ink, trem: () => 0.6, seed: 60 + k, out: 78.10, outDur: 0.25 }));
-      if (t >= 78.1 && t < tCue + 0.3) PULL.forEach((l, k) => E.hand({ ...l, em, color: ink, trem: () => 0.65, seed: 70 + k, out: tCue - 0.06, outDur: 0.22 }));
+      if (t >= 75.1 && t < 78.20) TIE.forEach((l, k) => E.hand({ ...l, em, color: ink, trem: () => 0.6, seed: 60 + k, out: 77.95, outDur: 0.20 }));
+      if (t >= 78.15 && t < tCue + 0.1) PULL.forEach((l, k) => E.hand({ ...l, em, color: ink, trem: () => 0.65, seed: 70 + k, out: 80.05, outDur: 0.15 }));
       if (t >= tCue) {                                                  // the rope draws down from the top edge and the word hangs on its end
         const yb = yHang(t) * H, fz = 0.105 * H, fnt = FONTS.C(fz), m = measure(fnt, 'him', 0), top = yb - measure(fnt, 'h', 0).asc - 0.016 * H;
         const draw0 = ease.outCubic(clamp((t - tCue) / 0.35)), yEnd = lerp(-0.02 * H, top, draw0);
