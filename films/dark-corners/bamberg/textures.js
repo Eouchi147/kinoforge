@@ -4,15 +4,59 @@ import { rng, mk, lerp, clamp, smoothstep, fbmCanvas, valueNoise2D } from './lib
 
 export const PAD = 24;                                              // paper canvases are PAD px larger on every side so impact shakes never show an edge
 
+// the desk: ONE table for the whole film (top-down). Near black, a faint wood grain, a pool of candle light low on the left, and
+// the set dressing of the lower half (loose papers, an inkwell and a quill) kept dark so it never competes with the type above.
 export function bakeDark(w, h, U) {
   const cv = mk(w, h), g = cv.getContext('2d'), r = rng(11);
   g.fillStyle = '#070606'; g.fillRect(0, 0, w, h);
   g.globalCompositeOperation = 'lighter'; g.drawImage(fbmCanvas(w >> 1, h >> 1, { seed: 7, scale: 4.5, oct: 5, gain: 0.55, lo: 0, hi: 9, fn: (v) => 0.5 + (v - 0.5) * 2.2 }), 0, 0, w, h);
-  const gr = g.createRadialGradient(w * 0.40, h * 0.40, 10, w * 0.40, h * 0.40, h * 0.62); gr.addColorStop(0, 'rgba(64,52,36,0.10)'); gr.addColorStop(1, 'rgba(64,52,36,0)'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
   g.globalCompositeOperation = 'source-over';
+  // wood grain: long soft streaks, a little stronger toward the bottom (nearer the light)
+  g.lineCap = 'round';
+  for (let k = 0; k < 340; k++) {
+    const y = h * (0.05 + 0.95 * Math.pow(r(), 0.8)), x0 = (r() * 1.2 - 0.2) * w, L = (0.25 + 0.7 * r()) * w, th = (0.5 + 1.5 * r()) * U, lit = 0.4 + 0.6 * (y / h);
+    g.strokeStyle = r() < 0.55 ? `rgba(150,112,72,${(0.012 + 0.03 * r()) * lit})` : `rgba(0,0,0,${0.10 + 0.2 * r()})`; g.lineWidth = th;
+    g.beginPath(); g.moveTo(x0, y); g.bezierCurveTo(x0 + L * 0.3, y + (r() - 0.5) * 7 * U, x0 + L * 0.7, y + (r() - 0.5) * 7 * U, x0 + L, y + (r() - 0.5) * 4 * U); g.stroke();
+  }
   for (let k = 0; k < 70; k++) { g.fillStyle = `rgba(239,230,210,${0.03 + 0.08 * r()})`; const d = (0.6 + 1.6 * r()) * U; g.fillRect(r() * w, r() * h, d, d); }
-  g.lineCap = 'round'; for (let k = 0; k < 26; k++) { const x = r() * w, y = r() * h, a = r() * 6.28, L = (8 + 26 * r()) * U; g.strokeStyle = `rgba(239,230,210,${0.025 + 0.05 * r()})`; g.lineWidth = 0.6 * U; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + Math.cos(a) * L * 0.5 + 3, y + Math.sin(a) * L * 0.5, x + Math.cos(a) * L, y + Math.sin(a) * L); g.stroke(); }
+  // dressing, lower half only: drawn on its own layer, lit by the candle, then faded in from the middle of the frame so there is no edge.
+  const dr = mk(w, h), g0 = g, gd = dr.getContext('2d');
+  const lx = 0.20 * w, ly = 0.94 * h, LR = 0.80 * h;
+  const g2 = gd;
+  const sheet = (cx, cy, sw, sh, rot, body, edge, seed) => {
+    g2.save(); g2.translate(cx, cy); g2.rotate(rot);
+    g2.shadowColor = 'rgba(0,0,0,0.9)'; g2.shadowBlur = 26 * U; g2.shadowOffsetX = 6 * U; g2.shadowOffsetY = 11 * U; g2.fillStyle = body; g2.fillRect(-sw / 2, -sh / 2, sw, sh); g2.shadowColor = 'rgba(0,0,0,0)';
+    const rr = rng(seed); g2.save(); g2.beginPath(); g2.rect(-sw / 2, -sh / 2, sw, sh); g2.clip();
+    for (let k = 0; k < 120; k++) { g2.strokeStyle = rr() < 0.5 ? `rgba(0,0,0,${0.04 + 0.08 * rr()})` : `rgba(255,236,190,${0.02 + 0.04 * rr()})`; g2.lineWidth = (0.5 + 0.8 * rr()) * U; const x = (rr() - 0.5) * sw, y = (rr() - 0.5) * sh; g2.beginPath(); g2.moveTo(x, y); g2.lineTo(x + (rr() - 0.5) * 40 * U, y + (rr() - 0.5) * 18 * U); g2.stroke(); }
+    const gr = g2.createLinearGradient(-sw / 2, -sh / 2, sw / 2, sh / 2); gr.addColorStop(0, 'rgba(0,0,0,0.05)'); gr.addColorStop(1, 'rgba(0,0,0,0.38)'); g2.fillStyle = gr; g2.fillRect(-sw / 2, -sh / 2, sw, sh); g2.restore();
+    g2.fillStyle = edge; g2.fillRect(-sw / 2, -sh / 2, sw, 1.4 * U); g2.fillRect(-sw / 2, -sh / 2, 1.4 * U, sh);
+    g2.restore();
+  };
+  const ruled = (cx, cy, sw, sh, rot, col) => { g2.save(); g2.translate(cx, cy); g2.rotate(rot); g2.strokeStyle = col; g2.lineWidth = 1.1 * U; for (let k = 1; k < 9; k++) { const rr = rng(k * 7 + 3); g2.beginPath(); g2.moveTo(-sw / 2 + 12 * U, -sh / 2 + k * sh / 9); g2.lineTo(-sw / 2 + sw * (0.50 + 0.4 * rr()), -sh / 2 + k * sh / 9 + (rr() - 0.5) * 2 * U); g2.stroke(); } g2.restore(); };
+  sheet(0.10 * w, 0.935 * h, 0.54 * w, 0.30 * h, -0.13, '#2f291e', 'rgba(255,226,170,0.16)', 5); ruled(0.10 * w, 0.935 * h, 0.54 * w, 0.30 * h, -0.13, 'rgba(10,8,4,0.40)');
+  sheet(0.72 * w, 0.99 * h, 0.58 * w, 0.26 * h, 0.07, '#272c2c', 'rgba(220,235,235,0.12)', 6); ruled(0.72 * w, 0.99 * h, 0.58 * w, 0.26 * h, 0.07, 'rgba(10,14,16,0.38)');
+  sheet(0.44 * w, 0.885 * h, 0.30 * w, 0.17 * h, 0.22, '#312a1e', 'rgba(255,226,170,0.14)', 7);
+  { const cx = 0.85 * w, cy = 0.815 * h, R = 0.052 * w; g2.save(); g2.shadowColor = 'rgba(0,0,0,0.95)'; g2.shadowBlur = 18 * U; g2.shadowOffsetX = 5 * U; g2.shadowOffsetY = 8 * U; g2.fillStyle = '#161513'; g2.beginPath(); g2.arc(cx, cy, R, 0, 6.2832); g2.fill(); g2.shadowColor = 'rgba(0,0,0,0)';
+    let gr = g2.createLinearGradient(cx - R, cy - R, cx + R, cy + R); gr.addColorStop(0, '#4a463e'); gr.addColorStop(1, '#1b1a17'); g2.strokeStyle = gr; g2.lineWidth = 3 * U; g2.beginPath(); g2.arc(cx, cy, R, 0, 6.2832); g2.stroke();
+    g2.fillStyle = '#040404'; g2.beginPath(); g2.arc(cx, cy, R * 0.72, 0, 6.2832); g2.fill(); g2.strokeStyle = 'rgba(255,236,200,0.28)'; g2.lineWidth = 1.3 * U; g2.beginPath(); g2.arc(cx, cy, R * 0.6, 3.5, 4.5); g2.stroke(); g2.restore(); }
+  { g2.save(); g2.translate(0.66 * w, 0.915 * h); g2.rotate(-0.42); const L = 0.32 * w; g2.shadowColor = 'rgba(0,0,0,0.85)'; g2.shadowBlur = 9 * U; g2.shadowOffsetY = 5 * U;
+    g2.fillStyle = '#6b6556'; g2.beginPath(); g2.moveTo(-L * 0.52, 0); g2.quadraticCurveTo(-L * 0.1, -20 * U, L * 0.5, -3 * U); g2.quadraticCurveTo(L * 0.1, 24 * U, -L * 0.52, 0); g2.fill(); g2.shadowColor = 'rgba(0,0,0,0)';
+    g2.strokeStyle = 'rgba(0,0,0,0.32)'; g2.lineWidth = 0.8 * U; for (let k = 0; k < 40; k++) { const u = k / 40, x = -L * 0.5 + u * L * 0.95, hw = 18 * U * Math.sin(Math.PI * Math.min(1, u * 1.05)); g2.beginPath(); g2.moveTo(x, 0); g2.lineTo(x + 7 * U, -hw * 0.9); g2.stroke(); g2.beginPath(); g2.moveTo(x, 0); g2.lineTo(x + 7 * U, hw); g2.stroke(); }
+    g2.strokeStyle = '#a8a08e'; g2.lineWidth = 1.8 * U; g2.beginPath(); g2.moveTo(-L * 0.55, 0); g2.lineTo(L * 0.52, -3 * U); g2.stroke(); g2.restore(); }
+  // candle model on the layer: clear near the flame, nearly black far from it
+  g2.globalCompositeOperation = 'source-atop'; { const dk = g2.createRadialGradient(lx, ly, 0.05 * h, lx, ly, LR); dk.addColorStop(0, 'rgba(0,0,0,0.12)'); dk.addColorStop(0.5, 'rgba(0,0,0,0.55)'); dk.addColorStop(1, 'rgba(0,0,0,0.88)'); g2.fillStyle = dk; g2.fillRect(0, 0, w, h); }
+  g2.globalCompositeOperation = 'destination-in'; { const mk2 = g2.createLinearGradient(0, 0.60 * h, 0, 0.76 * h); mk2.addColorStop(0, 'rgba(0,0,0,0)'); mk2.addColorStop(1, 'rgba(0,0,0,1)'); g2.fillStyle = mk2; g2.fillRect(0, 0, w, h); }
+  g0.drawImage(dr, 0, 0);
+  // the warm pool itself
+  g.globalCompositeOperation = 'lighter'; const gl = g.createRadialGradient(lx, ly, 8, lx, ly, LR); gl.addColorStop(0, 'rgba(255,176,96,0.07)'); gl.addColorStop(0.5, 'rgba(255,160,80,0.05)'); gl.addColorStop(1, 'rgba(255,160,80,0)'); g.fillStyle = gl; g.fillRect(0, 0, w, h);
+  g.globalCompositeOperation = 'source-over';
   return cv;
+}
+
+// the candle pool as a sprite (drawn each frame with a flickering alpha)
+export function bakeGlow(w, h) {
+  const cv = mk(w, h), g = cv.getContext('2d'), lx = 0.20 * w, ly = 0.94 * h, LR = 0.85 * h;
+  const gl = g.createRadialGradient(lx, ly, 8, lx, ly, LR); gl.addColorStop(0, 'rgba(255,170,90,0.20)'); gl.addColorStop(0.45, 'rgba(255,150,70,0.07)'); gl.addColorStop(1, 'rgba(255,150,70,0)'); g.fillStyle = gl; g.fillRect(0, 0, w, h); return cv;
 }
 
 // the letter: warm parchment (p11 cream, with the finish tint pre-applied because there is no finish shader here)
@@ -34,6 +78,12 @@ export function bakeCream(w, h, U) {
   }
   const eg = (x0, y0, x1, y1, ax, ay, bx, by) => { const gr = g.createLinearGradient(x0, y0, x1, y1); gr.addColorStop(0, 'rgba(120,86,44,0.13)'); gr.addColorStop(1, 'rgba(120,86,44,0)'); g.fillStyle = gr; g.fillRect(ax, ay, bx, by); };
   const e = 80 * U; eg(0, 0, e, 0, 0, 0, e, h); eg(w, 0, w - e, 0, w - e, 0, e, h); eg(0, 0, 0, e, 0, 0, w, e); eg(0, h, 0, h - e, 0, h - e, w, e);
+  // the lower half of the letter: a water ring, foxing, spatter and the candle's falloff (warm at the lower left, dim at the upper right)
+  for (let k = 0; k < 4; k++) { g.strokeStyle = `rgba(120,84,40,${0.05 - k * 0.009})`; g.lineWidth = (3.4 - k * 0.6) * U; g.beginPath(); g.ellipse(0.70 * w, 0.86 * h, (0.115 - k * 0.004) * w, (0.062 - k * 0.002) * w, 0.35, 0.2, 5.9 + 0.3 * k); g.stroke(); }
+  for (let k = 0; k < 16; k++) { const x = (0.05 + 0.9 * r()) * w, y = (0.66 + 0.32 * r()) * h, R = (7 + 22 * r()) * U; const gr = g.createRadialGradient(x, y, 1, x, y, R); gr.addColorStop(0, 'rgba(138,92,44,0.10)'); gr.addColorStop(0.6, 'rgba(138,92,44,0.04)'); gr.addColorStop(1, 'rgba(138,92,44,0)'); g.fillStyle = gr; g.fillRect(x - R, y - R, 2 * R, 2 * R); }
+  for (let k = 0; k < 26; k++) { g.fillStyle = `rgba(40,26,12,${0.10 + 0.25 * r()})`; g.beginPath(); g.arc((0.06 + 0.4 * r()) * w, (0.74 + 0.2 * r()) * h, (0.4 + 1.1 * r()) * U, 0, 6.2832); g.fill(); }
+  { const cg = g.createRadialGradient(0.14 * w, 1.02 * h, 0.1 * h, 0.14 * w, 1.02 * h, 1.05 * h); cg.addColorStop(0, 'rgba(255,206,140,0.16)'); cg.addColorStop(1, 'rgba(255,206,140,0)'); g.fillStyle = cg; g.fillRect(0, 0, w, h);
+    const dg = g.createLinearGradient(w, 0, 0.2 * w, 0.8 * h); dg.addColorStop(0, 'rgba(70,44,16,0.20)'); dg.addColorStop(0.5, 'rgba(70,44,16,0.04)'); dg.addColorStop(1, 'rgba(70,44,16,0)'); g.fillStyle = dg; g.fillRect(0, 0, w, h); }
   return cv;
 }
 
@@ -50,6 +100,12 @@ export function bakeCold(w, h, U) {
   for (let k = 0; k < 40; k++) { g.fillStyle = `rgba(40,50,56,${0.08 + 0.2 * r()})`; g.beginPath(); g.arc(r() * w, r() * h, (0.4 + 1.0 * r()) * U, 0, 6.2832); g.fill(); }
   const eg = (x0, y0, x1, y1, ax, ay, bx, by) => { const gr = g.createLinearGradient(x0, y0, x1, y1); gr.addColorStop(0, 'rgba(60,76,86,0.10)'); gr.addColorStop(1, 'rgba(60,76,86,0)'); g.fillStyle = gr; g.fillRect(ax, ay, bx, by); };
   const e = 60 * U; eg(0, 0, e, 0, 0, 0, e, h); eg(w, 0, w - e, 0, w - e, 0, e, h); eg(0, 0, 0, e, 0, 0, w, e); eg(0, h, 0, h - e, 0, h - e, w, e);
+  // the lower half of the record: a pre-printed form (hairline rules, a margin) and a blind-embossed seal with no words on it
+  g.strokeStyle = 'rgba(70,86,96,0.16)'; g.lineWidth = 1.1 * U; for (let k = 0; k < 8; k++) { const y = (0.700 + k * 0.034) * h; g.beginPath(); g.moveTo(0.08 * w, y); g.lineTo(0.92 * w, y); g.stroke(); }
+  g.strokeStyle = 'rgba(70,86,96,0.18)'; for (const x of [0.065, 0.073]) { g.beginPath(); g.moveTo(x * w, 0); g.lineTo(x * w, h); g.stroke(); }
+  { const cx = 0.74 * w, cy = 0.835 * h, R = 0.105 * w;
+    for (const [dx, dy, col] of [[1.6, 1.6, 'rgba(255,255,255,0.75)'], [-1.2, -1.2, 'rgba(30,44,52,0.30)']]) { g.strokeStyle = col; g.lineWidth = 2.2 * U; g.beginPath(); g.arc(cx + dx * U, cy + dy * U, R, 0, 6.2832); g.stroke(); g.lineWidth = 1.4 * U; g.beginPath(); g.arc(cx + dx * U, cy + dy * U, R * 0.78, 0, 6.2832); g.stroke(); g.beginPath(); for (let k = 0; k <= 48; k++) { const a = k / 48 * 6.2832, rr = R * (1.08 + (k % 2 ? 0.05 : 0)); g.lineTo(cx + dx * U + Math.cos(a) * rr, cy + dy * U + Math.sin(a) * rr); } g.stroke(); }
+    const gr = g.createRadialGradient(cx, cy, 0, cx, cy, R * 0.78); gr.addColorStop(0, 'rgba(255,255,255,0.10)'); gr.addColorStop(1, 'rgba(30,44,52,0.06)'); g.fillStyle = gr; g.beginPath(); g.arc(cx, cy, R * 0.78, 0, 6.2832); g.fill(); }
   return cv;
 }
 

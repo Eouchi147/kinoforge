@@ -1,56 +1,68 @@
-# Dark Corners: "A Hundred Thousand Good Nights" (Bamberg, 1628), Kinetic style
+# Dark Corners: "A Hundred Thousand Good Nights" (Bamberg, 1628), Kinetic style (polish pass of 22 Oct 2026)
 
-9:16, 24 fps, 163.315 s = 3920 frames, rendered 720x1280 (delivered 1080x1920; every size is H-relative). Audio is the original episode mix; picture follows `cues.json`
-(every landing time is looked up from the narration word times by `E.tw(line, word, nth)`, nothing is hard-coded except the cut points between cards).
+9:16, 24 fps, 163.315 s = 3920 frames, rendered 720x1280 (delivered 1080x1920; every size is H-relative). Audio is the original episode mix, untouched; picture follows `cues.json`
+(every landing time is looked up from the narration word times by `E.tw(line, word, nth)`; only cut points between cards are written as seconds).
+Decision: polished the hand-built film rather than rebuilding on `films/lib/kinetic/` (the spec engine has no town plan, paper fold, transitions or rope). `films/lib/kinetic/` is untouched.
+
+## The idea: one desk, eight movements
+Everything happens on ONE table seen from above: a dark desk lit by a candle low on the left (loose papers, an inkwell and a quill in the lower half, kept dark), and the documents laid on it:
+the letter (warm parchment), the court record (cold paper, no candle: the court has no warmth), the plan of the town (dark paper). Scenes meet by a transition with a reason.
+
+| # | movement | time | visual idea | how it begins |
+|---|----------|------|-------------|---------------|
+| 1 | THE PROMISE | 0 to 15.3 | the date stamped on the desk; a cell (light bars); the letter laid down while he writes it; the pledge; the title | start |
+| 2 | THE TOWN | 15.3 to 49.2 | his name shrinks to a label while the plan of Bamberg draws itself; the camera pushes in on "hunt them down"; the chain of accusations grows on the plan | the letter is pulled off the desk (slide down, 9.28) |
+| 3 | THE RECORD | 49.2 to 67.4 | cold court pages: testimony, the answer struck out; next page, the date rolls 28 to 30 (time passing); NO PAIN stamped | the page slides in from the right (49.2) |
+| 4 | HIS TRUTH | 67.4 to 86 | his page is dropped on the record on the hit 67.895; thumbs, rope, eight falls, a tally | page falls from the top and lands on the hit |
+| 5 | THE PLEA | 86 to 102.6 | the dark after the tally; the executioner's plea in another hand | ink bleeds out of the tally and turns the page to dark (85.95 to 87.5) |
+| 6 | THE NAMES | 102.6 to 123.4 | the lie (a double image), "names", the plan again: camera down to street level, the pen walks three real streets, then pulls back as the town fills with names | text exchange, then the plan redraws under the type |
+| 7 | THE LETTER | 123.4 to 144.85 | the letter returns (echo of movement 1), fails, folds along its creases, slips behind a slit of light; "I am innocent"; "Good night" | page slides up from the bottom (123.4) |
+| 8 | THE ARCHIVE | 144.85 to 163.3 | August; the folded letter rises; the drawer rises; the file closes; the drawer opens on the letter in warm light; end card | dissolve to the series card (160.7) |
+
+## Audit: what every effect is for (one line each) and what was removed
+Kept, with its job:
+- Stamp lands (1628, DARK CORNERS, NO PAIN, end card) with a 3 to 7 px shake: a stamp strikes a surface. Nothing else with type shakes any more.
+- Page-landing hit 67.895 (8 px): his page is dropped on the record; the cut sits on the music hit.
+- Rope load (81.8) and the eight falls (6 px each): each fall IS the shake; thumbscrew plates close on "thumbs": the one image of the act.
+- File cover thump 154.5: the cover closes.
+- Word landing (short vertical stretch, then rest; one soft rebound only on the key word): weight, then stillness. Softened from the first version (1.30 to 1.20).
+- Cell bars (6.2): where we are. Light stripes on the desk are the bars' light.
+- Light-bar hairlines, title rule, labels: structure, not decoration.
+- Name label (18.5): his name moves to the corner and becomes the caption of the town.
+- Camera on the plan: wide, settle (18.7 to 24); push in on "hunt them down" (29 to 33); frame the chain (33 to 49); street level for the walk (112 to 117.5); pull back over the consequence (118 to 123).
+- Chain nodes land on their words; X on the wife on "executed"; six edges converge on "named him".
+- Odometer date 28 to 29 to 30 on "two days later": elapsed time.
+- Black bar on "I DON'T KNOW" on "judges": the judges strike it out.
+- Double image on DEVIL: a lie is two images. One quiet ghost pair, then it settles.
+- Tally (eight strokes) and its ink-bleed: the count is the one thing the ink did not take; silence follows.
+- Fold of the letter: the letter is hidden; the outside carries the name it is for (Veronica).
+- Candle flicker (very slow, +/-12 percent) on the desk and the parchment, not on the court's cold paper: the candle is Junius's world.
+- Paper grain, ink dropout, ink spread (0.7 px blur under the ink on paper): the type belongs to the material.
+Removed or replaced:
+- Exposure flashes on every payoff and shakes on every payoff word (decorative).
+- The "they will never stop" echo lines running down the page (decorative; the plea now holds after "stop.").
+- Hard cuts between cards of one document (record, letter): now one page and text exchanges, or a page turn.
+- Repeated "COURT RECORD" header re-typing on every court card.
+- The three 28/29/30 date slams (replaced by the roller).
+- Hard cuts into every scene: replaced by slides, a bleed and a dissolve; the one hard cut left (letter to desk at 131.88) is invisible (the full-frame page becomes the sheet).
+
+## Transitions (each one motivated)
+slide in from the bottom (letter laid on the desk, 6.35 and 123.4: bookends), slide out downward (letter set aside, 9.28), slide in from the right (a page of the record, 49.2),
+slide out upward (next page of the record, 61.3), drop from the top landing on the hit (67.395 to 67.895), ink bleed from the tally (85.95), dissolve (end card, 160.715).
 
 ## Build
-- Canvas 2D only (no three.js, no WebGL in the render path). The finish pass of `harness/kit/film.js` (vignette 0.30, grain, warm highlights) is re-done in 2D: baked vignette + grain tile (deterministic per-frame offset), warm tint baked into the parchment. This is what makes it ~0.2 to 0.5 s/frame instead of ~1 s.
-- `scene.js` composer + scene dispatch + shakes; `engine.js` typographic engine (words LAND on word times: slam / stamp / pop / type; handwriting writer with tremor, wet ink, squash); `lib.js` helpers; `textures.js` dark card, parchment (letter), cold court paper, ink dropout, vignette, grain; `map.js` the dark city map and the two graphs; `scenes_*.js` the shots.
-- Query: `?w=&h=`, `?safe=1` draws the platform-UI safe mask. Deterministic (two launches give byte-identical PNGs).
-- Colour script: ink-black card + cream type (narration) | cold grey paper + black typed print (the court) | warm parchment + shaky ink (Junius's letter). ONE red mark in the whole film: "I am innocent." The executioner's plea is a third hand (IM Fell English, double-struck, tilted).
-- Honesty: no invented names or facts. Names on the map are abstract pen scrawls; the court's name for him to repeat is a typed slip reading NAME. Dates 28 / 29 / 30 June 1628 and "August 1628" follow the original episode script; "Johannes Junius" and "Veronica" are in the narration. "JUNIUS, 1628" on the drawer label.
-- Restraint: no bodies. Torture is words and objects only: the vise plates closing on the word "thumbs", a rope with the word "him" hanging from it that drops and jerks eight times with a tally.
+- Canvas 2D only. `scene.js` composer (scene layers, transitions, finish), `engine.js` typographic engine (words LAND on word times; handwriting writer), `kit.js` text blocks, `map.js` the plan, `fold.js` the paper fold, `textures.js` desk / parchment / cold paper, `scenes_open.js` (1, 2), `scenes_record.js` (3, 4), `scenes_plea.js` (5, 6), `scenes_end.js` (7, 8).
+- Query: `?w=&h=`, `?safe=1` draws the platform-UI safe mask. Deterministic. Stills: `node films/lib/kinetic/tools/stills.cjs films/dark-corners/bamberg --t 5,20 --out DIR` (works on this film).
+- The plan of Bamberg is schematic, not surveyed: the two arms of the Regnitz around the island town, the cathedral hill with contour rings and the cathedral on top, lanes, houses set along them, market-garden strips to the south east. No street is named; nodes carry pen scrawls (no invented people). The folder label reads JOHANNES JUNIUS, the drawer plate JUNIUS, 1628; the outside of the letter reads "Veronica" (named in the narration).
+- Fold: each flap is cut into 18 slices bent about its hinge (free end leads), perspective, lamp from the north (a vertical flap goes dark), back face with the writing showing through mirrored, cast shadow, layer edges when folded.
+- Colour script: ink-black desk + cream type (narration) | cold grey paper + black print (the court) | warm parchment + shaky ink (Junius). ONE red mark: "I am innocent." (it stays faintly while he says good night). The executioner's plea is a third hand (IM Fell English, double struck).
+- Restraint: no bodies. Torture is words and objects only.
 
-## Shot list (seconds on the film timeline, cue id)
-| t | scene | picture |
-|---|-------|---------|
-| 0.00 | o1 | dark; IN, **1628** stamp @0.625 (strong hit 0.65), A GERMAN MAYOR / WAS ARRESTED, cut @3.40 to AND ACCUSED / OF BEING A / **WITCH.** @5.63 |
-| 5.95 | o2a | IN **PRISON** @6.22, cell-bar hairlines draw down |
-| 6.62 | o2b | hard cut to parchment: HE WROTE, "a secret letter to his daughter." written glyph by glyph on the word times, underline; shakes on hits 8.34, 8.71 |
-| 9.35 | o3 | EVERYTHING YOU'RE / ABOUT TO HEAR / REALLY / HAPPENED. |
-| 12.90 | title | **DARK CORNERS** + A Hundred Thousand Good Nights (slam @13.15, fade out 15.05) |
-| 15.30 | x1a/x1b | HIS NAME WAS / JOHANNES / JUNIUS. then HE LIVED IN / BAMBERG, / IN GERMANY. over the street grid drawing itself (18.85) |
-| 21.40 | x2 | AT THAT TIME, MANY PEOPLE BELIEVED; WITCHES CAUSED / STORMS / SICKNESS / FAILED / HARVESTS.; AND THE RULERS OF BAMBERG DECIDED TO HUNT THEM DOWN. |
-| 33.10 | x3 | THEIR METHOD WAS SIMPLE; ARREST SOMEONE (first node); TORTURE THEM UNTIL THEY GIVE NAMES (two edges, two nodes with scrawls); THEN ARREST THOSE PEOPLE (four more) |
-| 41.60 | x4 | JUNIUS'S WIFE WAS NAMED (edge to her node); SHE WAS EXECUTED (X on the node) |
-| 47.00 | x5 | THEN **SIX** PEOPLE NAMED HIM: six nodes, six edges converge on JUNIUS |
-| 49.60 | a1-a3 | cold court paper: COURT RECORD, **28 JUNE 1628**, typed testimony; Q and A; I DON'T KNOW. struck out by a black bar; THE JUDGES DIDN'T CARE. |
-| 61.62 | t1 | date ticks 28 > 29 > 30 JUNE on "Two days later"; THEY / **TORTURED** / HIM. |
-| 64.60 | t2 | THE COURT WROTE DOWN THAT / HE FELT / **NO PAIN.** stamped in a double frame @67.03 |
-| 67.90 | t3 | hard cut (hit 67.895) to parchment: IN HIS LETTER, HE WROTE SOMETHING VERY DIFFERENT.; then his hand writes They crushed / his thumbs ...; two plates close on "thumbs" (hit 72.098) |
-| 75.12 | t4 | They tied his hands behind his back, / pulled him up by a rope: rope draws down, "him" hangs on it, drops @81.6, **EIGHT TIMES.** eight jerks + tally on the beats 83.56 ... 85.72 |
-| 86.40 | silence | dark, the tally fades |
-| 87.78 | k1/k2 | THEN SOMETHING STRANGE HAPPENED.; THE EXECUTIONER (the man who had just tortured him,) BEGGED HIM: |
-| 95.10 | k3 | the plea in another hand (IM Fell, double struck): Confess to something. True or not. If you don't, they will never stop. (the last line repeats down the page) |
-| 102.60 | l1 | SO JUNIUS LIED.; his story typed in court print; THE DEVIL. with a double image |
-| 109.20 | l2 | THEN THEY WANTED **NAMES.** |
-| 111.07 | l3 | the map again: a line walks the town street by street (legs flash on the three beats), names written at the corners |
-| 117.50 | l4 | WHEN HE COULDN'T THINK OF ANYONE (empty dashed slot); a cold typed NAME slip falls in on "name."; AND HE REPEATED IT: names multiply across the town, accelerating |
-| 123.80 | e1 | hard cut to parchment: He wrote all of this to his daughter, Veronica, over several days, with hands that barely worked. (tremor and sag grow, a blot at the end) |
-| 131.80 | e2 | HE ASKED HER TO HIDE THE LETTER.: the page shrinks, folds in thirds, slides behind a slit of light |
-| 134.47 | e3 | HE WROTE: then, the one red mark, **I am / innocent.** written in a trembling hand with a red glow |
-| 138.20 | e4 | AND HE ENDED WITH: Good night. Your father will never see you again. (the writing weakens and fades) |
-| 144.85 | f1 | THAT **AUGUST** 1628 JOHANNES JUNIUS WAS EXECUTED. (name struck through) |
-| 148.95 | f2a | HIS LETTER PROBABLY NEVER REACHED HIS DAUGHTER.: the folded letter rises (hit 149.03) |
-| 152.20 | f2b | THE COURT KEPT IT IN HIS FILE.: the letter drops into a folder in an archive drawer, cover closes on the hit 154.5 |
-| 154.72 | f3a | AND THAT IS WHY, ALMOST FOUR HUNDRED YEARS LATER, over the shut drawer, dust in the lamp, slow push-in |
-| 158.80 | f3b | WE CAN STILL READ IT.: the cover opens (hit ~159.2), warm light on the letter, held to 160.7 |
-| 160.715 | end card | DARK CORNERS + A Hundred Thousand Good Nights (last 2.6 s) |
+## Measured (720x1280, shared 2-core box, stills tool, in-page time)
+0.05 to 0.4 s/frame (heaviest: the bleed, the walk with many names, the fold). Wall-clock of the harness renderer was noisy because other jobs shared the machine.
 
-## Measured (720x1280, this 2-core box, harness render.cjs)
-- JPEG capture: 0.16 to 0.43 s/frame (incl. warm-up on short ranges; heaviest are the map scenes ~110 to 124 s and the fold). PNG capture 0.50 s/frame over 96 frames (PNG encode is about half of it).
-- Byte-identical output across two launches.
-
-## Safe zone (R-2-08: x 0.11 to 0.78 W, y 0.15 to 0.65 H) and known weak spots
-- All narration type is fitted to the 0.67 W measure and stays in y 0.15 to 0.65 H. Decorative graphics (map graph, drawer, tally echo, rope, letter strip, the "they will never stop" echo lines) may run into the lower zone by design. The thumbscrew rod and some scrawls reach the right UI strip (decorative).
-- Weak: the fold (e2) is a simple 3-panel flip with flat back faces; the map graph is small on the frame (nodes and scrawls are legible but fine); lower half of parchment cards is empty by safe-zone discipline.
+## Known weak spots (honest)
+- The plan is readable and has real structure but is still a schematic; the houses are plain footprints (no roofs, no hatching).
+- The bleed mask is computed at one third resolution (soft by design).
+- While the page shrinks (131.9 to 132.5) the first words of "HE ASKED HER" are faded in late so they do not sit on cream.
+- Safe zone: narration type stays in y 0.15 to 0.65; decorative graphics (desk dressing, tally, drawer, plan) use the lower half by design.

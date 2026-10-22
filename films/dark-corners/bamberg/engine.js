@@ -3,10 +3,11 @@
 import { clamp, lerp, ease, rng, keys, mixc, rgba, withStretch, withScale, measure, fitSize, mkLine, run, prefixAdv, FONTS, ribbon, densify, smoothstep, noise1 } from './lib.js';
 
 export const FPS = 24;
-export const LAND = [[0, 1.20], [1, 1.08], [2, 1.016], [3, 1.0]];                                        // ordinary word: vertical stretch that snaps back
-export const HEAVY = [[0, 1.24], [1, 1.09], [2, 1.0], [3, 0.972], [4, 0.99], [5, 1.0]];
-export const PAYOFF = [[0, 1.30], [1, 1.11], [2, 0.99], [3, 0.962], [4, 0.99], [5, 1.0]];
-export const SLAM = [[0, 1.30], [1, 1.12], [2, 1.0], [3, 0.962], [4, 0.978], [5, 0.995], [6, 1.0]];      // uniform scale (year / date stamps)
+// A word lands with weight and then rests: a short vertical stretch that settles (no rebound for plain words, one soft rebound for the line's key word).
+export const LAND = [[0, 1.10], [1, 1.04], [2, 1.008], [3, 1.0]];
+export const HEAVY = [[0, 1.15], [1, 1.065], [2, 1.0], [3, 0.985], [4, 1.0]];
+export const PAYOFF = [[0, 1.20], [1, 1.08], [2, 0.994], [3, 0.972], [4, 0.99], [5, 1.0]];
+export const SLAM = [[0, 1.22], [1, 1.09], [2, 1.0], [3, 0.972], [4, 0.99], [5, 1.0]];                  // uniform scale (year / date stamps)
 const hexLum = (h) => { const v = [1, 3, 5].map((k) => parseInt(h.slice(k, k + 2), 16)); return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]; };
 export const landFrame = (t) => Math.ceil(t * FPS - 1e-6);
 
@@ -41,6 +42,14 @@ export function createEngine(W, H, g, ink, cues) {
     let y = top * H; const out = [];
     for (const s of specs) { const q = { ...s, base: 0 }; const cap = E.geo({ ...q, base: 0 }).cap; y += cap; q.base = y / H; out.push(q); y += gap * H; }
     return { lines: out, bottom: (y - gap * H) / H };
+  };
+
+  // optical stack: the gap between two lines follows the type size (k x the cap height of the lower line, clamped), so a small kicker sits close to its
+  // payoff and two big lines are not left floating. gaps can still be forced with spec.gapAfter (H units).
+  E.stk = (specs, top, k = 0.36, lo = 0.012, hi = 0.03) => {
+    let y = top * H; const out = []; let prev = null;
+    for (const s of specs) { const q = { ...s, base: 0 }, cap = E.geo({ ...q, base: 0 }).cap; if (prev) y += (prev.gapAfter != null ? prev.gapAfter * H : Math.min(hi * H, Math.max(lo * H, k * cap))); y += cap; q.base = y / H; out.push(q); prev = s; }
+    return { lines: out, bottom: y / H };
   };
 
   // ---- draw a line whose words land at s.times (seconds). mode: slam | pop | type | stamp
@@ -81,6 +90,7 @@ export function createEngine(W, H, g, ink, cues) {
     const x0 = s.align === 'center' ? (s.cx ?? 0.5) * W - ln.inkW / 2 + ln.l : (s.x ?? AX) + ln.l, base = s.base * H;
     const words = s.txt.split(' '), widx = []; let p = 0; for (const w of words) { widx.push(p); p += w.length + 1; }
     const wipe = s.wipe ?? 0.07, dry = s.dry ?? 0.22, trem = s.trem || (() => 0.35);
+    if (s.out != null && t >= s.out) { const k = 1 - clamp((t - s.out) / (s.outDur || 0.25)); if (k <= 0) return { ln, x0, base, inkW: ln.inkW, any: false }; s = { ...s, alpha: (s.alpha ?? 1) * k }; }
     let any = false, tFirst = 1e9;
     const times = s.times;
     // slot times
