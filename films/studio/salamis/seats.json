@@ -1,0 +1,232 @@
+{
+ "at": "2026-10-22T15:30:06Z",
+ "free_models": [
+  "cohere/north-mini-code:free",
+  "google/gemma-4-26b-a4b-it:free",
+  "google/gemma-4-31b-it:free",
+  "liquid/lfm-2.5-2.6b:free",
+  "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+  "nvidia/nemotron-3-super-120b-a12b:free",
+  "nvidia/nemotron-3-ultra-550b-a55b:free",
+  "nvidia/nemotron-3.5-content-safety:free",
+  "nvidia/nemotron-3.5-lightning:free",
+  "nvidia/nemotron-3.5-super-vl:free",
+  "recursive/flint-v1.0:free",
+  "thinkingmachines/inkling-small:free",
+  "thinkingmachines/inkling:free",
+  "xingchen-agi/xing4.0-29b-a4b:free"
+ ],
+ "count": 14,
+ "roles": {
+  "text": [
+   "google/gemma-4-31b-it:free",
+   "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "nvidia/nemotron-3-super-120b-a12b:free"
+  ],
+  "code": [
+   "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "google/gemma-4-31b-it:free",
+   "nvidia/nemotron-3-super-120b-a12b:free"
+  ],
+  "vision": [
+   "google/gemma-4-31b-it:free",
+   "google/gemma-4-26b-a4b-it:free",
+   "nvidia/nemotron-3.5-super-vl:free",
+   "nvidia/nemotron-3.5-content-safety:free"
+  ]
+ },
+ "models": {
+  "cohere/north-mini-code:free": {
+   "ctx": 256000,
+   "size_b": null,
+   "iq": 9.9,
+   "mods": [
+    "text"
+   ],
+   "params": [
+    "reasoning",
+    "tools"
+   ]
+  },
+  "google/gemma-4-26b-a4b-it:free": {
+   "ctx": 262144,
+   "size_b": 26.0,
+   "iq": 16.7,
+   "mods": [
+    "image",
+    "text",
+    "video"
+   ],
+   "params": [
+    "reasoning",
+    "response_format",
+    "tools"
+   ]
+  },
+  "google/gemma-4-31b-it:free": {
+   "ctx": 262144,
+   "size_b": 31.0,
+   "iq": 14.7,
+   "mods": [
+    "image",
+    "text",
+    "video"
+   ],
+   "params": [
+    "reasoning",
+    "response_format",
+    "tools"
+   ]
+  },
+  "liquid/lfm-2.5-2.6b:free": {
+   "ctx": 65536,
+   "size_b": 2.6,
+   "iq": 8.4,
+   "mods": [
+    "text"
+   ],
+   "params": [
+    "reasoning",
+    "response_format",
+    "structured_outputs",
+    "tools"
+   ]
+  },
+  "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free": {
+   "ctx": 256000,
+   "size_b": 30.0,
+   "iq": 10.3,
+   "mods": [
+    "text",
+    "audio",
+    "image",
+    "video"
+   ],
+   "params": [
+    "reasoning",
+    "tools"
+   ]
+  },
+  "nvidia/nemotron-3-super-120b-a12b:free": {
+   "ctx": 262144,
+   "size_b": 120.0,
+   "iq": 12.8,
+   "mods": [
+    "text"
+   ],
+   "params": [
+    "reasoning",
+    "response_format",
+    "structured_outputs",
+    "tools"
+   ]
+  },
+  "nvidia/nemotron-3-ultra-550b-a55b:free": {
+   "ctx": 1000000,
+   "size_b": 550.0,
+   "iq": 22.9,
+   "mods": [
+    "text"
+   ],
+   "params": [
+    "reasoning",
+    "tools"
+   ]
+  },
+  "nvidia/nemotron-3.5-content-safety:free": {
+   "ctx": 128000,
+   "size_b": null,
+   "iq": null,
+   "mods": [
+    "text",
+    "image"
+   ],
+   "params": [
+    "reasoning"
+   ]
+  },
+  "nvidia/nemotron-3.5-lightning:free": {
+   "ctx": 1000000,
+   "size_b": null,
+   "iq": 12.9,
+   "mods": [
+    "text"
+   ],
+   "params": [
+    "reasoning",
+    "tools"
+   ]
+  },
+  "nvidia/nemotron-3.5-super-vl:free": {
+   "ctx": 1000000,
+   "size_b": null,
+   "iq": 26.5,
+   "mods": [
+    "text",
+    "image",
+    "video"
+   ],
+   "params": [
+    "reasoning",
+    "response_format",
+    "structured_outputs",
+    "tools"
+   ]
+  },
+  "recursive/flint-v1.0:free": {
+   "ctx": 262144,
+   "size_b": null,
+   "iq": null,
+   "mods": [
+    "text"
+   ],
+   "params": [
+    "reasoning",
+    "response_format",
+    "tools"
+   ]
+  },
+  "thinkingmachines/inkling-small:free": {
+   "ctx": 1048576,
+   "size_b": null,
+   "iq": 25.7,
+   "mods": [
+    "text",
+    "image",
+    "audio"
+   ],
+   "params": [
+    "reasoning",
+    "tools"
+   ]
+  },
+  "thinkingmachines/inkling:free": {
+   "ctx": 1048576,
+   "size_b": null,
+   "iq": 25,
+   "mods": [
+    "text",
+    "image",
+    "audio"
+   ],
+   "params": [
+    "reasoning",
+    "tools"
+   ]
+  },
+  "xingchen-agi/xing4.0-29b-a4b:free": {
+   "ctx": 262144,
+   "size_b": 29.0,
+   "iq": null,
+   "mods": [
+    "text"
+   ],
+   "params": [
+    "reasoning",
+    "response_format",
+    "structured_outputs",
+    "tools"
+   ]
+  }
+ }
+}

@@ -7,7 +7,25 @@
  "message": "On the runner (fresh job; free models and free tools only); key credit left: $0.84.",
  "usd": 0.0,
  "cap_usd": 0.5,
- "outputs": {},
+ "outputs": {
+  "seats": {
+   "writer_and_checker": [
+    "google/gemma-4-31b-it:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "nvidia/nemotron-3-super-120b-a12b:free"
+   ],
+   "coder": [
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "google/gemma-4-31b-it:free",
+    "nvidia/nemotron-3-super-120b-a12b:free"
+   ],
+   "eyes": [
+    "google/gemma-4-31b-it:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "nvidia/nemotron-3.5-super-vl:free"
+   ]
+  }
+ },
  "stages": {
   "script": {
    "state": "queued",
@@ -16,5 +34,5 @@
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39805128221",
- "updated_at": "2026-10-22T15:30:03Z"
+ "updated_at": "2026-10-22T15:30:06Z"
 }
