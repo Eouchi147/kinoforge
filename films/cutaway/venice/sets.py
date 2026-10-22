@@ -406,7 +406,7 @@ def build_site(kit, M):
     wall_t = 0.05; WH = 0.42; walls = []
     for nm, (a, b, c, d) in {'S': (x0, y0, x1, y0 + wall_t), 'E': (x1 - wall_t, y0, x1, y1), 'N': (x0, y1 - wall_t, x1, y1), 'W': (x0, y0, x0 + wall_t, y1)}.items():
         A = cw._Acc(); v, f = cw._box(a, b, 0.0, c, d, 1.0); A.add(v, f)
-        ob = A.build(bpy, f'vz_wall{nm}', [brick_m], False, kit.coll); ob.location = (0, 0, PIT_Z + 0.05); walls.append(ob)
+        ob = A.build(bpy, f'vz_wall{nm}', [brick_m], False, kit.coll); ob.location = (0, 0, PIT_Z + 0.0512); walls.append(ob)
     S.data.update(boards=boards, stones=stones, walls=walls)
     cw.birds(kit, 3, center=(-0.3, 0.5), radius=1.8, height=0.9, seed=21, size=0.035, color=(0.92, 0.92, 0.94))
 
@@ -457,7 +457,7 @@ def build_site(kit, M):
             for r, o in enumerate(stones):
                 ta = t_s + (t_w - t_s) * r / len(stones) * 0.9; u = smoothstep(ta, ta + 0.5, t); o.hide_render = u <= 0; o.location.z = 0.05 * (1 - u)
             u = smoothstep(t_w, t_end, t)
-            for o in walls: o.hide_render = u <= 0.001; o.scale.z = max(0.001, WH * u)
+            for o in walls: o.hide_render = u <= 0.02; o.scale.z = max(0.004, WH * u)
     S.update = update
     S.objs = [bpy.data.objects[n] for n in _track(bpy) - before]
     S.data['zmean'] = zm
