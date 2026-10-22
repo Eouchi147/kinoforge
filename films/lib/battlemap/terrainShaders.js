@@ -12,6 +12,13 @@ float vn(vec2 p){ vec2 i = floor(p); vec2 f = fract(p); f = f*f*(3.0 - 2.0*f); r
 float vn2(vec2 p){ vec2 i = floor(p); vec2 f = fract(p); f = f*f*(3.0 - 2.0*f); return texture2D(uNoise, (i + f + 0.5)/256.0).g; }
 `;
 
+export const GLSL_FOG = /* glsl */`
+vec3 bmFog(vec3 col, vec3 wp, vec4 uFog, vec3 uFogCol){
+  vec3 ray = wp - cameraPosition; float D = max(length(ray), 0.001); float k = uFog.y; float dy = ray.y; float kd = k*dy/D; float opt;
+  if (abs(kd) < 1e-4) opt = uFog.x*exp(-k*cameraPosition.y)*D; else opt = uFog.x*exp(-k*cameraPosition.y)*(1.0 - exp(-k*dy))/kd;
+  float a = 1.0 - exp(-max(opt, 0.0)); float edge = smoothstep(uFog.z, uFog.w, length(wp.xz - cameraPosition.xz));
+  return mix(col, uFogCol, max(a, edge));
+}`;
 const FULLSCREEN_VERT = /* glsl */`varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`;
 
 // ------------------------------------------------------------------ the sheet bake
@@ -152,7 +159,7 @@ export function sheetUniforms(world, tex, style) {
 }
 
 export const DEFAULT_PALETTE = [ // [height, display-space colour]
-  [-4, [0.70, 0.73, 0.42]], [1, [0.84, 0.77, 0.45]], [5, [0.90, 0.78, 0.46]], [11, [0.85, 0.66, 0.40]], [22, [0.73, 0.55, 0.40]], [40, [0.66, 0.60, 0.55]],
+  [-4, [0.72, 0.74, 0.50]], [1, [0.85, 0.79, 0.54]], [5, [0.88, 0.76, 0.50]], [11, [0.82, 0.64, 0.42]], [22, [0.72, 0.56, 0.42]], [40, [0.66, 0.60, 0.55]],
 ];
 
 export function bakeSheet(renderer, world, shared, style = {}) {
@@ -181,6 +188,7 @@ const TERRAIN_VERT = /* glsl */`varying vec3 vWorld; void main(){ vWorld = posit
 const TERRAIN_FRAG = /* glsl */`
 precision highp float;
 ${GLSL_NOISE}
+${GLSL_FOG}
 uniform sampler2D uSheet, uMap;
 uniform vec4 uMapOrg;
 uniform vec4 uWorld;       // x0, z0, W, D
@@ -201,12 +209,9 @@ void main(){
   float water = S.a;
   if (water > 0.5) { float g = vn(xz*vec2(2.4, 5.5) + vec2(uAtm.z*1.7, uAtm.z*0.6)); float sp = smoothstep(0.80, 0.97, g)*uAtm.w*clamp(sunT*1.4 + 0.2, 0.0, 1.0); col += vec3(1.0, 0.82, 0.5)*sp*0.55; }
   // haze: height fog + distance edge + the world's own edge (so a low camera never sees past the sheet)
-  vec3 ray = vWorld - cameraPosition; float D = max(length(ray), 0.001); float k = uFog.y; float dy = ray.y; float kd = k*dy/D; float opt;
-  if (abs(kd) < 1e-4) opt = uFog.x*exp(-k*cameraPosition.y)*D; else opt = uFog.x*exp(-k*cameraPosition.y)*(1.0 - exp(-k*dy))/kd;
-  float a = 1.0 - exp(-max(opt, 0.0));
-  float edge = smoothstep(uFog.z, uFog.w, length(xz - cameraPosition.xz));
+  vec3 fogged = bmFog(col, vWorld, uFog, uFogCol); float a = 0.0;
   float ex = min(min(xz.x - uWorld.x, uWorld.x + uWorld.z - xz.x), min(xz.y - uWorld.y, uWorld.y + uWorld.w - xz.y)); float wedge = 1.0 - smoothstep(0.0, uGrade.y, ex);
-  col = mix(col, uFogCol, max(max(a, edge), wedge));
+  col = mix(fogged, uFogCol, wedge);
   gl_FragColor = vec4(col, 1.0);
 }
 `;

@@ -51,7 +51,7 @@ export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
       let pose = null; const camq = q.get('cam'); if (camq) { const c = camq.split(',').map(Number); pose = normaliseKey({ at: 0, target: [c[0], c[1]], width: c[2], pitch: c[3] ?? 89.9, yaw: c[4] ?? 0, mm: c[5] ?? 35 }, S.clock, W / H); }
       for (const e of act) { const a = clamp((t - e.t0) / e.tin) * (1 - clamp((t - e.t1) / e.tout)); const k = EASE.outBack(clamp((t - e.t0) / e.tin)); const full = e.rect[2] >= 0.999 && e.rect[3] >= 0.999;
         if (full && a >= 0.999) cover = true; scrimA = Math.max(scrimA, a * (e.scrim ?? (full ? 0 : 0.45))); }
-      S.setMSAA(S.msaaOff.some((r) => t >= r[0] && t < r[1]) || cover ? 0 : (q.get('msaa') !== null ? +q.get('msaa') : 4));
+      S.setMSAA(S.msaaOff.some((r) => t >= r[0] && t < r[1]) || cover ? 0 : (q.get('msaa') !== null ? +q.get('msaa') : 0));
       const tp0 = performance.now(); main.setVisible(!cover); if (!cover) main.update(t, pose); const tp1 = performance.now();
       // render inset stages into their targets, place their HUD quads
       const cam = main.camera; const hh = 2 * Math.tan(cam.fov * Math.PI / 360), ww = hh * cam.aspect;

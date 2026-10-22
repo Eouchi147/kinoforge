@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { catmull, resample, clamp, lerp } from './noise.js';
 import { easeFn } from './timeline.js';
 import { TEAMS } from './blocks.js';
+import { GLSL_FOG } from './terrainShaders.js';
 
 const VERT = /* glsl */`
 attribute float aS; attribute float aSide; attribute vec2 aDir; attribute float aW;
@@ -16,6 +17,7 @@ void main(){
 }`;
 const FRAG = /* glsl */`
 precision highp float;
+${GLSL_FOG}
 uniform float uProgress, uLen, uAlpha, uHead; uniform vec3 uCol, uDark, uLight, uFogCol; uniform vec2 uDash; uniform vec4 uFog;
 varying float vS; varying float vSide; varying float vHalfW; varying vec3 vWorld;
 vec3 lin(vec3 c){ return pow(c, vec3(2.2)); }
@@ -38,8 +40,7 @@ void main(){
   float halo = (1.0 - smoothstep(0.0, 0.0, e))*0.0;
   if (a < 0.01) discard;
   vec3 c = lin(col)*1.0;
-  float D = length(vWorld - cameraPosition); float edge2 = smoothstep(uFog.z, uFog.w, length(vWorld.xz - cameraPosition.xz)); float fa = 1.0 - exp(-uFog.x*D*0.6);
-  c = mix(c, uFogCol, max(fa, edge2)*0.9);
+  c = bmFog(c, vWorld, uFog, uFogCol);
   gl_FragColor = vec4(c, a);
 }`;
 const PAL = { // arrow ink colours (display space): fill, dark outline, highlight
