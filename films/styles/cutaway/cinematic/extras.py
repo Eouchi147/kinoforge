@@ -189,7 +189,8 @@ def atmosphere(kit, land, haze=0.10, fog=2.4, fog_top=0.11, mist=1.0, spill=0.5,
     # mist sits on the water: an extra thin layer right at the surface
     mz = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', pz, lv + 0.012)), 1 / 0.03), clamp=True)
     fogd = g.math('ADD', fogd, g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', mz, brk), fedge), mist * fog * 0.8))
-    dens = g.math('ADD', hz, fogd)
+    atmos_gain = g.value(1.0, 'ex_fog_gain')     # per-shot fog amount (low cameras look through a long slab of it)
+    dens = g.math('ADD', hz, g.math('MULTIPLY', fogd, atmos_gain))
     sc = g.node('ShaderNodeVolumeScatter', ins={'Color': srgb(color), 'Anisotropy': aniso}); g.put(sc, 'Density', dens)
     ab = g.node('ShaderNodeVolumeAbsorption', ins={'Color': srgb((0.92, 0.88, 0.86))}); g.put(ab, 'Density', g.math('MULTIPLY', dens, 0.15))
     ad = g.node('ShaderNodeAddShader'); g.link(sc, ad.inputs[0]); g.link(ab, ad.inputs[1])
@@ -197,7 +198,7 @@ def atmosphere(kit, land, haze=0.10, fog=2.4, fog_top=0.11, mist=1.0, spill=0.5,
     try: m.cycles.volume_sampling = 'DISTANCE'
     except Exception: pass
     ob = cw.mk_mesh(bpy, name, V, F, [m], None, False, kit.coll)
-    return ob
+    return ob, atmos_gain
 
 def gobo(kit, land, sun_dir, dist=4.5, size=(10.0, 5.0), cover=0.45, scale=0.55, drift=0.05, name='ex_gobo'):
     """Clouds between the sun and the block (shadow only, invisible to the camera): gaps let shafts of light through the

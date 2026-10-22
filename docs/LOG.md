@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 22 Oct 2026
+- Sample Cutaway trade ad built (`films/cutaway/ads/drainage/` v916 and v169, 15 s: soggy yard with a downspout, the clay band in the cut, the drain laid as a time-lapse under breaking sun, golden end with a robin; words in Inter Tight checked against R-2-08 in the build; free score at -14 LUFS); both formats dispatched for render. Known: framing crops the house at the left edge, the puddle reads weakly in stills.
 - Agincourt mud inserts built (`films/cutaway/agincourt-mud/` A: rain-soaked field and stakes, 1375 to 1727; B: knights sinking at the cut face, crows, 2081 to 2420); B1 getting one fix (legs visibly buried in the cut). rc-render `films.yml` now lays `inserts` from film.json frame-exactly (tested on dummy clips); Agincourt's film.json lists both.
 - NOOR Iqra and short: the single word Iqra (title, e3, lantern end, short opening) redrawn as a clean filled glyph run (no outline stroke): dark ink #2C2416 over a soft warm glow on bright light, gold over a soft dark halo at night; write-on by wipe. Re-rendering both.
 - NOOR `j30-amma`: more space between every Arabic line and the English under it (al-Ikhlas panel: kasra no longer touches the meaning; 96:1, 97:1, 97:3 and the al-Falaq/an-Nas names too), checked at 1280x720; re-render dispatched.

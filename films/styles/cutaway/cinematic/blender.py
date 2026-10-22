@@ -31,6 +31,7 @@ SETTINGS = {'samples': 48, 'denoise': True, 'motion_blur': False, 'view_transfor
             'max_bounces': 8, 'volume_bounces': 0, 'clamp_indirect': 4.0, 'adaptive_min_samples': 8, 'denoising_prefilter': 'FAST',
             'volume_step_rate': 6.0}
 
+FOG_GAIN = {'map': 1.0, 'ground': 0.4, 'crane': 1.0, 'macro': 1.0, 'hero': 0.7}
 SHAFT_GAIN = {'map': 0.35, 'ground': 1.0, 'crane': 0.8, 'macro': 0.0, 'hero': 1.0}
 SUN_AZ, SUN_EL = 135.0, 11.0
 RIVER = [(-0.7, 2.6), (-0.55, 1.4), (0.25, 0.6), (0.05, -0.4), (0.35, -1.3), (0.4, -2.6)]
@@ -66,7 +67,7 @@ def build(bpy, ctx):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
 
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.9, amb=0.24)
-    ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), ceiling=float(os.environ.get('EX_CEIL', 1.1)), spill=0.3, aniso=0.7)
+    atmos, fog_gain = ex.atmosphere(kit, land, haze=float(os.environ.get('EX_HAZE', 0.12)), fog=float(os.environ.get('EX_FOG', 7.0)), fog_top=float(os.environ.get('EX_FOGTOP', 0.16)), ceiling=float(os.environ.get('EX_CEIL', 1.1)), spill=0.3, aniso=0.7)
     ex.gobo(kit, land, rig['sun_dir'])
     # the hero tree: the big round tree by the mill sits right in front of the sun from the hero camera (rays round its crown)
     T = np.asarray(land.trees); k = int(np.argmin(np.hypot(T[:, 0] - 1.33, T[:, 1] + 0.88))); gz = float(land.height(T[k:k + 1, 0], T[k:k + 1, 1])[0])
@@ -114,7 +115,7 @@ def build(bpy, ctx):
     try: cy.volume_biased = True
     except Exception: pass
     cy.transparent_max_bounces = 16
-    return {'kit': kit, 'land': land, 'cam': cam, 'eggs': eggs, 'rig': rig, 'shafts': shafts}
+    return {'kit': kit, 'land': land, 'cam': cam, 'eggs': eggs, 'rig': rig, 'shafts': shafts, 'fog_gain': fog_gain}
 
 
 def shot_pose(S, name, u):
@@ -124,8 +125,8 @@ def shot_pose(S, name, u):
         e = ex.ease(u); pos = (0.08 - 0.06 * e, -0.05, 12.6 - 0.5 * e); tgt = (0.08 - 0.06 * e, -0.049, 0.0)
         return pos, tgt, 50.0, 11.0, 16.0, 22.0 + 6.0 * e
     if name == 'ground':                 # at the edge, eye on the grass, into the sun, a slow dolly along the face
-        e = ex.ease(u); pos = ex.lerp((2.30, -2.50, 0.17), (2.18, -2.42, 0.16), e); tgt = (-0.8, -1.45, -0.20)
-        return pos, tgt, 28.0, float(np.linalg.norm(np.array(pos) - np.array((0.66, -1.85, 0.0)))), 4.0, 0.0
+        e = ex.ease(u); pos = ex.lerp((2.36, -2.52, 0.30), (2.24, -2.45, 0.29), e); tgt = (-0.8, -1.40, -0.22)
+        return pos, tgt, 28.0, float(np.linalg.norm(np.array(pos) - np.array((0.66, -1.85, 0.0)))), 5.6, 0.0
     if name == 'crane':                  # vertical crane down the cut face, treetops to the deepest layer
         e = ex.ease5(u); tz = 0.32 + (-1.10 - 0.32) * e; el = math.radians(20 - 19 * e); D = 2.45
         tgt = (-0.52, -2.0, tz); pos = (-0.52 + 0.30, -2.0 - D, tz + D * math.tan(el))
@@ -144,4 +145,4 @@ def frame(bpy, ctx, S, i, t):
     S['kit'].update(t)
     tl = ctx['timeline'].at(t); pos, tgt, lens, focus, fstop, roll = shot_pose(S, tl['name'], tl['u'])
     S['cam'].set(pos, tgt, lens, focus, fstop, roll); S['shafts'].update(pos)
-    S['shafts'].gain.default_value = SHAFT_GAIN[tl['name']]
+    S['shafts'].gain.default_value = SHAFT_GAIN[tl['name']]; S['fog_gain'].default_value = FOG_GAIN[tl['name']]
