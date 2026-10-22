@@ -3,20 +3,21 @@
  "key": "F",
  "mode": "ionian",
  "tempo": 84,
- "duration": 15.0,
+ "duration": 22.5,
  "seed": 3,
  "solo": "flute",
  "drums": "frame",
  "sections": [
-  {"t": 0.0, "mood": "calm", "intensity": 0.32},
+  {"t": 0.0, "mood": "calm", "intensity": 0.34},
   {"t": 3.0, "mood": "curious"},
-  {"t": 6.5, "mood": "turn"}
+  {"t": 8.1, "mood": "turn"},
+  {"t": 11.5, "mood": "triumph"}
  ],
  "hits": [
-  {"t": 6.5, "kind": "swell", "level": 0.6},
-  {"t": 11.5, "kind": "chime", "level": 0.7}
+  {"t": 6.5, "kind": "swell", "level": 0.7},
+  {"t": 11.55, "kind": "chime", "level": 0.75}
  ],
  "swell_len": 3.0,
- "settle": 4.0,
- "end_fade": 1.6
+ "settle": 3.5,
+ "end_fade": 3.0
 }

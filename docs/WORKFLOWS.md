@@ -100,6 +100,7 @@ commit that touches that workflow file (a blank line is enough), wait about 20 s
 
 ## Web studio: make a film from a conversation
 Open https://kinoforge-studio.vercel.app (Vercel sign-in), Director tab, name a subject, agree the brief, tap "Build this film". The studio commits `films/studio/<id>/brief.json`; `film.yml` runs; the job page (`#job/<id>`) shows stages and spend from `films/studio/<id>/status.json`; the finished film appears under Films (release `films` of this repo). Media is streamed through `/api/media` from public releases (allow-list in `studio-web/lib/media.js`).
+By hand: commit `films/studio/<id>/brief.json` (format in `films/director/README.md`). Free-only by default since 22 Oct 2026: free OpenRouter seats, Chatterbox or Kokoro narration on the runner, the free score engine; a paid model is refused in code. Resume or restart a stage: dispatch `film.yml` with `job=<id>` and `from=` (REST: `gh api -X POST repos/Eouchi147/kinoforge/actions/workflows/film.yml/dispatches -f ref=main -f 'inputs[job]=<id>'`).
 
 ## Re-render a hand-built film (Dark Corners, Battle Map) on free runners
 The film folder in this repo (`films/<series>/<id>/`: `film.json`, `cues.json`, `audio/mix.m4a`, `index.html` or
