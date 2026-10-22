@@ -3,8 +3,8 @@
  "title": "The Battle of Salamis",
  "line": "battle-map",
  "stage": "script",
- "state": "queued",
- "message": "On the runner (fresh job; free models and free tools only); key credit left: $0.84.",
+ "state": "running",
+ "message": "The writer is drafting the narration.",
  "usd": 0.0,
  "cap_usd": 0.5,
  "outputs": {
@@ -28,11 +28,12 @@
  },
  "stages": {
   "script": {
-   "state": "queued",
+   "state": "running",
+   "started_at": "2026-10-22T15:31:57Z",
    "usd": 0.0
   }
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39805128221",
- "updated_at": "2026-10-22T15:30:06Z"
+ "updated_at": "2026-10-22T15:31:57Z"
 }
