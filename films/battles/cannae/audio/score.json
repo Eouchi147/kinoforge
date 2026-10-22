@@ -1,7 +1,7 @@
 {
  "engine": "samples+synth",
  "lufs": -23.0,
- "peak_dbfs": -6.64,
+ "peak_dbfs": -6.8,
  "chords": [
   [
    0.0,
@@ -2571,7 +2571,7 @@
   {
    "t": 0.0,
    "mood": "calm",
-   "pad": -35.4,
+   "pad": -36.2,
    "solo": -34.7,
    "pluck": -34.9,
    "drums": -120.0,
@@ -2580,8 +2580,8 @@
   {
    "t": 22.5,
    "mood": "curious",
-   "pad": -31.6,
-   "solo": -34.7,
+   "pad": -32.3,
+   "solo": -34.4,
    "pluck": -29.7,
    "drums": -120.0,
    "hits": -120.0
@@ -2589,8 +2589,8 @@
   {
    "t": 51.4,
    "mood": "curious",
-   "pad": -30.2,
-   "solo": -35.1,
+   "pad": -30.6,
+   "solo": -34.7,
    "pluck": -30.5,
    "drums": -120.0,
    "hits": -120.0
@@ -2598,7 +2598,7 @@
   {
    "t": 75.4,
    "mood": "tension",
-   "pad": -28.4,
+   "pad": -29.1,
    "solo": -32.8,
    "pluck": -29.6,
    "drums": -35.2,
@@ -2607,8 +2607,8 @@
   {
    "t": 98.8,
    "mood": "turn",
-   "pad": -24.7,
-   "solo": -31.6,
+   "pad": -25.4,
+   "solo": -29.8,
    "pluck": -29.6,
    "drums": -34.3,
    "hits": -35.2
@@ -2616,7 +2616,7 @@
   {
    "t": 117.9,
    "mood": "aftermath",
-   "pad": -29.0,
+   "pad": -29.9,
    "solo": -31.1,
    "pluck": -37.1,
    "drums": -37.9,
@@ -2625,7 +2625,7 @@
   {
    "t": 127.8,
    "mood": "aftermath",
-   "pad": -36.4,
+   "pad": -36.6,
    "solo": -35.6,
    "pluck": -37.0,
    "drums": -120.0,
@@ -2699,22 +2699,22 @@
    {
     "t": 0.0,
     "mood": "calm",
-    "voice_over_music_db": 19.7
+    "voice_over_music_db": 19.8
    },
    {
     "t": 22.5,
     "mood": "curious",
-    "voice_over_music_db": 17.3
+    "voice_over_music_db": 17.5
    },
    {
     "t": 51.4,
     "mood": "curious",
-    "voice_over_music_db": 16.9
+    "voice_over_music_db": 16.8
    },
    {
     "t": 75.4,
     "mood": "tension",
-    "voice_over_music_db": 15.3
+    "voice_over_music_db": 15.4
    },
    {
     "t": 98.8,
@@ -2724,7 +2724,7 @@
    {
     "t": 117.9,
     "mood": "aftermath",
-    "voice_over_music_db": 16.7
+    "voice_over_music_db": 17.1
    },
    {
     "t": 127.8,

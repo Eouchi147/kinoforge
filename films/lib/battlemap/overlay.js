@@ -71,7 +71,7 @@ export class StageOverlay {
     const st = this.stage; if (it.screen) return null;
     let x, z, y = 0;
     if (it.follow) { const A = st.arrows.byId[it.follow]; if (!A) return [0, 0, 0]; const s = A.progress(t) * A.L; const p = A.pointAt(s); x = p.x; z = p.z; it._dir = Math.sign(p.dx) || 1; }
-    else if (it.block) { const ids = st.blocks.groups[it.block] || [it.block]; let sx = 0, sz = 0, n = 0, ym = 0; for (const id of ids) { const b = st.blocks.byId[id]; const s = st.blocks.state(b, t); if (s.alpha < 0.02 && ids.length > 1) continue; sx += s.x; sz += s.z; n++; ym = Math.max(ym, (b.height || 2) + 1.0 + (s.drop || 0)); } n = n || 1; x = sx / n + (it.ox || 0); z = sz / n + (it.oz || 0); y = ym + (it.top === false ? 0 : 2.0) + (ids.length > 1 ? (it.lift ?? 8) : 0); }
+    else if (it.block) { const ids = st.blocks.groups[it.block] || [it.block]; let sx = 0, sz = 0, n = 0, ym = 0; for (const id of ids) { const b = st.blocks.byId[id]; const s = st.blocks.state(b, t); if (s.alpha < 0.02 && ids.length > 1) continue; sx += s.x; sz += s.z; n++; ym = Math.max(ym, (b.height || 2) + 1.0 + (s.drop || 0)); } n = n || 1; x = sx / n + (it.ox || 0); z = sz / n + (it.oz || 0); y = ym + (it.top === false ? 0 : 2.0) + (ids.length > 1 ? (it.lift ?? (this.v1 ? 8 : 2)) : 0); }
     else { x = it.pos[0]; z = it.pos[1]; }
     return [x, st.mh(x, z) + y + (it.y || 0), z];
   }
@@ -155,7 +155,7 @@ export class StageOverlay {
 // ------------------------------------------------------------------ cards (title, end card, big words), drawn in full-screen space
 const ornament = (g, x, y, w, a) => { g.save(); g.globalAlpha *= a; g.strokeStyle = 'rgba(244,214,130,0.95)'; g.lineWidth = 2; g.beginPath(); g.moveTo(x - w / 2, y); g.lineTo(x - 16, y); g.moveTo(x + 16, y); g.lineTo(x + w / 2, y); g.stroke(); g.beginPath(); g.moveTo(x, y - 8); g.lineTo(x + 8, y); g.lineTo(x, y + 8); g.lineTo(x - 8, y); g.closePath(); g.fillStyle = 'rgba(244,214,130,0.95)'; g.fill(); g.restore(); };
 export function drawCard(g, c, t, W, H) {
-  const t0 = c.t0, t1 = c.t1; if (t < t0 || t > t1 + 0.6) return; const age = t - t0; const fin = clamp(age / (c.fadeIn ?? 0.35)), fout = isFinite(t1) ? 1 - clamp((t - t1) / (c.fadeOut ?? 0.5)) : 1; const a = fin * fout; if (a <= 0.001) return;
+  const t0 = c.t0, t1 = c.t1; if (t < t0 || t > t1 + 0.6) return; const age = t - t0; const fin = (c.fadeIn ?? 0.35) <= 0.02 ? 1 : clamp(age / (c.fadeIn ?? 0.35)), fout = isFinite(t1) ? 1 - clamp((t - t1) / (c.fadeOut ?? 0.5)) : 1; const a = fin * fout; if (a <= 0.001) return;
   g.save();
   if (c.fill) { g.globalAlpha = a * (c.fillAlpha ?? 1); g.fillStyle = c.fill; g.fillRect(0, 0, W, H); g.globalAlpha = 1; }
   if (c.scrim) { g.globalAlpha = a * c.scrim; const gr = g.createRadialGradient(W / 2, H / 2, H * 0.1, W / 2, H / 2, H * 0.95); gr.addColorStop(0, c.scrimCenter ? c.scrimCenter : 'rgba(20,10,4,0.55)'); gr.addColorStop(1, 'rgba(10,5,2,1)'); g.fillStyle = gr; g.fillRect(0, 0, W, H); if (c.band) { g.globalAlpha = a * c.band; g.fillStyle = 'rgba(12,6,3,1)'; g.fillRect(0, H * 0.30, W, H * 0.40); } }

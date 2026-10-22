@@ -45,9 +45,9 @@ function craftChecks(sum) {
   report.craft = { scenes: sum.scenes ? sum.scenes.length : 0 };
   if (/\p{Extended_Pictographic}/u.test(src)) H_('emoji in the spec: no emoji anywhere (CRAFT.md 6)');
   if (C.require_scenes) {
-    if (!sum.scenes || !sum.scenes.length) H_('no scene list: add `scenes: [{ name, begin, middle, end, camera }]`, 5 to 9 scenes, written before any shot (CRAFT.md 2)');
+    if (!sum.scenes || !sum.scenes.length) H_('no scene list: add `scenes` (5 to 9, each with its job, then its shots), written before any shot (CRAFT.md 2; the engine SPEC.md says how)');
     else { const [a, b] = C.scenes || [5, 9]; if (sum.scenes.length < a || sum.scenes.length > b) S_(`${sum.scenes.length} scenes; a film is ${a} to ${b} scenes (CRAFT.md 2)`);
-      sum.scenes.forEach((keys, i) => { const has = (re) => keys.some((k) => re.test(k)); if (!(has(/^begin|^start|^open/i) && has(/^middle|^change|^turn/i) && has(/^end|^close|^result/i))) S_(`scenes[${i}] needs a beginning, a middle and an end (CRAFT.md 2)`); }); }
+      sum.scenes.forEach((keys, i) => { const has = (re) => keys.some((k) => re.test(k)); if (!has(/^job$/) && !(has(/^begin|^start|^open/i) && has(/^middle|^change|^turn/i) && has(/^end|^close|^result/i))) S_(`scenes[${i}] needs its job (the dramatic question: beginning, middle, end) (CRAFT.md 2)`); }); }
   }
   const st = report.stats || (sum.cards !== null ? { shots: sum.cards, avg_shot_s: +(dur / Math.max(1, sum.cards)).toFixed(2), cuts: [] } : null);
   if (st) { Object.assign(report.craft, { shots: st.shots, avg_shot_s: st.avg_shot_s });
@@ -55,7 +55,10 @@ function craftChecks(sum) {
     const [lo, hi] = C.avg_shot_s || [4, 12]; if (st.avg_shot_s < lo || st.avg_shot_s > hi) S_(`average shot ${st.avg_shot_s} s (aim ${lo} to ${hi} s; CRAFT.md 2)`);
     if (C.require_cut_why) { const no = (st.cuts || []).filter((c) => !c.why); if (no.length) H_(`${no.length} cuts with no written reason: give each one \`why: '...'\` (new information, place, time, reaction, scale): ${no.slice(0, 5).map((c) => `${c.path} at ${c.t} s`).join(', ')} (CRAFT.md 3)`); } }
   if (C.require_legend && !sum.legend) (/legend/i.test(specMd) ? H_ : S_)('no legend: frame the battlefield with a legend (sides, units, key places), each entry when the narration first names it (CRAFT.md 6)');
-  const banned = new Set(C.banned_icons || []); const used = [...new Set(sum.icons)];
+  if (C.require_ambient && !sum.ambient) (/ambient/i.test(specMd) ? H_ : S_)('no ambient: at least three layers of ambient motion in every wide shot (camps or walkers, birds, wind, flowing water) (CRAFT.md 5)');
+  // engines that redraw every icon name as a refined glyph (Battle Map v2) make the name list moot, unless the spec asks for the v1 look
+  const refined = /refined glyphs|map to refined/i.test(specMd) && sum.overlayStyle !== 'v1';
+  const banned = new Set(refined ? [] : (C.banned_icons || [])); const used = [...new Set(sum.icons)];
   for (const i of used.filter((x) => banned.has(x))) H_(`icon ${i} reads as emoji or clip art: remove it, say it with a label, a legend entry or a move (CRAFT.md 6)`);
   if (C.icons_soft && used.filter((x) => !banned.has(x)).length) S_(`icons used (${used.filter((x) => !banned.has(x)).join(', ')}): keep only those with a job a label cannot do (CRAFT.md 1, 6)`);
 }
@@ -106,13 +109,13 @@ const lineAt = (t) => { let cur = null; for (const l of cues.lines) if (t >= l.s
     // 2. lint (in the page: the engine's own modules resolve the time refs)
     if (L.lint) {
       const lr = await page.evaluate(async ({ lint, spec, film, opts }) => { try { const m = await import('/' + lint); const s = (await import(new URL(spec, location.origin + '/' + film + '/').href + '?lint')).default;
-        const c = await (await fetch('/' + film + '/cues.json')).json(); return m.lint(s, c, opts); } catch (e) { return { errors: ['lint could not load the spec: ' + (e.message || e)], warnings: [] }; } }, { lint: L.lint, spec: o.spec, film: filmRel, opts: { aspect: W / H, craft: L.craft || {} } });
+        const c = await (await fetch('/' + film + '/cues.json')).json(); return await m.lint(s, c, opts); } catch (e) { return { errors: ['lint could not load the spec: ' + (e.message || e)], warnings: [] }; } }, { lint: L.lint, spec: o.spec, film: filmRel, opts: { aspect: W / H, craft: L.craft || {} } });
       report.lint = { errors: uniq(lr.errors), warnings: uniq(lr.warnings) }; report.stats = lr.stats || null;
     }
     // 2b. craft (CRAFT.md section 9), in code where code can judge it
     const sum = await page.evaluate(async ({ spec, film }) => { try { const s = (await import(new URL(spec, location.origin + '/' + film + '/').href + '?craft')).default;
         const icons = []; const walk = (o, d) => { if (!o || typeof o !== 'object' || d > 8) return; if (typeof o.icon === 'string') icons.push(o.icon); for (const v of Object.values(o)) walk(v, d + 1); }; walk(s, 0);
-        return { ok: true, scenes: Array.isArray(s.scenes) ? s.scenes.map((x) => (x && typeof x === 'object') ? Object.keys(x) : []) : null, legend: s.legend !== undefined && s.legend !== null && s.legend !== false,
+        return { ok: true, overlayStyle: s.overlayStyle || null, ambient: s.ambient !== undefined && s.ambient !== null && s.ambient !== false, scenes: Array.isArray(s.scenes) ? s.scenes.map((x) => (x && typeof x === 'object') ? Object.keys(x) : []) : null, legend: s.legend !== undefined && s.legend !== null && s.legend !== false,
           icons, cards: Array.isArray(s.cards) ? s.cards.length : null }; } catch (e) { return { ok: false }; } }, { spec: o.spec, film: filmRel });
     if (sum.ok) craftChecks(sum);
     // 3. stills

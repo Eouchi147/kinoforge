@@ -1,7 +1,7 @@
 // Static checks of a Battle Map spec against its cues, run in the page by films/director/check.cjs (no rendering).
 // lint(spec, cues) -> { errors: [...], warnings: [...] }. Errors are things the engine would throw on (now or at some frame)
 // or that break the house rules; each message names the path in the spec so the coder seat can fix it.
-import { Clock } from '/films/lib/battlemap/timeline.js';
+import { Clock, EASE } from '/films/lib/battlemap/timeline.js';
 import { ICON_NAMES } from '/films/lib/battlemap/icons.js';
 import { TEAMS, KINDS } from '/films/lib/battlemap/blocks.js';
 import { normaliseKey, CameraTrack } from '/films/lib/battlemap/camera.js';
@@ -10,11 +10,11 @@ const TIME_KEYS = ['at', 'until', 'hide', 'fallAt'];
 const MOVE_PROPS = ['x', 'z', 'heading', 'len', 'dep', 'bulge', 'scale', 'alpha', 'drop', 'lift', 'fade', 'sink', 'count', 'flag', 'glow'];
 const LIGHT_PROPS = ['eve', 'haze', 'cloud', 'glint'];
 const ARROW_COLORS = ['rome', 'carthage', 'ink', 'gold', 'cream', 'green', 'neutral'];
-const EASES = ['linear', 'in', 'out', 'inOut', 'inQuad', 'outQuad', 'inOutQuad', 'smooth', 'outBack', 'inBack', 'outElastic', 'outBounce', 'step', 'spline'];
+const EASES = [...Object.keys(EASE), 'spline'];   // whatever the engine knows
 const FEATURES = ['undulate', 'hill', 'ridge', 'mountains', 'river', 'sea', 'lake', 'land', 'woods', 'farms', 'road', 'flat'];
 const BAD_TEXT = /[—–]|\.\.\.|…/;
 
-export function lint(spec, cues, opts = {}) {
+export async function lint(spec, cues, opts = {}) {
   const errors = [], warnings = []; const aspect = opts.aspect || 16 / 9; const craft = opts.craft || {};
   const cuts = []; const cam = { worst: [] };
   const E = (p, m) => errors.push(`${p}: ${m}`), W = (p, m) => warnings.push(`${p}: ${m}`);
@@ -85,7 +85,7 @@ export function lint(spec, cues, opts = {}) {
     (sp.volleys || []).forEach((v, i) => { const p = P(`volleys[${i}]`); span(p, v);
       for (const k of ['from', 'to']) { const e = v[k]; if (!e) E(`${p}.${k}`, 'missing'); else if (e.block !== undefined && !hasBlock(e.block)) E(`${p}.${k}.block`, `unknown block ${e.block}`); } });
     (sp.light || []).forEach((l, i) => { const p = P(`light[${i}]`); span(p, l); for (const k of Object.keys(l.to || {})) if (!LIGHT_PROPS.includes(k)) E(p + '.to', `unknown light prop ${k} (known: ${LIGHT_PROPS.join(' ')})`); });
-    const cam = sp.camera || []; if (!cam.length) E(P('camera'), 'needs at least one key');
+    const cam = sp.camera || []; if (!cam.length && !(spec.scenes || []).length) E(P('camera'), 'needs at least one key (or a v2 `scenes` list)');
     let prev = -1; cam.forEach((k, i) => { const p = P(`camera[${i}]`); const t = T(p + '.at', k.at);
       if (t !== null && t < prev - 1e-6) W(p, `keys must be in time order (${t.toFixed(2)} s comes after ${prev.toFixed(2)} s)`); if (t !== null) prev = t;
       if (k.target !== undefined && !Array.isArray(k.target)) E(p + '.target', 'must be [x, z]'); if (k.target === undefined && k.x === undefined) W(p, 'no target: looks at [0, 0]');
@@ -106,7 +106,16 @@ export function lint(spec, cues, opts = {}) {
     try { cuts.push({ t: clock.at(e.at), why: e.why, path: `insets[${i}]` }); if (e.until !== undefined) cuts.push({ t: clock.at(e.until), why: e.why_out || e.why, path: `insets[${i}].until` }); } catch {} }
   for (const [i, c] of (spec.cards || []).entries()) { try { cuts.push({ t: clock.at(c.at), why: c.why || 'card', path: `cards[${i}]`, card: true }); } catch {} }
   const ts = [...new Set(cuts.map((c) => Math.round(c.t * 10) / 10))].filter((t) => t > 0.2 && t < dur - 0.2).sort((a, b) => a - b);
-  const stats = { shots: ts.length + 1, avg_shot_s: +(dur / (ts.length + 1)).toFixed(2), cuts: cuts.filter((c) => !c.card).map((c) => ({ t: +c.t.toFixed(2), why: c.why || null, path: c.path })) };
+  let stats = { shots: ts.length + 1, avg_shot_s: +(dur / (ts.length + 1)).toFixed(2), cuts: cuts.filter((c) => !c.card).map((c) => ({ t: +c.t.toFixed(2), why: c.why || null, path: c.path })) };
+  // Battle Map v2: the engine's own scene compiler (shots, camera speed limits, shot count, short shots, jump cuts)
+  if ((spec.scenes || []).length) {
+    let SC = null; try { SC = await import('/films/lib/battlemap/scenes.js'); } catch {}
+    if (SC && SC.compileScenes) { try { const R = SC.compileScenes(spec, clock, aspect, { duration: dur });
+        for (const e of R.errors || []) errors.push('scenes: ' + e); for (const w of R.warnings || []) warnings.push('scenes: ' + w);
+        const S = R.shots || []; if (S.length) stats = { shots: S.length, avg_shot_s: +((R.summary && R.summary.asl) || dur / S.length).toFixed(2),
+          cuts: [...stats.cuts, ...S.slice(1).map((r) => ({ t: +r.t0.toFixed(2), why: r.why || null, path: `shot ${r.id}` }))] }; }
+      catch (e) { errors.push('scenes: ' + (e.message || e)); } }
+  }
   // the house: a title card around the title line, an end card over the outro
   const cards = (spec.cards || []).map((c) => { try { return [clock.at(c.at), c.until !== undefined ? clock.at(c.until) : clock.at(c.at) + (c.dur ?? 1), c]; } catch { return null; } }).filter(Boolean);
   const tl = cues.lines.find((l) => l.id === cues.title_line);

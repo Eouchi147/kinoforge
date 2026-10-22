@@ -41,10 +41,9 @@
    "Kid-safe: armies are blocks, arrows and banners; losses are counters and fading blocks, never wounds. On-screen words in CAPITALS, short (at most 4 words), set in code; no em or en dashes and no '...'.",
    "Labels must not cover each other: when two show at once, offset them with dx/dy or give them different times; keep screen-anchored text between 0.06 and 0.94 of the frame.",
    "Keep the spec under about 35 KB; plain data plus small helpers (Object.fromEntries, map) like the examples; no imports, no randomness, no clocks.",
-   "Write `scenes` first: 5 to 9 scenes, each `{ name, at, until, begin, middle, end, camera, why }` (place, dramatic question, the camera plan); the check rejects a spec without it.",
-   "Every cut has `why: '...'` (new information, place, time, reaction or scale): camera keys with `cut: true` and full-screen insets (`why` for the cut in, `why_out` for the cut out).",
-   "Camera in real time: a move between two keys crosses at most 0.25 frame widths per second and pushes at most 10 % per second (the check measures it); start moves earlier and hold longer instead of rushing.",
-   "No emoji and no clip-art icons (heart, hug, question, star, no, check, burst are rejected); use labels, the legend, banners, arrows and moves. A `legend` (sides, units, key places) frames the battlefield when the engine supports it."
+   "No emoji and no clip-art icons (heart, hug, question, star, no, check, burst are rejected); use labels, the legend, banners, arrows and moves. A `legend` (sides, units, key places) frames the battlefield when the engine supports it.",
+   "Write `scenes` first as the engine SPEC.md says (5 to 9 scenes, each with its `job`, then its shots with `why`, `from` and motivated `moves`); the checks reject a spec without it and refuse camera moves faster than a real camera.",
+   "Every cut has a written `why` (new information, place, time, reaction or scale). Add the `legend` and `ambient` blocks the SPEC.md describes."
   ],
   "free_voice_settings": {
    "exaggeration": 0.6,
@@ -81,7 +80,8 @@
     "check",
     "burst"
    ],
-   "icons_soft": true
+   "icons_soft": true,
+   "require_ambient": true
   }
  },
  "kinetic": {

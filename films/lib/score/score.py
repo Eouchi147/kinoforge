@@ -564,8 +564,8 @@ class Composer:
         w_d = np.clip(1 - 2 * B_s, 0, 1); w_b = np.clip(2 * B_s - 1, 0, 1); w_m = 1 - w_d - w_b
         pad = (dark * w_d[:, None] + mid * w_m[:, None] + bright * w_b[:, None]) * g[:, None]
         del dark, mid, bright, body
-        solo = self.solo.buf * (10 ** (-1.0 / 20)) * (10 ** (-3.0 * (1 - I_s) / 20)).astype(np.float32)[:, None]
-        pluck = self.pluck.buf * (10 ** (-2.5 / 20))
+        solo = self.solo.buf * (10 ** (-5.0 / 20)) * (10 ** (-3.0 * (1 - I_s) / 20)).astype(np.float32)[:, None]
+        pluck = self.pluck.buf * (10 ** (-5.5 / 20))
         drums = self.drums.buf * (10 ** (-6.0 / 20)); hitbus = self.hitbus.buf * (10 ** (-3.0 / 20)); air = self.hit_air.buf
         # balance report: RMS of each bus in each section, before the room (what the arrangement is doing)
         self.balance = []

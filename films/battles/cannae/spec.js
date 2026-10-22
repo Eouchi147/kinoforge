@@ -129,7 +129,7 @@ export default {
     { group: 'rome', at: Y0, dur: 0.9, stagger: 0.38, appear: true },
     { blocks: ['romeCavN', 'romeCavS', 'varro', 'paullus'], at: 'l00.armies', dur: 0.9, stagger: 0.3, appear: true },
     { group: 'rome', at: Y0, dur: 9.5, by: { x: 18 }, ease: 'cam' }, { blocks: ['romeCavN', 'romeCavS', 'varro', 'paullus'], at: Y0, dur: 9.5, by: { x: 18 }, ease: 'cam' },
-    { block: 'hannibal', at: 'l00.one', dur: 0.8, appear: true },
+    { block: 'hannibal', at: 'l00.one#1', dur: 0.8, appear: true },
     // S4: Carthage arrives on the field ("the two armies met"); Hannibal takes his place behind the centre
     { blocks: ['carCavN', 'carEN', 'carC', 'carES', 'carCavS'], at: 'l04.two', dur: 1.0, stagger: 0.3, appear: true },
     { blocks: ['carCavN', 'carEN', 'carC', 'carES', 'carCavS'], at: 'l04.two', dur: 4.5, by: { x: -12 }, ease: 'cam' },
@@ -172,8 +172,8 @@ export default {
   scenes: [
     { id: 'S1', name: 'The host', at: 0, job: 'Rome sends a gigantic army; one man is about to beat it', set: { time: [0.22, 0.12], haze: 1.35, cloud: 0.32 },
       shots: [
-        { at: 0, why: 'cold open low over the plain as the host forms up: scale and stakes', from: { target: [-112, 6], dist: 124, pitch: 11, yaw: 66, mm: 30 },
-          moves: [{ until: 'l00.battle.', to: { target: [-98, 2], dist: 112, pitch: 13, yaw: 80 } }] },
+        { at: 0, why: 'cold open low over the plain as the host forms up: scale and stakes', from: { target: [-120, 8], dist: 132, pitch: 15, yaw: 30, mm: 30 },
+          moves: [{ until: 'l00.battle.', to: { target: [-106, 0], dist: 120, pitch: 18, yaw: 42 } }] },
         { at: 'l00.And', why: 'reverse angle from behind the lone standard: one man against the host', from: { target: [96, -5], dist: 74, pitch: 9, yaw: 268, mm: 35 },
           moves: [{ until: 'l00.today.>', to: { dist: 64, pitch: 9.5 } }] },
         { at: 13.4, why: 'crane up to the map: the lesson is the plan, seen from above (under the title)', from: { target: [-30, 0], width: 600, pitch: 52, yaw: 80, mm: 35 },
@@ -280,9 +280,9 @@ export default {
   light: [{ at: 'l14.evening,', dur: 4.0, to: { eve: 1, haze: 1.3 }, ease: 'inOut' }],
 
   labels: [
-    { at: 1.3, until: 4.6, text: '2,200 YEARS AGO', screen: [0.5, 0.16], big: true },
+    { at: 1.2, until: 3.5, text: '2,200 YEARS AGO', screen: [0.5, 0.16], big: true },
     { at: 'l00.Rome', until: 'l00.battle.>', text: 'ROME', block: 'rome', team: 'rome', dx: 0.0, dy: -0.16, big: true },
-    { at: 'l00.one', until: 'l00.today.>', text: 'ONE MAN', block: 'hannibal', team: 'carthage', dx: 0.02, dy: -0.12, big: true },
+    { at: 'l00.one#1', until: 'l00.today.>', text: 'ONE MAN', block: 'hannibal', team: 'carthage', dx: 0.02, dy: -0.12, big: true },
     { at: 'l03.they', until: 'l04', text: 'VARRO', block: 'varro', team: 'rome', dx: 0.02, dy: -0.22 },
     { at: 'l03.they', until: 'l04', text: 'PAULLUS', block: 'paullus', team: 'rome', dx: 0.10, dy: -0.22 },
     { at: 'l04.August,', until: 'l04.the', text: '2 AUGUST 216 BC', screen: [0.5, 0.86], big: true },

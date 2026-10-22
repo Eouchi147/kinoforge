@@ -110,6 +110,10 @@ sessions); `ref` must be a branch or a **full** commit hash (a short hash fails 
 Web films: 12 to 20 parts, 10 to 25 minutes. Blender films: 24 parts, about 80 minutes. Costs nothing (GitHub runners;
 see the terms note in the handover).
 
+Check stills (no video): rc-render `stills.yml` (inputs film, frames as a comma list up to 20, tag, w, h, samples,
+ref), one runner per frame, files `<tag>-f<frame>.jpg` in release `stills`; download with
+`gh release download stills -R Eouchi147/rc-render -p '<tag>-*'`.
+
 ## Film lanes (parked while ads come first)
 
 | Workflow | What | Trigger |
