@@ -1,4 +1,4 @@
-// p03 painting engine — deterministic procedural brushwork on Canvas2D, drawn in *design px* (1280x720 frame space).
+// p03 painting engine, deterministic procedural brushwork on Canvas2D, drawn in *design px* (1280x720 frame space).
 // Every surface is built the way a matte painter works: flat underpainting, then big dabs, then smaller dabs, colour
 // sampled from a value/temperature field with jitter, direction from a flow field, edges broken by spill and fbm.
 import { rng, valueNoise2D, clamp, lerp, smoothstep } from '/harness/kit/film.js';
@@ -25,7 +25,7 @@ export class Canvas {
     this.R = rng(seed); this.n = valueNoise2D(seed * 7 + 3); this.seed = seed;
   }
   get area() { const [x0, y0, x1, y1] = this.rect; return (x1 - x0) * (y1 - y0); }
-  // tapered brush dab along a gently bent centreline (blunt start, tapered tail — like a loaded brush lifting off)
+  // tapered brush dab along a gently bent centreline (blunt start, tapered tail, like a loaded brush lifting off)
   dab(x, y, ang, len, wid, col, a, bend = 0, taper = 0.6) {
     const g = this.g, ca = Math.cos(ang), sa = Math.sin(ang), hx = ca * len * 0.5, hy = sa * len * 0.5;
     const p0x = x - hx, p0y = y - hy, p2x = x + hx, p2y = y + hy, cx = x - sa * bend * len, cy = y + ca * bend * len; const N = 7;
@@ -129,7 +129,7 @@ export function paintRange(C, P) {
   };
   underpaint(C, colAt, path, 5);
   // strokes follow the slope planes: along the crest near the top, then diagonals down each facet (lit facets one way,
-  // shadowed the other) — never vertical, so the Kuwahara pass reads them as planes rather than slats
+  // shadowed the other), never vertical, so the Kuwahara pass reads them as planes rather than slats
   const ang = (x, y) => { const d = clamp((y - P.ridge(x)) / 50); const along = Math.atan(slope(x)); const f = facet(x, y); const diag = 0.75 * dir * Math.sign(f || 1) + (nn3(x, y) - 0.5) * 0.5; return lerp(along, diag, smoothstep(0.15, 0.85, d)) + (C.R() - 0.5) * 0.3; };
   const nn3 = (x, y) => n.fbm(x * 0.02 + 7, y * 0.02, 2);
   const A = C.area * (P.n || 1);
@@ -210,7 +210,7 @@ export function paintHouse(C, x, yg, w, hW, P) {
   if (P.sideShade) { g.fillStyle = rgba(mul(wall, 0.6), 0.5); g.fillRect(P.sideShade > 0 ? x + w * 0.2 : xl, yt, w * 0.3, hW); }
   g.fillStyle = rgba(mul(P.roof, 0.85)); const pw = Math.max(1.2, w / 20); g.fillRect(xl - 0.4, yt, pw, hW); g.fillRect(xr - pw + 0.4, yt, pw, hW); // timber corner posts
   if (R() < 0.45 && w > 14) { const cx = x + (R() - 0.5) * w * 0.5, cw = Math.max(1.6, w * 0.08); g.fillStyle = rgba(mul(roof, 0.9)); g.fillRect(cx - cw / 2, roofTop - w * 0.1, cw, w * 0.16); }
-  // windows (dark, 0–2) + door
+  // windows (dark, 0 to 2) + door
   const wins = []; const nw = w > 60 ? 2 : (R() < 0.8 ? 1 : 0); const ww = Math.max(3, w * 0.19), wh = Math.max(3.5, hW * 0.34);
   for (let i = 0; i < nw; i++) { const wx = nw === 1 ? x + (R() - 0.5) * w * 0.3 - ww / 2 : xl + w * (0.18 + 0.48 * i) + (R() - 0.5) * 2; const wy = yt + hW * (0.2 + R() * 0.1); g.fillStyle = rgba(P.win || [20, 18, 30]); g.fillRect(wx, wy, ww, wh); wins.push([wx, wy, ww, wh]); }
   let door = null; if (w > 16 && R() < 0.75) { const dw = Math.max(2.4, w * 0.15), dh = hW * 0.6; const dx = x + (R() < 0.5 ? -1 : 1) * w * 0.24 - dw / 2; g.fillStyle = rgba(mul(P.win || [20, 18, 30], 1.1)); g.fillRect(dx, yg - dh, dw, dh); door = [dx, yg - dh, dw, dh]; }
@@ -223,7 +223,7 @@ export function paintRocks(C, P) {
   for (const r of P.rocks) {
     const path = new Path2D(); const N = 28; for (let i = 0; i <= N; i++) { const a = Math.PI * 2 * i / N; const rr = 1 + (n.fbm(Math.cos(a) * 1.3 + r.x * 0.01, Math.sin(a) * 1.3, 3) - 0.5) * 0.7; const px = r.x + Math.cos(a) * r.rx * rr, py = r.y + Math.sin(a) * r.ry * rr * (Math.sin(a) > 0 ? 1.6 : 1); i ? path.lineTo(px, py) : path.moveTo(px, py); }
     path.closePath(); g.fillStyle = rgba(P.col); g.fill(path); const m = C.mask((gg) => gg.fill(path));
-    // soft sky-lit top edge (gradient inside the silhouette), then short low-contrast dabs for surface — no long streaks
+    // soft sky-lit top edge (gradient inside the silhouette), then short low-contrast dabs for surface, no long streaks
     g.save(); g.clip(path); const lg = g.createLinearGradient(r.x - r.rx * 0.4, r.y - r.ry * 1.05, r.x + r.rx * 0.2, r.y - r.ry * 0.35); lg.addColorStop(0, rgba(P.lit, P.litA ?? 0.5)); lg.addColorStop(1, rgba(P.lit, 0)); g.fillStyle = lg; g.fillRect(r.x - r.rx * 1.5, r.y - r.ry * 1.5, r.rx * 3, r.ry * 3); g.restore();
     C.strokes({ n: r.rx * r.ry / 160, box: [r.x - r.rx * 1.3, r.y - r.ry * 1.3, r.x + r.rx * 1.3, r.y + r.ry * 1.8], mask: m, minMask: 0.7, color: (x, y) => mixc(P.col, P.lit, smoothstep(r.y - r.ry * 0.2, r.y - r.ry, y) * 0.22),
       angle: () => -0.4 + (C.R() - 0.5) * 1.2, len: [r.rx * 0.08, r.rx * 0.2], wid: [r.rx * 0.05, r.rx * 0.1], alpha: [0.35, 0.6], jv: 0.06, bend: 0.2 });
