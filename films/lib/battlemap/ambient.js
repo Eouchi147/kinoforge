@@ -10,13 +10,13 @@ const DEG = Math.PI / 180;
 export class Ambient {
   constructor(stage, spec = {}, clock) {
     this.stage = stage; this.spec = spec; this.clock = clock; const w = spec.wind || [1.2, 0.4]; const wl = Math.hypot(w[0], w[1]) || 1; this.wind = w; this.windDir = [w[0] / wl, w[1] / wl];
-    const win = (e) => [e.at !== undefined ? clock.at(e.at) : -1e9, e.until !== undefined ? clock.at(e.until) : 1e9];
+    const win = (e) => [e.at !== undefined && !Array.isArray(e.at) ? clock.at(e.at) : -1e9, e.until !== undefined ? clock.at(e.until) : 1e9]; // positions are pos / center / path; at and until are times
     this.camps = (spec.camps || []).map((c, ci) => this.buildCamp(c, ci));
     this.walkers = (spec.walkers || []).map((wk) => { const pts = wk.path; const seg = []; let L = 0; for (let i = 1; i < pts.length; i++) { const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); seg.push(d); L += d; } return { ...wk, seg, L, win: win(wk) }; });
     this.smoke = (spec.smoke || []).map((s) => ({ ...s, win: win(s) })); this.birds = (spec.birds || []).map((b, i) => ({ ...b, i, win: win(b) }));
   }
   buildCamp(c, ci) {
-    const rot = (c.rot || 0) * DEG; const cs = Math.cos(rot), sn = Math.sin(rot); const [W, D] = c.size || [c.r * 2 || 36, c.r * 1.6 || 28]; const L = (u, v) => [c.at[0] + u * cs - v * sn, c.at[1] + u * sn + v * cs];
+    const rot = (c.rot || 0) * DEG; const cs = Math.cos(rot), sn = Math.sin(rot); const [W, D] = c.size || [c.r * 2 || 36, c.r * 1.6 || 28]; const C0 = c.pos || c.at; const L = (u, v) => [C0[0] + u * cs - v * sn, C0[1] + u * sn + v * cs];
     const tents = [], posts = [], fires = []; const team = TEAMS[c.team || 'neutral'] || TEAMS.neutral; const seed = 911 + ci * 37;
     if ((c.style || 'grid') === 'grid') { const sp = c.spacing || 4.2; for (let v = -D / 2 + sp; v <= D / 2 - sp * 0.8; v += sp) for (let u = -W / 2 + sp; u <= W / 2 - sp * 0.8; u += sp * 1.25) { if (Math.abs(u) < sp * 0.6 || Math.abs(v) < sp * 0.5) continue; const [x, z] = L(u, v); tents.push({ x, z, fx: sn, fz: -cs, sc: 2.4 + hash01(tents.length, seed) * 0.5 }); } }
     else { const n = c.tents ?? 24; for (let k = 0; k < n; k++) { const u = (hash01(k, seed, 1) - 0.5) * W * 0.9, v = (hash01(k, seed, 2) - 0.5) * D * 0.9; const a = hash01(k, seed, 3) * 6.28; const [x, z] = L(u, v); tents.push({ x, z, fx: Math.sin(a), fz: -Math.cos(a), sc: 2.2 + hash01(k, seed, 4) * 0.7 }); } }
@@ -40,7 +40,7 @@ export class Ambient {
       for (let k = 0; k < n; k++) { let s = (t * (wk.speed ?? 1.2) + k * (wk.gap ?? 3.0) + (wk.offset || 0)); if (wk.loop !== false) s = ((s % wk.L) + wk.L) % wk.L; else if (s > wk.L) continue;
         let i = 0, r = s; while (i < wk.seg.length - 1 && r > wk.seg[i]) { r -= wk.seg[i]; i++; } const a = wk.path[i], b = wk.path[i + 1]; const f = clamp(r / wk.seg[i]); const x = lerp(a[0], b[0], f), z = lerp(a[1], b[1], f);
         extra.push({ kind: wk.kind || 'light', x, z, fx: (b[0] - a[0]) / wk.seg[i], fz: (b[1] - a[1]) / wk.seg[i], sc: wk.scale ?? 1.1, col, bob: Math.abs(Math.sin(t * 7 + k)) * 0.05, h: hash01(k, 3) }); } }
-    for (const s of this.smoke) { if (t < s.win[0] - 6 || t > s.win[1] + 6) continue; this.smokeAt(puffs, s.at[0], s.at[1], t, s.n ?? 12, s.alpha ?? 0.22, mh, W, s.height ?? 9, s.color); }
+    for (const s of this.smoke) { if (t < s.win[0] || t > s.win[1] + 6) continue; const k = clamp((t - s.win[0]) / 3) * (1 - clamp((t - s.win[1]) / 6)); this.smokeAt(puffs, s.pos[0], s.pos[1], t, s.n ?? 12, (s.alpha ?? 0.22) * k, mh, W, s.height ?? 9, s.color); }
     F.extra = extra; F.extraPuffs = puffs;
   }
   smokeAt(out, x0, z0, t, n, alpha, mh, W, height, color) { const per = 6.5; for (let q = 0; q < n; q++) { const age = ((t / per + hash01(q, Math.round(x0 * 10), Math.round(z0 * 10))) % 1); const dt = age * per; const rise = dt * height / per * 2.2;

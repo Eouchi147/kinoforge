@@ -41,7 +41,7 @@ export function compileScenes(spec, clock, aspect = 16 / 9, opts = {}) {
         const m0 = mv.at !== undefined ? clock.at(mv.at) : tp; const m1 = mv.until !== undefined ? clock.at(mv.until) : m0 + (mv.dur ?? 3);
         if (m0 < tp - 1e-3) out.errors.push(`${sid}: move starts at ${f1(m0)} s, before the previous move ends (${f1(tp)} s)`); if (m1 > sh.t1 + 1e-3) out.warnings.push(`${sid}: a move ends at ${f1(m1)} s, after the shot is cut (${f1(sh.t1)} s)`);
         if (m0 > tp + 1e-3) keys.push({ ...cur, at: m0, ease: 'linear' });
-        const prev = cur; cur = merge(cur, mv.to, mv.by); keys.push({ ...cur, at: m1, ease: mv.ease || 'inOut' }); tp = m1;
+        const prev = cur; cur = merge(cur, mv.to, mv.by); keys.push({ ...cur, at: m1, ease: mv.ease || 'cam' }); tp = m1;
         // speed check: sample the eased move
         const a = normaliseKey({ ...prev, at: m0 }, clock, aspect), b = normaliseKey({ ...cur, at: m1, ease: mv.ease === 'spline' ? 'inOut' : (mv.ease || 'inOut') }, clock, aspect); const tr2 = new CameraTrack([a, b]); const N = 48; let peak = { pan: 0, zoom: 0, yaw: 0, pitch: 0 }; let p0 = tr2.at(m0);
         for (let q = 1; q <= N; q++) { const tq = m0 + (m1 - m0) * q / N; const p1 = tr2.at(tq); const dt = (m1 - m0) / N; const gw = (groundW(p0, aspect) + groundW(p1, aspect)) / 2;

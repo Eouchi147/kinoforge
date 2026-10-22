@@ -11,6 +11,9 @@ export const EASE = {
   outBounce: (t) => { const n = 7.5625, d = 2.75; if (t < 1 / d) return n * t * t; if (t < 2 / d) return n * (t -= 1.5 / d) * t + 0.75; if (t < 2.5 / d) return n * (t -= 2.25 / d) * t + 0.9375; return n * (t -= 2.625 / d) * t + 0.984375; },
   step: (t) => t >= 1 ? 1 : 0,
 };
+// camera operator moves (v2): ease in, a steady middle, ease out (trapezoid velocity). Peak speed = average / (1 - a).
+const trap = (a) => (t) => { const v = 1 / (1 - a); if (t <= 0) return 0; if (t >= 1) return 1; if (t < a) return v * t * t / (2 * a); if (t > 1 - a) { const u = 1 - t; return 1 - v * u * u / (2 * a); } return v * (t - a / 2); };
+EASE.cam = trap(0.3); EASE.camSoft = trap(0.45); EASE.camLong = trap(0.2);
 export const easeFn = (e) => typeof e === 'function' ? e : (EASE[e || 'inOut'] || EASE.inOut);
 
 const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');

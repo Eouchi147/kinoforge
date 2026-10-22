@@ -123,7 +123,7 @@ export class StageOverlay {
     let x = P.x + (it.dx || 0) * H, y = P.y + (it.dy || 0) * H;
     if (it.hop) { const hp = it.hop; const sw = hp.swaps.map((r) => this.clock.at(r)); const dur = hp.dur ?? 0.28; const ids = hp.between; let cur = hp.start ?? 0, fromI = cur, toI = cur, u = 1; for (let k = 0; k < sw.length; k++) { if (t >= sw[k]) { fromI = cur; cur = (cur + 1) % ids.length; toI = cur; u = clamp((t - sw[k]) / dur); } }
       const a0 = this.sp[ids[fromI]], a1 = this.sp[ids[toI]]; if (!a0 || !a1) return; const e = EASE.inOut(u); x = lerp(a0.x, a1.x, e); y = lerp(a0.y - a0.size * (hp.up ?? 0.95), a1.y - a1.size * (hp.up ?? 0.95), e) - Math.sin(Math.PI * e) * size * 0.55; }
-    if (it.id) this.sp[it.id] = { x, y, size };
+    if (it.id) this.sp[it.id] = { x, y, size }; if (it.hidden) return; // hidden: an anchor for hops, not drawn
     g.save(); g.globalAlpha = a * (P.screen ? 1 : clamp((P.edge ?? 1) / 0.08)); g.translate(x, y + bob); g.scale(pop, pop); g.translate(-x, -(y + bob)); drawIcon(g, it.icon, x, y + bob, Math.max(10, size), { flip, team, t: age, rot, fill: it.fill }); g.restore();
   }
   drawMarker(g, m, t, view) { // a place on the map: its glyph, a lettered badge linked to the legend, and its name while it is introduced

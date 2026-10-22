@@ -60,9 +60,9 @@ export class Legend {
     if (this.units.length) { head(this.L.key?.unitsTitle || 'FORCES', Math.min(...this.units.map((u) => u.t0)));
       for (const u of this.units) items.push({ h: rowH, t0: u.t0, id: u.id || u.kind, draw: (x, y, ag) => { const team = TEAMS[u.team || 'neutral']; const fk = this.focusK(u.id || u.kind, t); g.save(); g.globalAlpha *= ag;
         if (fk > 0) { g.beginPath(); g.roundRect(x - 5 * k, y + 1 * k, w - pad * 2 + 10 * k, rowH - 2 * k, 4 * k); g.fillStyle = `rgba(232,196,120,${0.35 * fk})`; g.fill(); }
-        if (u.teams) u.teams.forEach((tm, i) => drawIcon(g, UNIT_GLYPH[u.kind] || u.glyph || 'u-infantry', x + 16 * k + i * 12 * k, y + rowH - 2 * k + i * 0, 34 * k, { team: (TEAMS[tm] || team).top, halo: false }));
+        if (u.teams) u.teams.forEach((tm, i) => drawIcon(g, u.glyph || UNIT_GLYPH[u.kind] || 'u-infantry', x + 13 * k + i * 27 * k, y + rowH - 4 * k, 28 * k, { team: (TEAMS[tm] || team).top, halo: false }));
         else drawIcon(g, u.glyph || UNIT_GLYPH[u.kind] || 'u-infantry', x + 18 * k, y + rowH - 2 * k, 36 * k, { team: team.top, halo: false });
-        g.font = `600 ${18 * k}px "${FONTS.text}"`; g.fillStyle = INK; g.textBaseline = 'middle'; g.letterSpacing = '0px'; g.fillText(u.name, x + (u.teams ? 50 + 12 * (u.teams.length - 1) : 46) * k, y + rowH * 0.56); g.restore(); } }); }
+        g.font = `600 ${18 * k}px "${FONTS.text}"`; g.fillStyle = INK; g.textBaseline = 'middle'; g.letterSpacing = '0px'; g.fillText(u.name, x + (u.teams ? 34 + 27 * (u.teams.length - 1) : 46) * k, y + rowH * 0.56); g.restore(); } }); }
     if (this.places.length) { head(this.L.key?.placesTitle || 'PLACES', Math.min(...this.places.map((p) => p.t0)));
       for (const p of this.places) items.push({ h: rowH, t0: p.t0, t1: p.t1, id: p.id, draw: (x, y, ag) => { const team = p.team ? TEAMS[p.team] : null; g.save(); g.globalAlpha *= ag; const r = 10.5 * k, bx = x + 10 * k, by = y + rowH * 0.52;
         g.beginPath(); g.arc(bx, by, r, 0, 7); g.fillStyle = team ? rgb(team.top) : INK; g.fill(); g.font = `700 ${13 * k}px "${FONTS.display}"`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#f6ecd0'; g.fillText(p.letter || '', bx, by + 0.5 * k);

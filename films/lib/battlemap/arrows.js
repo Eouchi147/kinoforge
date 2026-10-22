@@ -55,7 +55,7 @@ export class Arrows {
     for (const d of defs) this.add(d);
   }
   add(d) {
-    const [t0, t1] = this.clock.span(d, 1.5); const mh = this.stage.mh; const lift = d.lift ?? 3.2; const width = d.width ?? 3.2; const head = d.head === false ? 0 : (d.headLen ?? width * 3.0); const headW = d.headW ?? width * 1.45;
+    const [t0, t1] = this.clock.span(d, 1.5); const mh = this.stage.mh; const lift = d.lift ?? 3.2; const width = d.width ?? 3.2; const head = d.head === false ? 0 : (d.headLen ?? width * 2.4); const headW = d.headW ?? width * 1.7;
     let pts = d.path; if (d.smooth !== false && pts.length > 2) pts = catmull(pts, 14); const P = resample(pts, 1.4); const n = P.n;
     const rows = []; // [s, x, z, halfW]
     const taper = d.taper ?? 0.30; const tl = Math.min(P.L * 0.45, d.taperLen ?? 36);

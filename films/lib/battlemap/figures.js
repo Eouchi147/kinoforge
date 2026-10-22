@@ -212,7 +212,7 @@ export class Figures {
     const K = FIG_KINDS[b.figKind]; const sp = b.cell; const sc = s.scale; const L = Math.max(1, s.len * sc), Dp = Math.max(0.5, s.dep * sc); const hd = s.heading * DEG;
     const fx = Math.sin(hd), fz = -Math.cos(hd), rx = Math.cos(hd), rz = Math.sin(hd); const k = s.bulge ? 8 * s.bulge / L : 0; const wedge = b.wedge * Dp;
     const cols = b.cols, rows = b.rows; const pts = b._pts || (b._pts = []); pts.length = 0; const loose = K?.loose ?? 0; const seed = b.seed;
-    const cw = L / cols; const live = clamp(s.alpha * 1.25); const fade = s.fade;
+    const cw = L / cols; const fade = s.fade; const live = clamp(s.alpha * 1.25 + fade * 2); // casualties thin by fade, not by the appear wave
     for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
       const id = j * cols + i; const h1 = hash01(seed, id, 1), h2 = hash01(seed, id, 2), h3 = hash01(seed, id, 3);
       const u0 = -L / 2 + cw * (i + 0.5); const ju = (h1 - 0.5) * cw * (0.18 + loose); const frontV = Dp / 2 + wedge * (1 - Math.abs(2 * u0 / L));
@@ -235,7 +235,10 @@ export class Figures {
     for (let a = 0; a < n; a++) for (let b2 = a + 1; b2 < n; b2++) {
       const A = active[a], B = active[b2]; if (!A.cn || !B.cn) continue; if (A.b.group && A.b.group === B.b.group) continue; if (A.b.d.solid === false || B.b.d.solid === false) continue;
       const dx = B.c[0] - A.c[0], dz = B.c[1] - A.c[1]; const D = Math.hypot(dx, dz); if (D > A.r + B.r + 2) continue;
-      const nx = D > 1e-3 ? dx / D : 1, nz = D > 1e-3 ? dz / D : 0; const tx = -nz, tz = nx;
+      // the contact normal: the facing of whichever block is advancing into the other (front to front, flank or rear), taken at its figure nearest the other
+      const faceAt = (X, ox, oz) => { let best = null, bd = 1e18; for (const p of X.pts) { if (p.vis < 0.05) continue; const d = (p.x - ox) ** 2 + (p.z - oz) ** 2; if (d < bd) { bd = d; best = p; } } if (!best) return [0, 0]; const l = Math.hypot(best.fx, best.fz) || 1; return [best.fx / l, best.fz / l]; };
+      const ux = D > 1e-3 ? dx / D : 1, uz = D > 1e-3 ? dz / D : 0; const fa = faceAt(A, B.c[0], B.c[1]), fb = faceAt(B, A.c[0], A.c[1]); const sa0 = fa[0] * ux + fa[1] * uz, sb0 = -(fb[0] * ux + fb[1] * uz);
+      let nx, nz; if (Math.max(sa0, sb0) < 0.35) { nx = ux; nz = uz; } else if (sa0 >= sb0) { nx = fa[0]; nz = fa[1]; } else { nx = -fb[0]; nz = -fb[1]; } const tx = -nz, tz = nx;
       let la0 = 1e9, la1 = -1e9, lb0 = 1e9, lb1 = -1e9; for (const p of A.pts) { if (p.vis < 0.05) continue; const l = p.x * tx + p.z * tz; la0 = Math.min(la0, l); la1 = Math.max(la1, l); } for (const p of B.pts) { if (p.vis < 0.05) continue; const l = p.x * tx + p.z * tz; lb0 = Math.min(lb0, l); lb1 = Math.max(lb1, l); }
       const w0 = Math.max(la0, lb0), w1 = Math.min(la1, lb1); if (w1 - w0 < 0.5) continue; const m = Math.max(A.b.cell[0], B.b.cell[0]);
       let sa = -1e9, sb = 1e9; for (const p of A.pts) { if (p.vis < 0.05) continue; const l = p.x * tx + p.z * tz; if (l < w0 - m || l > w1 + m) continue; sa = Math.max(sa, p.x * nx + p.z * nz); } for (const p of B.pts) { if (p.vis < 0.05) continue; const l = p.x * tx + p.z * tz; if (l < w0 - m || l > w1 + m) continue; sb = Math.min(sb, p.x * nx + p.z * nz); }
