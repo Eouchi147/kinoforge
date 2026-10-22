@@ -290,7 +290,7 @@ def ellipsoid(bpy, name, rad, mat, coll, seg=32, rings=18, noise_amp=0.0, noise_
     return uv_sphere(bpy, name, 1.0, mat, coll, seg=seg, rings=rings, scale=rad, shape=shape, noise_amp=noise_amp, noise_freq=noise_freq, seed=seed)
 
 def text_mesh(bpy, name, text, size, mat, coll, extrude=0.01, bevel=0.002, align='CENTER', spacing=1.0, line_spacing=1.0, noise_amp=0.0, plane='XZ', valign='CENTER'):
-    """Extruded clay letters (Blender's built-in font), converted to a mesh. Faces +Y... text lies in the XZ plane, front toward -Y."""
+    """Extruded clay letters (Blender's built-in font), converted to a mesh. Faces +Y; text lies in the XZ plane, front toward -Y."""
     cu = bpy.data.curves.new(name + '_c', 'FONT'); cu.body = text; cu.size = size; cu.extrude = extrude; cu.bevel_depth = bevel
     cu.bevel_resolution = 2; cu.resolution_u = 4; cu.align_x = align; cu.align_y = valign; cu.space_character = spacing; cu.space_line = line_spacing
     ob = bpy.data.objects.new(name + '_tmp', cu); coll.objects.link(ob)
