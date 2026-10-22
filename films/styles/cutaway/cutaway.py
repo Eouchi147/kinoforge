@@ -336,14 +336,15 @@ def mat_rock(kit, name, color=(0.62, 0.60, 0.56), moss=0.0, moss_color=(0.28, 0.
     b = g.node('ShaderNodeBump', ins={'Strength': 0.5, 'Height': h, 'Distance': 0.02}); g.put(p, 'Normal', b)
     _finish(g, p); return m
 
-def _caustics(g, pos, level, depth_scale=0.5, strength=1.6):
+def _caustics(g, pos, level, depth_scale=0.5, strength=0.5):
     """Animated caustic web (two voronoi edge layers), fading with depth below `level`. Returns a 0..k scalar socket."""
     zoff, w = g.phase(0.25)
     sx = g.sep(pos); p2 = g.comb(sx[0], sx[1], zoff)
-    v1 = g.voronoi(p2, 7.0, 'DISTANCE_TO_EDGE', '4D', w); v2 = g.voronoi(g.vmath('SCALE', p2, scale=1.37), 9.0, 'DISTANCE_TO_EDGE', '4D', g.math('MULTIPLY', w, 1.3))
-    c1 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', v1.outputs['Distance'], 9.0), clamp=True)
-    c2 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', v2.outputs['Distance'], 11.0), clamp=True)
-    c = g.math('POWER', g.math('MAXIMUM', c1, c2), 2.0)
+    # soft, wide bands (not a hard white web): smoothed edge distance of two drifting voronoi layers, multiplied
+    v1 = g.voronoi(p2, 5.0, 'DISTANCE_TO_EDGE', '4D', w); v2 = g.voronoi(g.vmath('SCALE', p2, scale=1.37), 6.5, 'DISTANCE_TO_EDGE', '4D', g.math('MULTIPLY', w, 1.3))
+    c1 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', v1.outputs['Distance'], 3.2), clamp=True)
+    c2 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', v2.outputs['Distance'], 3.6), clamp=True)
+    c = g.math('POWER', g.math('MULTIPLY', c1, c2), 1.5)
     d = g.math('SUBTRACT', level, sx[2])                       # depth below the surface
     under = g.math('MULTIPLY', d, 60.0, clamp=True)             # 0 at the surface line, 1 below 1.7 cm
     fade = g.math('EXPONENT', g.math('MULTIPLY', d, -1.0 / max(1e-3, depth_scale)))
@@ -379,8 +380,7 @@ def mat_top(kit, land):
         bed = g.mix(n_mid.outputs['Fac'], srgb(land.bed[0]), srgb(land.bed[1]))
         col = g.mix(g.math('MULTIPLY', under, 0.85), col, bed)
         ca = _caustics(g, pos, level, strength=land.caustics)
-        col = g.mix(ca, col, g.mix(0.5, col, (1.0, 1.0, 0.95), 'SCREEN'))
-        col = g.mix(g.math('MINIMUM', g.math('MULTIPLY', ca, 0.6), 1.0), col, g.mix(1.0, col, (1.6, 1.6, 1.5), 'MULTIPLY'))
+        col = g.mix(g.math('MINIMUM', ca, 1.0), col, g.mix(1.0, col, (1.7, 1.7, 1.6), 'MULTIPLY'))
     if pal.get('snow', 0) > 0:
         nz = g.sep(geo.outputs['Normal'])[2]
         sm = g.math('MULTIPLY', g.math('ADD', g.math('SUBTRACT', nz, 1 - pal['snow']), g.math('MULTIPLY', n_mid.outputs['Fac'], 0.3)), 6.0, clamp=True)
@@ -446,10 +446,10 @@ def mat_water(kit, name='cw_water', tint=(0.24, 0.82, 0.78), density=2.2, ripple
     tc = g.node('ShaderNodeTexCoord'); geo = g.node('ShaderNodeNewGeometry'); pos = tc.outputs['Object']
     zoff, w = g.phase(0.45); sx = g.sep(pos)
     p = g.comb(g.math('MULTIPLY', sx[0], 1.0), sx[1], zoff)
-    r1 = g.noise(p, 9.0, 3.0, 0.55, '4D', w); r2 = g.noise(g.vmath('SCALE', p, scale=2.7), 9.0, 2.0, 0.5, '4D', g.math('MULTIPLY', w, 1.6))
-    h = g.math('ADD', r1.outputs['Fac'], g.math('MULTIPLY', r2.outputs['Fac'], 0.45))
+    r1 = g.noise(p, 4.0, 2.0, 0.5, '4D', w); r2 = g.noise(g.vmath('SCALE', p, scale=2.7), 4.0, 1.0, 0.5, '4D', g.math('MULTIPLY', w, 1.6))
+    h = g.math('ADD', r1.outputs['Fac'], g.math('MULTIPLY', r2.outputs['Fac'], 0.25))
     topmask = g.math('GREATER_THAN', g.sep(geo.outputs['Normal'])[2], 0.7)
-    bump = g.node('ShaderNodeBump', ins={'Strength': g.math('MULTIPLY', topmask, 0.18 * ripple), 'Height': h, 'Distance': 0.02})
+    bump = g.node('ShaderNodeBump', ins={'Strength': g.math('MULTIPLY', topmask, 0.09 * ripple), 'Height': h, 'Distance': 0.02})
     glass = g.node('ShaderNodeBsdfGlass', ins={'Color': (1, 1, 1), 'Roughness': 0.015 + 0.25 * ice, 'IOR': 1.33}, distribution='GGX')
     g.put(glass, 'Normal', bump)
     tr = g.node('ShaderNodeBsdfTransparent'); lp = g.node('ShaderNodeLightPath')
@@ -530,7 +530,7 @@ class Land:
 def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, seed=1, season='summer', zones=None,
           res=0.022, grass=1.0, grass_height=1.0, trees=10, tree_kinds=('round', 'round', 'cone', 'tall'), tree_scale=1.0, boulders=12,
           flowers=0.5, under=True, lilies=0, reeds=0.0, corals=0, shore_rock=0.0, keep_clear=(), tree_spots=None,
-          sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.6, water_glow=0.022, bed=((0.86, 0.80, 0.64), (0.66, 0.62, 0.50)), caustics=1.6, bottom=None, name='cw_block'):
+          sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.6, water_glow=0.022, bed=((0.80, 0.74, 0.58), (0.70, 0.65, 0.52)), caustics=0.5, bottom=None, name='cw_block'):
     """Build the block. Returns a Land.
     size (sx, sy) m; depth m; strata = list of layers (see STRATA); top = h(x, y) function or 2D array (rows y, cols x);
     water = list of river()/pond()/basin() regions (they share the first region's level for the water volume);
@@ -939,12 +939,12 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, tree_scale, b
             if keep.any(): scatter(kit, L, 'cw_bankstones', rk, q[keep], scale=rng.uniform(0.03, 0.08, keep.sum()), sink=0.015)
     if L.water and under:
         q = _jitter_grid(rng, sx, sy, 0.05, 0.03); Fq = L.field(q[:, 0], q[:, 1])
-        sel = (Fq['depth'] > 0.06) & (rng.uniform(0, 1, len(q)) < 0.25)
+        sel = (Fq['depth'] > 0.06) & (rng.uniform(0, 1, len(q)) < 0.12)
         stones = proto_rocks(kit, 4, s + 3, color=(0.58, 0.56, 0.52), moss=0.0, name='cw_pebble')
         if sel.any(): scatter(kit, L, 'cw_bedstones', stones, q[sel], scale=rng.uniform(0.012, 0.035, sel.sum()), sink=0.006)
         wk = 0.25 if L.water[0].get('kind') == 'lagoon' else 1.0
-        w2 = (Fq['depth'] > 0.07) & (0.5 + 0.5 * fbm(q[:, 0], q[:, 1], s + 61, 2, 1.8) > 0.6) & (rng.uniform(0, 1, len(q)) < 0.22 * wk)
-        wd = np.minimum(Fq['depth'] * 0.9, 0.22) / 0.14
+        w2 = (Fq['depth'] > 0.07) & (0.5 + 0.5 * fbm(q[:, 0], q[:, 1], s + 61, 2, 1.8) > 0.6) & (rng.uniform(0, 1, len(q)) < 0.10 * wk)
+        wd = np.minimum(Fq['depth'] * 0.6, 0.16) / 0.14
         if w2.any(): scatter(kit, L, 'cw_weed', proto_weed(kit, 4, s), q[w2], scale=wd[w2] * rng.uniform(0.6, 1.0, w2.sum()), sway=0.12 * sway, speed=0.35)
         if corals:
             def okc(p):
