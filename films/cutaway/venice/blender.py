@@ -153,7 +153,7 @@ def plan():
     # 6. High water ----------------------------------------------------------------------------------------------------
     fl0 = S('l13', 0.5)
     flood = lambda t, a=fl0: 0.05 * ease((t - a) / 3.5)
-    add('city', W('l13', 'squares', 0.45), K(-72, 14, 2.3, (-1.18, -2.0, -0.05), 50), K(-68, 13, 2.15, (-1.18, -2.0, -0.04), 50), env='grey',
+    add('city', W('l13', 'squares', 0.45), K(-74, 12, 1.25, (-1.20, -2.0, -0.05), 50), K(-70, 11, 1.15, (-1.21, -2.0, -0.05), 50), env='grey',
         why='change of place and time: today, a high tide; at the cut, the sea pours over the street while a cat sleeps in the cellar below', city={'flood': flood, 'walkways': True})
     add('city', C('l13', 0.9), K(-138, 10, 0.78, (-0.52, 0.44, 0.0), 35), K(-134, 10, 0.75, (-0.52, 0.44, 0.0), 35), env='grey',
         why='low and close for people: walking to work on the raised walkways', city={'flood': 0.05, 'walkways': True})
