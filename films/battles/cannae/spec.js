@@ -101,7 +101,7 @@ export default {
   look: { grade: { saturation: 1.0, contrast: 1.06, grain: 0.03, vignette: 0.30 } },
   world,
   stages: { med },
-  msaaOn: [[0, 17.4], [106.4, 127.7]],
+  msaaOn: [[0, 'l00.And'], ['l13', 'l14']],   // anti-aliasing (about +0.4 s/frame) only on the two low shots where the spears shimmer
   ambient: {
     wind: [1.2, 0.35], gusts: 0.6, flow: { dir: [1, 0.08], speed: 1.2, glint: 1.2 },
     camps: [{ pos: [-235, 80], size: [50, 34], team: 'rome', style: 'grid', fires: 3, people: 14 }, { pos: [235, -70], size: [52, 38], team: 'carthage', style: 'scatter', tents: 28, fires: 3, people: 12, rot: 8 }],
@@ -199,8 +199,8 @@ export default {
           moves: [{ until: 'l04.river.>', to: { target: [-10, 40], width: 580, pitch: 54 } }] },
         { at: 'l05', why: 'the numbers on the plan view: both armies side by side', from: { target: [-40, 0], width: 480, pitch: 86, yaw: 0, mm: 35 },
           moves: [{ at: 'l05.Hannibal', until: 'l05.Rome\'s', to: { width: 450, target: [-30, 0] } }] },
-        { at: 'l05.Rome\'s', why: 'Rome\'s plan from behind its own ranks: simple and heavy', from: { target: [-52, 0], dist: 156, pitch: 19, yaw: 90, mm: 35 },
-          moves: [{ until: 'l05.win.>', to: { dist: 126, target: [-44, 0] } }] },
+        { at: 'l05.Rome\'s', why: 'Rome\'s plan from behind its own ranks: simple and heavy', from: { target: [-46, 0], dist: 160, pitch: 30, yaw: 90, mm: 35 },
+          moves: [{ until: 'l05.win.>', to: { dist: 136, target: [-40, 0] } }] },
       ] },
     { id: 'S5', name: 'The trap is set', at: 'l06', job: 'Hannibal\'s plan: a weak centre bowed toward Rome, strong ends, horsemen on the sides', set: { time: 0.0, haze: 1.0 },
       shots: [
@@ -259,7 +259,7 @@ export default {
       { id: 'carthage', team: 'carthage', name: 'CARTHAGE', commander: 'Hannibal', banner: 'banner', at: 'l02.Hannibal,', strength: 50000, strengthAt: 'l05.50' },
       { id: 'rome', team: 'rome', name: 'ROME', commander: 'Varro and Paullus', commanderAt: 'l03.commanders', banner: 'vexillum', at: 'l03.Rome.', strength: 80000, strengthAt: 'l05.80', dimAt: 'l14.lost' },
     ],
-    key: { show: [['l04.armies', 'l12'], ['l17', 'l17.since.>']] },
+    key: { show: [['l04.armies', 'l08'], ['l11', 'l12'], ['l17', 'l17.since.>']] },
     units: [
       { id: 'inf', kind: 'infantry', name: 'Infantry', teams: ['rome', 'carthage'], at: 'l05.soldiers.' },
       { id: 'vets', kind: 'elite', name: 'Veteran infantry', team: 'carthage', at: 'l07.best' },
@@ -313,7 +313,7 @@ export default {
     { at: 'l05.push', dur: 1.0, ease: 'out', team: 'rome', width: 7, path: [[-72, 0], [-16, 0]], lift: 6, hide: 'l06' },
     { at: 'l06.bulging', dur: 1.2, ease: 'out', team: 'carthage', width: 4, path: [[-22, 0], [-58, 0]], lift: 6, hide: 'l07' },
     { at: 'l06.bow.', dur: 0.8, ease: 'out', team: 'ink', width: 1.0, head: false, taper: 1, path: [[-6, -56], [-6, 56]], lift: 6, hide: 'l07' },
-    { at: 'l08.charged', dur: 1.4, ease: 'out', team: 'rome', width: 7, path: [[-64, 0], [-14, 0]], lift: 6, hide: 'l08.slowly,' },
+    { at: 'l08.and', dur: 1.0, ease: 'out', team: 'rome', width: 7, path: [[-54, 0], [-12, 0]], lift: 6, hide: 'l08.exactly' },
     { at: 'l08.slowly,', dur: 0.6, ease: 'out', team: 'carthage', width: 3.4, path: [[-6, -24], [12, -24]], lift: 6, hide: 'l08.exactly' },
     { at: 'l08.slowly,', dur: 0.6, ease: 'out', team: 'carthage', width: 3.4, path: [[-6, 24], [12, 24]], lift: 6, hide: 'l08.exactly' },
     { at: 'l09.pushed', until: 'l09.gap.', ease: 'out', team: 'rome', width: 7, path: [[-10, 0], [50, 0]], lift: 6, hide: 'l10' },

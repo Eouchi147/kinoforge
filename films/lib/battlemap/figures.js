@@ -175,7 +175,7 @@ attribute vec4 aP;    // xyz, size (units)
 attribute vec4 aC;    // rgb, alpha
 uniform float uPx;    // pixels per unit at distance 1
 varying vec4 vC; varying vec3 vWorld; varying float vSeed;
-void main(){ vec4 mv = viewMatrix*vec4(aP.xyz, 1.0); gl_Position = projectionMatrix*mv; gl_PointSize = clamp(aP.w*uPx/max(-mv.z, 1.0), 1.0, 220.0); vC = aC; vWorld = aP.xyz; vSeed = fract(aP.x*0.137 + aP.z*0.311); }`;
+void main(){ vec4 mv = viewMatrix*vec4(aP.xyz, 1.0); gl_Position = projectionMatrix*mv; gl_PointSize = clamp(aP.w*uPx/max(-mv.z, 1.0), 1.0, 140.0); vC = aC; vWorld = aP.xyz; vSeed = fract(aP.x*0.137 + aP.z*0.311); }`;
 const PFRAG = /* glsl */`
 precision highp float;
 ${GLSL_FOG}
@@ -294,7 +294,7 @@ export class Figures {
         const hd = sb.heading * DEG; const fx = Math.sin(hd), fz = -Math.cos(hd), rx = Math.cos(hd), rz = Math.sin(hd); const u = (hash01(b.seed, q, 78) - 0.5) * sb.len * sb.scale, v = -sb.dep * sb.scale * (0.2 + 0.5 * hash01(b.seed, q, 79));
         let x = sb.x + rx * u + fx * v, z = sb.z + rz * u + fz * v; const dt = age * per; x += wind[0] * dt * 1.4; z += wind[1] * dt * 1.4; const y = mh(x, z) + 0.6 + dt * 1.1;
         const a = k * 0.22 * amt * Math.sin(Math.PI * clamp(age * 1.15)) * (b.figKind === 'cavalry' ? 1.3 : 1); push(x, y, z, 3.5 + dt * 3.2, a); } }
-    if (amt > 0) for (const F of fronts) { const K = Math.min(40, Math.ceil(F.half * 2 / 2.5) + 2); for (let q = 0; q < K; q++) { const h = hash01(q, 91, (F.A.b.seed ^ F.B.b.seed) & 0xffff); const per = 2.2; const age = ((t / per + h) % 1); const dt = age * per;
+    if (amt > 0) for (const F of fronts) { const K = Math.min(22, Math.ceil(F.half * 2 / 4) + 2); for (let q = 0; q < K; q++) { const h = hash01(q, 91, (F.A.b.seed ^ F.B.b.seed) & 0xffff); const per = 2.2; const age = ((t / per + h) % 1); const dt = age * per;
         const l = (hash01(q, 92, 3) - 0.5) * 2 * F.half; let x = F.cx + F.tx * l + wind[0] * dt, z = F.cz + F.tz * l + wind[1] * dt; const y = mh(x, z) + 0.5 + dt * 0.9;
         push(x, y, z, 2.8 + dt * 2.6, 0.30 * amt * F.k * Math.sin(Math.PI * age)); } }
     if (this.extraPuffs) for (const e of this.extraPuffs) push(e[0], e[1], e[2], e[3], e[4], e[5]);
