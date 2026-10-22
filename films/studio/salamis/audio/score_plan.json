@@ -1,0 +1,124 @@
+{
+ "palette": "ancient_med",
+ "key": "D",
+ "mode": "dorian",
+ "duration": 119.16,
+ "seed": 14502,
+ "sections": [
+  {
+   "t": 0.0,
+   "mood": "calm"
+  },
+  {
+   "t": 15.023,
+   "mood": "curious"
+  },
+  {
+   "t": 65.039,
+   "mood": "tension"
+  },
+  {
+   "t": 80.039,
+   "mood": "turn"
+  },
+  {
+   "t": 110.016,
+   "mood": "triumph"
+  }
+ ],
+ "hits": [
+  {
+   "t": 9.731,
+   "kind": "low",
+   "level": 0.4
+  },
+  {
+   "t": 79.739,
+   "kind": "low",
+   "level": 1.0
+  },
+  {
+   "t": 110.416,
+   "kind": "chime",
+   "level": 0.8
+  }
+ ],
+ "voice": [
+  [
+   2.531,
+   8.483
+  ],
+  [
+   10.031,
+   11.207
+  ],
+  [
+   15.023,
+   19.895
+  ],
+  [
+   22.523,
+   30.371
+  ],
+  [
+   32.531,
+   41.891
+  ],
+  [
+   42.539,
+   47.651
+  ],
+  [
+   50.039,
+   55.679
+  ],
+  [
+   57.539,
+   63.059
+  ],
+  [
+   65.039,
+   70.439
+  ],
+  [
+   72.539,
+   78.323
+  ],
+  [
+   80.039,
+   85.055
+  ],
+  [
+   87.539,
+   93.683
+  ],
+  [
+   95.039,
+   101.279
+  ],
+  [
+   102.539,
+   108.107
+  ],
+  [
+   110.016,
+   114.96
+  ]
+ ],
+ "story": {
+  "title_line": "l01",
+  "battle_line": "l08",
+  "turn_line": "l10",
+  "result_line": "l14",
+  "epilogue_line": null,
+  "plan_line": null,
+  "year": -480,
+  "place_scores": {
+   "middle_east_central_asia": 7,
+   "ancient_med": 13
+  },
+  "notes": [
+   "battle: fallback at half way"
+  ]
+ }
+}

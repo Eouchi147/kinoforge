@@ -1,0 +1,16 @@
+{
+ "id": "salamis",
+ "series": "Battle Map",
+ "title": "The Battle of Salamis",
+ "year": "480 BC",
+ "style": "terrain",
+ "line": "battle-map",
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "audio": "audio/mix.m4a",
+ "note": "Made by the KINOFORGE director (films/director/). Picture: films/lib/battlemap.",
+ "duration": 119.16
+}

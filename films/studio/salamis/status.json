@@ -3,8 +3,8 @@
  "title": "The Battle of Salamis",
  "line": "battle-map",
  "stage": "sound",
- "state": "running",
- "message": "Recording the narration and the score.",
+ "state": "done",
+ "message": "15 lines on the score, 119.2 s, voice chatterbox. Score: procedural engine.",
  "usd": 0.0,
  "cap_usd": 0.5,
  "outputs": {
@@ -25,7 +25,9 @@
     "nvidia/nemotron-3.5-super-vl:free"
    ]
   },
-  "script": "films/studio/salamis/script.json"
+  "script": "films/studio/salamis/script.json",
+  "audio": "films/studio/salamis/audio/mix.m4a",
+  "duration": 119.16
  },
  "stages": {
   "script": {
@@ -35,12 +37,13 @@
    "ended_at": "2026-10-22T15:55:59Z"
   },
   "sound": {
-   "state": "running",
+   "state": "done",
    "started_at": "2026-10-22T15:56:05Z",
-   "usd": 0.0
+   "usd": 0.0,
+   "ended_at": "2026-10-22T16:13:12Z"
   }
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39805128221",
- "updated_at": "2026-10-22T15:56:05Z"
+ "updated_at": "2026-10-22T16:13:12Z"
 }
