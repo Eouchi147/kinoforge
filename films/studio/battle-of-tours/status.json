@@ -1,0 +1,20 @@
+{
+ "id": "battle-of-tours",
+ "title": "The Battle of Tours",
+ "line": "battle-map",
+ "stage": "script",
+ "state": "queued",
+ "message": "On the runner (fresh job); key credit left: $1.34.",
+ "usd": 0,
+ "cap_usd": 0.9,
+ "outputs": {},
+ "stages": {
+  "script": {
+   "state": "queued",
+   "usd": 0
+  }
+ },
+ "approved_at": "2026-10-22T13:15:00Z",
+ "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39784277702",
+ "updated_at": "2026-10-22T13:09:07Z"
+}
