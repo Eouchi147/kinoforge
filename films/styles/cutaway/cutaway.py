@@ -391,7 +391,7 @@ def mat_top(kit, land):
     b = g.node('ShaderNodeBump', ins={'Strength': 0.5, 'Height': h, 'Distance': 0.01}); g.put(p, 'Normal', b)
     _finish(g, p); return m
 
-def mat_strata(kit, layers, seed=0):
+def mat_strata(kit, layers, seed=0, level=None):
     """Cross-section walls: soft colour bands along the 'sd' attribute (depth below the top, flattening with depth),
     wobbly band edges, grain, embedded pebbles (denser in gravel layers), hanging roots near the top."""
     m = _new_mat(kit.bpy, 'cw_strata'); g = G(m.node_tree, kit)
@@ -428,6 +428,9 @@ def mat_strata(kit, layers, seed=0):
     keep = g.math('GREATER_THAN', wn.outputs['Value'], 0.35)
     root = g.math('MULTIPLY', g.math('MULTIPLY', line, taper), keep)
     col = g.mix(g.math('MULTIPLY', root, 0.85), col, srgb((0.12, 0.08, 0.05)))
+    if level is not None:   # saturated ground below the water table: darker, slightly cooler, soft upper edge
+        wt = g.math('MULTIPLY', g.math('SUBTRACT', level - 0.04, g.math('ADD', sx[2], g.math('MULTIPLY', wob.outputs['Fac'], 0.06))), 8.0, clamp=True)
+        col = g.mix(g.math('MULTIPLY', wt, 0.38), col, g.mix(1.0, col, srgb((0.55, 0.58, 0.62)), 'MULTIPLY'))
     top_dark = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', dtop, 30.0), clamp=True)
     col = g.mix(g.math('MULTIPLY', top_dark, 0.5), col, srgb((0.10, 0.08, 0.05)))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.92})
@@ -585,7 +588,7 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
     ii = np.arange(nx * ny).reshape(ny, nx)
     Ft = np.stack([ii[:-1, :-1].ravel(), ii[:-1, 1:].ravel(), ii[1:, 1:].ravel(), ii[1:, :-1].ravel()], 1)
     attrs = {k: ('FLOAT', F[k].ravel()) for k in ('w_grass', 'w_sand', 'w_rock', 'w_path')}
-    mats = {'top': mat_top(kit, L), 'strata': mat_strata(kit, strata, seed), 'bottom': mat_simple(kit, 'cw_bottom', (0.16, 0.12, 0.09), 0.95)}
+    mats = {'top': mat_top(kit, L), 'strata': mat_strata(kit, strata, seed, level), 'bottom': mat_simple(kit, 'cw_bottom', (0.16, 0.12, 0.09), 0.95)}
     L.mats.update(mats)
     top_ob = mk_mesh(bpy, name + '_top', V, Ft, [mats['top']], None, True, kit.coll, attrs)
     # boundary ring CCW seen from above: -Y edge (x up), +X edge (y up), +Y edge (x down), -X edge (y down)
@@ -772,7 +775,7 @@ def proto_rocks(kit, n=6, seed=0, color=(0.62, 0.60, 0.56), moss=0.5, snow=0.0, 
         obs.append(mk_mesh(bpy, f'{name}{k}', V, F0, [mat], None, True, None))
     return obs
 
-def proto_trees(kit, pal, kinds=('round', 'cone', 'tall'), per_kind=2, seed=0, height=0.55):
+def proto_trees(kit, pal, kinds=('round', 'cone', 'tall'), per_kind=3, seed=0, height=0.55):
     """Small procedural trees: a bent trunk with branches and clustered lumpy leaf masses. height in m."""
     bpy = kit.bpy; obs = []; V0, F0 = _icosphere(3)
     bark = mat_simple(kit, 'cw_bark', (0.30, 0.21, 0.14), 0.85, noise_amt=0.3, bump=0.3)
@@ -785,29 +788,34 @@ def proto_trees(kit, pal, kinds=('round', 'cone', 'tall'), per_kind=2, seed=0, h
             lean = rng.uniform(-0.03, 0.03, 2)
             if kind == 'cone':
                 tr = [(0, 0, -0.02), (lean[0] * 0.3, lean[1] * 0.3, H * 0.4), (lean[0], lean[1], H * 0.95)]
-                tv, tf = _tube(catmull(tr, 8), np.linspace(0.016, 0.004, 8) * height / 0.42, 8); A.add(tv, tf, 0)
-                for s in range(5):
+                tv, tf = _tube(catmull(tr, 8), np.linspace(0.018, 0.004, 8) * H / 0.55, 8); A.add(tv, tf, 0)
+                for s in range(6):
                     if rng.uniform() > dens + 0.2: continue
-                    u = s / 5; r = (0.13 * (1 - u) + 0.04) * H / 0.42 * 0.95; zc = H * (0.28 + 0.62 * u)
-                    Vb = _lumpy(V0, seed + i * 7 + s, 0.16, 2.5, 0.08, 7.0) * np.array([r, r, r * 0.75]) + np.array([lean[0] * (0.3 + u), lean[1] * (0.3 + u), zc])
+                    u = s / 6; r = (0.17 * (1 - u) + 0.04) * H * 0.95; zc = H * (0.26 + 0.66 * u)
+                    Vb = _lumpy(V0, seed + i * 7 + s, 0.24, 3.0, 0.12, 9.0) * np.array([r, r, r * 0.62]) + np.array([lean[0] * (0.3 + u), lean[1] * (0.3 + u), zc])
                     A.add(Vb, F0, 1)
             else:
-                tall = kind == 'tall'; crown = H * (0.66 if not tall else 0.62)
-                tr = [(0, 0, -0.02), (lean[0] * 0.4, lean[1] * 0.4, H * 0.3), (lean[0], lean[1], crown)]
-                tv, tf = _tube(catmull(tr, 8), np.linspace(0.02, 0.008, 8) * height / 0.42, 8); A.add(tv, tf, 0)
-                nb = rng.integers(2, 4)
+                tall = kind == 'tall'; fork = H * (0.38 if not tall else 0.30)
+                cr_h = H * (0.24 if not tall else 0.11); cr_v = H * (0.20 if not tall else 0.36); cz = H * (0.66 if not tall else 0.64)
+                tr = [(0, 0, -0.02), (lean[0] * 0.4, lean[1] * 0.4, fork * 0.6), (lean[0], lean[1], fork)]
+                tv, tf = _tube(catmull(tr, 8), np.linspace(0.022, 0.014, 8) * H / 0.55, 8); A.add(tv, tf, 0)
+                top = np.array([lean[0], lean[1], fork])
+                nb = int(rng.integers(4, 7)) if not tall else 3; a0 = rng.uniform(0, 6.28)
+                cl = [np.array([lean[0] * 1.3, lean[1] * 1.3, cz + cr_v * 0.75])]
                 for b in range(nb):
-                    a = rng.uniform(0, 6.28); z0 = H * rng.uniform(0.35, 0.5); L2 = H * 0.22
-                    bp = [(lean[0] * 0.5, lean[1] * 0.5, z0), (math.cos(a) * L2 * 0.5, math.sin(a) * L2 * 0.5, z0 + L2 * 0.4), (math.cos(a) * L2, math.sin(a) * L2, z0 + L2 * 0.8)]
-                    bv, bf = _tube(catmull(bp, 6), np.linspace(0.007, 0.003, 6) * height / 0.42, 6); A.add(bv, bf, 0)
-                nblob = int(rng.integers(12, 19) * dens) + 1
-                for s in range(nblob):
-                    a = rng.uniform(0, 6.28); rr = rng.uniform(0.02, 0.12) * H / 0.42; zz = crown + rng.uniform(-0.07, 0.10) * H / 0.42
-                    r = rng.uniform(0.055, 0.095) * H / 0.42
-                    sc = np.array([r, r, r * (0.85 if not tall else 1.6)])
-                    if tall: rr *= 0.45; zz = crown + rng.uniform(-0.04, 0.16) * H / 0.42
-                    Vb = _lumpy(V0, seed + i * 11 + s, 0.2, 2.6, 0.09, 7.5) * sc + np.array([lean[0] + rr * math.cos(a), lean[1] + rr * math.sin(a), zz])
-                    A.add(Vb, F0, 1)
+                    a = a0 + b * 2 * math.pi / nb + rng.uniform(-0.4, 0.4); rr = cr_h * rng.uniform(0.7, 1.05)
+                    cl.append(np.array([lean[0] + rr * math.cos(a), lean[1] + rr * math.sin(a), cz + cr_v * rng.uniform(-0.45, 0.45)]))
+                for c in cl:
+                    mid = (top + c) / 2 + np.array([0, 0, H * 0.04])
+                    bv, bf = _tube(catmull([top, mid, c * 0.92 + top * 0.08], 6), np.linspace(0.010, 0.004, 6) * H / 0.55, 6); A.add(bv, bf, 0)
+                for ci, c in enumerate(cl):
+                    if rng.uniform() > dens + 0.15: continue
+                    for s in range(int(rng.integers(3, 6))):
+                        r = H * rng.uniform(0.065, 0.10) * (0.8 if tall else 1.0)
+                        off = rng.normal(0, 1, 3) * np.array([r * 0.55, r * 0.55, r * 0.35])
+                        sc = np.array([r, r, r * (0.78 if not tall else 1.2)])
+                        Vb = _lumpy(V0, seed + i * 31 + ci * 7 + s, 0.26, 3.2, 0.12, 9.0) * sc + c + off
+                        A.add(Vb, F0, 1)
             obs.append(A.build(bpy, f'cw_tree_{kind}{v}', [birch if (kind == 'tall' and v % 2) else bark, leaf], True, None))
     return obs
 
@@ -878,7 +886,7 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
     if grass > 0:
         step = 0.028 / math.sqrt(grass); P = _jitter_grid(rng, sx, sy, step, 0.004); F = L.field(P[:, 0], P[:, 1])
         keep = (rng.uniform(0, 1, len(P)) < F['w_grass'] ** 0.7) & (F['depth'] < -0.006); P = P[keep]
-        tufts = proto_tufts(kit, pal, 7, 0.05 * grass_height, s)
+        tufts = proto_tufts(kit, pal, 7, 0.05 * grass_height, s) + proto_tufts(kit, pal, 3, 0.085 * grass_height, s + 1, (16, 26))
         scatter(kit, L, 'cw_grass', tufts, P, scale=rng.uniform(0.7, 1.3, len(P)), sway=0.22 * sway, speed=0.9)
         if flowers > 0 and pal.get('flowers', 1) > 0:
             q = _jitter_grid(rng, sx, sy, 0.05, 0.02); Fq = L.field(q[:, 0], q[:, 1])
@@ -887,17 +895,17 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
             scatter(kit, L, 'cw_flowers', proto_flowers(kit, 4, s), q[keep], sway=0.18 * sway, speed=0.9)
     # trees
     if tree_spots is not None or trees:
-        protos = proto_trees(kit, pal, tuple(dict.fromkeys(tree_kinds)), 2, s)
+        protos = proto_trees(kit, pal, tuple(dict.fromkeys(tree_kinds)), 3, s)
         kinds = list(dict.fromkeys(tree_kinds))
         if tree_spots is not None:
             T = np.array([(p[0], p[1]) for p in tree_spots]); sc = np.array([p[2] if len(p) > 2 else 1.0 for p in tree_spots])
-            var = np.array([kinds.index(p[3]) * 2 + (k % 2) if len(p) > 3 else int(rng.integers(0, len(protos))) for k, p in enumerate(tree_spots)])
+            var = np.array([kinds.index(p[3]) * 3 + (k % 3) if len(p) > 3 else int(rng.integers(0, len(protos))) for k, p in enumerate(tree_spots)])
         else:
             def ok(p):
                 f = L.field(np.array([p[0]]), np.array([p[1]]))
                 return f['w_grass'][0] > 0.4 and f['sd'][0] > 0.12 and f['depth'][0] < -0.03
-            T = _darts(rng, sx, sy, trees, 0.32, ok, 0.18); sc = rng.uniform(0.75, 1.25, len(T))
-            var = np.array([kinds.index(tree_kinds[int(rng.integers(0, len(tree_kinds)))]) * 2 + int(rng.integers(0, 2)) for _ in range(len(T))])
+            T = _darts(rng, sx, sy, trees, 0.36, ok, 0.2); sc = rng.uniform(0.6, 1.35, len(T))
+            var = np.array([kinds.index(tree_kinds[int(rng.integers(0, len(tree_kinds)))]) * 3 + int(rng.integers(0, 3)) for _ in range(len(T))])
         if len(T): scatter(kit, L, 'cw_trees', protos, T, scale=sc, variant=var, sway=0.025 * sway, speed=0.5, sink=0.01)
         L.trees = T
     # boulders: some on the banks, some in the grass
