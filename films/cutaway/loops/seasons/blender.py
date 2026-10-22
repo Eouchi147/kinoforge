@@ -53,7 +53,7 @@ SEASON = {   # (spring, summer, autumn, winter), sRGB
     'sun_e':   (3.0, 3.9, 3.1, 2.3),
     'sun_el':  (30.0, 46.0, 22.0, 17.0),
     'sun_ang': (12.0, 3.5, 6.0, 10.0),
-    'haze':    (0.022, 0.034, 0.030, 0.016),
+    'haze':    (0.045, 0.070, 0.060, 0.035),
     'hazecol': ((0.98, 0.98, 0.96), (1.0, 0.92, 0.80), (1.0, 0.88, 0.76), (0.88, 0.92, 1.0)),
     'fill':    (0.90, 0.85, 0.85, 1.05),
     'fill_col': ((1.0, 1.0, 1.0), (1.0, 0.98, 0.95), (1.0, 0.95, 0.90), (0.88, 0.92, 1.0)),
@@ -219,12 +219,15 @@ def build_frogs(kit, L, D):
         Fc += [(o, o + 1, o + 2, o + 3), (o + 4, o + 7, o + 6, o + 5), (o + 1, o + 5, o + 6, o + 2)]
         cav = cw.mk_mesh(bpy, f'sz_cavity{k}', V, Fc, [mud], None, True, kit.coll); cav.parent = root
         frogs.append((body, legs))
+    # a faint warm light in the chamber while it is open, so the sleeping frog reads in the cut face
+    ld = bpy.data.lights.new('sz_den', 'POINT'); ld.energy = 0.0; ld.color = (1.0, 0.78, 0.52); ld.shadow_soft_size = 0.03
+    den = bpy.data.objects.new('sz_den', ld); kit.coll.objects.link(den); den.location = (BURROW_X + 0.03, -W.H + 0.03, bz + 0.03)
     yb = -W.H + 0.07
     way = [(0.00, (BURROW_X, yb, bz + 0.035), 1.2, 1.0), (0.45, (BURROW_X, yb, bed + 0.014), 1.4, 0.8),
            (1.60, (0.26, -1.30, W.LV - 0.014), 1.6, 0.0), (3.40, (0.05, -1.08, W.LV - 0.012), 2.6, 0.0),
            (5.20, (0.48, -1.00, W.LV - 0.012), 0.5, 0.0), (6.50, (0.40, -1.28, W.LV - 0.016), -1.5, -0.6),
            (7.70, (BURROW_X, yb, bed + 0.016), -0.5, -0.9), (8.60, (BURROW_X, yb, bz), 0.0, -0.15), (11.60, (BURROW_X, yb, bz), 0.0, 0.0)]
-    return {'frogs': frogs, 'way': way, 'burrow': (BURROW_X, bz, rx, rz, bed)}
+    return {'frogs': frogs, 'way': way, 'burrow': (BURROW_X, bz, rx, rz, bed), 'den': ld}
 
 def frog_pose(F, kit, t):
     way = F['way']; t = t % W.LOOP; ext = way + [(way[0][0] + W.LOOP,) + way[0][1:]]
@@ -238,6 +241,7 @@ def frog_pose(F, kit, t):
     kick = (0.55 + 0.45 * math.sin(kit.cycles(t, 2.0))) if moving else (0.25 + 0.1 * math.sin(kit.cycles(t, 0.5)))
     if sleep: kick = 0.0
     breathe = 1.0 + (0.03 * math.sin(kit.cycles(t, 0.5)) if sleep else 0.0)
+    F['den'].energy = 0.35 * W.cv('burrow', t)
     for body, legs in F['frogs']:
         body.location = tuple(pos); body.rotation_euler = (0.0, -pitch, yaw); body.scale = (1.0, 1.0, breathe)
         for lg, side in legs:

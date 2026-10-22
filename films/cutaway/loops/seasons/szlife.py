@@ -36,7 +36,7 @@ def build_atmosphere(kit, D):
     bpy = kit.bpy
     # haze: a bounded box around the block and its trees; density per season (god rays in summer, crisp in winter)
     m = cw._new_mat(bpy, 'sz_haze'); g = G(m.node_tree, kit)
-    v = g.node('ShaderNodeVolumePrincipled'); g.put(v, 'Density', D.val(g, 'haze', 0.02)); g.put(v, 'Anisotropy', 0.35)
+    v = g.node('ShaderNodeVolumePrincipled'); g.put(v, 'Density', D.val(g, 'haze', 0.02)); g.put(v, 'Anisotropy', 0.55)
     g.put(v, 'Color', D.rgb(g, 'hazecol', (1.0, 0.95, 0.88)))
     o = g.node('ShaderNodeOutputMaterial'); g.link(v, o.inputs['Volume'])
     V, F = cw._box(-2.6, -2.6, -W.DEPTH - 0.1, 2.6, 2.6, 1.7); hz = cw.mk_mesh(bpy, 'sz_haze', V, F, [m], None, False, kit.coll)
@@ -45,12 +45,12 @@ def build_atmosphere(kit, D):
     tc = g.node('ShaderNodeTexCoord'); pos = tc.outputs['Object']; s = g.sep(pos)
     zoff, w = g.phase(0.08); n = g.noise(g.vmath('ADD', g.vmath('MULTIPLY', pos, (1.6, 1.6, 3.0)), g.comb(zoff, 0.0, 0.0)), 1.0, 3.0, 0.55, '4D', w)
     wisp = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.38), 3.0, clamp=True)
-    low = g.math('EXPONENT', g.math('MULTIPLY', g.math('SUBTRACT', s[2], W.LV), -9.0))
+    low = g.math('EXPONENT', g.math('MULTIPLY', g.math('SUBTRACT', s[2], W.LV), -6.0))
     q = g.math('SQRT', g.math('ADD', g.math('POWER', g.math('DIVIDE', g.math('SUBTRACT', s[0], W.POND_C[0]), W.POND_R[0] * 1.1), 2.0),
                                 g.math('POWER', g.math('DIVIDE', g.math('SUBTRACT', s[1], W.POND_C[1]), W.POND_R[1] * 1.1), 2.0)))
     pond = g.math('SUBTRACT', 1.4, q, clamp=True)
     where = g.math('MAXIMUM', g.math('MULTIPLY', pond, D.val(g, 'mist')), D.val(g, 'fog'))
-    v = g.node('ShaderNodeVolumePrincipled'); g.put(v, 'Density', g.math('MULTIPLY', g.math('MULTIPLY', where, low), g.math('MULTIPLY', wisp, 2.2)))
+    v = g.node('ShaderNodeVolumePrincipled'); g.put(v, 'Density', g.math('MULTIPLY', g.math('MULTIPLY', where, low), g.math('MULTIPLY', wisp, 9.0)))
     g.put(v, 'Color', (0.95, 0.96, 0.98)); g.put(v, 'Anisotropy', 0.2)
     o = g.node('ShaderNodeOutputMaterial'); g.link(v, o.inputs['Volume'])
     V, F = cw._box(-W.H - 0.25, -W.H - 0.25, W.LV - 0.01, W.H + 0.25, W.H + 0.25, 0.40); fg = cw.mk_mesh(bpy, 'sz_fog', V, F, [m], None, False, kit.coll)

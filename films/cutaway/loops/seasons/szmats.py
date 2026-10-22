@@ -270,7 +270,7 @@ def mat_frog(kit):
     m = cw._new_mat(kit.bpy, 'sz_frog'); g = G(m.node_tree, kit)
     oc = g.node('ShaderNodeTexCoord').outputs['Object']; z = g.sep(oc)[2]
     vo = g.voronoi(oc, 70.0, 'F1'); spot = g.math('LESS_THAN', vo.outputs['Distance'], 0.22)
-    top = g.mix(g.noise(oc, 40.0, 3.0).outputs['Fac'], srgb((0.24, 0.42, 0.12)), srgb((0.40, 0.56, 0.18)))
+    top = g.mix(g.noise(oc, 40.0, 3.0).outputs['Fac'], srgb((0.22, 0.52, 0.12)), srgb((0.42, 0.68, 0.18)))
     top = g.mix(g.math('MULTIPLY', spot, 0.7), top, srgb((0.10, 0.16, 0.06)))
     col = g.mix(g.math('MULTIPLY', g.math('SUBTRACT', 0.016, z), 120.0, clamp=True), top, srgb((0.86, 0.82, 0.52)))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.35, 'Subsurface Weight': 0.15}); cw._finish(g, p); return m
