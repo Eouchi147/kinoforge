@@ -65,7 +65,7 @@ TREES = [(0.95, 1.00, 1.25, 'round'), (1.35, 0.50, 0.95, 'cone'), (0.50, 1.32, 1
          (1.32, -0.38, 0.90, 'tall'), (-0.92, -0.92, 1.00, 'tall'), (1.22, -1.08, 1.05, 'round'), (-1.30, -1.32, 0.70, 'cone'),
          (0.42, -0.30, 0.75, 'round'), (-1.25, -0.20, 0.80, 'round')]
 DROPPERS = [(-0.92, -0.92), (1.22, -1.08)]          # the two trees beside the pond whose leaves fall onto it
-BURROW_X = 0.30; FROG = 1.25
+BURROW_X = 0.30; FROG = 1.75; TREE_K = 1.45     # TREE_K: the kit's trees are small for a 3.2 m block
 
 # ============================================================================== build helpers
 def _set_attr(me, name, arr):
@@ -104,7 +104,7 @@ def populate(kit, L, D, rng):
     # grass (season colour by material, height by the scale attribute)
     P = jitter_q(rng, 0.029); F = W.field(P[:, 0], P[:, 1])
     keep = (rng.uniform(0, 1, len(P)) < F['wg'] ** 0.7) & (F['depth'] < -0.006)
-    for tx, ty, s, _ in TREES: keep &= np.hypot(P[:, 0] - tx, P[:, 1] - ty) > 0.05 * s
+    for tx, ty, s, _ in TREES: keep &= np.hypot(P[:, 0] - tx, P[:, 1] - ty) > 0.05 * s * TREE_K
     P = P[keep]; F = W.field(P[:, 0], P[:, 1])
     mg = M.mat_grass(kit, D, 0.085)
     tufts = cw.proto_tufts(kit, pal, 7, 0.05, 7) + cw.proto_tufts(kit, pal, 3, 0.085, 8, (16, 26))
@@ -132,11 +132,11 @@ def populate(kit, L, D, rng):
     Pd = np.array([(t[0], t[1]) for t in td]); Pc = np.array([(t[0], t[1]) for t in tc])
     hd = W.field(Pd[:, 0], Pd[:, 1])['h'] - 0.01; hc = W.field(Pc[:, 0], Pc[:, 1])['h'] - 0.01
     var = np.array([(0 if t[3] == 'round' else 3) + k % 3 for k, t in enumerate(td)])
-    scatter4(kit, L, 'sz_trees', dec, Pd, rng.uniform(0, 6.28, len(td)), np.array([t[2] for t in td]), var, hd, sway=0.025, speed=0.5)
-    scatter4(kit, L, 'sz_pines', con, Pc, rng.uniform(0, 6.28, len(tc)), np.array([t[2] for t in tc]), np.arange(len(tc)) % 2, hc, sway=0.02, speed=0.5)
+    scatter4(kit, L, 'sz_trees', dec, Pd, rng.uniform(0, 6.28, len(td)), np.array([t[2] for t in td]) * TREE_K, var, hd, sway=0.025, speed=0.5)
+    scatter4(kit, L, 'sz_pines', con, Pc, rng.uniform(0, 6.28, len(tc)), np.array([t[2] for t in tc]) * TREE_K, np.arange(len(tc)) % 2, hc, sway=0.02, speed=0.5)
     # boulders on the banks and in the grass
     rk = cw.proto_rocks(kit, 6, 7, moss=0.6); bed = cw.proto_rocks(kit, 4, 10, color=(0.55, 0.53, 0.48), moss=0.3, name='cw_pebble')
-    for mt in {o.data.materials[0].name: o.data.materials[0] for o in rk + bed}.values(): M.patch_snow(mt, D, kit)
+    M.patch_snow(rk[0].data.materials[0], D, kit)          # not the bed pebbles: they are under water
     B = np.array([(1.05, -0.62), (-1.38, -0.85), (-0.55, 0.30), (0.15, 0.62), (1.42, 0.05), (-0.62, -1.42)])
     Fb = W.field(B[:, 0], B[:, 1])
     scatter4(kit, L, 'sz_boulders', rk, B, rng.uniform(0, 6.28, len(B)), np.array([0.09, 0.07, 0.06, 0.05, 0.08, 0.05]), np.arange(len(B)) % 6, Fb['h'] - 0.02)
@@ -182,7 +182,7 @@ def build_frogs(kit, L, D):
     """The frog and its chamber in the mud behind the front cut face, under the pond."""
     bpy = kit.bpy; fm = M.mat_frog(kit); eye = cw.mat_simple(kit, 'sz_eye', (0.03, 0.03, 0.03), 0.15)
     mud = cw.mat_simple(kit, 'sz_cavity', (0.17, 0.12, 0.08), 0.95, noise_amt=0.45, bump=0.5)
-    bed = float(W.H_at(BURROW_X, -W.H + 0.003)); bz = bed - 0.14; rx, rz = 0.085, 0.055
+    bed = float(W.H_at(BURROW_X, -W.H + 0.003)); bz = bed - 0.17; rx, rz = 0.115, 0.075
     A = cw._Acc()
     for c, r, m in [((0, 0, 0), (0.036, 0.026, 0.019), 0), ((0.030, 0, 0.004), (0.020, 0.022, 0.015), 0),
                     ((0.036, 0.013, 0.016), (0.0072,) * 3, 1), ((0.036, -0.013, 0.016), (0.0072,) * 3, 1),
@@ -202,17 +202,17 @@ def build_frogs(kit, L, D):
         th = np.linspace(0, math.pi / 2, 9); ph = np.linspace(0, 2 * math.pi, 25)[:-1]; V = []; Fc = []
         for a in th:
             for b in ph:
-                V.append((BURROW_X + rx * 1.2 * math.sin(a) * math.cos(b), -W.H + 0.0006 + 0.12 * math.cos(a), bz + rz * 1.25 * math.sin(a) * math.sin(b)))
+                V.append((BURROW_X + rx * 1.2 * math.sin(a) * math.cos(b), -W.H + 0.0006 + 0.16 * math.cos(a), bz + rz * 1.25 * math.sin(a) * math.sin(b)))
         nph = len(ph)
         for i in range(len(th) - 1):
             for j in range(nph): Fc.append((i * nph + j, i * nph + (j + 1) % nph, (i + 1) * nph + (j + 1) % nph, (i + 1) * nph + j))
-        o = len(V); w = 0.03; y0, y1 = -W.H + 0.0006, -W.H + 0.06; z0, z1 = bz, bed + 0.01
+        o = len(V); w = 0.036; y0, y1 = -W.H + 0.0006, -W.H + 0.08; z0, z1 = bz, bed + 0.01
         V += [(BURROW_X - w, y0, z0), (BURROW_X - w, y1, z0), (BURROW_X - w, y1, z1), (BURROW_X - w, y0, z1),
               (BURROW_X + w, y0, z0), (BURROW_X + w, y1, z0), (BURROW_X + w, y1, z1), (BURROW_X + w, y0, z1)]
         Fc += [(o, o + 1, o + 2, o + 3), (o + 4, o + 7, o + 6, o + 5), (o + 1, o + 5, o + 6, o + 2)]
         cav = cw.mk_mesh(bpy, f'sz_cavity{k}', V, Fc, [mud], None, True, kit.coll); cav.parent = root
         frogs.append((body, legs))
-    yb = -W.H + 0.058
+    yb = -W.H + 0.07
     way = [(0.00, (BURROW_X, yb, bz + 0.035), 1.2, 1.0), (0.45, (BURROW_X, yb, bed + 0.014), 1.4, 0.8),
            (1.60, (0.26, -1.30, W.LV - 0.014), 1.6, 0.0), (3.40, (0.05, -1.08, W.LV - 0.012), 2.6, 0.0),
            (5.20, (0.48, -1.00, W.LV - 0.012), 0.5, 0.0), (6.50, (0.40, -1.28, W.LV - 0.016), -1.5, -0.6),
@@ -264,7 +264,7 @@ def build_leaves(kit, D, rng):
     for k in range(1):
         for (tx, ty, s, kind) in deci:
             for j in range(80):
-                st = np.array([tx, ty]) + rng.normal(0, 0.06, 2); z0 = W.H_at(tx, ty) + 0.30 * s + rng.uniform(-0.05, 0.05)
+                st = np.array([tx, ty]) + rng.normal(0, 0.08, 2); z0 = W.H_at(tx, ty) + 0.30 * s * TREE_K + rng.uniform(-0.06, 0.06)
                 water = rng.uniform() < 0.62
                 for _ in range(40):
                     if water:
@@ -436,6 +436,6 @@ def frame(bpy, ctx, S, i, t):
     ob, sc, on, off = S['pop']['flowers']; ob.data.attributes['scale'].data.foreach_set('value', (sc * W.win(t, on, off, 0.5)).astype(np.float32)); ob.data.update()
     ob, sc, d0 = S['pop']['lilies']; g = W.smooth(d0, d0 + 1.4, t) * (1 - W.smooth(7.0, 8.8, t))
     ob.data.attributes['scale'].data.foreach_set('value', (sc * g).astype(np.float32)); ob.data.update()
-    ice = S['ice']; co = ice['co'].copy(); co[ice['bottom'], 2] = W.LV + 0.004 - (0.008 + 0.034 * W.cv('ice', t))
+    ice = S['ice']; co = ice['co'].copy(); co[ice['bottom'], 2] = W.LV + 0.004 - (0.01 + 0.06 * W.cv('ice', t))
     ice['ob'].data.vertices.foreach_set('co', co.ravel()); ice['ob'].data.update()
     frog_pose(S['frog'], kit, t); leaves_pose(S['leaves'], t); snow_pose(S['snow'], t); birds_pose(S['birds'], kit, t); flies_pose(S['flies'], t)

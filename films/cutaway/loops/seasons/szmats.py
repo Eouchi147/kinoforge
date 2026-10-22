@@ -149,7 +149,7 @@ def mat_strata(kit, D, layers, burrow):
     e = g.math('SQRT', g.math('ADD', g.math('MULTIPLY', ex, ex), g.math('MULTIPLY', ez, ez)))
     op = D.val(g, 'burrow'); tn = D.val(g, 'tunnel')
     hole = g.math('LESS_THAN', e, g.math('MULTIPLY', op, 1.0))
-    slot = g.math('MULTIPLY', g.math('LESS_THAN', g.math('ABSOLUTE', g.math('SUBTRACT', sx[0], bx)), g.math('MULTIPLY', tn, 0.024)),
+    slot = g.math('MULTIPLY', g.math('LESS_THAN', g.math('ABSOLUTE', g.math('SUBTRACT', sx[0], bx)), g.math('MULTIPLY', tn, 0.03)),
                   g.math('MULTIPLY', g.math('GREATER_THAN', sx[2], bz), g.math('LESS_THAN', sx[2], bed_z + 0.004)))
     front = g.math('LESS_THAN', sx[1], -W.H + 0.01)                            # the chamber is on the front (-Y) face only
     hole = g.math('MULTIPLY', hole, front); slot = g.math('MULTIPLY', slot, front)
@@ -200,9 +200,16 @@ def mat_ice(kit, D):
     sn = g.math('MULTIPLY', g.math('MULTIPLY', g.math('SUBTRACT', g.math('ADD', g.math('MULTIPLY', D.val(g, 'snow'), 1.2), n.outputs['Fac']), 1.15), 6.0, clamp=True),
                 g.math('GREATER_THAN', nz, 0.7))
     col = g.mix(sn, col, srgb((0.95, 0.96, 0.99)))
+    # the cut edge of the ice: a pale blue-white band with frozen streaks and bubbles, so it reads in the cut face
+    side = g.math('LESS_THAN', nz, 0.5); zz = g.sep(tc.outputs['Object'])[2]
+    streak = g.noise(g.comb(g.math('ADD', g.sep(tc.outputs['Object'])[0], g.sep(tc.outputs['Object'])[1]), g.math('MULTIPLY', zz, 8.0), 0.0), 18.0, 3.0)
+    scol = g.mix(streak.outputs['Fac'], srgb((0.62, 0.80, 0.92)), srgb((0.90, 0.96, 1.0)))
+    bub = g.math('LESS_THAN', g.voronoi(tc.outputs['Object'], 120.0, 'F1').outputs['Distance'], 0.12)
+    scol = g.mix(g.math('MULTIPLY', bub, 0.7), scol, srgb((0.98, 0.99, 1.0)))
+    col = g.mix(side, col, scol)
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.22, 'Subsurface Weight': 0.2})
     tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
-    g.link(g.math('MULTIPLY', a, 0.93), mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(p, mx.inputs[2])
+    g.link(g.math('MULTIPLY', a, g.math('ADD', 0.93, g.math('MULTIPLY', side, 0.06))), mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(p, mx.inputs[2])
     cw._finish(g, mx); return m
 
 def mat_grass(kit, D, height):
