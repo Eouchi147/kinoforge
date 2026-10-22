@@ -594,15 +594,15 @@ def mist(kit, opacity, seed=3):
 
 
 def light(kit, land, mood):
-    cw._sun(kit, -88, 22, 0.55 if mood == 'rain' else 0.7, 30.0, (0.95, 0.93, 0.90), 'ag_facefill')   # lifts the cut faces
+    cw._sun(kit, -88, 22, 0.55 if mood == 'rain' else 0.45, 30.0, (0.95, 0.93, 0.90), 'ag_facefill')   # lifts the cut faces
     if mood == 'rain':
         cw.studio(kit, color=(0.47, 0.50, 0.53), key_az=-115, key_el=62, key=0.9, angle=35, fill=1.0, land=land)
         cw.mat_gradient_bg(kit, (0.56, 0.59, 0.62), (0.36, 0.38, 0.40), 1.0, (0.90, 0.90, 0.90), 1.25)
     else:   # after the rain: a low sun breaking through behind the Agincourt wood (god rays in the haze), grey sky
-        cw.studio(kit, color=(0.55, 0.57, 0.58), key_az=78, key_el=12, key=4.6, angle=2.0, fill=0.75, land=land, shadows=0.0)
+        cw.studio(kit, color=(0.55, 0.57, 0.58), key_az=78, key_el=13, key=8.0, angle=1.5, fill=0.5, land=land, shadows=0.0)
         for ob in kit.bpy.data.objects:
             if ob.type == 'LIGHT' and ob.data.type == 'SUN' and ob.name.startswith('cw_sun'): ob.data.color = (1.0, 0.84, 0.62)
-        cw.mat_gradient_bg(kit, (0.68, 0.70, 0.72), (0.46, 0.47, 0.48), 1.0, (0.94, 0.92, 0.90), 1.2)
+        cw.mat_gradient_bg(kit, (0.68, 0.70, 0.72), (0.46, 0.47, 0.48), 1.0, (0.86, 0.88, 0.92), 0.80)
 
 
 def settings(samples=64, exposure=0.0):

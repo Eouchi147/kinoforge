@@ -30,7 +30,7 @@ def build(bpy, ctx):
     am.light(kit, land, 'after'); am.mist(kit, 0.28)
     M = am.materials(kit); cutter = am.make_cutter(bpy, land)
     en = am.English(bpy, kit, M, cutter, 'B'); fr = am.French(bpy, kit, M, cutter)
-    am.haze(bpy, kit, density=0.22)
+    am.haze(bpy, kit, density=0.34)
     xs = (-0.80, -0.69, -0.60, -0.51); tl = W('l10', 'advanced')   # on the face edge ahead of the walkers: they lift as the French come
     crows = am.Crows(bpy, kit, [(x, YF + 0.035 + 0.035 * (k % 2)) for k, x in enumerate(xs)], lifts=[tl + d for d in (0.0, 0.16, 0.30, 0.46)])
     worms = am.Worms(bpy, kit, [(-1.30, -0.055, 0.034, 0.0), (-1.00, -0.100, 0.030, 1.5), (-0.74, -0.060, 0.032, 3.0)])
