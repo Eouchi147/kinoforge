@@ -1,0 +1,74 @@
+{
+ "_": "Battle Map: The Battle of Gaugamela (331 BC). Narration, score and word timings prepared by codead.yml mode=prep (harness/shots/prep.py).",
+ "id": "battle-map-gaugamela",
+ "cap_usd": 0.5,
+ "prep": {
+  "music": {
+   "prompt": "Epic but playful ancient orchestral adventure score for a kids history animation: bold brass, war drums and frame drums, Middle Eastern and Greek colour (oud, ney flute), driving cavalry gallop rhythm around 120 BPM, a sneaky sideways-marching middle, a huge triumphant charge at the end. Instrumental only, no vocals.",
+   "models": [
+    "google/lyria-3-pro-preview",
+    "google/lyria-3-clip-preview"
+   ]
+  },
+  "voice_cast": [
+   "elevenlabs/eleven-v4|brian"
+  ],
+  "cast_lines": 3,
+  "vo_words": true,
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "vo": [
+   {
+    "text": "In 331 BC, a young king faced the most powerful empire on Earth. He was outnumbered. And he had a plan that looked completely mad."
+   },
+   {
+    "text": "The Battle of Gaugamela."
+   },
+   {
+    "text": "The young king was Alexander of Macedon. He had already beaten the Persians twice. Now Darius the Third, the Great King of Persia, was waiting for him with his biggest army yet."
+   },
+   {
+    "text": "Darius chose a wide, flat plain near the Tigris river, in what is now northern Iraq. He even had the ground smoothed flat. Why? For his secret weapon."
+   },
+   {
+    "text": "Scythed chariots: war chariots with sharp blades sticking out of their wheels. On a smooth field, they could charge at full speed."
+   },
+   {
+    "text": "Alexander had about forty-seven thousand men. Darius had far more. Nobody knows exactly how many. Ancient writers made up some truly ridiculous numbers."
+   },
+   {
+    "text": "Alexander's plan: instead of marching straight ahead, he marched his whole army sideways. To the right. Further, and further. Off the smooth ground."
+   },
+   {
+    "text": "Darius had to follow, stretching his long line to keep up."
+   },
+   {
+    "text": "Then the chariots charged. Alexander's soldiers simply stepped aside and opened lanes. The chariots rattled straight through, and were stopped at the back. So much for the secret weapon."
+   },
+   {
+    "text": "Darius sent his horsemen around Alexander's right side. And as they stretched further and further, a gap opened in the middle of the Persian line."
+   },
+   {
+    "text": "That was exactly what Alexander had been waiting for."
+   },
+   {
+    "text": "He formed his best cavalry into a giant wedge, and charged straight into the gap. Straight at Darius."
+   },
+   {
+    "text": "Darius turned his chariot around, and fled."
+   },
+   {
+    "text": "Meanwhile, on the other side, Alexander's general Parmenion was in serious trouble. Alexander had to turn back to help him."
+   },
+   {
+    "text": "When the Persians realised their king had fled, their army fell apart."
+   },
+   {
+    "text": "Darius ran east. Within a year he was dead, killed by his own officers."
+   },
+   {
+    "text": "Alexander became master of the Persian Empire. He was twenty-five. By the time he was thirty, his empire stretched from Greece to India. He never lost a battle."
+   }
+  ]
+ }
+}

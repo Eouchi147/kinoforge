@@ -1,0 +1,74 @@
+{
+ "_": "Battle Map: The Battle of Ain Jalut (1260). Narration, score and word timings prepared by codead.yml mode=prep (harness/shots/prep.py).",
+ "id": "battle-map-ain-jalut",
+ "cap_usd": 0.5,
+ "prep": {
+  "music": {
+   "prompt": "Epic but playful medieval orchestral adventure score for a kids history animation: bold brass, thundering war drums, Central Asian and Middle Eastern colour (morin khuur, throat-like low drones, oud, ney), galloping horse rhythm around 124 BPM, a quiet ambush section, a huge victorious finale. Instrumental only, no vocals.",
+   "models": [
+    "google/lyria-3-pro-preview",
+    "google/lyria-3-clip-preview"
+   ]
+  },
+  "voice_cast": [
+   "elevenlabs/eleven-v4|brian"
+  ],
+  "cast_lines": 3,
+  "vo_words": true,
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "vo": [
+   {
+    "text": "In 1260, the Mongols had conquered more land than anyone in history. Their armies almost never lost. Then they rode into Palestine, and met an army that knew a trick or two."
+   },
+   {
+    "text": "The Battle of Ain Jalut."
+   },
+   {
+    "text": "The Mongol Empire stretched from China to Eastern Europe. Two years earlier, they had destroyed Baghdad. Now they had taken Damascus."
+   },
+   {
+    "text": "Their leader, Hulagu, sent a message to Egypt: surrender, or else. The rulers of Egypt, the Mamluks, sent back their answer. It was not polite. Let's leave it at that."
+   },
+   {
+    "text": "Then luck changed. Far away in Mongolia, the Great Khan died, and Hulagu took most of his army back east. He left a smaller army behind, under a general named Kitbuqa."
+   },
+   {
+    "text": "The Mamluk sultan Qutuz marched out with his toughest general, Baybars."
+   },
+   {
+    "text": "On the third of September, 1260, they met the Mongols near a spring called Ain Jalut, Goliath's Spring, in a valley below the hills of Galilee."
+   },
+   {
+    "text": "And the Mamluks used one of the Mongols' favourite tricks against them."
+   },
+   {
+    "text": "Baybars rode out with a small force, fought for a while, and then pretended to run away. Up the valley."
+   },
+   {
+    "text": "The Mongols, who loved this trick themselves, charged straight after him."
+   },
+   {
+    "text": "Hidden in the hills, the main Mamluk army was waiting."
+   },
+   {
+    "text": "Ambush. The Mongols were hit from the sides."
+   },
+   {
+    "text": "The Mongols fought back hard, and for a moment the Mamluk line began to bend. Qutuz threw his helmet to the ground and shouted: Oh Islam! And his men rallied."
+   },
+   {
+    "text": "The Mamluks charged again. Kitbuqa was killed, and the Mongol army was broken."
+   },
+   {
+    "text": "The Mongols, who almost never lost, had been beaten. And this time they could not come back for revenge. They never conquered Egypt."
+   },
+   {
+    "text": "As for Qutuz: on the way home, Baybars got rid of him, and made himself sultan. Teamwork."
+   },
+   {
+    "text": "The Mamluks went on to rule Egypt for more than two hundred and fifty years."
+   }
+  ]
+ }
+}

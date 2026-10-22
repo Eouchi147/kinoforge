@@ -1,0 +1,71 @@
+{
+ "_": "Battle Map: The Battle of Hattin (1187). Narration, score and word timings prepared by codead.yml mode=prep (harness/shots/prep.py).",
+ "id": "battle-map-hattin",
+ "cap_usd": 0.5,
+ "prep": {
+  "music": {
+   "prompt": "Epic but playful medieval orchestral adventure score for a kids history animation: bold brass, big war drums, Middle Eastern colour (oud, qanun, ney, darbuka), a hot shimmering desert tension, around 108 BPM, a smoky night section, a grand victorious finale. Instrumental only, no vocals.",
+   "models": [
+    "google/lyria-3-pro-preview",
+    "google/lyria-3-clip-preview"
+   ]
+  },
+  "voice_cast": [
+   "elevenlabs/eleven-v4|brian"
+  ],
+  "cast_lines": 3,
+  "vo_words": true,
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "vo": [
+   {
+    "text": "In 1187, a sultan lured an entire army out into the hills in the middle of summer. And then he waited for it to get thirsty."
+   },
+   {
+    "text": "The Battle of Hattin."
+   },
+   {
+    "text": "The sultan was Saladin, ruler of Egypt and Syria. For almost ninety years, crusaders from Europe had held Jerusalem, and a string of castles along the coast."
+   },
+   {
+    "text": "That summer, Saladin attacked the town of Tiberias, by the Sea of Galilee. It was bait. He wanted the crusader army to come out and rescue it."
+   },
+   {
+    "text": "Some crusader lords said: don't go. It's July. There's no water on the way. Even the lord whose own wife was trapped in Tiberias said: don't go. King Guy of Jerusalem marched anyway."
+   },
+   {
+    "text": "About twenty thousand crusaders set out across the dry hills. In heavy armour. In July."
+   },
+   {
+    "text": "All day long, Saladin's horse archers rode around them, shooting arrows and blocking the way to water."
+   },
+   {
+    "text": "By evening, the crusaders were stuck on a dry plateau. Saladin's army stood between them and the lake. They could see the water. They just couldn't reach it."
+   },
+   {
+    "text": "That night, Saladin's men set fire to the dry grass. The smoke blew straight into the crusader camp. Thirsty, and now coughing."
+   },
+   {
+    "text": "In the morning, the crusaders tried to break through toward the springs, near two hills called the Horns of Hattin."
+   },
+   {
+    "text": "Their army broke into pieces. Some charged. Some fled up the hills. King Guy's red tent was surrounded on the Horns."
+   },
+   {
+    "text": "When the red tent fell, the battle was over. King Guy was captured."
+   },
+   {
+    "text": "Saladin offered the exhausted king a cup of water, cooled with ice. A sign that his life would be spared."
+   },
+   {
+    "text": "Three months later, Saladin took Jerusalem. And unlike the crusaders who had taken the city in 1099, he took it without a massacre."
+   },
+   {
+    "text": "Europe sent a new crusade, led by Richard the Lionheart. But Jerusalem stayed in Saladin's hands."
+   },
+   {
+    "text": "The lesson of Hattin: never cross dry hills in July. Especially in a metal suit."
+   }
+  ]
+ }
+}
