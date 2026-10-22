@@ -11,9 +11,9 @@ def look_a(bpy, kit, aspect='16:9'):
                     top=cw.rolling(amp=0.10, freq=0.32, seed=4, base=0.02),
                     water=[cw.river(RIVER, width=0.72, depth=0.34, level=-0.05, shelf=0.22)],
                     trees=16, tree_kinds=('round', 'round', 'cone'), boulders=14, flowers=0.6, lilies=22, reeds=0.5)
-    cw.studio(kit, color=(0.94, 0.935, 0.925), key_az=-150, key_el=50, key=3.4, angle=6, fill=0.95, land=land, shadows=0.22)
+    cw.studio(kit, color=(0.94, 0.935, 0.925), key_az=-150, key_el=50, key=3.4, angle=14, fill=0.95, land=land, shadows=0.22)
     cw.birds(kit, 3, center=(0.3, 0.5), radius=2.0, height=1.2)
-    cam = cw.camera(kit, land, aspect, az=-42, el=33 if aspect == '16:9' else 38, lens=60, fill=0.84 if aspect == '16:9' else 0.92)
+    cam = cw.camera(kit, land, aspect, az=-42, el=33 if aspect == '16:9' else 38, lens=60, fill=0.86 if aspect == '16:9' else 0.90)
     return {'land': land, 'cam': cam, 'look': 'AgX - Base Contrast', 'exposure': 0.25}
 
 def look_b(bpy, kit, aspect='16:9'):
@@ -25,7 +25,7 @@ def look_b(bpy, kit, aspect='16:9'):
     cw.sky(kit, land=land, sun_az=-135, sun_el=42, sun=3.2)
     cw.falling_stones(kit, land, 16)
     cw.birds(kit, 4, center=(0.5, 0.8), radius=2.2, height=1.3)
-    cam = cw.camera(kit, land, aspect, az=-48, el=24 if aspect == '16:9' else 30, lens=55, fill=0.70 if aspect == '16:9' else 0.86,
+    cam = cw.camera(kit, land, aspect, az=-48, el=24 if aspect == '16:9' else 30, lens=55, fill=0.70 if aspect == '16:9' else 0.80,
                     target=(0, 0, -0.75))
     return {'land': land, 'cam': cam, 'look': 'AgX - Base Contrast', 'exposure': 0.15}
 
@@ -39,8 +39,8 @@ def look_c(bpy, kit, aspect='16:9'):
                     top=cw.rolling(amp=0.05, freq=0.4, seed=11, base=0.05),
                     water=[cw.basin(lag, depth=0.5, level=-0.03, shelf=0.55)], shore_rock=1.0, zones=zones,
                     trees=0, boulders=6, flowers=0.2, corals=46, water_tint=(0.26, 0.82, 0.80), water_density=2.0, grass_height=1.3)
-    cw.studio(kit, color=(0.90, 0.89, 0.87), key_az=-140, key_el=58, key=3.6, angle=5, fill=1.0, land=land)
-    cam = cw.camera(kit, land, aspect, az=-45, el=30 if aspect == '16:9' else 36, lens=60, fill=0.84 if aspect == '16:9' else 0.92)
+    cw.studio(kit, color=(0.90, 0.89, 0.87), key_az=-140, key_el=58, key=3.6, angle=12, fill=1.0, land=land)
+    cam = cw.camera(kit, land, aspect, az=-45, el=30 if aspect == '16:9' else 36, lens=60, fill=0.86 if aspect == '16:9' else 0.90)
     return {'land': land, 'cam': cam, 'look': 'AgX - Base Contrast', 'exposure': 0.3}
 
 def look_d(bpy, kit, aspect='16:9'):
@@ -67,7 +67,7 @@ def look_d(bpy, kit, aspect='16:9'):
     for k, (x, y) in enumerate([(-0.85, -0.35), (-0.35, 0.12), (0.88, 0.18), (-1.3, -1.0)]):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
     cw.birds(kit, 3, center=(0.4, 0.6), radius=2.0, height=1.1)
-    cam = cw.camera(kit, land, aspect, az=-40, el=31 if aspect == '16:9' else 37, lens=60, fill=0.84 if aspect == '16:9' else 0.92)
+    cam = cw.camera(kit, land, aspect, az=-40, el=31 if aspect == '16:9' else 37, lens=60, fill=0.86 if aspect == '16:9' else 0.90)
     return {'land': land, 'cam': cam, 'look': 'AgX - Medium High Contrast', 'exposure': 0.9}
 
 LOOKS = {'A': look_a, 'B': look_b, 'C': look_c, 'D': look_d}

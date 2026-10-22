@@ -70,8 +70,9 @@ def srgb(c):
 # =============================================================================================== palettes
 # Strata: list of layers from the top down: (name, thickness m, sRGB colour, pebble density 0..1). The last layer fills the rest.
 STRATA = {
-    'meadow': [('topsoil', 0.07, (0.30, 0.20, 0.12), 0.05), ('sand', 0.16, (0.74, 0.60, 0.42), 0.10), ('clay', 0.20, (0.58, 0.53, 0.47), 0.03),
-               ('loam', 0.30, (0.45, 0.30, 0.19), 0.25), ('gravel', 0.14, (0.55, 0.47, 0.38), 0.85), ('deep', 1.0, (0.31, 0.23, 0.17), 0.30)],
+    'meadow': [('topsoil', 0.07, (0.32, 0.21, 0.12), 0.05), ('sand', 0.13, (0.78, 0.62, 0.42), 0.10), ('pale', 0.04, (0.86, 0.74, 0.56), 0.02),
+               ('clay', 0.17, (0.62, 0.52, 0.42), 0.03), ('loam', 0.24, (0.50, 0.32, 0.19), 0.25), ('ochre', 0.05, (0.66, 0.46, 0.26), 0.15),
+               ('gravel', 0.14, (0.56, 0.46, 0.36), 0.85), ('deep', 1.0, (0.34, 0.24, 0.16), 0.30)],
     'red': [('topsoil', 0.06, (0.22, 0.14, 0.09), 0.05), ('ochre', 0.18, (0.66, 0.42, 0.26), 0.12), ('pale', 0.08, (0.80, 0.66, 0.50), 0.05),
             ('rust', 0.28, (0.52, 0.30, 0.19), 0.30), ('band', 0.06, (0.70, 0.52, 0.36), 0.10), ('deep', 1.0, (0.40, 0.25, 0.17), 0.25)],
     'limestone': [('topsoil', 0.05, (0.24, 0.17, 0.11), 0.05), ('chalk', 0.22, (0.86, 0.82, 0.72), 0.06), ('marl', 0.18, (0.66, 0.58, 0.46), 0.15),
@@ -438,7 +439,7 @@ def mat_strata(kit, layers, seed=0, level=None):
     b = g.node('ShaderNodeBump', ins={'Strength': 0.45, 'Height': h, 'Distance': 0.006}); g.put(p, 'Normal', b)
     _finish(g, p); return m
 
-def mat_water(kit, name='cw_water', tint=(0.18, 0.78, 0.74), density=3.2, ripple=1.0, ice=0.0):
+def mat_water(kit, name='cw_water', tint=(0.24, 0.82, 0.78), density=2.2, ripple=1.0, ice=0.0, level=None, glow_amt=0.06):
     """Clear water: glass IOR 1.33 (transparent for shadow rays so the bed stays lit), turquoise absorption with depth,
     animated ripple normals on the top only (the cut faces stay flat glass). ice > 0 frosts and whitens it."""
     m = _new_mat(kit.bpy, name); g = G(m.node_tree, kit)
@@ -457,6 +458,15 @@ def mat_water(kit, name='cw_water', tint=(0.18, 0.78, 0.74), density=3.2, ripple
     if ice > 0:
         wd = g.node('ShaderNodeBsdfDiffuse', ins={'Color': (0.85, 0.92, 0.98)}); m2 = g.node('ShaderNodeMixShader')
         g.put(m2, 0, ice * 0.5); g.link(mx, m2.inputs[1]); g.link(wd, m2.inputs[2]); surf = m2
+    if level is not None:
+        # fake in-scatter: a faint turquoise glow so the water reads bright and clear, not smoky; a thin bright meniscus
+        # line where the surface meets the cut face
+        side = g.math('LESS_THAN', g.sep(geo.outputs['Normal'])[2], 0.5)
+        glow = g.node('ShaderNodeEmission', ins={'Color': srgb(tuple(min(1, c * 1.15 + 0.08) for c in tint)), 'Strength': glow_amt})
+        ad = g.node('ShaderNodeAddShader'); g.link(surf, ad.inputs[0]); g.link(glow, ad.inputs[1]); surf = ad
+        men = g.math('MULTIPLY', side, g.math('MULTIPLY', g.math('SUBTRACT', sx[2], level - 0.005), 200.0, clamp=True))
+        wl = g.node('ShaderNodeEmission', ins={'Color': (1.0, 1.0, 1.0), 'Strength': 1.6}); m3 = g.node('ShaderNodeMixShader')
+        g.link(men, m3.inputs[0]); g.link(surf, m3.inputs[1]); g.link(wl, m3.inputs[2]); surf = m3
     vol = g.node('ShaderNodeVolumeAbsorption', ins={'Color': srgb(tint), 'Density': density})
     _finish(g, surf, vol); return m
 
@@ -520,7 +530,7 @@ class Land:
 def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, seed=1, season='summer', zones=None,
           res=0.022, grass=1.0, grass_height=1.0, trees=10, tree_kinds=('round', 'round', 'cone', 'tall'), boulders=12,
           flowers=0.5, under=True, lilies=0, reeds=0.0, corals=0, shore_rock=0.0, keep_clear=(), tree_spots=None,
-          sway=1.0, water_tint=(0.18, 0.78, 0.74), water_density=3.2, bottom=None, name='cw_block'):
+          sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.2, bottom=None, name='cw_block'):
     """Build the block. Returns a Land.
     size (sx, sy) m; depth m; strata = list of layers (see STRATA); top = h(x, y) function or 2D array (rows y, cols x);
     water = list of river()/pond()/basin() regions (they share the first region's level for the water volume);
@@ -622,7 +632,7 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
         WVv = [(x, y, zb2) for x, y in bx] + [(x, y, lv) for x, y in bx]
         WFf = [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
         ice = 0.6 if pal.get('snow', 0) > 0.5 else 0.0
-        mats['water'] = mat_water(kit, tint=water_tint, density=water_density, ice=ice)
+        mats['water'] = mat_water(kit, tint=water_tint, density=water_density, ice=ice, level=level)
         L.objects['water'] = mk_mesh(bpy, name + '_water', WVv, WFf, [mats['water']], None, False, kit.coll)
 
     # ---------------------------------------------------------------- life
@@ -789,13 +799,16 @@ def proto_trees(kit, pal, kinds=('round', 'cone', 'tall'), per_kind=3, seed=0, h
             rng = np.random.default_rng(seed * 101 + i); i += 1; A = _Acc(); H = height * rng.uniform(0.85, 1.15)
             lean = rng.uniform(-0.03, 0.03, 2)
             if kind == 'cone':
-                tr = [(0, 0, -0.02), (lean[0] * 0.3, lean[1] * 0.3, H * 0.4), (lean[0], lean[1], H * 0.95)]
-                tv, tf = _tube(catmull(tr, 8), np.linspace(0.018, 0.004, 8) * H / 0.55, 8); A.add(tv, tf, 0)
-                for s in range(6):
-                    if rng.uniform() > dens + 0.2: continue
-                    u = s / 6; r = (0.17 * (1 - u) + 0.04) * H * 0.95; zc = H * (0.26 + 0.66 * u)
-                    Vb = _lumpy(V0, seed + i * 7 + s, 0.24, 3.0, 0.12, 9.0) * np.array([r, r, r * 0.62]) + np.array([lean[0] * (0.3 + u), lean[1] * (0.3 + u), zc])
+                tr = [(0, 0, -0.02), (lean[0] * 0.3, lean[1] * 0.3, H * 0.4), (lean[0], lean[1], H * 0.85)]
+                tv, tf = _tube(catmull(tr, 8), np.linspace(0.018, 0.004, 8) * H / 0.55, 8); A.add(tv, tf, 0)  # trunk
+                nbl = int(30 * min(1.0, dens + 0.15))
+                for s in range(nbl):
+                    u = rng.uniform(0, 1) ** 0.85; R = (0.19 * (1 - u) + 0.02) * H; a = rng.uniform(0, 6.28); rr = R * rng.uniform(0.35, 0.95)
+                    r = (0.075 * (1 - u) + 0.04) * H; zc = H * (0.20 + 0.74 * u)
+                    c = np.array([lean[0] * (0.3 + u) + rr * math.cos(a), lean[1] * (0.3 + u) + rr * math.sin(a), zc])
+                    Vb = _lumpy(V0, seed + i * 7 + s, 0.26, 3.2, 0.12, 9.0) * np.array([r, r, r * 0.7]) + c
                     A.add(Vb, F0, 1)
+                A.add(_lumpy(V0, seed + i, 0.2, 3.0, 0.1, 9.0) * (0.04 * H) + np.array([lean[0] * 1.3, lean[1] * 1.3, H * 0.97]), F0, 1)
             else:
                 tall = kind == 'tall'; fork = H * (0.38 if not tall else 0.30)
                 cr_h = H * (0.24 if not tall else 0.11); cr_v = H * (0.20 if not tall else 0.36); cz = H * (0.66 if not tall else 0.64)
@@ -812,8 +825,8 @@ def proto_trees(kit, pal, kinds=('round', 'cone', 'tall'), per_kind=3, seed=0, h
                     bv, bf = _tube(catmull([top, mid, c * 0.92 + top * 0.08], 6), np.linspace(0.010, 0.004, 6) * H / 0.55, 6); A.add(bv, bf, 0)
                 for ci, c in enumerate(cl):
                     if rng.uniform() > dens + 0.15: continue
-                    for s in range(int(rng.integers(3, 6))):
-                        r = H * rng.uniform(0.065, 0.10) * (0.8 if tall else 1.0)
+                    for s in range(int(rng.integers(5, 9))):
+                        r = H * rng.uniform(0.07, 0.11) * (0.8 if tall else 1.0)
                         off = rng.normal(0, 1, 3) * np.array([r * 0.55, r * 0.55, r * 0.35])
                         sc = np.array([r, r, r * (0.78 if not tall else 1.2)])
                         Vb = _lumpy(V0, seed + i * 31 + ci * 7 + s, 0.26, 3.2, 0.12, 9.0) * sc + c + off
@@ -916,11 +929,11 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
         def okb(p):
             f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] < 0.02
         B = _darts(rng, sx, sy, boulders, 0.12, okb, 0.1)
-        if len(B): scatter(kit, L, 'cw_boulders', rk, B, scale=rng.uniform(0.04, 0.11, len(B)), sink=0.02)
+        if len(B): scatter(kit, L, 'cw_boulders', rk, B, scale=rng.uniform(0.06, 0.15, len(B)), sink=0.025)
         if L.water:
             q = _jitter_grid(rng, sx, sy, 0.09, 0.08); Fq = L.field(q[:, 0], q[:, 1])
-            keep = (np.abs(Fq['sd']) < 0.06) & (rng.uniform(0, 1, len(q)) < 0.45)
-            if keep.any(): scatter(kit, L, 'cw_bankstones', rk, q[keep], scale=rng.uniform(0.025, 0.06, keep.sum()), sink=0.012)
+            keep = (np.abs(Fq['sd'] - 0.02) < 0.05) & (rng.uniform(0, 1, len(q)) < 0.5)
+            if keep.any(): scatter(kit, L, 'cw_bankstones', rk, q[keep], scale=rng.uniform(0.03, 0.08, keep.sum()), sink=0.015)
     if L.water and under:
         q = _jitter_grid(rng, sx, sy, 0.05, 0.03); Fq = L.field(q[:, 0], q[:, 1])
         sel = (Fq['depth'] > 0.06) & (rng.uniform(0, 1, len(q)) < 0.25)
@@ -934,7 +947,7 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
             def okc(p):
                 f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] > 0.08
             C = _darts(rng, sx, sy, corals, 0.06, okc, 0.04)
-            if len(C): scatter(kit, L, 'cw_corals', proto_corals(kit, s), C, scale=rng.uniform(1.2, 2.2, len(C)), sway=0.0, sink=0.01)
+            if len(C): scatter(kit, L, 'cw_corals', proto_corals(kit, s), C, scale=rng.uniform(2.0, 3.4, len(C)), sway=0.0, sink=0.012)
     if L.water and lilies:
         def okl(p):
             f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] > 0.05 and f['sd'][0] < -0.05
@@ -1084,7 +1097,7 @@ def cloud_shadows(kit, opacity=0.3, scale=0.5, speed=0.05, z=3.0):
     for a in ('visible_camera', 'visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter'): setattr(ob, a, False)
     return ob
 
-def studio(kit, color=(0.93, 0.92, 0.90), key_az=-130.0, key_el=48.0, key=3.2, angle=7.0, fill=0.9, floor_z=None, land=None, shadows=0.0):
+def studio(kit, color=(0.93, 0.92, 0.90), key_az=-130.0, key_el=48.0, key=3.2, angle=14.0, fill=0.9, floor_z=None, land=None, shadows=0.0):
     """Seamless studio: a matte floor (in colour) under the block, the same colour behind, a soft key sun and a fill.
     floor_z: floor height (default the block bottom, so it sits on the floor). shadows > 0 adds drifting cloud shadows."""
     fz = floor_z if floor_z is not None else (-land.depth if land else -1.4)
@@ -1197,22 +1210,32 @@ class Cam:
             self.pose(base + deg_per_s * duration * e, el, dist)
         else: self.pose(base + deg_per_s * t, el, dist)
 
-def camera(kit, land=None, aspect='16:9', az=-40.0, el=32.0, lens=60.0, fill=0.86, target=None, dist=None, name='cw_cam'):
+def camera(kit, land=None, aspect='16:9', az=-40.0, el=32.0, lens=60.0, fill=0.86, target=None, dist=None, top_extra=0.45, bottom_extra=0.0, name='cw_cam'):
     """High three-quarter product camera. aspect '16:9' or '9:16' (or a float w/h). fill = fraction of the frame the block
-    spans; dist is computed to fit the block unless given. Sets scene.camera and the render resolution aspect is the caller's."""
+    spans (its bounding box from bottom to top_extra above z=0, so trees fit); the target is re-centred and dist computed
+    to fit unless given. Sets scene.camera and the render resolution aspect is the caller's."""
     bpy = kit.bpy; cd = bpy.data.cameras.new(name); cd.lens = lens; cd.sensor_width = 36.0; cd.sensor_fit = 'AUTO'
     cd.clip_start = 0.05; cd.clip_end = 200
     ob = bpy.data.objects.new(name, cd); kit.coll.objects.link(ob); bpy.context.scene.camera = ob
-    r = asp = (16 / 9 if aspect == '16:9' else 9 / 16 if aspect == '9:16' else float(aspect))
+    asp = 16 / 9 if aspect == '16:9' else 9 / 16 if aspect == '9:16' else float(aspect)
+    th = 18.0 / lens; tanh, tanv = (th, th / asp) if asp >= 1 else (th * asp, th)
     if land is not None:
-        sx, sy = land.size; tgt = (0, 0, -land.depth * 0.42) if target is None else target
-        rad = 0.5 * math.hypot(sx, sy) * 1.02 + 0.1
+        sx, sy = land.size; tgt = np.array((0, 0, -land.depth * 0.42) if target is None else target, float)
+        ztop = top_extra
+        pts = np.array([(x, y, z) for x in (-sx / 2, sx / 2) for y in (-sy / 2, sy / 2) for z in (-land.depth - bottom_extra, ztop)])
     else:
-        tgt = target or (0, 0, 0); rad = 2.5
+        tgt = np.array(target or (0, 0, 0), float); pts = None
     if dist is None:
-        half = math.atan(18.0 / lens)                           # half-angle across the larger frame dimension
-        across = half if asp >= 1 else math.atan(math.tan(half) * asp)
-        dist = rad / math.tan(across) / fill
+        dist = 8.0
+        if pts is not None:   # exact fit: frame the block's bounding box at `fill` of the frame, centred (a few passes)
+            for _ in range(6):
+                a, e = math.radians(az), math.radians(el); dvec = np.array([math.cos(e) * math.cos(a), math.cos(e) * math.sin(a), math.sin(e)])
+                cp = tgt + dist * dvec; fwd = -dvec; right = np.cross(fwd, (0, 0, 1)); right /= np.linalg.norm(right); up = np.cross(right, fwd)
+                v = pts - cp; z = v @ fwd; u = (v @ right) / z / tanh; w = (v @ up) / z / tanv
+                tgt = tgt + right * ((u.max() + u.min()) / 2 * tanh * dist) + up * ((w.max() + w.min()) / 2 * tanv * dist)
+                span = max((u.max() - u.min()) / 2, (w.max() - w.min()) / 2); dist *= span / fill
+        else:
+            dist = 2.5 / tanh / fill
     return Cam(kit, ob, tgt, az, el, dist)
 
 def render_settings(bpy, W, H, samples=64, denoise=True, look='AgX - Base Contrast', exposure=0.0, threads=0):
