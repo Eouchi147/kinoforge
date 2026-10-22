@@ -638,7 +638,28 @@ def build_sink(kit, M, lamps):
 
 
 # ================================================================================================= the lagoon inlet and the MOSE gates
-GATE_HX = 0.13; GATE_L = 0.42; GATE_W = 0.075; GATE_ANG = 52.0
+GATE_HX = 0.13; GATE_L = 0.42; GATE_W = 0.075; GATE_ANG = 46.0
+INLET_BANDS = [('silt', (0.62, 0.57, 0.47), -0.36, 0.0), ('sand', (0.80, 0.71, 0.52), -0.45, 0.35), ('clay', (0.50, 0.50, 0.48), -0.58, 0.0),
+               ('silt2', (0.60, 0.55, 0.45), -0.66, 0.1), ('caranto', (0.84, 0.69, 0.42), -0.76, 0.05), ('sand2', (0.70, 0.62, 0.47), -0.98, 0.45),
+               ('deep', (0.45, 0.39, 0.32), -DEPTH - 0.002, 0.15)]
+
+
+def draw_section(kit, land, bands, name, N=120):
+    """A section drawn in code on both front faces: coloured layers under the terrain profile (hides the kit's roots,
+    which read as cracks under water). bands: (name, colour, base z, pebbles). Static."""
+    bpy = kit.bpy; sx, sy = land.size; obs = []
+    mats = [arch.mat_band(kit, f'{name}_{nm}', c, 0.3, pb) for nm, c, _, pb in bands]
+    for face in ('-Y', '+X'):
+        sv = np.linspace(-sx / 2, sx / 2, N)
+        h = land.height(sv, np.full(N, -sy / 2 + 0.001)) if face == '-Y' else land.height(np.full(N, sx / 2 - 0.001), sv)
+        prev = h - 0.002
+        for b, (nm, c, zb, pb) in enumerate(bands):
+            lo = np.minimum(np.full(N, zb), prev - 0.0001); out = 0.0016
+            P = ([(x, -sy / 2 - out, z) for x, z in zip(sv, prev)] + [(x, -sy / 2 - out, z) for x, z in zip(sv, lo)]) if face == '-Y' else \
+                ([(sx / 2 + out, y, z) for y, z in zip(sv, prev)] + [(sx / 2 + out, y, z) for y, z in zip(sv, lo)])
+            F = [(i, i + 1, N + i + 1, N + i) for i in range(N - 1)]
+            obs.append(cw.mk_mesh(bpy, f'{name}{face}{nm}', P, F, [mats[b]], None, False, kit.coll)); prev = lo
+    return obs
 
 
 def build_inlet(kit, M):
@@ -671,7 +692,21 @@ def build_inlet(kit, M):
         bed = float(land.height(np.array([GATE_HX - GATE_L / 2]), np.array([y]))[0])
         g = arch.gate(kit, M, GATE_L, GATE_W, 0.03, name=f'vz_gate{len(gates)}'); g.location = (GATE_HX, y, bed + 0.004); g.rotation_euler = (0, 0, math.pi)
         gates.append((g, bed)); y += GATE_W
-    # the caisson the gates rest in, on the seabed across the inlet
+    # the concrete caisson the gates rest in, set into the seabed across the inlet; the gates lie flat in it, full of water
+    bed_min = min(b for _, b in gates); ctop = bed_min + 0.006; cx0, cx1 = GATE_HX - GATE_L - 0.03, GATE_HX + 0.05
+    conc = M.get('concrete', (0.66, 0.66, 0.64), 0.85, 0.1, 0.2)
+    cw.mk_mesh(bpy, 'vz_caisson', *cw._box(cx0, -2.0 + 0.003, ctop - 0.10, cx1, -1.22, ctop), [conc], None, False, kit.coll)
+    for g, b in gates: g.location.z = ctop + 0.001
+    gates = [(g, ctop) for g, _ in gates]
+    draw_section(kit, land, INLET_BANDS, 'vz_isec')
+    sec = cw._Acc(); out = 0.0024; yv = -2.0 - out
+    sec.add([(cx0, yv, ctop - 0.10), (cx1, yv, ctop - 0.10), (cx1, yv, ctop), (cx0, yv, ctop)], [(0, 1, 2, 3)], 0)
+    sec.add([(cx0 + 0.015, yv - 0.0004, ctop - 0.035), (GATE_HX + 0.01, yv - 0.0004, ctop - 0.035), (GATE_HX + 0.01, yv - 0.0004, ctop), (cx0 + 0.015, yv - 0.0004, ctop)], [(0, 1, 2, 3)], 1)
+    hv = [(GATE_HX + 0.012 * math.cos(a), yv - 0.0008, ctop + 0.012 * math.sin(a)) for a in np.linspace(0, 2 * math.pi, 17)[:-1]]
+    sec.add(hv, [tuple(range(16))], 2)
+    sec.build(bpy, 'vz_caisson_sec', [M.get('concrete2', (0.60, 0.60, 0.58), 0.85, 0.08, 0.15), M.get('slot', (0.30, 0.34, 0.36), 0.8, 0, 0), M.get('steel', (0.30, 0.31, 0.33), 0.4, 0, 0)], False, kit.coll)
+    life.coin(kit, M, '-Y', -0.95, -0.52, 0.010, name='vz_icoin')
+    life.anchor(kit, M, '-Y', 1.25, -0.42, 1.1, -0.5, name='vz_ianchor')
     # two water bodies: lagoon (left, stays) and sea (right, rises), split at the gate line
     kw = land.objects['water']; kw.hide_render = True; S.hidden.add(kw.name); wm = kw.data.materials[0]; e = 0.0015; zb2 = float(np.min([v.co.z for v in kw.data.vertices]))
     XG = GATE_HX - GATE_L * math.cos(math.radians(GATE_ANG)) / 2
@@ -680,7 +715,11 @@ def build_inlet(kit, M):
         F = [tuple(range(n))[::-1], tuple(range(n, 2 * n))] + [(k, (k + 1) % n, n + (k + 1) % n, n + k) for k in range(n)]
         return cw.mk_mesh(bpy, name, V, F, [wm], None, False, kit.coll)
     lag_w = prism('vz_lagw', [(-2.0 + e, -2.0 + e), (XG - 0.0007, -2.0 + e), (XG - 0.0007, 2.0 - e), (-2.0 + e, 2.0 - e)])
+    sea_m = cw.mat_water(kit, 'vz_seawater', tint=(0.20, 0.56, 0.64), density=3.6, ripple=3.2)
     sea_w = prism('vz_seaw', [(XG + 0.0007, -2.0 + e), (2.0 - e, -2.0 + e), (2.0 - e, 2.0 - e), (0.1, 2.0 - e), (0.1, JET[2] + 0.02), (XG + 0.0007, JET[2] + 0.02)])
+    sea_w.data.materials[0] = sea_m
+    mist, mist_gain = life.mist_sheets(kit, LV + 0.005, 4.0, 2, opacity=0.45, name='vz_imist')
+    for o in mist: o.location = (-1.0, 0.0, 0.0); o.scale = (0.48, 1.0, 1.0)      # mist on the calm lagoon side only
     sea_base = np.array([v.co[:] for v in sea_w.data.vertices]); lag_base = np.array([v.co[:] for v in lag_w.data.vertices])
     bed_g = float(np.mean([b for _, b in gates]))
 
@@ -721,6 +760,11 @@ def build_inlet(kit, M):
     S.update = update
     S.objs = [bpy.data.objects[n] for n in _track(bpy) - before]
     S.data['gates'] = gates; S.data['XG'] = XG
+
+    def gate_mid(t, shot, j=0):
+        g, bed = gates[j]; ang = -g.rotation_euler[1]
+        return (GATE_HX - 0.5 * GATE_L * math.cos(ang), g.location.y, bed + 0.5 * GATE_L * math.sin(ang))
+    S.data['gate_mid'] = gate_mid
     return S
 
 

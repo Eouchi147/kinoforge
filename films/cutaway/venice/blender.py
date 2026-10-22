@@ -158,15 +158,15 @@ def plan():
     add('city', C('l13', 0.9), K(-138, 10, 0.78, (-0.52, 0.44, 0.0), 35), K(-134, 10, 0.75, (-0.52, 0.44, 0.0), 35), env='grey',
         why='low and close for people: walking to work on the raised walkways', city={'flood': 0.05, 'walkways': True})
     # 7. The wall under the sea ---------------------------------------------------------------------------------------
-    add('inlet', W('l14', 'lagoon', 0.4), K(-40, 32, 12.6, (0.0, -0.4, -0.40), 50), K(-46, 30, 11.8, (0.0, -0.6, -0.40), 50), env='grey',
+    add('inlet', W('l14', 'lagoon', 0.4), K(-40, 32, 12.6, (0.0, -0.4, -0.40), 50), K(-46, 30, 11.8, (0.0, -0.6, -0.40), 50), env='gold', rays=1.0,
         why='change of place: an opening of the lagoon; the gates lie on the seabed',
         labels=[('gates', '78 GATES ON THE SEABED', W('l14', '78', -0.2, False), W('l14', 'lagoon', 0.3), (330, -200), (0.0, -1.7, -0.28))])
     rise = (W('l14', 'pumped', -0.4, False), W('l14', 'back', 0.6))
-    add('inlet', C('l14', 0.9), K(-88, 5, 2.5, (-0.05, -2.0, -0.17), 50), K(-88, 4, 2.4, (-0.05, -2.0, -0.12), 50), env='grey',
-        why='close, side on through the cut: the gates fill with air and swing up (the score swells here)',
+    add('inlet', C('l14', 0.9), K(-60, 16, 3.3, (-0.02, -1.85, -0.16), 50), K(-56, 14, 3.0, (-0.02, -1.85, -0.10), 50), env='gold', rays=1.0,
+        why='closer, three-quarter on the cut across the channel: in section the caisson, the hinge and the gates filling with air and swinging up; the sea rises against them (the score swells here)',
         inlet={'rise': rise, 'sea': (rise[1] - 1.0, rise[1] + 3.0)},
-        labels=[('air', 'AIR PUMPED IN', rise[0] + 0.2, rise[1] - 0.6, (-330, -230), (-0.02, -1.96, -0.17))])
-    add('inlet', W('l15', 'dry', -1.4, False), K(-52, 22, 6.6, (0.0, -1.3, -0.15), 50), K(-56, 21, 6.3, (0.0, -1.3, -0.15), 50), env='grey',
+        labels=[('air', 'AIR IN, WATER OUT', rise[0] - 0.1, rise[1] - 0.4, (-420, 250), ('gate',))])
+    add('inlet', W('l15', 'dry', -1.4, False), K(-52, 22, 6.6, (0.0, -1.3, -0.15), 50), K(-56, 21, 6.3, (0.0, -1.3, -0.15), 50), env='gold', rays=1.0,
         why='wide again for the result: the sea high outside, the lagoon calm behind the gates',
         inlet={'up': True, 'high': True},
         caption=('OCTOBER 2020', S('l15', 0.3), W('l15', 'dry', -1.5, False)),
@@ -296,6 +296,8 @@ def frame(bpy, ctx, S, i, t):
         G['rule'].set_alpha(a); G['rule'].line_shape((-60 * r, 383 * r), (60 * r, 383 * r), 2.2 * r)
     for (key, body, t0, t1, pos, anchor) in p.get('labels', []):
         a = ov.fade(t, t0, t1); lb = S['labels'][key]
+        if isinstance(anchor, tuple) and anchor and anchor[0] == 'gate':
+            anchor = S['sets']['inlet'].data['gate_mid'](t, p)
         if isinstance(anchor, tuple) and anchor and anchor[0] == 'wl':        # the water line on the gauge (moves with the sea)
             sk = S['sets']['sink']; wz = sets.LV + (0.02 * ease((t - p['sink']['rise'][0]) / (p['sink']['rise'][1] - p['sink']['rise'][0])))
             anchor = (anchor[1] + 0.01, anchor[2], wz)
