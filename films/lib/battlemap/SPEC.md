@@ -128,7 +128,7 @@ volleys:  [{ at: t, dur: 1.2, from: { block: 'a' }, to: { block: 'b' }, n: 36, f
 ```
 
 Icons drawn in code: `elephant ship crown helmet heart tent bow burst city book door flag question star laurel sword swords no hug check`.
-`anim`: `bounce sway walk none`. Screen icons take `size` as a fraction of the frame height; `inner: [r, g, b]` recolours the `hug` centre.
+Added for Hastings: `shield`, `tapestry` (`fill: 'plain'` = no question mark), `cross`. `anim`: `bounce sway walk none`; `fallAt: <time>` (+ `fallDur`) makes an icon drop and tip over at that time. Labels and counters can `follow` an arrow tip like icons. Screen icons take `size` as a fraction of the frame height; `inner: [r, g, b]` recolours the `hug` centre.
 Everything pops in with an `outBack` scale. No em or en dashes and no "..." in any text.
 
 ## 6. `camera`: keyframes (top-down, low soaring obliques, push-ins)
