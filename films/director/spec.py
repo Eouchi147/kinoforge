@@ -83,8 +83,9 @@ def spec_models(job):
     return out[:2]
 
 
-def check(job, spec_rel, name, max_stills=int(os.environ.get('KF_CHECK_MAX', 28))):
+def check(job, spec_rel, name, max_stills=None):
     """Run check.cjs; returns the report dict."""
+    max_stills = max_stills or int(os.environ.get('KF_CHECK_MAX', 28))
     out = job.p('check', name)
     shutil.rmtree(out, ignore_errors=True)
     cmd = ['node', os.path.join(C.HERE, 'check.cjs'), C.rel(job.dir), '--spec', spec_rel, '--out', out, '--line', job.line['name'], '--max', str(max_stills)]
