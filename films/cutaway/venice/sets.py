@@ -81,9 +81,23 @@ def _yaw_facing(d):
     return math.atan2(d[0], -d[1])
 
 
+def grid(land, res=0.008):
+    """Precompute the land's depth below the water level on a grid (fast lookups while placing buildings)."""
+    sx, sy = land.size; xs = np.arange(-sx / 2, sx / 2 + res / 2, res); ys = np.arange(-sy / 2, sy / 2 + res / 2, res)
+    X, Y = np.meshgrid(xs, ys); land._grid = (xs[0], ys[0], res, land.field(X, Y)['depth'], land.height(X, Y))
+
+
+def _look(land, x, y, k=3):
+    x0, y0, res = land._grid[:3]; A = land._grid[k]
+    i = int(round((y - y0) / res)); j = int(round((x - x0) / res)); i = min(max(i, 0), A.shape[0] - 1); j = min(max(j, 0), A.shape[1] - 1)
+    return float(A[i, j])
+
+
 def _on_land(land, x, y, margin=0.0, need=0.012):
-    F = land.field(np.array([x]), np.array([y])); sx, sy = land.size
-    return F['depth'][0] < -need and abs(x) < sx / 2 - margin and abs(y) < sy / 2 - margin
+    sx, sy = land.size
+    if abs(x) >= sx / 2 - margin or abs(y) >= sy / 2 - margin: return False
+    if getattr(land, '_grid', None) is not None: return _look(land, x, y) < -need
+    F = land.field(np.array([x]), np.array([y])); return F['depth'][0] < -need
 
 
 def _footprint_ok(land, x, y, w, d, yaw, taken, keep, margin=0.04):
@@ -137,7 +151,7 @@ def build_city(kit, M, lamps):
         return {'rock': np.ones_like(x)}
     land = cw.block(kit, size=(4.0, 4.0), depth=DEPTH, strata=VZ_STRATA, top=top, water=water, seed=21, zones=zones, grass=0, trees=0,
                     boulders=0, flowers=0, under=True, water_tint=WATER_TINT, water_density=2.4, name='city')
-    S.land = land; zm = _zmean(land)
+    S.land = land; zm = _zmean(land); grid(land)
     keep = [(1.62, -1.58, 0.44), (campo[0], campo[1], campo_r)]
     taken = []
     # Santa Maria della Salute at the front corner, its temple front towards the Grand Canal
@@ -537,7 +551,7 @@ def build_sink(kit, M, lamps):
     for j in range(26):
         z = -0.40 + j * 0.02; ln = 0.008 if j % 5 else 0.016; v, f = cw._box(-0.012, -0.0032, z - 0.0012, -0.012 + ln, -0.002, z + 0.0012); G.add(v, f, 1)
     gauge = G.build(bpy, 'vz_gauge', [M.get('white', (0.95, 0.95, 0.93), 0.5, 0, 0), M.get('ink', (0.05, 0.05, 0.06), 0.5, 0, 0)], False, kit.coll)
-    gauge.location = (SEA_X + 0.02, -1.998, 0.0); gauge.rotation_euler = (0, 0, 0); moving.append(gauge)
+    gauge.location = (2.0 + 0.0025, -1.0, 0.0); gauge.rotation_euler = (0, 0, math.pi / 2); moving.append(gauge)
     S.data['gauge'] = gauge
     # the hand-drawn section on both front faces: bands that compress, the pipe with flowing water
     N = 80; band_m = [arch.mat_band(kit, f'vz_band_{nm}', c, 0.35, 0.3 if nm == 'aquifer' else 0.0, alt=(0.66, 0.64, 0.58) if nm == 'aquifer' else None) for nm, c, _ in BANDS]

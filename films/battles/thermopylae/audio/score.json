@@ -1,7 +1,7 @@
 {
  "engine": "samples+synth",
  "lufs": -23.0,
- "peak_dbfs": -4.7,
+ "peak_dbfs": -4.33,
  "chords": [
   [
    0.0,
@@ -2674,7 +2674,7 @@
    "solo": -39.2,
    "pluck": -40.7,
    "drums": -120.0,
-   "hits": -37.6
+   "hits": -40.0
   },
   {
    "t": 18.2,
@@ -2682,7 +2682,7 @@
    "pad": -32.3,
    "solo": -37.2,
    "pluck": -35.0,
-   "drums": -54.6,
+   "drums": -54.7,
    "hits": -120.0
   },
   {
@@ -2691,17 +2691,17 @@
    "pad": -29.7,
    "solo": -38.1,
    "pluck": -33.3,
-   "drums": -35.9,
-   "hits": -37.2
+   "drums": -35.7,
+   "hits": -38.7
   },
   {
    "t": 110.2,
    "mood": "turn",
    "pad": -27.2,
    "solo": -38.8,
-   "pluck": -34.2,
-   "drums": -35.4,
-   "hits": -35.9
+   "pluck": -34.3,
+   "drums": -35.5,
+   "hits": -40.3
   },
   {
    "t": 131.9,
@@ -2709,7 +2709,7 @@
    "pad": -31.0,
    "solo": -39.2,
    "pluck": -45.7,
-   "drums": -37.9,
+   "drums": -38.0,
    "hits": -120.0
   },
   {
@@ -2718,7 +2718,7 @@
    "pad": -33.1,
    "solo": -35.4,
    "pluck": -33.4,
-   "drums": -39.9,
+   "drums": -40.4,
    "hits": -120.0
   },
   {
@@ -2726,7 +2726,7 @@
    "mood": "aftermath",
    "pad": -37.1,
    "solo": -43.5,
-   "pluck": -41.3,
+   "pluck": -41.4,
    "drums": -120.0,
    "hits": -120.0
   }
@@ -2793,12 +2793,12 @@
   "voice_lufs_before": -21.9,
   "mix_lufs": -14.1,
   "mix_peak_dbfs": -2.0,
-  "voice_over_score_while_speaking_db": 16.5,
+  "voice_over_score_while_speaking_db": 16.6,
   "by_section": [
    {
     "t": 0.0,
     "mood": "calm",
-    "voice_over_music_db": 19.8
+    "voice_over_music_db": 19.9
    },
    {
     "t": 18.2,
@@ -2823,12 +2823,12 @@
    {
     "t": 138.8,
     "mood": "triumph",
-    "voice_over_music_db": 17.0
+    "voice_over_music_db": 17.1
    },
    {
     "t": 150.2,
     "mood": "aftermath",
-    "voice_over_music_db": 21.7
+    "voice_over_music_db": 21.8
    }
   ],
   "clipped_samples": 0

@@ -175,7 +175,7 @@ bat.labels = [
   { at: "l06.Harold's", until: 'l06.shoulder', text: 'HAROLD', block: 'harold', team: 'carthage', dx: 0.08, dy: -0.12 },
   { at: 'l06.wall.', until: 'l07', text: 'THE SHIELD WALL', block: 'w4', team: 'carthage', dx: 0.04, dy: -0.16 },
   { at: 'l07.Williams', until: 'l07.archers,', text: 'WILLIAM', block: 'wm', team: 'rome', dx: 0.06, dy: -0.1 },
-  { at: 'l10.William', until: 'l10.and', text: 'WILLIAM', block: 'wm', team: 'rome', dx: 0.1, dy: -0.14 },
+  { at: 'l10.William', until: 'l10.and', text: 'WILLIAM', block: 'wm', team: 'rome', dx: 0.2, dy: -0.02 },
   { at: 'l11.pretend', until: 'l12', text: 'FEIGNED FLIGHT', block: 'f1', team: 'rome', dx: 0.1, dy: -0.12 },
   { at: 'l14.King', until: 'l14.A', text: 'KING HAROLD', block: 'harold', team: 'carthage', dx: 0.1, dy: -0.14 },
   { at: 'l14.Bayou', until: 'l14.Historians', text: 'BAYEUX TAPESTRY, 1070s', screen: [0.5, 0.86], big: true },
@@ -197,7 +197,7 @@ export default {
 
   blocks: {
     harold: { ...ENG, kind: 'infantry', x: 150, z: -48, heading: 0, len: 30, dep: 14, figScale: 1.4, bannerScale: 1.6, hidden: true },
-    willN: { ...NOR, kind: 'infantry', x: 66, z: 196, heading: 0, len: 30, dep: 14, figScale: 1.4, bannerScale: 1.6, hidden: true },
+    willN: { ...NOR, kind: 'infantry', x: 72, z: 186, heading: 0, len: 30, dep: 14, figScale: 1.4, bannerScale: 1.6, hidden: true },
     willE: { ...NOR, kind: 'infantry', x: 154, z: 32, heading: 0, len: 30, dep: 14, figScale: 1.4, bannerScale: 1.6, hidden: true },
     vik: { ...VIK, kind: 'infantry', x: 142, z: -196, heading: 270, len: 30, dep: 14, figScale: 1.4, bannerScale: 1.6, hidden: true },
   },
@@ -233,8 +233,8 @@ export default {
       shots: [
         { at: 'l02', why: 'change of world: the map of England, London, where the old king dies and Harold is crowned', from: { target: [150, -58], width: 330, pitch: 56, yaw: 0, mm: 35 },
           moves: [{ until: 'l02.Harold.>', to: { target: [152, -54], width: 290 } }] },
-        { at: 'l03', why: 'across the sea, change of place: Normandy and its duke; hold for his "excuse me"', from: { target: [96, 150], width: 430, pitch: 52, yaw: 0, mm: 35 },
-          moves: [{ until: 'l03.William>', to: { target: [80, 168], width: 370 } }] },
+        { at: 'l03', why: 'across the sea, change of place: Normandy and its duke; hold for his "excuse me"', from: { target: [96, 150], width: 400, pitch: 76, yaw: 0, mm: 35 },
+          moves: [{ until: 'l03.William>', to: { target: [84, 162], width: 340 } }] },
         { at: 'l03.built', why: 'low on the Normandy shore looking north: the fleet, and the England it is built for', from: { target: [180, 120], dist: 170, pitch: 16, yaw: 352, mm: 35 },
           moves: [{ until: 'l04', to: { dist: 156 } }] },
       ] },
@@ -260,7 +260,7 @@ export default {
         { at: 'l07.Their', why: 'low behind the Normans looking up the slope: their job; hold on "Not fun."', from: { target: [0, -14], dist: 176, pitch: 14, yaw: 6, mm: 35 },
           moves: [{ until: 'l07.hill.>', to: { dist: 164 } }] },
       ] },
-    { id: 'S5', name: 'The wall holds', at: 'l08', job: 'the attack fails against the wall; a rumour, a panic, a rally', set: { time: [0.1, 0.25], haze: 1.15 },
+    { id: 'S5', name: 'The wall holds', at: 'l08', stage: 'bat', inset: 'full', job: 'the attack fails against the wall; a rumour, a panic, a rally', set: { time: [0.1, 0.25], haze: 1.15 },
       shots: [
         { at: 'l08', why: 'high from the west flank: arrows and foot soldiers against the wall', from: { target: [0, 14], dist: 262, pitch: 38, yaw: 74, mm: 35 },
           moves: [{ until: 'l08.shields,>', to: { target: [0, -4], dist: 236 } }] },
@@ -275,7 +275,7 @@ export default {
         { at: 'l10.and', why: 'wide: the whole army turns and climbs again', from: { target: [0, 70], width: 430, pitch: 56, yaw: 20, mm: 35 },
           moves: [{ until: 'l11', to: { width: 410 } }] },
       ] },
-    { id: 'S6', name: 'The trick', at: 'l11', job: 'the feigned flight pulls the English off the hill; again; the wall thins', set: { time: [0.25, 0.4], haze: 1.15 },
+    { id: 'S6', name: 'The trick', at: 'l11', stage: 'bat', inset: 'full', job: 'the feigned flight pulls the English off the hill; again; the wall thins', set: { time: [0.25, 0.4], haze: 1.15 },
       shots: [
         { at: 'l11', why: 'from behind the English wall: what the English see, the Normans running away', from: { target: [0, 52], dist: 214, pitch: 34, yaw: 194, mm: 35 },
           moves: [{ at: 'l11.pretend', until: 'l12', to: { target: [0, 66], dist: 230 } }] },
@@ -288,14 +288,14 @@ export default {
         { at: 'l13.chase,>', why: 'low along the crest: what is left of the wall closes up, thinner', from: { target: [16, -48], dist: 92, pitch: 14, yaw: 262, mm: 35 },
           moves: [{ until: 'l14', to: { dist: 86 } }] },
       ] },
-    { id: 'S7', name: 'The king falls', at: 'l14', climax: true, job: 'Harold falls and the English army breaks', set: { time: [0.6, 1.0], haze: [1.2, 1.35] },
+    { id: 'S7', name: 'The king falls', at: 'l14', stage: 'bat', inset: 'full', climax: true, job: 'Harold falls and the English army breaks', set: { time: [0.6, 1.0], haze: [1.2, 1.35] },
       shots: [
         { at: 'l14', why: 'low behind the last Norman push toward Harold\'s standard in the evening light', from: { target: [0, -60], dist: 124, pitch: 12, yaw: 352, mm: 35 },
           moves: [{ until: 'l14.A', to: { target: [0, -68], dist: 110 } }] },
         { at: 'l14.A', why: 'slow orbit over the fallen standard: the hold carries the tapestry and the historians', from: { target: [0, -72], dist: 112, pitch: 26, yaw: 36, mm: 35 },
           moves: [{ until: 'l14.eye.>', to: { yaw: 76, dist: 122 }, ease: 'camLong' }, { at: 'l14.Historians', until: 'l14.questions.>', by: { yaw: 14, zoom: 1.05 }, ease: 'camLong' }] },
-        { at: 'l15', why: 'cut on "Without": high from the north, the English scatter and the Normans take the crest', from: { target: [0, -60], width: 440, pitch: 50, yaw: 180, mm: 35 },
-          moves: [{ until: 'l15.apart.>', to: { target: [0, -70], width: 470 } }] },
+        { at: 'l15', why: 'cut on "Without": high from the west, the English scatter and the Normans take the crest', from: { target: [0, -62], width: 440, pitch: 56, yaw: 116, mm: 35 },
+          moves: [{ until: 'l15.apart.>', to: { target: [0, -72], width: 470 } }] },
       ] },
     { id: 'S8', name: 'The Conqueror', at: 'l16', transition: { type: 'dissolve', dur: 1.0 }, job: 'William is king; a French-speaking king changed English', set: { time: [0.2, 0.35], haze: 1.05 },
       shots: [
@@ -341,7 +341,7 @@ export default {
     { at: 'l02.crowned', until: 'l03', text: 'LONDON', pos: [152, -54], y: 2, dx: 0.12, dy: 0.08 },
     { at: 'l05.landed', until: 'l05.so', text: 'PEVENSEY', pos: [150, 46], y: 2, team: 'rome', dx: -0.12, dy: -0.08 },
     { at: 'l16.Christmas', until: 'l16.William', text: 'CHRISTMAS DAY 1066', screen: [0.5, 0.86], big: true },
-    { at: 'l16.crowned', until: 'l16>', text: 'WESTMINSTER ABBEY', pos: [146, -52], y: 4, team: 'rome', dx: -0.12, dy: -0.12 },
+    { at: 'l16.crowned', until: 'l16>', text: 'WESTMINSTER ABBEY', pos: [146, -52], y: 4, team: 'rome', dx: 0.12, dy: -0.1 },
     { follow: 'beef', at: 'l17.beef,', until: 'l17.All', text: 'BUEF', dy: -0.06, team: 'rome', leader: false },
     { follow: 'jury', at: 'l17.jury,', until: 'l17.All', text: 'JUREE', dy: -0.06, team: 'rome', leader: false },
     { follow: 'judge', at: 'l17.judge.', until: 'l17.All', text: 'JUGE', dy: -0.06, team: 'rome', leader: false },

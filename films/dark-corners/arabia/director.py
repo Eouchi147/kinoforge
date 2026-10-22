@@ -304,6 +304,9 @@ def show_hud(S, name, t, t_on, t_off, y, d=0.5, x=0.0, stagger=0.11):
             for o, xx, u in L.items: o.hide_render = True
 
 # ------------------------------------------------------------------------------------------------ frame application
+FG_SHOTS = {'A2_tracks_to_glow': (0, 3), 'C1_hunger': (1, 2), 'C2_lamp_to_tents': (0, 3), 'L1_herd_handed_over': (1, 2), 'M1_walk_home_promise': (0, 3), 'M3_a_lamp_for_each': (1, 3),
+             'N_records_cannot_agree': (0, 2), 'N3_every_number_a_girl': (0, 3), 'O_not_alone_mecca': (1, 3), 'P_zayd_and_the_father': (0, 2), 'Q_raised_and_grown': (1, 3), 'T1_nobody_knows': (0, 2)}
+
 def render_pose(bpy, ctx, S, pf):
     from mathutils import Vector, Quaternion
     t = pf / 24.0
@@ -334,6 +337,8 @@ def render_pose(bpy, ctx, S, pf):
     if cs['roll']: q = q @ Quaternion((0, 0, 1), math.radians(cs['roll']))
     cam.rotation_euler = q.to_euler()
     cd.lens = cs['lens']; cd.dof.aperture_fstop = cs['fstop']; cd.dof.focus_distance = max(0.05, (Vector(cs['focus'] if cs['focus'] is not None else cs['tgt']) - pos).length)
+    if c.name in FG_SHOTS: Dz.fg_place(S, tuple(pos), tuple(tgt), FG_SHOTS[c.name])
+    else: Dz.fg_place(S, (0, 0, 9.0), (0, 1, 9.0))
     bpy.context.view_layer.update()
     sk = S['skycam']; sk.location = cam.location; sk.rotation_euler = cam.rotation_euler; sk.data.lens = cd.lens      # the sky scene sees what the table camera sees, minus the depth of field
     # lights

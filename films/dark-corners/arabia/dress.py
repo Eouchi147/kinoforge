@@ -345,6 +345,45 @@ OASIS_R = (3.10, 2.75); OASIS_L = (-3.55, 1.75)
 GOAT_P = [(1.78, 1.20, 40.0), (2.02, 1.14, 160.0)]
 SEATS = [(-1.52, 2.66, 40.0), (-1.38, 2.64, 140.0), (-1.46, 2.80, 270.0)]      # listeners at the family fire
 
+
+# --------------------------------------------------------------------------------------------------------------- foreground framing
+def _fg_grass(rs, nblades=22, hmax=0.11):
+    V, F = [], []
+    for q in range(nblades):
+        a = rs.uniform(0, 6.28); r0 = rs.uniform(0.0, 0.020); h = hmax * rs.uniform(0.45, 1.0); lean = rs.uniform(0.15, 0.7); w = 0.0036
+        dx, dy = math.cos(a), math.sin(a); nx_, ny_ = -dy, dx; bx, by = dx * r0, dy * r0; b = len(V)
+        for k in range(5):
+            u = k / 4.0; px = bx + dx * lean * h * u * u; py = by + dy * lean * h * u * u; pz = h * u; ww = w * (1 - 0.85 * u * u)
+            V.append((px - nx_ * ww, py - ny_ * ww, pz)); V.append((px + nx_ * ww, py + ny_ * ww, pz))
+        for k in range(4): F.append((b + 2 * k, b + 2 * k + 1, b + 2 * k + 3, b + 2 * k + 2))
+    return V, F
+
+def build_fg(bpy, S, M, coll):
+    """Four foreground clusters (two grass clumps, two stone groups) that a low camera frames the bottom corners with (see fg_place)."""
+    rs = np.random.RandomState(21); S['fgc'] = []
+    for k in range(2):
+        V, F = _fg_grass(rs, 22 + 4 * k, 0.10 + 0.02 * k); o = raw_obj(bpy, f'fgc_grass{k}', V, F, M['tuft'], coll); S['fgc'].append(o)
+    for k in range(2):
+        V, F = [], []
+        for q in range(3 + k):
+            r = rs.uniform(0.020, 0.040) * (1.0 if q == 0 else 0.6); v, f = rock_mesh(rs, r); b = len(V); ox, oy = rs.uniform(-0.04, 0.04), rs.uniform(-0.04, 0.04)
+            V += [(a + ox, bb + oy, zz) for a, bb, zz in v]; F += [tuple(b + i for i in tri) for tri in f]
+        o = raw_obj(bpy, f'fgc_rock{k}', V, F, M['rock'], coll); S['fgc'].append(o)
+    for o in S['fgc']: o.hide_render = True
+
+def fg_place(S, pos, tgt, which=(0, 3), side=(-1.0, 1.0)):
+    """Frame a low shot: put two clusters on the ground ahead of the camera, one near each bottom corner (they sit out of focus)."""
+    for o in S['fgc']: o.hide_render = True
+    h = pos[2]
+    if h > 0.30: return
+    fx, fy = tgt[0] - pos[0], tgt[1] - pos[1]; n = math.hypot(fx, fy)
+    if n < 1e-6: return
+    fx, fy = fx / n, fy / n; rx, ry = fy, -fx
+    d = 0.28 + 2.0 * max(0.0, h - 0.10); sc = d / 0.30
+    for k, sd in zip(which, side):
+        x = pos[0] + fx * d * (1.0 + 0.12 * sd) + rx * sd * 0.56 * d; y = pos[1] + fy * d * (1.0 + 0.12 * sd) + ry * sd * 0.56 * d
+        o = S['fgc'][k]; o.hide_render = False; o.location = (x, y, gz(x, y) - 0.004); o.rotation_euler = (0, 0, 1.7 * k + 0.9 * sd); o.scale = (sc, sc, sc)
+
 def build_dress(bpy, S, M, coll):
     """Everything that makes the table look lived in. Called once, after the props (it needs the lamp field)."""
     S['paths'] = [[(x, y) for x, y in W.TRACK_PTS], [(1.0, 1.05), (0.45, 0.88), (-0.25, 0.72), (-1.0, 0.74), (-1.7, 0.98), (-2.3, 1.22)], [(-3.2, 2.20), (-2.6, 2.05), (-1.9, 2.18), (-1.2, 2.35), (-0.5, 2.28)]]
@@ -375,7 +414,7 @@ def build_dress(bpy, S, M, coll):
     S['fire2'] = Fire(bpy, 'fire2', coll, M, True, 2); S['fire2'].place(*FIRE2); S['fire2'].root.scale = (0.8, 0.8, 0.8)
     S['fire3'] = Fire(bpy, 'fire3', coll, M, True, 3); S['fire3'].place(*FIRE3)
     S['goats'] = [Goat(bpy, 'goat0', coll, M, 'a', 1), Goat(bpy, 'goat1', coll, M, 'b', 2), Goat(bpy, 'goat2', coll, M, 'a', 3)]
-    S['drift'] = Drift(bpy, coll, M)
+    S['drift'] = Drift(bpy, coll, M); build_fg(bpy, S, M, coll)
     S['walls'] = []
     for k in range(2):                                        # low mud walls Zayd and the girl walk behind (Mecca, 137 to 143 s)
         wl = ellipsoid(bpy, f'lowwall{k}', (0.080, 0.024, 0.088), M['wall'], coll, seg=24, rings=12, noise_amp=0.0008, noise_freq=45.0, seed=30 + k); wl.location = (9.0, 0.86, 0.0); wl.hide_render = True; S['walls'].append(wl)
