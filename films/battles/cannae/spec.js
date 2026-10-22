@@ -160,7 +160,8 @@ export default {
     // S7: packed so tightly
     { group: 'rome', at: 'l13.packed', dur: 3.6, squeeze: { about: [28, 0], kx: 0.8, kz: 0.8, lenK: 0.8, depK: 0.8 }, ease: 'inOut' },
     { blocks: ['varro', 'paullus'], at: 'l13.packed', dur: 3.6, squeeze: { about: [28, 0], kx: 0.8, kz: 0.8 }, ease: 'inOut' },
-    { block: 'carC', at: 'l13.packed', dur: 3.6, to: { x: 58 }, ease: 'inOut' },
+    { block: 'carC', at: 'l13.packed', dur: 3.6, to: { x: 46 }, ease: 'inOut' },
+    { blocks: ['carCavN', 'carCavS'], at: 'l13.packed', dur: 3.6, by: { x: 9 }, ease: 'inOut' },
     { block: 'carEN', at: 'l13.packed', dur: 3.6, by: { z: 11 }, ease: 'inOut' },
     { block: 'carES', at: 'l13.packed', dur: 3.6, by: { z: -11 }, ease: 'inOut' },
     // by evening the ranks thin (numbers, never wounds); one of the two consuls falls

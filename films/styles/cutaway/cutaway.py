@@ -1092,29 +1092,30 @@ def studio(kit, color=(0.93, 0.92, 0.90), key_az=-130.0, key_el=48.0, key=3.2, a
     _sun(kit, key_az, key_el, key, angle, (1.0, 0.98, 0.95))
     if shadows: cloud_shadows(kit, shadows)
 
-def sky(kit, top=(0.62, 0.72, 0.84), horizon=(0.92, 0.93, 0.95), sun_az=-120.0, sun_el=40.0, sun=3.0, clouds=6, mist=True, land=None, seed=3):
-    """Open sky for a floating island: a soft gradient, a few soft cloud cards, layers of mist below, drifting cloud shadows."""
+def sky(kit, top=(0.58, 0.68, 0.80), horizon=(0.80, 0.84, 0.89), sun_az=-120.0, sun_el=40.0, sun=3.0, clouds=7, mist=True, land=None, seed=3, behind_az=135.0):
+    """Open sky for a floating island: a soft gradient, a few soft cloud cards (around behind_az, the direction opposite the
+    camera azimuth), layers of mist below, drifting cloud shadows."""
     bpy = kit.bpy; mat_gradient_bg(kit, top, horizon, 1.0, (0.85, 0.90, 1.0), 0.9)
     _sun(kit, sun_az, sun_el, sun, 4.0, (1.0, 0.96, 0.90)); rng = np.random.default_rng(seed)
-    def card_mat(name, color, alpha, sc, speed, soft=4.0):
+    def card_mat(name, color, alpha, sc, speed, soft=4.0, glow=1.0):
         m = _new_mat(bpy, name); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); u = tc.outputs['Generated']
         zo, w = g.phase(speed); us = g.sep(u)
         r = g.math('LENGTH', 0) if False else g.vmath('LENGTH', g.vmath('MULTIPLY', g.vmath('SUBTRACT', u, (0.5, 0.5, 0)), (2.0, 2.0, 0)))
         edge = g.math('SUBTRACT', 1.0, r, clamp=True)
         n = g.noise(g.comb(g.math('MULTIPLY', us[0], 2.0), us[1], zo), sc, 4.0, 0.6, '4D', w)
         a = g.math('MULTIPLY', g.math('MULTIPLY', g.math('SUBTRACT', g.math('ADD', n.outputs['Fac'], g.math('MULTIPLY', edge, 0.9)), 0.95), soft, clamp=True), alpha)
-        em = g.node('ShaderNodeEmission', ins={'Color': srgb(color), 'Strength': 1.0}); tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
+        em = g.node('ShaderNodeEmission', ins={'Color': srgb(color), 'Strength': glow}); tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
         g.link(a, mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(em, mx.inputs[2]); _finish(g, mx); return m
     d = land.depth if land else 1.4
     for k in range(clouds):
-        m = card_mat(f'cw_cloud{k}', (0.98, 0.98, 1.0), 0.9, 2.5, 0.02)
-        a = rng.uniform(-math.pi * 0.95, -math.pi * 0.05) + math.pi * 0.0; r = rng.uniform(14, 22); s = rng.uniform(2.5, 5)
-        ob = _plane(kit, f'cw_cloud{k}', 1, 0, m); ob.scale = (s * 1.8, s * 0.6, 1); ob.rotation_euler = (math.pi / 2, 0, a + math.pi / 2)
-        ob.location = (r * math.cos(a) + 6, r * math.sin(a) + 6, rng.uniform(-2, 5))
+        m = card_mat(f'cw_cloud{k}', (0.98, 0.98, 1.0), 0.95, 2.5, 0.02, 4.0, 1.5)
+        a = math.radians(behind_az + rng.uniform(-38, 38)); r = rng.uniform(13, 20); s = rng.uniform(2.0, 3.6)
+        ob = _plane(kit, f'cw_cloud{k}', 1, 0, m); ob.scale = (s * 1.8, s * 0.55, 1); ob.rotation_euler = (math.pi / 2, 0, a + math.pi / 2)
+        ob.location = (r * math.cos(a), r * math.sin(a), rng.uniform(-4.5, -0.8) + 0.25 * r - 3.5)
         for at in ('visible_diffuse', 'visible_glossy', 'visible_shadow', 'visible_transmission'): setattr(ob, at, False)
     if mist:
         for k, (z, op) in enumerate(((-d - 0.9, 0.85), (-d - 0.5, 0.55), (-d - 0.15, 0.30))):
-            m = card_mat(f'cw_mist{k}', (0.95, 0.96, 0.98), op, 1.2, 0.03, 2.5)
+            m = card_mat(f'cw_mist{k}', (0.96, 0.97, 0.99), op, 1.4, 0.03, 3.0, 1.45)
             ob = _plane(kit, f'cw_mist{k}', 1, z, m); ob.scale = (9, 9, 1)
             for at in ('visible_diffuse', 'visible_glossy', 'visible_shadow', 'visible_transmission'): setattr(ob, at, False)
     cloud_shadows(kit, 0.35)
@@ -1152,7 +1153,7 @@ def falling_stones(kit, L, n=14, seed=9, color=(0.50, 0.46, 0.42)):
     obs = []
     for k in range(n):
         src = protos[k % 4]; ob = bpy.data.objects.new(f'cw_fall{k}', src.data); kit.coll.objects.link(ob)
-        s = rng.uniform(0.03, 0.10); ob.scale = (s, s, s)
+        s = rng.uniform(0.04, 0.13); ob.scale = (s, s, s)
         x0 = rng.uniform(-sx / 2 * 0.95, sx / 2 * 0.95); y0 = rng.uniform(-sy / 2 * 0.95, sy / 2 * 0.95)
         drift = rng.normal(0, 0.15, 2); fall = rng.uniform(0.6, 1.6); off = rng.uniform(0, 1); spin = rng.normal(0, 1.5, 3)
         def pose(t, ob=ob, x0=x0, y0=y0, drift=drift, fall=fall, off=off, spin=spin):
