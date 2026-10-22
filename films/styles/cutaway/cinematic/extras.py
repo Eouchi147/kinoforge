@@ -414,9 +414,14 @@ class Eggs:
         for a, b in zip(P2[:-1], P2[1:]): self.openings.append((face, 'cap', (a[0], a[1], b[0], b[1], r)))
         return ob
     def finish(self):
-        """Make the wall material transparent over every opening (shader mask in face coordinates)."""
+        """Make the wall material transparent over every opening (shader mask in face coordinates). The water box sits
+        just behind the faces, so its material gets the same mask (else its meniscus line shows through a tunnel)."""
         if not self.openings: return
-        m = self.land.mats['strata']; nt = m.node_tree; g = G(nt, self.kit)
+        self._mask(self.land.mats['strata'])
+        wo = self.land.objects.get('water')
+        if wo is not None and wo.active_material is not None: self._mask(wo.active_material)
+    def _mask(self, m):
+        nt = m.node_tree; g = G(nt, self.kit)
         outn = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeOutputMaterial'][0]
         surf_link = outn.inputs['Surface'].links[0]; src = surf_link.from_socket
         tc = g.node('ShaderNodeTexCoord'); px, py, pz = g.sep(tc.outputs['Object']); sx, sy = self.land.size
