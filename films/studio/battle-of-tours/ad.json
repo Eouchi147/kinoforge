@@ -1,0 +1,53 @@
+{
+ "_": "Battle Map: The Battle of Tours (732). Narration by films/director/script.py; prepared by harness/shots/prep.py.",
+ "id": "battle-of-tours",
+ "cap_usd": 0.9,
+ "prep": {
+  "music": {
+   "prompt": "Instrumental early medieval score: low frame drum, bowed lyre, droning hurdy gurdy and a solemn male choir hum, with a hint of oud and darbuka for the Umayyad side. Starts quiet and suspenseful at a slow walking tempo, builds to a driving, pounding middle with repeated drum hits for the charges, drops to a hush for the night, then ends with a warm, slightly playful resolution.",
+   "models": [
+    "google/lyria-3-pro-preview",
+    "google/lyria-3-clip-preview"
+   ]
+  },
+  "voice_cast": [
+   "elevenlabs/eleven-v4|brian"
+  ],
+  "cast_lines": 3,
+  "vo_words": true,
+  "voice_brief": "an upbeat, warm, playful, completely natural-sounding narrator for an animated history map for kids, with dry deadpan humour",
+  "voice_instructions": "Warm, upbeat, playful storyteller narrating an exciting animated history map for kids aged 8 to 14. Natural and conversational, like a favourite teacher who loves this story: real energy and a smile in the voice, a dry deadpan touch on the jokes, a little awe on the big moments. Never robotic, never a movie-trailer announcer. Brisk pace, natural pauses.",
+  "vo": [
+   {
+    "text": "In October 732, or 733 by some historians' count, an army mostly on foot packed together in France and simply refused to move. It worked better than anyone expected."
+   },
+   {
+    "text": "The Battle of Tours."
+   },
+   {
+    "text": "Abd al-Rahman al-Ghafiqi, governor of Muslim Spain, led an Umayyad army north over the Pyrenees. He had already beaten Duke Odo of Aquitaine near Bordeaux."
+   },
+   {
+    "text": "Therefore Odo hurried to an old rival for help: Charles Martel, leader of the Franks."
+   },
+   {
+    "text": "The Umayyads were heading for Tours and its rich abbey. But Charles blocked the road somewhere between Poitiers and Tours. Nobody knows the exact spot."
+   },
+   {
+    "text": "His plan was simple. His men packed into a tight square and waited. The chroniclers say the two armies watched each other for about a week."
+   },
+   {
+    "text": "But soon the fast Umayyad cavalry charged, again and again, all day long. But the Franks did not break. One chronicler wrote that they stood like a wall, frozen together like ice."
+   },
+   {
+    "text": "But late in the day, Abd al-Rahman fell in the fighting. Therefore his army pulled back to its camp as night came."
+   },
+   {
+    "text": "At dawn the Franks lined up again, ready for round two. But the tents were empty. The army had slipped away south in the dark."
+   },
+   {
+    "text": "Charles later earned the nickname Martel, meaning the Hammer. Not bad for a man whose best move was standing perfectly still."
+   }
+  ]
+ }
+}

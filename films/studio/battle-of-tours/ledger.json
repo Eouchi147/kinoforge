@@ -1,0 +1,46 @@
+{
+ "cap": 0.9,
+ "total": 0.18106,
+ "by_seat": {
+  "head": 0.15089,
+  "deputy": 0.03017
+ },
+ "calls": [
+  {
+   "seat": "head",
+   "model": "anthropic/claude-opus-5.5",
+   "task": "script draft",
+   "usd": 0.079031,
+   "s": 46.7,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "deputy",
+   "model": "google/gemini-4-argon",
+   "task": "fact check round 0",
+   "usd": 0.013182,
+   "s": 15.1,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "head",
+   "model": "anthropic/claude-opus-5.5",
+   "task": "script rewrite 1",
+   "usd": 0.071856,
+   "s": 32.8,
+   "ok": true,
+   "note": null
+  },
+  {
+   "seat": "deputy",
+   "model": "google/gemini-4-argon",
+   "task": "fact check round 1",
+   "usd": 0.016986,
+   "s": 18.0,
+   "ok": true,
+   "note": null
+  }
+ ]
+}
