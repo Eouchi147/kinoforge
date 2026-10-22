@@ -35,6 +35,13 @@ def S(lid, off=0.0): return LN[lid]['start'] + off
 def E(lid, off=0.0): return LN[lid]['end'] + off
 
 
+def C(lid, hold=0.8, lead=0.25):
+    """A cut after a line: hold on the picture at least `hold` s after the line ends, but never more than `lead` s into
+    the next line (the next sentence then leads the picture across the cut: a short J-cut)."""
+    k = int(lid[1:]); nxt = LN.get(f'l{k + 1:02d}')
+    return min(E(lid, hold), nxt['start'] + lead) if nxt else E(lid, hold)
+
+
 def W(lid, word, off=0.0, end=True, nth=0):
     """Time of a word in a line (its end by default). Falls back to a proportional estimate if the word is not found."""
     l = LN[lid]; key = re.sub(r"[^a-z0-9]", '', word.lower()); hits = [w for w in l.get('words', []) if re.sub(r"[^a-z0-9]", '', w[0].lower()) == key]
@@ -81,56 +88,56 @@ def plan():
     # 1. A city in the sea ------------------------------------------------------------------------------------------
     add('city', sea_end, K(-50, 30, 13.6, (0.1, 0.0, -0.45), 50), K(-42, 29, 12.4, (0.1, 0.0, -0.45), 50), env='mist',
         why='open: arrive on Venice floating in the mist; the narration names it')
-    add('city', E('l00', 0.7), K(-74, 13, 4.6, (-0.62, -2.0, -0.12), 50), K(-72, 8, 3.7, (-0.62, -2.0, -0.40), 50), env='mist',
+    add('city', C('l00', 0.7), K(-74, 13, 4.6, (-0.62, -2.0, -0.12), 50), K(-72, 8, 3.7, (-0.62, -2.0, -0.40), 50), env='mist',
         why='end of the sentence "standing in the middle of the sea"; change of scale: push to the cut face to see what is under it (water, then mud)')
-    add('city', E('l01', 2.4), K(-40, 38, 16.5, (0.1, 0.1, 0.05), 50), K(-36, 38, 16.0, (0.1, 0.1, 0.05), 50), env='mist',
+    add('city', C('l01', 2.4), K(-40, 38, 16.5, (0.1, 0.1, 0.05), 50), K(-36, 38, 16.0, (0.1, 0.1, 0.05), 50), env='mist',
         why='the title card: the question of the film over the whole city', title=(S('l01', -0.2), E('l01', 2.2)))
     # 2. The lagoon, 1,500 years ago ----------------------------------------------------------------------------------
-    add('lagoon', E('l02', 0.6), K(-36, 34, 13.2, (0, 0, -0.45), 50), K(-46, 31, 12.4, (0, 0, -0.45), 50), env='day',
+    add('lagoon', C('l02', 0.6), K(-36, 34, 13.2, (0, 0, -0.45), 50), K(-46, 31, 12.4, (0, 0, -0.45), 50), env='day',
         why='change of time (1,500 years earlier), shown by a dip through the mist; the empty lagoon, boats arrive',
         lagoon={'arrive': S('l02', 0.6)}, dip=True,
         labels=[('lagoon', 'LAGOON', W('l02', 'lagoon', -0.2, False), E('l02', 0.4), (-430, -60), (-0.9, -1.2, sets.LV)),
                 ('sand', 'STRIP OF SAND', W('l02', 'sand', -0.6, False), E('l02', 0.4), (300, 300), (0.6, 1.45, -0.01))])
-    add('lagoon', E('l03', 0.9), K(-78, 16, 4.0, (0.62, -2.0, -0.07), 50), K(-74, 12, 3.6, (0.62, -2.0, -0.12), 50), env='day',
+    add('lagoon', C('l03', 0.9), K(-78, 16, 4.0, (0.62, -2.0, -0.07), 50), K(-74, 12, 3.6, (0.62, -2.0, -0.12), 50), env='day',
         why='end of line; wide to close: the stone house on the mud, at the cut, sinks like a spoon in pudding',
         lagoon={'arrive': S('l02', 0.6), 'sink': (W('l03', 'house', 0.0, True, 0), 5.5)})
     # 3. A forest upside down -----------------------------------------------------------------------------------------
     one_end = W('l04', 'mud', 0.35)
     add('site', one_end, K(-58, 14, 2.1, (1.80, -1.98, -0.16), 50), K(-56, 12, 1.95, (1.80, -1.98, -0.22), 50), env='day',
         why='change of place: the clever trick; one pole hammered down, seen above and through the cut', site={'stage': 'one'})
-    add('site', E('l04', 0.7), K(-46, 30, 11.0, (0.6, -0.8, -0.35), 50), K(-41, 31, 10.4, (0.6, -0.8, -0.35), 50), env='day',
-        why='"Millions of them": close to wide, later the same day; many poles, three drivers', site={'stage': 'many'})
-    add('site', E('l05', 0.9), K(-84, 4, 2.5, (1.30, -2.0, -0.22), 50), K(-84, 2, 2.5, (1.30, -2.0, -0.50), 50), env='day',
+    add('site', W('l05', 'end', 0.35), K(-46, 30, 11.0, (0.6, -0.8, -0.35), 50), K(-40, 31, 10.2, (0.6, -0.8, -0.35), 50), env='day',
+        why='"Millions of them": close to wide, later the same day; many poles in, three drivers, the stack of tree trunks', site={'stage': 'many'})
+    add('site', C('l05', 0.9), K(-84, 4, 2.5, (1.30, -2.0, -0.22), 50), K(-84, 2, 2.5, (1.30, -2.0, -0.50), 50), env='day',
         why='wide to close on the cut: the poles packed side by side reach the pale, harder clay; the camera tilts down them',
         site={'stage': 'done'},
         labels=[('wood', 'OAK, ALDER, PINE', W('l05', 'oak', -0.3, False), E('l05', 0.6), (-260, 250), (1.26, -2.0, -0.26)),
                 ('clay', 'HARDER CLAY', W('l05', 'harder', -0.3, False), E('l05', 0.6), (360, -250), (1.55, -2.0, -0.60))])
     tb, ts, tw = W('l06', 'boards', -0.6), W('l06', 'stone', -0.6), W('l06', 'walls', -0.7)
-    add('site', E('l06', 0.9), K(-44, 26, 5.4, (1.30, -1.30, -0.12), 50), K(-50, 23, 5.0, (1.30, -1.30, -0.06), 50), env='day',
+    add('site', C('l06', 0.9), K(-44, 26, 5.4, (1.30, -1.30, -0.12), 50), K(-50, 23, 5.0, (1.30, -1.30, -0.06), 50), env='day',
         why='new information: what goes on top of the poles, in order; the camera holds on the corner while it builds',
         site={'stage': 'done', 'build': (tb, ts, tw, tw + 3.5)},
         labels=[('boards', 'WOODEN BOARDS', tb + 0.4, ts + 0.5, (-470, -150), (1.0, -2.0, -0.112)),
                 ('stone', 'WHITE STONE', ts + 0.4, E('l06', 0.8), (-470, -40), (0.8, -2.0, -0.09))])
-    add('city', E('l07', 1.2), K(-30, 21, 4.6, (1.62, -1.62, -0.25), 50), K(-36, 18, 4.3, (1.62, -1.62, -0.32), 50), env='day',
+    add('city', C('l07', 1.2), K(-30, 21, 4.6, (1.62, -1.62, -0.25), 50), K(-36, 18, 4.3, (1.62, -1.62, -0.32), 50), env='day',
         why='change of place: the real church built this way; low angle for its scale, the cut face packed with poles',
         counter=(W('l07', 'stands', -0.2, False), E('l07', 1.1), W('l07', 'million', 0.3)),
         labels=[('salute', 'SANTA MARIA DELLA SALUTE', S('l07', 0.6), E('l07', 1.1), (-420, 330), (1.55, -1.5, 0.12))])
     # 4. Why the wood lasts -------------------------------------------------------------------------------------------
-    add('pole', E('l08', 0.8), K(-90, 8, 3.2, (0.0, -0.7, -0.40), 50), K(-90, 6, 2.9, (0.0, -0.7, -0.46), 50), env='day',
+    add('pole', C('l08', 0.8), K(-90, 8, 3.2, (0.0, -0.7, -0.40), 50), K(-90, 6, 2.9, (0.0, -0.7, -0.46), 50), env='day',
         why='change of scale: one pole deep in the mud; bubbles near the water stop deeper down',
         labels=[('noair', 'NO AIR', W('l08', 'air', -0.5, False), E('l08', 0.7), (330, -170), (0.04, -0.7, -0.62))])
-    add('pole', E('l09', 1.0), K(-90, 4, 2.2, (0.0, -0.7, -0.52), 50), K(-90, 3, 2.0, (0.0, -0.7, -0.55), 50), env='day',
+    add('pole', C('l09', 1.0), K(-90, 4, 2.2, (0.0, -0.7, -0.52), 50), K(-90, 3, 2.0, (0.0, -0.7, -0.55), 50), env='day',
         why='closer: the change happens in the wood itself; it turns stony grey as minerals soak in',
         pole={'stone': (S('l09', 1.5), E('l09', 0.4))},
         labels=[('min', 'MINERALS', W('l09', 'minerals', -0.4, False), E('l09', 0.9), (-360, 160), (-0.09, -0.7, -0.40))])
     # 5. Why Venice sinks ---------------------------------------------------------------------------------------------
     sq = (W('l10', 'squeezed', -0.8, False), E('l10', 0.5))
-    add('sink', E('l10', 0.7), K(-58, 16, 7.2, (0.0, -2.0, -0.38), 50), K(-56, 15, 6.8, (0.0, -2.0, -0.40), 50), env='day',
+    add('sink', C('l10', 0.7), K(-58, 16, 7.2, (0.0, -2.0, -0.38), 50), K(-56, 15, 6.8, (0.0, -2.0, -0.40), 50), env='day',
         why='change of place and question: why it sinks; reason one, the mud squeezed under the city', sink={'squeeze': sq},
         arrows=[(sq[0], sq[1] + 0.3, (-220, 260), (-220, 120)), (sq[0] + 0.25, sq[1] + 0.3, (90, 260), (90, 120))],
         labels=[('squeeze', 'MUD SQUEEZED', sq[0] + 0.2, E('l10', 0.6), (-60, 330), None)])
     rs = (S('l11', 0.6), E('l11', 0.2))
-    add('sink', E('l11', 0.7), K(-16, 13, 3.6, (2.0, -1.0, -0.12), 50), K(-18, 12, 3.4, (2.0, -1.0, -0.10), 50), env='day',
+    add('sink', C('l11', 0.7), K(-16, 13, 3.6, (2.0, -1.0, -0.12), 50), K(-18, 12, 3.4, (2.0, -1.0, -0.10), 50), env='day',
         why='reason two: cut to the sea wall and its gauge; the water line creeps up', sink={'squeeze': sq, 'rise': rs},
         labels=[('sea', 'SEA LEVEL', S('l11', 0.6), E('l11', 0.6), (330, 140), ('wl', 2.0, -0.98))])
     pm = (W('l12', 'pumped', -0.3, False), W('l12', 'faster', 0.3))
@@ -139,7 +146,7 @@ def plan():
         sink={'squeeze': sq, 'risen': True, 'pipe': True, 'pump': pm},
         labels=[('pump', 'WATER PUMPED UP', W('l12', 'pumped', -0.3, False), W('l12', 'faster', 0.5), (330, 160), (-1.35, -2.0, -0.40))])
     stop = W('l12', 'stopped', -0.5, False)
-    add('sink', E('l12', 1.0), K(-62, 18, 2.6, (-1.25, -2.0, -0.02), 50), K(-62, 17, 2.45, (-1.25, -2.0, -0.04), 50), env='day',
+    add('sink', C('l12', 1.0), K(-62, 18, 2.6, (-1.25, -2.0, -0.02), 50), K(-62, 17, 2.45, (-1.25, -2.0, -0.04), 50), env='day',
         why='closer, the detail that answers the line: the valve turns, the flow stops',
         sink={'squeeze': sq, 'risen': True, 'pipe': True, 'pumped': True, 'stop': stop},
         labels=[('stop', 'PUMPING STOPPED', stop + 0.3, E('l12', 0.9), (-330, 200), (-1.18, -1.95, 0.03))])
@@ -148,14 +155,14 @@ def plan():
     flood = lambda t, a=fl0: 0.042 * ease((t - a) / 3.5)
     add('city', W('l13', 'squares', 0.45), K(-32, 34, 6.2, (-0.5, 0.35, -0.05), 50), K(-28, 33, 5.8, (-0.5, 0.35, -0.05), 50), env='grey',
         why='change of place and time: today, a high tide; the sea pours into the campo', city={'flood': flood})
-    add('city', E('l13', 0.9), K(-62, 7, 0.30, (-0.56, 0.40, 0.0), 32), K(-54, 7, 0.29, (-0.56, 0.40, 0.0), 32), env='grey',
+    add('city', C('l13', 0.9), K(-62, 7, 0.30, (-0.56, 0.40, 0.0), 32), K(-54, 7, 0.29, (-0.56, 0.40, 0.0), 32), env='grey',
         why='low and close for people: walking to work on the raised walkways', city={'flood': 0.042, 'walkways': True})
     # 7. The wall under the sea ---------------------------------------------------------------------------------------
     add('inlet', W('l14', 'lagoon', 0.4), K(-40, 32, 12.6, (0.0, -0.4, -0.40), 50), K(-46, 30, 11.8, (0.0, -0.6, -0.40), 50), env='grey',
         why='change of place: an opening of the lagoon; the gates lie on the seabed',
         labels=[('gates', '78 GATES ON THE SEABED', W('l14', 'seventy', -0.2, False), W('l14', 'lagoon', 0.3), (330, -200), (0.0, -1.7, -0.28))])
     rise = (W('l14', 'pumped', -0.4, False), W('l14', 'back', 0.6))
-    add('inlet', E('l14', 0.9), K(-88, 5, 2.5, (-0.05, -2.0, -0.17), 50), K(-88, 4, 2.4, (-0.05, -2.0, -0.12), 50), env='grey',
+    add('inlet', C('l14', 0.9), K(-88, 5, 2.5, (-0.05, -2.0, -0.17), 50), K(-88, 4, 2.4, (-0.05, -2.0, -0.12), 50), env='grey',
         why='close, side on through the cut: the gates fill with air and swing up (the score swells here)',
         inlet={'rise': rise, 'sea': (rise[1] - 1.0, rise[1] + 3.0)},
         labels=[('air', 'AIR PUMPED IN', rise[0] + 0.2, rise[1] - 0.6, (-330, -230), (-0.12, -1.96, -0.24))])
@@ -165,7 +172,7 @@ def plan():
         caption=('OCTOBER 2020', S('l15', 0.3), W('l15', 'dry', -1.5, False)),
         labels=[('seal', 'SEA', S('l15', 0.6), W('l15', 'dry', -1.5, False), (300, -160), (1.0, -1.9, 0.02)),
                 ('lagl', 'LAGOON', S('l15', 0.9), W('l15', 'dry', -1.5, False), (-380, -160), (-1.0, -1.9, -0.06))])
-    add('city', E('l15', 1.4), K(-24, 22, 3.3, (-0.5, 0.35, 0.0), 50), K(-28, 21, 3.15, (-0.5, 0.35, 0.0), 50), env='day',
+    add('city', C('l15', 1.4), K(-24, 22, 3.3, (-0.5, 0.35, 0.0), 50), K(-28, 21, 3.15, (-0.5, 0.35, 0.0), 50), env='day',
         why='cut on "The squares stayed dry": the campo, dry, people walking', city={'flood': 0.0})
     # 8. Dusk ----------------------------------------------------------------------------------------------------------
     add('city', DURATION, K(-40, 31, 9.0, (0.2, -0.2, -0.40), 50), K(-46, 33, 13.0, (0.1, 0.0, -0.45), 50), env='dusk',
