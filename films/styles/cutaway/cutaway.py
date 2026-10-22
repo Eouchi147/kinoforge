@@ -530,7 +530,7 @@ class Land:
 def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, seed=1, season='summer', zones=None,
           res=0.022, grass=1.0, grass_height=1.0, trees=10, tree_kinds=('round', 'round', 'cone', 'tall'), boulders=12,
           flowers=0.5, under=True, lilies=0, reeds=0.0, corals=0, shore_rock=0.0, keep_clear=(), tree_spots=None,
-          sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.2, bottom=None, name='cw_block'):
+          sway=1.0, water_tint=(0.24, 0.82, 0.78), water_density=2.6, water_glow=0.022, bottom=None, name='cw_block'):
     """Build the block. Returns a Land.
     size (sx, sy) m; depth m; strata = list of layers (see STRATA); top = h(x, y) function or 2D array (rows y, cols x);
     water = list of river()/pond()/basin() regions (they share the first region's level for the water volume);
@@ -573,8 +573,8 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
         near = smooth(0.10, 0.0, sdmin) if water else np.zeros_like(h)
         rockw = np.zeros_like(h)
         if shore_rock > 0 and water:
-            ring = smooth(0.06 + 0.5 * shore_rock, 0.02, sdmin) * smooth(-0.25, -0.02, sdmin)
-            rockw = np.clip(ring * (0.8 + 0.6 * fbm(x, y, seed + 31, 3, 2.0)), 0, 1)
+            edge = 0.06 + 0.5 * shore_rock + 0.14 * shore_rock * fbm(x, y, seed + 31, 3, 1.5)
+            rockw = smooth(edge, edge - 0.05, sdmin) * smooth(-0.25, -0.02, sdmin)
         sand = np.clip(near * (1 - rockw), 0, 1); sand = np.where(F['depth'] > 0, 1.0, sand)
         dryp = 0.5 + 0.5 * fbm(x, y, seed + 41, 3, 1.3)
         grassw = np.clip(1 - sand - rockw, 0, 1) * smooth(0.12, 0.3, dryp + 0.25)
@@ -632,7 +632,7 @@ def block(kit, size=(4.0, 4.0), depth=1.4, strata=None, top=None, water=None, se
         WVv = [(x, y, zb2) for x, y in bx] + [(x, y, lv) for x, y in bx]
         WFf = [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
         ice = 0.6 if pal.get('snow', 0) > 0.5 else 0.0
-        mats['water'] = mat_water(kit, tint=water_tint, density=water_density, ice=ice, level=level)
+        mats['water'] = mat_water(kit, tint=water_tint, density=water_density, ice=ice, level=level, glow_amt=water_glow)
         L.objects['water'] = mk_mesh(bpy, name + '_water', WVv, WFf, [mats['water']], None, False, kit.coll)
 
     # ---------------------------------------------------------------- life
@@ -900,7 +900,7 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
     # grass: a dense jittered grid, kept where the grass weight wins a random draw
     if grass > 0:
         step = 0.028 / math.sqrt(grass); P = _jitter_grid(rng, sx, sy, step, 0.004); F = L.field(P[:, 0], P[:, 1])
-        keep = (rng.uniform(0, 1, len(P)) < F['w_grass'] ** 0.7) & (F['depth'] < -0.006); P = P[keep]
+        keep = (rng.uniform(0, 1, len(P)) < F['w_grass'] ** 1.3) & (F['depth'] < -0.006); P = P[keep]
         tufts = proto_tufts(kit, pal, 7, 0.05 * grass_height, s) + proto_tufts(kit, pal, 3, 0.085 * grass_height, s + 1, (16, 26))
         scatter(kit, L, 'cw_grass', tufts, P, scale=rng.uniform(0.7, 1.3, len(P)), sway=0.22 * sway, speed=0.9)
         if flowers > 0 and pal.get('flowers', 1) > 0:
@@ -927,7 +927,7 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
     if boulders:
         rk = proto_rocks(kit, 6, s, moss=0.6 if pal.get('snow', 0) < 0.5 else 0.0, snow=pal.get('snow', 0))
         def okb(p):
-            f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] < 0.02
+            f = L.field(np.array([p[0]]), np.array([p[1]])); return f['depth'][0] < -0.01
         B = _darts(rng, sx, sy, boulders, 0.12, okb, 0.1)
         if len(B): scatter(kit, L, 'cw_boulders', rk, B, scale=rng.uniform(0.06, 0.15, len(B)), sink=0.025)
         if L.water:
@@ -937,9 +937,9 @@ def _populate(kit, L, rng, grass, grass_height, trees, tree_kinds, boulders, flo
     if L.water and under:
         q = _jitter_grid(rng, sx, sy, 0.05, 0.03); Fq = L.field(q[:, 0], q[:, 1])
         sel = (Fq['depth'] > 0.06) & (rng.uniform(0, 1, len(q)) < 0.25)
-        stones = proto_rocks(kit, 4, s + 3, color=(0.55, 0.53, 0.48), moss=0.3, name='cw_pebble')
+        stones = proto_rocks(kit, 4, s + 3, color=(0.58, 0.56, 0.52), moss=0.0, name='cw_pebble')
         if sel.any(): scatter(kit, L, 'cw_bedstones', stones, q[sel], scale=rng.uniform(0.012, 0.035, sel.sum()), sink=0.006)
-        wk = 0.5 if L.water[0].get('kind') == 'lagoon' else 1.0
+        wk = 0.25 if L.water[0].get('kind') == 'lagoon' else 1.0
         w2 = (Fq['depth'] > 0.07) & (0.5 + 0.5 * fbm(q[:, 0], q[:, 1], s + 61, 2, 1.8) > 0.6) & (rng.uniform(0, 1, len(q)) < 0.22 * wk)
         wd = np.minimum(Fq['depth'] * 0.9, 0.22) / 0.14
         if w2.any(): scatter(kit, L, 'cw_weed', proto_weed(kit, 4, s), q[w2], scale=wd[w2] * rng.uniform(0.6, 1.0, w2.sum()), sway=0.12 * sway, speed=0.35)
@@ -1004,7 +1004,7 @@ def house(kit, L, x, y, w=0.16, d=0.12, h=0.10, roof=0.07, yaw=0.0, wall=(0.92, 
     key = (wall, roof_col, lit)
     if key not in _HOUSE_MATS:
         _HOUSE_MATS[key] = [mat_simple(kit, 'cw_wall', wall, 0.8, noise_amt=0.08), mat_simple(kit, 'cw_roof', roof_col, 0.7, noise_amt=0.2, bump=0.4),
-                            mat_glow(kit, 'cw_window', (1.0, 0.72, 0.36), 6.0 * lit) if lit else mat_simple(kit, 'cw_glass', (0.12, 0.16, 0.20), 0.15),
+                            mat_glow(kit, 'cw_window', (1.0, 0.72, 0.36), 14.0 * lit) if lit else mat_simple(kit, 'cw_glass', (0.12, 0.16, 0.20), 0.15),
                             mat_simple(kit, 'cw_door', (0.30, 0.18, 0.10), 0.7)]
     ob = A.build(bpy, name, _HOUSE_MATS[key], False, kit.coll)
     _place(L, ob, x, y); ob.rotation_euler = (0, 0, yaw)

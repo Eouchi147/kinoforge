@@ -1,7 +1,7 @@
 {
  "what": "drainage sample ad music: score engine cue, 0 to 15 s of a 22.5 s plan, end fade 2.4 s",
  "engine": "samples+synth",
- "lufs": -14.42,
+ "lufs": -14.03,
  "peak_dbfs": -2.0,
  "seconds": 15.0,
  "chords": [
@@ -12,19 +12,13 @@
    "open"
   ],
   [
-   3.0,
-   "curious",
-   5,
-   "add9"
-  ],
-  [
-   6.0,
+   4.5,
    "tension",
    7,
    "sus"
   ],
   [
-   8.0,
+   6.5,
    "turn",
    5,
    "triad"

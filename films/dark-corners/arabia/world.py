@@ -247,9 +247,9 @@ def build_sky(bpy, coll, S, W=(-14.0, 26.0)):
     rs = np.random.RandomState(7)
     mat, dv, em = sky_material(bpy); S['sky_dawn_nodes'] = [dv]; S['sky_em'] = em
     sroot = bpy.data.objects.new('sky_root', None); coll.objects.link(sroot); S['sky_root'] = sroot
-    nx, nz = 140, 36; V, F = [], []
+    nx, nz = 140, 60; V, F = [], []
     for j in range(nz + 1):
-        z = -0.3 + 11.0 * j / nz
+        z = -0.3 + 24.0 * j / nz
         for i in range(nx + 1):
             x = W[0] + (W[1] - W[0]) * i / nx; V.append((x, SKY_Y + 0.05 * math.sin(x * 0.4) + 0.12 * z, z))
     for j in range(nz):

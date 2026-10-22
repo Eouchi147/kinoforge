@@ -58,7 +58,7 @@ def look_d(bpy, kit, aspect='16:9'):
                     top=cw.rolling(amp=0.10, freq=0.32, seed=4, base=0.02),
                     water=[cw.river(RIVER, width=0.72, depth=0.34, level=-0.05, shelf=0.22)], zones=zones, keep_clear=clear,
                     trees=11, tree_kinds=('round', 'cone', 'cone'), boulders=10, flowers=0.3, lilies=10, reeds=0.5,
-                    water_density=2.8)
+                    water_density=2.8, water_glow=0.006)
     cw.dusk(kit, land=land, sun_az=-165, sun_el=12, sun=3.0)
     for k, (x, y, yaw) in enumerate(houses):
         cw.house(kit, land, x, y, w=0.21, d=0.15, h=0.13, roof=0.09, yaw=yaw, lit=1.5, roof_col=[(0.55, 0.22, 0.14), (0.30, 0.30, 0.34), (0.48, 0.28, 0.18)][k % 3], name=f'cw_house{k}')
