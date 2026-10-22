@@ -38,12 +38,12 @@ export function person(g, o) {
   g.lineCap = 'round'; g.lineJoin = 'round';
   const leg = (f, c, w) => { const ank = [f[0] + 0.02, f[1] + 0.04]; const kn = ik(hip, ank, 0.26, 0.26, 1); g.strokeStyle = rgba(c); g.lineWidth = lw(w); g.beginPath(); g.moveTo(hip[0], hip[1]); g.lineTo(kn[0], kn[1]); g.lineTo(ank[0], ank[1]); g.stroke();
     g.fillStyle = rgba(c); g.beginPath(); g.ellipse(f[0] + 0.045, f[1] + 0.022, 0.058, 0.028, 0, 0, 7); g.fill(); };
-  leg(f1, mixc(dark, col, 0.4), 0.062);
+  if (!o.noLegs) leg(f1, mixc(dark, col, 0.4), 0.062);
   // staff (far hand), planted with the far foot
   if (o.staff) { const tipx = f1[0] + 0.17 * 0 + 0.2; g.strokeStyle = rgba(PAL.staff); g.lineWidth = lw(0.026); g.beginPath(); g.moveTo(tipx - 0.02 * walk, 0.0); g.lineTo(0.13, 0.8); g.stroke(); }
   // far arm (hangs / grips staff)
   const shF = lc([0.0, 0.795]); { const hd = o.staff ? [0.13, 0.62] : [0.02 - 0.03 * walk * Math.sin(2 * Math.PI * ph), 0.52]; const el = ik(shF, hd, 0.17, 0.16, -1); g.strokeStyle = rgba(mixc(dark, col, 0.5)); g.lineWidth = lw(0.05); g.beginPath(); g.moveTo(shF[0], shF[1]); g.lineTo(el[0], el[1]); g.lineTo(hd[0], hd[1]); g.stroke(); }
-  leg(f0, dark, 0.07);
+  if (!o.noLegs) leg(f0, dark, 0.07);
   // robe / cloak
   const hem = o.hem ?? 0.2, sway = 0.02 * Math.sin(2 * Math.PI * ph) * walk, tr = -0.04 * walk;
   const body = [lc([0.045, 0.83]), lc([0.088, 0.69]), lc([0.1, 0.44]), lc([0.118 + (f0[0] > f1[0] ? f0[0] : f1[0]) * 0.18, hem + 0.015]), lc([0.05, hem - 0.015 + sway * 0.4]), lc([-0.05, hem - 0.005]),
@@ -89,14 +89,15 @@ export function horse(g, o) {
     const top = [body[0] + sx, body[1] - 0.08]; const knee = [top[0] + 0.22 * Math.sin(a) * 0.55 + (hind ? -0.04 : 0.04), top[1] - 0.26 + Math.max(0, k) * 0.07];
     const foot = [knee[0] + (hind ? -1 : 1) * 0.04 + 0.2 * Math.sin(a - 0.5 * k) * 0.5, Math.max(0.03, knee[1] - 0.28 + Math.max(0, -Math.cos(2 * Math.PI * p + 1)) * 0.1 * gallop)];
     if (!gallop) { foot[1] = Math.max(0.02, foot[1] - 0.02); }
-    g.strokeStyle = rgba(near ? col : mixc(col, hex('#222034'), 0.5)); g.lineWidth = hind ? 0.075 : 0.062; g.beginPath(); g.moveTo(top[0], top[1]); g.lineTo(knee[0], knee[1]); g.lineWidth = 0.05; g.lineTo(foot[0], foot[1]); g.stroke();
+    g.strokeStyle = rgba(near ? col : mixc(col, hex('#222034'), 0.5)); g.lineWidth = hind ? 0.11 : 0.09; g.beginPath(); g.moveTo(top[0], top[1]); g.lineTo(knee[0], knee[1]); g.lineWidth = 0.065; g.lineTo(foot[0], foot[1]); g.stroke();
     g.beginPath(); g.ellipse(foot[0] + 0.03, foot[1], 0.042, 0.022, 0, 0, 7); g.fillStyle = rgba(col); g.fill(); };
   lg(legs[0][0], 0.0, false, false); lg(legs[2][0], 0.0, false, true);
   g.save(); g.translate(body[0], body[1]); g.rotate(pitch);
-  const bp = smoothPath([[-0.5, 0.1], [-0.52, -0.1], [-0.3, -0.22], [0.1, -0.2], [0.42, -0.16], [0.56, 0.06], [0.52, 0.2], [0.2, 0.17], [-0.2, 0.2]]); g.fillStyle = rgba(col); g.fill(bp);
+  const bp = smoothPath([[-0.52, 0.14], [-0.56, -0.12], [-0.3, -0.27], [0.1, -0.25], [0.42, -0.2], [0.58, 0.08], [0.52, 0.26], [0.2, 0.22], [-0.2, 0.26]]); g.fillStyle = rgba(col); g.fill(bp);
   // neck + head
-  const np = smoothPath([[0.38, 0.1], [0.62, 0.2], [0.76, 0.46], [0.84, 0.5], [0.95, 0.4], [1.0, 0.32], [0.92, 0.35], [0.82, 0.38], [0.74, 0.28], [0.58, 0.06]]); g.fill(np);
-  g.beginPath(); g.moveTo(0.78, 0.5); g.lineTo(0.8, 0.58); g.lineTo(0.83, 0.5); g.fill();
+  const np = smoothPath([[0.3, 0.16], [0.56, 0.3], [0.7, 0.52], [0.82, 0.58], [0.9, 0.5], [0.84, 0.34], [0.72, 0.14], [0.54, -0.06]]); g.fill(np);
+  g.save(); g.translate(0.9, 0.5); g.rotate(-0.85); g.beginPath(); g.ellipse(0.04, 0, 0.17, 0.065, 0, 0, 7); g.fill(); g.restore();
+  g.beginPath(); g.moveTo(0.8, 0.58); g.lineTo(0.8, 0.68); g.lineTo(0.86, 0.58); g.fill();
   // mane + tail
   g.strokeStyle = rgba(col2, 0.9); g.lineWidth = 0.035; g.beginPath(); g.moveTo(0.5, 0.2); g.quadraticCurveTo(0.58, 0.42 + 0.03 * Math.sin(ph * 12), 0.72, 0.52); g.stroke();
   g.lineWidth = 0.05; g.strokeStyle = rgba(col); g.beginPath(); g.moveTo(-0.5, 0.1); g.quadraticCurveTo(-0.68, 0.05 + 0.05 * Math.sin(ph * 12), -0.82, -0.1 + 0.08 * Math.sin(ph * 12 + 1)); g.stroke();

@@ -50,3 +50,17 @@ export function skyDusk(S, D, cover, seed, opt = {}) {
   return { r, C, stops, clouds, glow: o.glow && { ...o.glow, col: hex(o.glow.col) } };
 }
 export { Canvas, hex, mixc, mul, rgba, underpaint, ridged, clamp, lerp, smoothstep, ease, noise1, rng, THREE };
+
+// a vertical rock face: fills the side of the canvas beyond edge(y) (side 'L' = x < edge, 'R' = x > edge); lit rim along the edge, strata ledges
+export function paintCliff(C, { edge, side = 'L', base, mid, rim, lit = null, strata = 46, bushes = 0.5 }) {
+  const [x0, y0, x1, y1] = C.rect; const g = C.g, R = C.R, n = C.n;
+  const path = new Path2D(); if (side === 'L') { path.moveTo(x0 - 20, y0 - 20); for (let y = y0 - 20; y <= y1 + 20; y += 6) path.lineTo(edge(y), y); path.lineTo(x0 - 20, y1 + 20); } else { path.moveTo(x1 + 20, y0 - 20); for (let y = y0 - 20; y <= y1 + 20; y += 6) path.lineTo(edge(y), y); path.lineTo(x1 + 20, y1 + 20); }
+  path.closePath(); const m = C.mask((gg) => gg.fill(path)); const sgn = side === 'L' ? 1 : -1;
+  const colAt = (x, y) => { const d = clamp(Math.abs(x - edge(y)) / 260); const f = n.fbm(x * 0.012, y * 0.006, 4); const facet = n.fbm(x * 0.02 + 5, y * 0.01, 3); let c = mixc(mid, base, smoothstep(0, 1, d) * 0.9); c = mixc(c, mul(mid, 0.6), smoothstep(0.55, 0.75, f) * 0.5); if (lit) c = mixc(c, lit, smoothstep(0.55, 0.7, facet) * 0.35 * (1 - d)); return c; };
+  underpaint(C, colAt, path, 8);
+  C.strokes({ n: C.area / 900, mask: m, color: colAt, angle: (x, y) => Math.PI / 2 + (n.fbm(x * 0.01, y * 0.004, 3) - 0.5) * 0.9 + (R() - 0.5) * 0.25, len: [26, 80], wid: [6, 14], alpha: [0.4, 0.75], jv: 0.07, bend: 0.1 });
+  C.strokes({ n: C.area / 1800, mask: m, color: (x, y) => mul(colAt(x, y), 0.75), angle: (x, y) => (R() - 0.5) * 0.12, len: [20, 60], wid: [3, 6], alpha: [0.35, 0.6], jv: 0.08, bend: 0.05 });
+  for (let y = y0; y < y1; y += strata * (0.6 + R() * 0.9)) { const e = edge(y); for (let k = 0; k < 6; k++) { const x = e + sgn * -1 * (R() * 200) * (side === 'L' ? -1 : 1) * 0 + (side === 'L' ? -R() * 220 : R() * 220); C.dab(x, y + (R() - 0.5) * 8, (R() - 0.5) * 0.1, 30 + R() * 70, 2 + R() * 3, mul(base, 0.55), 0.55, 0.03); } }
+  for (let y = y0; y < y1; y += 3 + R() * 6) { const e = edge(y), e2 = edge(y + 6); const slope = (e2 - e) / 6; const lightFacing = side === 'L' ? slope < 0.05 : slope > -0.05; if (!lightFacing && R() < 0.7) continue; C.dab(e - sgn * (2 + R() * 3) * -1 * -1 + (side === 'L' ? -3 : 3), y, Math.PI / 2 + slope * 0.6, 8 + R() * 22, 2.4 + R() * 3.6, rim, 0.55 + R() * 0.4, 0.05); }
+  return m;
+}

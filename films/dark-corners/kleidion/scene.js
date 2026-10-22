@@ -34,6 +34,7 @@ function ensureSet(id) {
   const t0 = performance.now(); const api = def(S, cams, { W, H, SHOTS }); inst = { S, api, used: performance.now(), id };
   // upload every painted texture now (not in the first frame of the shot)
   for (const p of S.planes) { const tx = p.material.uniforms.map.value; if (tx.image && tx.image.getContext) tx.image.getContext('2d').getImageData(0, 0, 1, 1); post.r.initTexture(tx); }
+  post.r.resetState(); post.glowTex.needsUpdate = true; post.detailTex.needsUpdate = true; post.overlayTex.needsUpdate = true;
   if (new URLSearchParams(location.search).get('prof')) console.log(`set ${id}: ${(performance.now() - t0).toFixed(0)} ms, planes ${S.planes.length}, glows ${S.glows.length}`);
   { const hide = (new URLSearchParams(location.search).get('hide') || '').split(','); for (const p of S.planes) if (hide.includes(p.userData.name)) p.visible = false; }
   insts.set(id, inst);
@@ -65,9 +66,10 @@ await boot({
     inst.api.update(F);
     // ---- text: captions (lower third) and place/name labels
     let ov = false;
-    for (const c of CAPS) { const a = smoothstep(c.in, c.in + 0.3, t) * (1 - smoothstep(c.out - 0.3, c.out, t)); if (a > 0.003) { ov = true; capDraw(og, c.text, a); } }
+    for (const c of CAPS) { const a = smoothstep(c.in, c.in + 0.3, t) * (1 - smoothstep(c.out - 0.3, c.out, t)); if (a > 0.003) { ov = true; capDraw(og, c.text, a, sh.capShade ?? 0.42); } }
     for (const L of LABELS) { const a = smoothstep(L.in, L.in + 0.5, t) * (1 - smoothstep(L.out - 0.5, L.out, t)); if (a > 0.003) { ov = true; labelDraw(og, L, a); } }
     if (sh.card) { ov = true; cardDraw(og, sh, t); }
+    if (sh.words) for (const w of sh.words) { const a = smoothstep(w.in, w.in + (w.fi ?? 0.9), t) * (1 - smoothstep(w.out - (w.fo ?? 0.8), w.out, t)); if (a > 0.003) { ov = true; drawText(og, w.text, { x: DW / 2, y: w.y ?? 400, font: w.font ?? '500 44px "Cinzel"', color: w.color ?? '#e8c878', alpha: a, spacing: w.spacing ?? 8, shadow: 18, shadowColor: 'rgba(3,3,12,0.95)' }); } }
     if (ov) post.markOverlay();
     let fade = F.fade; if (sh.fadeIn) fade *= ease.inOutSine(clamp(lt / sh.fadeIn)); if (sh.fadeOut) fade *= 1 - ease.inOutSine(clamp((lt - (sh.dur - sh.fadeOut)) / sh.fadeOut));
     if (t < 0.25) fade *= ease.inOutSine(clamp(t / 0.25));
@@ -76,9 +78,9 @@ await boot({
 });
 
 // ---- type
-function capDraw(og, text, a) {
+function capDraw(og, text, a, shade = 0.42) {
   const lines = wrap(og, text, 560, 'italic 400 34px "Cormorant Garamond"'); const y0 = 1008 - (lines.length - 1) * 21;
-  og.save(); const gr = og.createLinearGradient(0, 880, 0, 1160); gr.addColorStop(0, 'rgba(4,4,14,0)'); gr.addColorStop(1, `rgba(4,4,14,${0.42 * a})`); og.fillStyle = gr; og.fillRect(0, 880, DW, 400); og.restore();
+  og.save(); const gr = og.createLinearGradient(0, 880, 0, 1160); gr.addColorStop(0, 'rgba(4,4,14,0)'); gr.addColorStop(1, `rgba(4,4,14,${shade * a})`); og.fillStyle = gr; og.fillRect(0, 880, DW, 400); og.restore();
   lines.forEach((l, i) => drawText(og, l, { x: DW / 2, y: y0 + i * 42, font: 'italic 400 34px "Cormorant Garamond"', color: '#efe6d3', alpha: a, spacing: 0.5, shadow: 12, shadowColor: 'rgba(3,3,12,0.95)' }));
 }
 function wrap(g, text, maxW, font) { g.save(); g.font = font; const words = text.split(' '); const lines = []; let cur = ''; for (const w of words) { const t = cur ? cur + ' ' + w : w; if (g.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; } if (cur) lines.push(cur); g.restore(); return lines; }
