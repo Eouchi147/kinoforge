@@ -42,7 +42,8 @@ jobs:
       - name: narrate, place, score, mix
         env: { FILMS: '${{ inputs.films }}' }
         run: |
-          set -e
+          set -e -o pipefail
+          exec > >(tee -a "$RUNNER_TEMP/noor-sound.log") 2>&1
           for f in $(echo "$FILMS" | tr ',' ' '); do
             f="${f%/}"; echo "::group::$f"
             python3 films/noor/lib/place.py "$f" --prep
@@ -51,6 +52,9 @@ jobs:
             python3 films/lib/score/remix.py "$f" --keep-plan
             echo "::endgroup::"
           done
+      - name: keep the log
+        if: always()
+        run: cp "$RUNNER_TEMP/noor-sound.log" noor-sound.log 2>/dev/null || echo "no log" > noor-sound.log; gh release upload logs noor-sound.log --clobber || true
       - name: commit
         run: |
           git config user.name "kinoforge-noor"; git config user.email "noor@users.noreply.github.com"
