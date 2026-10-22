@@ -228,7 +228,7 @@ export function makeSky(shared) {
     uniforms: { uHorizon: { value: new THREE.Color() }, uZenith: { value: new THREE.Color() }, uSunDir: { value: new THREE.Vector3() }, uSunGlow: { value: new THREE.Color() }, uNoise: shared.uNoise },
     vertexShader: `varying vec3 vDir; void main(){ vDir = position; gl_Position = projectionMatrix*viewMatrix*vec4(position + cameraPosition, 1.0); }`,
     fragmentShader: `precision highp float; uniform vec3 uHorizon, uZenith, uSunGlow, uSunDir; uniform sampler2D uNoise; varying vec3 vDir;
-      void main(){ vec3 d = normalize(vDir); float hgt = clamp(d.y, 0.0, 1.0); float t = pow(smoothstep(0.0, 0.55, hgt), 0.7);
+      void main(){ vec3 d = normalize(vDir); float hgt = clamp(d.y, 0.0, 1.0); float t = pow(smoothstep(0.0, 0.85, hgt), 1.25);
         vec3 col = mix(uHorizon, uZenith, t);
         float g = max(dot(d, normalize(uSunDir)), 0.0); col += uSunGlow*(pow(g, 4.0)*0.55 + pow(g, 40.0)*1.0 + pow(g, 900.0)*2.5);
         float az = atan(d.x, d.z); float band = texture2D(uNoise, vec2(az*1.4, hgt*11.0)/256.0*17.0).b; float band2 = texture2D(uNoise, vec2(az*3.1 + 5.0, hgt*40.0)/256.0*9.0).g;

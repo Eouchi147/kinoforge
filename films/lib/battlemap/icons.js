@@ -98,6 +98,10 @@ const P = {
   laurel(g, o) { for (const s of [-1, 1]) for (let k = 0; k < 6; k++) { g.save(); g.translate(50 + s * (8 + k * 5), 88 - k * 11); g.rotate(s * (0.5 + k * 0.12)); g.beginPath(); g.ellipse(0, 0, 11, 5, 0, 0, 7); outline(g, '#5f8f3c', 2.2); g.restore(); } },
   sword(g, o) { g.save(); g.translate(50, 50); g.rotate(-0.78); g.beginPath(); g.moveTo(-5, 44); g.lineTo(-5, -34); g.lineTo(0, -46); g.lineTo(5, -34); g.lineTo(5, 44); g.closePath(); outline(g, '#d4d6da', 2.8); g.beginPath(); g.rect(-16, 44, 32, 6); outline(g, '#c99a2e', 2.6); g.beginPath(); g.rect(-3, 50, 6, 14); outline(g, '#6b4a2a', 2.4); g.restore(); },
 };
+P.no = (g, o) => { g.beginPath(); g.arc(50, 56, 38, 0, 7); g.lineWidth = 11; g.strokeStyle = INK; g.stroke(); g.lineWidth = 6; g.strokeStyle = '#e0302a'; g.stroke(); g.beginPath(); g.moveTo(24, 82); g.lineTo(76, 30); g.lineWidth = 11; g.strokeStyle = INK; g.stroke(); g.lineWidth = 6; g.strokeStyle = '#e0302a'; g.stroke(); };
+P.hug = (g, o) => { const outer = rgb(o.team || TEAM.carthage), inner = rgb(o.inner || TEAM.rome); g.beginPath(); g.roundRect(8, 22, 84, 66, 14); g.lineWidth = 15; g.strokeStyle = INK; g.stroke(); g.lineWidth = 9; g.strokeStyle = outer; g.stroke();
+  g.beginPath(); g.roundRect(30, 40, 40, 30, 4); outline(g, inner, 3); for (const [x, y, a] of [[4, 55, 0], [96, 55, Math.PI], [50, 14, Math.PI / 2], [50, 96, -Math.PI / 2]]) { g.save(); g.translate(x, y); g.rotate(a); g.beginPath(); g.moveTo(-2, -9); g.lineTo(14, 0); g.lineTo(-2, 9); g.closePath(); outline(g, outer, 2.6); g.restore(); } };
+P.check = (g, o) => { g.beginPath(); g.moveTo(14, 56); g.lineTo(40, 84); g.lineTo(88, 22); g.lineWidth = 20; g.strokeStyle = INK; g.stroke(); g.lineWidth = 11; g.strokeStyle = '#3fae5a'; g.stroke(); };
 P.swords = (g, o) => { g.save(); P.sword(g, o); g.translate(100, 0); g.scale(-1, 1); P.sword(g, o); g.restore(); };
 export const ICON_NAMES = Object.keys(P);
 export function drawIcon(ctx, name, x, y, size, o = {}) {

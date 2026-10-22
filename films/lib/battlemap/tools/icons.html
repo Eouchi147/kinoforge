@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="/harness/node_modules/@fontsource/cinzel/800.css"></head><body style="margin:0;background:#c9b98a"><canvas id="c" width="1280" height="520"></canvas>
+<script type="module">
+import { drawIcon, ICON_NAMES } from '../icons.js';
+await document.fonts.load('800 20px Cinzel');
+const g = document.getElementById('c').getContext('2d'); g.fillStyle = '#d8c690'; g.fillRect(0, 0, 1280, 520);
+ICON_NAMES.forEach((n, i) => { const x = 80 + (i % 8) * 150, y = 150 + Math.floor(i / 8) * 170; drawIcon(g, n, x, y, 110, { t: 0.5, team: n === 'helmet' ? 'rome' : undefined, inner: [0.8, 0.12, 0.12] }); g.fillStyle = '#222'; g.font = '14px sans-serif'; g.textAlign = 'center'; g.fillText(n, x, y + 18); });
+window.READY = true;
+</script></body></html>

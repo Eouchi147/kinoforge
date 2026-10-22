@@ -39,13 +39,13 @@ export class StageOverlay {
     this.counters = (spec.counters || []).map((e) => { const [t0, t1] = win(e); const [c0, c1] = [t0, t0 + (e.countDur ?? 1.6)]; return { ...e, t0, t1, c0, c1 }; });
     this.icons = (spec.icons || []).map((e) => { const [t0, t1] = win(e); return { ...e, t0, t1 }; });
     this.volleys = (spec.volleys || []).map((e) => { const [t0, t1] = clock.span(e, 1.2); return { ...e, t0, t1 }; });
-    this.rings = [];
+    this.rings = []; this.sp = {};
   }
   anchor(it, t, view) { // world anchor of an item -> [x, y, z] or null (screen anchored)
     const st = this.stage; if (it.screen) return null;
     let x, z, y = 0;
     if (it.follow) { const A = st.arrows.byId[it.follow]; if (!A) return [0, 0, 0]; const s = A.progress(t) * A.L; const p = A.pointAt(s); x = p.x; z = p.z; it._dir = Math.sign(p.dx) || 1; }
-    else if (it.block) { const b = st.blocks.byId[it.block]; const s = st.blocks.state(b, t); x = s.x + (it.ox || 0); z = s.z + (it.oz || 0); y = (b.height || 2) + 1.0 + (s.drop || 0) + (it.top === false ? 0 : 2.0); }
+    else if (it.block) { const ids = st.blocks.groups[it.block] || [it.block]; let sx = 0, sz = 0, n = 0, ym = 0; for (const id of ids) { const b = st.blocks.byId[id]; const s = st.blocks.state(b, t); if (s.alpha < 0.02 && ids.length > 1) continue; sx += s.x; sz += s.z; n++; ym = Math.max(ym, (b.height || 2) + 1.0 + (s.drop || 0)); } n = n || 1; x = sx / n + (it.ox || 0); z = sz / n + (it.oz || 0); y = ym + (it.top === false ? 0 : 2.0) + (ids.length > 1 ? (it.lift ?? 8) : 0); }
     else { x = it.pos[0]; z = it.pos[1]; }
     return [x, st.mh(x, z) + y + (it.y || 0), z];
   }
@@ -63,7 +63,7 @@ export class StageOverlay {
     const p = view.project(A[0], A[1], A[2]); const edge = Math.min(1 - Math.abs(p.ndcx), 1 - Math.abs(p.ndcy)); return { x: p.x, y: p.y, ppu: view.pxPerUnit(p.depth), ok: p.depth > 1 && edge > -0.05, edge, depth: p.depth };
   }
   drawLabel(g, it, t, view) {
-    const a = this.fade(it, t); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok) return; const H = view.rect.h; const size = (it.size ?? 1) * H * (it.big ? 0.062 : 0.040); const age = t - it.t0; const sc = popScale(age);
+    const a = this.fade(it, t); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok) return; const H = view.rect.h; const size = (it.size ?? 1) * H * (it.big ? 0.050 : 0.036); const age = t - it.t0; const sc = popScale(age);
     const team = it.team ? TEAMS[it.team] : null; const edgeA = P.screen ? 1 : clamp((P.edge ?? 1) / 0.08);
     g.save(); g.globalAlpha = a * edgeA; const dx = (it.dx || 0) * H, dy = (it.dy ?? -0.06) * H; const ax = P.x, ay = P.y; const px = P.x + dx, py = P.y + dy; const lift = !P.screen ? 0 : 0;
     g.translate(px, py - lift); g.scale(sc, sc); g.translate(-px, -(py - lift));
@@ -90,9 +90,12 @@ export class StageOverlay {
     const a = this.fade(it, t, 0.3); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok && !P.screen) return; const age = t - it.t0;
     const H = view.rect.h; const size = P.screen ? (it.size ?? 0.2) * H : (it.size ?? 12) * P.ppu * (it.zoom ?? 1); const pop = it.anim === 'none' ? 1 : popScale(age);
     let bob = 0, rot = 0; if (it.anim === 'bounce') bob = -Math.abs(Math.sin(age * 5.5)) * size * 0.18; if (it.anim === 'walk') { bob = -Math.abs(Math.sin(age * 7)) * size * 0.06; rot = Math.sin(age * 7) * 0.035; } if (it.anim === 'sway') rot = Math.sin(age * 3) * 0.07;
-    const flip = it.flip ?? (it._dir ? it._dir < 0 : false); const team = it.team || undefined;
+    const flip = it.flip ?? (it._dir ? it._dir < 0 : false); const spin = it.anim === 'slam' ? clamp((age - 0.1) / 0.18) : 1; const team = it.team || undefined;
     // icon slides (pos2) or hops (hop) between two anchors
     let x = P.x + (it.dx || 0) * H, y = P.y + (it.dy || 0) * H;
+    if (it.hop) { const hp = it.hop; const sw = hp.swaps.map((r) => this.clock.at(r)); const dur = hp.dur ?? 0.28; const ids = hp.between; let cur = hp.start ?? 0, fromI = cur, toI = cur, u = 1; for (let k = 0; k < sw.length; k++) { if (t >= sw[k]) { fromI = cur; cur = (cur + 1) % ids.length; toI = cur; u = clamp((t - sw[k]) / dur); } }
+      const a0 = this.sp[ids[fromI]], a1 = this.sp[ids[toI]]; if (!a0 || !a1) return; const e = EASE.inOut(u); x = lerp(a0.x, a1.x, e); y = lerp(a0.y - a0.size * (hp.up ?? 0.95), a1.y - a1.size * (hp.up ?? 0.95), e) - Math.sin(Math.PI * e) * size * 0.55; }
+    if (it.id) this.sp[it.id] = { x, y, size };
     g.save(); g.globalAlpha = a * (P.screen ? 1 : clamp((P.edge ?? 1) / 0.08)); g.translate(x, y + bob); g.scale(pop, pop); g.translate(-x, -(y + bob)); drawIcon(g, it.icon, x, y + bob, Math.max(10, size), { flip, team, t: age, rot, fill: it.fill }); g.restore();
   }
   drawVolley(g, v, t, view) { // a spread of arrows lofted on arcs from one block/area onto another
@@ -116,6 +119,7 @@ const ornament = (g, x, y, w, a) => { g.save(); g.globalAlpha *= a; g.strokeStyl
 export function drawCard(g, c, t, W, H) {
   const t0 = c.t0, t1 = c.t1; if (t < t0 || t > t1 + 0.6) return; const age = t - t0; const fin = clamp(age / (c.fadeIn ?? 0.35)), fout = isFinite(t1) ? 1 - clamp((t - t1) / (c.fadeOut ?? 0.5)) : 1; const a = fin * fout; if (a <= 0.001) return;
   g.save();
+  if (c.fill) { g.globalAlpha = a * (c.fillAlpha ?? 1); g.fillStyle = c.fill; g.fillRect(0, 0, W, H); g.globalAlpha = 1; }
   if (c.scrim) { g.globalAlpha = a * c.scrim; const gr = g.createRadialGradient(W / 2, H / 2, H * 0.1, W / 2, H / 2, H * 0.95); gr.addColorStop(0, c.scrimCenter ? c.scrimCenter : 'rgba(20,10,4,0.55)'); gr.addColorStop(1, 'rgba(10,5,2,1)'); g.fillStyle = gr; g.fillRect(0, 0, W, H); if (c.band) { g.globalAlpha = a * c.band; g.fillStyle = 'rgba(12,6,3,1)'; g.fillRect(0, H * 0.30, W, H * 0.40); } }
   (c.lines || []).forEach((L, i) => {
     const la = clamp((age - (L.delay ?? i * 0.28)) / 0.3); if (la <= 0) return; const sc = L.pop === false ? 1 : 1 + 0.22 * (1 - EASE.outBack(clamp((age - (L.delay ?? i * 0.28)) / 0.5)));

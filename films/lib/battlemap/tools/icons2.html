@@ -1,0 +1,7 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;background:#c9b98a"><canvas id="c" width="1280" height="520"></canvas>
+<script type="module">
+import { drawIcon } from '../icons.js';
+const g = document.getElementById('c').getContext('2d'); g.fillStyle = '#d8c690'; g.fillRect(0, 0, 1280, 520);
+drawIcon(g, 'elephant', 220, 480, 420, { t: 0.5, team: 'carthage' }); drawIcon(g, 'ship', 660, 480, 400, { t: 0.5, team: 'rome' }); drawIcon(g, 'helmet', 1040, 480, 380, { t: 0.5, team: 'rome' });
+window.READY = true;
+</script></body></html>

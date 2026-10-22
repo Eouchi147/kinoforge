@@ -17,7 +17,7 @@ const INSET_FRAG = `precision highp float; uniform sampler2D uTex; uniform float
     gl_FragColor = vec4(col, uAlpha); }`;
 
 export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
-  const spec = await (await fetch(specUrl)).json(); const cues = await (await fetch(cuesUrl)).json();
+  const spec = specUrl.endsWith('.js') ? (await import(new URL(specUrl, location.href).href)).default : await (await fetch(specUrl)).json(); const cues = await (await fetch(cuesUrl)).json();
   const look = { ...DEFAULT_LOOK, ...(spec.look || {}) }; const grade = { saturation: 0.95, contrast: 1.08, shadowTint: [-0.01, 0.0, 0.025], highlightTint: [0.04, 0.02, -0.01], grain: 0.03, grainSize: 1.4, vignette: 0.30, ...(spec.look?.grade || {}) };
   const clock = new Clock(cues, spec.marks || {}); const duration = cues.duration; let S = null;
   await boot({
@@ -40,8 +40,8 @@ export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
       const scrimMat = new THREE.ShaderMaterial({ vertexShader: 'void main(){ gl_Position = vec4(position.xy, 0.0, 1.0); }', fragmentShader: 'uniform float uA; void main(){ gl_FragColor = vec4(0.03, 0.015, 0.008, uA); }', transparent: true, depthTest: false, depthWrite: false, toneMapped: false, uniforms: { uA: { value: 0 } } });
       const scrim = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), scrimMat); scrim.renderOrder = 99; scrim.frustumCulled = false; scrim.visible = false; main.scene.add(scrim);
       const cards = (spec.cards || []).map((c) => { const [t0, t1] = clock.span(c, 1); return { ...c, t0, t1 }; });
-      const msaaOff = (spec.msaaOff || []).map((r) => [clock.at(r[0]), clock.at(r[1])]);
-      S = { ctx, spec, look, clock, cues, main, stages, post, W, H, insets, scrim, cards, setMSAA, msaaOff, shared }; lap('ready');
+      const msaaOn = (spec.msaaOn || []).map((r) => [clock.at(r[0]), clock.at(r[1])]);
+      S = { ctx, spec, look, clock, cues, main, stages, post, W, H, insets, scrim, cards, setMSAA, msaaOn, shared }; lap('ready');
     },
     render: async (ctx, i, t) => {
       const { main, post, insets, scrim, cards, W, H } = S; const g = post.overlay.ctx; post.overlay.clear();
@@ -51,13 +51,13 @@ export async function startBattleMap({ specUrl, cuesUrl, fps = 24 }) {
       let pose = null; const camq = q.get('cam'); if (camq) { const c = camq.split(',').map(Number); pose = normaliseKey({ at: 0, target: [c[0], c[1]], width: c[2], pitch: c[3] ?? 89.9, yaw: c[4] ?? 0, mm: c[5] ?? 35 }, S.clock, W / H); }
       for (const e of act) { const a = clamp((t - e.t0) / e.tin) * (1 - clamp((t - e.t1) / e.tout)); const k = EASE.outBack(clamp((t - e.t0) / e.tin)); const full = e.rect[2] >= 0.999 && e.rect[3] >= 0.999;
         if (full && a >= 0.999) cover = true; scrimA = Math.max(scrimA, a * (e.scrim ?? (full ? 0 : 0.45))); }
-      S.setMSAA(S.msaaOff.some((r) => t >= r[0] && t < r[1]) || cover ? 0 : (q.get('msaa') !== null ? +q.get('msaa') : 0));
+      S.setMSAA(cover ? 0 : (q.get('msaa') !== null ? +q.get('msaa') : (S.msaaOn.some((r) => t >= r[0] && t < r[1]) ? 4 : 0)));
       const tp0 = performance.now(); main.setVisible(!cover); if (!cover) main.update(t, pose); const tp1 = performance.now();
       // render inset stages into their targets, place their HUD quads
-      const cam = main.camera; const hh = 2 * Math.tan(cam.fov * Math.PI / 360), ww = hh * cam.aspect;
+      const cam = main.camera; const HD = 3; const hh = 2 * Math.tan(cam.fov * Math.PI / 360) * HD, ww = hh * cam.aspect;
       for (const e of act) { const a = clamp((t - e.t0) / e.tin) * (1 - clamp((t - e.t1) / e.tout)); if (a <= 0.001) continue; const k = (e.pop === false ? 1 : lerp(0.88, 1, EASE.outBack(clamp((t - e.t0) / e.tin)))) * (1 - 0.06 * clamp((t - e.t1) / e.tout));
-        e.stage.update(t); ctx.renderer.setRenderTarget(e.rt); ctx.renderer.toneMapping = THREE.NoToneMapping; ctx.renderer.render(e.stage.scene, e.stage.camera); ctx.renderer.setRenderTarget(null); ctx.renderer.toneMapping = THREE.NeutralToneMapping;
-        const r = e.rect; const cx = (r[0] + r[2] / 2) * 2 - 1, cy = 1 - (r[1] + r[3] / 2) * 2; e.mesh.position.set(cx * ww / 2, cy * hh / 2 - (1 - a) * 0.03, -1); e.mesh.scale.set(r[2] * ww * k, r[3] * hh * k, 1); e.mesh.rotation.z = (e.tilt || 0) * Math.PI / 180 * (e.pop === false ? 0 : (1 - 0.5 * clamp((t - e.t0) / e.tin)));
+        e.stage.camera.aspect = e.rt.width / e.rt.height; e.stage.update(t); ctx.renderer.setRenderTarget(e.rt); ctx.renderer.toneMapping = THREE.NoToneMapping; ctx.renderer.render(e.stage.scene, e.stage.camera); ctx.renderer.setRenderTarget(null); ctx.renderer.toneMapping = THREE.NeutralToneMapping;
+        const r = e.rect; const cx = (r[0] + r[2] / 2) * 2 - 1, cy = 1 - (r[1] + r[3] / 2) * 2; e.mesh.position.set(cx * ww / 2, cy * hh / 2 - (1 - a) * 0.03 * HD, -HD); e.mesh.scale.set(r[2] * ww * k, r[3] * hh * k, 1); e.mesh.rotation.z = (e.tilt || 0) * Math.PI / 180 * (e.pop === false ? 0 : (1 - 0.5 * clamp((t - e.t0) / e.tin)));
         e.mat.uniforms.uAlpha.value = a; e.mesh.visible = true; e.mat.uniforms.uTime.value = t; e._k = k; e._a = a; }
       scrim.visible = scrimA > 0.002; scrim.material.uniforms.uA.value = scrimA;
       // overlay

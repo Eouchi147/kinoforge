@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import { Track, easeFn } from './timeline.js';
 import { GLSL_FOG } from './terrainShaders.js';
-import { clamp, lerp } from './noise.js';
+import { clamp, lerp, resample, catmull } from './noise.js';
 
 const DEG = Math.PI / 180;
 export const TEAMS = { // display-space colours: top, side, light, ink, trim
@@ -79,8 +79,18 @@ export class Blocks {
     this.mesh = new THREE.Mesh(this.geo, this.mat); this.mesh.frustumCulled = false; this.mesh.renderOrder = 4; scene.add(this.mesh);
     this.shadow = new THREE.Mesh(this.sgeo, this.smat); this.shadow.frustumCulled = false; this.shadow.renderOrder = 3; scene.add(this.shadow);
     this.uniforms = uniforms; this.byId = {};
-    for (const [id, d] of Object.entries(specBlocks)) { const b = this.make(id, d); this.list.push(b); this.byId[id] = b; }
+    this.groups = {};
+    for (const [id, d0] of Object.entries(specBlocks)) {
+      if (d0.grid) { // a formation of many small blocks: grid { cols across the frontage, ranks in depth, gap }; the group is addressable by `id`
+        const G = d0.grid; const cols = G.cols ?? 4, ranks = G.ranks ?? 3, gap = G.gap ?? 2.4; const cl = d0.len / cols - gap * (cols - 1) / cols, cd = d0.dep / ranks - gap * (ranks - 1) / ranks; const hd = (d0.heading ?? 90) * DEG;
+        const fx = Math.sin(hd), fz = -Math.cos(hd), rx = Math.cos(hd), rz = Math.sin(hd); const ids = [];
+        for (let j = 0; j < ranks; j++) for (let i = 0; i < cols; i++) { const a = (i - (cols - 1) / 2) * (cl + gap), f = (j - (ranks - 1) / 2) * (cd + gap); const d = { ...d0, grid: undefined, len: cl, dep: cd, x: d0.x + rx * a + fx * f, z: d0.z + rz * a + fz * f, count: (d0.count || 0) / (cols * ranks), bannerScale: d0.bannerScale ?? 0.8 };
+          const cid = `${id}.${i}.${j}`; const b = this.make(cid, d); b.group = id; this.list.push(b); this.byId[cid] = b; ids.push(cid); }
+        this.groups[id] = ids; continue; }
+      const b = this.make(id, d0); this.list.push(b); this.byId[id] = b; this.groups[id] = [id];
+    }
   }
+  expand(m) { const names = m.blocks ? (Array.isArray(m.blocks) ? m.blocks : [m.blocks]) : [m.block ?? m.group]; const out = []; for (const n of names) { if (!this.groups[n]) throw new Error('unknown block or group ' + n); out.push(...this.groups[n]); } return out; }
   make(id, d) {
     const kind = d.kind || 'infantry'; const cav = kind === 'cavalry'; const len = d.len ?? 40, dep = d.dep ?? (cav ? 12 : 18);
     const b = { id, d, team: TEAMS[d.team || 'neutral'] || TEAMS.neutral, teamName: d.team || 'neutral', kind, kindN: KINDS[kind] ?? 0, T: {} };
@@ -94,7 +104,7 @@ export class Blocks {
     const items = []; for (const m of moves) { const [t0, t1] = this.clock.span(m, 1); items.push({ m, t0, t1 }); }
     items.sort((a, b) => a.t0 - b.t0);
     for (const { m, t0, t1 } of items) {
-      const ids = m.blocks || [m.block]; let n = 0;
+      const ids = this.expand(m); let n = 0; const members = ids.map((id) => this.byId[id]);
       for (const id of ids) {
         const b = this.byId[id]; if (!b) throw new Error('moves: unknown block ' + id); const stag = (m.stagger || 0) * n++; const s0 = t0 + stag, s1 = t1 + stag; const ease = m.ease || 'inOut';
         if (m.to) for (const [k, v] of Object.entries(m.to)) { if (!b.T[k]) throw new Error('moves: unknown prop ' + k); b.T[k].add(s0, s1, v, ease); }
@@ -102,6 +112,10 @@ export class Blocks {
         if (m.wheel) { const [px, pz] = m.wheel.about; const dg = m.wheel.deg; const x0 = b.T.x.at(s0), z0 = b.T.z.at(s0), h0 = b.T.heading.at(s0); const rel = [x0 - px, z0 - pz]; const e = easeFn(ease); // clockwise-positive on the map (z south)
           const ang = (u) => dg * DEG * u; const rot = (u) => { const a = ang(u), c = Math.cos(a), s = Math.sin(a); return [px + rel[0] * c - rel[1] * s, pz + rel[0] * s + rel[1] * c]; };
           b.T.x.add(s0, s1, 0, 'linear', { fn: (u) => rot(u)[0] }); b.T.z.add(s0, s1, 0, 'linear', { fn: (u) => rot(u)[1] }); b.T.heading.add(s0, s1, 0, 'linear', { fn: (u) => h0 + dg * u }); void e; }
+        if (m.squeeze) { const q = m.squeeze; const [cx, cz] = q.about; const x0 = b.T.x.at(s0), z0 = b.T.z.at(s0); b.T.x.add(s0, s1, cx + (x0 - cx) * (q.kx ?? 1), ease); b.T.z.add(s0, s1, cz + (z0 - cz) * (q.kz ?? 1), ease);
+          if (q.lenK) b.T.len.add(s0, s1, b.T.len.at(s0) * q.lenK, ease); if (q.depK) b.T.dep.add(s0, s1, b.T.dep.at(s0) * q.depK, ease); }
+        if (m.path) { const pts = m.path.map((p) => (typeof p === 'string' ? [0, 0] : p)); const R = resample(m.smooth === false ? pts : catmull([[b.T.x.at(s0), b.T.z.at(s0)], ...pts], 12), 1.0); const at = (u) => { const sL = clamp(u, 0, 1) * R.L; let lo = 0, hi = R.n - 1; while (hi - lo > 1) { const mm = (lo + hi) >> 1; if (R.s[mm] <= sL) lo = mm; else hi = mm; } const t2 = (sL - R.s[lo]) / Math.max(1e-6, R.s[hi] - R.s[lo]); return [lerp(R.x[lo], R.x[hi], t2), lerp(R.z[lo], R.z[hi], t2), Math.atan2(R.x[Math.min(R.n - 1, hi)] - R.x[lo], -(R.z[Math.min(R.n - 1, hi)] - R.z[lo]))]; };
+          b.T.x.add(s0, s1, 0, 'linear', { fn: (u) => at(u)[0] }); b.T.z.add(s0, s1, 0, 'linear', { fn: (u) => at(u)[1] }); if (m.face !== false) { const h0 = b.T.heading.at(s0); let hl = at(0.02)[2] / DEG; while (hl - h0 > 180) hl -= 360; while (hl - h0 < -180) hl += 360; const hEnd = at(1)[2] / DEG; let he = hEnd; while (he - hl > 180) he -= 360; while (he - hl < -180) he += 360; b.T.heading.add(s0, s0 + (s1 - s0) * 0.12, hl + (m.faceOffset || 0), 'inOut'); b.T.heading.add(s0 + (s1 - s0) * 0.12, s1, he + (m.faceOffset || 0), 'linear'); } }
         if (m.appear) { const T = b.T.drop; T.add(s0 - 2e-3, s0 - 1e-3, m.appearFrom ?? 14, 'linear'); T.add(s0, s1, 0, m.appearEase || 'outBounce'); b.T.alpha.add(s0 - 2e-3, s0 - 1e-3, 0, 'linear'); b.T.alpha.add(s0 - 1e-3, s0 + Math.min(0.3, s1 - s0), 1, 'out'); }
         if (m.vanish) { b.T.alpha.add(s0, s1, 0, 'inOut'); }
         if (m.fadeTo !== undefined) { b.T.fade.add(s0, s1, m.fadeTo, ease); b.T.alpha.add(s0, s1, m.alphaTo ?? 0.25, ease); b.T.sink.add(s0, s1, m.sinkTo ?? 0.8, ease); }
