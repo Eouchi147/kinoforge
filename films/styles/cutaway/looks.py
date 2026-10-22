@@ -21,7 +21,7 @@ def look_b(bpy, kit, aspect='16:9'):
     land = cw.block(kit, size=(3.6, 3.6), depth=1.1, strata=cw.STRATA['red'], seed=7,
                     top=cw.rolling(amp=0.16, freq=0.4, seed=7, base=0.04, tilt=(0.0, 0.02)),
                     water=[cw.pond((0.25, -1.45), (0.95, 0.8), depth=0.42, level=-0.04, shelf=0.35)],
-                    trees=9, tree_kinds=('round', 'round', 'cone'), tree_scale=1.25, boulders=14, flowers=0.9, grass=1.15, grass_height=1.3, reeds=0.6)
+                    trees=9, tree_kinds=('round',), tree_scale=1.2, boulders=14, flowers=0.9, grass=1.15, grass_height=1.3, reeds=0.6)
     cw.sky(kit, land=land, sun_az=-135, sun_el=42, sun=3.2)
     cw.falling_stones(kit, land, 12)
     cw.hanging_roots(kit, land, 46)

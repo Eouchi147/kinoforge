@@ -9,11 +9,13 @@ if here not in sys.path: sys.path.insert(0, here)
 import cutaway as cw  # noqa: E402
 import looks  # noqa: E402
 
-def make(look, duration=8.0, move='orbit', samples=64, deg=16.0, fast=False):
+def make(look, duration=8.0, move='orbit', samples=64, deg=16.0, fast=False, size=None):
     SETTINGS = {'samples': samples, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast',
                 'max_bounces': 8, 'clamp_indirect': 6.0, 'adaptive_min_samples': 16, 'denoising_prefilter': 'ACCURATE'}
 
     def build(bpy, ctx):
+        if size:   # override the harness resolution (lets one stills run mix 16:9 and 9:16 frames)
+            sc = bpy.context.scene; sc.render.resolution_x, sc.render.resolution_y = size; ctx = dict(ctx, W=size[0], H=size[1])
         aspect = '16:9' if ctx['W'] >= ctx['H'] else '9:16'
         kit = cw.Kit(bpy, seed=1, loop=duration)
         S = looks.LOOKS[look](bpy, kit, aspect)

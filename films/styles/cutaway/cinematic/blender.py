@@ -35,7 +35,7 @@ SUN_AZ, SUN_EL = 135.0, 6.5
 RIVER = [(-0.7, 2.6), (-0.55, 1.4), (0.25, 0.6), (0.05, -0.4), (0.35, -1.3), (0.4, -2.6)]
 STRATA = [('topsoil', 0.07, (0.30, 0.20, 0.12), 0.05), ('sand', 0.10, (0.76, 0.60, 0.40), 0.10), ('clay', 0.14, (0.62, 0.50, 0.40), 0.03),
           ('loam', 0.18, (0.50, 0.33, 0.20), 0.22), ('ochre', 0.05, (0.68, 0.48, 0.27), 0.15), ('gravel', 0.10, (0.55, 0.46, 0.36), 0.85),
-          ('shale', 0.50, (0.50, 0.47, 0.44), 0.06), ('chalk', 0.16, (0.84, 0.80, 0.70), 0.04), ('deep', 1.0, (0.33, 0.28, 0.26), 0.30)]
+          ('shale', 0.50, (0.50, 0.47, 0.44), 0.06), ('chalk', 0.16, (0.74, 0.70, 0.62), 0.04), ('deep', 1.0, (0.33, 0.28, 0.26), 0.30)]
 HOUSES = [(1.20, 0.90, 1.2), (1.48, 0.15, 1.6), (1.05, -0.30, 0.4), (-1.15, 0.75, 0.3), (-1.50, 1.45, -0.2), (-1.35, 0.05, 0.9)]
 MILL = (0.98, -1.05)
 LANE = [(-2.1, 0.3), (-1.4, 0.35), (-0.8, 0.15), (-0.3, 0.06), (0.6, 0.16), (1.1, 0.35), (1.7, 0.55), (2.1, 0.6)]
@@ -65,8 +65,9 @@ def build(bpy, ctx):
         cw.lamp(kit, land, x, y, name=f'cw_lamp{k}')
 
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=6.0, fill=0.6, amb=0.2)
-    ex.atmosphere(kit, land, fog=3.6)
+    ex.atmosphere(kit, land, haze=0.12, fog=3.6, aniso=0.7)
     ex.gobo(kit, land, rig['sun_dir'])
+    shafts = ex.Shafts(kit, land, rig['sun_dir'], n=18)
 
     # ---- easter eggs, by depth (recent near the top, deep time at the bottom)
     eggs = ex.Eggs(kit, land); fy = eggs.faces['-Y']; fx = eggs.faces['+X']
@@ -103,7 +104,7 @@ def build(bpy, ctx):
     try: cy.volume_biased = True
     except Exception: pass
     cy.transparent_max_bounces = 16
-    return {'kit': kit, 'land': land, 'cam': cam, 'eggs': eggs, 'rig': rig}
+    return {'kit': kit, 'land': land, 'cam': cam, 'eggs': eggs, 'rig': rig, 'shafts': shafts}
 
 
 def shot_pose(S, name, u):
@@ -113,8 +114,8 @@ def shot_pose(S, name, u):
         e = ex.ease(u); pos = (0.08 - 0.06 * e, -0.05, 11.2 - 0.5 * e); tgt = (0.08 - 0.06 * e, -0.049, 0.0)
         return pos, tgt, 50.0, 11.0, 16.0, 22.0 + 6.0 * e
     if name == 'ground':                 # at the edge, eye on the grass, into the sun, a slow dolly along the face
-        e = ex.ease(u); pos = ex.lerp((2.30, -2.13, 0.0), (2.16, -2.12, 0.005), e); tgt = (-1.5, -1.80, -0.16)
-        return pos, tgt, 24.0, float(np.linalg.norm(np.array(pos) - np.array((0.70, -2.0, -0.1)))), 2.8, 0.0
+        e = ex.ease(u); pos = ex.lerp((2.30, -2.50, 0.17), (2.18, -2.42, 0.16), e); tgt = (-0.8, -1.45, -0.20)
+        return pos, tgt, 28.0, float(np.linalg.norm(np.array(pos) - np.array((0.66, -1.85, 0.0)))), 4.0, 0.0
     if name == 'crane':                  # vertical crane down the cut face, treetops to the deepest layer
         e = ex.ease5(u); tz = 0.32 + (-1.22 - 0.32) * e; el = math.radians(20 - 19 * e); D = 2.45
         tgt = (-0.52, -2.0, tz); pos = (-0.52 + 0.30, -2.0 - D, tz + D * math.tan(el))
@@ -132,4 +133,4 @@ def shot_pose(S, name, u):
 def frame(bpy, ctx, S, i, t):
     S['kit'].update(t)
     tl = ctx['timeline'].at(t); pos, tgt, lens, focus, fstop, roll = shot_pose(S, tl['name'], tl['u'])
-    S['cam'].set(pos, tgt, lens, focus, fstop, roll)
+    S['cam'].set(pos, tgt, lens, focus, fstop, roll); S['shafts'].update(pos)

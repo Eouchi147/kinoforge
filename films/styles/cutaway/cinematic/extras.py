@@ -179,7 +179,7 @@ def atmosphere(kit, land, haze=0.10, fog=2.4, fog_top=0.11, mist=1.0, spill=0.5,
     # ground fog: density falls from the water level up to fog_top above it
     fz = g.math('SUBTRACT', 1.0, g.math('DIVIDE', g.math('SUBTRACT', pz, lv), fog_top), clamp=True)
     fz = g.math('POWER', fz, 1.6)
-    fedge = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', out, 1.0 / 0.12), clamp=True)          # fog stays on the block (spills a hair over the edge)
+    fedge = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', out, 1.0 / 0.03), clamp=True)          # fog stays on the block (spills a hair over the edge)
     fogd = g.math('MULTIPLY', g.math('MULTIPLY', fz, g.math('ADD', g.math('MULTIPLY', brk, 0.85), 0.15)), g.math('MULTIPLY', fedge, fog))
     # mist sits on the water: an extra thin layer right at the surface
     mz = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', pz, lv + 0.012)), 1 / 0.03), clamp=True)
@@ -210,6 +210,51 @@ def gobo(kit, land, sun_dir, dist=4.5, size=(10.0, 5.0), cover=0.45, scale=0.55,
     ob.rotation_euler = Vector(tuple(-np.asarray(sun_dir))).to_track_quat('Z', 'Y').to_euler()
     for a in ('visible_camera', 'visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter'): setattr(ob, a, False)
     return ob
+
+
+class Shafts:
+    """Art-directed god rays (the cheap half of the hybrid): long soft additive cards along the sunlight, crossing the block
+    top at canopy height, billboarded to the camera around their own axis every frame, brightest when the camera looks
+    toward the sun (forward scattering), breaking up and shimmering with drifting dust. Invisible to every ray but the
+    camera's. Call update(camera_location) after the camera is posed."""
+    def __init__(self, kit, land, sun_dir, n=16, seed=91, strength=1.0, color=(1.0, 0.80, 0.56), length=(3.6, 2.2), z=(0.10, 0.62), width=(0.05, 0.22),
+                 spots=None, name='ex_shaft'):
+        bpy = kit.bpy; self.sd = np.asarray(sun_dir, float) / np.linalg.norm(sun_dir); rng = np.random.default_rng(seed); sx, sy = land.size
+        m = cw._new_mat(bpy, name + '_mat'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); geo = g.node('ShaderNodeNewGeometry'); tv = time_value(kit, g)
+        oi = g.node('ShaderNodeObjectInfo'); lx, ly, _ = g.sep(tc.outputs['Generated'])
+        across = g.math('EXPONENT', g.math('MULTIPLY', g.math('POWER', g.math('MULTIPLY', g.math('SUBTRACT', ly, 0.5), 2.0), 2.0), -3.2))
+        along = g.math('MULTIPLY', g.math('MULTIPLY', lx, 6.0, clamp=True), g.math('MULTIPLY', g.math('SUBTRACT', 1.0, lx), 2.2, clamp=True))
+        wp = g.sep(geo.outputs['Position'])
+        ox = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', wp[0]), sx / 2 - 0.05), 0.0); oy = g.math('MAXIMUM', g.math('SUBTRACT', g.math('ABSOLUTE', wp[1]), sy / 2 - 0.05), 0.0)
+        foot = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('MAXIMUM', ox, oy), 1 / 0.35), clamp=True)
+        dust = g.noise(g.comb(g.math('ADD', g.math('MULTIPLY', lx, 7.0), g.math('MULTIPLY', tv, 0.25)), g.math('MULTIPLY', ly, 1.5), g.math('MULTIPLY', oi.outputs['Random'], 30.0)), 2.2, 3.0, 0.6)
+        brk = g.math('ADD', 0.35, g.math('MULTIPLY', dust.outputs['Fac'], 0.9))
+        shimmer = g.math('ADD', 0.75, g.math('MULTIPLY', g.math('SINE', g.math('ADD', g.math('MULTIPLY', tv, 1.3), g.math('MULTIPLY', oi.outputs['Random'], 20.0))), 0.25))
+        view = g.vmath('DOT_PRODUCT', g.vmath('SCALE', geo.outputs['Incoming'], scale=-1.0), tuple(self.sd))
+        phase = g.math('ADD', 0.12, g.math('MULTIPLY', g.math('POWER', g.math('MAXIMUM', view, 0.0), 6.0), 1.6))
+        a = g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', across, along), g.math('MULTIPLY', foot, brk)), g.math('MULTIPLY', shimmer, phase))
+        e = g.node('ShaderNodeEmission', ins={'Color': srgb(color)}); g.put(e, 'Strength', g.math('MULTIPLY', a, 0.55 * strength))
+        tr = g.node('ShaderNodeBsdfTransparent'); ad = g.node('ShaderNodeAddShader'); g.link(tr, ad.inputs[0]); g.link(e, ad.inputs[1]); cw._finish(g, ad)
+        try: m.cycles.emission_sampling = 'NONE'
+        except Exception: pass
+        self.cards = []
+        for i in range(n):
+            if spots is not None: c = spots[i % len(spots)]; px, py = c[0] + rng.normal(0, 0.25), c[1] + rng.normal(0, 0.25)
+            else: px, py = rng.uniform(-sx / 2 * 0.85, sx / 2 * 0.85), rng.uniform(-sy / 2 * 0.85, sy / 2 * 0.85)
+            P = np.array([px, py, float(land.height(np.array([px]), np.array([py]))[0]) + rng.uniform(*z)])
+            L1, L2 = length[0] * rng.uniform(0.7, 1.2), length[1] * rng.uniform(0.7, 1.2); w = rng.uniform(*width)
+            V = [(-L2, -w / 2, 0), (L1, -w / 2, 0), (L1, w / 2, 0), (-L2, w / 2, 0)]   # local X runs toward the sun
+            ob = cw.mk_mesh(bpy, f'{name}{i}', V, [(0, 1, 2, 3)], [m], None, False, kit.coll); ob.location = tuple(P)
+            for at in ('visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_shadow', 'visible_volume_scatter'): setattr(ob, at, False)
+            self.cards.append(ob)
+    def update(self, cam):
+        from mathutils import Matrix
+        X = self.sd
+        for ob in self.cards:
+            v = np.asarray(cam, float) - np.asarray(ob.location[:], float); vp = v - (v @ X) * X; nz = np.linalg.norm(vp)
+            Z = vp / nz if nz > 1e-6 else np.array([0, 0, 1.0])
+            Y = np.cross(Z, X); Y /= np.linalg.norm(Y); Z = np.cross(X, Y)
+            ob.rotation_euler = Matrix(((X[0], Y[0], Z[0]), (X[1], Y[1], Z[1]), (X[2], Y[2], Z[2]))).to_euler()
 
 
 # =============================================================================================== compositor finish

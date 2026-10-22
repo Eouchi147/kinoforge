@@ -1,0 +1,9 @@
+{
+ "id": "style-cutaway-mixed",
+ "duration": 8,
+ "fps": 24,
+ "render_w": 1920,
+ "render_h": 1080,
+ "samples": 128,
+ "note": "frame % 4 picks look and aspect: 0 A 9:16, 1 B 16:9, 2 C 16:9, 3 D 9:16"
+}
