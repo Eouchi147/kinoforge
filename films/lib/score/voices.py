@@ -44,6 +44,24 @@ def _load(path):
     return x[max(0, on - SR // 250):]
 
 
+@functools.lru_cache(maxsize=None)
+def _flat(path):
+    """the same take with its slow level drift ironed out (a recorded sustain fades 3 to 7 dB over 10 s): the body is held
+    at its own median level by a slow gain (0.6 s smoothing), the attack and the recorded tail stay natural"""
+    from scipy.ndimage import gaussian_filter1d
+    x = _load(path); n = len(x)
+    if n < 3 * SR: return x
+    hop = SR // 50; m = (x[: n // hop * hop].mean(axis=1) ** 2).reshape(-1, hop).mean(axis=1)
+    env = np.sqrt(gaussian_filter1d(m, 0.6 * 50) + 1e-12)
+    a, b = int(1.0 * 50), max(int(1.0 * 50) + 2, len(env) - int(1.8 * 50))
+    ref = np.median(env[a:b]); g = np.clip(ref / env, 0.3, 3.0)
+    t = np.arange(len(env)) / 50.0
+    w = np.clip((t - 0.5) / 0.7, 0, 1) * np.clip((t[-1] - 1.2 - t) / 0.6 + 1, 0, 1)      # natural attack and natural tail
+    g = 1 + (g - 1) * w
+    gs = np.interp(np.arange(n) / hop, np.arange(len(g)), g).astype(np.float32)
+    return x * gs[:, None]
+
+
 def _yin(x, sr=SR, fmin=40, fmax=2000):
     x = x.mean(axis=1); a = int(0.3 * sr); seg = x[a:a + sr // 2] if len(x) > a + sr // 2 + 4096 else x[:sr // 2]
     seg = seg - seg.mean(); W = len(seg) // 2; tmin, tmax = int(sr / fmax), min(int(sr / fmin), W - 1)
@@ -87,18 +105,18 @@ class Sampled:
 
     def _norm(self, f):
         if f not in self._gain:
-            x = _load(f); a = int(0.5 * SR); seg = x[a:a + 3 * SR] if len(x) > a + SR else x
+            x = _flat(f); a = int(0.5 * SR); seg = x[a:a + 3 * SR] if len(x) > a + SR else x
             self._gain[f] = db(self.target) / (np.sqrt((seg ** 2).mean()) + 1e-9)
         return self._gain[f]
 
-    def _shifted(self, f, semis):
-        return _repitch(f, int(round(semis * 100)))
+    def _shifted(self, f, semis, flat=True):
+        return _repitch(f, int(round(semis * 100)), flat)
 
     def note(self, midi, dur, rng, vel=0.6, attack=0.05, release=0.5, xfade=1.6, pluck=False):
         """a note of `dur` seconds (plus release). Long notes chain takes (different files where possible) with
         equal-power cross-fades; plucked samples simply ring out."""
         m, f = self._pick(midi, rng)
-        x = self._shifted(f, midi - m)
+        x = self._shifted(f, midi - m, flat=not pluck)
         need = int((dur + release) * SR)
         if len(x) < need and not pluck:
             # chain takes: each is used up to just before its recorded tail (the natural release would dip the level)
@@ -107,13 +125,10 @@ class Sampled:
             guard = 0
             while len(out) < need and guard < 40:
                 guard += 1
-                m2, f2 = self._pick(midi, rng); y = self._shifted(f2, midi - m2) * self._norm(f2)
-                skip = int(0.35 * SR) if len(y) > 2 * SR else 0
-                last = len(out) + len(y) - skip - trim >= need
-                y = y[skip:] if last else y[skip:max(len(y) - trim, skip + len(y) // 2)]
-                k = min(xf, len(out) // 3, len(y) // 3)
-                a = np.cos(np.linspace(0, np.pi / 2, k))[:, None]; b = np.sin(np.linspace(0, np.pi / 2, k))[:, None]
-                out = np.concatenate([out[:-k], out[-k:] * a + y[:k] * b, y[k:]])
+                m2, f2 = self._pick(midi, rng); y = self._shifted(f2, midi - m2, True) * self._norm(f2)
+                last = len(out) + len(y) - int(0.35 * SR) - trim >= need
+                y = y if last else y[:max(len(y) - trim, len(y) // 2)]
+                out = _splice(out, y, xf)
             x = out
         else:
             x = x * self._norm(f)
@@ -122,9 +137,39 @@ class Sampled:
         return x * (0.25 + 0.75 * vel) * 1.0
 
 
+def _splice(out, y, xf):
+    """join take y onto out with a cross-fade whose start point is searched (within the first 2 s of y) for the best phase
+    match, and whose gain is compensated by the measured correlation, so two coherent tones do not beat or dip"""
+    k = min(xf, len(out) // 3)
+    tail = out[-k:].mean(axis=1)
+    lo, hi = int(0.3 * SR), min(int(2.2 * SR), len(y) - k - 1)
+    best, bs = lo, -2.0
+    probe = min(k, int(0.6 * SR)); ref = tail[:probe]; rn = np.sqrt((ref ** 2).sum()) + 1e-9
+    ym = y.mean(axis=1)
+    for st in range(lo, max(lo + 1, hi), 480):                      # every 10 ms
+        seg = ym[st:st + probe]
+        c = float(np.dot(ref, seg) / (rn * (np.sqrt((seg ** 2).sum()) + 1e-9)))
+        if c > bs: bs, best = c, st
+    # refine to the sample around the best 10 ms step
+    for st in range(max(lo, best - 480), min(max(lo + 1, hi), best + 480), 8):
+        seg = ym[st:st + probe]; c = float(np.dot(ref, seg) / (rn * (np.sqrt((seg ** 2).sum()) + 1e-9)))
+        if c > bs: bs, best = c, st
+    y = y[best:]; k = min(k, len(y) // 3)
+    th = np.linspace(0, np.pi / 2, k); a = np.cos(th); b = np.sin(th)
+    A = out[-k:]; B = y[:k]
+    blk = max(1, int(0.1 * SR)); nb = max(1, k // blk); rho = np.zeros(nb)
+    for i in range(nb):
+        u = (A[i * blk:(i + 1) * blk].mean(axis=1) * a[i * blk:(i + 1) * blk]); w = (B[i * blk:(i + 1) * blk].mean(axis=1) * b[i * blk:(i + 1) * blk])
+        rho[i] = np.clip(np.dot(u, w) / (np.sqrt((u ** 2).sum() * (w ** 2).sum()) + 1e-12), -0.9, 1.0)
+    rho_s = np.interp(np.arange(k), (np.arange(nb) + 0.5) * blk, rho)
+    comp = 1.0 / np.sqrt(np.maximum(0.2, 1 + rho_s * np.sin(2 * th)))
+    mixed = (A * (a * comp)[:, None] + B * (b * comp)[:, None]).astype(np.float32)
+    return np.concatenate([out[:-k], mixed, y[k:]])
+
+
 @functools.lru_cache(maxsize=512)
-def _repitch(path, cents):
-    x = _load(path)
+def _repitch(path, cents, flat=False):
+    x = _flat(path) if flat else _load(path)
     if cents == 0: return x
     r = Fraction(2 ** (-cents / 1200.0)).limit_denominator(600)
     return resample_poly(x, r.numerator, r.denominator, axis=0).astype(np.float32)

@@ -11,6 +11,7 @@
   - Arabia re-directed (pin-hole star sky, scene-based cuts, fuller tabletop world, paper-and-clay graphics);
   - Bamberg polished (done: eight movements, every effect with a job); re-rendering now on free runners (rc-render run 39790691570);
   - director pipeline made free-only (free model seats, free narration, procedural music hook).
+  - new style **Cutaway** (Sam, 10:11): Blender kit and a four-look style board in `films/styles/cutaway/`, nothing rendered on runners yet.
 - Next: re-render on GitHub runners (free), new stories through the free director, one render home for the studio.
 
 ## Web studio (22 Oct, studio-web/)

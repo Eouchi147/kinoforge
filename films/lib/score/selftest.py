@@ -38,7 +38,7 @@ bad = []
 for f in glob.glob(os.path.join(HERE, '**', '*'), recursive=True):
     if os.path.isfile(f) and f.endswith(('.py', '.md', '.json')):
         t = open(f, encoding='utf-8').read()
-        if '—' in t or '–' in t: bad.append(os.path.relpath(f, HERE))
+        if chr(0x2014) in t or chr(0x2013) in t: bad.append(os.path.relpath(f, HERE))
 check(not bad, 'no em or en dashes in the package' + (f' (found in {bad})' if bad else ''))
 print('PASS' if not fails else f'{len(fails)} FAILED')
 sys.exit(1 if fails else 0)

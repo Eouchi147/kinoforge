@@ -12,17 +12,24 @@ def cream_letters(bpy, name, col=(0.96, 0.90, 0.74), emit=0.55, seed=1):
             n.inputs['Emission Color'].default_value = srgb(col); n.inputs['Emission Strength'].default_value = emit
     return m
 
+_ADV = {}
 class Lettering:
     """Letters/words as separate clay objects under one pivot; each has an x offset (centred), so they can pop in one by one."""
     def __init__(self, bpy, name, coll, text, size, mat, per='letter', extrude=0.006, bevel=0.0016, plane='XZ', spacing=1.0, seed=1):
         self.root = pivot(bpy, name + '_root', coll); self.items = []; self.text = text
+        key = (size, extrude, bevel, spacing, plane)
+        def adv(ch):
+            k = key + (ch,)
+            if k not in _ADV:
+                o = text_mesh(bpy, name + '_m', ch + '|', size, None, coll, extrude=extrude, bevel=bevel, align='LEFT', plane=plane, spacing=spacing)
+                w1 = max(v.co.x for v in o.data.vertices); bpy.data.objects.remove(o)
+                if '|' not in _ADV.get(key + ('|0',), {}):
+                    o2 = text_mesh(bpy, name + '_m2', '|', size, None, coll, extrude=extrude, bevel=bevel, align='LEFT', plane=plane, spacing=spacing)
+                    _ADV[key + ('|0',)] = {'|': max(v.co.x for v in o2.data.vertices)}; bpy.data.objects.remove(o2)
+                _ADV[k] = w1 - _ADV[key + ('|0',)]['|']
+            return _ADV[k]
         def width(s):
-            if not s.strip(): return 0.0
-            o = text_mesh(bpy, name + '_m', s + '|', size, None, coll, extrude=extrude, bevel=bevel, align='LEFT', plane=plane, spacing=spacing)
-            w = max(v.co.x for v in o.data.vertices); o2 = text_mesh(bpy, name + '_m2', '|', size, None, coll, extrude=extrude, bevel=bevel, align='LEFT', plane=plane, spacing=spacing)
-            w2 = max(v.co.x for v in o2.data.vertices)
-            for ob in (o, o2): bpy.data.objects.remove(ob); 
-            return w - w2
+            return sum(adv(ch) for ch in s) if s.strip() else 0.0
         units = list(text) if per == 'letter' else text.split(' ')
         pos = []; acc = 0.0
         if per == 'letter':
