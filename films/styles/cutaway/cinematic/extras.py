@@ -400,13 +400,13 @@ class Eggs:
         ob = part(self.kit, name, pieces, mats); self.faces[face].put(ob, u, z, d, tilt); return ob
     def hole_ellipse(self, face, u, z, a, b, depth, name):
         V, F = bowl(a * 1.03, b * 1.03, depth); ob = part(self.kit, name, [(V, F, 0)], [mat_cavity(self.kit)])
-        self.faces[face].put(ob, u, z); self.openings.append((face, 'ell', (u, z, a, b))); return ob
+        self.faces[face].put(ob, u, z, 0.0015); self.openings.append((face, 'ell', (u, z, a, b))); return ob
     def hole_tunnel(self, face, P2, r, name, material=None):
         P2 = np.asarray(P2, float); V, F = half_tube(P2, r * 1.03)
         pieces = [(V, F, 0)]
         for e in (P2[0], P2[-1]):
             bv, bf = bowl(r * 1.03, r * 1.03, r * 1.0); pieces.append((np.asarray(bv) + np.array([e[0], 0, e[1]]), bf, 0))
-        ob = part(self.kit, name, pieces, [material or mat_cavity(self.kit)]); self.faces[face].put(ob, 0.0, 0.0)
+        ob = part(self.kit, name, pieces, [material or mat_cavity(self.kit)]); self.faces[face].put(ob, 0.0, 0.0, 0.0015)
         for a, b in zip(P2[:-1], P2[1:]): self.openings.append((face, 'cap', (a[0], a[1], b[0], b[1], r)))
         return ob
     def finish(self):
