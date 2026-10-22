@@ -1,0 +1,15 @@
+{
+ "id": "cutaway-agincourt-mud-A",
+ "series": "Battle Map",
+ "title": "The Battle of Agincourt, mud insert A",
+ "style": "cutaway",
+ "duration": 14.698,
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 64,
+ "audio": "",
+ "note": "Agincourt mud, insert A: the ploughed field in rain and the stakes (cue l06 to l07, film 57.284 to 71.982 s, film frames 1375 to 1727 at 24 fps). Cutaway style, Blender Cycles CPU, free. No sound: the Agincourt film's own mix plays over it."
+}

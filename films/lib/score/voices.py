@@ -260,7 +260,7 @@ def drum(kind, rng, vel=0.6, pitch=1.0):
     if kind == 'doum': n = int(0.9 * SR); f_end, f_start, tau, body = 78 * pitch, 135 * pitch, 0.20, 1.0
     elif kind == 'tom': n = int(1.1 * SR); f_end, f_start, tau, body = 98 * pitch, 160 * pitch, 0.26, 1.0
     elif kind == 'tabor': n = int(0.5 * SR); f_end, f_start, tau, body = 150 * pitch, 230 * pitch, 0.10, 0.9
-    elif kind == 'boom': n = int(3.2 * SR); f_end, f_start, tau, body = 44 * pitch, 95 * pitch, 0.9, 1.2
+    elif kind == 'boom': n = int(2.4 * SR); f_end, f_start, tau, body = 44 * pitch, 95 * pitch, 0.55, 1.1
     elif kind == 'tek': n = int(0.25 * SR); f_end, f_start, tau, body = 330 * pitch, 390 * pitch, 0.045, 0.35
     else: n = int(0.3 * SR); f_end, f_start, tau, body = 190 * pitch, 240 * pitch, 0.05, 0.3
     t = np.arange(n) / SR
@@ -270,11 +270,11 @@ def drum(kind, rng, vel=0.6, pitch=1.0):
     y += 0.25 * np.sin(2 * ph * 1.58) * _decay(n, tau * 0.5) * body             # membrane overtone
     nz = rng.standard_normal(n).astype(np.float32)
     if kind in ('tek', 'brush'):
-        y += dsp.bandpass(nz, 1100, 3600, 2) * _decay(n, 0.03 if kind == 'tek' else 0.07) * (0.5 if kind == 'tek' else 0.7)
+        y += dsp.bandpass(nz, 1000, 3000, 2) * _decay(n, 0.03 if kind == 'tek' else 0.07) * (0.5 if kind == 'tek' else 0.7)
     else:
         y += dsp.bandpass(nz, 220, 1400, 2) * _decay(n, 0.025) * 0.35            # the palm slap
     if kind == 'boom': y += dsp.lowpass(nz, 220, 2) * _decay(n, 0.12) * 0.25
-    y *= dsp.env_ar(n, 0.004 if kind != 'boom' else 0.009, 0.05, curve=1.0)
+    y *= dsp.env_ar(n, 0.006 if kind != 'boom' else 0.012, 0.05, curve=1.0)
     y = dsp.highpass(y, 32, 1) * (0.2 + 0.8 * vel)
     return np.stack([y, y], 1).astype(np.float32)
 

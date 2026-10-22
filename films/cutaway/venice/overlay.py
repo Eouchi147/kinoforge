@@ -90,7 +90,7 @@ class Elem:
         self.ov = ov; self.ob = ob; self.a = alpha_node; self.kind = kind; self.alpha = 0.0
 
     def set_alpha(self, v):
-        v = float(max(0.0, min(1.0, v))); self.alpha = v; self.a.outputs[0].default_value = v; self.ob.hide_render = v < 0.004
+        v = float(max(0.0, min(1.0, v))); self.alpha = v; self.a.default_value = v; self.ob.hide_render = v < 0.004
 
     def set_text(self, body):
         if self.ob.data.body != body: self.ob.data.body = body

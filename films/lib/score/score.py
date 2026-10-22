@@ -516,7 +516,7 @@ class Composer:
                 if k % 2 == 0: self.beats.append(round(t, 3))
                 if slot is not None and pv > 0.05:
                     kind, imp = slot
-                    if pv >= (1 - imp) * 0.8:
+                    if pv >= (1 - imp) * 0.8 and not (imp < 0.5 and rng.random() < 0.25):
                         vel = float(np.clip((0.30 + 0.55 * pv) * (1 if imp > 0.7 else 0.7) * (1 + rng.normal(0, 0.12)), 0.1, 0.95))
                         x = voices.drum(kind, rng, vel, pitch * float(rng.uniform(0.97, 1.03)))
                         x = peak_ref(x, -10.0) * (0.2 + 0.8 * vel)
@@ -529,9 +529,10 @@ class Composer:
         p = self.plan; rng = self.rngs['hits']; D = self.D
         self.hitbus = Bus(self.n); self.hit_air = Bus(self.n)
         hits = list(p['hits'])
-        pitch = float(dsp.midi_hz(self.tonic + 24) / 44.0)
-        while pitch > 1.5: pitch /= 2
-        while pitch < 0.75: pitch *= 2
+        f_boom = float(dsp.midi_hz(self.tonic + 24))                               # the tonic, in the 50 to 100 Hz octave
+        while f_boom < 50: f_boom *= 2
+        while f_boom >= 100: f_boom /= 2
+        pitch = f_boom / 44.0
         for h in hits:
             t = float(h['t']); lv = float(h.get('level', 0.8)); kind = h.get('kind', 'low')
             if t >= D - 3: continue
@@ -566,8 +567,8 @@ class Composer:
         pad = (dark * w_d[:, None] + mid * w_m[:, None] + bright * w_b[:, None]) * g[:, None]
         del dark, mid, bright, body
         solo = self.solo.buf * (10 ** (-5.0 / 20)) * (10 ** (-3.0 * (1 - I_s) / 20)).astype(np.float32)[:, None]
-        pluck = self.pluck.buf * (10 ** (-5.5 / 20))
-        drums = self.drums.buf * (10 ** (-6.0 / 20)); hitbus = self.hitbus.buf * (10 ** (-3.0 / 20)); air = self.hit_air.buf
+        pluck = dsp.lowpass(self.pluck.buf, 5200, 2, axis=0) * (10 ** (-5.5 / 20))                  # no sharp pick or pizzicato edge above ~5 kHz
+        drums = dsp.lowpass(self.drums.buf, 5500, 2, axis=0) * (10 ** (-6.0 / 20)); hitbus = self.hitbus.buf * (10 ** (-3.0 / 20)); air = self.hit_air.buf
         # balance report: RMS of each bus in each section, before the room (what the arrangement is doing)
         self.balance = []
         for s in self.plan['sections']:

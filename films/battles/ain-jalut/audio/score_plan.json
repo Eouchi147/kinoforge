@@ -14,11 +14,6 @@
    "mood": "curious"
   },
   {
-   "t": 70.356,
-   "mood": "curious",
-   "intensity": 0.46
-  },
-  {
    "t": 74.699,
    "mood": "tension"
   },
@@ -128,7 +123,7 @@
   "turn_line": "l11",
   "result_line": "l14",
   "epilogue_line": "l15",
-  "plan_line": "l07",
+  "plan_line": null,
   "year": 1260,
   "place_scores": {
    "middle_east_central_asia": 40,

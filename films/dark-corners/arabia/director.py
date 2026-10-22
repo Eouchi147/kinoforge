@@ -817,8 +817,8 @@ def N(c, t, u):
 def N3(c, t, u):
     S = c.S; night(c, moon=0.7, az=-100, el=26, fill=0.12, amb=0.28); c.moon_pos = (-0.4, 2.3)
     S['field'].show(t, FIELD_T); tiles_show(S, t)
-    pos, tgt = cam_keys(t, [(119.397, (0.0, 0.10, 0.105), (0.0, 0.70, 0.075)), (122.2, (0.02, 0.62, 0.075), (0.0, 1.70, 0.050))], 't')
-    c.camera(pos, tgt, lens=28.0, fstop=2.8, focus=(0.0, 0.65, 0.07) if t < 120.8 else (0.0, 1.5, 0.04))
+    pos, tgt = cam_keys(t, [(119.397, (0.0, 0.10, 0.105), (0.0, 0.70, 0.075)), (122.2, (0.0, 0.34, 0.095), (0.0, 1.70, 0.050))], 't')
+    c.camera(pos, tgt, lens=28.0, fstop=lerp(8.0, 3.5, smoothstep3(clamp((t - 120.2) / 1.2))), focus=(0.0, lerp(0.60, 1.5, smoothstep3(clamp((t - 120.2) / 1.2))), 0.06))
 
 # ================================================================================================ SCENE 7: Mecca
 def mecca_scene(S, t, lit=(0, 1, 2, 3, 4, 5, 6, 7), door_on=1.0, fire=True, fgp=False):

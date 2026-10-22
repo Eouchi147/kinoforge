@@ -689,7 +689,7 @@ def build(bpy, ctx, aspect):
         Wd.panel('cta_bg', X0, 0.372, X0 + 0.43, 0.418, CARD_IN + 0.32, 99, (0.16, 0.50, 0.25), 1.0, 0.5)
         Wd.text('cta', CTA, X0 + 0.215, 0.3825, 0.0235, CARD_IN + 0.32, 99, 'bold', shadow=False, align='CENTER')
     else:
-        X0, Y0w, SZ, MW = 0.065, 0.11, 0.074, 0.40
+        X0, Y0w, SZ, MW = 0.065, 0.11, 0.088, 0.40
         for key, body, a, b in WORDS: Wd.text(key, body, X0, Y0w, SZ, a, b, max_w=MW)
         Wd.panel('tag_bg', X0, 0.095, X0 + 0.078, 0.137, CARD_IN, 99, (0.0, 0.0, 0.0), 1.0, 0.5, alpha=0.38)
         Wd.text('tag', 'SAMPLE', X0 + 0.039, 0.1035, 0.026, CARD_IN, 99, 'semi', shadow=False, align='CENTER', spacing=1.25)

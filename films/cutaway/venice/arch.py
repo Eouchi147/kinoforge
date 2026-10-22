@@ -314,16 +314,20 @@ def mat_pole_section(kit, name='vz_polecut', wood=(0.50, 0.36, 0.22), stone=(0.5
     col = g.mix(st, col, scol)
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.8})
     b = g.node('ShaderNodeBump', ins={'Strength': 0.3, 'Height': streak.outputs['Fac'], 'Distance': 0.002}); g.put(p, 'Normal', b)
-    cw._finish(g, p); m['stone_node'] = st.name
+    cw._finish(g, p); st.node.label = 'stone'
     return m
 
 
-def mat_band(kit, name, color, grain=0.35, pebbles=0.0, wet=0.0):
-    """A flat strata band for the hand-drawn sections (same feel as the kit's strata: grain, a few pebbles)."""
+def mat_band(kit, name, color, grain=0.35, pebbles=0.0, wet=0.0, alt=None):
+    """A flat strata band for the hand-drawn sections (same feel as the kit's strata: grain, a few pebbles). With alt, a
+    Value node labelled 'mix' blends the base colour towards alt (the film animates it)."""
     bpy = kit.bpy; m = cw._new_mat(bpy, name); g = cw.G(m.node_tree, kit)
     tc = g.node('ShaderNodeTexCoord'); pos = tc.outputs['Object']
     n1 = g.noise(pos, 60.0, 5.0, 0.6); n2 = g.noise(pos, 4.0, 3.0)
-    col = g.mix(g.math('MULTIPLY', n1.outputs['Fac'], grain), cw.srgb(color), g.mix(0.55, cw.srgb(color), (0, 0, 0), 'MULTIPLY'))
+    base = cw.srgb(color)
+    if alt is not None:
+        mv = g.value(0.0, 'mix'); base = g.mix(mv, cw.srgb(color), cw.srgb(alt))
+    col = g.mix(g.math('MULTIPLY', n1.outputs['Fac'], grain), base, g.mix(0.55, base, (0, 0, 0), 'MULTIPLY'))
     col = g.mix(g.math('MULTIPLY', n2.outputs['Fac'], 0.2), col, g.mix(0.5, col, (1, 1, 1), 'SCREEN'))
     if pebbles > 0:
         vp = g.voronoi(pos, 34.0, 'F1'); rr = g.sep(vp.outputs['Color'])

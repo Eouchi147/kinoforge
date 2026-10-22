@@ -1,0 +1,15 @@
+{
+ "id": "cutaway-agincourt-mud-B",
+ "series": "Battle Map",
+ "title": "The Battle of Agincourt, mud insert B",
+ "style": "cutaway",
+ "duration": 14.164,
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 64,
+ "audio": "",
+ "note": "Agincourt mud, insert B: the French on foot sinking to the knee, squeezed by the woods (cue l10 to l11, film 86.703 to 100.867 s, film frames 2081 to 2420 at 24 fps). Cutaway style, Blender Cycles CPU, free. No sound: the Agincourt film's own mix plays over it."
+}

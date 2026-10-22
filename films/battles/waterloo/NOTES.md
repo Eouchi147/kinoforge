@@ -1,50 +1,54 @@
-# The Battle of Waterloo (1815): Battle Map film notes
+# The Battle of Waterloo (1815): Battle Map film notes (v2)
 
-Engine: `films/lib/battlemap/` (spec format: `SPEC.md` there). Film spec: `spec.js` (all times come from `cues.json` words, so a re-cut of the
-voice moves the picture with it). 16:9, 24 fps, 158.506 s. Terrain style (engraved relief map). Colours: French blue, Wellington's British-led
-army red, Prussians green, Imperial Guard blue with gold trim (elite block). Every word on screen is set in code, no dashes, no ellipsis.
-Extra icons (hat, farm, clock, bed, sun, rain, cannon, hedgehog, island, oops) live in `icons.js` and are registered in `index.html` with
-`registerIcon` (the engine has no film specific code). No engine file was changed by this film.
+Engine: `films/lib/battlemap/` v2 (spec format: `SPEC.md` there; reference film `films/battles/cannae/`). Film spec: `spec.js`.
+16:9, 24 fps, 158.506 s. Narration timing is locked to `cues.json` (line starts never change; the score is re-done around them).
+Look: engraved relief map, armies as painted miniatures on trays. French blue, Wellington's British-led army red, Prussians green.
+`node films/lib/battlemap/tools/scenes.mjs films/battles/waterloo` prints the plan below with the checks.
 
-## Shot list against the cues
+Film-side additions (`units.js`, registered from `index.html`, no engine file changed):
+- `artillery` figure kind: a field gun on its carriage (two spoked wheels, trail, bronze barrel) with two gunners, added to the
+  engine's exported `FIG_KINDS` before the film starts, so the French grand battery stands on the map as real guns on trays.
+  The legend's Artillery row uses the engine's `u-artillery` unit symbol.
+- `tricolore` glyph (the French standard: a staff with a gold eagle finial and a vertical blue, white, red flag) for the legend and Paris.
+- `brig` glyph (a flat two-masted sailing ship in the team colour) that follows the exile and escape routes and the voyage to Saint Helena.
+- Squares are built from blocks, not drawn: at "formed squares" each of the four central line blocks contracts into the south face of a
+  hollow square and three thin faces (north, east, west, each facing outward) rise rank by rank. The French horsemen ride through the
+  gaps between the squares and back; the spacing solver keeps them out of the squares.
 
-| time (s) | cue | picture |
-| --- | --- | --- |
-| 0 to 1 | | black card fades out |
-| 1.3 to 10.3 | l00 hook | Europe relief map (stage `eur`), JUNE 1815; a bicorne hat pops onto Paris on "Napoleon" (NAPOLEON, then HE IS BACK with a burst on "back"); a stop sign over the hat on "enough" (EUROPE HAD HAD ENOUGH) |
-| 10.7 to 15 | l01 | title card THE BATTLE OF WATERLOO, then 1815, map dimmed behind |
-| 15.7 to 28.3 | l02 | France is blue; crown on the hat (EMPEROR OF FRANCE) and it falls off on "beaten"; ship on a dashed arrow to ELBA (island icon); escape: ship back to the coast, solid arrow to Paris, hat and crown back (BACK IN CHARGE); on "declared war" six red arrows converge on France; on "all of it" the second bake of the map (`eurW`, land red, France stays blue) fades in over 1.1 s (ALL OF IT) |
-| 29 to 42 | l03 | cut to the Belgian field, wide: French blue line on "him" (NAPOLEON + hat), Wellington's six red blocks on "armies" (WELLINGTON'S ARMY, red helmet), Prussian green blocks far east on "Prussian" (BLUCHER, 72 YEARS OLD with a star, NEVER GAVE UP) |
-| 42 to 47 | l04 | plan: blue arrows hit the centre and the east, then red and green dashed arrows reach toward each other and are stopped by a no sign (ONE AT A TIME, KEEP THEM APART) |
-| 47 to 59 | l05 | 18 JUNE 1815; the red column deploys onto the ridge (THE RIDGE, WATERLOO); on "Most of his soldiers" the blocks slide behind the crest and vanish below the skyline, only their flags show (HIDDEN BEHIND THE CREST); French guns (cannon icons) rise on the French ridge on "guns" (FRENCH GUNS) |
-| 59 to 67 | l06 | low push over the valley; farm icons on "farmhouses", red flags and garrisons on "forts"; camera moves to HOUGOUMONT (west) then LA HAYE SAINTE (centre) |
-| 67 to 77 | l07 | rain: five rain clouds, dark haze (light track); NAPOLEON waits (hat, clock); "Until almost midday": a gold dashed arc with a sun climbing along it, haze clears; "very expensive lie in": a bed with Z z under the hat |
-| 78 to 83.5 | l08 | camera west; two blue blocks hit Hougoumont and bounce back three times (arrows redrawn each time), a clock spins (ALL DAY LONG), then NEVER TAKEN with a check |
-| 84 to 93 | l09 | four French blocks march at the centre (FRENCH INFANTRY); two red cavalry blocks charge from behind the ridge, the French are pushed back; the cavalry goes on to the French line (TOO FAR, oops mark, dashed overshoot arrow) and fades by numbers |
-| 93 to 105 | l10 | three French cavalry blocks ride up the ridge; Wellington's blocks step up and shrink into squares (SQUARES, hedgehog icons, HEDGEHOGS OF BAYONETS); the cavalry circles the squares twice and rides off (THEY WILL NOT CHARGE, no sign) |
-| 105 to 113 | l11 | camera pans far east; four green blocks arrive along a long dashed route from the map edge (FAR TO THE EAST, PRUSSIANS, THROUGH MUD with a rain cloud, LATE with a clock, BUT COMING) |
-| 113.7 to 124 | l12 | evening light; the Prussians hit the French right flank at Plancenoit (burst); the Imperial Guard drops in at the French rear (LAST AND BEST, star) and goes up the road to the ridge |
-| 124.5 to 134 | l13 | the red blocks step up out of the corn field (TALL CORN), two volleys on "fired" (FIRE), the Guard falls back, the whole French army turns and runs off the map, split left and right (RUN) |
-| 134.5 to 139.3 | l14 | low evening sweep behind a dark scrim, red helmet, plate THE DUKE OF WELLINGTON with the quote line by line on the words |
-| 139.5 to 142.9 | l15 | FOUR DAYS LATER; hat and crown, the crown drops on "throne" |
-| 142.9 to 148.3 | l15 | full screen cut to the South Atlantic (stage `atl`): a tiny island on a big ocean, ship on a dashed arrow, SAINT HELENA, then a door slams (NO ESCAPING) |
-| 148.95 to 154 | l16 | dictionary plate: WATERLOO, idiom, "to meet your Waterloo", "to meet the one thing that finally beats you" |
-| 154.3 to 158.5 | end | end card BATTLE MAP + "The Battle of Waterloo, 1815" |
+## How the battle is explained (CRAFT.md section 7)
+Stakes and people first (S1: Napoleon is back and all Europe turns on him; S2: the two allied armies and their commanders), then each
+side's plan on the map (S2.4: drive a wedge between them), the field (S3: the ridge, the hidden line, the farms as forts), the delay (S4),
+the attacks (S5, S6), the turn (S7: the Prussians arrive, the Guard goes in), the decisive moment shown twice (S8.1 wide from above: the
+line rises and fires; S8.2 low and close: the Guard reels back under the smoke), the result (S8.3 the rout, the legend dims France), then
+why it mattered (S8.4 the Duke's words, S9 exile and the idiom). Humour stays in the narration and the timing: the hold on the Emperor's
+headquarters through "a very expensive lie in", the cut to the wide shot on "and then charged a bit too far", the slow push on the speck of an
+island through "No escaping from that one."
 
-## Build notes
+## Scene list (9 scenes, 28 shots)
 
-- Stages: `world` (the battlefield, 900 x 580 units), `eur` and `eurW` (the same Europe polygons baked twice with different palettes: the
-  palette is keyed by height, France is lifted so it paints blue, the other lands are parchment in `eur` and red in `eurW`; the second bake
-  fades in as a full screen inset), `atl` (South Atlantic). Insets are full screen so the main stage is skipped while they show.
-- Geography is stylised and not to scale: the ridge, the road north to south (Brussels road), the crest lane (a thin road on the ridge), the
-  Hougoumont wood, villages left out except named labels, the Dyle on the east edge. Europe and the Atlantic are hand polygons.
-- Losses are fading blocks (the cavalry in l09), never wounds. The French rout is a block run, not casualties.
-- No numbers on screen other than 1815, 18 JUNE 1815 and 72 YEARS OLD (all in the narration).
+| scene | cue | job | camera plan |
+| --- | --- | --- | --- |
+| S1 The return (Europe map) | 0 to l03 | Napoleon is back, and this time all of Europe turns on him | 1.1 Europe wide (caption JUNE 1815), slow push to Paris on "Napoleon" (French standard, NAPOLEON), pull back to the continent on "Europe had had enough", crane up under the title card; 1.2 follow the exile to Elba and the escape back to Paris (the brig rides the dashed routes); 1.3 wide Europe: six red arrows converge on France on "declared war", the whole continent turns red on "All of it" (second bake of the map fades in) |
+| S2 Two armies | l03 to l05 | who waits for him in Belgium, and his plan to beat them one at a time | dissolve (change of world). 2.1 high over the field from the south: the French line arrives on its ridge; 2.2 high oblique on Wellington's army in column (WELLINGTON, legend adds the allied army); 2.3 far east, low: the Prussians and their old marshal (BLÜCHER, legend adds Prussia); 2.4 top-down plan: a blue wedge drives between the red and green dashed arrows that reach for each other |
+| S3 The ridge | l05 to l07 | Wellington's position: a hidden line behind a ridge, two farms turned into forts | 3.1 high oblique from the French side: the army files onto the ridge (caption 18 JUNE 1815, places A ridge, B Waterloo); 3.2 low behind the French guns looking up the slope: the line steps back behind the crest and drops out of sight (legend adds Artillery); 3.3 high over the valley: Hougoumont (C) on one side, La Haye Sainte (D) in the middle, garrisons in each |
+| S4 The lie in | l07 to l08 | rain delays the attack until almost midday | rain haze and heavy cloud clearing through the scene. 4.1 low from the allied ridge over the wet valley to the waiting French; 4.2 the sky clears: slow push on the Emperor's headquarters (caption 11:30 AM), held through "a very expensive lie in" |
+| S5 Morning attacks | l08 to l10 | the French attack all day and fail: Hougoumont holds, the centre is thrown back, the British cavalry goes too far | 5.1 west to Hougoumont: two waves break on the walls and fall back thinned; 5.2 low behind the French columns climbing at the centre; 5.3 high from the flank: the British cavalry comes through the gap in its line and throws them back; 5.4 cut wide on the punchline: the horsemen run on into the French guns and thin out |
+| S6 The squares | l10 to l11 | the French horsemen against squares that will not break | 6.1 low behind the horsemen riding up the slope (legend highlights Cavalry); 6.2 top-down: the line folds into hollow squares, the horsemen flow through the gaps (legend highlights Infantry); 6.3 low and close beside one square: the horses will not go in |
+| S7 The Prussians come | l11 to l13 | the Prussians arrive late, and Napoleon plays his last card | 7.1 far east, high: the Prussians on the long dashed road, late but coming (legend highlights Prussia); 7.2 evening light: they smash into the French flank at Plancenoit, two French blocks wheel to face them; 7.3 low behind the Imperial Guard as it climbs the road to the ridge |
+| S8 The turn (climax) | l13 to l15.This | the decisive moment, then the cost and the verdict | 8.1 wide and high: the line rises out of the corn and fires (musket smoke), the Guard thins; 8.2 the same moment low and close: the Guard reels back; 8.3 high and wide: the whole French army runs, arrows fan out, France dims in the legend; 8.4 low evening sweep over the emptied field under the Duke's words (card); 8.5 the abandoned French ridge at dusk (caption 22 JUNE 1815) |
+| S9 Saint Helena | l15.This to end | exile for good, and the word it left behind | dissolve to the South Atlantic: the brig sails the long dashed route, a slow push from the whole ocean to the speck of SAINT HELENA (caption 1,900 KM FROM AFRICA); the dictionary plate and the end card |
 
-## Known weak spots
+Legend: title THE BATTLE OF WATERLOO, 18 June 1815; sides FRANCE (Napoleon, about 73,000, `tricolore`), ALLIED ARMY (Duke of
+Wellington, about 68,000), PRUSSIA (Marshal Blücher, about 50,000 reached the field), each on the word that names it; units Infantry
+(all three), Cavalry (French and British), Artillery (French); places A the ridge, B Waterloo, C Hougoumont, D La Haye Sainte.
+Numbers: commonly cited strengths on the field (French 72,000 to 73,000; Wellington about 68,000; Prussians about 50,000 engaged by evening).
 
-- The ground is a calm engraved plain; the low evening sun in l12 to l15 makes hard relief shadows.
-- Europe is a rough hand map; Italy and the Baltic are crude. Elba is almost touching the coast of the mainland at this scale.
-- The Prussians appear at the east map edge (x 440), close to the fog edge; the dashed route stays readable but the blocks are small.
-- `registerIcon` and `fallAt` (crown falling) are small additions other builders put in the shared engine files; if they are not in the tree,
-  the icons do not draw and the crown does not fall.
+Living world: cloud shadows, grass gusts, the Dyle glinting on the east edge, two bivouacs (tents, fires, people), wagons and walkers on
+the Brussels road, two flocks of birds, gun smoke on the French battery from the first attack, Hougoumont burning in the afternoon,
+Plancenoit burning in the evening, musket smoke along the ridge on "fired", army dust.
+
+## Removed from v1
+Cartoon icons and their `icons.js` (hat, crown, farm, clock, bed, sun, rain clouds, cannon clip art, hedgehogs, island, the "!" mark, stop
+signs, bursts, the helmet over the quote) and the labels that only repeated the narration (HE IS BACK, ESCAPED, ALL OF IT, ONE AT A
+TIME, KEEP THEM APART, IT RAINED ALL NIGHT, A VERY EXPENSIVE LIE IN, ATTACK, ALL DAY LONG, NEVER TAKEN, TOO FAR, HEDGEHOGS OF BAYONETS,
+THEY WILL NOT CHARGE, THROUGH MUD, LATE, BUT COMING, FIRE, RUN, NO ESCAPING...). Kept: names, dates, numbers.

@@ -349,9 +349,9 @@ def build_dress(bpy, S, M, coll):
     """Everything that makes the table look lived in. Called once, after the props (it needs the lamp field)."""
     S['paths'] = [[(x, y) for x, y in W.TRACK_PTS], [(1.0, 1.05), (0.45, 0.88), (-0.25, 0.72), (-1.0, 0.74), (-1.7, 0.98), (-2.3, 1.22)], [(-3.2, 2.20), (-2.6, 2.05), (-1.9, 2.18), (-1.2, 2.35), (-0.5, 2.28)]]
     S['keepout'] = [(FIRE1[0], FIRE1[1], 0.08), (FIRE2[0], FIRE2[1], 0.10), (OASIS_R[0], OASIS_R[1], 0.30), (OASIS_L[0], OASIS_L[1], 0.24), (-1.85, 1.05, 0.12), (-2.72, 0.95, 0.30), (0.0, 0.35, 0.16), (0.0, 0.95, 0.30)]
-    build_scatter(bpy, S, M, coll, (-4.0, 4.0, -0.7, 3.6), 110, 650, 40, seed=5, name='sc')
+    build_scatter(bpy, S, M, coll, (-4.0, 4.0, -0.7, 3.6), 170, 1100, 55, seed=5, name='sc')
     S['keepout'] = [(FIRE3[0], FIRE3[1], 0.10), (9.0, 1.25, 0.14), (9.0, 1.9, 0.5), (8.8, 1.9, 0.3), (9.4, 1.1, 0.5), (10.4, 1.35, 0.3)]
-    build_scatter(bpy, S, M, coll, (6.7, 11.5, -0.6, 2.2), 26, 70, 8, seed=8, name='mc')
+    build_scatter(bpy, S, M, coll, (6.7, 11.5, -0.6, 2.2), 50, 190, 12, seed=8, name='mc')
     # oases and palms
     S['oasisR'] = Oasis(bpy, 'oasR', coll, M, OASIS_R[0], OASIS_R[1], [(-0.18, 0.05, 0.36, (3, 4)), (0.12, 0.12, 0.30, (-4, 2)), (0.0, -0.10, 0.27, (5, -3)), (0.27, -0.02, 0.34, (-2, -6)), (-0.06, 0.18, 0.39, (2, 3))], rs_seed=3, r=0.17)
     S['oasisL'] = Oasis(bpy, 'oasL', coll, M, OASIS_L[0], OASIS_L[1], [(-0.15, 0.03, 0.33, (3, 5)), (0.12, 0.08, 0.28, (-4, 2)), (0.0, 0.17, 0.37, (2, -4))], rs_seed=4, r=0.12)
