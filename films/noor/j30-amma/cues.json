@@ -1,0 +1,2094 @@
+{
+ "id": "noor-juz-30-amma",
+ "series": "NOOR",
+ "strand": "Tonight's Juz",
+ "night": 30,
+ "title": "Juz Amma",
+ "title_sub": "Juz Thirty",
+ "duration": 138.976,
+ "end_card_s": 6.2,
+ "lines": [
+  {
+   "id": "c1",
+   "text": "If you know a surah by heart, there is a good chance it comes from tonight's part of the Qur'an.",
+   "say": "If you know a surah by heart, there is a good chance it comes from tonight's part of the Quran.",
+   "start": 1.2,
+   "end": 5.328,
+   "file": "audio/vo/line0.mp3",
+   "words": [
+    [
+     "If",
+     1.2,
+     1.36
+    ],
+    [
+     "you",
+     1.36,
+     1.44
+    ],
+    [
+     "know",
+     1.44,
+     1.58
+    ],
+    [
+     "a",
+     1.58,
+     1.7
+    ],
+    [
+     "surah",
+     1.7,
+     1.94
+    ],
+    [
+     "by",
+     1.94,
+     2.1
+    ],
+    [
+     "heart,",
+     2.1,
+     2.36
+    ],
+    [
+     "there",
+     2.66,
+     2.78
+    ],
+    [
+     "is",
+     2.78,
+     2.88
+    ],
+    [
+     "a",
+     2.88,
+     2.98
+    ],
+    [
+     "good",
+     2.98,
+     3.14
+    ],
+    [
+     "chance",
+     3.14,
+     3.36
+    ],
+    [
+     "it",
+     3.36,
+     3.56
+    ],
+    [
+     "comes",
+     3.56,
+     3.76
+    ],
+    [
+     "from",
+     3.76,
+     3.98
+    ],
+    [
+     "tonight's",
+     3.98,
+     4.34
+    ],
+    [
+     "part",
+     4.34,
+     4.48
+    ],
+    [
+     "of",
+     4.48,
+     4.6
+    ],
+    [
+     "the",
+     4.6,
+     4.68
+    ],
+    [
+     "Quran.",
+     4.68,
+     4.9
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.0
+  },
+  {
+   "id": "w1",
+   "text": "The Qur'an is divided into thirty parts. Each part is called a juz.",
+   "say": "The Quran is divided into thirty parts. Each part is called a juzz.",
+   "start": 11.328,
+   "end": 15.456,
+   "file": "audio/vo/line1.mp3",
+   "words": [
+    [
+     "The",
+     11.328,
+     11.448
+    ],
+    [
+     "Quran",
+     11.448,
+     11.648
+    ],
+    [
+     "is",
+     11.648,
+     11.908
+    ],
+    [
+     "divided",
+     11.908,
+     12.188
+    ],
+    [
+     "into",
+     12.188,
+     12.508
+    ],
+    [
+     "30",
+     12.508,
+     12.748
+    ],
+    [
+     "parts.",
+     12.748,
+     13.068
+    ],
+    [
+     "Each",
+     13.888,
+     13.888
+    ],
+    [
+     "part",
+     13.888,
+     14.148
+    ],
+    [
+     "is",
+     14.148,
+     14.348
+    ],
+    [
+     "called",
+     14.348,
+     14.588
+    ],
+    [
+     "a",
+     14.588,
+     14.728
+    ],
+    [
+     "juzz.",
+     14.728,
+     14.988
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.077
+  },
+  {
+   "id": "w2",
+   "text": "Many families read one juz every night of Ramadan, so that by the end of the month, they have read the whole Qur'an.",
+   "say": "Many families read one juzz every night of Ramadan, so that by the end of the month, they have read the whole Quran.",
+   "start": 16.256,
+   "end": 21.056,
+   "file": "audio/vo/line2.mp3",
+   "words": [
+    [
+     "Many",
+     16.256,
+     16.476
+    ],
+    [
+     "families",
+     16.476,
+     16.796
+    ],
+    [
+     "read",
+     16.796,
+     17.036
+    ],
+    [
+     "one",
+     17.036,
+     17.236
+    ],
+    [
+     "judge",
+     17.236,
+     17.436
+    ],
+    [
+     "every",
+     17.436,
+     17.776
+    ],
+    [
+     "night",
+     17.776,
+     17.936
+    ],
+    [
+     "of",
+     17.936,
+     18.056
+    ],
+    [
+     "Ramadan,",
+     18.056,
+     18.296
+    ],
+    [
+     "so",
+     18.656,
+     18.776
+    ],
+    [
+     "that",
+     18.776,
+     18.876
+    ],
+    [
+     "by",
+     18.876,
+     19.036
+    ],
+    [
+     "the",
+     19.036,
+     19.136
+    ],
+    [
+     "end",
+     19.136,
+     19.276
+    ],
+    [
+     "of",
+     19.276,
+     19.376
+    ],
+    [
+     "the",
+     19.376,
+     19.476
+    ],
+    [
+     "month,",
+     19.476,
+     19.636
+    ],
+    [
+     "they",
+     19.876,
+     19.896
+    ],
+    [
+     "have",
+     19.896,
+     20.036
+    ],
+    [
+     "read",
+     20.036,
+     20.136
+    ],
+    [
+     "the",
+     20.136,
+     20.256
+    ],
+    [
+     "whole",
+     20.256,
+     20.356
+    ],
+    [
+     "Quran.",
+     20.356,
+     20.676
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.043
+  },
+  {
+   "id": "w3",
+   "text": "Tonight we reach the last one. Juz thirty. People call it Juz Amma, after its very first word.",
+   "say": "Tonight we reach the last one. Juzz thirty. People call it Juzz Amma, after its very first word.",
+   "start": 21.856,
+   "end": 27.112,
+   "file": "audio/vo/line3.mp3",
+   "words": [
+    [
+     "Tonight,",
+     21.856,
+     22.096
+    ],
+    [
+     "we",
+     22.296,
+     22.336
+    ],
+    [
+     "reach",
+     22.336,
+     22.496
+    ],
+    [
+     "the",
+     22.496,
+     22.696
+    ],
+    [
+     "last",
+     22.696,
+     22.856
+    ],
+    [
+     "one,",
+     22.856,
+     23.136
+    ],
+    [
+     "Juzz",
+     23.496,
+     23.676
+    ],
+    [
+     "30.",
+     23.676,
+     23.976
+    ],
+    [
+     "People",
+     24.376,
+     24.496
+    ],
+    [
+     "call",
+     24.496,
+     24.776
+    ],
+    [
+     "it",
+     24.776,
+     24.896
+    ],
+    [
+     "Juzz",
+     24.896,
+     25.116
+    ],
+    [
+     "Alma",
+     25.116,
+     25.376
+    ],
+    [
+     "after",
+     25.376,
+     25.836
+    ],
+    [
+     "its",
+     25.836,
+     25.956
+    ],
+    [
+     "very",
+     25.956,
+     26.156
+    ],
+    [
+     "first",
+     26.156,
+     26.476
+    ],
+    [
+     "word.",
+     26.476,
+     26.736
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.111
+  },
+  {
+   "id": "w4",
+   "text": "It holds thirty-seven surahs. Most of them are short, and that is why children often learn them first.",
+   "say": "It holds thirty seven surahs. Most of them are short, and that is why children often learn them first.",
+   "start": 27.912,
+   "end": 33.336,
+   "file": "audio/vo/line4.mp3",
+   "words": [
+    [
+     "It",
+     27.912,
+     28.052
+    ],
+    [
+     "holds",
+     28.052,
+     28.212
+    ],
+    [
+     "37",
+     28.212,
+     28.832
+    ],
+    [
+     "surahs.",
+     28.832,
+     29.292
+    ],
+    [
+     "Most",
+     29.992,
+     30.072
+    ],
+    [
+     "of",
+     30.072,
+     30.292
+    ],
+    [
+     "them",
+     30.292,
+     30.392
+    ],
+    [
+     "are",
+     30.392,
+     30.492
+    ],
+    [
+     "short,",
+     30.492,
+     30.732
+    ],
+    [
+     "and",
+     31.132,
+     31.172
+    ],
+    [
+     "that",
+     31.172,
+     31.312
+    ],
+    [
+     "is",
+     31.312,
+     31.432
+    ],
+    [
+     "why",
+     31.432,
+     31.592
+    ],
+    [
+     "children",
+     31.592,
+     31.892
+    ],
+    [
+     "often",
+     31.892,
+     32.212
+    ],
+    [
+     "learn",
+     32.212,
+     32.452
+    ],
+    [
+     "them",
+     32.452,
+     32.592
+    ],
+    [
+     "first.",
+     32.592,
+     32.852
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.105
+  },
+  {
+   "id": "e1",
+   "text": "Tonight, we open three treasures inside it.",
+   "say": "Tonight, we open three treasures inside it.",
+   "start": 34.536,
+   "end": 37.176,
+   "file": "audio/vo/line5.mp3",
+   "words": [
+    [
+     "Tonight,",
+     34.536,
+     34.856
+    ],
+    [
+     "we",
+     35.216,
+     35.296
+    ],
+    [
+     "open",
+     35.296,
+     35.456
+    ],
+    [
+     "three",
+     35.456,
+     35.776
+    ],
+    [
+     "treasures",
+     35.776,
+     36.136
+    ],
+    [
+     "inside",
+     36.136,
+     36.576
+    ],
+    [
+     "it.",
+     36.576,
+     36.856
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "t1a",
+   "text": "The first treasure is Surah al-Alaq.",
+   "say": "The first treasure is Surah al-Alaq.",
+   "start": 38.776,
+   "end": 41.224,
+   "file": "audio/vo/line6.mp3",
+   "words": [
+    [
+     "The",
+     38.776,
+     38.896
+    ],
+    [
+     "first",
+     38.896,
+     39.076
+    ],
+    [
+     "treasure",
+     39.076,
+     39.376
+    ],
+    [
+     "is",
+     39.376,
+     39.736
+    ],
+    [
+     "Surah",
+     39.736,
+     40.196
+    ],
+    [
+     "al",
+     40.196,
+     40.516
+    ],
+    [
+     "-Alaq.",
+     40.516,
+     41.016
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "t1b",
+   "text": "Its first five verses were the very first words of the Qur'an ever sent down, in the cave of Hira.",
+   "say": "Its first five verses were the very first words of the Quran ever sent down, in the cave of Heera.",
+   "start": 41.924,
+   "end": 47.036,
+   "file": "audio/vo/line7.mp3",
+   "words": [
+    [
+     "Its",
+     41.924,
+     42.084
+    ],
+    [
+     "first",
+     42.084,
+     42.324
+    ],
+    [
+     "five",
+     42.324,
+     42.624
+    ],
+    [
+     "verses",
+     42.624,
+     43.004
+    ],
+    [
+     "were",
+     43.004,
+     43.344
+    ],
+    [
+     "the",
+     43.344,
+     43.444
+    ],
+    [
+     "very",
+     43.444,
+     43.684
+    ],
+    [
+     "first",
+     43.684,
+     43.944
+    ],
+    [
+     "words",
+     43.944,
+     44.204
+    ],
+    [
+     "of",
+     44.204,
+     44.424
+    ],
+    [
+     "the",
+     44.424,
+     44.504
+    ],
+    [
+     "Quran",
+     44.504,
+     44.684
+    ],
+    [
+     "ever",
+     44.684,
+     45.044
+    ],
+    [
+     "sent",
+     45.044,
+     45.284
+    ],
+    [
+     "down",
+     45.284,
+     45.584
+    ],
+    [
+     "in",
+     45.584,
+     45.924
+    ],
+    [
+     "the",
+     45.924,
+     46.024
+    ],
+    [
+     "cave",
+     46.024,
+     46.244
+    ],
+    [
+     "of",
+     46.244,
+     46.444
+    ],
+    [
+     "Hera.",
+     46.444,
+     46.664
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.05
+  },
+  {
+   "id": "t1c",
+   "text": "Read, in the name of your Lord, who created.",
+   "say": "Read, in the name of your Lord, who created.",
+   "start": 47.736,
+   "end": 49.848,
+   "file": "audio/vo/line8.mp3",
+   "words": [
+    [
+     "Read",
+     47.736,
+     47.956
+    ],
+    [
+     "in",
+     47.956,
+     48.296
+    ],
+    [
+     "the",
+     48.296,
+     48.396
+    ],
+    [
+     "name",
+     48.396,
+     48.556
+    ],
+    [
+     "of",
+     48.556,
+     48.656
+    ],
+    [
+     "your",
+     48.656,
+     48.736
+    ],
+    [
+     "Lord",
+     48.736,
+     48.916
+    ],
+    [
+     "who",
+     48.916,
+     49.176
+    ],
+    [
+     "created.",
+     49.176,
+     49.456
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "t1d",
+   "text": "So the last part of the Qur'an holds its very first words. The end and the beginning, side by side.",
+   "say": "So the last part of the Quran holds its very first words. The end, and the beginning, side by side.",
+   "start": 50.748,
+   "end": 56.58,
+   "file": "audio/vo/line9.mp3",
+   "words": [
+    [
+     "So,",
+     50.748,
+     50.968
+    ],
+    [
+     "the",
+     51.248,
+     51.308
+    ],
+    [
+     "last",
+     51.308,
+     51.468
+    ],
+    [
+     "part",
+     51.468,
+     51.728
+    ],
+    [
+     "of",
+     51.728,
+     51.828
+    ],
+    [
+     "the",
+     51.828,
+     51.908
+    ],
+    [
+     "Quran",
+     51.908,
+     52.108
+    ],
+    [
+     "holds",
+     52.108,
+     52.468
+    ],
+    [
+     "its",
+     52.468,
+     52.608
+    ],
+    [
+     "very",
+     52.608,
+     52.788
+    ],
+    [
+     "first",
+     52.788,
+     53.168
+    ],
+    [
+     "words,",
+     53.168,
+     53.448
+    ],
+    [
+     "the",
+     53.888,
+     54.008
+    ],
+    [
+     "end",
+     54.008,
+     54.308
+    ],
+    [
+     "and",
+     54.308,
+     54.748
+    ],
+    [
+     "the",
+     54.748,
+     54.928
+    ],
+    [
+     "beginning",
+     54.928,
+     55.168
+    ],
+    [
+     "side",
+     55.168,
+     55.648
+    ],
+    [
+     "by",
+     55.648,
+     55.888
+    ],
+    [
+     "side.",
+     55.888,
+     56.248
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.0
+  },
+  {
+   "id": "t2a",
+   "text": "The second treasure is Surah al-Qadr. It tells us about one special night.",
+   "say": "The second treasure is Surah al-Qadr. It tells us about one special night.",
+   "start": 58.38,
+   "end": 62.604,
+   "file": "audio/vo/line10.mp3",
+   "words": [
+    [
+     "The",
+     58.38,
+     58.48
+    ],
+    [
+     "second",
+     58.48,
+     58.72
+    ],
+    [
+     "treasure",
+     58.72,
+     58.98
+    ],
+    [
+     "is",
+     58.98,
+     59.28
+    ],
+    [
+     "Surah",
+     59.28,
+     59.66
+    ],
+    [
+     "Al",
+     59.66,
+     59.88
+    ],
+    [
+     "Qader.",
+     59.88,
+     60.26
+    ],
+    [
+     "It",
+     60.7,
+     60.8
+    ],
+    [
+     "tells",
+     60.8,
+     60.98
+    ],
+    [
+     "us",
+     60.98,
+     61.16
+    ],
+    [
+     "about",
+     61.16,
+     61.4
+    ],
+    [
+     "one",
+     61.4,
+     61.64
+    ],
+    [
+     "special",
+     61.64,
+     61.98
+    ],
+    [
+     "night.",
+     61.98,
+     62.28
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.071
+  },
+  {
+   "id": "t2b",
+   "text": "Allah says: We sent it down on the Night of Decree.",
+   "say": "Allah says: We sent it down on the Night of Decree.",
+   "start": 63.304,
+   "end": 66.232,
+   "file": "audio/vo/line11.mp3",
+   "words": [
+    [
+     "Allah",
+     63.304,
+     63.504
+    ],
+    [
+     "says,",
+     63.504,
+     63.924
+    ],
+    [
+     "we",
+     64.224,
+     64.324
+    ],
+    [
+     "sent",
+     64.324,
+     64.524
+    ],
+    [
+     "it",
+     64.524,
+     64.684
+    ],
+    [
+     "down",
+     64.684,
+     64.904
+    ],
+    [
+     "on",
+     64.904,
+     65.184
+    ],
+    [
+     "the",
+     65.184,
+     65.284
+    ],
+    [
+     "night",
+     65.284,
+     65.464
+    ],
+    [
+     "of",
+     65.464,
+     65.564
+    ],
+    [
+     "decree.",
+     65.564,
+     65.764
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "t2c",
+   "text": "And the Night of Decree is better than a thousand months.",
+   "say": "And the Night of Decree is better than a thousand months.",
+   "start": 66.832,
+   "end": 69.496,
+   "file": "audio/vo/line12.mp3",
+   "words": [
+    [
+     "And",
+     66.832,
+     67.172
+    ],
+    [
+     "the",
+     67.172,
+     67.332
+    ],
+    [
+     "night",
+     67.332,
+     67.472
+    ],
+    [
+     "of",
+     67.472,
+     67.572
+    ],
+    [
+     "decree",
+     67.572,
+     67.772
+    ],
+    [
+     "is",
+     67.772,
+     68.052
+    ],
+    [
+     "better",
+     68.052,
+     68.252
+    ],
+    [
+     "than",
+     68.252,
+     68.432
+    ],
+    [
+     "a",
+     68.432,
+     68.512
+    ],
+    [
+     "thousand",
+     68.512,
+     68.712
+    ],
+    [
+     "months.",
+     68.712,
+     69.032
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "t2d",
+   "text": "A thousand months is more than eighty-three years. More than a whole lifetime, in a single night.",
+   "say": "A thousand months is more than eighty three years. More than a whole lifetime, in a single night.",
+   "start": 70.496,
+   "end": 75.872,
+   "file": "audio/vo/line13.mp3",
+   "words": [
+    [
+     "A",
+     70.496,
+     70.616
+    ],
+    [
+     "thousand",
+     70.616,
+     70.916
+    ],
+    [
+     "months",
+     70.916,
+     71.256
+    ],
+    [
+     "is",
+     71.256,
+     71.556
+    ],
+    [
+     "more",
+     71.556,
+     71.716
+    ],
+    [
+     "than",
+     71.716,
+     71.856
+    ],
+    [
+     "83",
+     71.856,
+     72.116
+    ],
+    [
+     "years,",
+     72.116,
+     72.816
+    ],
+    [
+     "more",
+     73.316,
+     73.516
+    ],
+    [
+     "than",
+     73.516,
+     73.676
+    ],
+    [
+     "a",
+     73.676,
+     73.756
+    ],
+    [
+     "whole",
+     73.756,
+     73.936
+    ],
+    [
+     "lifetime",
+     73.936,
+     74.316
+    ],
+    [
+     "in",
+     74.316,
+     74.796
+    ],
+    [
+     "a",
+     74.796,
+     74.876
+    ],
+    [
+     "single",
+     74.876,
+     75.076
+    ],
+    [
+     "night.",
+     75.076,
+     75.436
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.111
+  },
+  {
+   "id": "t2e",
+   "text": "That night is hidden in the last ten nights of Ramadan, most likely on an odd night. So people give their best on every one of them.",
+   "say": "That night is hidden in the last ten nights of Ramadan, most likely on an odd night. So people give their best on every one of them.",
+   "start": 76.672,
+   "end": 83.128,
+   "file": "audio/vo/line14.mp3",
+   "words": [
+    [
+     "That",
+     76.672,
+     76.892
+    ],
+    [
+     "night",
+     76.892,
+     77.152
+    ],
+    [
+     "is",
+     77.152,
+     77.332
+    ],
+    [
+     "hidden",
+     77.332,
+     77.572
+    ],
+    [
+     "in",
+     77.572,
+     77.752
+    ],
+    [
+     "the",
+     77.752,
+     77.832
+    ],
+    [
+     "last",
+     77.832,
+     78.012
+    ],
+    [
+     "10",
+     78.012,
+     78.312
+    ],
+    [
+     "nights",
+     78.312,
+     78.532
+    ],
+    [
+     "of",
+     78.532,
+     78.672
+    ],
+    [
+     "Ramadan,",
+     78.672,
+     78.812
+    ],
+    [
+     "most",
+     79.492,
+     79.612
+    ],
+    [
+     "likely",
+     79.612,
+     79.912
+    ],
+    [
+     "on",
+     79.912,
+     80.172
+    ],
+    [
+     "an",
+     80.172,
+     80.272
+    ],
+    [
+     "odd",
+     80.272,
+     80.432
+    ],
+    [
+     "night,",
+     80.432,
+     80.672
+    ],
+    [
+     "so",
+     81.012,
+     81.212
+    ],
+    [
+     "people",
+     81.212,
+     81.372
+    ],
+    [
+     "give",
+     81.372,
+     81.592
+    ],
+    [
+     "their",
+     81.592,
+     81.772
+    ],
+    [
+     "best",
+     81.772,
+     81.932
+    ],
+    [
+     "on",
+     81.932,
+     82.152
+    ],
+    [
+     "every",
+     82.152,
+     82.332
+    ],
+    [
+     "one",
+     82.332,
+     82.532
+    ],
+    [
+     "of",
+     82.532,
+     82.632
+    ],
+    [
+     "them.",
+     82.632,
+     82.792
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.037
+  },
+  {
+   "id": "t3a",
+   "text": "The third treasure is tiny. Only four verses. Surah al-Ikhlas.",
+   "say": "The third treasure is tiny. Only four verses. Surah al-Ikhlaas.",
+   "start": 84.928,
+   "end": 89.536,
+   "file": "audio/vo/line15.mp3",
+   "words": [
+    [
+     "The",
+     84.928,
+     85.088
+    ],
+    [
+     "third",
+     85.088,
+     85.268
+    ],
+    [
+     "treasure",
+     85.268,
+     85.548
+    ],
+    [
+     "is",
+     85.548,
+     85.868
+    ],
+    [
+     "tiny,",
+     85.868,
+     86.088
+    ],
+    [
+     "only",
+     86.848,
+     86.848
+    ],
+    [
+     "four",
+     86.848,
+     87.068
+    ],
+    [
+     "verses.",
+     87.068,
+     87.448
+    ],
+    [
+     "Surah",
+     88.068,
+     88.288
+    ],
+    [
+     "al",
+     88.288,
+     88.548
+    ],
+    [
+     "-Iqlas.",
+     88.548,
+     89.008
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.091
+  },
+  {
+   "id": "t3b",
+   "text": "Say: He is Allah, the One. Allah, the One everyone turns to. He has no child, and He was not born. And there is nothing like Him.",
+   "say": "Say: He is Allah, the One. Allah, the One everyone turns to. He has no child, and He was not born. And there is nothing like Him.",
+   "start": 90.336,
+   "end": 98.328,
+   "file": "audio/vo/line16.mp3",
+   "words": [
+    [
+     "Say",
+     90.336,
+     90.656
+    ],
+    [
+     "he",
+     90.656,
+     90.996
+    ],
+    [
+     "is",
+     90.996,
+     91.196
+    ],
+    [
+     "Allah,",
+     91.196,
+     91.376
+    ],
+    [
+     "the",
+     91.756,
+     91.836
+    ],
+    [
+     "one.",
+     91.836,
+     92.016
+    ],
+    [
+     "Allah,",
+     92.716,
+     92.776
+    ],
+    [
+     "the",
+     93.096,
+     93.176
+    ],
+    [
+     "one",
+     93.176,
+     93.316
+    ],
+    [
+     "everyone",
+     93.316,
+     93.596
+    ],
+    [
+     "turns",
+     93.596,
+     93.896
+    ],
+    [
+     "to.",
+     93.896,
+     94.176
+    ],
+    [
+     "He",
+     94.536,
+     94.556
+    ],
+    [
+     "has",
+     94.556,
+     94.736
+    ],
+    [
+     "no",
+     94.736,
+     94.916
+    ],
+    [
+     "child,",
+     94.916,
+     95.156
+    ],
+    [
+     "and",
+     95.576,
+     95.636
+    ],
+    [
+     "he",
+     95.636,
+     95.776
+    ],
+    [
+     "was",
+     95.776,
+     95.876
+    ],
+    [
+     "not",
+     95.876,
+     96.056
+    ],
+    [
+     "born.",
+     96.056,
+     96.296
+    ],
+    [
+     "And",
+     96.936,
+     96.976
+    ],
+    [
+     "there",
+     96.976,
+     97.116
+    ],
+    [
+     "is",
+     97.116,
+     97.216
+    ],
+    [
+     "nothing",
+     97.216,
+     97.436
+    ],
+    [
+     "like",
+     97.436,
+     97.756
+    ],
+    [
+     "him.",
+     97.756,
+     97.996
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.0
+  },
+  {
+   "id": "t3c",
+   "text": "The Prophet, peace and blessings be upon him, said that this little surah is equal to one third of the Qur'an.",
+   "say": "The Prophet, peace and blessings be upon him, said that this little surah is equal to one third of the Quran.",
+   "start": 99.328,
+   "end": 105.136,
+   "file": "audio/vo/line17.mp3",
+   "words": [
+    [
+     "The",
+     99.328,
+     99.468
+    ],
+    [
+     "Prophet,",
+     99.468,
+     99.748
+    ],
+    [
+     "peace",
+     100.048,
+     100.168
+    ],
+    [
+     "and",
+     100.168,
+     100.428
+    ],
+    [
+     "blessings",
+     100.428,
+     100.728
+    ],
+    [
+     "be",
+     100.728,
+     101.028
+    ],
+    [
+     "upon",
+     101.028,
+     101.268
+    ],
+    [
+     "him,",
+     101.268,
+     101.488
+    ],
+    [
+     "said",
+     101.788,
+     101.988
+    ],
+    [
+     "that",
+     101.988,
+     102.168
+    ],
+    [
+     "this",
+     102.168,
+     102.328
+    ],
+    [
+     "little",
+     102.328,
+     102.568
+    ],
+    [
+     "surah",
+     102.568,
+     103.008
+    ],
+    [
+     "is",
+     103.008,
+     103.188
+    ],
+    [
+     "equal",
+     103.188,
+     103.448
+    ],
+    [
+     "to",
+     103.448,
+     103.628
+    ],
+    [
+     "one",
+     103.628,
+     103.848
+    ],
+    [
+     "-third",
+     103.848,
+     104.148
+    ],
+    [
+     "of",
+     104.148,
+     104.348
+    ],
+    [
+     "the",
+     104.348,
+     104.448
+    ],
+    [
+     "Quran.",
+     104.448,
+     104.628
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.0
+  },
+  {
+   "id": "m1",
+   "text": "And the last two surahs of the Qur'an, al-Falaq and an-Nas, are prayers for protection.",
+   "say": "And the last two surahs of the Quran, al-Falaq and an-Naas, are prayers for protection.",
+   "start": 106.736,
+   "end": 111.704,
+   "file": "audio/vo/line18.mp3",
+   "words": [
+    [
+     "And",
+     106.736,
+     106.876
+    ],
+    [
+     "the",
+     106.876,
+     106.976
+    ],
+    [
+     "last",
+     106.976,
+     107.156
+    ],
+    [
+     "two",
+     107.156,
+     107.376
+    ],
+    [
+     "surahs",
+     107.376,
+     107.716
+    ],
+    [
+     "of",
+     107.716,
+     107.856
+    ],
+    [
+     "the",
+     107.856,
+     107.956
+    ],
+    [
+     "Quran,",
+     107.956,
+     108.136
+    ],
+    [
+     "Al",
+     108.636,
+     108.656
+    ],
+    [
+     "-Falak",
+     108.656,
+     109.016
+    ],
+    [
+     "and",
+     109.016,
+     109.276
+    ],
+    [
+     "An",
+     109.276,
+     109.416
+    ],
+    [
+     "-Nahas",
+     109.416,
+     109.956
+    ],
+    [
+     "are",
+     109.956,
+     110.336
+    ],
+    [
+     "prayers",
+     110.336,
+     110.576
+    ],
+    [
+     "for",
+     110.576,
+     110.916
+    ],
+    [
+     "protection.",
+     110.916,
+     111.196
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.118
+  },
+  {
+   "id": "m2",
+   "text": "Every night before he slept, the Prophet recited them, together with al-Ikhlas.",
+   "say": "Every night before he slept, the Prophet recited them, together with al-Ikhlaas.",
+   "start": 112.404,
+   "end": 116.724,
+   "file": "audio/vo/line19.mp3",
+   "words": [
+    [
+     "Every",
+     112.404,
+     112.624
+    ],
+    [
+     "night",
+     112.624,
+     112.844
+    ],
+    [
+     "before",
+     112.844,
+     113.124
+    ],
+    [
+     "he",
+     113.124,
+     113.324
+    ],
+    [
+     "slept,",
+     113.324,
+     113.584
+    ],
+    [
+     "the",
+     113.924,
+     114.024
+    ],
+    [
+     "Prophet",
+     114.024,
+     114.244
+    ],
+    [
+     "recited",
+     114.244,
+     114.664
+    ],
+    [
+     "them",
+     114.664,
+     114.884
+    ],
+    [
+     "together",
+     114.884,
+     115.244
+    ],
+    [
+     "with",
+     115.244,
+     115.584
+    ],
+    [
+     "Al",
+     115.584,
+     115.804
+    ],
+    [
+     "Iqlaas.",
+     115.804,
+     116.364
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.077
+  },
+  {
+   "id": "m3",
+   "text": "So tonight, before you sleep, you can do the same.",
+   "say": "So tonight, before you sleep, you can do the same.",
+   "start": 117.424,
+   "end": 120.4,
+   "file": "audio/vo/line20.mp3",
+   "words": [
+    [
+     "So,",
+     117.424,
+     117.644
+    ],
+    [
+     "tonight,",
+     117.884,
+     118.064
+    ],
+    [
+     "before",
+     118.404,
+     118.584
+    ],
+    [
+     "you",
+     118.584,
+     118.764
+    ],
+    [
+     "sleep,",
+     118.764,
+     119.044
+    ],
+    [
+     "you",
+     119.384,
+     119.464
+    ],
+    [
+     "can",
+     119.464,
+     119.604
+    ],
+    [
+     "do",
+     119.604,
+     119.704
+    ],
+    [
+     "the",
+     119.704,
+     119.844
+    ],
+    [
+     "same.",
+     119.844,
+     120.064
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.0
+  },
+  {
+   "id": "l1",
+   "text": "Thirty nights. Thirty lanterns. Tonight, the sky is full.",
+   "say": "Thirty nights. Thirty lanterns. Tonight, the sky is full.",
+   "start": 122.8,
+   "end": 126.736,
+   "file": "audio/vo/line21.mp3",
+   "words": [
+    [
+     "30",
+     122.8,
+     123.0
+    ],
+    [
+     "nights,",
+     123.0,
+     123.26
+    ],
+    [
+     "30",
+     123.74,
+     123.94
+    ],
+    [
+     "lanterns.",
+     123.94,
+     124.68
+    ],
+    [
+     "Tonight,",
+     125.16,
+     125.16
+    ],
+    [
+     "the",
+     125.5,
+     125.6
+    ],
+    [
+     "sky",
+     125.6,
+     125.78
+    ],
+    [
+     "is",
+     125.78,
+     126.12
+    ],
+    [
+     "full.",
+     126.12,
+     126.36
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.222
+  },
+  {
+   "id": "l2",
+   "text": "Do not put the lamp out.",
+   "say": "Do not put the lamp out.",
+   "start": 128.136,
+   "end": 129.384,
+   "file": "audio/vo/line22.mp3",
+   "words": [
+    [
+     "Do",
+     128.136,
+     128.256
+    ],
+    [
+     "not",
+     128.256,
+     128.416
+    ],
+    [
+     "put",
+     128.416,
+     128.596
+    ],
+    [
+     "the",
+     128.596,
+     128.716
+    ],
+    [
+     "lamp",
+     128.716,
+     128.896
+    ],
+    [
+     "out.",
+     128.896,
+     129.156
+    ]
+   ],
+   "sec": "aftermath",
+   "wer": 0.0
+  },
+  {
+   "id": "l3",
+   "text": "Tomorrow morning: Eid.",
+   "say": "Tomorrow morning: Eid.",
+   "start": 130.584,
+   "end": 131.976,
+   "file": "audio/vo/line23.mp3",
+   "words": [
+    [
+     "Tomorrow",
+     130.584,
+     130.804
+    ],
+    [
+     "morning,",
+     130.804,
+     131.164
+    ],
+    [
+     "Eid.",
+     131.484,
+     131.584
+    ]
+   ],
+   "sec": "aftermath",
+   "wer": 0.0
+  }
+ ],
+ "marks": {
+  "title": [
+   5.928,
+   10.928
+  ],
+  "end": [
+   132.776,
+   138.976
+  ]
+ },
+ "strong_hits": [
+  34.54,
+  66.83,
+  122.8
+ ],
+ "fps": 24,
+ "audio": "audio/mix.m4a",
+ "arabic": {
+  "96:1": "ٱقۡرَأۡ بِٱسۡمِ رَبِّكَ ٱلَّذِي خَلَقَ",
+  "97:1": "إِنَّآ أَنزَلۡنَٰهُ فِي لَيۡلَةِ ٱلۡقَدۡرِ",
+  "97:3": "لَيۡلَةُ ٱلۡقَدۡرِ خَيۡرٞ مِّنۡ أَلۡفِ شَهۡرٖ",
+  "112:1": "قُلۡ هُوَ ٱللَّهُ أَحَدٌ",
+  "112:2": "ٱللَّهُ ٱلصَّمَدُ",
+  "112:3": "لَمۡ يَلِدۡ وَلَمۡ يُولَدۡ",
+  "112:4": "وَلَمۡ يَكُن لَّهُۥ كُفُوًا أَحَدُۢ",
+  "amma": "عَمَّ",
+  "alaq": "ٱلۡعَلَق",
+  "qadr": "ٱلۡقَدۡر",
+  "ikhlas": "ٱلۡإِخۡلَاص",
+  "falaq": "ٱلۡفَلَق",
+  "nas": "ٱلنَّاس"
+ },
+ "voice": "chatterbox",
+ "audio_note": "Narration placed by films/noor/lib/place.py; picture follows these times."
+}

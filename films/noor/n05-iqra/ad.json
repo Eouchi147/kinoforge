@@ -1,0 +1,133 @@
+{
+ "id": "noor-descent-05-iqra",
+ "prep": {
+  "voice": "chatterbox",
+  "voice_settings": {
+   "exaggeration": 0.5,
+   "cfg": 0.35,
+   "temperature": 0.7
+  },
+  "vo": [
+   {
+    "id": "c1",
+    "text": "Imagine the quietest place you have ever been."
+   },
+   {
+    "id": "c2",
+    "text": "Now make it quieter."
+   },
+   {
+    "id": "w1",
+    "text": "High on a mountain, outside the city of Makkah, there is a small cave."
+   },
+   {
+    "id": "w2",
+    "text": "It is only a few steps long. Just enough room to sit, and to pray."
+   },
+   {
+    "id": "w3",
+    "text": "The mountain is called Jabal an-Noor. The Mountain of Light. And the cave is called Heera."
+   },
+   {
+    "id": "w4",
+    "text": "Down in the valley, life was loud."
+   },
+   {
+    "id": "w5",
+    "text": "People bowed to statues made of stone and wood. The strong pushed the weak aside, and almost no one asked why."
+   },
+   {
+    "id": "w6",
+    "text": "But one man used to climb up here, alone, for many nights at a time."
+   },
+   {
+    "id": "w7",
+    "text": "He was forty years old. His name was Muhammad, peace and blessings be upon him."
+   },
+   {
+    "id": "w8",
+    "text": "Everyone in Makkah knew one thing about him. He never lied. They called him al-Ameen. The one you can trust."
+   },
+   {
+    "id": "w9",
+    "text": "He brought a little food and water, and he stayed to think, to worship Allah, and to wait."
+   },
+   {
+    "id": "e1",
+    "text": "Then, one night in the month of Ramadan, he was not alone in the cave anymore."
+   },
+   {
+    "id": "e2",
+    "text": "An angel had come. The angel Jibreel, sent by Allah."
+   },
+   {
+    "id": "e3",
+    "text": "And the angel said one word. Ikra. Read."
+   },
+   {
+    "id": "e4",
+    "text": "Muhammad could not read or write. So he answered: I am not one who reads."
+   },
+   {
+    "id": "e5",
+    "text": "The angel held him close, so tightly he could hardly bear it, then let him go, and said again: Read."
+   },
+   {
+    "id": "e6",
+    "text": "Three times the angel asked. Three times he gave the same answer."
+   },
+   {
+    "id": "e7",
+    "text": "And then the angel recited the very first words of the Qur'an."
+   },
+   {
+    "id": "v1",
+    "text": "Read, in the name of your Lord, who created."
+   },
+   {
+    "id": "v2",
+    "text": "Created the human being from a clinging clot."
+   },
+   {
+    "id": "v3",
+    "text": "Read! And your Lord is the Most Generous,"
+   },
+   {
+    "id": "v4",
+    "text": "who taught by the pen,"
+   },
+   {
+    "id": "v5",
+    "text": "taught the human being what he did not know."
+   },
+   {
+    "id": "m1",
+    "text": "Think about that. The very first word was not fight, or run, or be afraid."
+   },
+   {
+    "id": "m2",
+    "text": "It was read. Learn. Understand."
+   },
+   {
+    "id": "m3",
+    "text": "Muhammad hurried home, his heart beating fast, to his wife Khadeejah. Cover me, he said. Cover me."
+   },
+   {
+    "id": "m4",
+    "text": "She wrapped him up, and comforted him. Allah will never let you down, she said. You are kind to your family, and you help people in need."
+   },
+   {
+    "id": "m5",
+    "text": "That night was only the beginning. For twenty three years, more words would come down, piece by piece, until the whole Quran was complete."
+   },
+   {
+    "id": "l1",
+    "text": "Tonight, one lantern rises over the mountain. On it, one word. Read."
+   },
+   {
+    "id": "l2",
+    "text": "Tomorrow night. What Khadeejah did next, and the old man who knew what it meant."
+   }
+  ]
+ }
+}

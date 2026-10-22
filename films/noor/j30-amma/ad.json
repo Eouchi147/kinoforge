@@ -1,0 +1,109 @@
+{
+ "id": "noor-juz-30-amma",
+ "prep": {
+  "voice": "chatterbox",
+  "voice_settings": {
+   "exaggeration": 0.5,
+   "cfg": 0.35,
+   "temperature": 0.7
+  },
+  "vo": [
+   {
+    "id": "c1",
+    "text": "If you know a surah by heart, there is a good chance it comes from tonight's part of the Quran."
+   },
+   {
+    "id": "w1",
+    "text": "The Quran is divided into thirty parts. Each part is called a juzz."
+   },
+   {
+    "id": "w2",
+    "text": "Many families read one juzz every night of Ramadan, so that by the end of the month, they have read the whole Quran."
+   },
+   {
+    "id": "w3",
+    "text": "Tonight we reach the last one. Juzz thirty. People call it Juzz Amma, after its very first word."
+   },
+   {
+    "id": "w4",
+    "text": "It holds thirty seven surahs. Most of them are short, and that is why children often learn them first."
+   },
+   {
+    "id": "e1",
+    "text": "Tonight, we open three treasures inside it."
+   },
+   {
+    "id": "t1a",
+    "text": "The first treasure is Surah al-Alaq."
+   },
+   {
+    "id": "t1b",
+    "text": "Its first five verses were the very first words of the Quran ever sent down, in the cave of Heera."
+   },
+   {
+    "id": "t1c",
+    "text": "Read, in the name of your Lord, who created."
+   },
+   {
+    "id": "t1d",
+    "text": "So the last part of the Quran holds its very first words. The end, and the beginning, side by side."
+   },
+   {
+    "id": "t2a",
+    "text": "The second treasure is Surah al-Qadr. It tells us about one special night."
+   },
+   {
+    "id": "t2b",
+    "text": "Allah says: We sent it down on the Night of Decree."
+   },
+   {
+    "id": "t2c",
+    "text": "And the Night of Decree is better than a thousand months."
+   },
+   {
+    "id": "t2d",
+    "text": "A thousand months is more than eighty three years. More than a whole lifetime, in a single night."
+   },
+   {
+    "id": "t2e",
+    "text": "That night is hidden in the last ten nights of Ramadan, most likely on an odd night. So people give their best on every one of them."
+   },
+   {
+    "id": "t3a",
+    "text": "The third treasure is tiny. Only four verses. Surah al-Ikhlaas."
+   },
+   {
+    "id": "t3b",
+    "text": "Say: He is Allah, the One. Allah, the One everyone turns to. He has no child, and He was not born. And there is nothing like Him."
+   },
+   {
+    "id": "t3c",
+    "text": "The Prophet, peace and blessings be upon him, said that this little surah is equal to one third of the Quran."
+   },
+   {
+    "id": "m1",
+    "text": "And the last two surahs of the Quran, al-Falaq and an-Naas, are prayers for protection."
+   },
+   {
+    "id": "m2",
+    "text": "Every night before he slept, the Prophet recited them, together with al-Ikhlaas."
+   },
+   {
+    "id": "m3",
+    "text": "So tonight, before you sleep, you can do the same."
+   },
+   {
+    "id": "l1",
+    "text": "Thirty nights. Thirty lanterns. Tonight, the sky is full."
+   },
+   {
+    "id": "l2",
+    "text": "Do not put the lamp out."
+   },
+   {
+    "id": "l3",
+    "text": "Tomorrow morning: Eid."
+   }
+  ]
+ }
+}

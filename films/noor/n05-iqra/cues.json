@@ -1,0 +1,2414 @@
+{
+ "id": "noor-descent-05-iqra",
+ "series": "NOOR",
+ "strand": "The Descent",
+ "night": 5,
+ "title": "Iqra",
+ "title_sub": "Night Five",
+ "duration": 158.836,
+ "end_card_s": 6.2,
+ "lines": [
+  {
+   "id": "c1",
+   "text": "Imagine the quietest place you have ever been.",
+   "say": "Imagine the quietest place you have ever been.",
+   "start": 1.2,
+   "end": 3.456,
+   "file": "audio/vo/line0.mp3",
+   "words": [
+    [
+     "Imagine",
+     1.2,
+     1.42
+    ],
+    [
+     "the",
+     1.42,
+     1.7
+    ],
+    [
+     "quietest",
+     1.7,
+     2.12
+    ],
+    [
+     "place",
+     2.12,
+     2.36
+    ],
+    [
+     "you",
+     2.36,
+     2.54
+    ],
+    [
+     "have",
+     2.54,
+     2.66
+    ],
+    [
+     "ever",
+     2.66,
+     2.92
+    ],
+    [
+     "been.",
+     2.92,
+     3.1
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.0
+  },
+  {
+   "id": "c2",
+   "text": "Now make it quieter.",
+   "say": "Now make it quieter.",
+   "start": 4.456,
+   "end": 5.728,
+   "file": "audio/vo/line1.mp3",
+   "words": [
+    [
+     "Now",
+     4.456,
+     4.656
+    ],
+    [
+     "make",
+     4.656,
+     4.856
+    ],
+    [
+     "it",
+     4.856,
+     4.956
+    ],
+    [
+     "quieter.",
+     4.956,
+     5.336
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.0
+  },
+  {
+   "id": "w1",
+   "text": "High on a mountain outside the city of Makkah, there is a small cave.",
+   "say": "High on a mountain, outside the city of Makkah, there is a small cave.",
+   "start": 11.728,
+   "end": 15.232,
+   "file": "audio/vo/line2.mp3",
+   "words": [
+    [
+     "High",
+     11.728,
+     11.888
+    ],
+    [
+     "on",
+     11.888,
+     12.048
+    ],
+    [
+     "a",
+     12.048,
+     12.108
+    ],
+    [
+     "mountain,",
+     12.108,
+     12.428
+    ],
+    [
+     "outside",
+     12.688,
+     12.828
+    ],
+    [
+     "the",
+     12.828,
+     13.088
+    ],
+    [
+     "city",
+     13.088,
+     13.288
+    ],
+    [
+     "of",
+     13.288,
+     13.428
+    ],
+    [
+     "Maka,",
+     13.428,
+     13.688
+    ],
+    [
+     "there",
+     13.988,
+     14.068
+    ],
+    [
+     "is",
+     14.068,
+     14.188
+    ],
+    [
+     "a",
+     14.188,
+     14.288
+    ],
+    [
+     "small",
+     14.288,
+     14.508
+    ],
+    [
+     "cave.",
+     14.508,
+     14.808
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.071
+  },
+  {
+   "id": "w2",
+   "text": "It is only a few steps long. Just enough room to sit, and to pray.",
+   "say": "It is only a few steps long. Just enough room to sit, and to pray.",
+   "start": 15.932,
+   "end": 19.508,
+   "file": "audio/vo/line3.mp3",
+   "words": [
+    [
+     "It",
+     15.932,
+     16.032
+    ],
+    [
+     "is",
+     16.032,
+     16.112
+    ],
+    [
+     "only",
+     16.112,
+     16.272
+    ],
+    [
+     "a",
+     16.272,
+     16.392
+    ],
+    [
+     "few",
+     16.392,
+     16.532
+    ],
+    [
+     "steps",
+     16.532,
+     16.752
+    ],
+    [
+     "long,",
+     16.752,
+     17.052
+    ],
+    [
+     "just",
+     17.352,
+     17.552
+    ],
+    [
+     "enough",
+     17.552,
+     17.792
+    ],
+    [
+     "room",
+     17.792,
+     18.012
+    ],
+    [
+     "to",
+     18.012,
+     18.192
+    ],
+    [
+     "sit",
+     18.192,
+     18.392
+    ],
+    [
+     "and",
+     18.392,
+     18.772
+    ],
+    [
+     "to",
+     18.772,
+     18.932
+    ],
+    [
+     "pray.",
+     18.932,
+     19.132
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "w3",
+   "text": "The mountain is called Jabal an-Nur, the Mountain of Light. The cave is called Hira.",
+   "say": "The mountain is called Jabal an-Noor. The Mountain of Light. And the cave is called Heera.",
+   "start": 20.308,
+   "end": 25.156,
+   "file": "audio/vo/line4.mp3",
+   "words": [
+    [
+     "The",
+     20.308,
+     20.428
+    ],
+    [
+     "mountain",
+     20.428,
+     20.608
+    ],
+    [
+     "is",
+     20.608,
+     20.888
+    ],
+    [
+     "called",
+     20.888,
+     21.128
+    ],
+    [
+     "Jabal",
+     21.128,
+     21.608
+    ],
+    [
+     "N.",
+     21.608,
+     21.808
+    ],
+    [
+     "Noor,",
+     21.988,
+     22.188
+    ],
+    [
+     "the",
+     22.488,
+     22.608
+    ],
+    [
+     "mountain",
+     22.608,
+     22.768
+    ],
+    [
+     "of",
+     22.768,
+     23.028
+    ],
+    [
+     "light,",
+     23.028,
+     23.168
+    ],
+    [
+     "and",
+     23.628,
+     23.788
+    ],
+    [
+     "the",
+     23.788,
+     23.868
+    ],
+    [
+     "cave",
+     23.868,
+     24.028
+    ],
+    [
+     "is",
+     24.028,
+     24.208
+    ],
+    [
+     "called",
+     24.208,
+     24.448
+    ],
+    [
+     "Hera.",
+     24.448,
+     24.708
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.118
+  },
+  {
+   "id": "w4",
+   "text": "Down in the valley, life was loud.",
+   "say": "Down in the valley, life was loud.",
+   "start": 26.556,
+   "end": 28.668,
+   "file": "audio/vo/line5.mp3",
+   "words": [
+    [
+     "Down",
+     26.556,
+     26.776
+    ],
+    [
+     "in",
+     26.776,
+     26.916
+    ],
+    [
+     "the",
+     26.916,
+     26.996
+    ],
+    [
+     "valley,",
+     26.996,
+     27.256
+    ],
+    [
+     "life",
+     27.636,
+     27.776
+    ],
+    [
+     "was",
+     27.776,
+     28.016
+    ],
+    [
+     "loud.",
+     28.016,
+     28.236
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "w5",
+   "text": "People bowed to statues made of stone and wood. The strong pushed the weak aside, and almost no one asked why.",
+   "say": "People bowed to statues made of stone and wood. The strong pushed the weak aside, and almost no one asked why.",
+   "start": 29.268,
+   "end": 34.668,
+   "file": "audio/vo/line6.mp3",
+   "words": [
+    [
+     "People",
+     29.268,
+     29.508
+    ],
+    [
+     "bowed",
+     29.508,
+     29.708
+    ],
+    [
+     "to",
+     29.708,
+     29.948
+    ],
+    [
+     "statues",
+     29.948,
+     30.168
+    ],
+    [
+     "made",
+     30.168,
+     30.548
+    ],
+    [
+     "of",
+     30.548,
+     30.648
+    ],
+    [
+     "stone",
+     30.648,
+     30.848
+    ],
+    [
+     "and",
+     30.848,
+     31.108
+    ],
+    [
+     "wood.",
+     31.108,
+     31.348
+    ],
+    [
+     "The",
+     31.728,
+     31.788
+    ],
+    [
+     "strong",
+     31.788,
+     32.008
+    ],
+    [
+     "pushed",
+     32.008,
+     32.288
+    ],
+    [
+     "the",
+     32.288,
+     32.548
+    ],
+    [
+     "weak",
+     32.548,
+     32.668
+    ],
+    [
+     "aside",
+     32.668,
+     32.908
+    ],
+    [
+     "and",
+     32.908,
+     33.208
+    ],
+    [
+     "almost",
+     33.208,
+     33.388
+    ],
+    [
+     "no",
+     33.388,
+     33.628
+    ],
+    [
+     "one",
+     33.628,
+     33.788
+    ],
+    [
+     "asked",
+     33.788,
+     33.948
+    ],
+    [
+     "why.",
+     33.948,
+     34.288
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "w6",
+   "text": "But one man used to climb up here, alone, for many nights at a time.",
+   "say": "But one man used to climb up here, alone, for many nights at a time.",
+   "start": 35.868,
+   "end": 39.084,
+   "file": "audio/vo/line7.mp3",
+   "words": [
+    [
+     "But",
+     35.868,
+     36.008
+    ],
+    [
+     "one",
+     36.008,
+     36.128
+    ],
+    [
+     "man",
+     36.128,
+     36.308
+    ],
+    [
+     "used",
+     36.308,
+     36.488
+    ],
+    [
+     "to",
+     36.488,
+     36.608
+    ],
+    [
+     "climb",
+     36.608,
+     36.748
+    ],
+    [
+     "up",
+     36.748,
+     36.928
+    ],
+    [
+     "here,",
+     36.928,
+     37.128
+    ],
+    [
+     "alone,",
+     37.368,
+     37.608
+    ],
+    [
+     "for",
+     37.908,
+     37.988
+    ],
+    [
+     "many",
+     37.988,
+     38.148
+    ],
+    [
+     "nights",
+     38.148,
+     38.368
+    ],
+    [
+     "at",
+     38.368,
+     38.528
+    ],
+    [
+     "a",
+     38.528,
+     38.588
+    ],
+    [
+     "time.",
+     38.588,
+     38.808
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "w7",
+   "text": "He was forty years old. His name was Muhammad, peace and blessings be upon him.",
+   "say": "He was forty years old. His name was Muhammad, peace and blessings be upon him.",
+   "start": 39.784,
+   "end": 44.032,
+   "file": "audio/vo/line8.mp3",
+   "words": [
+    [
+     "He",
+     39.784,
+     39.904
+    ],
+    [
+     "was",
+     39.904,
+     40.004
+    ],
+    [
+     "forty",
+     40.004,
+     40.244
+    ],
+    [
+     "years",
+     40.244,
+     40.524
+    ],
+    [
+     "old,",
+     40.524,
+     40.864
+    ],
+    [
+     "his",
+     41.184,
+     41.284
+    ],
+    [
+     "name",
+     41.284,
+     41.484
+    ],
+    [
+     "was",
+     41.484,
+     41.664
+    ],
+    [
+     "Muhammad,",
+     41.664,
+     41.984
+    ],
+    [
+     "peace",
+     42.344,
+     42.484
+    ],
+    [
+     "and",
+     42.484,
+     42.684
+    ],
+    [
+     "blessings",
+     42.684,
+     42.904
+    ],
+    [
+     "be",
+     42.904,
+     43.224
+    ],
+    [
+     "upon",
+     43.224,
+     43.504
+    ],
+    [
+     "him.",
+     43.504,
+     43.744
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "w8",
+   "text": "Everyone in Makkah knew one thing about him. He never lied. They called him al-Amin: the one you can trust.",
+   "say": "Everyone in Makkah knew one thing about him. He never lied. They called him al-Ameen. The one you can trust.",
+   "start": 44.832,
+   "end": 50.352,
+   "file": "audio/vo/line9.mp3",
+   "words": [
+    [
+     "Everyone",
+     44.832,
+     45.132
+    ],
+    [
+     "in",
+     45.132,
+     45.292
+    ],
+    [
+     "Maka",
+     45.292,
+     45.472
+    ],
+    [
+     "knew",
+     45.472,
+     45.732
+    ],
+    [
+     "one",
+     45.732,
+     45.932
+    ],
+    [
+     "thing",
+     45.932,
+     46.112
+    ],
+    [
+     "about",
+     46.112,
+     46.312
+    ],
+    [
+     "him.",
+     46.312,
+     46.532
+    ],
+    [
+     "He",
+     46.852,
+     46.872
+    ],
+    [
+     "never",
+     46.872,
+     47.012
+    ],
+    [
+     "lied.",
+     47.012,
+     47.312
+    ],
+    [
+     "They",
+     47.672,
+     47.712
+    ],
+    [
+     "called",
+     47.712,
+     47.852
+    ],
+    [
+     "him",
+     47.852,
+     48.072
+    ],
+    [
+     "Al",
+     48.072,
+     48.292
+    ],
+    [
+     "-Amin,",
+     48.292,
+     48.612
+    ],
+    [
+     "the",
+     48.972,
+     49.332
+    ],
+    [
+     "one",
+     49.332,
+     49.472
+    ],
+    [
+     "you",
+     49.472,
+     49.592
+    ],
+    [
+     "can",
+     49.592,
+     49.712
+    ],
+    [
+     "trust.",
+     49.712,
+     49.932
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.095
+  },
+  {
+   "id": "w9",
+   "text": "He brought a little food and water, and he stayed to think, to worship Allah, and to wait.",
+   "say": "He brought a little food and water, and he stayed to think, to worship Allah, and to wait.",
+   "start": 51.152,
+   "end": 55.52,
+   "file": "audio/vo/line10.mp3",
+   "words": [
+    [
+     "He",
+     51.152,
+     51.252
+    ],
+    [
+     "brought",
+     51.252,
+     51.372
+    ],
+    [
+     "a",
+     51.372,
+     51.472
+    ],
+    [
+     "little",
+     51.472,
+     51.632
+    ],
+    [
+     "food",
+     51.632,
+     51.932
+    ],
+    [
+     "and",
+     51.932,
+     52.172
+    ],
+    [
+     "water,",
+     52.172,
+     52.472
+    ],
+    [
+     "and",
+     52.812,
+     52.872
+    ],
+    [
+     "he",
+     52.872,
+     52.952
+    ],
+    [
+     "stayed",
+     52.952,
+     53.112
+    ],
+    [
+     "to",
+     53.112,
+     53.312
+    ],
+    [
+     "think,",
+     53.312,
+     53.532
+    ],
+    [
+     "to",
+     53.852,
+     53.932
+    ],
+    [
+     "worship",
+     53.932,
+     54.112
+    ],
+    [
+     "Allah",
+     54.112,
+     54.392
+    ],
+    [
+     "and",
+     54.392,
+     54.832
+    ],
+    [
+     "to",
+     54.832,
+     54.952
+    ],
+    [
+     "wait.",
+     54.952,
+     55.152
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "e1",
+   "text": "Then, one night in the month of Ramadan, he was not alone in the cave anymore.",
+   "say": "Then, one night in the month of Ramadan, he was not alone in the cave anymore.",
+   "start": 57.52,
+   "end": 61.504,
+   "file": "audio/vo/line11.mp3",
+   "words": [
+    [
+     "Then,",
+     57.52,
+     57.74
+    ],
+    [
+     "one",
+     57.96,
+     58.22
+    ],
+    [
+     "night",
+     58.22,
+     58.48
+    ],
+    [
+     "in",
+     58.48,
+     58.68
+    ],
+    [
+     "the",
+     58.68,
+     58.76
+    ],
+    [
+     "month",
+     58.76,
+     58.9
+    ],
+    [
+     "of",
+     58.9,
+     59.42
+    ],
+    [
+     "Ramadan,",
+     59.42,
+     59.42
+    ],
+    [
+     "he",
+     59.8,
+     59.9
+    ],
+    [
+     "was",
+     59.9,
+     59.98
+    ],
+    [
+     "not",
+     59.98,
+     60.2
+    ],
+    [
+     "alone",
+     60.2,
+     60.38
+    ],
+    [
+     "in",
+     60.38,
+     60.56
+    ],
+    [
+     "the",
+     60.56,
+     60.62
+    ],
+    [
+     "cave",
+     60.62,
+     60.8
+    ],
+    [
+     "anymore.",
+     60.8,
+     61.18
+    ]
+   ],
+   "sec": "tension",
+   "wer": 0.0
+  },
+  {
+   "id": "e2",
+   "text": "An angel had come. The angel Jibril, sent by Allah.",
+   "say": "An angel had come. The angel Jibreel, sent by Allah.",
+   "start": 63.104,
+   "end": 66.56,
+   "file": "audio/vo/line12.mp3",
+   "words": [
+    [
+     "An",
+     63.104,
+     63.244
+    ],
+    [
+     "angel",
+     63.244,
+     63.444
+    ],
+    [
+     "had",
+     63.444,
+     63.664
+    ],
+    [
+     "come.",
+     63.664,
+     63.884
+    ],
+    [
+     "The",
+     64.364,
+     64.424
+    ],
+    [
+     "angel,",
+     64.424,
+     64.684
+    ],
+    [
+     "Gabriel,",
+     64.944,
+     65.224
+    ],
+    [
+     "sent",
+     65.624,
+     65.764
+    ],
+    [
+     "by",
+     65.764,
+     65.984
+    ],
+    [
+     "Allah.",
+     65.984,
+     66.184
+    ]
+   ],
+   "sec": "tension",
+   "wer": 0.1
+  },
+  {
+   "id": "e3",
+   "text": "And the angel said one word. Iqra. Read.",
+   "say": "And the angel said one word. Ikra. Read.",
+   "start": 67.56,
+   "end": 70.536,
+   "file": "audio/vo/line13.mp3",
+   "words": [
+    [
+     "And",
+     67.56,
+     67.74
+    ],
+    [
+     "the",
+     67.74,
+     67.84
+    ],
+    [
+     "angel",
+     67.84,
+     68.02
+    ],
+    [
+     "said",
+     68.02,
+     68.34
+    ],
+    [
+     "one",
+     68.34,
+     68.56
+    ],
+    [
+     "word,",
+     68.56,
+     68.96
+    ],
+    [
+     "Ikra,",
+     69.36,
+     69.66
+    ],
+    [
+     "read.",
+     70.02,
+     70.16
+    ]
+   ],
+   "sec": "tension",
+   "wer": 0.0
+  },
+  {
+   "id": "e4",
+   "text": "Muhammad could not read or write. So he answered: I am not one who reads.",
+   "say": "Muhammad could not read or write. So he answered: I am not one who reads.",
+   "start": 71.736,
+   "end": 75.528,
+   "file": "audio/vo/line14.mp3",
+   "words": [
+    [
+     "Muhammad",
+     71.736,
+     71.996
+    ],
+    [
+     "could",
+     71.996,
+     72.256
+    ],
+    [
+     "not",
+     72.256,
+     72.396
+    ],
+    [
+     "read",
+     72.396,
+     72.556
+    ],
+    [
+     "or",
+     72.556,
+     72.676
+    ],
+    [
+     "write,",
+     72.676,
+     72.916
+    ],
+    [
+     "so",
+     73.256,
+     73.336
+    ],
+    [
+     "he",
+     73.336,
+     73.456
+    ],
+    [
+     "answered,",
+     73.456,
+     73.696
+    ],
+    [
+     "I",
+     74.156,
+     74.296
+    ],
+    [
+     "am",
+     74.296,
+     74.396
+    ],
+    [
+     "not",
+     74.396,
+     74.556
+    ],
+    [
+     "one",
+     74.556,
+     74.716
+    ],
+    [
+     "who",
+     74.716,
+     74.856
+    ],
+    [
+     "reads.",
+     74.856,
+     75.056
+    ]
+   ],
+   "sec": "tension",
+   "wer": 0.0
+  },
+  {
+   "id": "e5",
+   "text": "The angel held him close, so tightly he could hardly bear it, then let him go, and said again: Read.",
+   "say": "The angel held him close, so tightly he could hardly bear it, then let him go, and said again: Read.",
+   "start": 76.428,
+   "end": 81.804,
+   "file": "audio/vo/line15.mp3",
+   "words": [
+    [
+     "The",
+     76.428,
+     76.548
+    ],
+    [
+     "angel",
+     76.548,
+     76.728
+    ],
+    [
+     "held",
+     76.728,
+     77.008
+    ],
+    [
+     "him",
+     77.008,
+     77.188
+    ],
+    [
+     "close,",
+     77.188,
+     77.468
+    ],
+    [
+     "so",
+     77.808,
+     77.928
+    ],
+    [
+     "tightly",
+     77.928,
+     78.208
+    ],
+    [
+     "he",
+     78.208,
+     78.488
+    ],
+    [
+     "could",
+     78.488,
+     78.608
+    ],
+    [
+     "hardly",
+     78.608,
+     78.808
+    ],
+    [
+     "bear",
+     78.808,
+     79.148
+    ],
+    [
+     "it,",
+     79.148,
+     79.308
+    ],
+    [
+     "then",
+     79.568,
+     79.708
+    ],
+    [
+     "let",
+     79.708,
+     79.908
+    ],
+    [
+     "him",
+     79.908,
+     80.028
+    ],
+    [
+     "go",
+     80.028,
+     80.228
+    ],
+    [
+     "and",
+     80.228,
+     80.488
+    ],
+    [
+     "set",
+     80.488,
+     80.668
+    ],
+    [
+     "again,",
+     80.668,
+     80.908
+    ],
+    [
+     "read.",
+     81.208,
+     81.388
+    ]
+   ],
+   "sec": "tension",
+   "wer": 0.05
+  },
+  {
+   "id": "e6",
+   "text": "Three times the angel asked. Three times he gave the same answer.",
+   "say": "Three times the angel asked. Three times he gave the same answer.",
+   "start": 82.704,
+   "end": 86.232,
+   "file": "audio/vo/line16.mp3",
+   "words": [
+    [
+     "Three",
+     82.704,
+     82.864
+    ],
+    [
+     "times",
+     82.864,
+     83.204
+    ],
+    [
+     "the",
+     83.204,
+     83.364
+    ],
+    [
+     "angel",
+     83.364,
+     83.584
+    ],
+    [
+     "asked,",
+     83.584,
+     83.964
+    ],
+    [
+     "three",
+     84.324,
+     84.524
+    ],
+    [
+     "times",
+     84.524,
+     84.904
+    ],
+    [
+     "he",
+     84.904,
+     85.104
+    ],
+    [
+     "gave",
+     85.104,
+     85.224
+    ],
+    [
+     "the",
+     85.224,
+     85.384
+    ],
+    [
+     "same",
+     85.384,
+     85.544
+    ],
+    [
+     "answer.",
+     85.544,
+     85.904
+    ]
+   ],
+   "sec": "tension",
+   "wer": 0.0
+  },
+  {
+   "id": "e7",
+   "text": "And then the angel recited the very first words of the Qur'an.",
+   "say": "And then the angel recited the very first words of the Qur'an.",
+   "start": 87.232,
+   "end": 90.04,
+   "file": "audio/vo/line17.mp3",
+   "words": [
+    [
+     "And",
+     87.232,
+     87.372
+    ],
+    [
+     "then",
+     87.372,
+     87.512
+    ],
+    [
+     "the",
+     87.512,
+     87.652
+    ],
+    [
+     "angel",
+     87.652,
+     87.872
+    ],
+    [
+     "recited",
+     87.872,
+     88.312
+    ],
+    [
+     "the",
+     88.312,
+     88.432
+    ],
+    [
+     "very",
+     88.432,
+     88.632
+    ],
+    [
+     "first",
+     88.632,
+     88.872
+    ],
+    [
+     "words",
+     88.872,
+     89.132
+    ],
+    [
+     "of",
+     89.132,
+     89.312
+    ],
+    [
+     "the",
+     89.312,
+     89.392
+    ],
+    [
+     "Quran.",
+     89.392,
+     89.612
+    ]
+   ],
+   "sec": "tension",
+   "wer": 0.083
+  },
+  {
+   "id": "v1",
+   "text": "Read, in the name of your Lord, who created.",
+   "say": "Read, in the name of your Lord, who created.",
+   "start": 92.44,
+   "end": 94.696,
+   "file": "audio/vo/line18.mp3",
+   "words": [
+    [
+     "Read",
+     92.44,
+     92.68
+    ],
+    [
+     "in",
+     92.68,
+     92.96
+    ],
+    [
+     "the",
+     92.96,
+     93.06
+    ],
+    [
+     "name",
+     93.06,
+     93.22
+    ],
+    [
+     "of",
+     93.22,
+     93.34
+    ],
+    [
+     "your",
+     93.34,
+     93.44
+    ],
+    [
+     "Lord",
+     93.44,
+     93.66
+    ],
+    [
+     "who",
+     93.66,
+     93.94
+    ],
+    [
+     "created",
+     93.94,
+     94.3
+    ]
+   ],
+   "sec": "aftermath",
+   "wer": 0.0,
+   "verse": 1
+  },
+  {
+   "id": "v2",
+   "text": "Created the human being from a clinging clot.",
+   "say": "Created the human being from a clinging clot.",
+   "start": 95.896,
+   "end": 98.248,
+   "file": "audio/vo/line19.mp3",
+   "words": [
+    [
+     "created",
+     95.896,
+     96.256
+    ],
+    [
+     "the",
+     96.256,
+     96.456
+    ],
+    [
+     "human",
+     96.456,
+     96.656
+    ],
+    [
+     "being",
+     96.656,
+     96.916
+    ],
+    [
+     "from",
+     96.916,
+     97.196
+    ],
+    [
+     "a",
+     97.196,
+     97.276
+    ],
+    [
+     "clinging",
+     97.276,
+     97.496
+    ],
+    [
+     "clot.",
+     97.496,
+     97.816
+    ]
+   ],
+   "sec": "aftermath",
+   "wer": 0.0,
+   "verse": 2
+  },
+  {
+   "id": "v3",
+   "text": "Read! And your Lord is the Most Generous,",
+   "say": "Read! And your Lord is the Most Generous,",
+   "start": 99.448,
+   "end": 102.208,
+   "file": "audio/vo/line20.mp3",
+   "words": [
+    [
+     "Read,",
+     99.448,
+     99.728
+    ],
+    [
+     "and",
+     100.208,
+     100.348
+    ],
+    [
+     "your",
+     100.348,
+     100.508
+    ],
+    [
+     "Lord",
+     100.508,
+     100.728
+    ],
+    [
+     "is",
+     100.728,
+     101.068
+    ],
+    [
+     "the",
+     101.068,
+     101.208
+    ],
+    [
+     "most",
+     101.208,
+     101.348
+    ],
+    [
+     "generous.",
+     101.348,
+     101.668
+    ]
+   ],
+   "sec": "aftermath",
+   "wer": 0.0,
+   "verse": 3
+  },
+  {
+   "id": "v4",
+   "text": "who taught by the pen,",
+   "say": "who taught by the pen,",
+   "start": 103.108,
+   "end": 104.308,
+   "file": "audio/vo/line21.mp3",
+   "words": [
+    [
+     "Who",
+     103.108,
+     103.228
+    ],
+    [
+     "taught",
+     103.228,
+     103.368
+    ],
+    [
+     "by",
+     103.368,
+     103.588
+    ],
+    [
+     "the",
+     103.588,
+     103.688
+    ],
+    [
+     "pen?",
+     103.688,
+     103.848
+    ]
+   ],
+   "sec": "aftermath",
+   "wer": 0.0,
+   "verse": 4
+  },
+  {
+   "id": "v5",
+   "text": "taught the human being what he did not know.",
+   "say": "taught the human being what he did not know.",
+   "start": 105.208,
+   "end": 107.152,
+   "file": "audio/vo/line22.mp3",
+   "words": [
+    [
+     "Taught",
+     105.208,
+     105.408
+    ],
+    [
+     "the",
+     105.408,
+     105.528
+    ],
+    [
+     "human",
+     105.528,
+     105.668
+    ],
+    [
+     "being",
+     105.668,
+     105.908
+    ],
+    [
+     "what",
+     105.908,
+     106.108
+    ],
+    [
+     "he",
+     106.108,
+     106.228
+    ],
+    [
+     "did",
+     106.228,
+     106.368
+    ],
+    [
+     "not",
+     106.368,
+     106.528
+    ],
+    [
+     "know.",
+     106.528,
+     106.808
+    ]
+   ],
+   "sec": "aftermath",
+   "wer": 0.0,
+   "verse": 5
+  },
+  {
+   "id": "m1",
+   "text": "Think about that. The very first word was not fight, or run, or be afraid.",
+   "say": "Think about that. The very first word was not fight, or run, or be afraid.",
+   "start": 110.152,
+   "end": 114.448,
+   "file": "audio/vo/line23.mp3",
+   "words": [
+    [
+     "Think",
+     110.152,
+     110.312
+    ],
+    [
+     "about",
+     110.312,
+     110.512
+    ],
+    [
+     "that.",
+     110.512,
+     110.752
+    ],
+    [
+     "The",
+     111.092,
+     111.112
+    ],
+    [
+     "very",
+     111.112,
+     111.252
+    ],
+    [
+     "first",
+     111.252,
+     111.512
+    ],
+    [
+     "word",
+     111.512,
+     111.812
+    ],
+    [
+     "was",
+     111.812,
+     112.012
+    ],
+    [
+     "not",
+     112.012,
+     112.192
+    ],
+    [
+     "fight",
+     112.192,
+     112.532
+    ],
+    [
+     "or",
+     112.532,
+     112.952
+    ],
+    [
+     "run",
+     112.952,
+     113.212
+    ],
+    [
+     "or",
+     113.212,
+     113.612
+    ],
+    [
+     "be",
+     113.612,
+     113.752
+    ],
+    [
+     "afraid.",
+     113.752,
+     114.012
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "m2",
+   "text": "It was read. Learn. Understand.",
+   "say": "It was read. Learn. Understand.",
+   "start": 115.248,
+   "end": 117.744,
+   "file": "audio/vo/line24.mp3",
+   "words": [
+    [
+     "It",
+     115.248,
+     115.368
+    ],
+    [
+     "was",
+     115.368,
+     115.468
+    ],
+    [
+     "read,",
+     115.468,
+     115.728
+    ],
+    [
+     "learn,",
+     116.128,
+     116.308
+    ],
+    [
+     "understand.",
+     116.748,
+     117.248
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.0
+  },
+  {
+   "id": "m3",
+   "text": "Muhammad hurried home, his heart beating fast, to his wife Khadijah. Cover me, he said. Cover me.",
+   "say": "Muhammad hurried home, his heart beating fast, to his wife Khadeejah. Cover me, he said. Cover me.",
+   "start": 119.344,
+   "end": 124.696,
+   "file": "audio/vo/line25.mp3",
+   "words": [
+    [
+     "Muhammad",
+     119.344,
+     119.604
+    ],
+    [
+     "hurried",
+     119.604,
+     119.944
+    ],
+    [
+     "home,",
+     119.944,
+     120.264
+    ],
+    [
+     "his",
+     120.564,
+     120.644
+    ],
+    [
+     "heart",
+     120.644,
+     120.824
+    ],
+    [
+     "beating",
+     120.824,
+     121.024
+    ],
+    [
+     "fast,",
+     121.024,
+     121.364
+    ],
+    [
+     "to",
+     121.684,
+     121.784
+    ],
+    [
+     "his",
+     121.784,
+     121.904
+    ],
+    [
+     "wife",
+     121.904,
+     122.124
+    ],
+    [
+     "Khadija.",
+     122.124,
+     122.564
+    ],
+    [
+     "Cover",
+     122.964,
+     123.124
+    ],
+    [
+     "me,",
+     123.124,
+     123.344
+    ],
+    [
+     "he",
+     123.464,
+     123.524
+    ],
+    [
+     "said.",
+     123.524,
+     123.744
+    ],
+    [
+     "Cover",
+     124.024,
+     124.164
+    ],
+    [
+     "me.",
+     124.164,
+     124.384
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.059
+  },
+  {
+   "id": "m4",
+   "text": "She wrapped him up and comforted him. Allah will never let you down, she said. You are kind to your family, and you help people in need.",
+   "say": "She wrapped him up, and comforted him. Allah will never let you down, she said. You are kind to your family, and you help people in need.",
+   "start": 125.596,
+   "end": 132.268,
+   "file": "audio/vo/line26.mp3",
+   "words": [
+    [
+     "She",
+     125.596,
+     125.756
+    ],
+    [
+     "wrapped",
+     125.756,
+     125.916
+    ],
+    [
+     "him",
+     125.916,
+     126.136
+    ],
+    [
+     "up",
+     126.136,
+     126.296
+    ],
+    [
+     "and",
+     126.296,
+     126.556
+    ],
+    [
+     "comforted",
+     126.556,
+     126.996
+    ],
+    [
+     "him.",
+     126.996,
+     127.156
+    ],
+    [
+     "A",
+     127.796,
+     127.816
+    ],
+    [
+     "law",
+     127.816,
+     127.976
+    ],
+    [
+     "will",
+     127.976,
+     128.156
+    ],
+    [
+     "never",
+     128.156,
+     128.356
+    ],
+    [
+     "let",
+     128.356,
+     128.576
+    ],
+    [
+     "you",
+     128.576,
+     128.696
+    ],
+    [
+     "down,",
+     128.696,
+     128.916
+    ],
+    [
+     "she",
+     129.056,
+     129.156
+    ],
+    [
+     "said.",
+     129.156,
+     129.416
+    ],
+    [
+     "You",
+     129.736,
+     129.776
+    ],
+    [
+     "are",
+     129.776,
+     129.876
+    ],
+    [
+     "kind",
+     129.876,
+     130.076
+    ],
+    [
+     "to",
+     130.076,
+     130.296
+    ],
+    [
+     "your",
+     130.296,
+     130.396
+    ],
+    [
+     "family",
+     130.396,
+     130.596
+    ],
+    [
+     "and",
+     130.596,
+     130.996
+    ],
+    [
+     "you",
+     130.996,
+     131.096
+    ],
+    [
+     "help",
+     131.096,
+     131.256
+    ],
+    [
+     "people",
+     131.256,
+     131.516
+    ],
+    [
+     "in",
+     131.516,
+     131.716
+    ],
+    [
+     "need.",
+     131.716,
+     131.896
+    ]
+   ],
+   "sec": "curious",
+   "wer": 0.074
+  },
+  {
+   "id": "m5",
+   "text": "That night was only the beginning. For twenty-three years, more words would come down, piece by piece, until the whole Qur'an was complete.",
+   "say": "That night was only the beginning. For twenty three years, more words would come down, piece by piece, until the whole Quran was complete.",
+   "start": 133.668,
+   "end": 139.644,
+   "file": "audio/vo/line27.mp3",
+   "words": [
+    [
+     "That",
+     133.668,
+     133.848
+    ],
+    [
+     "night",
+     133.848,
+     134.008
+    ],
+    [
+     "was",
+     134.008,
+     134.148
+    ],
+    [
+     "only",
+     134.148,
+     134.308
+    ],
+    [
+     "the",
+     134.308,
+     134.448
+    ],
+    [
+     "beginning.",
+     134.448,
+     134.668
+    ],
+    [
+     "For",
+     135.028,
+     135.088
+    ],
+    [
+     "23",
+     135.088,
+     135.368
+    ],
+    [
+     "years,",
+     135.368,
+     135.848
+    ],
+    [
+     "more",
+     136.088,
+     136.188
+    ],
+    [
+     "words",
+     136.188,
+     136.468
+    ],
+    [
+     "would",
+     136.468,
+     136.648
+    ],
+    [
+     "come",
+     136.648,
+     136.788
+    ],
+    [
+     "down",
+     136.788,
+     137.008
+    ],
+    [
+     "piece",
+     137.008,
+     137.368
+    ],
+    [
+     "by",
+     137.368,
+     137.588
+    ],
+    [
+     "piece",
+     137.588,
+     137.808
+    ],
+    [
+     "until",
+     137.808,
+     138.148
+    ],
+    [
+     "the",
+     138.148,
+     138.308
+    ],
+    [
+     "whole",
+     138.308,
+     138.448
+    ],
+    [
+     "Quran",
+     138.448,
+     138.688
+    ],
+    [
+     "was",
+     138.688,
+     138.968
+    ],
+    [
+     "complete.",
+     138.968,
+     139.268
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.083
+  },
+  {
+   "id": "l1",
+   "text": "Tonight, one lantern rises over the mountain. On it, one word. Read.",
+   "say": "Tonight, one lantern rises over the mountain. On it, one word. Read.",
+   "start": 141.644,
+   "end": 146.18,
+   "file": "audio/vo/line28.mp3",
+   "words": [
+    [
+     "Tonight,",
+     141.644,
+     141.904
+    ],
+    [
+     "one",
+     142.264,
+     142.324
+    ],
+    [
+     "lantern",
+     142.324,
+     142.684
+    ],
+    [
+     "rises",
+     142.684,
+     143.044
+    ],
+    [
+     "over",
+     143.044,
+     143.444
+    ],
+    [
+     "the",
+     143.444,
+     143.584
+    ],
+    [
+     "mountain.",
+     143.584,
+     143.784
+    ],
+    [
+     "On",
+     144.264,
+     144.364
+    ],
+    [
+     "it,",
+     144.364,
+     144.484
+    ],
+    [
+     "one",
+     144.664,
+     144.864
+    ],
+    [
+     "word,",
+     144.864,
+     145.184
+    ],
+    [
+     "read...",
+     145.564,
+     146.124
+    ]
+   ],
+   "sec": "calm",
+   "wer": 0.0
+  },
+  {
+   "id": "l2",
+   "text": "Tomorrow night: what Khadijah did next, and the old man who knew what it meant.",
+   "say": "Tomorrow night. What Khadeejah did next, and the old man who knew what it meant.",
+   "start": 147.78,
+   "end": 151.836,
+   "file": "audio/vo/line29.mp3",
+   "words": [
+    [
+     "Tomorrow",
+     147.78,
+     147.96
+    ],
+    [
+     "night,",
+     147.96,
+     148.32
+    ],
+    [
+     "what",
+     148.98,
+     149.06
+    ],
+    [
+     "Khadija",
+     149.06,
+     149.36
+    ],
+    [
+     "did",
+     149.36,
+     149.62
+    ],
+    [
+     "next",
+     149.62,
+     149.9
+    ],
+    [
+     "and",
+     149.9,
+     150.18
+    ],
+    [
+     "the",
+     150.18,
+     150.32
+    ],
+    [
+     "old",
+     150.32,
+     150.48
+    ],
+    [
+     "man",
+     150.48,
+     150.7
+    ],
+    [
+     "who",
+     150.7,
+     150.94
+    ],
+    [
+     "knew",
+     150.94,
+     151.08
+    ],
+    [
+     "what",
+     151.08,
+     151.22
+    ],
+    [
+     "it",
+     151.22,
+     151.3
+    ],
+    [
+     "meant.",
+     151.3,
+     151.5
+    ]
+   ],
+   "sec": "aftermath",
+   "wer": 0.067
+  }
+ ],
+ "marks": {
+  "title": [
+   6.328,
+   11.328
+  ],
+  "end": [
+   152.636,
+   158.836
+  ]
+ },
+ "strong_hits": [
+  57.52,
+  87.22999999999999,
+  141.64
+ ],
+ "fps": 24,
+ "audio": "audio/mix.m4a",
+ "arabic": {
+  "96:1": "ٱقۡرَأۡ بِٱسۡمِ رَبِّكَ ٱلَّذِي خَلَقَ",
+  "96:2": "خَلَقَ ٱلۡإِنسَٰنَ مِنۡ عَلَقٍ",
+  "96:3": "ٱقۡرَأۡ وَرَبُّكَ ٱلۡأَكۡرَمُ",
+  "96:4": "ٱلَّذِي عَلَّمَ بِٱلۡقَلَمِ",
+  "96:5": "عَلَّمَ ٱلۡإِنسَٰنَ مَا لَمۡ يَعۡلَمۡ",
+  "iqra": "ٱقۡرَأۡ"
+ },
+ "voice": "chatterbox",
+ "audio_note": "Narration placed by films/noor/lib/place.py; picture follows these times."
+}

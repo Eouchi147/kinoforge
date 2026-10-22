@@ -1,0 +1,13 @@
+{
+ "id": "noor-juz-30-amma",
+ "series": "NOOR",
+ "title": "Juz Amma",
+ "duration": 138.976,
+ "fps": 24,
+ "audio": "audio/mix.m4a",
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "style": "lantern-road"
+}
