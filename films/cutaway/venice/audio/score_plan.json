@@ -1,0 +1,153 @@
+{
+ "palette": "early_modern_europe",
+ "key": "D",
+ "mode": "dorian",
+ "duration": 182.516,
+ "seed": 82220,
+ "sections": [
+  {
+   "t": 0.0,
+   "mood": "calm"
+  },
+  {
+   "t": 22.129,
+   "mood": "curious"
+  },
+  {
+   "t": 44.234,
+   "mood": "curious",
+   "intensity": 0.46
+  },
+  {
+   "t": 85.287,
+   "mood": "curious",
+   "intensity": 0.36
+  },
+  {
+   "t": 107.392,
+   "mood": "curious",
+   "intensity": 0.5
+  },
+  {
+   "t": 126.34,
+   "mood": "tension"
+  },
+  {
+   "t": 148.445,
+   "mood": "turn"
+  },
+  {
+   "t": 164.235,
+   "mood": "triumph"
+  },
+  {
+   "t": 170.551,
+   "mood": "aftermath"
+  }
+ ],
+ "hits": [
+  {
+   "t": 15.513,
+   "kind": "low",
+   "level": 0.4
+  },
+  {
+   "t": 148.145,
+   "kind": "low",
+   "level": 1.0
+  },
+  {
+   "t": 164.635,
+   "kind": "chime",
+   "level": 0.8
+  }
+ ],
+ "voice": [
+  [
+   3.181,
+   13.272
+  ],
+  [
+   15.813,
+   17.178
+  ],
+  [
+   22.129,
+   32.753
+  ],
+  [
+   34.76,
+   41.928
+  ],
+  [
+   44.234,
+   50.826
+  ],
+  [
+   53.708,
+   64.332
+  ],
+  [
+   66.339,
+   73.955
+  ],
+  [
+   75.813,
+   81.893
+  ],
+  [
+   85.287,
+   94.46
+  ],
+  [
+   97.919,
+   105.578
+  ],
+  [
+   107.392,
+   116.8
+  ],
+  [
+   120.024,
+   125.613
+  ],
+  [
+   126.34,
+   137.028
+  ],
+  [
+   138.971,
+   145.862
+  ],
+  [
+   148.445,
+   162.034
+  ],
+  [
+   164.235,
+   169.952
+  ],
+  [
+   170.551,
+   178.316
+  ]
+ ],
+ "story": {
+  "title_line": "l01",
+  "battle_line": "l12",
+  "turn_line": "l14",
+  "result_line": "l15",
+  "epilogue_line": "l16",
+  "plan_line": "l04",
+  "year": 2026,
+  "place_scores": {
+   "middle_east_central_asia": 0,
+   "ancient_med": 0
+  },
+  "notes": []
+ },
+ "tempo": 72,
+ "solo": "flute",
+ "drums": "frame",
+ "swell_len": 9
+}
