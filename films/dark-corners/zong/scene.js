@@ -8,6 +8,8 @@ import { poseCamera } from './common.js';
 import { buildSea } from './sea.js';
 import { buildDoc } from './docs.js';
 import { buildDeck } from './deck.js';
+import { buildCourt } from './court.js';
+import { buildLantern } from './lantern.js';
 import { SHOTS, LABELS, captionsFrom, TITLE, END } from './shots.js';
 
 const FILM = await (await fetch('./film.json')).json();
@@ -15,6 +17,8 @@ const CUES = await (await fetch('./cues.json')).json();
 const FPS = FILM.fps, DUR = FILM.duration;
 const CAPS = captionsFrom(CUES);
 const BUILD = {
+  'lantern:night': () => buildLantern('night', SHOTS), 'lantern:dusk': () => buildLantern('dusk', SHOTS), 'lantern:dawn': () => buildLantern('dawn', SHOTS),
+  'court': () => buildCourt(SHOTS),
   'deck': () => buildDeck(SHOTS),
   'doc:claim': () => buildDoc('claim', SHOTS), 'doc:ledger': () => buildDoc('ledger', SHOTS), 'doc:rule': () => buildDoc('rule', SHOTS), 'doc:quote': () => buildDoc('quote', SHOTS), 'doc:kb': () => buildDoc('kb', SHOTS),
   'sea:dusk': () => buildSea('dusk', SHOTS), 'sea:moon': () => buildSea('moon', SHOTS), 'sea:dawn': () => buildSea('dawn', SHOTS),

@@ -1,5 +1,5 @@
 // The shot list (times from cues.json; every cut sits on a strong music hit or a narration start) + words on screen.
-import { ease, clamp, lerp } from '/harness/kit/film.js';
+import { ease, clamp, lerp, smoothstep } from '/harness/kit/film.js';
 
 const KEYS = ['x', 'y', 'z', 'mm', 'yaw', 'pitch', 'roll'];
 const L = (a, b, k) => { const o = {}; for (const key of KEYS) { const av = a[key] ?? (key === 'mm' ? 35 : 0), bv = b[key] ?? av; o[key] = lerp(av, bv, k); } return o; };
@@ -43,6 +43,19 @@ D('m2b', { set: 'deck', cam: mv({ z: -1.2, pitch: -0.2, yaw: 0.01 }, { z: -4.8, 
 D('r1b', { set: 'deck', cam: mv({ x: -0.1, z: -1.0, pitch: -0.14 }, { x: 0.15, z: -2.8, pitch: -0.2 }), swing: 0.12, period: 3, rain: () => 1, casks: { level: (t, i) => 0.12 + 0.82 * ease.inOutSine(clamp((t - (86.9 + 0.28 * i)) / 1.5)), ripples: true } });
 D('r3a', { set: 'deck', casksOn: false, cam: mv({ x: -0.1, z: -1.5, pitch: -0.3 }, { x: 0.2, z: -2.6, pitch: -0.33 }), swing: 0.2, period: 3.4, chainMode: 'coil', chainAt: [360, 1230], chainScale: 1.35 });
 D('r3c', { set: 'deck', casksOn: false, cam: mv({ x: 0.4, z: -1.2, yaw: 0.05 }, { x: 0.55, z: -3.0, yaw: 0.07, pitch: 0.01 }), swing: 0.14, period: 3.6, chainMode: 'hang' });
+
+// ---- the court
+D('o2a', { set: 'court', cam: mv({ z: -1, y: 0.1 }, { z: -5, y: 0.05 }) });
+D('c2', { set: 'court', cam: mv({ x: 0.2, z: -2.5, yaw: 0.02 }, { x: 0.8, z: -6, yaw: 0.075, pitch: -0.03 }), jury: true });
+D('c3a', { set: 'court', cam: mv({ x: -0.5, z: -2.4, yaw: -0.07 }, { x: -0.4, z: -5.2, yaw: -0.075, pitch: -0.035 }), lawyer: true });
+D('j1a', { set: 'court', cam: mv({ z: -2.5, pitch: 0.05 }, { z: -6.8, pitch: 0.06 }), rain: (t) => smoothstep(149.9, 150.5, t) });
+D('j2a', { set: 'court', cam: mv({ z: -3.5 }, { z: -8.0, pitch: 0.03 }), judge: false, jury: false, candleOff: { chand0: 155.7, chand4: 156.0, chand2: 156.35, chand6: 156.6, chand1: 156.9, chand5: 157.15, chand3: 157.45, chand7: 157.7, bench: 157.9, table: 158.2 } });
+D('j2b', { set: 'court', cam: mv({ x: -0.9, z: -3.0, yaw: -0.14, pitch: -0.1 }, { x: -0.9, z: -5.0, yaw: -0.15, pitch: -0.11 }), judge: false, jury: false, candleOff: { chand0: 0, chand1: 0, chand2: 0, chand3: 0, chand4: 0, chand5: 0, chand6: 0, chand7: 0, bench: 0, table: 0, dock: 161.2 } });
+
+// ---- the lantern (the motif): o3 in the dark, x1c at dusk ("care"), f3 the dawn it goes out in
+D('o3', { set: 'lantern:night', cam: mv({ z: -0.5, y: -0.05 }, { z: -3.2, y: 0.05 }, ease.inOutSine), flame: () => 1 });
+D('x1c', { set: 'lantern:dusk', cam: mv({ z: -3.8, x: 0.05 }, { z: -2.2, x: -0.02 }), flame: () => 1 });
+D('f3', { set: 'lantern:dawn', cam: mv({ z: -4.0, y: 0.05 }, { z: -0.8, y: 0.0 }, ease.inOutSine), flame: (t) => 1 - smoothstep(176.05, 176.55, t) * 1, smoke: (t) => (t > 176.3 ? clamp((t - 176.3) / 1.1) : 0), bgK: (t) => 0.62 + 0.38 * smoothstep(174.0, 176.7, t), fadeOut: 0.0 });
 const SHOTS = [];
 for (let i = 0; i + 1 < SEQ.length; i++) {
   const n = SEQ[i][0]; const d = def[n] || {};

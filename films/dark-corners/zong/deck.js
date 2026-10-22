@@ -114,7 +114,7 @@ export function buildDeck(shots) {
   // tints: everything is moonlit blue; the lantern warms it
   for (const k of ['wall', 'deck', 'casksB', 'casksF', 'mast']) planes[k].material.uniforms.uTint.value.set(1, 1, 1);
   const moon = S.glow(DK.moon[0], DK.moon[1], 8500, 200, { color: [0.62, 0.74, 1.0], core: 40 }, planes.sky); moon.material.uniforms.uI.value = 0.95;
-  const lg1 = S.glow(0, 0, DE.lant, 160, { color: GLOW, core: 40 }); const lg2 = S.glow(0, 0, DE.lant, 56, { color: [1, 0.86, 0.6], core: 30 }); lg1.renderOrder = 1e6 - DE.lant * 10 + 0.5; lg2.renderOrder = lg1.renderOrder + 0.1;
+  const aura = S.glow(0, 0, DE.lant, 950, { color: [1.0, 0.55, 0.22], core: 5000 }); aura.renderOrder = 1e6 - DE.lant * 10 - 0.6; const lg1 = S.glow(0, 0, DE.lant, 160, { color: GLOW, core: 40 }); const lg2 = S.glow(0, 0, DE.lant, 56, { color: [1, 0.86, 0.6], core: 30 }); lg1.renderOrder = 1e6 - DE.lant * 10 + 0.5; lg2.renderOrder = lg1.renderOrder + 0.1;
   const rainR = rng(1190); const drops = Array.from({ length: 420 }, () => ({ x: rainR() * 900 - 90, y: rainR() * 1500, s: 0.7 + rainR() * 0.8, l: 40 + rainR() * 70 }));
   const lanternPx = (t, sh) => { const A = sh.swing ?? 0.25, w = 2 * Math.PI / (sh.period ?? 3.4); const th = A * Math.sin(w * t) * Math.exp(-0.0 * t) + 0.04 * Math.sin(w * 2.3 * t + 1); const [px, py] = DK.pivot; return { th, x: px + Math.sin(th) * DK.L, y: py + Math.cos(th) * DK.L }; };
   const api = {
@@ -122,8 +122,8 @@ export function buildDeck(shots) {
     show(v) { S.group.visible = v; },
     update(t, sh) {
       for (const k of ['w0', 'w1', 'w2']) { const p = planes[k]; const ph = k.charCodeAt(1) * 1.7; const a = p.userData.amp; const sc = p.userData.D / f; p.position.x = p.userData.base.x + (Math.sin(t * 0.3 + ph) * 4 * a + t * 0.4 * a) * sc; p.position.y = p.userData.base.y + Math.sin(t * 0.5 + ph) * 2 * a * sc; }
-      const lp = lanternPx(t, sh); const lw = S.world(lp.x, lp.y, DE.lant); lg1.position.copy(lw); lg2.position.copy(lw); const fl = flick(t, 2) * (sh.lanternK ?? 1); lg1.material.uniforms.uI.value = 1.0 * fl; lg2.material.uniforms.uI.value = 0.85 * fl;
-      moon.material.uniforms.uI.value = 0.95 * (sh.moonK ?? 1);
+      const lp = lanternPx(t, sh); const lw = S.world(lp.x, lp.y, DE.lant); lg1.position.copy(lw); lg2.position.copy(lw); aura.position.copy(lw); aura.material.uniforms.uI.value = 0.07 * flick(t, 2) * (sh.lanternK ?? 1); const fl = flick(t, 2) * (sh.lanternK ?? 1); lg1.material.uniforms.uI.value = 1.0 * fl; lg2.material.uniforms.uI.value = 0.85 * fl;
+      moon.material.uniforms.uI.value = 0.8 * (sh.moonK ?? 1);
       const L = (D, d, r, k) => [{ p: new THREE.Vector3(lw.x, lw.y, -D + d), r, c: WARM, k: k * fl }];
       setLights(planes.wall.material, L(DE.wall, 2.6, 4.4, 4.2)); setLights(planes.deck.material, L(DE.deck, 2.2, 4.6, 4.8)); setLights(planes.casksB.material, L(DE.casksB, 1.8, 3.6, 4.0)); setLights(planes.casksF.material, L(DE.casksF, 1.6, 3.2, 4.4)); setLights(planes.mast.material, L(DE.mast, 1.8, 3.2, 3.6));
       planes.casksB.visible = planes.casksF.visible = sh.casksOn !== false;
