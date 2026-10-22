@@ -2,9 +2,9 @@
  "id": "battle-of-tours",
  "title": "The Battle of Tours",
  "line": "battle-map",
- "stage": "script",
- "state": "done",
- "message": "10 lines, 224 words, 20 claims checked, 0 cut.",
+ "stage": "sound",
+ "state": "running",
+ "message": "Recording the narration and the score.",
  "usd": 0.1811,
  "cap_usd": 0.9,
  "outputs": {
@@ -16,9 +16,14 @@
    "started_at": "2026-10-22T13:10:04Z",
    "usd": 0.1811,
    "ended_at": "2026-10-22T13:11:58Z"
+  },
+  "sound": {
+   "state": "running",
+   "started_at": "2026-10-22T13:12:00Z",
+   "usd": 0.1811
   }
  },
  "approved_at": "2026-10-22T13:15:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39784277702",
- "updated_at": "2026-10-22T13:11:58Z"
+ "updated_at": "2026-10-22T13:12:00Z"
 }
