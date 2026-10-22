@@ -581,7 +581,8 @@ def mist(kit, opacity, seed=3):
         ex = g.math('MINIMUM', g.math('MULTIPLY', g.math('MINIMUM', u[0], g.math('SUBTRACT', 1.0, u[0])), 8.0), 1.0)
         ey = g.math('MINIMUM', g.math('MULTIPLY', g.math('MINIMUM', u[1], g.math('SUBTRACT', 1.0, u[1])), 6.0), 1.0)
         n = g.noise(g.comb(g.math('MULTIPLY', u[0], (x1 - x0) * 2.5), g.math('MULTIPLY', u[1], (y1 - y0) * 2.5), zo), 1.6, 3.0, 0.55, '4D', w)
-        a = g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.32), 2.4, clamp=True), g.math('MULTIPLY', ex, ey)), op)
+        lw = g.node('ShaderNodeLayerWeight', ins={'Blend': 0.5}); face = g.math('POWER', g.math('SUBTRACT', 1.0, lw.outputs['Facing']), 2.5)   # no hard line edge-on
+        a = g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.32), 2.4, clamp=True), g.math('MULTIPLY', ex, ey)), op), face)
         em = g.node('ShaderNodeEmission', ins={'Color': cw.srgb((0.80, 0.82, 0.84)), 'Strength': 1.0}); tr = g.node('ShaderNodeBsdfTransparent')
         mx = g.node('ShaderNodeMixShader'); g.link(a, mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(em, mx.inputs[2]); _out(g, mx)
         V = [(x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z)]

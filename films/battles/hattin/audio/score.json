@@ -1,7 +1,8 @@
 {
  "engine": "samples+synth",
- "lufs": -23.06,
+ "lufs": -23.02,
  "peak_dbfs": -3.5,
+ "limiter_reduction_db": 0.8,
  "chords": [
   [
    0.0,
@@ -2322,7 +2323,7 @@
   {
    "t": 0.0,
    "mood": "calm",
-   "pad": -37.3,
+   "pad": -37.2,
    "solo": -38.1,
    "pluck": -40.9,
    "drums": -120.0,
@@ -2331,7 +2332,7 @@
   {
    "t": 16.0,
    "mood": "curious",
-   "pad": -32.2,
+   "pad": -32.1,
    "solo": -38.3,
    "pluck": -33.7,
    "drums": -120.0,
@@ -2340,9 +2341,9 @@
   {
    "t": 58.0,
    "mood": "tension",
-   "pad": -28.5,
+   "pad": -28.4,
    "solo": -37.8,
-   "pluck": -33.6,
+   "pluck": -33.5,
    "drums": -34.3,
    "hits": -39.3
   },
@@ -2351,23 +2352,23 @@
    "mood": "turn",
    "pad": -21.4,
    "solo": -58.8,
-   "pluck": -30.5,
+   "pluck": -30.4,
    "drums": -33.6,
    "hits": -36.3
   },
   {
    "t": 101.3,
    "mood": "aftermath",
-   "pad": -33.3,
+   "pad": -33.2,
    "solo": -36.2,
-   "pluck": -40.0,
+   "pluck": -39.9,
    "drums": -38.3,
    "hits": -120.0
   },
   {
    "t": 114.4,
    "mood": "aftermath",
-   "pad": -36.6,
+   "pad": -36.4,
    "solo": -40.2,
    "pluck": -41.6,
    "drums": -120.0,
@@ -2430,37 +2431,37 @@
   "voice_lufs_before": -21.9,
   "mix_lufs": -14.09,
   "mix_peak_dbfs": -2.0,
-  "voice_over_score_while_speaking_db": 16.7,
+  "voice_over_score_while_speaking_db": 17.0,
   "by_section": [
    {
     "t": 0.0,
     "mood": "calm",
-    "voice_over_music_db": 20.4
+    "voice_over_music_db": 20.8
    },
    {
     "t": 16.0,
     "mood": "curious",
-    "voice_over_music_db": 18.8
+    "voice_over_music_db": 19.0
    },
    {
     "t": 58.0,
     "mood": "tension",
-    "voice_over_music_db": 15.3
+    "voice_over_music_db": 15.7
    },
    {
     "t": 92.6,
     "mood": "turn",
-    "voice_over_music_db": 10.2
+    "voice_over_music_db": 10.7
    },
    {
     "t": 101.3,
     "mood": "aftermath",
-    "voice_over_music_db": 19.1
+    "voice_over_music_db": 19.4
    },
    {
     "t": 114.4,
     "mood": "aftermath",
-    "voice_over_music_db": 23.4
+    "voice_over_music_db": 23.6
    }
   ],
   "clipped_samples": 0

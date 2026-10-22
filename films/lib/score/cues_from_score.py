@@ -28,7 +28,7 @@ def build(film_dir):
     y = librosa.resample(x.mean(axis=1)[: int(dur * sr0)], orig_sr=sr0, target_sr=22050)
     env = librosa.onset.onset_strength(y=y, sr=22050); fr = librosa.onset.onset_detect(onset_envelope=env, sr=22050)
     hits = [float(librosa.frames_to_time(f, sr=22050)) for f in fr if env[f] > np.percentile(env, 96)]
-    hits += [float(h['t']) for h in meta.get('hits', []) if h['kind'] in ('low', 'drum')]        # the title and the turn
+    hits += [float(h[0]) for h in meta.get('hits', []) if h[1] in ('low', 'drum')]        # the title and the turn
     hits = sorted(set(round(h, 3) for h in hits if 0 <= h < dur))
     merged = []                                                                               # one hit per 0.25 s at most
     for h in hits:

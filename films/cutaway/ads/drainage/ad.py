@@ -590,6 +590,97 @@ def build_props(kit, L):
     for x in np.arange(-SX / 2 + 0.4, SX / 2 - 0.10, 0.045): pts.append((x + rng.normal(0, 0.01), SY / 2 - 0.36 + rng.normal(0, 0.02)))
     cw.scatter(kit, L, 'flowerbed', fl, np.array(pts), scale=rng.uniform(1.3, 1.9, len(pts)), sway=0.15, speed=0.9)
 
+# ================================================================================================ cinema: mist, god rays, life
+def mat_card(kit, name, color, V, key, strength=1.0, kind='mist'):
+    """Camera-only additive light cards. kind 'mist': drifting noise sheet with soft edges (attributes u, v 0..1);
+    kind 'ray': a soft shaft fading at both ends and across. Opacity is V[key] (driven per frame)."""
+    m = cw._new_mat(kit.bpy, name); g = cw.G(m.node_tree, kit)
+    u = g.attr('u').outputs['Fac']; v = g.attr('v').outputs['Fac']
+    A = V.setdefault(key, g.value(0.0, key)); TM = V.setdefault(key + '_t', g.value(0.0, 'time'))
+    edge = lambda w, k: g.math('MULTIPLY', g.math('MINIMUM', w, g.math('SUBTRACT', 1.0, w)), k, clamp=True)
+    if kind == 'mist':
+        tc = g.node('ShaderNodeTexCoord'); sx = g.sep(tc.outputs['Object'])
+        n = g.noise(g.comb(g.math('ADD', sx[0], g.math('MULTIPLY', TM, 0.05)), sx[1], g.math('MULTIPLY', TM, 0.03)), 1.6, 3.0, 0.55)
+        a = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.30), 2.2, clamp=True)
+        a = g.math('MULTIPLY', a, g.math('MULTIPLY', edge(u, 6.0), edge(v, 6.0)))
+    else:
+        n = g.noise(g.comb(g.math('MULTIPLY', v, 3.0), g.math('MULTIPLY', TM, 0.12), 0.0), 2.0, 2.0)
+        a = g.math('MULTIPLY', g.math('MULTIPLY', edge(u, 3.0), g.math('POWER', edge(v, 2.0), 1.6)), g.math('ADD', 0.45, g.math('MULTIPLY', n.outputs['Fac'], 0.8)))
+    a = g.math('MULTIPLY', a, A)
+    e = g.node('ShaderNodeEmission', ins={'Color': cw.srgb(color), 'Strength': strength}); tr = g.node('ShaderNodeBsdfTransparent')
+    sc = g.node('ShaderNodeMixShader'); g.link(a, sc.inputs[0]); g.link(tr, sc.inputs[1]); g.link(e, sc.inputs[2])
+    cw._finish(g, sc); return m
+
+def quad(kit, name, V4, mat):
+    ob = cw.mk_mesh(kit.bpy, name, V4, [(0, 1, 2, 3)], [mat], None, False, kit.coll,
+                    {'u': ('FLOAT', [0, 1, 1, 0]), 'v': ('FLOAT', [0, 0, 1, 1])})
+    for a in ('visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter', 'visible_shadow'): setattr(ob, a, False)
+    return ob
+
+def build_mist(kit, V):
+    x0, x1, y0, y1 = HOUSE_X + 0.02, SX / 2 - 0.01, -SY / 2 + 0.01, SY / 2 - 0.25
+    for k, (z, s) in enumerate(((LAWN + 0.03, 0.55), (LAWN + 0.075, 0.40), (LAWN + 0.13, 0.25))):
+        m = mat_card(kit, f'mist{k}_m', (0.86, 0.88, 0.90), V, 'mist', s)
+        quad(kit, f'mist{k}', [(x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z)], m).location = (0.0, 0.0, 0.0)
+
+class Rays:
+    """God rays: long soft shafts along the sun direction landing on the lawn, turned each frame to face the camera."""
+    def __init__(self, kit, V, n=7, seed=2):
+        rng = np.random.default_rng(seed); self.obs = []
+        self.m = mat_card(kit, 'rays_m', (1.0, 0.86, 0.62), V, 'rays', 1.0, 'ray')
+        for k in range(n):
+            w = rng.uniform(0.10, 0.34); ob = quad(kit, f'ray{k}', [(-w / 2, 0, 0), (w / 2, 0, 0), (w / 2, 0, 1), (-w / 2, 0, 1)], self.m)
+            self.obs.append((ob, (rng.uniform(-0.9, 1.3), rng.uniform(-1.1, 1.2)), rng.uniform(2.6, 4.2)))
+    def update(self, sun_dir, cam_loc):
+        from mathutils import Matrix, Vector
+        dv = Vector(sun_dir).normalized()                          # toward the sun
+        for ob, (gx, gy), L in self.obs:
+            base = Vector((gx, gy, LAWN)); to_cam = (Vector(cam_loc) - base); side = dv.cross(to_cam).normalized(); nrm = side.cross(dv)
+            M = Matrix((side, nrm, dv)).transposed(); ob.matrix_world = Matrix.Translation(base) @ M.to_4x4() @ Matrix.Diagonal((1, 1, L, 1))
+
+class Tube:
+    """A tube along a polyline updated per frame (the worm)."""
+    def __init__(self, kit, name, mat, n=12, ring=8):
+        self.n = n; self.ring = ring; F = []
+        for i in range(n - 1):
+            for j in range(ring):
+                a = i * ring + j; b = i * ring + (j + 1) % ring; F.append((a, a + ring, b + ring, b))
+        self.ob = cw.mk_mesh(kit.bpy, name, np.zeros((n * ring, 3)), F, [mat], None, True, kit.coll)
+    def set(self, pts, r0, r1):
+        P = cw.catmull(pts, self.n); v, f = cw._tube(P, np.linspace(r0, r1, self.n), self.ring, False)
+        self.ob.data.vertices.foreach_set('co', np.array(v, float).ravel()); self.ob.data.update()
+
+def build_robin(kit):
+    """A robin (orange breast, brown back) built from blobs; root object is the body, head is a child (it pecks)."""
+    bpy = kit.bpy; V0, F0 = cw._icosphere(3); A = cw._Acc(); H = cw._Acc()
+    back = cw.mat_simple(kit, 'robin_back', (0.36, 0.29, 0.22), 0.6); breast = cw.mat_simple(kit, 'robin_breast', (0.86, 0.40, 0.14), 0.6)
+    dark = cw.mat_simple(kit, 'robin_dark', (0.05, 0.04, 0.04), 0.3); leg = cw.mat_simple(kit, 'robin_leg', (0.45, 0.32, 0.22), 0.6)
+    A.add(V0 * np.array([0.034, 0.022, 0.022]) + np.array([0.0, 0.0, 0.032]), F0, 0)
+    A.add(V0 * np.array([0.022, 0.019, 0.019]) + np.array([0.014, 0.0, 0.027]), F0, 1)
+    A.add([(-0.028, -0.006, 0.036), (-0.028, 0.006, 0.036), (-0.062, 0.010, 0.046), (-0.062, -0.010, 0.046)], [(0, 1, 2, 3), (3, 2, 1, 0)], 0)
+    for dy in (-0.006, 0.006):
+        v, f = cw._tube([(0.004, dy, 0.016), (0.006, dy, 0.0)], [0.0018, 0.0015], 6); A.add(v, f, 3)
+    body = A.build(bpy, 'robin', [back, breast, dark, leg], True, kit.coll)
+    H.add(V0 * 0.016, F0, 0); H.add(V0 * np.array([0.012, 0.013, 0.010]) + np.array([0.006, 0.0, -0.006]), F0, 1)
+    for dy in (-0.012, 0.012): H.add(V0 * 0.0032 + np.array([0.008, dy, 0.004]), F0, 2)
+    v, f = cw._tube([(0.013, 0, 0.0), (0.030, 0, -0.003)], [0.004, 0.0005], 6); H.add(v, f, 2)
+    head = H.build(bpy, 'robin_head', [back, breast, dark], True, kit.coll); head.parent = body; head.location = (0.032, 0.0, 0.054)
+    return body, head
+
+def build_toy_car(kit):
+    """The easter egg: a lost toy car exposed in the topsoil of the left cut face."""
+    bpy = kit.bpy; A = cw._Acc()
+    v, f = cw._box(-0.045, -0.017, 0.006, 0.045, 0.017, 0.022); A.add(v, f, 0)
+    v, f = cw._box(-0.018, -0.014, 0.022, 0.020, 0.014, 0.036); A.add(v, f, 0)
+    v, f = cw._box(-0.016, -0.0145, 0.024, 0.018, 0.0145, 0.034); A.add(v, f, 2)
+    for x in (-0.028, 0.028):
+        for y in (-0.018, 0.018):
+            v, f = cw._tube([(x, y - 0.004, 0.008), (x, y + 0.004, 0.008)], [0.0085, 0.0085], 12); A.add(v, f, 1)
+    car = A.build(bpy, 'toy_car', [cw.mat_simple(kit, 'toy_red', (0.80, 0.10, 0.08), 0.25), cw.mat_simple(kit, 'toy_tyre', (0.04, 0.04, 0.04), 0.6),
+                                   cw.mat_simple(kit, 'toy_glass', (0.45, 0.62, 0.72), 0.1)], False, kit.coll)
+    car.location = (-0.42, -SY / 2 + 0.006, -0.115); car.rotation_euler = (0.25, -0.35, 0.15)
+    return car
+
 # ================================================================================================ words
 class Words:
     """Text placed in camera space (frame fractions), with a soft shadow, landing (fade and a small settle) and resting."""
@@ -777,15 +868,24 @@ def build(bpy, ctx, aspect):
     build_fence(kit, land); build_shrubs(kit, land); S['patio_mats'] = build_patio(kit, land)
     _, ds_out = build_house(kit, land); build_props(kit, land); patch_grass_wet(kit, S['V'])
     S['downflow'] = Spout(kit, 'downflow', ds_out, mat_flow(kit, S['V'], 'downflow', glass=True))
+    build_mist(kit, S['V']); S['rays'] = Rays(kit, S['V'])
+    S['robin'], S['robin_head'] = build_robin(kit)
+    S['worm'] = Tube(kit, 'worm', cw.mat_simple(kit, 'worm', (0.80, 0.46, 0.44), 0.4, sss=0.2))
+    build_toy_car(kit)
+    ball = kit.bpy.data.objects['ball']; bm = cw._new_mat(kit.bpy, 'ball_stripe'); g = cw.G(bm.node_tree, kit)
+    zc = g.sep(g.node('ShaderNodeTexCoord').outputs['Object'])[2]
+    band = g.math('LESS_THAN', g.math('ABSOLUTE', zc), 0.011)
+    pb = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': g.mix(band, cw.srgb((0.85, 0.18, 0.12)), cw.srgb((0.95, 0.95, 0.92))), 'Roughness': 0.35})
+    cw._finish(g, pb); ball.data.materials[0] = bm; ball.rotation_mode = 'QUATERNION'; S['ball'] = ball
     # ---- sky backdrop and light (overcast after the rain, then sun)
     wd = cw.mat_gradient_bg(kit, (0.46, 0.51, 0.57), (0.72, 0.75, 0.78), 1.0, (0.82, 0.86, 0.92), 1.2)
     S['ramp'] = next(n for n in wd.node_tree.nodes if n.bl_idname == 'ShaderNodeValToRGB')
     bgs = [n for n in wd.node_tree.nodes if n.bl_idname == 'ShaderNodeBackground']
     S['bg_light'] = next(n for n in bgs if not n.inputs['Color'].is_linked)
-    S['sun'] = cw._sun(kit, 25.0, 50.0, 0.8, 30.0, (0.90, 0.94, 1.0), 'sun')
+    S['sun'] = cw._sun(kit, 25.0, 50.0, 0.7, 30.0, (0.88, 0.92, 1.0), 'sun')
     cw.cloud_shadows(kit, 0.22)
     # ---- camera
-    cam = cw.camera(kit, land, aspect, az=-44, el=20 if not v else 22, lens=55 if v else 50, fill=0.80 if not v else 0.98, top_extra=0.62)
+    cam = cw.camera(kit, land, aspect, az=-44, el=17 if not v else 18, lens=55 if v else 50, fill=0.80 if not v else 0.98, top_extra=0.62)
     cd = cam.ob.data
     if v: cd.shift_y = 0.16
     else: cd.shift_x = -0.14; cd.shift_y = 0.0
@@ -824,24 +924,53 @@ def build(bpy, ctx, aspect):
     return S
 
 # ================================================================================================ camera plan
-CAM = {  # per beat: (time, az, el, dist factor, target or None for the block centre)
-    '9:16': [(0.0, -44.0, 22.0, 1.00, None), (3.0, -42.0, 21.0, 0.93, None),
-             (6.5, -16.0, 11.0, 0.40, (SX / 2, Y0 + 0.05, -0.30)),
-             (11.5, -28.0, 18.0, 0.52, (0.85, -0.25, -0.26)), (15.0, -38.0, 23.0, 0.96, None)],
-    '16:9': [(0.0, -44.0, 20.0, 1.00, None), (3.0, -42.0, 19.0, 0.93, None),
-             (6.5, -16.0, 10.0, 0.44, (SX / 2, Y0 + 0.05, -0.27)),
-             (11.5, -28.0, 17.0, 0.56, (0.85, -0.25, -0.26)), (15.0, -38.0, 21.0, 0.96, None)],
+CAM = {  # per beat: (time, az, el, dist factor, target or None for the block centre); beat 3 lifts its elevation early
+    '9:16': [(0.0, -44.0, 18.0, 1.00, None), (3.0, -40.0, 15.0, 0.92, None),
+             (6.5, -12.0, 4.0, 0.31, (SX / 2, Y0 + 0.08, -0.20)),
+             (11.5, -27.0, 17.0, 0.50, (0.85, -0.25, -0.24)), (15.0, -37.0, 21.0, 0.95, None)],
+    '16:9': [(0.0, -44.0, 17.0, 1.00, None), (3.0, -40.0, 14.0, 0.92, None),
+             (6.5, -12.0, 4.0, 0.34, (SX / 2, Y0 + 0.08, -0.18)),
+             (11.5, -27.0, 16.0, 0.54, (0.85, -0.25, -0.22)), (15.0, -37.0, 19.0, 0.95, None)],
 }
 
 def cam_pose(S, t):
     keys = CAM[S['aspect']]; t0 = np.array(S['t0'])
     for a, b in zip(keys[:-1], keys[1:]):
         if t <= b[0] or b is keys[-1]:
-            u = ease(ramp(t, (a[0], b[0])))
+            r = ramp(t, (a[0], b[0])); u = ease(r); ue = ease(min(1.0, r * 1.7)) if a[0] == 6.5 else u
             ta = t0 if a[4] is None else np.array(a[4]); tb = t0 if b[4] is None else np.array(b[4])
-            return lerp(a[1], b[1], u), lerp(a[2], b[2], u), S['d0'] * lerp(a[3], b[3], u), tuple(lerp(ta, tb, u))
+            return lerp(a[1], b[1], u), lerp(a[2], b[2], ue), S['d0'] * lerp(a[3], b[3], u), tuple(lerp(ta, tb, u))
 
 # ================================================================================================ per frame
+def life(S, t):
+    """The robin flies in, pecks and pulls a worm; the kid's ball rolls out of the shrubs onto the dry lawn."""
+    from mathutils import Quaternion, Vector
+    rb, hd = S['robin'], S['robin_head']; spot = np.array([0.52, 0.02]); yaw = 0.9
+    fwd = np.array([math.cos(yaw), math.sin(yaw)]); hz = lambda p: float(S['land'].height(np.array([p[0]]), np.array([p[1]]))[0])
+    u = ease_out(ramp(t, (11.2, 11.95))); start = spot + np.array([0.35, 0.45])
+    p = start + (spot - start) * u; z = hz(p) - 0.003 + 0.75 * (1 - u) ** 2
+    peck = ease(ramp(t, (12.2, 12.45))) * (1 - ease(ramp(t, (12.55, 12.8))))
+    pull = ease(ramp(t, (12.6, 13.6))) * (1 - 0.6 * ease(ramp(t, (13.75, 14.2))))
+    back = 0.028 * ease(ramp(t, (12.7, 13.6)))
+    p = p - fwd * back
+    rb.location = (p[0], p[1], z); rb.rotation_euler = (0.0, 0.55 * peck - 0.30 * pull, yaw); rb.hide_render = t < 11.2
+    flap = (1 - u) * math.sin(t * 60.0)
+    hd.rotation_euler = (0.0, 0.35 * peck, 0.0)
+    S['worm'].ob.hide_render = t < 12.45 or rb.hide_render
+    if t >= 12.45:
+        tip = hd.matrix_world @ Vector((0.030, 0.0, -0.003)); g0 = np.array([spot[0] + fwd[0] * 0.05, spot[1] + fwd[1] * 0.05, hz(spot) - 0.004])
+        tip = np.array(tip)
+        if t < 13.65:
+            mid = (tip + g0) / 2 + np.array([0, 0, -0.004]); S['worm'].set([tip, mid, g0], 0.0028, 0.0034)
+        else:
+            sw = 0.006 * math.sin(t * 7.0); S['worm'].set([tip, tip + np.array([0.004 + sw, 0, -0.018]), tip + np.array([0.002 - sw, 0.003, -0.034])], 0.0028, 0.0022)
+    del flap
+    b = S['ball']; a0 = np.array([1.22, 1.20]); a1 = np.array([0.98, 0.60]); r = 0.042
+    uu = ease_out(ramp(t, (11.9, 13.6))); q = a0 + (a1 - a0) * uu; d = np.linalg.norm(a1 - a0) * uu
+    b.location = (q[0], q[1], hz(q) + r - 0.006)
+    dirv = (a1 - a0) / np.linalg.norm(a1 - a0); axis = Vector((-dirv[1], dirv[0], 0.0))
+    b.rotation_quaternion = Quaternion(axis, d / r)
+
 def frame(bpy, ctx, S, i, t):
     kit = S['kit']; kit.update(t); V = S['V']
     az, el, dist, tgt = cam_pose(S, t); S['cam'].pose(az=az, el=el, dist=dist, target=tgt)
@@ -886,11 +1015,21 @@ def frame(bpy, ctx, S, i, t):
     S['downflow'].set(0.20, max(0.011 * rain, 1e-4)); S['downflow'].ob.hide_render = rain < 0.05
     if 'time_downflow' in V: V['time_downflow'].default_value = t
     for pn in S['patio_mats']: pn.inputs['Roughness'].default_value = lerp(0.18, 0.8, ease(ramp(t, (9.6, 12.0))))
-    # light: overcast after rain, then sun
-    s = ease(ramp(t, T_SUN)); sun = S['sun'].data
-    sun.energy = lerp(0.8, 3.6, s); sun.angle = math.radians(lerp(30.0, 4.0, s)); sun.color = lerp3((0.90, 0.94, 1.0), (1.0, 0.95, 0.86), s)
+    # light: wet grey after the rain, the sun breaks through at the fix (god rays), a warm golden finish
+    b_ = ease(ramp(t, (7.8, 9.6))); g_ = ease(ramp(t, (11.0, 12.6))); sun = S['sun'].data
+    sun.energy = 0.7 + 2.3 * b_ + 0.9 * g_; sun.angle = math.radians(lerp(lerp(30.0, 6.0, b_), 4.0, g_))
+    sun.color = lerp3(lerp3((0.88, 0.92, 1.0), (1.0, 0.93, 0.80), b_), (1.0, 0.76, 0.50), g_)
+    s_el = lerp(lerp(50.0, 42.0, b_), 27.0, g_); s_az = lerp(25.0, 12.0, g_)
+    S['sun'].rotation_euler = (math.radians(90 - s_el), 0, math.radians(s_az + 90))
     el_ = S['ramp'].color_ramp.elements
-    el_[0].color = cw.srgb(lerp3((0.72, 0.75, 0.78), (0.80, 0.88, 0.95), s)); el_[-1].color = cw.srgb(lerp3((0.46, 0.51, 0.57), (0.33, 0.56, 0.84), s))
-    S['bg_light'].inputs['Color'].default_value = cw.srgb(lerp3((0.82, 0.86, 0.92), (0.80, 0.88, 1.0), s))
-    S['bg_light'].inputs['Strength'].default_value = lerp(1.25, 0.85, s)
+    el_[0].color = cw.srgb(lerp3(lerp3((0.55, 0.57, 0.60), (0.80, 0.77, 0.68), b_), (0.98, 0.78, 0.52), g_))
+    el_[-1].color = cw.srgb(lerp3(lerp3((0.27, 0.31, 0.37), (0.30, 0.40, 0.54), b_), (0.26, 0.40, 0.60), g_))
+    S['bg_light'].inputs['Color'].default_value = cw.srgb(lerp3(lerp3((0.78, 0.83, 0.90), (0.85, 0.88, 0.95), b_), (0.82, 0.82, 0.92), g_))
+    S['bg_light'].inputs['Strength'].default_value = lerp(lerp(1.15, 0.9, b_), 0.75, g_)
+    V['mist'].default_value = 0.9 * (1 - ease(ramp(t, (8.6, 11.2)))) + 0.12 * g_; V['mist_t'].default_value = t
+    V['rays'].default_value = 0.55 * ease(ramp(t, (7.9, 9.0))) * (1 - 0.55 * g_); V['rays_t'].default_value = t
+    sv = (math.cos(math.radians(s_el)) * math.cos(math.radians(s_az)), math.cos(math.radians(s_el)) * math.sin(math.radians(s_az)), math.sin(math.radians(s_el)))
+    S['rays'].update(sv, tuple(S['cam'].ob.location))
+    for ob, *_ in S['rays'].obs: ob.hide_render = V['rays'].default_value < 0.01
+    life(S, t)
     S['words'].update(t)

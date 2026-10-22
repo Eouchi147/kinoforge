@@ -14,6 +14,7 @@ import math
 import numpy as np
 import cutaway as cw
 import arch
+import life
 
 LV = -0.05                       # the lagoon's water level (block coordinates, metres)
 DEPTH = 1.3
@@ -233,6 +234,14 @@ def build_city(kit, M, lamps):
         ob = arch.section_mesh(kit, nm, m, len(Q)); arch.set_quads(ob, Q)
     S.data['pole_mat'] = pole_m
     cw.birds(kit, 4, center=(0.2, 0.3), radius=2.0, height=1.0, seed=12, size=0.035, color=(0.92, 0.92, 0.94))
+    # life in the canal behind the glass, pigeons on the campo, lost things in the mud, the cellar cat
+    bedc = float(land.height(np.array([-0.63]), np.array([-1.97]))[0])
+    life.fish(kit, M, [(-0.70, -1.955, bedc + 0.16, 0.06), (-0.55, -1.95, bedc + 0.08, 0.05), (-0.64, -1.94, -0.12, 0.045), (0.95, 0.05, -0.15, 0.08)], 'vz_cfish')
+    life.crab(kit, M, -0.58, -1.965, bedc + 0.004, 'vz_ccrab', 0.07, 0.0)
+    pg = life.pigeons(kit, M, (campo[0] + 0.05, campo[1] - 0.12, -0.022), 12, 0.17, 4, 'vz_pigeon')
+    life.amphora(kit, M, '-Y', -0.56, bedc - 0.13, 0.9, 1.0, name='vz_amphora')
+    life.coin(kit, M, '-Y', -0.76, bedc - 0.24, 0.009, name='vz_coin')
+    life.cellar_cat(kit, M, -1.25, -0.088, -0.036, 0.15, name='vz_cellar')
     water_ob = land.objects['water']; base = np.array([v.co[:] for v in water_ob.data.vertices])
     S.data['water_base'] = base
     top_level = vsock(land.objects['top'].data.materials[0], 'level')
@@ -253,6 +262,7 @@ def build_city(kit, M, lamps):
             if oar: oar.rotation_euler = (0, 0.35 * math.sin(t * 2.2 + q0), 0.3 * math.sin(t * 1.1 + q0))
         show_walk = st.get('walkways', False)
         for o in ww: o.hide_render = not show_walk
+        for o in pg: o.hide_render = show_walk or bool(st.get('flood'))       # the pigeons leave when the water comes
         for f, x0, y0, a0, sp in walkers:
             f.hide_render = show_walk
             a = a0 + sp * t * 6; x = x0 + 0.05 * math.cos(a); y = y0 + 0.05 * math.sin(a)
@@ -303,6 +313,9 @@ def build_lagoon(kit, M):
     ring = cw.mk_mesh(bpy, 'vz_mudring', *arch._revolve([(0.15, 0.0), (0.135, 0.004), (0.12, 0.0)], 28), [ring_m], None, True, kit.coll)
     ring.location = (hx, hy + 0.065, z0 - 0.002); ring.scale = (1.0, 0.7, 1.0)
     cw.birds(kit, 3, center=(0.0, 0.2), radius=2.0, height=0.9, seed=4, size=0.035, color=(0.92, 0.92, 0.94))
+    life.fish(kit, M, [(-0.6, -1.95, -0.20, 0.07), (-0.25, -1.94, -0.13, 0.05), (1.3, -1.95, -0.18, 0.06), (1.955, -0.9, -0.16, 0.05, 'y')], 'vz_lfish')
+    life.anchor(kit, M, '-Y', -0.42, -0.42, 1.3, 0.5, name='vz_anchor')
+    life.crab(kit, M, 1.25, -1.965, float(land.height(np.array([1.25]), np.array([-1.97]))[0]) + 0.004, 'vz_lcrab', 0.06, 0.0)
 
     def update(t, shot):
         st = shot.get('lagoon', {})
@@ -481,6 +494,8 @@ def build_pole(kit, M):
         ob = cw.mk_mesh(bpy, f'vz_spk{k}', V0 * 0.0035, F0, [spk_m], None, True, kit.coll)
         specks.append((ob, float(rng.uniform(-0.3, 0.3)), float(rng.uniform(zc + 0.05, top - 0.02)), float(rng.uniform(0, 1))))
     stone_sock = vsock(sec_m, 'stone')
+    life.coin(kit, M, '-Y', 0.13, zc + 0.10, 0.012, sz, sz, name='vz_pcoin')
+    life.fish(kit, M, [(-0.25, -0.67, bed + 0.08, 0.06), (0.3, -0.665, bed + 0.12, 0.05)], 'vz_pfish')
 
     def update(t, shot):
         st = shot.get('pole', {})
@@ -554,6 +569,7 @@ def build_sink(kit, M, lamps):
     S.data['gauge'] = gauge
     cw.birds(kit, 3, center=(0.6, 0.2), radius=1.9, height=0.95, seed=31, size=0.035, color=(0.92, 0.92, 0.94))
     gon, _ = arch.gondola(kit, M, name='vz_sgon'); S.data['gon'] = gon
+    life.fish(kit, M, [(1.955, -0.7, -0.22, 0.06, 'y'), (1.95, -1.3, -0.15, 0.05, 'y')], 'vz_sfish')
     # the hand-drawn section on both front faces: bands that compress, the pipe with flowing water
     N = 80; band_m = [arch.mat_band(kit, f'vz_band_{nm}', c, 0.35, 0.3 if nm == 'aquifer' else 0.0, alt=(0.66, 0.64, 0.58) if nm == 'aquifer' else None) for nm, c, _ in BANDS]
     def prof(face):
@@ -674,6 +690,10 @@ def build_inlet(kit, M):
     bubbles = []; V0, F0 = cw._icosphere(1); bm = cw.mat_simple(kit, 'vz_gbub', (0.95, 0.97, 1.0), 0.1); rng = np.random.default_rng(13)
     for k in range(30):
         o = cw.mk_mesh(bpy, f'vz_gb{k}', V0 * float(rng.uniform(0.003, 0.007)), F0, [bm], None, True, kit.coll); bubbles.append((o, float(rng.uniform(-1.98, -1.3)), float(rng.uniform(0, 1))))
+    bi = float(land.height(np.array([-0.55]), np.array([-1.97]))[0])
+    life.fish(kit, M, [(-0.55, -1.955, bi + 0.10, 0.07), (-0.85, -1.95, bi + 0.15, 0.05), (0.55, -1.95, bi + 0.12, 0.06)], 'vz_ifish')
+    life.crab(kit, M, -0.42, -1.965, bi + 0.004, 'vz_icrab', 0.08, 0.0)
+    life.amphora(kit, M, '-Y', 0.75, bi - 0.16, -0.7, 0.9, name='vz_iamph')
     b, parts = arch.boat(kit, M, (0.70, 0.66, 0.60), 0.10, 1, 'vz_iboat', 2); b.location = (-1.1, -1.5, LV - 0.004); b.rotation_euler = (0, 0, 0.4)
     cw.birds(kit, 3, center=(0.2, 0.0), radius=2.0, height=1.0, seed=8, size=0.035, color=(0.92, 0.92, 0.94))
 

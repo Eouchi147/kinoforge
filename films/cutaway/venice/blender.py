@@ -13,7 +13,7 @@ for p in (os.path.join(ROOT, 'films', 'styles', 'cutaway'), HERE):
     if p not in sys.path: sys.path.insert(0, p)
 import numpy as np  # noqa: E402
 import cutaway as cw  # noqa: E402
-import arch, sets, overlay as ov  # noqa: E402
+import arch, sets, life, overlay as ov  # noqa: E402
 
 # ------------------------------------------------------------------------------------------------ the narration's times
 def _cues():
@@ -86,19 +86,19 @@ def plan():
         sh.append(dict(set=set_, t0=t0, t1=t1, k0=k0, k1=k1, env=env, why=why, **kw))
     sea_end = W('l00', 'sea', 0.45)
     # 1. A city in the sea ------------------------------------------------------------------------------------------
-    add('city', sea_end, K(-50, 30, 13.6, (0.1, 0.0, -0.45), 50), K(-42, 29, 12.4, (0.1, 0.0, -0.45), 50), env='mist',
-        why='open: arrive on Venice floating in the mist; the narration names it')
-    add('city', C('l00', 0.7), K(-74, 13, 4.6, (-0.62, -2.0, -0.12), 50), K(-72, 8, 3.7, (-0.62, -2.0, -0.40), 50), env='mist',
-        why='end of the sentence "standing in the middle of the sea"; change of scale: push to the cut face to see what is under it (water, then mud)')
-    add('city', C('l01', 2.4), K(-40, 38, 16.5, (0.1, 0.1, 0.05), 50), K(-36, 38, 16.0, (0.1, 0.1, 0.05), 50), env='mist',
+    add('city', sea_end, K(-50, 30, 13.6, (0.1, 0.0, -0.45), 50), K(-42, 29, 12.4, (0.1, 0.0, -0.45), 50), env='gold', mist=1.0, rays=1.0,
+        why='open: arrive on Venice floating in the morning haze, low golden light on the domes; the narration names it')
+    add('city', C('l00', 0.7), K(-56, 3, 2.7, (-0.62, -2.0, -0.04), 35), K(-64, 2, 2.3, (-0.62, -2.0, -0.32), 35), env='gold', mist=1.0,
+        why='end of the sentence "standing in the middle of the sea"; change of scale and a bold angle: low along the water at the cut face, then down through the canal water into the mud (fish, a crab, a lost amphora and a coin)')
+    add('city', C('l01', 2.4), K(-40, 38, 16.5, (0.1, 0.1, 0.05), 50), K(-36, 38, 16.0, (0.1, 0.1, 0.05), 50), env='gold', mist=1.0, rays=0.7,
         why='the title card: the question of the film over the whole city', title=(S('l01', -0.2), E('l01', 2.2)))
     # 2. The lagoon, 1,500 years ago ----------------------------------------------------------------------------------
-    add('lagoon', C('l02', 0.6), K(-36, 34, 13.2, (0, 0, -0.45), 50), K(-46, 31, 12.4, (0, 0, -0.45), 50), env='day',
+    add('lagoon', C('l02', 0.6), K(-36, 34, 13.2, (0, 0, -0.45), 50), K(-46, 31, 12.4, (0, 0, -0.45), 50), env='day', mist=0.8,
         why='change of time (1,500 years earlier), shown by a dip through the mist; the empty lagoon, boats arrive',
         lagoon={'arrive': S('l02', 0.6)}, dip=True,
         labels=[('lagoon', 'LAGOON', W('l02', 'lagoon', -0.2, False), E('l02', 0.4), (-430, -60), (-0.9, -1.2, sets.LV)),
                 ('sand', 'STRIP OF SAND', W('l02', 'sand', -0.6, False), E('l02', 0.4), (300, 300), (0.6, 1.45, -0.01))])
-    add('lagoon', C('l03', 0.9), K(-78, 16, 4.0, (0.62, -2.0, -0.07), 50), K(-74, 12, 3.6, (0.62, -2.0, -0.12), 50), env='day',
+    add('lagoon', C('l03', 0.9), K(-78, 16, 4.0, (0.62, -2.0, -0.07), 50), K(-74, 12, 3.6, (0.62, -2.0, -0.12), 50), env='day', mist=0.6,
         why='end of line; wide to close: the stone house on the mud, at the cut, sinks like a spoon in pudding',
         lagoon={'arrive': S('l02', 0.6), 'sink': (W('l03', 'house', 0.0, True, 0), 5.5)})
     # 3. A forest upside down -----------------------------------------------------------------------------------------
@@ -118,8 +118,8 @@ def plan():
         site={'stage': 'done', 'build': (tb, ts, tw, tw + 3.5)},
         labels=[('boards', 'WOODEN BOARDS', tb + 0.4, ts + 0.5, (-470, -150), (1.0, -2.0, -0.112)),
                 ('stone', 'WHITE STONE', ts + 0.4, E('l06', 0.8), (-470, -40), (0.8, -2.0, -0.09))])
-    add('city', C('l07', 1.2), K(-30, 21, 4.6, (1.62, -1.62, -0.25), 50), K(-36, 18, 4.3, (1.62, -1.62, -0.32), 50), env='day',
-        why='change of place: the real church built this way; low angle for its scale, the cut face packed with poles',
+    add('city', C('l07', 1.2), K(-30, 10, 3.6, (1.62, -1.62, 0.36), 50), K(-36, 6, 3.4, (1.80, -1.80, -0.62), 50), env='gold', rays=1.0, mist=0.6,
+        why='change of place: the real church built this way, in golden light and god rays; the camera cranes down from the dome, down the packed poles, to the clay',
         counter=(W('l07', 'stands', -0.2, False), E('l07', 1.1), W('l07', 'million', 0.3)),
         labels=[('salute', 'SANTA MARIA DELLA SALUTE', S('l07', 0.6), E('l07', 1.1), (-420, 330), (1.55, -1.5, 0.12))])
     # 4. Why the wood lasts -------------------------------------------------------------------------------------------
@@ -153,8 +153,8 @@ def plan():
     # 6. High water ----------------------------------------------------------------------------------------------------
     fl0 = S('l13', 0.5)
     flood = lambda t, a=fl0: 0.05 * ease((t - a) / 3.5)
-    add('city', W('l13', 'squares', 0.45), K(-32, 34, 6.2, (-0.5, 0.35, -0.05), 50), K(-28, 33, 5.8, (-0.5, 0.35, -0.05), 50), env='grey',
-        why='change of place and time: today, a high tide; the sea pours into the campo', city={'flood': flood, 'walkways': True})
+    add('city', W('l13', 'squares', 0.45), K(-72, 14, 2.3, (-1.18, -2.0, -0.05), 50), K(-68, 13, 2.15, (-1.18, -2.0, -0.04), 50), env='grey',
+        why='change of place and time: today, a high tide; at the cut, the sea pours over the street while a cat sleeps in the cellar below', city={'flood': flood, 'walkways': True})
     add('city', C('l13', 0.9), K(-138, 10, 0.78, (-0.52, 0.44, 0.0), 35), K(-134, 10, 0.75, (-0.52, 0.44, 0.0), 35), env='grey',
         why='low and close for people: walking to work on the raised walkways', city={'flood': 0.05, 'walkways': True})
     # 7. The wall under the sea ---------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ def plan():
     add('city', C('l15', 1.4), K(-24, 22, 3.3, (-0.5, 0.35, 0.0), 50), K(-28, 21, 3.15, (-0.5, 0.35, 0.0), 50), env='day',
         why='cut on "The squares stayed dry": the campo, dry, people walking', city={'flood': 0.0})
     # 8. Dusk ----------------------------------------------------------------------------------------------------------
-    add('city', DURATION, K(-40, 31, 9.0, (0.2, -0.2, -0.40), 50), K(-46, 33, 13.0, (0.1, 0.0, -0.45), 50), env='dusk',
+    add('city', DURATION, K(-40, 31, 9.0, (0.2, -0.2, -0.40), 50), K(-46, 33, 13.0, (0.1, 0.0, -0.45), 50), env='dusk', mist=0.8,
         why='passing time to dusk (a dip through the mist): the city lights up; the slow pull back ends the film', dip=True, lights_on=S('l16', -0.6))
     return sh
 
@@ -184,6 +184,7 @@ PLAN = plan()
 
 ENVS = {   # sky gradient top, horizon; sun energy, colour, azimuth, elevation; lamps 0..1, windows glow
     'mist': dict(top=(0.62, 0.70, 0.80), hor=(0.86, 0.88, 0.90), light=(0.85, 0.90, 1.0), ls=0.95, sun=2.6, sc=(1.0, 0.95, 0.88), az=-125, el=36, lamps=0.0, win=0.0),
+    'gold': dict(top=(0.55, 0.66, 0.80), hor=(0.98, 0.86, 0.70), light=(1.0, 0.92, 0.82), ls=0.85, sun=3.4, sc=(1.0, 0.80, 0.55), az=-125, el=18, lamps=0.0, win=0.0),
     'day': dict(top=(0.56, 0.68, 0.82), hor=(0.82, 0.85, 0.90), light=(0.85, 0.90, 1.0), ls=0.9, sun=3.1, sc=(1.0, 0.96, 0.90), az=-125, el=40, lamps=0.0, win=0.0),
     'grey': dict(top=(0.52, 0.58, 0.64), hor=(0.74, 0.77, 0.80), light=(0.80, 0.84, 0.90), ls=1.25, sun=1.5, sc=(0.95, 0.96, 1.0), az=-110, el=48, lamps=0.0, win=0.0),
     'dusk': dict(top=(0.16, 0.20, 0.36), hor=(0.86, 0.56, 0.44), light=(0.45, 0.55, 0.95), ls=0.45, sun=1.9, sc=(1.0, 0.60, 0.34), az=-150, el=9, lamps=1.0, win=1.0),
@@ -209,6 +210,8 @@ def build(bpy, ctx):
         built[name] = sets.BUILDERS[name](kit, M, lamps); print('set', name, len(built[name].objs), 'objects', flush=True)
     class _D: depth = sets.DEPTH
     cw.sky(kit, land=_D(), sun_az=-125, sun_el=38, sun=3.0, clouds=7, mist=True, behind_az=135)
+    mist, mist_gain = life.mist_sheets(kit, sets.LV + 0.006, 4.0, 2)
+    rays, ray_gain = life.god_rays(kit, ENVS['gold']['az'], ENVS['gold']['el'], center=(0.7, -0.6, -0.02), n=7, length=7.0, radius=0.2, spread=1.5)
     cw.apply_cycles(bpy)
     world = bpy.context.scene.world; nt = world.node_tree
     ramp = [n for n in nt.nodes if n.type == 'VALTORGB'][0]; bgl = [n for n in nt.nodes if n.type == 'BACKGROUND' and not n.inputs['Color'].is_linked][0]
@@ -234,7 +237,7 @@ def build(bpy, ctx):
             if key not in labels: labels[key] = ov.Label(O, 'vz_lb_' + key, body, 22 * r)
     sc = bpy.context.scene; sc.view_settings.look = SETTINGS['look']; sc.view_settings.exposure = SETTINGS['exposure']
     return {'kit': kit, 'M': M, 'lamps': lamps, 'sets': built, 'ramp': ramp, 'bgl': bgl, 'sun': sun, 'cam': cam, 'O': O, 'G': G, 'labels': labels,
-            'r': r, 'shown': None}
+            'r': r, 'shown': None, 'mist': (mist, mist_gain), 'rays': (rays, ray_gain)}
 
 
 def shot_at(t):
@@ -268,6 +271,10 @@ def frame(bpy, ctx, S, i, t):
         S['sets'][p['set']] = sets.BUILDERS[p['set']](S['kit'], S['M'], S['lamps'])
     _show_set(S, p['set']); S['shown'] = None
     st = S['sets'][p['set']]; st.update(t, p); S['kit'].update(t); _env(S, p['env'], t, p)
+    for key in ('mist', 'rays'):
+        obs, gain = S[key]; v = float(p.get(key, 0.0)) * (0.45 if p['env'] == 'dusk' else 1.0)
+        gain.default_value = v
+        for o in obs: o.hide_render = v <= 0.0
     u = (t - p['t0']) / max(1e-3, p['t1'] - p['t0']); k = lerpk(p['k0'], p['k1'], ease_io(u))
     cam = S['cam']; cam.ob.data.lens = k['lens']; cam.pose(az=k['az'], el=k['el'], dist=k['dist'], target=k['tgt'])
     # ---- overlays

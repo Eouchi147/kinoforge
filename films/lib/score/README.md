@@ -42,6 +42,10 @@ python3 films/lib/score/remix.py films/battles/cannae --engine synth  # no sampl
 python3 films/lib/score/plan_from_cues.py films/battles/cannae -o plan.json
 python3 films/lib/score/score.py plan.json -o score.wav [--engine synth] [--seed 7] [--excerpt 80 30]
 
+# make cues.json describe the new score (music fields only: bpm, beats, downbeats, strong_hits, energy, note;
+# narration fields are verified unchanged and the script refuses to write otherwise)
+python3 films/lib/score/cues_from_score.py films/battles/cannae
+
 # listen-check by numbers and pictures: loudness, peaks, band balance, per-section level, spectrogram
 python3 films/lib/score/analyse.py films/battles/cannae/audio/mix.m4a --info films/battles/cannae/audio/score.json --png out.png
 ```
@@ -53,6 +57,11 @@ never changed: sections start where lines start, hits sit just before the title 
 Score plan (JSON): `palette`, `key`, `mode`, `tempo`, `duration`, `seed`, `sections[{t, mood, intensity?}]`,
 `hits[{t, kind: low|drum|swell|chime, level}]`, `voice[[start,end],...]` (solo phrases prefer the gaps), `solo`, `drums`,
 `swell_len` (default 8 s), `settle` (10 s), `end_fade` (3.5 s). See the top of `score.py`.
+
+## Air and presence
+The `AIR` table at the top of `score.py` sets it: a shimmer of high chord tones, a little band-limited breath on the swell,
+a gentle high shelf, brighter plucks, a livelier room. The score keeps about 3 to 4 % of its energy in 3.5 to 8 kHz (it was
+0.2 %), without harsh transients (the ducking under the voice is unchanged).
 
 ## The mix (remix.py)
 Narration at its own timeline positions; score ducked under it (sits about 18 dB below the voice while it speaks, about
