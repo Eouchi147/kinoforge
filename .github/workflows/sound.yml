@@ -80,7 +80,8 @@ jobs:
         run: |
           uv venv -q -p 3.11 "$RUNNER_TEMP/cb"
           VIRTUAL_ENV="$RUNNER_TEMP/cb" uv pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
-          VIRTUAL_ENV="$RUNNER_TEMP/cb" uv pip install -q chatterbox-tts faster-whisper
+          VIRTUAL_ENV="$RUNNER_TEMP/cb" uv pip install -q chatterbox-tts faster-whisper "setuptools<81"     # perth (the watermarker) needs pkg_resources
+          "$RUNNER_TEMP/cb/bin/python" -c "import perth; assert perth.PerthImplicitWatermarker is not None; print('chatterbox ready')"
       - name: voice runner
         run: |
           # runs films/director/voice_free.py for one folder with the right Python; Kokoro British voices get en-gb phonemes
