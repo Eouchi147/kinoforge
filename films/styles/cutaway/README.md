@@ -109,6 +109,38 @@ seamlessly (social loops: set `loop` to the clip length). Integer cycles per loo
   lily pads, reeds), instanced by one geometry-nodes group (`cw_sway`) on point meshes with per-point yaw, scale, variant
   and sway amplitude. Per-instance colour via Object Info Random.
 
+## The board
+
+| Look | File | What it shows |
+| --- | --- | --- |
+| A Studio block | `board/A-studio-block.jpg`, `board/A-studio-block-vertical.jpg` | white seamless, a river with lily pads splitting a grassy block, cut open as glass on the front face |
+| B Floating island | `board/B-floating-island.jpg` | open sky, clouds, mist below, a pond with a glass front, hanging roots, stones falling away, birds |
+| C Lagoon cut | `board/C-lagoon-cut.jpg` | raised pale limestone shore with cracks, a clear lagoon open on two faces, corals, weed, stones |
+| D Mill at dusk | `board/D-mill-at-dusk.jpg`, `board/D-mill-at-dusk-vertical.jpg` | the river block at dusk: lit cottages, a turning watermill, a bridge, lamps, a lane (storytelling) |
+
+Render the board on free runners (one job per still), then download:
+
+```bash
+gh api -X POST repos/Eouchi147/rc-render/actions/workflows/stills.yml/dispatches -f ref=main \
+  -f 'inputs[film]=films/styles/cutaway/stills/D' -f 'inputs[frames]=24' -f 'inputs[tag]=cutaway-D' \
+  -f 'inputs[w]=1920' -f 'inputs[h]=1080' -f 'inputs[samples]=128' -f "inputs[ref]=$(git rev-parse HEAD)"
+bash /home/claude/rc-render/tools/getstills.sh cutaway-D out/
+```
+
+Locally (slow on a 2-core box; use for 480 px checks): `python3 films/styles/cutaway/board.py A --w 480 --samples 12`
+(`--border x0 x1 y0 y1` renders a crop, `--build-only` just builds).
+
 ## Render cost and weak spots
 
-Filled in after the board rounds (see the end of this file).
+COST_PLACEHOLDER
+
+Weak spots (honest list):
+- Trees are lumpy-blob miniatures (trunk, branches, clustered leaf masses). They read as a diorama, not as real trees at close range; no leaf cards.
+- Water is one flat volume per block at one level: no waterfalls, no two rivers at different levels, no flow along a slope. The surface is a bump-mapped plane (no real waves).
+- Caustics are faked in the bed shader; real refracted caustics are off (too noisy on CPU).
+- Grass blades are geometry; very close shots (block filling more than the frame) show the blade count; far shots are cheap.
+- Strata are a shader on flat walls: no real pebbles sticking out, no crumbly edge. Roots on the wall are painted lines.
+- The limestone shore is cellular plates (can look like paving if the plates are too even).
+- Houses, mill, bridge and lamps are simple boxes and tubes; they read at board distance only.
+- The underwater floor of a very large lagoon can look sparse; raise `corals` and keep weed low (dense weed reads as dirt through the glass).
+- Boolean props (`cut`, `tunnel_mouth`) use the EXACT solver: fine for a few objects, slow for hundreds.
