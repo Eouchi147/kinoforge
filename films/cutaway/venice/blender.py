@@ -154,7 +154,7 @@ def plan():
     fl0 = S('l13', 0.5)
     flood = lambda t, a=fl0: 0.05 * ease((t - a) / 3.5)
     add('city', W('l13', 'squares', 0.45), K(-32, 34, 6.2, (-0.5, 0.35, -0.05), 50), K(-28, 33, 5.8, (-0.5, 0.35, -0.05), 50), env='grey',
-        why='change of place and time: today, a high tide; the sea pours into the campo', city={'flood': flood})
+        why='change of place and time: today, a high tide; the sea pours into the campo', city={'flood': flood, 'walkways': True})
     add('city', C('l13', 0.9), K(-64, 11, 0.62, (-0.56, 0.40, 0.0), 35), K(-56, 11, 0.60, (-0.56, 0.40, 0.0), 35), env='grey',
         why='low and close for people: walking to work on the raised walkways', city={'flood': 0.05, 'walkways': True})
     # 7. The wall under the sea ---------------------------------------------------------------------------------------
