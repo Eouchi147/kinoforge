@@ -1,0 +1,15 @@
+{
+ "id": "cutaway-ad-drainage-v916",
+ "series": "Cutaway",
+ "title": "Sample trade ad: drainage and landscaping (9:16)",
+ "style": "cutaway",
+ "duration": 15,
+ "fps": 24,
+ "render_w": 720,
+ "render_h": 1280,
+ "w": 1080,
+ "h": 1920,
+ "samples": 48,
+ "audio": "audio/mix.m4a",
+ "note": "Invented business, marked Sample, no phone or website. Scene ../ad.py, music ../music.py (score engine, -14 LUFS). Free: Blender Cycles CPU, procedural. Render with rc-render films.yml."
+}
