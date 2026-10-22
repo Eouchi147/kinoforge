@@ -58,14 +58,28 @@ gates, pole sections), `overlay.py` (labels, counter, title, arrows set in code)
 8. **Dusk** (l16, city). A dip through the mist to dusk; the lamps and windows come on; a slow pull back to the whole
    city ends the film under the score's resolve.
 
+## Light, life and surprises (Sam, 22 Oct 12:01: cinema lighting, animated fauna, easter eggs, bold angles)
+- **Light:** a golden low morning sun on the domes for the opening and the Salute (`gold`), morning mist lying on the
+  water (`life.mist_sheets`), soft god rays falling through the haze (`life.god_rays`, camera-only cones, no volume
+  cost); an overcast sky for the high water and the gates; dusk with lamps and windows coming on, the sky cards tinted.
+- **Fauna and flora:** gulls over every set, gondolas rowing, fish swimming behind the glass of the cut faces (canal,
+  lagoon, inlet, sea), crabs side-stepping on the seabed at the cut, pigeons pecking and hopping on the campo (they
+  leave when the water comes), reeds, marsh grass, dune grass and trees in the wind, weed in the channels.
+- **Easter eggs in the mud:** a lost Roman amphora and a gold ducat under the Grand Canal (seen as the opening push
+  goes down into the mud), an old anchor in the lagoon mud, another amphora under the inlet, a ducat beside the pole
+  in close-up, and a cellar in the cut face where a ginger cat sleeps (breathing) while the sea floods the street above.
+- **Bold angles:** a low shot along the water at the cut face sinking down through the canal into the mud (1b); a crane
+  down from the Salute's dome, down the packed poles, to the clay (3e); a low eye-level shot among the people on the
+  walkways (6b); side on through the glass as the gates rise (7b).
+
 ## Every shot and every cut
 Generated from `PLAN` in `blender.py` (times in seconds on `cues.json`). Moves are eased in and out, real time,
 never sped up; pushes stay under 5 % of frame per second, orbits under 1.5 degrees per second.
 
 | Shot | In | Out | Len | Set | Camera (eased) | Why this cut |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1a | 0.0 | 7.0 | 7.0 | city | el 30, orbit +8 deg, push in 9 % | open: arrive on Venice floating in the mist; the narration names it |
-| 1b | 7.0 | 12.8 | 5.8 | city | el 13, orbit +2 deg, push in 20 %, tilt down | end of the sentence "standing in the middle of the sea"; change of scale: push to the cut face to see what is under it (water, then mud) |
+| 1a | 0.0 | 7.0 | 7.0 | city | el 30, orbit +8 deg, push in 9 % | open: arrive on Venice floating in the morning haze, low golden light on the domes; the narration names it |
+| 1b | 7.0 | 12.8 | 5.8 | city | el 3, orbit -8 deg, push in 15 %, tilt down | end of the sentence "standing in the middle of the sea"; change of scale and a bold angle: low along the water at the cut face, then down through the canal water into the mud (fish, a crab, a lost amphora and a coin) |
 | 1c | 12.8 | 16.8 | 4.0 | city | el 38, orbit +4 deg, push in 3 % | the title card: the question of the film over the whole city |
 | 2a | 16.8 | 29.2 | 12.5 | lagoon | el 34, orbit -10 deg, push in 6 % | change of time (1,500 years earlier), shown by a dip through the mist; the empty lagoon, boats arrive |
 | 2b | 29.2 | 37.1 | 7.8 | lagoon | el 16, orbit +4 deg, push in 10 %, tilt down | end of line; wide to close: the stone house on the mud, at the cut, sinks like a spoon in pudding |
@@ -73,14 +87,14 @@ never sped up; pushes stay under 5 % of frame per second, orbits under 1.5 degre
 | 3b | 42.3 | 47.0 | 4.8 | site | el 30, orbit +6 deg, push in 7 % | "Millions of them": close to wide, later the same day; many poles in, three drivers, the stack of tree trunks |
 | 3c | 47.0 | 55.2 | 8.2 | site | el 4, tilt down | wide to close on the cut: the poles packed side by side reach the pale, harder clay; the camera tilts down them |
 | 3d | 55.2 | 63.2 | 8.0 | site | el 26, orbit -6 deg, push in 7 %, tilt up | new information: what goes on top of the poles, in order; the camera holds on the corner while it builds |
-| 3e | 63.2 | 70.2 | 7.0 | city | el 21, orbit -6 deg, push in 7 %, tilt down | change of place: the real church built this way; low angle for its scale, the cut face packed with poles |
+| 3e | 63.2 | 70.2 | 7.0 | city | el 10, orbit -6 deg, push in 6 %, tilt down | change of place: the real church built this way, in golden light and god rays; the camera cranes down from the dome, down the packed poles, to the clay |
 | 4a | 70.2 | 80.0 | 9.7 | pole | el 8, push in 9 %, tilt down | change of scale: one pole deep in the mud; bubbles near the water stop deeper down |
 | 4b | 80.0 | 88.2 | 8.3 | pole | el 4, push in 9 %, tilt down | closer: the change happens in the wood itself; it turns stony grey as minerals soak in |
 | 5a | 88.2 | 98.1 | 9.9 | sink | el 16, orbit +2 deg, push in 6 %, tilt down | change of place and question: why it sinks; reason one, the mud squeezed under the city |
 | 5b | 98.1 | 104.2 | 6.1 | sink | el 13, orbit -2 deg, push in 6 % | reason two: cut to the sea wall and its gauge; the water line creeps up |
 | 5c | 104.2 | 113.0 | 8.8 | sink | el 15, orbit +4 deg, push in 7 %, tilt down | new information: the factories; the pipe pulls water from the deep sand, the ground drops |
 | 5d | 113.0 | 115.7 | 2.6 | sink | el 18, push in 6 % | closer, the detail that answers the line: the valve turns, the flow stops |
-| 6a | 115.7 | 119.8 | 4.1 | city | el 34, orbit +4 deg, push in 6 % | change of place and time: today, a high tide; the sea pours into the campo |
+| 6a | 115.7 | 119.8 | 4.1 | city | el 12, orbit +4 deg, push in 8 % | change of place and time: today, a high tide; at the cut, the sea pours over the street while a cat sleeps in the cellar below |
 | 6b | 119.8 | 123.8 | 4.0 | city | el 10, orbit +4 deg, push in 4 % | low and close for people: walking to work on the raised walkways |
 | 7a | 123.8 | 132.2 | 8.4 | inlet | el 32, orbit -6 deg, push in 6 % | change of place: an opening of the lagoon; the gates lie on the seabed |
 | 7b | 132.2 | 138.2 | 6.0 | inlet | el 5, push in 4 %, tilt up | close, side on through the cut: the gates fill with air and swing up (the score swells here) |
