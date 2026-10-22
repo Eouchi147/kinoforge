@@ -1,8 +1,10 @@
 # Status (updated 22 Oct 2026, 03:10 UTC)
 
 ## Films (22 Oct)
-- Done, in rc-render release `kino-films` and on Sam's Mac (`Video Production/kino-films/`): Dark Corners Bamberg (Kinetic),
-  Zong and Kleidion (Lantern Road); Battle Map Cannae, Hastings, Agincourt, Waterloo. Arabia (Clay, Blender) in progress.
+- Done, in rc-render release `kino-films` (12 films, each with a phone preview and a contact sheet): Dark Corners Bamberg
+  (Kinetic), Zong and Kleidion (Lantern Road), Arabia (Clay); Battle Map Cannae, Hastings, Agincourt, Waterloo, Thermopylae,
+  Gaugamela, Hattin, Ain Jalut. The first seven are also on Sam's Mac (`Video Production/kino-films/`); the Mac disconnected
+  before the last five. Build key: about US$1.2 estimated left (17 Oct read plus this night's ledgers).
 - Engine for the battles: `films/lib/battlemap/` (spec format `SPEC.md`); sound for the battles: `films/lib/battle_mix.py`.
 
 ## Running now (22 Oct, overnight)
