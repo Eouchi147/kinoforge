@@ -3,6 +3,7 @@
 ## NOOR Ramadan samples (22 Oct, started 14:30 UTC)
 - Sam asked (Noor Codex chat) for 2 to 3 free sample videos for the NOOR Ramadan 2027 series (series bible: Claude doc "NOOR · Thirty Nights of Light").
 - Building in `films/noor/`: `n05-iqra` (The Descent, Night 5), `j30-amma` (Tonight's Juz, Night 30), then a 9:16 short from Iqra. Narration and score: `noor-sound.yml` (free). Picture: Lantern Road engine, rendered by `films-render.yml` (free), release `films`.
+- `j30-amma` picture done (NOTES.md in its folder); render dispatched on `films-render.yml` (release `films`, asset `noor-juz-30-amma.mp4`).
 - n05-iqra picture done (20 shots, 158.8 s) and the 9:16 short s05-iqra-short (36.4 s); both rendering on `films-render.yml` to release `films`.
 
 ## Rework after Sam's verdicts (22 Oct, 09:20 Toronto): in progress

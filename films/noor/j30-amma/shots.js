@@ -57,7 +57,7 @@ export function buildShots(cues, duration) {
   S('s07', 'study', cut('t1a'), { mode: 'niche', niche: [tt('e1.three') - 0.1, tt('e1.three') + 0.5, tt('e1.treasures') + 0.2], cam: [[0, look(310, 320, 40, 0, 0, -1.2)], [cut('t1a') - cut('e1'), look(310, 315, 46, 0, 0, -2.0)]] });
   // ===== SCENE 6: AL-ALAQ. The page: the first treasure's name in its gold band.
   S('s08', 'page', cut('t1b'), { mode: 'band', cam: [[0, look(640, 330, 40)], [cut('t1b') - cut('t1a'), look(640, 320, 43)]],
-    gfx: [{ type: 'cartouche', key: 'alaq', num: 'THE FIRST TREASURE', name: 'SURAH AL-ALAQ', at: tt('t1a.Surah') - 0.3, out: 9999, y: 330 }] });
+    gfx: [{ type: 'cartouche', key: 'alaq', num: 'THE FIRST TREASURE', name: 'SURAH AL-ALAQ', at: cut('t1a') + 0.3, out: 9999, y: 330 }] });
   // the place it came down: Jabal an-Nur at night, the cave a small light near the summit (no figure)
   S('s09', 'mountain', cut('t1c'), { mode: 'far', caveOn: tt('t1b.first'), cam: [[0, look(640, 360, 30)], [cut('t1c') - cut('t1b'), look(660, 330, 36, 0, 0, -2)]],
     gfx: [{ type: 'label', text: 'JABAL AN-NUR', sub: 'the cave of Hira', at: tt('t1b.cave') - 0.6, out: cut('t1c') + 0.3, y: 96 }] });
@@ -67,7 +67,7 @@ export function buildShots(cues, duration) {
       { type: 'bracket', left: 'THE LAST PART', right: 'THE FIRST WORDS', at: tt('t1d.last'), out: 9999, y: 505 }] });
   // ===== SCENE 7: AL-QADR. The bright, still night over sleeping roofs.
   S('s11', 'night', cut('t2c'), { mode: 'wide', noCap: ['t2b'], cam: [[0, look(640, 420, 28, 0, 0.3, 0)], [cut('t2c') - cut('t2a'), look(640, 380, 30, 0, 0.3, -1)]],
-    gfx: [{ type: 'cartouche', key: 'qadr', num: 'THE SECOND TREASURE', name: 'SURAH AL-QADR', at: tt('t2a.Surah') - 0.3, out: tt('t2b') - 0.4, y: 230 },
+    gfx: [{ type: 'cartouche', key: 'qadr', num: 'THE SECOND TREASURE', name: 'SURAH AL-QADR', at: cut('t2a') + 0.3, out: tt('t2b') - 0.4, y: 230 },
       { type: 'arabic', key: '97:1', at: tt('t2b.We') - 0.2, dur: 2.2, x: 640, y: 200, size: 60, glow: 0.35, meaning: 'We sent it down on the Night of Decree.', meaningAt: tt('t2b.We') + 0.3, ref: 'AL-QADR 97:1' }] });
   // closer: the verse about a thousand months, then the count that turns it into a lifetime
   S('s12', 'night', cut('t2e'), { mode: 'close', noCap: ['t2c'], cam: [[0, look(620, 300, 36, 0, 0.6, -2)], [cut('t2e') - cut('t2c'), look(620, 290, 39, 0, 0.6, -3)]],
@@ -79,7 +79,7 @@ export function buildShots(cues, duration) {
   // ===== SCENE 8: AL-IKHLAS. Back to the page: four short verses landing one by one.
   const ik = cues.lines.find((l) => l.id === 't3b');
   S('s14', 'page', cut('t3c'), { mode: 'ikhlas', noCap: ['t3b'], cam: [[0, look(640, 360, 38)], [cut('t3c') - cut('t3a'), look(640, 360, 41)]],
-    gfx: [{ type: 'cartouche', key: 'ikhlas', num: 'THE THIRD TREASURE', name: 'SURAH AL-IKHLAS', at: tt('t3a.Surah') - 0.3, out: tt('t3b') - 0.3, y: 330 },
+    gfx: [{ type: 'cartouche', key: 'ikhlas', num: 'THE THIRD TREASURE', name: 'SURAH AL-IKHLAS', at: cut('t3a') + 0.3, out: tt('t3b') - 0.3, y: 330 },
       { type: 'ikhlas', out: 9999, lines: [{ key: '112:1', at: tt('t3b.Say') - 0.2, meaning: 'Say: He is Allah, the One.' }, { key: '112:2', at: tt('t3b.Allah#1') - 0.2, meaning: 'Allah, the One everyone turns to.' },
         { key: '112:3', at: tt('t3b.He#1') - 0.2, meaning: 'He has no child, and He was not born.' }, { key: '112:4', at: tt('t3b.And#1') - 0.2, meaning: 'And there is nothing like Him.' }] }] });
   // the page pulls back: one third of a circle fills with gold as the hadith is told
