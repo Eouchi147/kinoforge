@@ -160,7 +160,7 @@ def plan():
     # 7. The wall under the sea ---------------------------------------------------------------------------------------
     add('inlet', W('l14', 'lagoon', 0.4), K(-40, 32, 12.6, (0.0, -0.4, -0.40), 50), K(-46, 30, 11.8, (0.0, -0.6, -0.40), 50), env='grey',
         why='change of place: an opening of the lagoon; the gates lie on the seabed',
-        labels=[('gates', '78 GATES ON THE SEABED', W('l14', 'seventy', -0.2, False), W('l14', 'lagoon', 0.3), (330, -200), (0.0, -1.7, -0.28))])
+        labels=[('gates', '78 GATES ON THE SEABED', W('l14', '78', -0.2, False), W('l14', 'lagoon', 0.3), (330, -200), (0.0, -1.7, -0.28))])
     rise = (W('l14', 'pumped', -0.4, False), W('l14', 'back', 0.6))
     add('inlet', C('l14', 0.9), K(-88, 5, 2.5, (-0.05, -2.0, -0.17), 50), K(-88, 4, 2.4, (-0.05, -2.0, -0.12), 50), env='grey',
         why='close, side on through the cut: the gates fill with air and swing up (the score swells here)',
@@ -258,7 +258,7 @@ def _env(S, name, t, p):
 def _show_set(S, name):
     if S['shown'] == name: return
     for n, st in S['sets'].items():
-        for o in st.objs: o.hide_render = (n != name)
+        for o in st.objs: o.hide_render = (n != name) or (o.name in st.hidden)
     S['shown'] = name
 
 

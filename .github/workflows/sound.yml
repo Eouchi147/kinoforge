@@ -200,6 +200,18 @@ jobs:
           sys.path.insert(0, 'films/lib/score'); import plan_from_cues
           F = sys.argv[1]; ad = json.load(open(F + '/ad.json')); hints = ad['prep'].get('score')
           plan = plan_from_cues.build(F, hints=hints) if hints else plan_from_cues.build(F)
+          # prep.score.at = {mood: [line id, word]}: move that section (and its hit) onto a word, e.g. the swell onto the moment it shows
+          import re
+          cues = json.load(open(F + '/cues.json')); LN = {l['id']: l for l in cues['lines']}
+          for mood, (lid, word) in ((hints or {}).get('at') or {}).items():
+              ws = [w for w in LN[lid]['words'] if re.sub(r'[^a-z0-9]', '', w[0].lower()) == word.lower()]
+              if not ws: print('score.at: word not found', lid, word); continue
+              for sec in plan['sections']:
+                  if sec['mood'] == mood:
+                      d = ws[0][1] - sec['t']; old = sec['t']; sec['t'] = round(ws[0][1], 3)
+                      for h in plan.get('hits', []):
+                          if abs(h['t'] - (old - 0.3)) < 0.6: h['t'] = round(h['t'] + d, 3)
+                      print(f'score.at: {mood} moved {old} -> {sec["t"]}')
           json.dump(plan, open(F + '/audio/score_plan.json', 'w'), indent=1); print(json.dumps(plan['sections']))
           PY
           python3 films/lib/score/remix.py "$F" --keep-plan

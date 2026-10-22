@@ -31,7 +31,7 @@ def smoothstep(a, b, x):
 
 class Set:
     def __init__(self, name):
-        self.name = name; self.objs = []; self.land = None; self.update = lambda t, shot: None; self.data = {}; self.lights = []
+        self.name = name; self.objs = []; self.land = None; self.update = lambda t, shot: None; self.data = {}; self.lights = []; self.hidden = set()
 
 
 def vsock(mat, label):
@@ -224,7 +224,7 @@ def build_city(kit, M, lamps):
             dense = (face == '-Y' and 1.18 < s < 1.99) or (face == '+X' and -1.99 < s < -1.12)
             step = 0.0115 if dense else 0.024; half = 0.0034 if dense else 0.0036
             if _on_land(land, x, y, 0.0, 0.016):
-                zt = float(land.height(np.array([x]), np.array([y]))[0]); zc = strata_z(zt, zm, CARANTO_SD[0] + 0.035)
+                zt = float(land.height(np.array([x]), np.array([y]))[0]); zc = strata_z(zt, zm, CARANTO_SD[0] + 0.07)
                 P += arch.pole_quads(face, s, zc, zt - 0.03, half, 4.0, 4.0)
                 B.append(arch.face_quad(face, s + step / 2, zt - 0.03, zt - 0.021, step / 2 + 0.0002, 4.0, 4.0, 0.0014))
                 St.append(arch.face_quad(face, s + step / 2, zt - 0.021, zt + 0.0005, step / 2 + 0.0002, 4.0, 4.0, 0.0014))
@@ -335,7 +335,7 @@ def build_site(kit, M):
                     trees=5, tree_kinds=('round', 'tall'), boulders=4, flowers=0.2, name='site')
     S.land = land; zm = _zmean(land)
     pole_m = cw.mat_simple(kit, 'vz_polewood', WOOD_POLE, 0.8, noise_amt=0.3, bump=0.3); sec_m = arch.mat_pole_section(kit, 'vz_polecut_site', WOOD_POLE)
-    zc = strata_z(-0.02, zm, CARANTO_SD[0] + 0.04); L = PIT_Z - zc        # poles reach into the pale clay band
+    zc = strata_z(PIT_Z, zm, CARANTO_SD[0] + 0.07); L = PIT_Z - zc        # poles reach into the pale clay band
     xs = np.arange(SITE_X[0] + 0.05, SITE_X[1] - 0.01, POLE_SP); ys = np.arange(SITE_Y[0] + 0.03, SITE_Y[1] - 0.04, POLE_SP)
     poles = []
     V, F = cw._tube([(0, 0, -L), (0, 0, -L + 0.05), (0, 0, 0)], [0.003, POLE_R, POLE_R], 12)
@@ -347,7 +347,7 @@ def build_site(kit, M):
         for i, x in enumerate(xs[::-1]): order.append((x, y, i, j))
     for k, (x, y, i, j) in enumerate(order):
         ob = bpy.data.objects.new(f'vz_pole{k}', me); kit.coll.objects.link(ob); ob.location = (x, y, PIT_Z)
-        poles.append({'ob': ob, 'x': x, 'y': y, 'i': i, 'j': j, 'k': k})
+        poles.append({'ob': ob, 'x': x, 'y': y, 'i': i, 'j': j, 'k': k, 'wj': 0.86 + 0.24 * ((k * 0.618) % 1.0), 'dj': 0.03 * (((k * 0.377) % 1.0) - 0.5)})
     S.data['poles'] = poles; S.data['L'] = L; S.data['zc'] = zc
     # pole sections on the cut faces: the front row on -Y, the last column on +X
     face_poles = [p for p in poles if p['j'] == 0] + [p for p in poles if p['i'] == 0 and p['j'] > 0]
@@ -416,8 +416,8 @@ def build_site(kit, M):
             zh = p['zh']
             if zh is None: quads += [[(0, 0, -5)] * 4] * 2; continue
             face, s = ('-Y', p['x']) if p['j'] == 0 else ('+X', p['y'])
-            zt = min(zh, PIT_Z); zb = zh - L
-            quads += arch.pole_quads(face, s, zb, zt, POLE_R * 0.95, 4.0, 4.0, 0.05)
+            zt = min(zh, PIT_Z); zb = zh - L + p['dj']
+            quads += arch.pole_quads(face, s, zb, zt, POLE_R * 0.95 * p['wj'], 4.0, 4.0, 0.05)
         arch.set_quads(sec, quads)
         # rigs over the poles being driven
         driving = [p for p in poles if p['zh'] is not None and p['zh'] > PIT_Z + 0.002][:3] if stage in ('one', 'many') else []
@@ -456,7 +456,7 @@ def build_pole(kit, M):
                     flowers=0, under=True, water_tint=WATER_TINT, water_density=2.0, name='poleblk')
     S.land = land; zm = _zmean(land); bed = float(land.height(np.array([0.0]), np.array([-sz / 2 + 0.01]))[0])
     sec_m = arch.mat_pole_section(kit, 'vz_polecut_big', WOOD_POLE, (0.60, 0.60, 0.58))
-    zc = strata_z(bed, zm, CARANTO_SD[0] + 0.05); top = bed - 0.05
+    zc = strata_z(bed, zm, CARANTO_SD[0] + 0.07); top = bed - 0.05
     pole = arch.section_mesh(kit, 'vz_bigpole', sec_m, 2); arch.set_quads(pole, arch.pole_quads('-Y', 0.0, zc, top, 0.06, sz, sz, 0.09))
     S.data.update(pole_mat=sec_m, bed=bed, zc=zc, top=top, sz=sz)
     # neighbouring poles at the edges of the frame, so it reads as one of many
@@ -653,7 +653,7 @@ def build_inlet(kit, M):
         gates.append((g, bed)); y += GATE_W
     # the caisson the gates rest in, on the seabed across the inlet
     # two water bodies: lagoon (left, stays) and sea (right, rises), split at the gate line
-    kw = land.objects['water']; kw.hide_render = True; wm = kw.data.materials[0]; e = 0.0015; zb2 = float(np.min([v.co.z for v in kw.data.vertices]))
+    kw = land.objects['water']; kw.hide_render = True; S.hidden.add(kw.name); wm = kw.data.materials[0]; e = 0.0015; zb2 = float(np.min([v.co.z for v in kw.data.vertices]))
     XG = GATE_HX - GATE_L * math.cos(math.radians(GATE_ANG)) / 2
     def prism(name, poly):
         n = len(poly); V = [(x, y, zb2) for x, y in poly] + [(x, y, LV) for x, y in poly]
