@@ -1,0 +1,20 @@
+{
+ "id": "great-emu-war",
+ "title": "The Great Emu War",
+ "line": "kinetic",
+ "stage": "script",
+ "state": "queued",
+ "message": "On the runner (fresh job; free models and free tools only); key credit left: $0.84.",
+ "usd": 0,
+ "cap_usd": 0.5,
+ "outputs": {},
+ "stages": {
+  "script": {
+   "state": "queued",
+   "usd": 0
+  }
+ },
+ "approved_at": "2026-10-22T15:00:00Z",
+ "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39797927586",
+ "updated_at": "2026-10-22T14:43:07Z"
+}
