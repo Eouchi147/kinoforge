@@ -153,7 +153,7 @@ def complete(seat_name, messages, ledger, max_tokens=24000, only=None, label='',
     """A plain-text reply (for code), through the seat's chain and the ledger. Returns (text, model)."""
     mk = agents.market(); chain = [only] if only else agents.seat(seat_name)
     in_tok = len(json.dumps(messages)) // 3.5; errors = []
-    timeout = agents.CREW['seats'][seat_name].get('timeout_s', 60) * 1.5
+    timeout = max(600, agents.CREW['seats'][seat_name].get('timeout_s', 60) * 1.5)   # long code replies
     for model in chain:
         m = mk.get(model) or {'in': 0, 'out': 0}
         worst = (in_tok * m['in'] + max_tokens * m['out']) / 1e6

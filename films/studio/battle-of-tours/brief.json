@@ -1,0 +1,13 @@
+{
+ "id": "battle-of-tours",
+ "title": "The Battle of Tours",
+ "line": "battle-map",
+ "subject": "The Battle of Tours (also called Poitiers), October 732: the Frankish army of Charles Martel stops the Umayyad army of Abd al-Rahman al-Ghafiqi between Tours and Poitiers",
+ "angle": "the Frankish infantry that stood like a wall of ice against cavalry charges all day, and the army that was gone by morning",
+ "notes": "First real test job of the director pipeline. Keep it short and clear.",
+ "audience": "kids 8 to 14",
+ "target_seconds": 90,
+ "cap_usd": 0.9,
+ "voice": "elevenlabs/eleven-v4|brian",
+ "approved_at": "2026-10-22T13:15:00Z"
+}
