@@ -65,7 +65,7 @@ export class StageOverlay {
   drawLabel(g, it, t, view) {
     const a = this.fade(it, t); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok) return; const H = view.rect.h; const size = (it.size ?? 1) * H * (it.big ? 0.050 : 0.036); const age = t - it.t0; const sc = popScale(age);
     const team = it.team ? TEAMS[it.team] : null; const edgeA = P.screen ? 1 : clamp((P.edge ?? 1) / 0.08);
-    g.save(); g.globalAlpha = a * edgeA; const dx = (it.dx || 0) * H, dy = (it.dy ?? -0.06) * H; const ax = P.x, ay = P.y; const px = P.x + dx, py = P.y + dy; const lift = !P.screen ? 0 : 0;
+    g.save(); g.globalAlpha = a * edgeA; const dx = (it.dx || 0) * H, dy = (it.dy ?? (P.screen ? 0 : -0.06)) * H; const ax = P.x, ay = P.y; const px = P.x + dx, py = P.y + dy; const lift = !P.screen ? 0 : 0;
     g.translate(px, py - lift); g.scale(sc, sc); g.translate(-px, -(py - lift));
     if (it.leader !== false && !P.screen && (Math.abs(dy) > size * 0.9 || Math.abs(dx) > size)) { g.beginPath(); g.moveTo(px, py + size * 0.1); g.lineTo(ax, ay); g.lineWidth = Math.max(3, size * 0.14); g.strokeStyle = 'rgba(30,16,8,0.9)'; g.stroke(); g.lineWidth = Math.max(1.4, size * 0.05); g.strokeStyle = CREAM; g.stroke();
       g.beginPath(); g.arc(ax, ay, Math.max(3, size * 0.14), 0, 7); g.fillStyle = team ? rgb(team.top) : '#f6ecd0'; g.fill(); g.lineWidth = 2; g.strokeStyle = INK; g.stroke(); }
@@ -79,12 +79,12 @@ export class StageOverlay {
     const txt = val.toLocaleString('en-US'); const team = it.team ? TEAMS[it.team] : TEAMS.neutral; const dx = (it.dx || 0) * H, dy = (it.dy ?? -0.12) * H; const px = P.x + dx, py = P.y + dy;
     g.save(); g.globalAlpha = a * (P.screen ? 1 : clamp((P.edge ?? 1) / 0.08)); g.translate(px, py); g.scale(sc, sc); g.translate(-px, -py);
     g.font = `800 ${size * 1.5}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.06) + 'px'; const nw = g.measureText(txt).width; g.font = `600 ${size * 0.62}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.18) + 'px'; const sw = g.measureText((it.suffix || 'SOLDIERS')).width;
-    const w = Math.max(nw, sw) + size * 1.5, h = size * 2.5; const x0 = px - w / 2, y0 = py - h;
+    const w = Math.max(nw, sw) + size * 1.5, h = size * 2.9; const x0 = px - w / 2, y0 = py - h;
     if (it.leader !== false && !P.screen) { g.beginPath(); g.moveTo(px, py); g.lineTo(P.x, P.y); g.lineWidth = Math.max(3, size * 0.12); g.strokeStyle = 'rgba(30,16,8,0.9)'; g.stroke(); g.lineWidth = Math.max(1.4, size * 0.05); g.strokeStyle = CREAM; g.stroke(); }
     g.shadowColor = 'rgba(25,12,4,0.5)'; g.shadowBlur = size * 0.5; g.shadowOffsetY = size * 0.2; g.beginPath(); g.roundRect(x0, y0, w, h, size * 0.34); g.fillStyle = rgb(team.side, 0.92); g.fill(); g.shadowColor = 'transparent';
     g.lineWidth = Math.max(2.4, size * 0.1); g.strokeStyle = '#f6ecd0'; g.stroke(); g.beginPath(); g.roundRect(x0 + size * 0.14, y0 + size * 0.14, w - size * 0.28, h - size * 0.28, size * 0.22); g.lineWidth = 1; g.strokeStyle = 'rgba(246,236,208,0.4)'; g.stroke();
-    g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.font = `800 ${size * 1.5}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.06) + 'px'; g.fillStyle = '#fff3d2'; g.fillText(txt, px, y0 + size * 1.58);
-    g.font = `600 ${size * 0.62}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.18) + 'px'; g.fillStyle = rgb(team.light); g.fillText(it.suffix || 'SOLDIERS', px, y0 + size * 2.22); g.restore();
+    g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.font = `800 ${size * 1.5}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.06) + 'px'; g.fillStyle = '#fff3d2'; g.fillText(txt, px, y0 + size * 1.66);
+    g.font = `600 ${size * 0.62}px "Cinzel"`; g.letterSpacing = Math.round(size * 0.18) + 'px'; g.fillStyle = rgb(team.light); g.fillText(it.suffix || 'SOLDIERS', px, y0 + size * 2.3); g.restore();
   }
   drawIconItem(g, it, t, view) {
     const a = this.fade(it, t, 0.3); if (a <= 0.01) return; const P = this.place(it, t, view); if (!P.ok && !P.screen) return; const age = t - it.t0;

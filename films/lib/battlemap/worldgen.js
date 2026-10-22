@@ -1,7 +1,7 @@
 // Battle Map engine: a terrain world from DATA (pure JS, runs in Node and the browser).
 // Units are map units; x east, z south, y up. The map is centred on the origin: x in [-W/2, W/2], z in [-D/2, D/2].
 // world = { seed, size:[W,D], res:1, base:0, features:[...] }; feature types: see SPEC.md.
-import { clamp, lerp, smoothstep, gradNoise, fbm, ridged, catmull, resample, distToPath, sdPoly, ellipsePoly, rng, TAU } from './noise.js';
+import { clamp, lerp, smoothstep, gradNoise, fbm, ridged, catmull, resample, distToPath, sdPoly, ellipsePoly, rng, TAU, chaikin } from './noise.js';
 import { bakeSun, bakeSky } from './bake.js';
 
 class PathIndex { // bucketed nearest-segment queries so rivers cost O(local) per texel
@@ -75,6 +75,7 @@ export function buildWorldData(spec, { sunAz = null } = {}) {
         H[p] += hh * m * ((1 - rid) * b + rid * r * (0.6 + 0.6 * b)); });
     }
   }
+  const H0 = Float32Array.from(H); // relief before the sea is carved (land features restore it)
   // pass 2: water (carving + SDF)
   fi = 0;
   for (const f of feats) {
@@ -86,9 +87,15 @@ export function buildWorldData(spec, { sunAz = null } = {}) {
         setF(p, 0, hw - d); const prof = 1 - smoothstep(hw * 0.5, hw + bank, d); H[p] -= depth * prof * (1 + 0.15 * Nn(x / 9, z / 9)); });
     }
     else if (f.type === 'sea' || f.type === 'lake') {
-      const poly = f.type === 'lake' ? polyOf(f, sd) : f.poly; const shelf = f.shelf ?? 18, beach = f.beach ?? 7, deep = f.depth ?? 6; const Nn = N[(fi + 2) % 4]; const b = polyBox(poly, shelf + beach + 8); info[f.type === 'lake' ? 'lakes' : 'seas'].push({ poly });
+      const poly = chaikin(f.type === 'lake' ? polyOf(f, sd) : f.poly, f.smooth ?? 2); const shelf = f.shelf ?? 18, beach = f.beach ?? 7, deep = f.depth ?? 6; const Nn = N[(fi + 2) % 4]; const b = polyBox(poly, shelf + beach + 8); info[f.type === 'lake' ? 'lakes' : 'seas'].push({ poly });
       loop(b[0], b[1], b[2], b[3], (i, j, x, z, p) => { let sdv = sdPoly(x, z, poly); sdv += 0.9 * Nn(x / 17 + 3, z / 17); setF(p, 0, sdv);
         if (sdv > 0) H[p] = lerp(Math.min(H[p], 0.6), -deep, smoothstep(0, shelf, sdv)); else if (sdv > -beach) { const t = smoothstep(0, beach, -sdv); H[p] = lerp(0.6 + 0.4 * Math.max(0, H[p]), H[p], t); } });
+    }
+    else if (f.type === 'land') { // a landmass cut out of the sea: water SDF is min'ed with the outside of the polygon, relief restored inside
+      const poly = chaikin(f.poly, f.smooth ?? 2); const shelf = f.shelf ?? 18, beach = f.beach ?? 6, deep = f.depth ?? 6; const Nn = N[(fi + 2) % 4]; const b = polyBox(poly, shelf + beach + 8); const lift = f.lift ?? 0, wob = f.wob ?? 0;
+      loop(b[0], b[1], b[2], b[3], (i, j, x, z, p) => { const sdv = sdPoly(x, z, poly) + 0.9 * Nn(x / 17 + 3, z / 17) + wob * (Nn(x / 9 + 1.7, z / 9 + 5.3) + 0.5 * Nn(x / 4.3, z / 4.3 + 2.2));
+        if (-sdv < F[p * 4]) F[p * 4] = -sdv;
+        if (sdv > -shelf) { const t = smoothstep(-shelf, 0, sdv); const land = 0.6 + lift + Math.max(0, H0[p]) * smoothstep(0, beach * 2, sdv); H[p] = sdv > 0 ? Math.max(H[p], lerp(0.6, land, smoothstep(0, beach, sdv))) : Math.max(H[p], lerp(-deep, 0.6, t)); } });
     }
   }
   // pass 3: woods, farms, roads (feature SDFs)

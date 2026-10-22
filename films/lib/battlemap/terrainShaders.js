@@ -78,7 +78,7 @@ void main(){
   vec3 wcol = mix(vec3(0.56, 0.74, 0.76), vec3(0.20, 0.45, 0.66), deepK);
   wcol *= 0.94 + 0.10*vn(xz*0.30 + 7.0);
   float rip = lineMask(wsd*0.62 + (vn(xz*0.35) - 0.5)*0.6, 0.55*max(S/6.0, 0.6))*(1.0 - smoothstep(2.0, 26.0, wsd))*0.62;
-  float wavN = vn(xz*vec2(0.55, 1.9) + 4.0); float wav = smoothstep(0.72, 0.80, wavN)*smoothstep(1.0, 8.0, wsd)*0.45;   // open-water dashes
+  float wavN = vn(xz*vec2(0.55, 1.9) + 4.0); float wav = smoothstep(0.74, 0.80, wavN)*smoothstep(1.0, 8.0, wsd)*0.30;   // open-water dashes
   wcol = mix(wcol, vec3(0.08, 0.20, 0.36), max(rip, wav));
   col = mix(col, wcol, inW);
   float shoreL = 1.0 - smoothstep(0.10, 0.10 + 0.22, abs(wsd + 0.02*vn(xz*2.0)));
@@ -207,7 +207,7 @@ void main(){
   { float Ls = dot(light, vec3(0.3, 0.55, 0.15)) + 1e-4; float qs = Ls*5.0; float Lq = (floor(qs) + smoothstep(0.55, 0.95, fract(qs)))/5.0; light *= mix(1.0, Lq/Ls, uGrade.x); }
   vec3 col = lin(S.rgb)*light;
   float water = S.a;
-  if (water > 0.5) { float g = vn(xz*vec2(2.4, 5.5) + vec2(uAtm.z*1.7, uAtm.z*0.6)); float sp = smoothstep(0.80, 0.97, g)*uAtm.w*clamp(sunT*1.4 + 0.2, 0.0, 1.0); col += vec3(1.0, 0.82, 0.5)*sp*0.55; }
+  if (water > 0.5) { float g = vn(xz*vec2(2.4, 5.5) + vec2(uAtm.z*1.7, uAtm.z*0.6)); float sp = smoothstep(0.86, 0.99, g)*uAtm.w*clamp(sunT*1.4 + 0.2, 0.0, 1.0); col += vec3(1.0, 0.82, 0.5)*sp*0.30; }
   // haze: height fog + distance edge + the world's own edge (so a low camera never sees past the sheet)
   vec3 fogged = bmFog(col, vWorld, uFog, uFogCol); float a = 0.0;
   float ex = min(min(xz.x - uWorld.x, uWorld.x + uWorld.z - xz.x), min(xz.y - uWorld.y, uWorld.y + uWorld.w - xz.y)); float wedge = 1.0 - smoothstep(0.0, uGrade.y, ex);

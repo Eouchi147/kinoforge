@@ -88,3 +88,5 @@ export function interpK(K, s) { // smooth piecewise interpolation through knots 
   if (s <= K[0][0]) return K[0][1]; const n = K.length; if (s >= K[n - 1][0]) return K[n - 1][1];
   let i = 0; while (i < n - 2 && s > K[i + 1][0]) i++; const t = (s - K[i][0]) / (K[i + 1][0] - K[i][0]); return lerp(K[i][1], K[i + 1][1], t * t * (3 - 2 * t));
 }
+
+export function chaikin(poly, n = 2) { let P = poly; for (let k = 0; k < n; k++) { const Q = []; for (let i = 0; i < P.length; i++) { const a = P[i], b = P[(i + 1) % P.length]; Q.push([a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25], [a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75]); } P = Q; } return P; }
