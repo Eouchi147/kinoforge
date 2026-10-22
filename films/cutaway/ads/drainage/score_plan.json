@@ -8,16 +8,33 @@
  "solo": "flute",
  "drums": "frame",
  "sections": [
-  {"t": 0.0, "mood": "calm", "intensity": 0.34},
-  {"t": 3.0, "mood": "curious"},
-  {"t": 8.1, "mood": "turn"},
-  {"t": 11.5, "mood": "triumph"}
+  {
+   "t": 0.0,
+   "mood": "calm",
+   "intensity": 0.36
+  },
+  {
+   "t": 8.1,
+   "mood": "turn"
+  },
+  {
+   "t": 11.5,
+   "mood": "triumph"
+  }
  ],
  "hits": [
-  {"t": 6.5, "kind": "swell", "level": 0.7},
-  {"t": 11.55, "kind": "chime", "level": 0.75}
+  {
+   "t": 6.5,
+   "kind": "swell",
+   "level": 0.7
+  },
+  {
+   "t": 11.55,
+   "kind": "chime",
+   "level": 0.75
+  }
  ],
- "swell_len": 3.0,
+ "swell_len": 3.6,
  "settle": 3.5,
  "end_fade": 3.0
 }

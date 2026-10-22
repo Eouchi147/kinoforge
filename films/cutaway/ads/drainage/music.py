@@ -25,7 +25,8 @@ def main():
     y, info = score.render_plan(plan, 'auto', -23.0, log=lambda *a: print('  ', *a, flush=True))
     n = int(LEN * SR); y = y[:n].copy()
     nf = int(FADE * SR); y[-nf:] *= (np.cos(np.linspace(0, np.pi / 2, nf)) ** 2)[:, None]
-    y, meas = score.finalise(y, LUFS, -2.0)
+    y0 = y; y, meas = score.finalise(y0, LUFS, -2.0)
+    y, meas = score.finalise(y0, 2 * LUFS - meas['lufs'], -2.0)              # the limiter costs a little: aim once more
     nz = int(0.02 * SR); y[-nz:] = 0.0                                            # true silence on the last frame
     import soundfile as sf
     with tempfile.TemporaryDirectory() as td:
