@@ -1260,10 +1260,12 @@ def render_settings(bpy, W, H, samples=64, denoise=True, look='AgX - Base Contra
     sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = look; sc.view_settings.exposure = exposure
     if threads: sc.render.threads_mode = 'FIXED'; sc.render.threads = threads
 
-def apply_cycles(bpy):
-    """Bounce limits that suit the kit (glass water needs transmission depth; no caustics: they are faked)."""
+def apply_cycles(bpy, fast=False):
+    """Bounce limits that suit the kit (glass water needs transmission depth; no caustics: they are faked).
+    fast=True trims bounces for motion renders (about a third quicker, slightly darker under trees)."""
     cy = bpy.context.scene.cycles
-    cy.max_bounces = 8; cy.diffuse_bounces = 2; cy.glossy_bounces = 2; cy.transmission_bounces = 8; cy.transparent_max_bounces = 12
+    cy.max_bounces = 6 if fast else 8; cy.diffuse_bounces = 1 if fast else 2; cy.glossy_bounces = 1 if fast else 2
+    cy.transmission_bounces = 5 if fast else 8; cy.transparent_max_bounces = 6 if fast else 12
     cy.volume_bounces = 0; cy.caustics_reflective = False; cy.caustics_refractive = False; cy.sample_clamp_indirect = 6.0
     try: cy.use_light_tree = True
     except Exception: pass

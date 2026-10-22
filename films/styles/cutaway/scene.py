@@ -9,7 +9,7 @@ if here not in sys.path: sys.path.insert(0, here)
 import cutaway as cw  # noqa: E402
 import looks  # noqa: E402
 
-def make(look, duration=8.0, move='orbit', samples=64, deg=16.0):
+def make(look, duration=8.0, move='orbit', samples=64, deg=16.0, fast=False):
     SETTINGS = {'samples': samples, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast',
                 'max_bounces': 8, 'clamp_indirect': 6.0, 'adaptive_min_samples': 16, 'denoising_prefilter': 'ACCURATE'}
 
@@ -17,7 +17,8 @@ def make(look, duration=8.0, move='orbit', samples=64, deg=16.0):
         aspect = '16:9' if ctx['W'] >= ctx['H'] else '9:16'
         kit = cw.Kit(bpy, seed=1, loop=duration)
         S = looks.LOOKS[look](bpy, kit, aspect)
-        cw.apply_cycles(bpy); sc = bpy.context.scene
+        cw.apply_cycles(bpy, fast); sc = bpy.context.scene
+        if fast: sc.cycles.adaptive_threshold = 0.04
         sc.view_settings.look = S['look']; sc.view_settings.exposure = S['exposure']
         S['kit'] = kit; S['az0'] = S['cam'].az; S['d0'] = S['cam'].dist
         return S

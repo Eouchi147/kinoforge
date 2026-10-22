@@ -9,6 +9,6 @@
  "render_h": 720,
  "w": 1920,
  "h": 1080,
- "samples": 48,
+ "samples": 32,
  "note": "Slow eased orbit on look A (Studio block). Free: Blender Cycles CPU, procedural. Render with rc-render films.yml, 24 parts."
 }
