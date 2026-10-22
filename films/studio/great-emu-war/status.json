@@ -3,8 +3,8 @@
  "title": "The Great Emu War",
  "line": "kinetic",
  "stage": "script",
- "state": "running",
- "message": "The writer is drafting the narration.",
+ "state": "failed",
+ "message": "Stopped: agents.OverBudget: the free models daily limit of this OpenRouter key is reached ({\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day-high-balance. \",\"code\":429,\"metadata\":{\"headers\":{\"X-RateLimit-Limit\":\"1000\",\"X-RateLimit-Remainin); it resets at 00:00 UTC",
  "usd": 0.0,
  "cap_usd": 0.5,
  "outputs": {
@@ -24,16 +24,18 @@
     "nvidia/nemotron-3.5-super-vl:free",
     "google/gemma-4-26b-a4b-it:free"
    ]
-  }
+  },
+  "log": "https://github.com/Eouchi147/kinoforge/releases/download/logs/great-emu-war-film.log"
  },
  "stages": {
   "script": {
-   "state": "running",
+   "state": "failed",
    "started_at": "2026-10-22T16:55:23Z",
-   "usd": 0.0
+   "usd": 0.0,
+   "ended_at": "2026-10-22T16:55:29Z"
   }
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39817396473",
- "updated_at": "2026-10-22T16:55:23Z"
+ "updated_at": "2026-10-22T16:55:29Z"
 }
