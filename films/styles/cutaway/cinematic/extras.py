@@ -364,7 +364,7 @@ def half_tube(P2, r, ring=10):
             a = k * (ring + 1) + j; F.append((a, a + ring + 1, a + ring + 2, a + 1))
     return V, F
 
-def mat_cavity(kit, color=(0.20, 0.13, 0.08)):
+def mat_cavity(kit, color=(0.32, 0.22, 0.13)):
     key = ('ex', 'cavity')
     if key in kit.mats: return kit.mats[key]
     m = cw._new_mat(kit.bpy, 'ex_cavity'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
@@ -480,6 +480,9 @@ class Eggs:
         self.spot(face, mu + 0.08, mz, 4.0 * light / 3.0, out=0.42, up=0.22, size=44, name='ex_spot_mole')
         bpy = kit.bpy; ld = bpy.data.lights.new('ex_nest_glow', 'POINT'); ld.energy = 0.08 * light / 3.0; ld.color = (1.0, 0.75, 0.45); ld.shadow_soft_size = 0.01
         lo = bpy.data.objects.new('ex_nest_glow', ld); kit.coll.objects.link(lo); lo.location = tuple(self.faces[face].world(nu, nz + 0.01, 0.015)); lo.visible_camera = False
+        for k, q in enumerate((0.25, 0.75)):      # a soft warm light along the tunnel so the mole reads
+            ld2 = bpy.data.lights.new(f'ex_tunnel_glow{k}', 'POINT'); ld2.energy = 0.12 * light / 3.0; ld2.color = (1.0, 0.8, 0.55); ld2.shadow_soft_size = 0.02
+            lo2 = bpy.data.objects.new(f'ex_tunnel_glow{k}', ld2); kit.coll.objects.link(lo2); lo2.location = tuple(self.faces[face].world(u + q * length, float(np.interp(q, s, P[:, 1])), -0.02)); lo2.visible_camera = False
         self.items['mole'] = (face, mu, mz)
 
     def hedgehog(self, face, u, z, light=3.0):
