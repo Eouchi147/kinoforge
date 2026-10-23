@@ -16,6 +16,6 @@ work as written, fix the playbook in the same commit as your fix (and log it).
 | Deliver to Sam's Mac | [deliver-to-sams-mac.md](deliver-to-sams-mac.md) |
 | Make a business ad or social video (paused lane) | [make-a-business-ad.md](make-a-business-ad.md) |
 
-Shared rules for every playbook: free tools only (`docs/decisions/0001`); words set in code; one stills run in flight per
+Shared rules for every playbook: a hard cap per film and pay only for results that pass (`docs/decisions/0013`; free tools wherever they are as good); words set in code; one stills run in flight per
 builder on the shared runner queue; dispatch through the REST API (`gh api -X POST ...`), because `gh workflow run` and
 `gh release download` use GraphQL, which some sessions block; give `ref` as a branch or a FULL commit hash.

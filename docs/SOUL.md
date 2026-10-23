@@ -9,7 +9,7 @@ looks like here and why. It is distilled from Sam's own verdicts (dated, in `doc
 
 ## 1. What KINOFORGE makes, and for whom
 
-KINOFORGE (also "Kino Studio") is Sam's AI-run studio: films and video made in code and with free tools, rendered on free
+KINOFORGE (also "Kino Studio") is Sam's AI-run studio: films and video made in code and with the best tool for each job inside a cap per film, rendered on free
 machines, directed like cinema. Sam (GitHub `Eouchi147`) owns it and decides. Since 16 Oct 2026 it is also the content
 engine of Unmissed, his AI marketing agency (`docs/UNMISSED_HANDOFF.md`).
 
@@ -55,7 +55,7 @@ engine of Unmissed, his AI marketing agency (`docs/UNMISSED_HANDOFF.md`).
 | 22 Oct | Battle Map v1 | Good concept. Music not right: wants the feel of Age of Empires and Anno; no emoji graphics; a motion-graphics legend; pre-planned cameras; armies that never clip; the most entertaining explanation | Became Battle Map v2 and the free score engine (`docs/decisions/0003`, `0006`) |
 | 22 Oct | Cutaway style board | "look amazing"; elevate with cinema lighting (haze, fog, god rays), animated fauna and flora, easter eggs in the soil (dino bones, gold ore), interesting angles | Became the cinematic Cutaway (`films/styles/cutaway/cinematic/`) |
 | 22 Oct (20:24 Toronto) | Cutaway | Loves it; wants it as a KINOFORGE studio style | A spec-driven Cutaway line is being built (`films/lib/cutaway/`) |
-| 22 Oct | Money | "Spend nothing." Free models and free tools only | `docs/decisions/0001` (contested by a later repo entry of 22 Oct 20:50; Sam to confirm, see the record) |
+| 22 Oct | Money | "Spend nothing" (09:20), then "cost effective, cap the budget per film, but good results every time I pay" (20:50) | `docs/decisions/0013` (supersedes 0001) |
 
 Waiting on his verdict (23 Oct): the eight Battle Map v2 films, the re-made Dark Corners, the NOOR samples, the Cutaway
 films (Venice, the drainage sample ad, the seasons loop, the Agincourt inserts). See `docs/STATUS.md`.
@@ -106,7 +106,7 @@ Close-ups, Freeze Frame (one solid subject only). Social templates (`social/temp
 | Sped-up openings, cutting on music hits alone, more than 40 shots in 3 minutes | Kleidion and Arabia verdicts |
 | ElevenLabs premade voices for dialogue | "Too fake" |
 | Real install photos with weak workmanship or unclear rights | Smart Mount verdict; those photos are marked do-not-use |
-| Paid models of any kind | "Spend nothing" (22 Oct) |
+| Free-only director as the default | free models too weak for the picture spec; Sam chose capped paid films (22 Oct 20:50, `docs/decisions/0013`) |
 | Text, logos or numbers drawn by an image or video model | They come out wrong; words are always set in code |
 
 ## 6. How to decide when unsure

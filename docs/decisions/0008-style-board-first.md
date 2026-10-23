@@ -5,6 +5,6 @@
   had chosen the look.
 - **Decision:** For any new look or client: two or three stills per look on one page, Sam picks, then a short test, then
   the piece. No automatic re-render loops: fix the look, not the clip.
-- **Consequences:** Under 0001 there is no paid video at all; the board is now made of free renders (code or Blender
+- **Consequences:** Paid image or video generation needs Sam's go per job (0013); the board is now made of free renders (code or Blender
   stills, e.g. the Cutaway boards). Nothing is published or sent without Sam's approval.
 - **Status:** Active.

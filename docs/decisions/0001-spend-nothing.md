@@ -11,9 +11,5 @@
 - **Consequences:** The paid lanes (`board.yml`, `piece.yml`, Lyria and ElevenLabs in `codead.yml` prep) are not used.
   Free models are rate-limited (1,000 requests a day per key; few capable ones): run one director job at a time. The
   handover's money section (16 Oct) is history, not the rule.
-- **Status:** Active, but contested in the repo: a later entry (LOG 23 Oct, `films/director/CRAFT.md`, director
-  `config.json`, commit 49f4b2a) records a capped paid rule from Sam on 22 Oct 20:50 Toronto. This record stays until Sam
-  confirms; then a new record (0013) supersedes it or the later entries are reverted. Until then: no paid call without his
-  explicit go.
+- **Status:** Superseded by 0013 (Sam, 22 Oct 20:50 Toronto).
 
-- **Superseded** by 0013 (Sam, 22 Oct 20:50 Toronto: capped paid films with quality gates).

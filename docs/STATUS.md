@@ -9,12 +9,12 @@
 ## Paid director with caps and gates (23 Oct, ready, nothing run)
 - Sam (22 Oct, 20:50): capped paid films, good results every time he pays, best tool per job. Director code is ready (`films/director/README.md`, "Money"): paid mode by default in `config.json` (free mode kept as `free_only: true`), models by role (writer Opus 5.5, checker Gemini 4 Argon, coder Opus with a Sonnet second draft only when it fits, repairs Sonnet, eyes Gemini, lessons Haiku; ids and prices checked on the runner by `seats.py`), ElevenLabs `brian` with Whisper retakes, free procedural score. Cap per film default US$2.00 (0.50 to 5.00), worst case booked before every call. Gates: fact check before narration; checks plus an eyes score of 6.5/10 before any render; a film that cannot pass stops and is not rendered. Usual cost US$0.90 to 1.50 per 2.5 min film.
 - Web studio: cap chooser ($1, $2, $3, $5) before "Build this film", spend per stage on the job page, plain messages for no GitHub and no credit; `studio-web/tests/flow.mjs` passes against a mock OpenRouter.
-- **Waiting on Sam:** confirm the money rule (above) and add credit: about US$25 account credit, build key limit US$20, studio key US$5 more (README "Credit"). No paid job has been dispatched.
+- **Waiting on Sam:** add credit: about US$25 account credit, build key limit US$20, studio key US$5 more (README "Credit"). No paid job has been dispatched.
 
 ## Gates and agent harness (23 Oct, done)
 - Any agent starts at `AGENTS.md` (Muse Code, Codex, Cursor read it; Claude Code through `CLAUDE.md`, Gemini CLI through `.gemini/settings.json`; Muse's committed memory `.agents/memory/MEMORY.md` is an index into `docs/`). Then `docs/SOUL.md` (taste, verdicts, styles), `docs/MEMORY.md` (who writes what), `docs/decisions/` (12 records), `docs/PLAYBOOKS/` (9 jobs, each with a definition of done), `docs/LESSONS.md`. Research with sources: `docs/research/AGENT_HARNESS_2026-10.md`.
 - `bash tools/verify.sh` (fast, about 1 min) and `--full` (about 10 min): every house rule as a gate; run it before every commit. CI: `verify.yml` on every push (green), `verify-engine.yml` on engine changes. Main passes all gates.
-- **Waiting on Sam: the money rule.** `docs/decisions/0001` (spend nothing, 22 Oct 09:20) and a later repo entry (capped paid films, 22 Oct 20:50: LOG, CRAFT.md, director config) disagree. Until he confirms, `AGENTS.md` says: no paid call without his explicit go.
+- **Money rule:** settled by `docs/decisions/0013` (capped paid films with quality gates; Sam, 22 Oct 20:50).
 
 ## NOOR Ramadan samples (22 Oct, started 14:30 UTC; delivered 23 Oct 00:40 UTC, waiting on Sam's verdict)
 - Sam asked (Noor Codex chat) for 2 to 3 free sample videos for the NOOR Ramadan 2027 series (series bible: Claude doc "NOOR · Thirty Nights of Light").

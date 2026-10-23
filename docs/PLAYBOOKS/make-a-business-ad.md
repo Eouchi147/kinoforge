@@ -1,7 +1,7 @@
 # Make a business ad or a social video (lane paused)
 
 Paused: Smart Mount's social videos were stopped by Sam on 16 Oct; Bento polish and natural voices wait on him; the paid
-parts (AI stills and clips, Lyria, ElevenLabs) are off under `docs/decisions/0001`. Use this only when Sam restarts the lane.
+parts (AI stills and clips, Lyria, ElevenLabs) need Sam's go per job (`docs/decisions/0008`, `0013`). Use this only when Sam restarts the lane.
 Read first: `harness/shots/policies/unmissed.md` (claims, brand), `docs/decisions/0007`, `0008`, `0012`, `docs/SOUL.md`
 (business looks), `docs/WORKFLOWS.md` (codead, social), `social/README.md`.
 

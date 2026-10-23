@@ -41,7 +41,7 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - Encode a mix to a temp file and verify it before replacing the old one: checkpoint commits once caught half-written mixes (22 Oct).
 - Finished films get new sound with rc-render `remux.yml`; never re-render the picture for a sound change.
 
-## AI models (historical: paid models are off since 22 Oct)
+## AI models (paid models allowed inside a cap per film since 22 Oct 20:50, `docs/decisions/0013`)
 - OpenRouter key `usage` lags by hours; per-call `usage.cost` is the reliable figure.
 - Lyria returns audio only when streamed (`stream: true`); Seedream needs `modalities: ["image"]`.
 - Video models warp crowds of small particles and people's hands; they hold one solid object well.
