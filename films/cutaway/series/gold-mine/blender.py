@@ -48,8 +48,8 @@ SHAFT_U, SHAFT_W = 0.10, 0.065
 G1 = dict(u0=-0.82, u1=0.22, zf=0.00)
 G2 = dict(u0=-0.38, u1=0.18, zf=-0.62)
 G3 = dict(u0=-0.22, u1=0.30, zf=-1.30)
-CAVE = dict(u=-0.05, z=-1.68, a=0.30, b=0.19, d=0.26)
-POOL_LEVEL = -1.765
+CAVE = dict(u=0.14, z=-1.66, a=0.27, b=0.18, d=0.26)
+POOL_LEVEL = -1.755
 D_G = 0.17                        # gallery depth into the rock
 
 
@@ -169,7 +169,7 @@ def ridges(kit):
         g.link(inside, mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(e, mx.inputs[2]); cw._finish(g, mx)
         V = []; F = []; UV = []; n_ = 64
         for i in range(n_ + 1):
-            a = math.radians(-20 + 230 * i / n_)
+            a = 2 * math.pi * i / n_
             for zz in (-DEPTH, -DEPTH + hmax):
                 V.append((R * math.cos(a), R * math.sin(a), zz))
         for i in range(n_): F.append((2 * i, 2 * i + 2, 2 * i + 3, 2 * i + 1))
@@ -406,7 +406,7 @@ def cone(a, b, r0): return ex.cone(a, b, r0)
 def build(bpy, ctx):
     W_, H_ = ctx['W'], ctx['H']
     kit = cw.Kit(bpy, seed=5, loop=DURATION)
-    STRATA = [('turf', 0.05, (0.17, 0.15, 0.12), 0.1), ('scree', 0.20, (0.46, 0.47, 0.50), 0.95), ('slate', 0.42, (0.27, 0.30, 0.37), 0.12),
+    STRATA = [('turf', 0.05, (0.17, 0.15, 0.12), 0.1), ('scree', 0.20, (0.44, 0.45, 0.49), 0.5), ('slate', 0.42, (0.27, 0.30, 0.37), 0.12),
               ('quartzite', 0.26, (0.52, 0.54, 0.59), 0.25), ('schist', 0.55, (0.31, 0.33, 0.41), 0.3), ('bedrock', 1.0, (0.19, 0.20, 0.26), 0.4)]
     season = {'grass': (0.20, 0.30, 0.16), 'grass_tip': (0.42, 0.48, 0.30), 'grass_dry': (0.40, 0.40, 0.28), 'ground': (0.22, 0.23, 0.20),
               'leaf': [(0.10, 0.20, 0.12), (0.12, 0.24, 0.14), (0.09, 0.17, 0.11), (0.14, 0.25, 0.15)], 'flowers': 0.0, 'snow': 0.0, 'leaf_density': 1.0}
@@ -432,7 +432,7 @@ def build(bpy, ctx):
     mine.gallery('g3', G3['u0'], G3['u1'], G3['zf'], gaps_ceil=[sg])
     mine.shaft(SHAFT_U, SHAFT_W, [(G1['zf'], G2['zf'] + 2 * R_G), (G2['zf'], G3['zf'] + 2 * R_G)])
     mine.ladder(SHAFT_U, G1['zf'] + 0.01, G3['zf'])
-    eggs.hole_ellipse('-Y', CAVE['u'], CAVE['z'], CAVE['a'], CAVE['b'], CAVE['d'], 'gm_cave', material=mine.rock)
+    cave_pts = cavern(kit, eggs, mine)
     V, F = cw._box(CAVE['u'] - 0.25, FY + 0.003, CAVE['z'] - 0.2, CAVE['u'] + 0.25, FY + 0.30, POOL_LEVEL)
     cw.mk_mesh(bpy, 'gm_pool', V, F, [mat_water_pool(kit)], None, False, kit.coll)
     # the portal: a timber frame and a plank roof where the adit meets the hillside; rails out onto the yard
@@ -449,25 +449,28 @@ def build(bpy, ctx):
     mine.rails('g3', G3['u0'] - 0.05, G3['u1'] + 0.02, G3['zf'])
     # post and lantern at the entrance, lanterns in the galleries, the shaft and the cave
     v, f = box((pu - 0.05, FY + 0.20, 0.06), (0.01, 0.01, 0.13)); mk(kit, 'gm_post', [(v, f, 0)], [mine.wood])
-    mine.lantern('door', (pu - 0.05, FY + 0.186, 0.118), 0.9, 1)
-    for k, (u, z, pw) in enumerate(((-0.60, G1['zf'] + 0.128, 0.45), (-0.12, G1['zf'] + 0.128, 0.45), (-0.24, G2['zf'] + 0.128, 0.45),
-                                    (0.02, G2['zf'] + 0.128, 0.35), (-0.10, G3['zf'] + 0.128, 0.4), (0.24, G3['zf'] + 0.128, 0.5))):
+    mine.lantern('door', (pu - 0.05, FY + 0.186, 0.118), 1.2, 1)
+    for k, (u, z, pw) in enumerate(((-0.60, G1['zf'] + 0.128, 0.7), (-0.12, G1['zf'] + 0.128, 0.7), (-0.24, G2['zf'] + 0.128, 0.7),
+                                    (0.02, G2['zf'] + 0.128, 0.55), (-0.18, G3['zf'] + 0.128, 0.6), (0.20, G3['zf'] + 0.128, 0.75))):
         mine.lantern(f'in{k}', W(u, 0.10, z), pw, 10 + k, rope=0.012)
-    mine.lantern('shaft', W(SHAFT_U + 0.04, 0.12, -0.30), 0.3, 20)
-    mine.lantern('cave', W(CAVE['u'] + 0.20, 0.13, POOL_LEVEL + 0.035), 0.45, 21)
+    mine.lantern('shaft', W(SHAFT_U + 0.04, 0.12, -0.30), 0.45, 20)
+    mine.lantern('cave', W(CAVE['u'] + 0.19, 0.12, POOL_LEVEL + 0.03), 0.9, 21)
+    mine.lantern('cave2', W(CAVE['u'] - 0.17, 0.15, POOL_LEVEL + 0.07), 0.5, 22, rope=0.03)
 
     # ---- easter eggs (museum-lit, by depth)
     fy = eggs.faces['-Y']
     eggs.chest('-Y', -1.00, -0.40, light=2.5)
     eggs.ammonite('-Y', 0.42, -0.86, light=2.2)
     eggs.trilobite('-Y', -0.62, -1.08, light=2.2)
-    eggs.geode('-Y', 0.32, -1.98, light=2.6)
-    eggs.gold('-Y', [(0.40, -1.17), (0.55, -1.29), (0.70, -1.35), (0.86, -1.52), (1.05, -1.62), (1.22, -1.80)], nuggets=24, light=2.4)
+    eggs.geode('-Y', -0.40, -1.92, light=2.6)
+    eggs.gold('-Y', [(0.39, -1.16), (0.47, -1.29), (0.52, -1.44), (0.60, -1.62), (0.72, -1.80), (0.90, -1.96)], nuggets=24, light=2.4)
     eggs.geode('+X', -0.40, -1.25, light=2.6)
     eggs.ammonite('+X', 0.35, -0.70, light=2.2)
     eggs.finish()
     canary = canary_cage(kit, mine, W(-0.42, 0.06, G1['zf'] + 0.118))
     ex.soften_roots(land)
+    rock_face(kit, land)
+    raking(kit)
 
     # ---- gold at the face of the deepest gallery: nuggets in the end wall, one big one that wakes at the strike
     gold = ex.mat_pbr(kit, 'ex_gold', (1.0, 0.74, 0.30), 0.25, metallic=1.0, bump=0.25, bump_scale=900.0)
@@ -494,11 +497,14 @@ def build(bpy, ctx):
     goldm = miner(kit, 'goldminer', (0.58, 0.22, 0.14))
     cart = ore_cart(kit, mine)
     bats_in = [bat(kit, f'batc{k}') for k in range(14)]
-    bats_out = [bat(kit, f'bato{k}', 1.7) for k in range(34)]
+    bats_out = [bat(kit, f'bato{k}', 2.3) for k in range(34)]
 
     S = {'kit': kit, 'land': land, 'moon': moon, 'eggs': eggs, 'mine': mine, 'walker': walker, 'pusher': pusher, 'climber': climber,
          'dig1': dig1, 'dig2': dig2, 'goldm': goldm, 'cart': cart, 'bats_in': bats_in, 'bats_out': bats_out, 'sparks': sparks,
-         'goldwake': gv, 'goldflash': ld, 'canary': canary, 'pu': pu, 'uE': uE}
+         'goldwake': gv, 'goldflash': ld, 'canary': canary, 'pu': pu, 'uE': uE, 'cave_pts': cave_pts}
+    hw = H_ / W_
+    for nm in ('night', 'flight'):                    # the moon's direction is fixed per shot (from the shot's middle pose)
+        p2, t2, l2, _f, _s, ms = shot_pose(nm, 0.5, 0.0); _MOON_DIR[nm] = screen_dir(p2, t2, ms[0], ms[1], l2, hw)
     life(S)
     ex.finish(bpy, W_, H_, bloom=0.30, threshold=1.0, size=0.6, vignette=0.30)
     S['cam'] = ex.ShotCam(kit)
@@ -509,6 +515,54 @@ def build(bpy, ctx):
     cy.adaptive_threshold = 0.04; cy.sample_clamp_direct = 10.0; cy.sample_clamp_indirect = 3.0
     return S
 
+
+def cavern(kit, eggs, mine):
+    """The cave under the deepest gallery: a lumpy hollow (not a clean bowl), stalactites, a still pool at the bottom.
+    Returns ceiling points (u, d, z) where the bats can hang."""
+    c = CAVE; a, b, dep = c['a'] * 1.03, c['b'] * 1.03, c['d']
+    V, F = ex.bowl(a, b, dep, rings=18, seg=56); V = np.asarray(V, float)
+    w = np.clip(V[:, 1] / dep, 0, 1) ** 0.6
+    n = cw.fbm(V[:, 0] * 1.0 + V[:, 1] * 1.3, V[:, 2] - V[:, 1] * 0.7, 3, 4, 9.0)
+    ctr = np.array((0.0, dep * 0.45, 0.0)); dv = ctr - V; dv /= np.maximum(np.linalg.norm(dv, axis=1)[:, None], 1e-6)
+    V = V + dv * (w * 0.03 * (n + 0.35))[:, None]
+    ob = ex.part(kit, 'gm_cave', [(V, F, 0)], [mine.rock]); eggs.faces['-Y'].put(ob, c['u'], c['z'], 0.0015)
+    eggs.openings.append(('-Y', 'ell', (c['u'], c['z'], c['a'], c['b'])))
+    rng = np.random.default_rng(21); stone = ex.mat_pbr(kit, 'gm_dripstone', (0.50, 0.49, 0.50), 0.4, coat=0.4)
+    up = np.where((V[:, 2] > b * 0.45) & (V[:, 1] > 0.03) & (V[:, 1] < dep * 0.9))[0]
+    A = []; hang = []
+    for k, i in enumerate(rng.permutation(up)[:40]):
+        p = V[i]
+        if k < 22:
+            L = rng.uniform(0.015, 0.05); r = rng.uniform(0.004, 0.009)
+            A.append((*ex.cone(p + np.array((0, 0, 0.004)), p - np.array((0, 0, L)), r), 0))
+        elif abs(p[0]) < a * 0.7: hang.append((c['u'] + p[0], p[1], c['z'] + p[2]))
+    ex.part(kit, 'gm_stalactites', [(np.asarray(v) + np.array((c['u'], FY + 0.0015, c['z'])), f, m) for v, f, m in A], [stone])
+    return hang
+
+def rock_face(kit, land):
+    """Patch this film's strata material: blotchy mottling and fine cracks so the cut faces read as hard rock, not felt."""
+    nt = land.mats['strata'].node_tree; g = G(nt, kit)
+    p = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeBsdfPrincipled'][0]; bump = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeBump'][0]
+    bc = p.inputs['Base Color'].links[0].from_socket; hs = bump.inputs['Height'].links[0].from_socket
+    pos = g.node('ShaderNodeTexCoord').outputs['Object']
+    big = g.noise(pos, 6.0, 4.0, 0.6); vor = g.voronoi(pos, 7.0, 'DISTANCE_TO_EDGE'); vor2 = g.voronoi(pos, 23.0, 'DISTANCE_TO_EDGE')
+    crack = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vor.outputs['Distance'], 30.0), clamp=True)
+    crack2 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vor2.outputs['Distance'], 40.0), clamp=True)
+    mot = g.math('MULTIPLY', g.math('SUBTRACT', big.outputs['Fac'], 0.3), 1.6, clamp=True)
+    col = g.mix(mot, g.mix(1.0, bc, (0.62, 0.63, 0.68), 'MULTIPLY'), g.mix(1.0, bc, (1.25, 1.25, 1.3), 'MULTIPLY'))
+    col = g.mix(g.math('ADD', g.math('MULTIPLY', crack, 0.75), g.math('MULTIPLY', crack2, 0.35)), col, srgb((0.04, 0.045, 0.06)))
+    g.link(col, p.inputs['Base Color'])
+    h = g.math('ADD', hs, g.math('SUBTRACT', g.math('MULTIPLY', big.outputs['Fac'], 0.8), g.math('ADD', g.math('MULTIPLY', crack, 0.6), g.math('MULTIPLY', crack2, 0.3))))
+    g.link(h, bump.inputs['Height']); bump.inputs['Strength'].default_value = 0.9
+
+def raking(kit):
+    """Cool light skimming each camera-facing cut face from its side: it brings out the rock texture."""
+    bpy = kit.bpy
+    for name, pos, tgt, pw in (('gm_rake_y', (-SX / 2 - 1.6, FY - 0.45, -0.3), (0.8, FY, -0.9), 90.0),
+                               ('gm_rake_x', (SX / 2 + 0.45, -SY / 2 - 1.6, -0.3), (SX / 2, 0.8, -0.9), 70.0)):
+        ld = bpy.data.lights.new(name, 'AREA'); ld.size = 1.4; ld.shape = 'DISK'; ld.energy = pw; ld.color = (0.60, 0.70, 1.0)
+        ob = bpy.data.objects.new(name, ld); kit.coll.objects.link(ob); ob.location = pos; ex.look_at(ob, tgt)
+        ob.visible_camera = False; ob.visible_glossy = False
 
 def canary_cage(kit, mine, pos):
     """Easter egg: the miners' canary in its cage, hung from a timber cap near the entrance (it hops)."""
@@ -562,12 +616,12 @@ def ore_cart(kit, mine):
 
 class Sparks:
     """Sparks off the pick: tiny glowing points thrown out of the rock face (toward the camera), falling and dying."""
-    def __init__(self, kit, at, n=28, seed=9):
+    def __init__(self, kit, at, n=40, seed=9):
         bpy = kit.bpy; rng = np.random.default_rng(seed); self.at = np.asarray(at, float)
         m = ex.mat_pbr(kit, 'gm_spark', (1, 0.8, 0.4), 0.3, emission=(1.0, 0.72, 0.30), strength=60.0)
         self.obs = []
         for k in range(n):
-            V, F = ex.ell((0, 0, 0), (0.0016, 0.0016, 0.0016), 1)
+            V, F = ex.ell((0, 0, 0), (0.0026, 0.0026, 0.0026), 1)
             ob = cw.mk_mesh(bpy, f'gm_spark{k}', V, F, [m], None, False, kit.coll); ob.visible_shadow = False
             v = np.array([rng.uniform(-0.75, -0.15), rng.uniform(-0.65, 0.05), rng.uniform(0.05, 0.55)]); v = v / np.linalg.norm(v) * rng.uniform(0.25, 0.55)
             self.obs.append((ob, v, rng.uniform(0.35, 0.8), rng.uniform(0, 1)))
@@ -627,8 +681,8 @@ def life(S):
             Mg['body'].rotation_euler = (0, math.radians(10 * q), 0)
         S['sparks'].update(t, STRIKES)
         tau = t - T_GOLD
-        S['goldwake'].default_value = 0.0 if tau < 0 else 6.0 * math.exp(-tau / 0.5) + 1.2
-        S['goldflash'].energy = 0.0 if tau < 0 else 1.6 * math.exp(-tau / 0.35) + 0.06
+        S['goldwake'].default_value = 0.0 if tau < 0 else 14.0 * math.exp(-tau / 0.5) + 2.0
+        S['goldflash'].energy = 0.0 if tau < 0 else 3.5 * math.exp(-tau / 0.35) + 0.12
         bats_inside(S, t); bats_outside(S, t)
     kit.on_frame(pose)
 
@@ -641,8 +695,8 @@ def _flap(wings, t, rate=6.0, amp=1.0, ph=0.0, fold=0.0):
 def bats_inside(S, t):
     rng = np.random.default_rng(55); c = CAVE
     for k, (body, wings) in enumerate(S['bats_in']):
-        du = rng.uniform(-0.20, 0.17); d = rng.uniform(0.07, 0.17); zc = c['z'] + c['b'] * math.sqrt(max(0.0, 1 - (du / c['a']) ** 2 - (d / c['d']) ** 2)) - 0.006
-        hang = np.array((c['u'] + du, FY + d, zc)); tw = T_BATS + rng.uniform(0, 0.55); ph = rng.uniform(0, 6.28)
+        hp = S['cave_pts'][k % len(S['cave_pts'])]
+        hang = np.array((hp[0], FY + hp[1], hp[2] - 0.004)); tw = T_BATS + rng.uniform(0, 0.55); ph = rng.uniform(0, 6.28)
         dirv = np.array((rng.uniform(-0.55, 0.55), -1.0, rng.uniform(0.15, 0.6))); sp = rng.uniform(0.55, 0.85)
         if t < tw:                                   # hanging head down, wings folded, a little sway and a shiver
             body.location = tuple(hang - np.array((0, 0, 0.008))); body.rotation_euler = (0.0, math.pi / 2 + 0.08 * math.sin(1.4 * t + ph), 0.6 * k)
@@ -664,12 +718,16 @@ def bats_outside(S, t):
         if tau < 0: body.hide_render = True; continue
         body.hide_render = False
         start = np.array((pu - 0.02, FY + rng.uniform(0.04, 0.14), 0.07))
-        out = np.array((-0.9 - rng.uniform(0, 0.5), rng.uniform(0.2, 1.4), 0.0)); out /= np.linalg.norm(out)
-        rise = rng.uniform(0.55, 0.95); sp = rng.uniform(0.55, 0.8)
-        p = start + out * sp * tau + np.array((0, 0, 0.0)) + np.array((0, 0, rise * max(0.0, tau - 0.3) ** 1.25))
-        p = p + np.array((0.05 * math.sin(4.1 * tau + ph), 0.05 * math.cos(3.3 * tau + ph), 0.03 * math.sin(6 * tau + ph)))
-        body.location = tuple(p)
-        vel = out * sp + np.array((0, 0, rise))
+        md = _MOON_DIR.get('flight', np.array((0.3, 0.6, 0.75))); md = md / np.linalg.norm(md)
+        side = np.cross(md, (0, 0, 1.0)); side /= np.linalg.norm(side); upv = np.cross(side, md)
+        spread = side * rng.normal(0, 0.28) + upv * rng.normal(0, 0.18)
+        aim = md + spread; aim /= np.linalg.norm(aim)
+        out = np.array((-1.0, 0.0, 0.25)); sp = rng.uniform(0.75, 1.05)
+        e1 = min(1.0, tau / 0.45); k2 = max(0.0, tau - 0.25)
+        p = start + out * 0.16 * (e1 * e1 * (3 - 2 * e1)) + aim * sp * k2 ** 1.15
+        p = p + side * 0.06 * math.sin(3.7 * tau + ph) + upv * 0.04 * math.sin(5.3 * tau + ph)
+        body.location = tuple(p); body.hide_render = tau > 7.0
+        vel = out * 0.3 * (1 - e1) + aim * sp
         body.rotation_euler = (0.25 * math.sin(4 * tau + ph), -math.atan2(vel[2], np.hypot(vel[0], vel[1])) * 0.6, math.atan2(vel[1], vel[0]))
         _flap(wings, t, 5.5, 1.0, ph)
 
@@ -696,15 +754,15 @@ def shot_pose(name, u, t):
         return pos, tgt, 35.0, D, 11.0, (0.42, 0.62)
     if name == 'descent':        # crane down the cut face, then a slow push in on the deepest gallery
         a = ex.ease5(min(1.0, u / 0.56)); b = ex.ease(max(0.0, (u - 0.56) / 0.44))
-        tu = -0.12 + 0.18 * a; tz = -0.18 - 1.25 * a; Dd = 1.62 - 0.30 * a - 0.14 * b; tz -= 0.04 * b; tu += 0.02 * b
-        el = math.radians(9 - 6 * a)
+        tu = -0.12 + 0.34 * a + 0.02 * b; tz = -0.18 - 1.29 * a - 0.02 * b; Dd = 1.62 - 0.67 * a - 0.10 * b
+        el = math.radians(9 - 5 * a)
         tgt = np.array((tu, FY + 0.08, tz)); pos = np.array((tu - 0.20, FY - Dd, tz + Dd * math.tan(el)))
         return pos, tgt, 32.0, Dd + 0.08, 9.0, None
     # flight: low by the yard, the entrance and the moon; the bats pour out; the camera rises and pulls back
-    e = ex.ease(u); tgt = ex.lerp((-0.55, -0.85, 0.30), (-0.15, -0.30, -0.20), e)
-    az = math.radians(-128 + 14 * e); el = math.radians(4 + 12 * e); D = 2.4 + 4.0 * e
+    e = ex.ease(u); tgt = ex.lerp((-0.62, -0.95, 0.42), (-0.15, -0.30, -0.10), e)
+    az = math.radians(-112 + 12 * e); el = math.radians(3 + 12 * e); D = 2.3 + 4.2 * e
     pos = tgt + D * np.array((math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)))
-    return pos, tgt, 30.0, D, 11.0, (0.30, 0.55)
+    return pos, tgt, 30.0, D, 11.0, (0.28, 0.60)
 
 _MOON_DIR = {}
 
@@ -715,8 +773,6 @@ def frame(bpy, ctx, S, i, t):
     S['cam'].set(pos, tgt, lens, focus, fstop)
     hw = ctx['H'] / ctx['W']
     if ms is not None:
-        if name not in _MOON_DIR:                    # the moon's direction is fixed per shot (from the shot's middle pose)
-            p2, t2, l2, *_ = shot_pose(name, 0.5, t); _MOON_DIR[name] = screen_dir(p2, t2, ms[0], ms[1], l2, hw)
         S['moon'].place(S['cam'].ob, _MOON_DIR[name], t)
         for ob in [S['moon'].disc, S['moon'].halo] + [c[0] for c in S['moon'].clouds]: ob.hide_render = False
     else:
