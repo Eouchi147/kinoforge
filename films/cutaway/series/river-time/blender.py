@@ -44,12 +44,12 @@ FONT = os.path.join(root, 'ads', 'fonts', 'InstrumentSans.ttf')
 
 # rock beds, top-down (time runs down): name, thickness m, sRGB, pebble density, erodibility k (hard beds stand as cliffs)
 LAYERS = [('soil', 0.035, (0.30, 0.21, 0.13), 0.05, 1.0),
-          ('pale limestone', 0.13, (0.88, 0.82, 0.68), 0.04, 0.35),      # the ammonite
-          ('tan slope', 0.09, (0.80, 0.62, 0.42), 0.10, 1.8),
-          ('buff sandstone', 0.14, (0.93, 0.83, 0.62), 0.03, 0.40),
-          ('red shale', 0.12, (0.64, 0.27, 0.18), 0.10, 1.9),
-          ('orange sandstone', 0.17, (0.82, 0.44, 0.25), 0.06, 0.45),
-          ('grey limestone', 0.16, (0.68, 0.62, 0.57), 0.10, 0.35),      # the fish
+          ('pale limestone', 0.13, (0.90, 0.82, 0.66), 0.04, 0.25),      # the ammonite
+          ('tan slope', 0.09, (0.78, 0.56, 0.36), 0.10, 2.2),
+          ('buff sandstone', 0.14, (0.92, 0.76, 0.52), 0.03, 0.30),
+          ('red shale', 0.12, (0.62, 0.22, 0.14), 0.10, 2.3),
+          ('orange sandstone', 0.17, (0.84, 0.40, 0.20), 0.06, 0.35),
+          ('grey limestone', 0.16, (0.66, 0.58, 0.54), 0.10, 0.28),      # the fish
           ('green shale', 0.15, (0.50, 0.54, 0.44), 0.05, 0.9),           # the trilobite
           ('brown sandstone', 0.09, (0.54, 0.35, 0.22), 0.25, 0.5),
           ('dark schist', 1.0, (0.21, 0.20, 0.23), 0.35, 0.4)]
@@ -137,7 +137,9 @@ class Terrain:
         e = 0.0015; bx = [(-SX / 2 + e, -SY / 2 + e), (SX / 2 - e, -SY / 2 + e), (SX / 2 - e, SY / 2 - e), (-SX / 2 + e, SY / 2 - e)]
         zb = -DEPTH + 0.02; self.wv = [(x, y, zb) for x, y in bx] + [(x, y, 0.0) for x, y in bx]
         WFf = [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
-        self.water_mat = cw.mat_water(kit, 'rt_water', tint=(0.20, 0.60, 0.58), density=3.2, level=None)
+        self.water_mat = cw.mat_water(kit, 'rt_water', tint=(0.12, 0.62, 0.62), density=5.0, level=0.0, glow_amt=0.05)
+        for n in self.water_mat.node_tree.nodes:      # the kit bakes the level into the meniscus line: drive it instead
+            if n.bl_idname == 'ShaderNodeMath' and n.operation == 'SUBTRACT' and abs(n.inputs[1].default_value + 0.005) < 1e-6: self.lv_val.append((n.inputs[1], -0.005))
         self.water = cw.mk_mesh(bpy, 'rt_water', self.wv, WFf, [self.water_mat], None, False, kit.coll)
         self.s = -1.0; self.set(0.0)
 
@@ -154,7 +156,9 @@ class Terrain:
         me = self.walls.data; me.vertices.foreach_set('co', self._walls(H).astype(np.float32).ravel()); me.update()
         lv = level_at(s); wv = np.array(self.wv, np.float32); wv[4:, 2] = lv
         me = self.water.data; me.vertices.foreach_set('co', wv.ravel()); me.update()
-        for v in self.lv_val: v.default_value = lv
+        for v in self.lv_val:
+            if isinstance(v, tuple): v[0].default_value = lv + v[1]
+            else: v.default_value = lv
 
 
 def mat_land(kit, terr):
@@ -224,12 +228,12 @@ class Sky:
         tc = g.node('ShaderNodeTexCoord'); d = g.vmath('NORMALIZE', tc.outputs['Generated']); dz = g.sep(d)[2]
         dp = g.math('MAXIMUM', g.vmath('DOT_PRODUCT', d, sd), 0.0)
         hz = g.vmath('NORMALIZE', g.vmath('MULTIPLY', d, (1, 1, 0))); hd = g.math('MAXIMUM', g.vmath('DOT_PRODUCT', hz, sh), 0.0)
-        horizon = g.mix(self.warm, srgb((0.86, 0.86, 0.84)), srgb((0.98, 0.62, 0.36)))
-        away = g.mix(self.warm, srgb((0.62, 0.72, 0.86)), srgb((0.44, 0.38, 0.52)))
-        zenith = g.mix(self.warm, srgb((0.22, 0.42, 0.78)), srgb((0.12, 0.18, 0.38)))
+        horizon = g.mix(self.warm, srgb((0.90, 0.92, 0.94)), srgb((0.98, 0.62, 0.36)))
+        away = g.mix(self.warm, srgb((0.70, 0.80, 0.92)), srgb((0.46, 0.40, 0.54)))
+        zenith = g.mix(self.warm, srgb((0.26, 0.48, 0.84)), srgb((0.12, 0.18, 0.38)))
         horiz = g.mix(g.math('POWER', hd, 2.2), away, horizon)
         sky = g.mix(g.math('POWER', g.math('MAXIMUM', dz, 0.0), 0.55), horiz, zenith)
-        below = g.mix(g.math('MINIMUM', g.math('MULTIPLY', g.math('ABSOLUTE', g.math('MINIMUM', dz, 0.0)), 5.0), 1.0), horiz, srgb((0.20, 0.17, 0.18)))
+        below = g.mix(g.math('MINIMUM', g.math('MULTIPLY', g.math('ABSOLUTE', g.math('MINIMUM', dz, 0.0)), 1.6), 1.0), horiz, g.mix(self.warm, srgb((0.52, 0.54, 0.56)), srgb((0.40, 0.30, 0.30))))
         col = g.mix(g.math('GREATER_THAN', dz, 0.0), below, sky)
         glow = g.math('ADD', g.math('MULTIPLY', g.math('POWER', dp, 18.0), 0.6), g.math('MULTIPLY', g.math('POWER', dp, 1400.0), 30.0))
         col = g.mix(1.0, col, g.vmath('SCALE', srgb((1.0, 0.72, 0.45))[:3], scale=glow), 'ADD')
@@ -249,10 +253,10 @@ class Sky:
         # far floor
         mf = cw._new_mat(bpy, 'rt_floor'); g2 = G(mf.node_tree, kit); tc2 = g2.node('ShaderNodeTexCoord')
         r = g2.vmath('LENGTH', g2.vmath('MULTIPLY', tc2.outputs['Object'], (1, 1, 0)))
-        far = g2.math('MULTIPLY', g2.math('SUBTRACT', r, 2.6), 1 / 12.0, clamp=True)
-        pf = g2.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.30, 0.25, 0.22)), 'Roughness': 0.95})
+        far = g2.math('MULTIPLY', g2.math('SUBTRACT', r, 2.4), 1 / 7.0, clamp=True)
+        pf = g2.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.50, 0.46, 0.42)), 'Roughness': 0.95})
         self.fwarm = g2.value(1.0)
-        e = g2.node('ShaderNodeEmission', ins={'Color': g2.mix(self.fwarm, srgb((0.62, 0.62, 0.62)), srgb((0.62, 0.42, 0.30))), 'Strength': 0.30})
+        e = g2.node('ShaderNodeEmission', ins={'Color': g2.mix(self.fwarm, srgb((0.80, 0.84, 0.88)), srgb((0.80, 0.52, 0.36))), 'Strength': 0.55})
         mx2 = g2.node('ShaderNodeMixShader'); g2.link(g2.math('POWER', far, 0.7), mx2.inputs[0]); g2.link(pf, mx2.inputs[1]); g2.link(e, mx2.inputs[2]); cw._finish(g2, mx2)
         try: mf.cycles.emission_sampling = 'NONE'
         except Exception: pass
@@ -386,13 +390,13 @@ class Fossils:
     def __init__(self, kit, land):
         self.kit = kit; self.items = []
         eg = ex.Eggs(kit, land)
-        eg.ammonite('-Y', 0.0, -0.2, R=0.068, tilt=0.0); eg.trilobite('-Y', 0.0, -0.4, Lt=0.19, tilt=0.0)
+        eg.ammonite('-Y', 0.0, -0.2, R=0.095, tilt=0.0); eg.trilobite('-Y', 0.0, -0.4, Lt=0.25, tilt=0.0)
         bone = ex.mat_pbr(kit, 'rt_fishbone', (0.40, 0.30, 0.22), 0.4, coat=0.35, cavity=0.8); dark = ex.mat(kit, 'rt_eye', (0.06, 0.05, 0.05), 0.5)
-        fish = ex.part(kit, 'rt_fish', fish_pieces(), [bone, dark])
+        fish = ex.part(kit, 'rt_fish', fish_pieces(), [bone, dark]); fish.scale = (1.45, 1.45, 1.45)
         bpy = kit.bpy; O = bpy.data.objects
-        for nm, ob, spot, y0, z0, spin in (('ammonite', O['ex_ammonite'], O['ex_spot_ammonite'], -1.08, -0.10, 0.3),
-                                           ('fish', fish, None, -1.18, -0.54, 0.12),
-                                           ('trilobite', O['ex_trilobite'], O['ex_spot_trilobite'], -1.02, -0.915, -0.4)):
+        for nm, ob, spot, y0, z0, spin in (('ammonite', O['ex_ammonite'], O['ex_spot_ammonite'], -1.40, -0.10, 0.3),
+                                           ('fish', fish, None, -1.30, -0.54, 0.12),
+                                           ('trilobite', O['ex_trilobite'], O['ex_spot_trilobite'], -1.36, -0.915, -0.4)):
             P, n = wall_point(y0, z0); place_on_wall(ob, P, n, 0.006, spin)
             if spot is None:
                 ld = bpy.data.lights.new('rt_spot_fish', 'SPOT'); ld.spot_size = math.radians(30); ld.spot_blend = 0.75; ld.shadow_soft_size = 0.03; ld.color = (1.0, 0.9, 0.76)
@@ -417,7 +421,7 @@ def hiker(kit):
     bpy = kit.bpy; m = {k: ex.mat(kit, 'rt_h_' + k, c, r) for k, c, r in (('cloth', (0.20, 0.26, 0.34), 0.7), ('pack', (0.78, 0.16, 0.10), 0.6),
                                                                        ('skin', (0.78, 0.56, 0.42), 0.5), ('boot', (0.16, 0.12, 0.09), 0.8),
                                                                        ('hat', (0.86, 0.78, 0.58), 0.7), ('pole', (0.70, 0.70, 0.72), 0.3))}
-    root_ob = ex.empty(kit, 'rt_hiker')
+    root_ob = ex.empty(kit, 'rt_hiker'); root_ob.scale = (1.25, 1.25, 1.25)
     body = ex.part(kit, 'rt_hiker_body', [(*ex.ell((0, 0, 0.052), (0.0085, 0.0065, 0.016), 2), 0), (*ex.ell((-0.0085, 0, 0.055), (0.0055, 0.008, 0.012), 2), 1),
                                          (*ex.ell((0.001, 0, 0.0735), (0.0058, 0.0058, 0.0064), 2), 2), (*ex.ell((0.001, 0, 0.0785), (0.0085, 0.0085, 0.0018), 2), 3)],
                    [m['cloth'], m['pack'], m['skin'], m['hat']], root_ob)
@@ -453,7 +457,7 @@ def title(kit, cam, lens):
     cu.size = hh * 2 * 0.062; cu.space_character = 1.05
     ob = bpy.data.objects.new('rt_title', cu); kit.coll.objects.link(ob); ob.parent = cam.ob; ob.location = (0, hh * 0.70, -d)
     m = cw._new_mat(bpy, 'rt_title_mat'); g = G(m.node_tree, kit); a = g.value(0.0, 'rt_title_a')
-    e = g.node('ShaderNodeEmission', ins={'Color': srgb((1.0, 0.97, 0.90)), 'Strength': 0.95}); tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
+    e = g.node('ShaderNodeEmission', ins={'Color': srgb((0.10, 0.12, 0.16)), 'Strength': 1.0}); tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
     g.link(a, mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(e, mx.inputs[2]); cw._finish(g, mx)
     try: m.cycles.emission_sampling = 'NONE'
     except Exception: pass
@@ -472,6 +476,10 @@ def build(bpy, ctx):
     sky = Sky(kit); mg = mist(kit)
     fos = Fossils(kit, land)
     hiker(kit)
+    ex.deer(kit, land, -1.55, 0.75, 0.6, lift_at=4.2, lower_at=5.6)
+    ex.deer(kit, land, -1.35, 0.35, 2.2, lift_at=17.2, lower_at=19.0, name='rt_deer2', scale=0.8)
+    ex.butterflies(kit, land, [(1.35, -0.6), (-1.5, -0.9), (1.55, 0.4)])
+    ex.petals(kit, land, 24)
     cw.birds(kit, 5, center=(-0.05, 0.1), radius=0.85, height=0.42, size=0.045)
     sd_end = ex.sph(*SUN_END)
     shafts = ex.Shafts(kit, land, sd_end, beams=ex.Shafts.around((xc(1.2), 1.45, 0.10), 0.55, sd_end, 10), canopy=0, strength=1.8)
@@ -491,12 +499,12 @@ def shot_pose(name, u, t):
         pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
         return pos, tgt, 35.0, D, 16.0, False
     if name == 'ages':       # in front of the cut face, looking up the canyon; cranes down with the water
-        e = ex.ease(u); pos = ex.lerp((1.30, -2.95, 0.62), (1.10, -2.65, 0.10), e); tgt = ex.lerp((-0.80, -1.10, -0.20), (-0.45, -1.05, -0.80), e)
-        return pos, tgt, 32.0, float(np.linalg.norm(pos - tgt)), 8.0, True
+        e = ex.ease(u); pos = ex.lerp((0.75, -2.55, 0.42), (0.62, -2.40, -0.08), e); tgt = ex.lerp((-0.75, -1.38, -0.22), (-0.50, -1.33, -0.76), e)
+        return pos, tgt, 33.0, float(np.linalg.norm(pos - tgt)), 8.0, True
     # today: low three-quarter into the setting sun, a slow push toward the hiker
-    e = ex.ease(u); az = math.radians(-66 + 5 * e); el = math.radians(8.0 - 1.0 * e); D = 4.2 - 0.4 * e; tgt = np.array((0.20, -0.45, -0.28))
+    e = ex.ease(u); az = math.radians(-44 + 5 * e); el = math.radians(16.0 - 2.0 * e); D = 4.4 - 0.9 * e; tgt = ex.lerp((0.05, -0.25, -0.35), (0.35, -0.75, -0.25), e)
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
-    return pos, tgt, 30.0, float(np.linalg.norm(pos - np.array((0.85, -1.35, 0.0)))), 11.0, True
+    return pos, tgt, 32.0, float(np.linalg.norm(pos - np.array((0.80, -1.30, 0.0)))), 11.0, True
 
 
 def frame(bpy, ctx, S, i, t):
