@@ -1,0 +1,14 @@
+{
+ "id": "style-cutaway-art-flat-vector",
+ "series": "Cutaway",
+ "title": "Cutaway look board: flat-vector",
+ "style": "cutaway",
+ "line": "cutaway-web",
+ "fps": 24,
+ "render_w": 1920,
+ "render_h": 1080,
+ "w": 1920,
+ "h": 1080,
+ "duration": 40,
+ "note": "Look board of the meadow example in pure 2D: a flat vector cross-section drawn on a canvas in code (index.html + scene.js), a pure function of time. Labels, title and timings come from spec.json and cues.json (copies of films/cutaway/meadow). No Blender, no images from models."
+}

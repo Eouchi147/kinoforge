@@ -1,0 +1,15 @@
+{
+ "id": "style-cutaway-art-papercraft",
+ "series": "Cutaway",
+ "title": "Cutaway look board: papercraft",
+ "style": "cutaway",
+ "line": "cutaway",
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "duration": 39.937,
+ "note": "Look board frame of the meadow example with art direction papercraft (films/styles/cutaway/art/papercraft.py)."
+}
