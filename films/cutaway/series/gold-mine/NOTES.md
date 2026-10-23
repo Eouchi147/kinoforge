@@ -75,7 +75,7 @@ no music, no voice.
 | --- | --- | --- |
 | 0.0 to 6.0 | night on the mountain, wide | soft mountain wind in pines, distant crickets; an owl once around 2.0 |
 | 0.6 to 5.4 | miner walks across the gravel yard into the entrance | slow footsteps on gravel, a lantern handle creaking |
-| 1.5 to 10.5 | ore cart rolls along the top gallery | iron wheels on rails, low rumble (muffled until 6.0, close after) ; a soft clunk when it stops at 10.5 |
+| 1.5 to 10.5 | ore cart rolls along the top gallery | iron wheels on rails, low rumble (muffled until 6.0, close after); a soft clunk when it stops at 10.5 |
 | 6.0 | cut inside the mountain | wind drops away; cave room tone, water drips (every 1 to 2 s) |
 | 6.05, 7.2, 8.35, 9.5, 10.65, 11.8, 12.95 | digger 1 pick blows (middle gallery) | pick on rock, medium distance |
 | 6.45, 7.85, 9.25, 10.65, 12.05, 13.45 | digger 2 pick blows | pick on rock, a little further away |
@@ -91,15 +91,42 @@ no music, no voice.
 
 ## Render cost (measured on Sam's Mac, M4 GPU, METAL, 720x1280, 20 spp)
 
-MEASURE_PLACEHOLDER
+| Job | Frames | Result |
+| --- | --- | --- |
+| r4 chunk, the costliest part (deep gallery strike, cave, pool, sparks) | 262-267 (6 frames, one Blender process) | **5.5 s/frame** |
+| single-frame check jobs, r3 and r4 (include per-job startup) | 30, 120, 230, 270, 300, 400, 470 | 2.9 to 6.8 s/frame (exteriors 2.9 to 5.7, cave close-ups 6.2 to 6.8) |
+| scene build | | 0.5 s on the Mac (3 s on the 2-core chat box) |
+
+Estimate for the whole film: about 480 x 4.5 s = 36 min on the M4 (well under the 15 s/frame target).
 
 Settings: 20 spp, adaptive (threshold 0.04), OIDN denoise, max bounces 4 (diffuse 1, glossy 1, transmission 4), no
 volumes (fog and haze are cards), no motion blur, compositor bloom and vignette.
 
 ## Check stills
 
-Mac lane rounds `out/gold-mine-check1..3` (on Sam's Mac, `Video Production/kinoforge-render/out/`).
+Mac lane rounds `out/gold-mine-check1` to `check5` (on Sam's Mac, `Video Production/kinoforge-render/out/`). Best stills:
+`check3/frames/00300.png` (the bats burst out of the cave) and `check4/frames/00470.png` (the closing image).
+
+- r1: layout and light worked; the faces read as flat felt, the pool was black, the strike was too far away.
+- r2: rock fractures added (too strong: crazy paving); lumpy cave and stalactites; a closer final frame for the strike.
+- r3: subtle fractures, the pool lets light reach its bed, bigger cave bats. The bats outside were lost against the trees.
+- r4: the bats outside rise over the ridge toward the moon (bigger, faster); darker floor; softer raking light.
+- r5: the floor glow starts 7 m out; the slabs beside the block were still there (the raking lights pooled on the floor).
+- r6: the floor is unlit (emission only), so the side lights cannot pool on it.
 
 ## Weak spots (honest)
 
-WEAK_PLACEHOLDER
+- **The rock faces are pale moonlit blue-grey.** The fractures and mottling are a shader patch (`rock_face`), not geometry.
+  At the end of the crane, the face between the gallery and the vein is a calm, plain area.
+- **The figures are primitives** (ellipsoids and tubes, 8.5 cm tall). They read at phone size in shot 2 only; in the
+  wide shots they are specks with lamps.
+- **The galleries are boxes behind capsule-shaped openings.** The rounded ends are a cutaway convention, not real mine
+  profiles. The timber sets are plain sticks.
+- **The bats are storybook-sized** (the outside ones at 3.4x) and simple shapes. At the end they read as a flock of dark
+  specks rising toward the moon, not as detailed bats.
+- **The strike is small on screen.** The climax rests on the flash, the bloom and the sparks (best around frames 266 to 280).
+  The sound must carry it.
+- **Continuity cheat:** the miner who walks in during shot 1 is not followed inside. The cart stops at the shaft at 10.5 s
+  and is not unloaded.
+- **The yard boulders look pale,** almost like snow lumps, under the moon.
+- **The moon is set per shot.** Its position on screen differs between shot 1 and shot 3 on purpose (each frames its shot).
