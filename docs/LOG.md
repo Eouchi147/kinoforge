@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Cutaway line, first part: `films/lib/cutaway/` (spec-driven engine on the kit and the cinematic extras: presets for sets, eggs by depth, animals, eight camera presets, labels and numbers set in code; `tools/validate.py`, `tools/stills.py`, `tools/cues_estimate.py`) and the example film `films/cutaway/meadow/` (40 s, estimated cues), proven locally at 400 px; runner stills next. Free.
 - Sam (22 Oct, 20:24 Toronto): loves Cutaway and wants it in the KINOFORGE studio; asked for a soul and memory document so any agent (he uses Meta's Muse Code) can take over at the same quality, with harness research and the system relying on the build, not the model. Two builders started: the soul, memory, playbooks and an enforced verify gate (CI); Cutaway as a studio style and a spec-driven director line.
 - Free-model daily limit reset: Salamis resumed from the picture spec stage on the free director (film.yml, 00:21 UTC); a check-in is scheduled at 01:22 UTC; Great Emu War follows only after Salamis.
 

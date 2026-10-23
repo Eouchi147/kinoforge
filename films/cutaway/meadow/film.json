@@ -1,0 +1,15 @@
+{
+ "id": "cutaway-line-meadow",
+ "series": "Cutaway",
+ "title": "What Lies Under a Meadow",
+ "style": "cutaway",
+ "line": "cutaway",
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "duration": 39.937,
+ "note": "Example film of the Cutaway production line: picture built from spec.json + cues.json by films/lib/cutaway (blender.py here is the line's generic scene). Cues are estimated (no narration yet)."
+}
