@@ -4,10 +4,10 @@
  "cap_usd": 0,
  "prep": {
   "voice": "kokoro|bm_george",
-  "voice_settings": {"speed": 0.92},
+  "voice_settings": {"speed": 0.85},
   "pad_bpm": 72,
   "title_line": 1,
-  "audition": {"lines": [0, 1, 4], "voices": ["kokoro|bm_george", "kokoro|bm_fable", "kokoro|bm_lewis", "kokoro|bm_daniel"]},
+  "audition": {"lines": [0, 1, 4], "voices": ["kokoro|af_heart", "kokoro|bf_emma", "kokoro|af_bella", "kokoro|bf_lily", "kokoro|am_puck", "kokoro|am_michael"], "_": "Round 2 (Sam 23 Oct 19:44: the four deep British male voices scare kids): warm, bright, smiling voices, slower."},
   "vo": [
    {"text": "This rock was once alive. Want to know how?"},
    {"text": "How does a dinosaur turn into stone?"},
