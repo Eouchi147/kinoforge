@@ -133,7 +133,7 @@ def mat_magma(kit, name, front=False, flow=0.25, base=3.0):
     return m
 
 
-def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.13, 0.12, 0.12), glow_col=(1.0, 0.38, 0.10), soft=1.6, scale=2.4):
+def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.17, 0.14, 0.12), glow_col=(1.0, 0.38, 0.10), soft=1.6, scale=2.4):
     """Smoke or steam card: a soft round puff broken by noise that evolves in t. Per-object colour drives it:
     R = opacity, G = darkness (steam to ash), B = glow from below (lava light)."""
     m = cw._new_mat(kit.bpy, name); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); oi = g.node('ShaderNodeObjectInfo'); t_val = ex.time_value(kit, g)
@@ -143,13 +143,13 @@ def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.13, 0.12, 0.12), glow_c
     fall = g.math('POWER', g.math('SUBTRACT', 1.0, r, clamp=True), soft)
     q = g.comb(g.math('MULTIPLY', gx, scale), g.math('MULTIPLY', gy, scale), g.math('MULTIPLY', oi.outputs['Random'], 40.0))
     n = g.noise(q, 1.6, 5.0, 0.62, '4D', g.math('ADD', g.math('MULTIPLY', t_val, 0.18), g.math('MULTIPLY', oi.outputs['Random'], 9.0)), distortion=0.4)
-    den = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.26), 3.0, clamp=True)
+    den = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.22), 3.4, clamp=True)
     a = g.math('MULTIPLY', g.math('MULTIPLY', fall, den), oc[0], clamp=True)
     col = g.mix(oc[1], srgb(steam), srgb(ash))
     shade = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.6), col, g.mix(0.5, col, (0, 0, 0), 'MULTIPLY'))
     df = g.node('ShaderNodeBsdfDiffuse', ins={'Color': shade})
-    em = g.node('ShaderNodeEmission', ins={'Color': srgb(glow_col)})
-    g.put(em, 'Strength', g.math('MULTIPLY', oc[2], g.math('MULTIPLY', g.math('SUBTRACT', 1.0, gy, clamp=True), 2.2)))
+    em = g.node('ShaderNodeEmission'); g.put(em, 'Color', g.mix(g.math('MINIMUM', oc[2], 1.0), g.mix(1.0, shade, (0.30, 0.26, 0.24), 'MULTIPLY'), srgb(glow_col)))
+    g.put(em, 'Strength', g.math('ADD', 0.35, g.math('MULTIPLY', oc[2], g.math('MULTIPLY', g.math('SUBTRACT', 1.0, gy, clamp=True), 2.2))))   # a little self light: no blue cast from the sky fill
     ad = g.node('ShaderNodeAddShader'); g.link(df, ad.inputs[0]); g.link(em, ad.inputs[1])
     tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
     g.link(a, mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(ad, mx.inputs[2]); cw._finish(g, mx)
@@ -304,7 +304,7 @@ def halo(kit, vent):
 
 def flock(kit, land, perches, seed=31):
     """Birds sitting in the crowns burst up and away from the cone at T_BIRDS, flapping hard, then gliding."""
-    bpy = kit.bpy; rng = np.random.default_rng(seed); mat = cw.mat_simple(kit, 'sv_bird', (0.07, 0.07, 0.08), 0.6); size = 0.026
+    bpy = kit.bpy; rng = np.random.default_rng(seed); mat = cw.mat_simple(kit, 'sv_bird', (0.07, 0.07, 0.08), 0.6); size = 0.040
     for k, (x, y, z) in enumerate(perches):
         body = cw.mk_mesh(bpy, f'sv_bird{k}', *cw._tube([(-size * 0.5, 0, 0), (0, 0, 0), (size * 0.45, 0, 0)], [size * 0.09, size * 0.13, size * 0.05], 6), [mat], None, True, kit.coll)
         wings = []
@@ -360,11 +360,11 @@ def build(bpy, ctx):
     # cut-face layering: the cone's own layers drape parallel to its flanks (nested, a stratovolcano), the old sea floor
     # below runs flat; an unconformity line at z = Z_OLD separates them (the kit's default flattens to the mean top height,
     # which turns a tall cone into one dark band)
-    Z_OLD = -1.05; wall = land.objects['walls']; nv = len(wall.data.vertices)
+    Z_OLD = -1.18; wall = land.objects['walls']; nv = len(wall.data.vertices)
     co = np.zeros(nv * 3); wall.data.vertices.foreach_get('co', co); z = co.reshape(-1, 3)[:, 2]
     dt = np.zeros(nv); wall.data.attributes['dtop'].data.foreach_get('value', dt)
-    skin = 0.68; flat = np.maximum(skin + (Z_OLD - z), skin)
-    core = 0.68 - np.abs(np.mod(dt - skin, 1.0) - 0.5)                  # ping-pong: nested bands with no jumps
+    skin = 0.68; flat = np.minimum(dt, np.maximum(skin + (Z_OLD - z), skin))   # equals dt under the sea floor (no seam)
+    core = np.maximum(skin - (dt - skin) * 0.5, 0.45)                   # mirrored, continuous: no steps between wall rows
     wc = np.clip((z - (Z_OLD - 0.18)) / 0.36, 0, 1); wc = wc * wc * (3 - 2 * wc)
     sdn = np.where(dt < skin, dt, core * wc + flat * (1 - wc))
     wall.data.attributes['sd'].data.foreach_set('value', sdn.astype(np.float32))
@@ -457,7 +457,7 @@ def build(bpy, ctx):
     def crater_p(t):
         s1 = sm(*T_SMOKE, t); e = sm(T_ERUPT - 0.3, T_ERUPT + 2.0, t)
         return {'period': 5.0 - 1.0 * e, 'rise': 0.45 + 0.45 * s1 + 1.0 * e, 'spread': 0.05 + 0.10 * e, 'size': 0.16 + 0.10 * s1 + 0.38 * e, 'grow': 1.6 + 0.8 * e,
-                'opacity': 0.45 + 0.35 * s1 + 0.25 * e, 'dark': 0.08 + 0.60 * s1 + 0.30 * e, 'glow': 0.9 * e, 'wind': (0.14 + 0.18 * e, 0.30 + 0.35 * e)}
+                'opacity': 0.55 + 0.40 * s1 + 0.25 * e, 'dark': 0.08 + 0.60 * s1 + 0.30 * e, 'glow': 0.9 * e, 'wind': (0.14 + 0.18 * e, 0.30 + 0.35 * e)}
     plume = Plume(kit, 'sv_plume', smoke_m, vent + np.array([0, 0.03, 0.0]), 18, crater_p, 41)
     steam_m = mat_card(kit, 'sv_steam', steam=(0.96, 0.95, 0.95), ash=(0.80, 0.78, 0.78), glow_col=(1.0, 0.45, 0.18))
     def steam_p(t):
