@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Seasons loop takes the art directions: opt-in hook in its blender.py (unchanged without a look: frame 100 identical to the pixel), `_adapter.py`, `make_seasons.py`, board folders `films/cutaway/looks/seasons-{fable,night-glow,stained-glass}/` (frames 40 spring, 100 summer, 260 winter). US$0.
 - Seasons loop: NOTES.md from the builder porting the art directions to the loop (work in progress). US$0.
 - Cutaway look board done: twelve art directions (fable, night-glow, stained-glass, papercraft, claymation, pixel, risograph, storybook-ink, blueprint, chalkboard, engraving in `films/styles/cutaway/art/`, flat-vector as a 2D web film in `films/cutaway/looks/flat-vector/`) rendered full size on the Mac lane (meadow frames 470 and 830, about 10 to 60 s a frame) and sent to Sam with a board image. Guide for Sam: Claude doc "Cutaway: where to take it and how it earns" (lanes, money with sources, the Fable music film plan). Research with sources: `docs/research/CUTAWAY_USES_AND_MUSIC_2026-10.md`. Weak: risograph halftone too coarse, claymation close to the base look. US$0.
 - Sam (17:32): did not like the cinematic test; the seasons loop (fixed view, no cuts, lively world) is the base. Verdict in CRAFT.md and SOUL.md. Art directions are being ported to the seasons loop (adapter in `films/styles/cutaway/art/`). Board so far on the Mac (meadow frames 470 and 830): flat-vector, fable, night-glow, stained-glass sent to Sam. US$0.
