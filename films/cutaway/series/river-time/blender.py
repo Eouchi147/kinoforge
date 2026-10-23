@@ -137,7 +137,7 @@ class Terrain:
         e = 0.0015; bx = [(-SX / 2 + e, -SY / 2 + e), (SX / 2 - e, -SY / 2 + e), (SX / 2 - e, SY / 2 - e), (-SX / 2 + e, SY / 2 - e)]
         zb = -DEPTH + 0.02; self.wv = [(x, y, zb) for x, y in bx] + [(x, y, 0.0) for x, y in bx]
         WFf = [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
-        self.water_mat = cw.mat_water(kit, 'rt_water', tint=(0.12, 0.62, 0.62), density=5.0, level=0.0, glow_amt=0.05)
+        self.water_mat = cw.mat_water(kit, 'rt_water', tint=(0.06, 0.50, 0.54), density=9.0, level=0.0, glow_amt=0.04)
         for n in self.water_mat.node_tree.nodes:      # the kit bakes the level into the meniscus line: drive it instead
             if n.bl_idname == 'ShaderNodeMath' and n.operation == 'SUBTRACT' and abs(n.inputs[1].default_value + 0.005) < 1e-6: self.lv_val.append((n.inputs[1], -0.005))
         self.water = cw.mk_mesh(bpy, 'rt_water', self.wv, WFf, [self.water_mat], None, False, kit.coll)
@@ -186,12 +186,10 @@ def mat_land(kit, terr):
     radius = g.math('MULTIPLY', g.math('MULTIPLY', pden, 0.42), g.math('MULTIPLY_ADD', rr[0], 0.8, 0.4))
     peb = g.math('MULTIPLY', g.math('SUBTRACT', radius, vp.outputs['Distance']), 25.0, clamp=True)
     col = g.mix(peb, col, g.mix(rr[1], srgb((0.40, 0.38, 0.36)), srgb((0.80, 0.76, 0.68))))
-    # ledges: flat rock inside the canyon gathers pale dust and a little scrub
+    # ledges: flat rock inside the canyon gathers pale dust
     inside = g.math('LESS_THAN', sx[2], -0.03)
     ledge = g.math('MULTIPLY', g.math('MULTIPLY', g.math('SUBTRACT', nz, 0.80), 6.0, clamp=True), inside)
-    scrub = g.math('GREATER_THAN', g.noise(pos, 26.0, 3.0).outputs['Fac'], 0.60)
     col = g.mix(g.math('MULTIPLY', ledge, 0.35), col, srgb((0.86, 0.76, 0.60)))
-    col = g.mix(g.math('MULTIPLY', g.math('MULTIPLY', ledge, scrub), 0.75), col, srgb((0.34, 0.40, 0.18)))
     # grass on the plateau that the river has not reached
     nb = g.noise(pos, 1.6, 3.0); nf = g.noise(pos, 45.0, 4.0)
     ground = g.mix(nb.outputs['Fac'], srgb((0.22, 0.32, 0.11)), srgb((0.26, 0.42, 0.12)))
@@ -497,8 +495,8 @@ def shot_pose(name, u, t):
         pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
         return pos, tgt, 35.0, D, 16.0, False
     if name == 'ages':       # in front of the cut face, looking up the canyon; cranes down with the water
-        e = ex.ease(u); pos = ex.lerp((0.75, -2.55, 0.42), (0.62, -2.40, -0.08), e); tgt = ex.lerp((-0.75, -1.38, -0.22), (-0.50, -1.33, -0.76), e)
-        return pos, tgt, 33.0, float(np.linalg.norm(pos - tgt)), 8.0, True
+        e = ex.ease(u); pos = ex.lerp((0.88, -2.80, 0.40), (0.72, -2.62, -0.06), e); tgt = ex.lerp((-0.70, -1.38, -0.16), (-0.50, -1.33, -0.72), e)
+        return pos, tgt, 26.0, float(np.linalg.norm(pos - tgt)), 8.0, True
     # today: low three-quarter into the setting sun, a slow push toward the hiker
     e = ex.ease(u); az = math.radians(-80 + 5 * e); el = math.radians(13.0 - 2.0 * e); D = 5.1 - 0.8 * e; tgt = ex.lerp((0.0, -0.30, -0.36), (0.22, -0.70, -0.30), e)
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])

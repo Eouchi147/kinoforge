@@ -19,7 +19,7 @@ No words on screen apart from the title. Time is shown only by the sun and the l
 | # | Shot | Time | Camera | Job |
 | --- | --- | --- | --- | --- |
 | 1 | then | 0.0 to 6.0 s (frames 0-143) | Wide three-quarter, 35 mm, f/16. A slow push (6.3 to 5.8 m) and a 4 degree arc. | Where we are: a flat world and a little stream. Time begins to race at 2.6 s and the cut starts at 3.2 s, so the change starts inside the wide shot. |
-| 2 | ages | 6.0 to 14.0 s (frames 144-335) | In front of the cut face, looking into the canyon at its west wall, 33 mm, f/8. The camera cranes down 0.5 m as the water sinks. | **Cut reason:** change of scale. We go close to see the fossils being bared one by one. The crane follows the river down through the beds. |
+| 2 | ages | 6.0 to 14.0 s (frames 144-335) | In front of the cut face, looking into the canyon at its west wall, 26 mm, f/8. The camera cranes down 0.5 m as the water sinks. | **Cut reason:** change of scale. We go close to see the fossils being bared one by one. The crane follows the river down through the beds. |
 | 3 | today | 14.0 to 20.0 s (frames 336-479) | Low three-quarter into the setting sun, 32 mm, f/11. A slow push toward the hiker's rim (4.4 to 3.5 m) and a 5 degree arc. | **Cut reason:** change of time (time has stopped; this is now). The result we can name: the canyon, with a person for scale. |
 
 Every move is eased in and out and slow (under 10 % of frame per second).
