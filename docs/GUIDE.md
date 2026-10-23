@@ -30,8 +30,9 @@ manual in `docs/manual/`.
 ## Where things are
 | Want to | Go to |
 | --- | --- |
-| Use the studio | The web studio (kinoforge-studio on Vercel): Desk, Library, Create, Styles, Jobs, Sound, Manual, Settings |
+| Use the studio | The web studio (kinoforge-studio on Vercel): Desk, Library, Create, Styles, Jobs, Sound, Spend, Manual, Settings |
 | See every film | Library in the studio, or the `kino-films` release on GitHub (Eouchi147/rc-render) |
+| See what a video cost | Spend in the studio (or a film's Spend tab, or type `spend <film>`): every paid call, measured or estimated, and the free render time with what it would be worth |
 | Know what is happening now | `docs/STATUS.md` (now) and `docs/LOG.md` (every change, newest first) |
 | Know Sam's taste | `docs/SOUL.md` and `films/director/CRAFT.md` |
 | Recreate any style or film | `docs/manual/` (written for AI agents, step by step) |

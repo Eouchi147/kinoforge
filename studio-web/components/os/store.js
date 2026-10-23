@@ -8,7 +8,7 @@ export const useOS = () => useContext(OSContext);
 
 // ------------------------------------------------------------------ routes: #/<app>/<rest>?<query>
 const LEGACY = { director: 'create', films: 'library', renders: 'jobs', setup: 'settings', styles: 'styles' };
-export const APP_IDS = ['desk', 'library', 'create', 'styles', 'jobs', 'sound', 'manual', 'settings'];
+export const APP_IDS = ['desk', 'library', 'create', 'styles', 'jobs', 'sound', 'spend', 'manual', 'settings'];
 
 export function parseHash(hash) {
   const raw = String(hash || '');

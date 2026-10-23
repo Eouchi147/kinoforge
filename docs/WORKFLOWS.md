@@ -153,3 +153,6 @@ ffprobe -v error -show_entries format=duration -of csv=p=0 ad.mp4               
 ```
 Look at the sheet and at least one moving clip. Reject warping, melting, extra fingers, unreadable or wrong text,
 claims outside the policy, and anything that could read as alcohol or pork for a halal-friendly client.
+
+## Spend records (23 Oct 2026)
+rc-render `films.yml` (join) and `remux.yml` end with a `spend record` step: it appends the run (id, jobs, seconds, billable minutes) to `<film id>-run.json` in release `kino-films`. `python3 tools/spend.py --fetch-runs` reads them into `data/spend/runs.json`; `python3 tools/spend.py` rebuilds `studio-web/public/data/spend.json`. Paid calls go through `films/lib/spend_log.py` into the film's `ledger.json`.

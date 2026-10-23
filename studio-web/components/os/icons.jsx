@@ -12,6 +12,7 @@ export const Icon = {
   sound: (p) => <S {...p}><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2" /></S>,
   manual: (p) => <S {...p}><path d="M12 6.5c-2-1.6-4.6-2-8-2v14c3.4 0 6 .4 8 2 2-1.6 4.6-2 8-2v-14c-3.4 0-6 .4-8 2zM12 6.5v14" /></S>,
   settings: (p) => <S {...p}><path d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" /><circle cx="8" cy="17" r="2" /></S>,
+  spend: (p) => <S {...p}><path d="M6 3.5h12v17l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4-2 1.4z" /><path d="M9 8.5h6M9 12h6M9 15.5h3.5" /></S>,
   more: (p) => <S {...p}><circle cx="6" cy="12" r="1.2" /><circle cx="12" cy="12" r="1.2" /><circle cx="18" cy="12" r="1.2" /></S>,
   search: (p) => <S {...p}><circle cx="10.5" cy="10.5" r="6" /><path d="m15 15 5 5" /></S>,
   play: (p) => <S {...p}><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none" /></S>,
@@ -26,4 +27,4 @@ export const Icon = {
   lock: (p) => <S {...p}><rect x="5" y="10.5" width="14" height="9.5" rx="1.5" /><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" /></S>,
   unlock: (p) => <S {...p}><rect x="5" y="10.5" width="14" height="9.5" rx="1.5" /><path d="M8 10.5V8a4 4 0 0 1 7.7-1.5" /></S>,
 };
-export const APP_ICON = { desk: Icon.desk, library: Icon.library, create: Icon.create, styles: Icon.styles, jobs: Icon.jobs, sound: Icon.sound, manual: Icon.manual, settings: Icon.settings };
+export const APP_ICON = { desk: Icon.desk, library: Icon.library, create: Icon.create, styles: Icon.styles, jobs: Icon.jobs, sound: Icon.sound, spend: Icon.spend, manual: Icon.manual, settings: Icon.settings };

@@ -12,6 +12,7 @@ export const APPS = [
   { id: 'styles', name: 'Styles', hint: 'House styles and Cutaway looks', words: 'styles looks art directions boards compare' },
   { id: 'jobs', name: 'Jobs', hint: 'Builds and render runs', words: 'jobs builds runs renders running queue actions' },
   { id: 'sound', name: 'Sound', hint: 'Music library and sound tools', words: 'sound music score audio voice narration' },
+  { id: 'spend', name: 'Spend', hint: 'What every video cost, line by line', words: 'spend spent spending cost costs paid money budget ledger receipts price' },
   { id: 'manual', name: 'Manual', hint: 'The guide and the AI manual', words: 'manual guide docs help instructions recipes how' },
   { id: 'settings', name: 'Settings', hint: 'Connections, money caps, lock', words: 'settings setup connections money caps keys lock passcode' },
 ];
@@ -22,6 +23,7 @@ const VERB_NEW = /^(new|make|create|start|build|begin)$/;
 const VERB_OPEN = /^(open|play|watch|view|see)$/;
 const VERB_SHOW = /^(show|list|go|goto|browse|all)$/;
 const VERB_MANUAL = /^(manual|help|how|docs|doc|guide|recipe|instructions)$/;
+const VERB_SPEND = /^(spend|spent|spending|cost|costs)$/;
 
 export const norm = (s) => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9:$.\s-]+/g, ' ').replace(/\s+/g, ' ').trim();
 const words = (s) => norm(s).split(' ').filter(Boolean);
@@ -119,6 +121,7 @@ const SHOW = [
   [/^(jobs?|builds?|runs?|renders?|running|queue)$/, 'jobs', 'Show jobs and render runs'],
   [/^(music|sound|sounds|score|audio)$/, 'sound', 'Show the sound room'],
   [/^(manual|guide|docs)$/, 'manual', 'Open the manual'],
+  [/^(spend|spending|costs?)$/, 'spend', 'Show the spend'],
   [/^(money|settings|caps?|connections?|setup|lock)$/, 'settings', 'Open settings'],
   [/^(desk|home|today)$/, 'desk', 'Go to the desk'],
 ];
@@ -154,6 +157,12 @@ export function interpret(text, ctx = {}) {
     return doc
       ? { type: 'doc', id: doc.path, label: `Manual: ${doc.title}`, hint: doc.path, route: `manual/${doc.path}` }
       : { type: 'action', id: 'manual-search', label: `Search the manual for "${q}"`, hint: 'Full text', route: `manual?q=${encodeURIComponent(q)}` };
+  }
+  if (VERB_SPEND.test(v)) {
+    const q = rest.filter((w) => !STOP.has(w) && !/^(on|for|of|per|what|did|was|much|how)$/.test(w));
+    const f = q.length ? bestMatch(q, films, (x) => `${x.title} ${x.id} ${x.series || ''}`) : null;
+    if (f) return { type: 'film', id: f.id, label: `Spend on ${f.title}`, hint: 'Every paid line and the render time', route: `library/${f.id}?tab=spend` };
+    return { type: 'app', id: 'spend', label: 'Show the spend', hint: 'Totals, by month, by vendor, every video', route: 'spend' };
   }
   if (VERB_OPEN.test(v) || v === 'approve' || v === 'review') {
     const q = rest.filter((w) => !STOP.has(w));

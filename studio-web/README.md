@@ -14,26 +14,28 @@ components/os/Palette.jsx    the command bar (Ctrl K or Cmd K, "/" or the search
 components/os/Markdown.jsx   a safe Markdown renderer (builds React elements, never HTML strings)
 components/os/ui.jsx         shared pieces: Head, Panel, Poster, FilmTile, Seg, Note, Led
 components/os/icons.jsx      line icons
-components/os/apps/*.jsx     the apps: Desk, Library, Create, Styles, Jobs, Sound, Manual, Settings
+components/os/apps/*.jsx     the apps: Desk, Library, Create, Styles, Jobs, Sound, Spend, Manual, Settings
 lib/commands.mjs             the command bar's brain (plain words to actions, search); pure, tested
 lib/catalog.mjs              the catalog made ready for the interface; pure, tested
+lib/spend.mjs                spend per video (public/data/spend.json) made ready for the interface; pure, tested
 lib/assets.mjs               asset URLs (public paths or release assets streamed through /api/media); pure, tested
 lib/catalog.fixture.json     sample data used only when public/data/catalog.json is missing (Settings says so)
 lib/github.js                GitHub reads and the one write helper (commitFile)
 lib/gate.js                  the write lock (STUDIO_PASSCODE)
 tests/flow.mjs               the server flow against a mock OpenRouter (no key, no money, no GitHub writes)
 tests/commands.test.mjs      node --test: command bar, catalog, assets
+tests/spend.test.mjs         node --test: the spend loader and the spend commands
 ```
 
 The data the OS shows comes from `public/data/catalog.json` (written by `tools/catalog.py`, owned by the manual
-writers; never edit it by hand) plus live reads: studio jobs, render runs, reviews, the manual pages (fetched from the
+writers; never edit it by hand), `public/data/spend.json` (written by `tools/spend.py`: spend per video) plus live reads: studio jobs, render runs, reviews, the manual pages (fetched from the
 public repo at request time), and the director's status.
 
 ## Routes (the address bar)
 
 Hash routes, so every view has a link Sam can keep: `#/desk`, `#/library`, `#/library/<film id>?tab=review|recipe|facts`,
 `#/create?what=loop&line=cutaway&format=9:16&look=fable&length=30&cap=2&music=<id>`, `#/styles`, `#/styles/looks`,
-`#/styles/<style id>`, `#/styles/compare/<a>/<b>`, `#/jobs`, `#/jobs/<job id>`, `#/sound`, `#/manual/<docs path>`,
+`#/styles/<style id>`, `#/styles/compare/<a>/<b>`, `#/jobs`, `#/jobs/<job id>`, `#/sound`, `#/spend`, `#/spend/<entry id>`, `#/library/<film id>?tab=spend`, `#/manual/<docs path>`,
 `#/manual?q=<words>`, `#/settings`. Old links (`#job/<id>`, `#films`, `#director`, `#setup`) still open the right app.
 
 ## API routes
@@ -98,7 +100,7 @@ Commands are plain words parsed in `lib/commands.mjs`: `interpret()` turns the w
 `{ type, id, label, hint, route }`, then add a case to `tests/commands.test.mjs`. Today it understands: `new` or `make`
 (with what, line, format, look, length like `30 s` or `2 min`, `cap $3`, `no music`), `open`, `play` or `watch`,
 `approve` or `review` a film, `show` (looks, styles, films, jobs, music, manual, money), `<words> films`, `compare`
-two looks, `use` a look, `manual` or `help` plus words, and any app name.
+two looks, `spend` or `spend <film>`, `use` a look, `manual` or `help` plus words, and any app name.
 
 ## House rules in the interface
 

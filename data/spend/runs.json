@@ -1,0 +1,2913 @@
+{
+ "about": "GitHub Actions job times per run, fetched by tools/spend.py --fetch-runs (gh api, read only). Do not edit by hand.",
+ "runs": {
+  "39784277702": {
+   "id": 39784277702,
+   "repo": "Eouchi147/kinoforge",
+   "workflow": "film.yml",
+   "name": "film",
+   "event": "push",
+   "status": "completed",
+   "conclusion": "cancelled",
+   "created_at": "2026-10-22T13:08:40Z",
+   "run_started_at": "2026-10-22T13:08:40Z",
+   "updated_at": "2026-10-22T13:21:47Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-22T13:08:43Z",
+     "completed_at": "2026-10-22T13:08:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 14
+    },
+    {
+     "name": "make",
+     "started_at": "2026-10-22T13:08:59Z",
+     "completed_at": "2026-10-22T13:21:46Z",
+     "conclusion": "cancelled",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 767
+    },
+    {
+     "name": "finish",
+     "started_at": "2026-10-22T13:21:47Z",
+     "completed_at": "2026-10-22T13:21:47Z",
+     "conclusion": "cancelled",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 0
+    },
+    {
+     "name": "render",
+     "started_at": "2026-10-22T13:21:47Z",
+     "completed_at": "2026-10-22T13:21:47Z",
+     "conclusion": "skipped",
+     "labels": [],
+     "seconds": 0
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39790691570": {
+   "id": 39790691570,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-22T13:52:07Z",
+   "run_started_at": "2026-10-22T13:52:07Z",
+   "updated_at": "2026-10-22T14:53:04Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-22T13:52:11Z",
+     "completed_at": "2026-10-22T13:52:16Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 5
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T13:53:56Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 98
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T13:55:43Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 205
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T13:54:42Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 144
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T14:10:53Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1115
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T14:36:51Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2673
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T14:14:04Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1306
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T13:54:14Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 116
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T14:13:33Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1275
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T13:54:27Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 129
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T14:21:21Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1743
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T13:53:41Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 83
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T13:55:00Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 162
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T14:11:45Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1167
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-22T13:52:18Z",
+     "completed_at": "2026-10-22T13:56:04Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 226
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-22T14:36:53Z",
+     "completed_at": "2026-10-22T14:44:54Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 481
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39797513657": {
+   "id": 39797513657,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-22T14:39:02Z",
+   "run_started_at": "2026-10-22T14:39:02Z",
+   "updated_at": "2026-10-22T16:23:20Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-22T14:39:05Z",
+     "completed_at": "2026-10-22T14:39:08Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:41:26Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 135
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T15:17:06Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2275
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T15:05:32Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1581
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T15:29:20Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3009
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T15:02:29Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1398
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:42:51Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 220
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:41:33Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 142
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:41:45Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 154
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-22T14:39:12Z",
+     "completed_at": "2026-10-22T15:30:29Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3077
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:42:53Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 222
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:55:08Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 957
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T15:04:36Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1525
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:43:09Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 238
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:42:35Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 204
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:41:55Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 164
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-22T14:39:11Z",
+     "completed_at": "2026-10-22T14:42:46Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 215
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-22T15:55:13Z",
+     "completed_at": "2026-10-22T16:23:19Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1686
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39798701933": {
+   "id": 39798701933,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-22T14:46:55Z",
+   "run_started_at": "2026-10-22T14:46:55Z",
+   "updated_at": "2026-10-22T17:26:00Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-22T14:46:59Z",
+     "completed_at": "2026-10-22T14:47:05Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 6
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-22T14:47:08Z",
+     "completed_at": "2026-10-22T15:17:39Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1831
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-22T14:47:08Z",
+     "completed_at": "2026-10-22T14:50:32Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 204
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-22T14:47:08Z",
+     "completed_at": "2026-10-22T14:55:59Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 531
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-22T14:47:08Z",
+     "completed_at": "2026-10-22T15:03:19Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 971
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-22T14:47:08Z",
+     "completed_at": "2026-10-22T14:50:36Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 208
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-22T14:47:08Z",
+     "completed_at": "2026-10-22T14:59:27Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 739
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-22T14:55:25Z",
+     "completed_at": "2026-10-22T14:58:48Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 203
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-22T14:52:18Z",
+     "completed_at": "2026-10-22T14:55:24Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 186
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-22T14:53:24Z",
+     "completed_at": "2026-10-22T14:58:09Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 285
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-22T14:50:33Z",
+     "completed_at": "2026-10-22T14:53:23Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 170
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-22T14:58:30Z",
+     "completed_at": "2026-10-22T15:03:53Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 323
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-22T14:48:59Z",
+     "completed_at": "2026-10-22T14:52:17Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 198
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-22T14:56:01Z",
+     "completed_at": "2026-10-22T14:58:29Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 148
+    },
+    {
+     "name": "part 16",
+     "started_at": "2026-10-22T14:50:38Z",
+     "completed_at": "2026-10-22T14:53:50Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 192
+    },
+    {
+     "name": "part 19",
+     "started_at": "2026-10-22T14:53:52Z",
+     "completed_at": "2026-10-22T14:57:00Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 188
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-22T14:57:02Z",
+     "completed_at": "2026-10-22T14:59:33Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 151
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-22T14:58:11Z",
+     "completed_at": "2026-10-22T15:27:50Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1779
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-22T14:58:22Z",
+     "completed_at": "2026-10-22T15:01:17Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 175
+    },
+    {
+     "name": "part 17",
+     "started_at": "2026-10-22T14:55:10Z",
+     "completed_at": "2026-10-22T14:58:21Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 191
+    },
+    {
+     "name": "part 18",
+     "started_at": "2026-10-22T14:58:42Z",
+     "completed_at": "2026-10-22T15:01:51Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 189
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-22T15:54:52Z",
+     "completed_at": "2026-10-22T16:47:01Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3129
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39800373137": {
+   "id": 39800373137,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-22T14:58:00Z",
+   "run_started_at": "2026-10-22T14:58:00Z",
+   "updated_at": "2026-10-22T16:09:41Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-22T14:58:57Z",
+     "completed_at": "2026-10-22T14:59:00Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-22T14:59:40Z",
+     "completed_at": "2026-10-22T15:02:05Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 145
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-22T15:04:30Z",
+     "completed_at": "2026-10-22T15:48:37Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2647
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-22T15:04:09Z",
+     "completed_at": "2026-10-22T15:56:12Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3123
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-22T15:05:34Z",
+     "completed_at": "2026-10-22T15:17:00Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 686
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-22T15:05:31Z",
+     "completed_at": "2026-10-22T15:09:36Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 245
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-22T14:59:29Z",
+     "completed_at": "2026-10-22T15:03:20Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 231
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-22T15:02:31Z",
+     "completed_at": "2026-10-22T15:08:10Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 339
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-22T15:01:53Z",
+     "completed_at": "2026-10-22T15:04:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 134
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-22T15:12:31Z",
+     "completed_at": "2026-10-22T15:15:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 156
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-22T15:05:40Z",
+     "completed_at": "2026-10-22T15:07:10Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 90
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-22T15:09:38Z",
+     "completed_at": "2026-10-22T15:36:18Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1600
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-22T14:59:13Z",
+     "completed_at": "2026-10-22T15:22:49Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1416
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-22T15:08:08Z",
+     "completed_at": "2026-10-22T15:10:24Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 136
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-22T15:10:32Z",
+     "completed_at": "2026-10-22T15:12:25Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 113
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-22T15:57:42Z",
+     "completed_at": "2026-10-22T16:09:39Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 717
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39810673282": {
+   "id": 39810673282,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-22T16:03:50Z",
+   "run_started_at": "2026-10-22T16:03:50Z",
+   "updated_at": "2026-10-22T21:03:04Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-22T17:09:26Z",
+     "completed_at": "2026-10-22T17:09:32Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 6
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-22T17:13:18Z",
+     "completed_at": "2026-10-22T18:00:44Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2846
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-22T17:15:59Z",
+     "completed_at": "2026-10-22T18:13:51Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3472
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-22T17:39:08Z",
+     "completed_at": "2026-10-22T18:23:04Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2636
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-22T17:21:41Z",
+     "completed_at": "2026-10-22T18:00:58Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2357
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-22T17:20:39Z",
+     "completed_at": "2026-10-22T18:44:02Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 5003
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-22T18:01:58Z",
+     "completed_at": "2026-10-22T18:50:29Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2911
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-22T17:45:44Z",
+     "completed_at": "2026-10-22T18:37:09Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3085
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-22T18:00:46Z",
+     "completed_at": "2026-10-22T19:21:56Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 4870
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-22T17:20:55Z",
+     "completed_at": "2026-10-22T18:04:54Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2639
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-22T17:42:42Z",
+     "completed_at": "2026-10-22T18:57:46Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 4504
+    },
+    {
+     "name": "part 19",
+     "started_at": "2026-10-22T17:16:01Z",
+     "completed_at": "2026-10-22T17:39:09Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1388
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-22T18:12:16Z",
+     "completed_at": "2026-10-22T18:58:10Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2754
+    },
+    {
+     "name": "part 16",
+     "started_at": "2026-10-22T17:29:33Z",
+     "completed_at": "2026-10-22T18:10:58Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2485
+    },
+    {
+     "name": "part 17",
+     "started_at": "2026-10-22T17:27:47Z",
+     "completed_at": "2026-10-22T17:58:42Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1855
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-22T18:11:56Z",
+     "completed_at": "2026-10-22T18:39:24Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1648
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-22T18:09:41Z",
+     "completed_at": "2026-10-22T18:46:02Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2181
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-22T18:05:01Z",
+     "completed_at": "2026-10-22T18:55:48Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3047
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-22T18:05:12Z",
+     "completed_at": "2026-10-22T18:39:18Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2046
+    },
+    {
+     "name": "part 20",
+     "started_at": "2026-10-22T17:39:11Z",
+     "completed_at": "2026-10-22T19:03:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 5086
+    },
+    {
+     "name": "part 22",
+     "started_at": "2026-10-22T17:28:26Z",
+     "completed_at": "2026-10-22T18:10:02Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2496
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-22T18:03:01Z",
+     "completed_at": "2026-10-22T18:44:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2516
+    },
+    {
+     "name": "part 21",
+     "started_at": "2026-10-22T18:11:00Z",
+     "completed_at": "2026-10-22T18:47:24Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2184
+    },
+    {
+     "name": "part 18",
+     "started_at": "2026-10-22T18:22:14Z",
+     "completed_at": "2026-10-22T19:00:39Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2305
+    },
+    {
+     "name": "part 23",
+     "started_at": "2026-10-22T18:13:53Z",
+     "completed_at": "2026-10-22T19:02:55Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2942
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-22T20:55:31Z",
+     "completed_at": "2026-10-22T21:03:03Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 452
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39817058161": {
+   "id": 39817058161,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "remux.yml",
+   "name": "remux",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-22T16:48:13Z",
+   "run_started_at": "2026-10-22T16:48:13Z",
+   "updated_at": "2026-10-22T16:49:49Z",
+   "jobs": [
+    {
+     "name": "remux",
+     "started_at": "2026-10-22T16:48:26Z",
+     "completed_at": "2026-10-22T16:49:48Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 82
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39817396473": {
+   "id": 39817396473,
+   "repo": "Eouchi147/kinoforge",
+   "workflow": "film.yml",
+   "name": "film",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "created_at": "2026-10-22T16:50:21Z",
+   "run_started_at": "2026-10-22T16:50:21Z",
+   "updated_at": "2026-10-22T16:55:34Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-22T16:52:48Z",
+     "completed_at": "2026-10-22T16:52:51Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3
+    },
+    {
+     "name": "make",
+     "started_at": "2026-10-22T16:53:47Z",
+     "completed_at": "2026-10-22T16:55:34Z",
+     "conclusion": "failure",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 107
+    },
+    {
+     "name": "render",
+     "started_at": "2026-10-22T16:55:34Z",
+     "completed_at": "2026-10-22T16:55:34Z",
+     "conclusion": "skipped",
+     "labels": [],
+     "seconds": 0
+    },
+    {
+     "name": "finish",
+     "started_at": "2026-10-22T16:55:34Z",
+     "completed_at": "2026-10-22T16:55:34Z",
+     "conclusion": "skipped",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 0
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39822483930": {
+   "id": 39822483930,
+   "repo": "Eouchi147/kinoforge",
+   "workflow": "films-render.yml",
+   "name": "films-render",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-22T17:25:02Z",
+   "run_started_at": "2026-10-22T23:21:32Z",
+   "updated_at": "2026-10-23T00:23:08Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-22T18:20:51Z",
+     "completed_at": "2026-10-22T18:20:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 6
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-22T23:43:51Z",
+     "completed_at": "2026-10-22T23:46:29Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 158
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-22T18:30:19Z",
+     "completed_at": "2026-10-22T18:33:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 218
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-22T18:48:53Z",
+     "completed_at": "2026-10-22T18:52:53Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 240
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-22T18:47:26Z",
+     "completed_at": "2026-10-22T18:51:24Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 238
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-22T18:47:26Z",
+     "completed_at": "2026-10-22T19:34:03Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2797
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-22T18:39:20Z",
+     "completed_at": "2026-10-22T18:42:14Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 174
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-22T18:38:17Z",
+     "completed_at": "2026-10-22T18:40:35Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 138
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-22T18:37:11Z",
+     "completed_at": "2026-10-22T18:39:37Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 146
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-22T18:44:59Z",
+     "completed_at": "2026-10-22T18:48:26Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 207
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-22T18:33:59Z",
+     "completed_at": "2026-10-22T18:38:15Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 256
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-22T18:42:16Z",
+     "completed_at": "2026-10-22T19:33:45Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3089
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-22T18:50:35Z",
+     "completed_at": "2026-10-22T19:42:12Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3097
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-22T18:44:27Z",
+     "completed_at": "2026-10-22T18:48:40Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 253
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-22T18:41:51Z",
+     "completed_at": "2026-10-22T18:44:25Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 154
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-22T23:47:24Z",
+     "completed_at": "2026-10-23T00:23:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2143
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39877596998": {
+   "id": 39877596998,
+   "repo": "Eouchi147/kinoforge",
+   "workflow": "film.yml",
+   "name": "film",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "failure",
+   "created_at": "2026-10-23T00:21:07Z",
+   "run_started_at": "2026-10-23T00:21:07Z",
+   "updated_at": "2026-10-23T01:06:30Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T00:47:38Z",
+     "completed_at": "2026-10-23T00:47:42Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 4
+    },
+    {
+     "name": "make",
+     "started_at": "2026-10-23T01:04:52Z",
+     "completed_at": "2026-10-23T01:06:29Z",
+     "conclusion": "failure",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 97
+    },
+    {
+     "name": "finish",
+     "started_at": "2026-10-23T01:06:30Z",
+     "completed_at": "2026-10-23T01:06:30Z",
+     "conclusion": "skipped",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 0
+    },
+    {
+     "name": "render",
+     "started_at": "2026-10-23T01:06:30Z",
+     "completed_at": "2026-10-23T01:06:30Z",
+     "conclusion": "skipped",
+     "labels": [],
+     "seconds": 0
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39880127743": {
+   "id": 39880127743,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "stills.yml",
+   "name": "stills",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T00:46:40Z",
+   "run_started_at": "2026-10-23T00:46:40Z",
+   "updated_at": "2026-10-23T01:31:14Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T00:47:32Z",
+     "completed_at": "2026-10-23T00:47:36Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 4
+    },
+    {
+     "name": "frames 86 209",
+     "started_at": "2026-10-23T01:13:17Z",
+     "completed_at": "2026-10-23T01:17:11Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 234
+    },
+    {
+     "name": "frames 408 480",
+     "started_at": "2026-10-23T00:53:47Z",
+     "completed_at": "2026-10-23T00:58:28Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 281
+    },
+    {
+     "name": "frames 581 722",
+     "started_at": "2026-10-23T01:01:42Z",
+     "completed_at": "2026-10-23T01:31:13Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1771
+    },
+    {
+     "name": "frames 874 922",
+     "started_at": "2026-10-23T01:06:31Z",
+     "completed_at": "2026-10-23T01:09:45Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 194
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39884546069": {
+   "id": 39884546069,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "stills.yml",
+   "name": "stills",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T01:32:12Z",
+   "run_started_at": "2026-10-23T01:32:12Z",
+   "updated_at": "2026-10-23T01:47:16Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T01:38:44Z",
+     "completed_at": "2026-10-23T01:38:47Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3
+    },
+    {
+     "name": "frames 581",
+     "started_at": "2026-10-23T01:40:54Z",
+     "completed_at": "2026-10-23T01:43:46Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 172
+    },
+    {
+     "name": "frames 722",
+     "started_at": "2026-10-23T01:45:08Z",
+     "completed_at": "2026-10-23T01:47:15Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 127
+    },
+    {
+     "name": "frames 86",
+     "started_at": "2026-10-23T01:44:51Z",
+     "completed_at": "2026-10-23T01:47:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 136
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39890165805": {
+   "id": 39890165805,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "sfx-bank.yml",
+   "name": "sfx-bank",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T02:32:55Z",
+   "run_started_at": "2026-10-23T02:32:55Z",
+   "updated_at": "2026-10-23T02:38:17Z",
+   "jobs": [
+    {
+     "name": "bank",
+     "started_at": "2026-10-23T02:32:58Z",
+     "completed_at": "2026-10-23T02:38:17Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-latest"
+     ],
+     "seconds": 319
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39894366759": {
+   "id": 39894366759,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T03:19:11Z",
+   "run_started_at": "2026-10-23T03:19:11Z",
+   "updated_at": "2026-10-23T04:53:20Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T03:19:13Z",
+     "completed_at": "2026-10-23T03:19:17Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 4
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-23T03:19:20Z",
+     "completed_at": "2026-10-23T03:38:05Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1125
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:41:35Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1336
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:59:01Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2382
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:34:20Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 901
+    },
+    {
+     "name": "part 18",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:37:13Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1074
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:39:00Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1181
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:36:50Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1051
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:38:16Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1137
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-23T03:19:20Z",
+     "completed_at": "2026-10-23T03:54:49Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2129
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:33:36Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 857
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-23T03:19:20Z",
+     "completed_at": "2026-10-23T03:50:44Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1884
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:55:06Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2147
+    },
+    {
+     "name": "part 16",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:37:08Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1069
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:34:36Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 917
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:34:55Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 936
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:31:02Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 703
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-23T03:19:39Z",
+     "completed_at": "2026-10-23T03:43:49Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1450
+    },
+    {
+     "name": "part 17",
+     "started_at": "2026-10-23T03:19:20Z",
+     "completed_at": "2026-10-23T03:37:30Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1090
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-23T03:19:21Z",
+     "completed_at": "2026-10-23T03:37:54Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1113
+    },
+    {
+     "name": "part 19",
+     "started_at": "2026-10-23T03:19:19Z",
+     "completed_at": "2026-10-23T03:28:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 578
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-23T04:51:49Z",
+     "completed_at": "2026-10-23T04:53:19Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 90
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39895728062": {
+   "id": 39895728062,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T03:34:22Z",
+   "run_started_at": "2026-10-23T03:34:22Z",
+   "updated_at": "2026-10-23T04:53:27Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T03:34:25Z",
+     "completed_at": "2026-10-23T03:34:28Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-23T03:54:41Z",
+     "completed_at": "2026-10-23T04:15:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1276
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-23T03:34:31Z",
+     "completed_at": "2026-10-23T03:46:02Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 691
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-23T03:34:31Z",
+     "completed_at": "2026-10-23T03:56:41Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1330
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-23T03:34:31Z",
+     "completed_at": "2026-10-23T03:53:11Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1120
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-23T03:36:52Z",
+     "completed_at": "2026-10-23T04:05:21Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1709
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-23T03:37:15Z",
+     "completed_at": "2026-10-23T04:19:48Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2553
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-23T03:34:57Z",
+     "completed_at": "2026-10-23T04:07:54Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1977
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-23T03:41:37Z",
+     "completed_at": "2026-10-23T04:11:32Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1795
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-23T03:34:38Z",
+     "completed_at": "2026-10-23T04:25:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3079
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-23T03:39:21Z",
+     "completed_at": "2026-10-23T04:01:00Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1299
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-23T03:37:29Z",
+     "completed_at": "2026-10-23T04:37:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3578
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-23T03:37:55Z",
+     "completed_at": "2026-10-23T03:54:37Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1002
+    },
+    {
+     "name": "part 17",
+     "started_at": "2026-10-23T03:37:32Z",
+     "completed_at": "2026-10-23T03:56:15Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1123
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-23T03:40:00Z",
+     "completed_at": "2026-10-23T03:55:09Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 909
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-23T03:38:07Z",
+     "completed_at": "2026-10-23T03:55:23Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1036
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-23T03:39:02Z",
+     "completed_at": "2026-10-23T03:55:11Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 969
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-23T03:44:14Z",
+     "completed_at": "2026-10-23T04:06:19Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1325
+    },
+    {
+     "name": "part 16",
+     "started_at": "2026-10-23T03:46:04Z",
+     "completed_at": "2026-10-23T04:16:18Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1814
+    },
+    {
+     "name": "part 18",
+     "started_at": "2026-10-23T03:50:46Z",
+     "completed_at": "2026-10-23T04:09:51Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1145
+    },
+    {
+     "name": "part 19",
+     "started_at": "2026-10-23T03:53:12Z",
+     "completed_at": "2026-10-23T04:12:08Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1136
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-23T04:52:09Z",
+     "completed_at": "2026-10-23T04:53:26Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 77
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39896034330": {
+   "id": 39896034330,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T03:37:51Z",
+   "run_started_at": "2026-10-23T03:37:51Z",
+   "updated_at": "2026-10-23T05:04:32Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T03:54:51Z",
+     "completed_at": "2026-10-23T03:54:56Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 5
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-23T03:55:12Z",
+     "completed_at": "2026-10-23T04:16:58Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1306
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-23T04:16:19Z",
+     "completed_at": "2026-10-23T04:30:46Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 867
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-23T03:56:17Z",
+     "completed_at": "2026-10-23T04:22:36Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1579
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-23T03:55:25Z",
+     "completed_at": "2026-10-23T04:11:20Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 955
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-23T03:55:25Z",
+     "completed_at": "2026-10-23T04:34:17Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2332
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-23T04:05:22Z",
+     "completed_at": "2026-10-23T04:30:19Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1497
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-23T03:55:11Z",
+     "completed_at": "2026-10-23T04:22:08Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1617
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-23T03:55:08Z",
+     "completed_at": "2026-10-23T04:37:26Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2538
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-23T04:06:20Z",
+     "completed_at": "2026-10-23T04:55:25Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2945
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-23T04:07:55Z",
+     "completed_at": "2026-10-23T04:34:29Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1594
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-23T03:56:43Z",
+     "completed_at": "2026-10-23T04:17:50Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1267
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-23T03:59:03Z",
+     "completed_at": "2026-10-23T04:22:12Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1389
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-23T04:11:33Z",
+     "completed_at": "2026-10-23T04:31:40Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1207
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-23T04:12:09Z",
+     "completed_at": "2026-10-23T04:38:48Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1599
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-23T04:12:23Z",
+     "completed_at": "2026-10-23T04:36:49Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1466
+    },
+    {
+     "name": "part 19",
+     "started_at": "2026-10-23T04:09:53Z",
+     "completed_at": "2026-10-23T04:29:43Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1190
+    },
+    {
+     "name": "part 18",
+     "started_at": "2026-10-23T04:01:02Z",
+     "completed_at": "2026-10-23T04:12:21Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 679
+    },
+    {
+     "name": "part 17",
+     "started_at": "2026-10-23T04:11:22Z",
+     "completed_at": "2026-10-23T04:31:56Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1234
+    },
+    {
+     "name": "part 16",
+     "started_at": "2026-10-23T04:15:58Z",
+     "completed_at": "2026-10-23T04:36:27Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1229
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-23T04:16:59Z",
+     "completed_at": "2026-10-23T04:42:02Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1503
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-23T05:02:55Z",
+     "completed_at": "2026-10-23T05:04:32Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 97
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39896254752": {
+   "id": 39896254752,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T03:40:22Z",
+   "run_started_at": "2026-10-23T03:40:22Z",
+   "updated_at": "2026-10-23T05:27:59Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T03:54:57Z",
+     "completed_at": "2026-10-23T03:55:00Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-23T04:17:51Z",
+     "completed_at": "2026-10-23T04:40:29Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1358
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-23T04:22:13Z",
+     "completed_at": "2026-10-23T04:52:11Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1798
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-23T04:19:49Z",
+     "completed_at": "2026-10-23T05:04:11Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2662
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-23T04:31:42Z",
+     "completed_at": "2026-10-23T05:21:27Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2985
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-23T04:29:45Z",
+     "completed_at": "2026-10-23T05:12:34Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2569
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-23T04:22:10Z",
+     "completed_at": "2026-10-23T05:09:16Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2826
+    },
+    {
+     "name": "part 17",
+     "started_at": "2026-10-23T04:30:51Z",
+     "completed_at": "2026-10-23T05:06:52Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2161
+    },
+    {
+     "name": "part 19",
+     "started_at": "2026-10-23T04:30:48Z",
+     "completed_at": "2026-10-23T04:57:39Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1611
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-23T04:22:38Z",
+     "completed_at": "2026-10-23T04:51:46Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1748
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-23T04:34:18Z",
+     "completed_at": "2026-10-23T05:17:25Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2587
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-23T04:26:10Z",
+     "completed_at": "2026-10-23T05:16:59Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3049
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-23T04:38:50Z",
+     "completed_at": "2026-10-23T05:12:42Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2032
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-23T04:31:58Z",
+     "completed_at": "2026-10-23T05:07:19Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2121
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-23T04:34:31Z",
+     "completed_at": "2026-10-23T04:52:00Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1049
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-23T04:36:51Z",
+     "completed_at": "2026-10-23T05:12:39Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2148
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-23T04:36:29Z",
+     "completed_at": "2026-10-23T05:26:30Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 3001
+    },
+    {
+     "name": "part 16",
+     "started_at": "2026-10-23T04:40:31Z",
+     "completed_at": "2026-10-23T05:08:04Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1653
+    },
+    {
+     "name": "part 18",
+     "started_at": "2026-10-23T04:37:09Z",
+     "completed_at": "2026-10-23T04:56:01Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1132
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-23T04:37:29Z",
+     "completed_at": "2026-10-23T05:13:37Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2168
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-23T04:42:04Z",
+     "completed_at": "2026-10-23T05:02:36Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 1232
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-23T05:26:33Z",
+     "completed_at": "2026-10-23T05:27:58Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 85
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39900294683": {
+   "id": 39900294683,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T04:26:04Z",
+   "run_started_at": "2026-10-23T04:26:04Z",
+   "updated_at": "2026-10-23T05:47:06Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T04:52:03Z",
+     "completed_at": "2026-10-23T04:52:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 4
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-23T04:53:28Z",
+     "completed_at": "2026-10-23T04:56:57Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 209
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-23T04:53:21Z",
+     "completed_at": "2026-10-23T04:57:03Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 222
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-23T04:55:26Z",
+     "completed_at": "2026-10-23T04:59:17Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 231
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-23T04:52:13Z",
+     "completed_at": "2026-10-23T04:54:56Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 163
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-23T04:57:05Z",
+     "completed_at": "2026-10-23T05:01:32Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 267
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-23T04:56:59Z",
+     "completed_at": "2026-10-23T05:33:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2168
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-23T04:56:02Z",
+     "completed_at": "2026-10-23T04:58:50Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 168
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-23T04:58:52Z",
+     "completed_at": "2026-10-23T05:39:28Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2436
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-23T04:57:40Z",
+     "completed_at": "2026-10-23T05:01:09Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 209
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-23T05:02:38Z",
+     "completed_at": "2026-10-23T05:05:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 149
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-23T05:01:34Z",
+     "completed_at": "2026-10-23T05:04:07Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 153
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-23T04:59:19Z",
+     "completed_at": "2026-10-23T05:02:53Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 214
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-23T04:54:58Z",
+     "completed_at": "2026-10-23T04:57:18Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 140
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-23T04:57:27Z",
+     "completed_at": "2026-10-23T05:01:51Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 264
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-23T05:01:10Z",
+     "completed_at": "2026-10-23T05:04:23Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 193
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-23T05:01:53Z",
+     "completed_at": "2026-10-23T05:05:47Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 234
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-23T05:39:31Z",
+     "completed_at": "2026-10-23T05:47:06Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 455
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  },
+  "39908562175": {
+   "id": 39908562175,
+   "repo": "Eouchi147/rc-render",
+   "workflow": "films.yml",
+   "name": "films",
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "created_at": "2026-10-23T05:56:35Z",
+   "run_started_at": "2026-10-23T05:56:35Z",
+   "updated_at": "2026-10-23T06:44:22Z",
+   "jobs": [
+    {
+     "name": "plan",
+     "started_at": "2026-10-23T05:56:38Z",
+     "completed_at": "2026-10-23T05:56:45Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 7
+    },
+    {
+     "name": "part 11",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:07:52Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 665
+    },
+    {
+     "name": "part 12",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:01:18Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 271
+    },
+    {
+     "name": "part 2",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:00:23Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 216
+    },
+    {
+     "name": "part 4",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:00:32Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 225
+    },
+    {
+     "name": "part 1",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:00:28Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 221
+    },
+    {
+     "name": "part 15",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:00:43Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 236
+    },
+    {
+     "name": "part 5",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:00:32Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 225
+    },
+    {
+     "name": "part 10",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:01:02Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 255
+    },
+    {
+     "name": "part 8",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:01:12Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 265
+    },
+    {
+     "name": "part 9",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T05:59:17Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 150
+    },
+    {
+     "name": "part 0",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T05:59:59Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 192
+    },
+    {
+     "name": "part 6",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:01:16Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 269
+    },
+    {
+     "name": "part 14",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:00:20Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 213
+    },
+    {
+     "name": "part 7",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:01:13Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 266
+    },
+    {
+     "name": "part 3",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:33:38Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 2211
+    },
+    {
+     "name": "part 13",
+     "started_at": "2026-10-23T05:56:47Z",
+     "completed_at": "2026-10-23T06:00:49Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 242
+    },
+    {
+     "name": "join",
+     "started_at": "2026-10-23T06:33:41Z",
+     "completed_at": "2026-10-23T06:44:21Z",
+     "conclusion": "success",
+     "labels": [
+      "ubuntu-24.04"
+     ],
+     "seconds": 640
+    }
+   ],
+   "fetched": "2026-10-23",
+   "from": "gh api actions/runs/<id>/jobs"
+  }
+ }
+}

@@ -53,6 +53,42 @@ v3 food and industries (dispatched 17 Oct, caps US$3.00 each; spend not recorded
 scores about US$0.96 and about US$0.93 (21 to 22 Oct), the cancelled battle-of-tours job US$0.36. Everything from 22 Oct
 09:20 onwards logged US$0. Read the ledgers for exact figures.
 
+## Spend per video
+Sam (23 Oct, 19:05): "I need a way to accurately see what was spent in detail per video." The studio's Spend app
+(`#/spend`, also from Settings, Money) and every film's Spend tab (`#/library/<id>?tab=spend`; command bar `spend` and
+`spend <film>`) show it. The data is `studio-web/public/data/spend.json`, built by `tools/spend.py` (deterministic like
+`tools/catalog.py`: sorted, only `generated` varies; `--check` compares).
+
+How each kind of cost is measured:
+| Kind | Source | Basis |
+| --- | --- | --- |
+| Paid calls | every tracked `ledger.json` (films, ads, boards, pieces): seat, model, task, usd, seconds, ok, note | **measured** when the provider reported `usage.cost`; **estimated** when our code priced it (speech by the characters sent, a fallback price, note "estimated"); **not flagged** for 15 Oct piece and board lines whose code booked a list price when no cost came back and did not record which |
+| Failed calls | the same ledgers (`ok: false`) | kept; flagged "failed but charged" when they cost money, "reply unreadable, booked at US$0" when a reply came back but could not be parsed (the provider may have charged a little: `harness/director/agents.py` books those at 0) |
+| Director stages | `films/studio/<id>/status.json` | spend per stage (`spent`, or the difference of the running totals in older files), cap, last message |
+| Footage boards of a film | `BOARDS_OF` in `tools/spend.py` (today: `unmissed-v4` uses boards `unmissed-night` and `unmissed-night-clips`) | as paid calls; `account.json` shown as a cross-check only (key usage lags by hours, and boards run in parallel share it) |
+| The log | sentences of `docs/LOG.md` with US$ and the film's name (`ALIASES` in the tool) | never added when a ledger exists (cross-check); a figure shared by several films is shown, not split; counted only for a film with no ledger, named alone |
+| GitHub runners | job times of every run id written down (`RUNS` in the tool, director `run_url`, `renders` lines in ledgers, and `<id>-run.json` records in release `kino-films`), stored in `data/spend/runs.json` | free (public repos); minutes rounded up per job as GitHub bills; **worth** at US$0.006 a minute (Linux 2-core x64 list price, GitHub Docs "Actions runner pricing", read 23 Oct 2026 from the docs source; Linux 4-core is US$0.012) |
+| Mac lane | `data/spend/mac-lane-jobs.csv` (every job log on the drive), plus `renders` lines with `where: mac` | render time measured; film check stills on their own line; look boards and drive tests in their own entries, not on a film; electricity **estimated** at an assumed 30 W and an assumed CA$0.20 per kWh (both not verified: the Apple and OEB pages were not reachable when this was built; measure and update `RATES` in the tool) |
+Work that is not a video in the library (style boards, the 15 Oct AI-footage pieces and showcase agent, the shared sound
+bank run, Mac look boards) has its own entries and is in the studio total. Anything with no record says "not recorded".
+
+**The rule from now on: every paid call or render writes one line into the film's own `ledger.json`.** Use
+`films/lib/spend_log.py`: `call(folder, seat, model, task, usd, basis, seconds, ok, note)` for a paid call (`basis`
+"measured" or "estimated"; `cost_from_usage(usage, price_in, price_out)` gives both from an OpenRouter reply) and
+`render(folder, where='github', run_id=...)` or `render(folder, where='mac', seconds=..., job=...)` for a render. Lines
+are stamped with the UTC minute (`at`); writes are locked and atomic. From the shell:
+`python3 films/lib/spend_log.py call|render ...`. rc-render `films.yml` and `remux.yml` write `<film id>-run.json`
+(every run of that film: run id, jobs, seconds, billable minutes, runner, start, end) to release `kino-films` at the end.
+A failed render skips the join, so its run id must still be written in the log by hand.
+
+How to update: `python3 tools/spend.py --fetch-runs` (asks GitHub, read only, for new run ids and release records, then
+builds), or `python3 tools/spend.py` offline; add a new run id to `RUNS` when a render is logged without a record; add a
+Mac lane export to the CSV when jobs ran on the drive; commit `spend.json` and `data/spend/runs.json`.
+
+Traps: the director's `Ledger` (`harness/director/agents.py`) rewrites `ledger.json` with only cap, total, by_seat and
+calls, so a `renders` list written before its last save is lost: write renders after the job's paid calls are done.
+Speech has never returned a cost: every ElevenLabs line is an estimate from the characters sent.
+
 ## Alternatives
 - Free mode for the director (`free_only: true` in `films/director/config.json` or `KF_FREE_ONLY=1`): US$0, fine for
   script and sound, weak for the picture spec (22 Oct). Use for tests.

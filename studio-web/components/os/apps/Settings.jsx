@@ -104,6 +104,7 @@ export function Settings() {
             </>}
           </dl>
           <p className="dim small">Caps live in studio-web/lib/crew.json and films/director/config.json. Changing them is a code change, on purpose.</p>
+          <p><a className="btn" href="#/spend">What every video cost</a></p>
         </Panel>
 
         <Panel title="Catalog" id="h-cat">

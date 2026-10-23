@@ -8,6 +8,7 @@ import { Icon } from '../icons';
 import { Markdown } from '../Markdown';
 import { clock, tc, facet, byDate, needsVerdict, LINE_NAMES, STATUS_NAMES, titleCase } from '@/lib/catalog.mjs';
 import { createRoute, score, norm } from '@/lib/commands.mjs';
+import { FilmSpend } from './Spend';
 
 const FILTERS = [['series', 'Series'], ['style', 'Style'], ['look', 'Look'], ['format', 'Format'], ['status', 'Status']];
 
@@ -60,7 +61,9 @@ export function Library() {
 function FilmPage({ id }) {
   const { catalog, route, go } = useOS();
   const f = catalog?.films.find((x) => x.id === id);
-  const [tab, setTab] = useState(route.query.tab === 'recipe' ? 'recipe' : route.query.tab === 'facts' ? 'facts' : 'review');
+  const tabOf = (q) => (['recipe', 'facts', 'spend'].includes(q) ? q : 'review');
+  const [tab, setTab] = useState(tabOf(route.query.tab));
+  useEffect(() => { setTab(tabOf(route.query.tab)); }, [route.query.tab, id]);
   const api = useRef(null);
   const [pos, setPos] = useState({ t: 0, frame: 0 });
   useEffect(() => { setPos({ t: 0, frame: 0 }); }, [id]);
@@ -86,13 +89,14 @@ function FilmPage({ id }) {
           </div>
           {f.downloadUrl && f.previewUrl !== f.videoUrl && <p className="dim small">You are watching a lighter preview. Full film downloads the full-quality file.</p>}
           <div className="tabs" role="tablist" aria-label="Film">
-            {[['review', 'Review'], ['recipe', 'Recipe'], ['facts', 'Facts']].map(([k, l]) => (
+            {[['review', 'Review'], ['recipe', 'Recipe'], ['spend', 'Spend'], ['facts', 'Facts']].map(([k, l]) => (
               <button key={k} role="tab" id={`tab-${k}`} aria-selected={tab === k} aria-controls={`pane-${k}`} className={(tab === k ? 'on' : '') + (k === 'facts' ? ' phone-tab' : '')} onClick={() => { setTab(k); go(`library/${id}?tab=${k}`, { replace: true }); }}>{l}</button>
             ))}
           </div>
           <div role="tabpanel" id={`pane-${tab}`} aria-labelledby={`tab-${tab}`} className="tabpane">
             {tab === 'review' && <Review f={f} pos={pos} fps={fps} seekFrame={(n) => api.current?.seekFrame(n)} seek={(t) => api.current?.seek(t)} />}
             {tab === 'recipe' && <Recipe path={f.recipe} />}
+            {tab === 'spend' && <FilmSpend id={f.id} />}
             {tab === 'facts' && <div className="phone-facts">{facts}</div>}
           </div>
         </div>

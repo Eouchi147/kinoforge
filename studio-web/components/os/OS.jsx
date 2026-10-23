@@ -15,6 +15,7 @@ import { Jobs } from './apps/Jobs';
 import { Sound } from './apps/Sound';
 import { Manual } from './apps/Manual';
 import { Settings } from './apps/Settings';
+import { Spend } from './apps/Spend';
 
 export const APPS = [
   { id: 'desk', name: 'Desk', C: Desk, phone: true },
@@ -23,6 +24,7 @@ export const APPS = [
   { id: 'styles', name: 'Styles', C: Styles },
   { id: 'jobs', name: 'Jobs', C: Jobs, phone: true },
   { id: 'sound', name: 'Sound', C: Sound },
+  { id: 'spend', name: 'Spend', C: Spend },
   { id: 'manual', name: 'Manual', C: Manual },
   { id: 'settings', name: 'Settings', C: Settings },
 ];
