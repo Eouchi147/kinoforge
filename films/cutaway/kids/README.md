@@ -19,6 +19,13 @@ never confusing.
 - Music: an original playful orchestral theme for the series (pizzicato, glockenspiel, flute, clarinet, harp, light
   percussion), a variation per film, hits on the reveals (the bone turns to stone, the volcano bursts), the voice always
   on top. Free score engine (`films/lib/score/`, VSCO-2 CE CC0 samples), a new "playful" palette.
+- Easter eggs (Sam, 23 Oct 19:43): very recognisable things from a child's own life in every film, several per film,
+  some obvious and one or two hidden, animated where possible (a red ball or toy car in a soil layer, a rubber duck on
+  the river, a teddy bear, a kite in a tree, a dropped ice-cream cone, a bucket and spade, a dog chasing a stick, a toy
+  dinosaur beside the real fossil). Generic objects only: no brands, logos or characters from any film, show or game.
+- The background is a lively extension of the world (Sam, 23 Oct 19:43), never a flat static card: 3D layers with depth
+  behind the block, distant life of the same era (herds on the horizon, a smoking volcano, a village with chimney smoke,
+  a train on a bridge, kites, sheep), drifting clouds, light that changes with the story and with time passing.
 - Facts checked with sources before anything is voiced (`docs/research/KIDS_FACTS_2026-10.md`).
 - YouTube: these are "Made for Kids" (COPPA): no personalised ads, comments off. Money comes from the brand, books and
   prints more than ads (see the Cutaway guide doc).
