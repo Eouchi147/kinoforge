@@ -63,8 +63,8 @@ The hawk itself is never seen: a flat horizontal silhouette (wings, tail, 0.75 m
 the sun, seen by shadow rays only. Projection between horizontal planes is a translation, so the shadow keeps the true
 shape. Measured: dense backlit grass hides a real shadow (only about a quarter of the grass brightness is direct sun; the
 rest is fill, bounce and translucency), so the shadow is also art-directed: the same silhouette laid over the grass
-tips (10 cm) as two soft dark veils (a wide faint one, a tighter darker one), exactly where the sun would throw it at
-that height, fading out near the cut edges so it never hangs in the air. It crosses the hawk shot's frame from right
+tips (8 cm) as two soft dark veils (a wide faint one, a tighter darker one), exactly where the sun would throw it at
+that height, fading out near the cut edges and on the far and left sides so it never hangs in the air. It crosses the hawk shot's frame from right
 to left (heading -0.77, -0.64; 1.1 m/s) and passes over the grazing spot at 14.0 s.
 
 ## Events for the sound designer
@@ -98,9 +98,13 @@ no volumes, no motion blur, from the check logs (the `s/frame` line of each one-
 | --- | --- | --- |
 | 1 | 24, 336 | 4.8, 5.8 |
 | 2 | 24, 200, 318, 336, 372, 470 | 4.6, 6.9, 6.0, 5.6, 5.6, 6.3 |
+| 3 (Mac busy) | 24, 130, 250, 324, 372, 479 | 15.0, 14.8, 19.6, 14.5, 15.1, 21.0 |
+| 4 (Mac busy) | 200, 312, 330, 342, 479 | 15.1, 12.5, 12.0, 17.0, 14.8 |
 
-So about 5 to 7 s per frame (target 15): 480 frames is about 45 to 55 minutes on the Mac. Scene build about 6 s on the
-Mac (about 25 s on the 2-core chat box), once per chunk.
+Rounds 1 and 2 ran on an idle lane (scene build 6 s): **about 5 to 7 s per frame**, so 480 frames take about 45 to 55
+minutes. In rounds 3 and 4 the lead's film chunks were rendering on the same Mac at the same time (scene build went
+from 6 s to 25 s, so the machine was shared, not the scene heavier: the changes between rounds were a few cards,
+lights and materials): 12 to 21 s per frame. Build about 25 s on the 2-core chat box.
 
 ## Weak spots (honest)
 
@@ -117,7 +121,9 @@ Mac (about 25 s on the 2-core chat box), once per chunk.
 
 ## Log
 
-- 2026-10-23 (overnight build): first build, three check rounds on the Mac lane (rounds 1 to 3), local 270 to 405 px
-  checks on the chat box; changes: burrows depth-shaded (read as hollows), side-back sun with weak fill so the top is
-  sun-lit, art-directed hawk shadow veils on a right-to-left crossing, round trees, brighter ant nest. Cost: nothing
-  (Mac lane and chat box).
+- 2026-10-23 (overnight build): first build, five check rounds on the Mac lane, local 270 to 405 px checks on the
+  chat box; changes: burrows depth-shaded (read as hollows), side-back sun with weak fill so the top is
+  sun-lit, art-directed hawk shadow veils on a right-to-left crossing (sitting in the grass, faded on the far and left
+  edges so they never float), round trees, brighter ant nest, pebbles in the loam and sand, final framing clear of the
+  frame edge. Cost: nothing (Mac lane and chat box). Best stills: `out/hidden-meadow-check4/frames/00200.png` (the
+  hidden world) and `out/hidden-meadow-check3/frames/00130.png` (the meadow) in the Mac's `kinoforge-render` folder.
