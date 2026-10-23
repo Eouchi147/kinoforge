@@ -1,0 +1,185 @@
+{
+ "voice": "kokoro|bm_george",
+ "engine": "kokoro",
+ "cost_usd": 0,
+ "seconds": 5.3,
+ "lines": [
+  {
+   "text": "This rock was once alive. Want to know how?",
+   "file": "audio/vo/line0.mp3",
+   "dur": 3.136,
+   "words": [
+    [
+     "This",
+     0.0,
+     0.18
+    ],
+    [
+     "rock",
+     0.18,
+     0.44
+    ],
+    [
+     "was",
+     0.44,
+     0.68
+    ],
+    [
+     "once",
+     0.68,
+     0.98
+    ],
+    [
+     "alive,",
+     0.98,
+     1.42
+    ],
+    [
+     "want",
+     1.96,
+     2.08
+    ],
+    [
+     "to",
+     2.08,
+     2.24
+    ],
+    [
+     "know",
+     2.24,
+     2.4
+    ],
+    [
+     "how.",
+     2.4,
+     2.74
+    ]
+   ],
+   "wer": 0.0,
+   "heard": "This rock was once alive, want to know how."
+  },
+  {
+   "text": "How does a dinosaur turn into stone?",
+   "file": "audio/vo/line1.mp3",
+   "dur": 2.411,
+   "words": [
+    [
+     "How",
+     0.0,
+     0.16
+    ],
+    [
+     "does",
+     0.16,
+     0.28
+    ],
+    [
+     "a",
+     0.28,
+     0.4
+    ],
+    [
+     "dinosaur",
+     0.4,
+     0.74
+    ],
+    [
+     "turn",
+     0.74,
+     1.32
+    ],
+    [
+     "into",
+     1.32,
+     1.58
+    ],
+    [
+     "stone?",
+     1.58,
+     1.94
+    ]
+   ],
+   "wer": 0.0,
+   "heard": "How does a dinosaur turn into stone?"
+  },
+  {
+   "text": "The river brought mud and sand, and tucked its bones in, like a blanket.",
+   "file": "audio/vo/line2.mp3",
+   "dur": 5.035,
+   "words": [
+    [
+     "The",
+     0.0,
+     0.1
+    ],
+    [
+     "river",
+     0.1,
+     0.26
+    ],
+    [
+     "brought",
+     0.26,
+     0.72
+    ],
+    [
+     "mud",
+     0.72,
+     0.98
+    ],
+    [
+     "and",
+     0.98,
+     1.32
+    ],
+    [
+     "sand",
+     1.32,
+     1.66
+    ],
+    [
+     "and",
+     1.66,
+     2.36
+    ],
+    [
+     "tucked",
+     2.36,
+     2.56
+    ],
+    [
+     "its",
+     2.56,
+     2.82
+    ],
+    [
+     "bones",
+     2.82,
+     3.08
+    ],
+    [
+     "in",
+     3.08,
+     3.54
+    ],
+    [
+     "like",
+     3.54,
+     4.12
+    ],
+    [
+     "a",
+     4.12,
+     4.22
+    ],
+    [
+     "blanket.",
+     4.22,
+     4.54
+    ]
+   ],
+   "wer": 0.0,
+   "heard": "The river brought mud and sand and tucked its bones in like a blanket."
+  }
+ ]
+}

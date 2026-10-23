@@ -1,0 +1,181 @@
+{
+ "_": "Audition by analysis: rate (words per second while speaking), pitch range (semitones, 10th to 90th percentile) and movement (semitones per second; flat, robotic reads are low), pause share, recognition (word error rate). Higher pitch movement and a rate of 2.3 to 3.0 words/s read as natural documentary narration.",
+ "voices": {
+  "kokoro|bm_george": {
+   "lines": [
+    {
+     "line": 0,
+     "dur": 3.136,
+     "words_per_s": 3.28,
+     "pitch_median_hz": 150.3,
+     "pitch_range_st": 11.98,
+     "pitch_move_st_per_s": 23.69,
+     "pause_share": 0.169,
+     "wer": 0.0,
+     "heard": "This rock was once alive, want to know how."
+    },
+    {
+     "line": 1,
+     "dur": 2.411,
+     "words_per_s": 3.61,
+     "pitch_median_hz": 143.5,
+     "pitch_range_st": 14.32,
+     "pitch_move_st_per_s": 24.48,
+     "pause_share": 0.067,
+     "wer": 0.0,
+     "heard": "How does a dinosaur turn into stone?"
+    },
+    {
+     "line": 2,
+     "dur": 5.035,
+     "words_per_s": 3.08,
+     "pitch_median_hz": 144.4,
+     "pitch_range_st": 8.86,
+     "pitch_move_st_per_s": 23.6,
+     "pause_share": 0.138,
+     "wer": 0.0,
+     "heard": "The river brought mud and sand and tucked its bones in like a blanket."
+    }
+   ],
+   "mean": {
+    "words_per_s": 3.323,
+    "pitch_range_st": 11.72,
+    "pitch_move_st_per_s": 23.923,
+    "pause_share": 0.125,
+    "wer": 0.0
+   }
+  },
+  "kokoro|bm_fable": {
+   "lines": [
+    {
+     "line": 0,
+     "dur": 3.32,
+     "words_per_s": 3.91,
+     "pitch_median_hz": 97.2,
+     "pitch_range_st": 18.5,
+     "pitch_move_st_per_s": 17.01,
+     "pause_share": 0.378,
+     "wer": 0.0,
+     "heard": "This rock was once alive, want to know how."
+    },
+    {
+     "line": 1,
+     "dur": 2.773,
+     "words_per_s": 3.98,
+     "pitch_median_hz": 94.7,
+     "pitch_range_st": 17.68,
+     "pitch_move_st_per_s": 19.8,
+     "pause_share": 0.325,
+     "wer": 0.0,
+     "heard": "How does a dinosaur turn into stone?"
+    },
+    {
+     "line": 2,
+     "dur": 4.8,
+     "words_per_s": 3.85,
+     "pitch_median_hz": 108.2,
+     "pitch_range_st": 16.79,
+     "pitch_move_st_per_s": 18.14,
+     "pause_share": 0.304,
+     "wer": 0.0,
+     "heard": "The river brought mud and sand and tucked its bones in like a blanket."
+    }
+   ],
+   "mean": {
+    "words_per_s": 3.913,
+    "pitch_range_st": 17.657,
+    "pitch_move_st_per_s": 18.317,
+    "pause_share": 0.336,
+    "wer": 0.0
+   }
+  },
+  "kokoro|bm_lewis": {
+   "lines": [
+    {
+     "line": 0,
+     "dur": 2.921,
+     "words_per_s": 3.49,
+     "pitch_median_hz": 97.5,
+     "pitch_range_st": 1.3,
+     "pitch_move_st_per_s": 7.94,
+     "pause_share": 0.317,
+     "wer": 0.0,
+     "heard": "This rock was once alive, want to know how."
+    },
+    {
+     "line": 1,
+     "dur": 2.358,
+     "words_per_s": 3.4,
+     "pitch_median_hz": 82.9,
+     "pitch_range_st": 10.04,
+     "pitch_move_st_per_s": 23.29,
+     "pause_share": 0.206,
+     "wer": 0.0,
+     "heard": "How does a dinosaur turn into stone?"
+    },
+    {
+     "line": 2,
+     "dur": 4.885,
+     "words_per_s": 3.15,
+     "pitch_median_hz": 86.3,
+     "pitch_range_st": 8.24,
+     "pitch_move_st_per_s": 23.72,
+     "pause_share": 0.318,
+     "wer": 0.0,
+     "heard": "The river brought mud and sand and tucked its bones in like a blanket."
+    }
+   ],
+   "mean": {
+    "words_per_s": 3.347,
+    "pitch_range_st": 6.527,
+    "pitch_move_st_per_s": 18.317,
+    "pause_share": 0.28,
+    "wer": 0.0
+   }
+  },
+  "kokoro|bm_daniel": {
+   "lines": [
+    {
+     "line": 0,
+     "dur": 2.715,
+     "words_per_s": 3.95,
+     "pitch_median_hz": 128.2,
+     "pitch_range_st": 10.87,
+     "pitch_move_st_per_s": 23.81,
+     "pause_share": 0.162,
+     "wer": 0.0,
+     "heard": "This rock was once alive, want to know how."
+    },
+    {
+     "line": 1,
+     "dur": 2.454,
+     "words_per_s": 3.65,
+     "pitch_median_hz": 127.9,
+     "pitch_range_st": 12.1,
+     "pitch_move_st_per_s": 23.51,
+     "pause_share": 0.094,
+     "wer": 0.0,
+     "heard": "How does a dinosaur turn into stone?"
+    },
+    {
+     "line": 2,
+     "dur": 4.182,
+     "words_per_s": 3.83,
+     "pitch_median_hz": 120.0,
+     "pitch_range_st": 9.58,
+     "pitch_move_st_per_s": 22.82,
+     "pause_share": 0.133,
+     "wer": 0.0,
+     "heard": "The river brought mud and sand and tucked its bones in like a blanket."
+    }
+   ],
+   "mean": {
+    "words_per_s": 3.81,
+    "pitch_range_st": 10.85,
+    "pitch_move_st_per_s": 23.38,
+    "pause_share": 0.13,
+    "wer": 0.0
+   }
+  }
+ }
+}
