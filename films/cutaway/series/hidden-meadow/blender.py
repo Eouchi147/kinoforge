@@ -369,7 +369,7 @@ def motes(kit, land, n=46, seed=23, name='hm_mote'):
         kit.on_frame(pose); pose(0.0)
 
 def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(0.42, -0.91), over=(-0.36, -0.52), name='hm_hawk',
-         veil=(0.012, 0.04, 0.07), veil_alpha=0.24):
+         veil=(0.06, 0.09, 0.12), veil_alpha=0.2):
     """A hawk's shadow. The hawk itself is never seen: a flat horizontal silhouette (wings, tail) high between the sun and
     the meadow, seen by shadow rays only (projection between horizontal planes is a translation, so the shadow keeps the
     true shape). Dense backlit grass hides a real shadow (most of its light is fill, bounce and translucency), so the
@@ -378,7 +378,9 @@ def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(0.42, -0.91
     bpy = kit.bpy; m = ex.mat(kit, 'hm_hawkm', (0.1, 0.08, 0.06), 0.8)
     vm = cw._new_mat(bpy, 'hm_veil'); g = G(vm.node_tree, kit)
     tr = g.node('ShaderNodeBsdfTransparent'); dk = g.node('ShaderNodeBsdfDiffuse', ins={'Color': (0.0, 0.0, 0.0, 1.0)}); mx = g.node('ShaderNodeMixShader')
-    g.put(mx, 0, veil_alpha); g.link(tr, mx.inputs[1]); g.link(dk, mx.inputs[2]); cw._finish(g, mx)
+    geo = g.node('ShaderNodeNewGeometry'); wx, wy, _ = g.sep(geo.outputs['Position']); hs = S_SIZE / 2 - 0.004    # only over the block
+    inside = g.math('MULTIPLY', g.math('LESS_THAN', g.math('ABSOLUTE', wx), hs), g.math('LESS_THAN', g.math('ABSOLUTE', wy), hs))
+    g.link(g.math('MULTIPLY', inside, veil_alpha), mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(dk, mx.inputs[2]); cw._finish(g, mx)
     def wing(sd):
         return [(0.02, 0, 0), (0.035, sd * 0.06, 0), (0.02, sd * 0.15, 0), (-0.005, sd * 0.23, 0), (-0.035, sd * 0.22, 0), (-0.04, sd * 0.17, 0),
                 (-0.055, sd * 0.12, 0), (-0.04, sd * 0.05, 0), (-0.03, 0, 0)]
