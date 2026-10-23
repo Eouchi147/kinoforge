@@ -368,24 +368,27 @@ def motes(kit, land, n=46, seed=23, name='hm_mote'):
             ob.location = (x0 + 0.04 * math.sin(0.23 * t + ph[0]) + 0.008 * t, y0 + 0.04 * math.sin(0.19 * t + ph[1]), z0 + 0.03 * math.sin(0.31 * t + ph[2]) + 0.004 * t)
         kit.on_frame(pose); pose(0.0)
 
-def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(0.42, -0.91), over=(-0.36, -0.52), name='hm_hawk',
-         veil=(0.06, 0.09, 0.12), veil_alpha=0.2):
+def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(-0.77, -0.64), over=(-0.33, -0.60), name='hm_hawk',
+         veil=((0.10, 1.10, 0.26), (0.10, 0.95, 0.42))):
     """A hawk's shadow. The hawk itself is never seen: a flat horizontal silhouette (wings, tail) high between the sun and
     the meadow, seen by shadow rays only (projection between horizontal planes is a translation, so the shadow keeps the
     true shape). Dense backlit grass hides a real shadow (most of its light is fill, bounce and translucency), so the
-    shadow is also art-directed: the same silhouette laid in the grass at three blade heights as soft dark veils (camera
-    rays only), each exactly where the sun would throw it at that height. Two slow wing beats; it passes `over` at t_mid."""
+    shadow is also art-directed: the same silhouette laid over the grass tips as two soft dark veils (a wide faint one and
+    a tighter darker one, so the edge is soft; camera rays only), exactly where the sun would throw it at that height.
+    It crosses the frame of the hawk shot from right to left, passing over the grazing rabbits. Two slow wing beats; it passes `over` at t_mid."""
     bpy = kit.bpy; m = ex.mat(kit, 'hm_hawkm', (0.1, 0.08, 0.06), 0.8)
-    vm = cw._new_mat(bpy, 'hm_veil'); g = G(vm.node_tree, kit)
-    tr = g.node('ShaderNodeBsdfTransparent'); dk = g.node('ShaderNodeBsdfDiffuse', ins={'Color': (0.0, 0.0, 0.0, 1.0)}); mx = g.node('ShaderNodeMixShader')
-    geo = g.node('ShaderNodeNewGeometry'); wx, wy, _ = g.sep(geo.outputs['Position']); hs = S_SIZE / 2 - 0.004    # only over the block
-    inside = g.math('MULTIPLY', g.math('LESS_THAN', g.math('ABSOLUTE', wx), hs), g.math('LESS_THAN', g.math('ABSOLUTE', wy), hs))
-    g.link(g.math('MULTIPLY', inside, veil_alpha), mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(dk, mx.inputs[2]); cw._finish(g, mx)
+    def veil_mat(alpha, k):
+        vm = cw._new_mat(bpy, f'hm_veil{k}'); g = G(vm.node_tree, kit)
+        tr = g.node('ShaderNodeBsdfTransparent'); dk = g.node('ShaderNodeBsdfDiffuse', ins={'Color': (0.0, 0.0, 0.0, 1.0)}); mx = g.node('ShaderNodeMixShader')
+        geo = g.node('ShaderNodeNewGeometry'); wx, wy, _ = g.sep(geo.outputs['Position']); hs = S_SIZE / 2 - 0.004    # only over the block
+        edge = g.math('MAXIMUM', g.math('ABSOLUTE', wx), g.math('ABSOLUTE', wy))     # fades out near the cut edges (it lies above the grass)
+        inside = g.math('MULTIPLY', g.math('SUBTRACT', hs - 0.03, edge), 1 / 0.12, clamp=True)
+        g.link(g.math('MULTIPLY', inside, alpha), mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(dk, mx.inputs[2]); cw._finish(g, mx); return vm
     def wing(sd):
         return [(0.02, 0, 0), (0.035, sd * 0.06, 0), (0.02, sd * 0.15, 0), (-0.005, sd * 0.23, 0), (-0.035, sd * 0.22, 0), (-0.04, sd * 0.17, 0),
                 (-0.055, sd * 0.12, 0), (-0.04, sd * 0.05, 0), (-0.03, 0, 0)]
     bodyV = [(0.085, 0, 0), (0.06, 0.018, 0), (0.0, 0.026, 0), (-0.07, 0.016, 0), (-0.13, 0.04, 0), (-0.145, 0.0, 0), (-0.13, -0.04, 0), (-0.07, -0.016, 0), (0.0, -0.026, 0), (0.06, -0.018, 0)]
-    def bird(nm, mat, shadow_only):
+    def bird(nm, mat, shadow_only, scale=1.7):
         root = ex.empty(kit, nm)
         body = ex.part(kit, nm + '_body', [(bodyV, [tuple(range(len(bodyV)))], 0)], [mat], root); wings = []
         for sd in (-1, 1):
@@ -395,8 +398,8 @@ def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(0.42, -0.91
             if shadow_only:
                 for at in ('visible_camera', 'visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter'): setattr(ob, at, False)
             else: camera_only(ob)
-        root.scale = (1.7,) * 3; return root, wings
-    birds = [(bird(name, m, True), h)] + [(bird(f'{name}_veil{k}', vm, False), -z) for k, z in enumerate(veil)]
+        root.scale = (scale,) * 3; return root, wings
+    birds = [(bird(name, m, True), h)] + [(bird(f'{name}_veil{k}', veil_mat(a, k), False, 1.7 * sc), -z) for k, (z, sc, a) in enumerate(veil)]
     sd = np.asarray(sun_dir, float); hd = np.array([heading[0], heading[1], 0.0]); hd /= np.linalg.norm(hd)
     zt = ground(land, *over)
     def pose(t):
@@ -404,7 +407,7 @@ def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(0.42, -0.91
         rz = math.atan2(hd[1], hd[0]) + 0.12 * math.cos(0.9 * (t - t_mid))
         beat = math.sin(2 * math.pi * 1.6 * (t - t_mid + 0.3)) if abs(t - t_mid + 0.3) < 0.62 else 0.0
         for (root, wings), hh in birds:      # hh > 0: the hawk, hh above the ground; hh < 0: a veil -hh above the ground
-            p = S + sd * (hh / sd[2]) if hh > 0 else S + np.array([0, 0, -hh]) + sd * (-hh / sd[2]) * 0.0
+            p = S + sd * (hh / sd[2])
             if hh < 0:   # where the shadow line through the hawk meets the plane z = ground - hh
                 hp = S + sd * (h / sd[2]); p = hp - sd * ((hp[2] - (zt - hh)) / sd[2])
             root.location = tuple(p); root.rotation_euler = (0, 0, rz)
