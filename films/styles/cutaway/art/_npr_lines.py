@@ -143,6 +143,7 @@ class Runner:
     def capture(self):
         bpy = self.bpy; sc = bpy.context.scene
         for p in glob.glob(os.path.join(self.dir, 'p_*')): os.remove(p)
+        self.over_hide = [(ob, ob.hide_render) for ob in self.over]
         for ob in self.over: ob.hide_render = True        # the overlay is added after the stylization
         sc.compositing_node_group = self.cap_group
         sc.render.film_transparent = False
@@ -157,6 +158,7 @@ class Runner:
         """Put the stylized picture and the overlay into the scene the harness is about to render (all else hidden, 1 sample)."""
         bpy = self.bpy; sc = bpy.context.scene
         if self.fin_group is None: self.fin_group = self._final_group(sc)
+        for ob, h in self.over_hide: ob.hide_render = h
         lin = srgb_to_lin(np.clip(rgb, 0, 1))
         px = np.ones((self.H, self.W, 4), np.float32); px[..., :3] = lin[::-1]
         self.img.pixels.foreach_set(px.ravel()); self.img.update()
@@ -191,6 +193,8 @@ def frame(bpy, film, ctx, t, shot, extra=None):
     r = film.npr; r.restore()
     t0 = time.time(); P = r.capture(); t1 = time.time()
     info = r.info(t, shot)
+    pal = strata_palette(film)
+    if pal is not None: info['strata'] = np.asarray(pal, np.float32)
     if extra: info.update(extra(bpy, film, ctx, t, shot))
     dump = os.environ.get('KF_NPR_DUMP')
     if dump:
@@ -384,3 +388,106 @@ def save_png(path, rgb):
     raw = b''.join(b'\x00' + a[y].tobytes() for y in range(h))
     def ch(t, d): c = struct.pack('>I', len(d)) + t + d; return c + struct.pack('>I', zlib.crc32(t + d) & 0xffffffff)
     open(path, 'wb').write(b'\x89PNG\r\n\x1a\n' + ch(b'IHDR', struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)) + ch(b'IDAT', zlib.compress(raw, 6)) + ch(b'IEND', b''))
+
+
+# ------------------------------------------------------------------------------------------------------------- more helpers
+def group_blur(A, ma, sky, groups, sigma):
+    """Colour smoothing that does not cross between groups of material classes (normalized convolution): flat washes that
+    stop at the lines. groups: list of tuples of class names; pixels in no group (and the sky) go to the last blur."""
+    out = np.zeros_like(A); done = np.zeros(ma.shape, bool)
+    for g in groups:
+        m = cls_mask(ma, *g) & ~sky
+        if not m.any(): continue
+        mf = m.astype(np.float32); den = blur(mf, sigma) + 1e-4
+        num = blur(A * mf[..., None], sigma)
+        out = np.where(m[..., None], num / den[..., None], out); done |= m
+    rest = ~done
+    if rest.any():
+        mf = rest.astype(np.float32); den = blur(mf, sigma) + 1e-4; num = blur(A * mf[..., None], sigma)
+        out = np.where(rest[..., None], num / den[..., None], out)
+    return out
+
+
+def hatch(u, per_unit, width_px, min_px=3.0, max_px=60.0, soft=0.9):
+    """Antialiased parallel lines of the scalar field u (world coordinate along a direction, from the Position pass):
+    one line every 1/per_unit units of u, width_px pixels wide on screen. Lines fade out where they would be closer than
+    min_px pixels (far away) so distant hatching never turns into noise. Returns coverage 0..1."""
+    v = u * per_unit
+    gy, gx = grad(blur(v, 0.8)); pxv = np.sqrt(gx * gx + gy * gy) + 1e-6          # screen pixels per... (v units per pixel)
+    spacing_px = 1.0 / pxv                                                       # pixels between two lines
+    ph = v - np.floor(v); d = np.abs(ph - 0.5)                                    # 0 at the line centre... (0.5 = on a line)
+    dist_px = (0.5 - d) / pxv                                                     # pixel distance from the line centre
+    cov = np.clip((width_px * 0.5 - dist_px) / soft + 0.5, 0, 1)
+    fade = smoothstep(min_px * 0.8, min_px * 1.6, spacing_px) * (1 - smoothstep(max_px * 0.8, max_px * 1.4, spacing_px))
+    return (cov * fade).astype(np.float32)
+
+
+def paper(shape, base, seed=3, scale=1.0, fibre=0.035, mottle=0.04, grain=0.02):
+    """A sheet of paper: base colour (3,), fibres (anisotropic noise), slow mottling and fine grain. Returns (H,W,3)."""
+    n = fibre * (0.6 * noise(shape, 1.1 * scale, seed + 1, aniso=(0.5, 3.0)) + 0.6 * noise(shape, 1.1 * scale, seed + 2, aniso=(3.0, 0.5)))
+    m = mottle * fbm(shape, 90 * scale, seed + 3, 4) + grain * noise(shape, 0.7 * scale, seed + 4)
+    t = 1.0 + n + m
+    return np.clip(np.asarray(base, np.float32)[None, None, :] * t[..., None], 0, 1)
+
+
+def vignette(shape, strength=0.18, power=2.4):
+    H, W = shape; y, x = np.mgrid[0:H, 0:W].astype(np.float32); r = np.sqrt(((x - W / 2) / (W / 2)) ** 2 + ((y - H / 2) / (H / 2)) ** 2) / 1.41
+    return 1.0 - strength * np.clip(r, 0, 1) ** power
+
+
+def recolor_overlay(film, paper_rgb, ink_rgb, font=None):
+    """Re-colour the overlay (labels, title, counters) so it belongs to the look: light things become paper_rgb, dark ink_rgb.
+    Colours in sRGB 0..1. font: path to a ttf for the text objects (optional). Words stay what the script says."""
+    import bpy
+    gain = film.O.gain
+    for e in film.O.items:
+        c = e.em.inputs['Color'].default_value; l = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+        tgt = paper_rgb if l > 0.35 else ink_rgb
+        e.em.inputs['Color'].default_value = (*[float(v) for v in srgb_to_lin(np.array(tgt))], 1.0)
+        e.em.inputs['Strength'].default_value = 1.0
+        if font and e.kind == 'text': e.ob.data.font = bpy.data.fonts.load(font)
+
+
+STRATA_TIME = [(0.26, 0.17, 0.10), (0.90, 0.74, 0.46), (0.78, 0.44, 0.28), (0.56, 0.36, 0.22), (0.62, 0.58, 0.54), (0.84, 0.60, 0.28), (0.88, 0.84, 0.74), (0.24, 0.25, 0.30)]
+
+
+def strata_labels(alb, palette=None, sigma=3.0, vote=5.0):
+    """Which soil layer each pixel of a cut face belongs to (index into the strata palette): nearest colour of the smoothed
+    albedo, then a majority vote (the one-hot maps are blurred by `vote` px) so thin slivers of a blend colour vanish.
+    Deterministic, so a layer keeps its pattern in every frame."""
+    pal = np.asarray(palette if palette is not None else STRATA_TIME, np.float32)
+    A = lin_to_srgb(blur(alb, sigma))
+    d = ((A[..., None, :] - pal[None, None, :, :]) ** 2).sum(-1)
+    first = np.argmin(d, -1)
+    votes = np.stack([blur((first == k).astype(np.float32), vote) for k in range(len(pal))], -1)
+    return np.argmax(votes, -1).astype(np.int16)
+
+
+def strata_palette(film):
+    """The strata colours (sRGB) of the first built set, top-down; None if not found."""
+    try:
+        st = next(iter(film.built.values())); return [tuple(l[2]) for l in st['L'].strata]
+    except Exception:
+        return None
+
+
+def label_edges(lab, valid):
+    """1 where the layer label changes between neighbours (inside `valid`)."""
+    e = np.zeros(lab.shape, bool)
+    for ax in (0, 1):
+        e |= lab != np.roll(lab, 1, ax)
+    return (e & valid).astype(np.float32)
+
+
+def tone_hatch(u, per_unit, D, thresh=0.1, cover=0.8, min_px=3.0, hair=0.38, soft=0.8):
+    """Engraver's lines: parallel lines of the field u (one per 1/per_unit), each as wide as the tone D (0..1) asks: a
+    hairline for a light tone, nearly solid for a dark one. Lines vanish where D < thresh and where they would be closer than
+    min_px pixels. The width follows D smoothly along the line (the lines swell and thin, as burin lines do)."""
+    v = u * per_unit
+    gy, gx = grad(blur(v, 0.8)); pxv = np.sqrt(gx * gx + gy * gy) + 1e-6
+    ph = v - np.floor(v); dist_v = np.minimum(ph, 1 - ph)                           # distance to the nearest line, in line spacings
+    spacing_px = 1.0 / pxv
+    half_px = np.maximum(D * cover * 0.5 * spacing_px, hair) * (D > thresh)
+    cov = np.clip((half_px - dist_v * spacing_px) / soft + 0.5, 0, 1)
+    fade = smoothstep(min_px * 0.8, min_px * 1.6, spacing_px)
+    return (cov * fade).astype(np.float32)

@@ -1,0 +1,252 @@
+{
+ "format": "16:9",
+ "look": {
+  "samples": 20,
+  "quality": "fast",
+  "art": "blueprint"
+ },
+ "title": {
+  "text": "What Lies Under a Meadow",
+  "kicker": "CUTAWAY",
+  "at": "l01",
+  "until": "l01>+2.6"
+ },
+ "end": {
+  "text": "CUTAWAY",
+  "sub": "What Lies Under a Meadow"
+ },
+ "sets": {
+  "meadow": {
+   "size": "standard",
+   "strata": "time",
+   "terrain": "rolling",
+   "water": "river",
+   "season": "summer",
+   "time": "golden",
+   "trees": 15,
+   "flowers": 0.7,
+   "reeds": 0.6,
+   "lilies": 12,
+   "boulders": 10,
+   "shafts": 1.0,
+   "fog": 0.0,
+   "seed": 4,
+   "props": {
+    "village": 5,
+    "mill": true,
+    "bridge": true,
+    "lamps": 3
+   },
+   "eggs": [
+    {
+     "kind": "mole",
+     "face": "-Y",
+     "u": -1.3
+    },
+    {
+     "kind": "chest",
+     "face": "-Y",
+     "u": -1.18
+    },
+    {
+     "kind": "amphora",
+     "face": "-Y",
+     "u": -0.42
+    },
+    {
+     "kind": "ammonite",
+     "face": "-Y",
+     "u": 0.2
+    },
+    {
+     "kind": "dino",
+     "face": "-Y",
+     "u": -0.78
+    },
+    {
+     "kind": "trilobite",
+     "face": "-Y",
+     "u": -1.48
+    },
+    {
+     "kind": "gold",
+     "face": "-Y",
+     "u": -0.33,
+     "span": 3.0
+    },
+    {
+     "kind": "hedgehog",
+     "face": "+X",
+     "u": -1.05
+    },
+    {
+     "kind": "geode",
+     "face": "+X",
+     "u": -0.45,
+     "depth": 1.4
+    },
+    {
+     "kind": "well",
+     "face": "+X",
+     "u": 0.62
+    }
+   ],
+   "animals": [
+    {
+     "kind": "deer"
+    },
+    {
+     "kind": "fawn"
+    },
+    {
+     "kind": "rabbit"
+    },
+    {
+     "kind": "fox"
+    },
+    {
+     "kind": "heron"
+    },
+    {
+     "kind": "ducks",
+     "n": 3
+    },
+    {
+     "kind": "fish",
+     "n": 5
+    },
+    {
+     "kind": "butterflies",
+     "n": 3
+    },
+    {
+     "kind": "birds",
+     "n": 4
+    },
+    {
+     "kind": "petals",
+     "n": 36
+    }
+   ]
+  }
+ },
+ "scenes": [
+  {
+   "name": "Arrival",
+   "set": "meadow",
+   "job": "Where are we, and what is the question? A living meadow at golden hour hides something.",
+   "begin": "the whole meadow from above, a river, a village, a mill",
+   "middle": "down at the edge of the cut, eye on the grass, into the sun",
+   "end": "the title over the world",
+   "shots": [
+    {
+     "camera": "map",
+     "until": "l00>+0.4",
+     "why": "open: the whole meadow from above, so we know where we are before we go under it"
+    },
+    {
+     "camera": "ground",
+     "until": "l02+0.2",
+     "why": "change of scale: from the map down to the grass at the edge of the cut, into the low sun; the title lands here"
+    }
+   ]
+  },
+  {
+   "name": "The young layers",
+   "set": "meadow",
+   "job": "What is just under the turf? The recent past, one layer at a time.",
+   "begin": "the treetops and the river glass",
+   "middle": "the mole, the chest and the Roman jar appear as the narration names them",
+   "end": "the camera rests at the Roman layer",
+   "shots": [
+    {
+     "camera": "crane",
+     "face": "-Y",
+     "u": -0.7,
+     "to": "amphora",
+     "until": "l02>-0.6",
+     "why": "the reveal: the cut face read from the top down, each find on the word that names it",
+     "labels": [
+      {
+       "text": "MOLE TUNNEL",
+       "at": "l02.mole",
+       "until": "l02.chest-0.2",
+       "point": "mole",
+       "slot": "upper-left"
+      },
+      {
+       "text": "LOST CHEST",
+       "at": "l02.chest",
+       "until": "l02.roman-0.2",
+       "point": "chest",
+       "slot": "lower-left"
+      },
+      {
+       "text": "ROMAN JAR",
+       "at": "l02.roman",
+       "until": "l02>-0.7",
+       "point": "amphora",
+       "slot": "upper-right"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Deep time",
+   "set": "meadow",
+   "job": "How deep does time go? Down to the giant in the stone.",
+   "begin": "below the Roman layer",
+   "middle": "the years roll into millions as the camera sinks",
+   "end": "close on the skull of the giant",
+   "shots": [
+    {
+     "camera": "crane",
+     "face": "-Y",
+     "u": -0.7,
+     "from": -0.45,
+     "to": 1.25,
+     "until": "l03.bones-0.2",
+     "why": "new information: the layers below are millions of years old; the camera keeps sinking past the fossils",
+     "counter": {
+      "from": 0,
+      "to": 66000000,
+      "at": "l03.years",
+      "done": "l03.millions>",
+      "caption": "YEARS AGO",
+      "slot": "upper-right"
+     }
+    },
+    {
+     "camera": "macro",
+     "target": "dino",
+     "until": "l04.grass>",
+     "why": "change of scale: the payoff, close on the skull of the giant",
+     "labels": [
+      {
+       "text": "T. REX",
+       "at": "l03.giant",
+       "until": "l04.grass>-0.3",
+       "point": "dino",
+       "slot": "upper-left"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Back on top",
+   "set": "meadow",
+   "job": "What does it change? The quiet meadow again, now we know what is under it.",
+   "begin": "low on the meadow, the sun behind it",
+   "middle": "a slow arc, the light bursting round the big tree",
+   "end": "the end card",
+   "shots": [
+    {
+     "camera": "hero",
+     "why": "the consequence: back to the whole world, rim-lit, for the closing line and the end card"
+    }
+   ]
+  }
+ ]
+}
