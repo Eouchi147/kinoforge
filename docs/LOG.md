@@ -2,6 +2,9 @@
 
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
+## 23 Oct 2026
+- Free-model daily limit reset: Salamis resumed from the picture spec stage on the free director (film.yml, 00:21 UTC); a check-in is scheduled at 01:22 UTC; Great Emu War follows only after Salamis.
+
 ## 22 Oct 2026
 - The chat container restarted twice and lost its background watchers; follow-up renders moved to GitHub: rc-render `chain.yml` (every 15 min) dispatches Agincourt once both Cutaway inserts are in `kino-films`.
 - Seasons loop rendered (12 s, release `kino-films` as `cutaway-loop-seasons`), checked, copied to Sam's Mac. Agincourt insert A and both drainage ad formats rendered and wait only for their join jobs behind Venice's parts.
