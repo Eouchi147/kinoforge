@@ -254,7 +254,7 @@ class Sky:
         far = g2.math('MULTIPLY', g2.math('SUBTRACT', r, 2.4), 1 / 7.0, clamp=True)
         pf = g2.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.50, 0.46, 0.42)), 'Roughness': 0.95})
         self.fwarm = g2.value(1.0)
-        e = g2.node('ShaderNodeEmission', ins={'Color': g2.mix(self.fwarm, srgb((0.80, 0.84, 0.88)), srgb((0.80, 0.52, 0.36))), 'Strength': 0.55})
+        e = g2.node('ShaderNodeEmission', ins={'Color': g2.mix(self.fwarm, srgb((0.86, 0.88, 0.90)), srgb((0.94, 0.66, 0.48))), 'Strength': 0.75})
         mx2 = g2.node('ShaderNodeMixShader'); g2.link(g2.math('POWER', far, 0.7), mx2.inputs[0]); g2.link(pf, mx2.inputs[1]); g2.link(e, mx2.inputs[2]); cw._finish(g2, mx2)
         try: mf.cycles.emission_sampling = 'NONE'
         except Exception: pass
@@ -395,7 +395,11 @@ class Fossils:
         for nm, ob, spot, y0, z0, spin in (('ammonite', O['ex_ammonite'], O['ex_spot_ammonite'], -1.40, -0.10, 0.3),
                                            ('fish', fish, None, -1.30, -0.54, 0.12),
                                            ('trilobite', O['ex_trilobite'], O['ex_spot_trilobite'], -1.36, -0.915, -0.4)):
-            P, n = wall_point(y0, z0); place_on_wall(ob, P, n, 0.006, spin)
+            P, n = wall_point(y0, z0)
+            if nm == 'ammonite':   # weathered half out of the cliff, turned toward the crane so the spiral reads (on the wall plane it is seen edge-on)
+                v = np.array((0.80, -2.70, 0.20)) - P; v /= np.linalg.norm(v); nv = 0.3 * n + 0.7 * v; nv /= np.linalg.norm(nv)
+                place_on_wall(ob, P + n * 0.03, nv, 0.0, spin)
+            else: place_on_wall(ob, P, n, 0.006, spin)
             if spot is None:
                 ld = bpy.data.lights.new('rt_spot_fish', 'SPOT'); ld.spot_size = math.radians(30); ld.spot_blend = 0.75; ld.shadow_soft_size = 0.03; ld.color = (1.0, 0.9, 0.76)
                 spot = bpy.data.objects.new('rt_spot_fish', ld); kit.coll.objects.link(spot); spot.visible_camera = False
@@ -453,7 +457,7 @@ def title(kit, cam, lens):
     except Exception as e: print('font', e)
     d = 0.5; hh = d * 18.0 / lens * 9 / 16
     cu.size = hh * 2 * 0.062; cu.space_character = 1.05
-    ob = bpy.data.objects.new('rt_title', cu); kit.coll.objects.link(ob); ob.parent = cam.ob; ob.location = (0, hh * 0.70, -d)
+    ob = bpy.data.objects.new('rt_title', cu); kit.coll.objects.link(ob); ob.parent = cam.ob; ob.location = (0, hh * 0.80, -d)
     m = cw._new_mat(bpy, 'rt_title_mat'); g = G(m.node_tree, kit); a = g.value(0.0, 'rt_title_a')
     e = g.node('ShaderNodeEmission', ins={'Color': srgb((0.10, 0.12, 0.16)), 'Strength': 1.0}); tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
     g.link(a, mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(e, mx.inputs[2]); cw._finish(g, mx)
