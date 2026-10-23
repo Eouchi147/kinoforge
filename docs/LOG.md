@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- rc-render `films.yml`: a poster per film (`<id>-poster.jpg`: the title card + 2 s, else 30 % in; it never fails the join) so new Cutaway films get a real poster in the web studio library; playbook index lists `cutaway-film.md`.
 - Salamis resume (run 39877596998) started after the director's switch to paid mode and stopped at the spec stage before any call (cap US$0.50 from its free-era brief, no credit): US$0 spent. Salamis becomes the first paid film once Sam adds credit (brief to be raised to cap 2.00 and the ElevenLabs voice, from=script). Great Emu War held until then.
 - STATUS: the director's paid section now waits only on credit (the money rule is settled by `docs/decisions/0013`).
 - Docs aligned with decision 0013 (SOUL, PLAYBOOKS, LESSONS, STATUS, HANDOVER banner, decisions 0001, 0005, 0008): the money rule is capped paid films with quality gates; the director playbook covers cap_usd and the no-credit case.

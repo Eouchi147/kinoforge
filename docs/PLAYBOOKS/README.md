@@ -9,6 +9,7 @@ work as written, fix the playbook in the same commit as your fix (and log it).
 | Make a Battle Map film by hand | [make-a-battle-map-film.md](make-a-battle-map-film.md) |
 | Re-direct a film from Sam's notes | [redirect-from-sams-notes.md](redirect-from-sams-notes.md) |
 | Make a Cutaway film | [make-a-cutaway-film.md](make-a-cutaway-film.md) |
+| Make a Cutaway film on the line (spec-driven, or through the director) | [cutaway-film.md](cutaway-film.md) |
 | Run the free director (a film from a brief, no hand coding) | [run-the-free-director.md](run-the-free-director.md) |
 | Render on GitHub (rc-render films, stills, remux, chain) | [render-on-github.md](render-on-github.md) |
 | Render on Sam's Mac (the Mac lane) | [render-on-the-mac.md](render-on-the-mac.md) |
