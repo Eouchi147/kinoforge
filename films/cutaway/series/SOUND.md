@@ -103,7 +103,7 @@ Night wind and owl outside; cave air, drips, lantern; ladder, cart, pick strikes
 
 ## The Sleeping Volcano (`sleeping-volcano`)
 
-Surf and birds; slow boil and rumble below; rock cracks; birds lift; steam; the eruption roar, fire, falling stones. Measured: -18.06 LUFS, peak -2.0 dBFS, 20.0 s.
+Surf and birds; slow boil and rumble below; rock cracks; birds lift; steam; the eruption roar, fire, falling stones. Measured: -18.07 LUFS, peak -1.97 dBFS, 20.0 s.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
