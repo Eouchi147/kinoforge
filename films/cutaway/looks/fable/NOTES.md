@@ -22,6 +22,7 @@ words are set in code, crisp in their own view layer, midnight ink on cream plat
 | t2 | 480x270, 8 | same | film transparent + Environment pass for the sky: picture back. Label plates mis-sized (words excluded from the active view layer, so text was not measured); eggs hidden behind the wall (my wall shader dropped the egg openings) |
 | t3 | 640x360, 12 | same | words kept in the picture layer as indirect-only (measured, invisible); wall and water repainted inside the egg-opening mask; finds brighter; amphora cream on the coral band |
 | t4 | 640x360, 12 | 18.33, 36.0 | laminae in the deep layers, coral trees lighter. Accepted |
+| t5 | 640x360, 8 | 34.58 (830, the board's hero frame) | no change; check of the board frame: holds (54.5 s here) |
 
 Measured on this 2-core shared box at 640x360, 12 samples: 55 s (crane, frame 440) and 73 s (hero) per frame, with
 other builders rendering at the same time; the reference took 21 s per frame at 480x270, 8 samples here. The look is

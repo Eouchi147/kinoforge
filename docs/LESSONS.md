@@ -25,6 +25,7 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - The runner queue is shared: one stills run in flight per builder, at most 8 frames (22 Oct).
 
 ## Rendering
+- Cutaway art modules: `Eggs.finish` cuts the egg openings into the wall and water materials, so an art look that replaces them must keep the mask (`films/styles/cutaway/art/_jewel.py` `under_mask`). Overlay text is measured in the active view layer: keep the words indirect-only in the picture layer, not removed.
 - Mac lane on the Samsung X5 (exFAT): macOS writes a `._name` file beside every file. Count frames with `ls frames/[0-9]*.png`, never `ls | wc -l`; a job's `end` frame is exclusive.
 - ffmpeg: in a chain of `overlay` filters, `enable='between(n,a,b)'` on the second overlay does not see the main frame numbers (Agincourt insert B never showed). Enable by time (`between(t,(a-0.5)/fps,(b+0.5)/fps)`) and test with two inserts, not one.
 - Every frame is a pure function of the frame index: no clocks, no unseeded randomness, no CSS transitions.
