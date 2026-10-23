@@ -1,5 +1,10 @@
 # Status (updated 23 Oct 2026, director paid mode)
 
+## Kids explainers in Fable (Sam, 23 Oct 19:34; starting)
+- Several 1-minute Fable Cutaway films for kids aged 6 to 8: big concepts made simple (dinosaurs, planet Earth, animals,
+  space, oceans), wise and playful minimal narration, music at the centre, one fixed living view, happy bustling world.
+- Storage: everything on Sam's Samsung X5 (`KINOFORGE/films/`); nothing on the Mac's own disk.
+
 ## Studio OS and manual (Sam, 23 Oct 18:17; in progress)
 - AI manual `docs/manual/` (system and workflows done; styles, films and sound being written), human guide `docs/GUIDE.md`
   (after the manual), catalog `tools/catalog.py` to `studio-web/public/data/catalog.json` (done), studio OS `studio-web/`

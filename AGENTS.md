@@ -35,6 +35,7 @@ checks below, not on what you think a studio usually does.
 | **Sam approves** every look before production and everything before it is published or sent | playbooks |
 | **Heavy work runs on GitHub runners** (or the Mac lane), never in a chat session | `docs/decisions/0002` |
 | **Write it down:** every change adds a dated line to `docs/LOG.md` and updates `docs/STATUS.md` in the same commit or push | gate `docs` |
+| **Every success upgrades the studio** (Sam, 23 Oct): when one of Sam's requests succeeds, make it part of KINOFORGE in the same piece of work: a style, line or template the studio app can start, a manual page that recreates it, its films in the catalog | `tools/catalog.py`, your review |
 | **Craft:** every cut, move, effect and label has a written job; real-time moves; living worlds; no emoji or cartoon icons | `scenes.mjs`, `check.cjs` (CRAFT.md section 9) |
 
 ## 4. How to work
@@ -90,4 +91,4 @@ GitHub `Eouchi147/kinoforge` and `Eouchi147/rc-render`, both public (free Action
 `kino-films`, `film-logs` (rc-render), `ads`, `boards`, `pieces`, `social`, `gallery`, `voice`, `logs`. Secret
 `OPENROUTER_API_KEY` (free models only now). Vercel project `kinoforge-studio` (redeploys on every push to `main`).
 Unmissed site repo `Eouchi147/sovereign-studio` (private; its `site.config.js` is the source of every Unmissed claim).
-Sam sees work as GitHub release links, files on his Mac (`Video Production/kino-films/`), and Claude pages.
+Sam sees work in the studio app (Library), as GitHub release links, as files on his external drive (`Samsung X5/KINOFORGE/films/`; nothing is stored on the Mac's own disk since 23 Oct), and in Claude pages.

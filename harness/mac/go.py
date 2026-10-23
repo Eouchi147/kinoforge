@@ -1,8 +1,7 @@
 # KINOFORGE render lane on Sam's Mac (Apple M-series GPU through Metal). Run ONCE inside the Blender app's Python console:
 #   exec(open('/Volumes/Samsung X5/KINOFORGE/render/harness/mac/go.py').read())
 # The lane's home (code copy, mac-jobs, frames) is Sam's external drive when it is plugged in (no iCloud file locks, 800 GB
-# free); otherwise the older copy in the iCloud Desktop folder:
-#   exec(open('/Users/sam/Desktop/Projects/AI tools/Video Production/kinoforge-render/harness/mac/go.py').read())
+# free). The older iCloud copy was removed on 23 Oct (Sam: store on the external drive only): the drive must be plugged in.
 # It starts a background thread that watches <root>/mac-jobs/ (renamed from mac-queue so an older lane still running in the same Blender session stays idle) for job files (*.json) and runs them one at a time, in
 # file-name order (name check jobs "0-..." so they jump ahead of film chunks "5-..."). Every job runs under `caffeinate -i`
 # so the Mac does not sleep while it works. Job kinds:

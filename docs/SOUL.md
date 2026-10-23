@@ -56,6 +56,7 @@ engine of Unmissed, his AI marketing agency (`docs/UNMISSED_HANDOFF.md`).
 | 22 Oct | Cutaway style board | "look amazing"; elevate with cinema lighting (haze, fog, god rays), animated fauna and flora, easter eggs in the soil (dino bones, gold ore), interesting angles | Became the cinematic Cutaway (`films/styles/cutaway/cinematic/`) |
 | 22 Oct (20:24 Toronto) | Cutaway | Loves it; wants it as a KINOFORGE studio style | A spec-driven Cutaway line is being built (`films/lib/cutaway/`) |
 | 23 Oct (17:32 Toronto) | Cutaway cinematic test vs seasons loop | Did not like the cinematic test (camera moves, cuts); liked the seasons loop: barely any camera movement, no cuts, lively world | The seasons loop is the base: one fixed view, a living world; art directions are ported to it |
+| 23 Oct (19:34 Toronto) | Meadow film; the twelve Cutaway looks | Does not like Meadow at all; chose Fable | Fable on the seasons grammar is the art line; first series: 1-minute kids explainers (6 to 8) |
 | 22 Oct | Money | "Spend nothing" (09:20), then "cost effective, cap the budget per film, but good results every time I pay" (20:50) | `docs/decisions/0013` (supersedes 0001) |
 
 Waiting on his verdict (23 Oct): the eight Battle Map v2 films, the re-made Dark Corners, the NOOR samples, the Cutaway
