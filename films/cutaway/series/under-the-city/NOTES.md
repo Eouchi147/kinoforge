@@ -99,3 +99,4 @@ To be measured on the Mac lane (see below).
 
 - 2026-10-23 02:40 UTC: first build (scene builds in 2.2 s, 186 objects, 30 lights). Mac round 1: 3.2 to 4.8 s/frame. Cost: 0.
 - 2026-10-23 02:55 UTC: round 2: calmer dusk sky, real skyline windows, soft cool face fill, sewer bigger and lit, rat bigger, crane and wide closer.
+- 2026-10-23 03:00 UTC: round 2b: tree roots in the fill, an old cast-iron main, three people walking home, skyline as dark silhouettes, face fill aimed below the street.
