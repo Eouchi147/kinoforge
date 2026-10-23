@@ -369,7 +369,7 @@ def motes(kit, land, n=46, seed=23, name='hm_mote'):
         kit.on_frame(pose); pose(0.0)
 
 def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(-0.77, -0.64), over=(-0.33, -0.60), name='hm_hawk',
-         veil=((0.10, 1.12, 0.3), (0.10, 0.95, 0.5))):
+         veil=((0.08, 1.12, 0.3), (0.08, 0.95, 0.5))):
     """A hawk's shadow. The hawk itself is never seen: a flat horizontal silhouette (wings, tail) high between the sun and
     the meadow, seen by shadow rays only (projection between horizontal planes is a translation, so the shadow keeps the
     true shape). Dense backlit grass hides a real shadow (most of its light is fill, bounce and translucency), so the
