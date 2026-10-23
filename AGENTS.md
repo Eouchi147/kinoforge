@@ -26,7 +26,7 @@ checks below, not on what you think a studio usually does.
 ## 3. Rules that never bend (and the gate that enforces each)
 | Rule | Enforced by |
 | --- | --- |
-| **Money: no paid call without Sam's explicit go.** `docs/decisions/0001` (22 Oct 09:20) says spend nothing; a later repo entry (LOG 23 Oct, `films/director/CRAFT.md`, director `config.json`, commit 49f4b2a) records a capped paid rule from 22 Oct 20:50. Until Sam confirms which stands and a decision record says so, treat money as unconfirmed: free tools only, and ask him before any paid call | caps in code (`cap_usd`, ledgers, `OverBudget`); `films/director/config.json` |
+| **Money: a hard cap per film, pay only for results that pass** (`docs/decisions/0013`, Sam 22 Oct 20:50, supersedes 0001): best tool per stage, free tools where they are as good, quality gates before each paid stage, no render unless the film passed; paid image or video generation still needs Sam's go per job; agents never handle keys | caps in code (`cap_usd`, ledgers, `OverBudget`); `films/director/config.json` |
 | **Words, logos and numbers are set in code,** never drawn by an image or video model; AI prompts say "no text, no logos" | gates `text`, `prompts` |
 | **House style for words on screen and in narration:** no em dash, no en dash, no "..." | gate `text`; director code guards; Kinetic compiler |
 | **Honesty.** Facts checked with sources; Unmissed and client claims only in their own written words; demos say so on screen; AI content labelled where platforms ask (`docs/decisions/0012`) | director checker seat; your review |

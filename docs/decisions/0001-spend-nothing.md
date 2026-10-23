@@ -15,3 +15,5 @@
   `config.json`, commit 49f4b2a) records a capped paid rule from Sam on 22 Oct 20:50 Toronto. This record stays until Sam
   confirms; then a new record (0013) supersedes it or the later entries are reverted. Until then: no paid call without his
   explicit go.
+
+- **Superseded** by 0013 (Sam, 22 Oct 20:50 Toronto: capped paid films with quality gates).

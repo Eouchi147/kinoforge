@@ -10,3 +10,5 @@
   errors, repairs starved by the 1,000 requests a day limit). One job at a time. Lantern Road and Clay stay hand-built.
   `films/director/DESIGN.md`'s money section describes the old paid design.
 - **Status:** Active. Playbook: `docs/PLAYBOOKS/run-the-free-director.md`.
+
+- **Amended** by 0013: the director's default is the capped paid mode; free mode stays available.
