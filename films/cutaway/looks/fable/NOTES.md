@@ -67,3 +67,16 @@ after the loop sets it; the title is midnight ink (no plate). Rounds (270x480, 8
 and dark plants (the instance prototypes were not repainted: fixed for every look in _jewel.scene_materials); r2 seasonal
 backdrop; r3 brighter plants; r4 accepted (spring blossom, summer green, winter snow and ice all read). 13 to 32 s a frame
 here at 270x480. Weak spot: the brushwork is subtler at 9:16 because the block is small in the frame.
+
+Second pass after the coordinator's review of the Mac renders (23 Oct): the first port only recoloured. Now, on the loop:
+a painted backdrop card held by the camera behind the block (a season sky from teal to gold in spring and summer, plum
+to coral in autumn, blue to pale in winter, a large soft sun with halo rings, flat cloud streaks kept quiet behind the
+title, three layers of hills with decorative spires and round crowns and a gold rim near the sun, painted fields, a soft
+painted shadow under the block; the studio floor is hidden); storybook trees at the loop's own tree spots (oval and tall
+crowns with striations and painted dabs, coloured each frame from the season: blossom, green, gold and coral; they thin
+and vanish with the loop's own canopy curve and leave bare painted branches for winter; evergreen spires take snow from
+the loop's snow curve); thicker glowing gold lines between the bands; stronger brushwork and a warm paper tone. Rounds r5
+(card and trees), r6 (quieter fields and title sky, autumn checked at frame 180), r7 (ground shadow), accepted. About 20 to
+30 s a frame here at 270x480 and 58 s at 540x960 with 10 samples. Board frames now 40, 100, 180 (autumn), 260.
+Weak spots: the backdrop is fixed to the camera, so the 3 degree sway gives no parallax between block and backdrop; the
+hills band is narrow behind the block; bare branches can show through thinning crowns in autumn.

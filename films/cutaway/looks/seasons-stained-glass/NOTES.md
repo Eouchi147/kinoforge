@@ -6,6 +6,6 @@ sway, no cuts) dressed with the art direction `stained-glass` (films/styles/cuta
 blender.py names the look (module global KF_ART_NAME, nothing set in the environment) and runs the loop's own
 blender.py; film.json is the loop's (720x1280 rendered, 1080x1920 delivered, 288 frames), without audio.
 
-Board frames: 40 (spring: blossom), 100 (summer), 260 (winter: full snow and ice; snow cover peaks from 10.5 to 11.15 s,
+Board frames: 40 (spring: blossom), 100 (summer), 180 (autumn), 260 (winter: full snow and ice; snow cover peaks from 10.5 to 11.15 s,
 so frame 230 at 9.6 s is still mostly autumn ground). Local checks: 270x480, 8 samples, this 2-core chat machine
 (stills in the coordinator's report). Cost: see films/cutaway/looks/stained-glass/NOTES.md, section "On the seasons loop".

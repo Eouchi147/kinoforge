@@ -53,3 +53,8 @@ backdrop, winter top black with lead; r2 seasonal backdrop, light blur before th
 things; r4 to r6 edge lead masked off the ground (pinholes in the index mask closed); r7 quieter backdrop, accepted.
 10 to 19 s a frame here at 270x480, the cheapest. Weak spots: the backdrop panes are busy next to the block; spring
 blossom canopies read as outlined blobs.
+
+Second pass after the coordinator's review (23 Oct): the floor is now large quiet panes, darker and with little tint
+variation; the canopies are proper leaf-glass panes (blossom, green, autumn gold) and the edge lead is masked off them
+(their cut-out holes had turned them into black blobs); snowflakes are plain white glints with no lead. Round r8,
+frames 40, 100, 180, 260, accepted. 25 to 41 s a frame here at 270x480.

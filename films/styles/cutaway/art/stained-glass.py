@@ -189,7 +189,9 @@ def _floor(cw, kit, tinted=False):
     own season backdrop, so the window's ground changes with the year."""
     m = cw._new_mat(kit.bpy, 'glass_floor'); g = cw.G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
     rgb = g.node('ShaderNodeRGB'); rgb.outputs[0].default_value = lin((0.10, 0.14, 0.30))
-    e = glass(g, rgb.outputs[0] if tinted else lin((0.10, 0.14, 0.30)), tc.outputs['Object'], scale=0.9, lead=0.02, sat=1.0 if not tinted else 1.3, glow=0.55 if not tinted else 0.85)
+    if tinted:      # the seasons loop: large quiet panes, dark, low contrast, so the block stays the window's subject
+        e = glass(g, rgb.outputs[0], tc.outputs['Object'], scale=0.32, lead=0.012, sat=1.15, var=0.06, glow=0.75, bubbles=False)
+    else: e = glass(g, lin((0.10, 0.14, 0.30)), tc.outputs['Object'], scale=0.9, lead=0.02, sat=1.0, glow=0.55)
     cw._finish(g, e); return m, rgb
 
 
@@ -211,6 +213,10 @@ def apply(bpy, film, ctx):
             if sock is None and val is None: continue
             col = sock if sock is not None else val
         big = k == 'sz_top'     # the seasons ground (its own season colour and snow), cut in large panes
+        if kitscene and k in ('sz_leaf', 'sz_needles'):     # canopies: proper panes of leaf glass (blossom, green, autumn)
+            J.under_mask(m, glass(g, col, tc.outputs['Object'], scale=9.0, lead=0.035, sat=1.5, bubbles=False)); continue
+        if kitscene and k == 'sz_flake':                    # snowflakes: plain white glints, no lead
+            J.under_mask(m, g.node('ShaderNodeEmission', ins={'Color': lin((0.97, 0.98, 1.0)), 'Strength': 1.1})); continue
         # on the seasons loop the many small things (fallen leaves, flakes, canopies, animals) get no inner lead (it
         # turned them black at this distance): one tinted pane each, outlined by the edge lead in the compositor
         ld = 0.022 if big else (0.0 if kitscene else 0.025)
@@ -237,7 +243,11 @@ def apply(bpy, film, ctx):
     if kitscene:
         land.objects['top'].pass_index = 7; sc.view_layers['paint'].use_pass_object_index = True
         for o in objs:      # and none on what lies on it: fallen leaves, snowflakes, the ice sheet (a cut-out over the whole top), mist
-            if o.name in ('sz_leaves', 'sz_snow', 'sz_ice', 'sz_fog'): o.pass_index = 7
+            if o.name in ('sz_leaves', 'sz_ice', 'sz_fog', 'sz_trees', 'sz_pines'): o.pass_index = 7   # canopies: their cut-out holes made black blobs
+            if o.name == 'sz_snow': o.pass_index = 8
+        for c in bpy.data.collections:     # the tree prototypes too (instances may take their index)
+            if c.name.startswith(('sz_trees', 'sz_pines')):
+                for o in c.all_objects: o.pass_index = 7
     ng, N, Lk, base = J.comp_begin(bpy, 'glass_comp')
     img = base.outputs['Image']
     # lead along every outline: an edge filter on the flat render, thresholded and thickened
@@ -258,6 +268,9 @@ def apply(bpy, film, ctx):
         cl = N.new('CompositorNodeDilateErode'); Lk.new(im.outputs['Alpha'], cl.inputs['Mask']); cl.inputs['Size'].default_value = px + 1   # close pinholes
         er = N.new('CompositorNodeDilateErode'); Lk.new(cl.outputs['Mask'], er.inputs['Mask']); er.inputs['Size'].default_value = -(2 * px + 1)
         edge = J.cmath(N, Lk, 'MULTIPLY', edge, J.cmath(N, Lk, 'SUBTRACT', 1.0, er.outputs['Mask']))
+        i8 = N.new('CompositorNodeIDMask'); i8.inputs['Index'].default_value = 8; Lk.new(rl.outputs['Object Index'], i8.inputs['ID value'])
+        d8 = N.new('CompositorNodeDilateErode'); Lk.new(i8.outputs['Alpha'], d8.inputs['Mask']); d8.inputs['Size'].default_value = px + 1   # flakes: no lead at all
+        edge = J.cmath(N, Lk, 'MULTIPLY', edge, J.cmath(N, Lk, 'SUBTRACT', 1.0, d8.outputs['Mask']))
     di = N.new('CompositorNodeDilateErode'); Lk.new(edge, di.inputs['Mask']); di.inputs['Size'].default_value = int(round(1.0 * W / 1280.0))
     img = J.cmix(N, Lk, di.outputs['Mask'], img, lin(LEAD))
     gl = N.new('CompositorNodeGlare')
