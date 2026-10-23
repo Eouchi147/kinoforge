@@ -1,0 +1,16 @@
+{
+ "id": "cutaway-series-sleeping-volcano",
+ "series": "Cutaway showcase",
+ "title": "The Sleeping Volcano",
+ "style": "cutaway",
+ "duration": 20,
+ "fps": 24,
+ "frames": 480,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "audio": "audio/mix.m4a",
+ "note": "Cutaway series film 6 (16:9): a green island volcano on a block of sea, the -Y cut through the crater shows chamber and conduit; magma wakes and climbs, birds lift, steam turns to smoke, a gentle eruption at dusk with a lava stream to the steaming sea. Picture: blender.py on the Cutaway kit + cinematic extras (imported). Sound: nature recordings only (see NOTES.md events table). Render on the Mac lane (METAL)."
+}
