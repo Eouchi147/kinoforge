@@ -22,4 +22,4 @@ jobs:
         env:
           # the docs gate judges the commits of this push (or of the pull request)
           VERIFY_SINCE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
-        run: bash tools/verify.sh --only secrets,json,syntax,text,prompts,battlemap,social,docs
+        run: bash tools/verify.sh --only secrets,json,syntax,workflows,text,prompts,battlemap,social,docs

@@ -11,7 +11,7 @@ permissions:
   actions: write
 jobs:
   plan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs: { films: '${{ steps.p.outputs.films }}' }
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
   write:
     needs: plan
     if: needs.plan.outputs.films != '[]'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     strategy: { fail-fast: false, matrix: { film: '${{ fromJson(needs.plan.outputs.films) }}' } }
     name: write ${{ matrix.film.id }}
@@ -64,7 +64,7 @@ jobs:
   collect:
     needs: [plan, write]
     if: always() && needs.plan.outputs.films != '[]'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env: { GH_TOKEN: '${{ github.token }}' }
     steps:
       - uses: actions/checkout@v4

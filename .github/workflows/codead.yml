@@ -15,14 +15,14 @@ permissions:
   contents: write
 jobs:
   plan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs: { ads: '${{ steps.s.outputs.ads }}' }
     steps:
       - id: s
         run: echo "ads=$(echo '${{ inputs.ad }}' | python3 -c "import sys,json; print(json.dumps([a.strip() for a in sys.stdin.read().split(',') if a.strip()]))")" >> $GITHUB_OUTPUT
   ad:
     needs: plan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 120
     strategy: { fail-fast: false, matrix: { ad: '${{ fromJSON(needs.plan.outputs.ads) }}' } }
     env: { A: '${{ matrix.ad }}', MODE: '${{ inputs.mode }}', D: "${{ contains(matrix.ad, '/') && matrix.ad || format('ads/{0}', matrix.ad) }}" }

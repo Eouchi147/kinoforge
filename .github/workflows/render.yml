@@ -19,7 +19,7 @@ concurrency:
   group: render-${{ github.run_id }}
 jobs:
   plan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     outputs:
       jobs: ${{ steps.p.outputs.jobs }}
@@ -84,7 +84,7 @@ jobs:
   render:
     needs: plan
     if: ${{ needs.plan.outputs.jobs != '[]' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
       fail-fast: false
@@ -184,7 +184,7 @@ jobs:
   join:
     needs: [plan, render]
     if: ${{ always() && needs.plan.outputs.joins != '[]' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       fail-fast: false

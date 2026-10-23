@@ -51,7 +51,9 @@ export function Job({ id, onWatch, goDirector }) {
   const cap = st?.cap_usd ?? j?.brief?.cap_usd;
   const brief = j?.brief;
   const runUrl = st?.run_url || j?.run?.url;
-  const film = j?.film && done ? { id, title: brief?.title || id, series: brief?.line === 'kinetic' ? 'Kinetic' : 'Battle Map', subject: brief?.subject, format: brief?.line === 'kinetic' ? '9:16' : '16:9', duration: brief?.target_seconds, ...j.film } : null;
+  const fmt = brief?.line === 'kinetic' ? '9:16' : brief?.line === 'cutaway' && brief?.format === '9:16' ? '9:16' : '16:9';
+  const series = { kinetic: 'Kinetic', cutaway: 'Cutaway' }[brief?.line] || 'Battle Map';
+  const film = j?.film && done ? { id, title: brief?.title || id, series, subject: brief?.subject, format: fmt, duration: brief?.target_seconds, ...j.film } : null;
   const waiting = !st;
   return (
     <>
@@ -94,7 +96,7 @@ export function Job({ id, onWatch, goDirector }) {
             <motion.div className="card brief glass" {...appear(3)}>
               <h2>The brief</h2>
               <dl>
-                {[['Line', brief.line === 'kinetic' ? 'Kinetic, 9:16' : 'Battle Map, 16:9'], ['Subject', brief.subject], ['Angle', brief.angle], ['Audience', brief.audience], ['Tone', brief.tone], ['Length', brief.target_seconds ? mins(brief.target_seconds) : null]].map(([k, v]) => v && <div key={k} style={{ display: 'contents' }}><dt>{k}</dt><dd>{v}</dd></div>)}
+                {[['Line', `${{ kinetic: 'Kinetic', cutaway: 'Cutaway' }[brief.line] || 'Battle Map'}, ${brief.line === 'kinetic' ? '9:16' : brief.line === 'cutaway' && brief.format === '9:16' ? '9:16' : '16:9'}`], ['Subject', brief.subject], ['Angle', brief.angle], ['Audience', brief.audience], ['Tone', brief.tone], ['Length', brief.target_seconds ? mins(brief.target_seconds) : null]].map(([k, v]) => v && <div key={k} style={{ display: 'contents' }}><dt>{k}</dt><dd>{v}</dd></div>)}
               </dl>
             </motion.div>
           )}

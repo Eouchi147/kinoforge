@@ -19,7 +19,7 @@ permissions:
 concurrency: { group: 'social-${{ inputs.batch }}', cancel-in-progress: false }
 jobs:
   plan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     outputs: { videos: '${{ steps.s.outputs.videos }}' }
     env: { B: '${{ inputs.batch }}', ONLY: '${{ inputs.only }}' }
@@ -50,7 +50,7 @@ jobs:
           for i in 1 2 3 4 5; do git pull -q --rebase && git push -q && break; sleep $((RANDOM % 7 + 3)); done
   video:
     needs: plan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy: { fail-fast: false, matrix: { v: '${{ fromJSON(needs.plan.outputs.videos) }}' } }
     env: { B: '${{ inputs.batch }}', ID: '${{ matrix.v.id }}', TPL: '${{ matrix.v.template }}', NAME: '${{ matrix.v.name }}' }
@@ -93,7 +93,7 @@ jobs:
   ledger:
     needs: [plan, video]
     if: always() && needs.plan.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     env: { B: '${{ inputs.batch }}' }
     steps:

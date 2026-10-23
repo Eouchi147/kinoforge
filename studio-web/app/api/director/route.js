@@ -10,15 +10,16 @@ const S = (t) => ({ type: ['string', 'null'], description: t });
 // The brief is exactly what the film pipeline reads (films/director/DESIGN.md, films/studio/<id>/brief.json).
 const BRIEF = {
   type: 'object', additionalProperties: false,
-  required: ['title', 'line', 'subject', 'angle', 'audience', 'tone', 'target_seconds', 'notes'],
+  required: ['title', 'line', 'format', 'subject', 'angle', 'audience', 'tone', 'target_seconds', 'notes'],
   properties: {
     title: S('the film title; for a battle: "The Battle of X"'),
-    line: { type: ['string', 'null'], enum: ['battle-map', 'kinetic', null], description: 'the production line' },
+    line: { type: ['string', 'null'], enum: ['battle-map', 'kinetic', 'cutaway', null], description: 'the production line' },
+    format: { type: ['string', 'null'], enum: ['16:9', '9:16', null], description: 'cutaway only: 16:9 (wide, YouTube) or 9:16 (vertical, Shorts and Reels); null for the other lines' },
     subject: S('what the film is about, one sentence with the real names, places and dates'),
     angle: S('the one idea or question the film is built around, one sentence'),
     audience: S('who it is for, a few words'),
     tone: S('how it feels, a few words'),
-    target_seconds: { type: ['number', 'null'], description: 'battle-map 120 to 180, kinetic 60 to 180' },
+    target_seconds: { type: ['number', 'null'], description: 'battle-map 120 to 180, kinetic 60 to 180, cutaway 30 to 90' },
     notes: S('anything else Sam asked for that the writer must respect (a fact to include, a thing to avoid), or null'),
   },
 };
@@ -42,17 +43,18 @@ const IDEAS = {
 };
 
 const SYSTEM = `You are the Director of KINOFORGE, Sam's film studio. Sam tells you a subject, any subject; you turn it into a short explainer film the studio builds by itself and hands back finished. You talk, decide and own the quality.
-The studio has two production lines. Pick the one that serves the subject:
+The studio has three production lines. Pick the one that serves the subject:
 - "battle-map": 16:9 landscape, about 2.5 minutes (120 to 180 s). An animated 3D relief map with unit blocks, arrows that draw on and labels that pop in. Best for battles, campaigns, journeys, expeditions, migrations: anything about places and movement. Tone: upbeat, a glint of dark humour, clear enough for a child (kid-safe words). Examples already made: Cannae, Hastings, Agincourt, Waterloo, Thermopylae, Gaugamela, Hattin, Ain Jalut.
 - "kinetic": 9:16 vertical, about 1 to 3 minutes (60 to 180 s). Words, dates, numbers, documents and quotes set in motion. Best for anything told through language and facts: history, science, true stories, ideas. Tone: plain, restrained, adult by default. Example already made: A Hundred Thousand Good Nights (the Bamberg witch trials).
+- "cutaway": a block of land cut out of the world, built in Blender: a living landscape on top (trees, water, houses, animals), the layers underneath cut clean like a diagram, with surprises buried at their depth (fossils, treasure, ruins, tunnels), golden light and fog. 16:9 or 9:16 (ask which: wide for YouTube, vertical for Shorts and Reels), 30 to 90 seconds (longer films take many hours to render on free machines). Best for what lies under the surface: geology, archaeology, cities on water, mines and tunnels, how things work underground, nature through the seasons. Tone: warm, curious, kid-clear. Examples: Why Venice Sinks, Four Seasons Over One Block, What Lies Under a Meadow.
 Not available yet: clay, paper, lantern-road or other hand-built looks, characters, real-footage shots. If Sam wants one, say so in one sentence and offer the closest line.
-The brief you fill (carry it forward every turn, null for what is not decided): title, line, subject, angle, audience, tone, target_seconds, notes (optional extras from Sam). The narrator is the studio's series voice; do not discuss voices.
+The brief you fill (carry it forward every turn, null for what is not decided): title, line, format (cutaway only), subject, angle, audience, tone, target_seconds, notes (optional extras from Sam). The narrator is the studio's series voice; do not discuss voices.
 How you talk:
 - Plain words, warm, decisive. At most 3 short sentences, then ONE question with 2 to 4 tappable options. Never a list of questions.
 - Lead with a proposal, not a blank question. As soon as Sam names a subject, propose the line, the angle, the tone and the length yourself in the same turn and let him correct you. Two or three turns should be enough.
 - Facts matter: the script's every claim is checked by a second model, but help it by choosing a clear, well-documented angle. Never invent facts yourself; if you are unsure of something, say so.
 - When the brief is complete, read it back in two sentences (title, line, length, angle) and ask "Shall I build it?" with options ["Build it", "Change something"]. Set ready=true only after Sam says to build it.
-- A film costs the studio about US$1 to 1.50 of model time and runs on GitHub machines; Sam watches the stages and nothing is published without him.
+- A film runs on GitHub machines with free models (US$0); a Cutaway film takes a few hours to render. Sam watches the stages and nothing is published without him.
 Hard rules: no real person's likeness or voice, nothing illegal, no gore for its own sake; sensitive history is handled with restraint. No em dashes or en dashes, no "..." anywhere.
 Reply only with the JSON object.`;
 
@@ -64,7 +66,8 @@ function clean(d = {}) {
     ready: d.ready === true,
   };
 }
-const FIELDS = ['title', 'line', 'subject', 'angle', 'audience', 'tone', 'target_seconds', 'notes'];
+const FIELDS = ['title', 'line', 'format', 'subject', 'angle', 'audience', 'tone', 'target_seconds', 'notes'];
+const LINES = ['battle-map', 'kinetic', 'cutaway'];
 const dashless = (s) => typeof s === 'string' ? s.replace(/[\u2013\u2014]/g, ',').replace(/\.{3,}|\u2026/g, '') : s;
 // Keep what is already decided: a weaker model must not wipe the brief by answering null.
 function merge(prev, next) {
@@ -73,7 +76,8 @@ function merge(prev, next) {
     const v = next?.[k], keep = prev?.[k] ?? null;
     out[k] = v === null || v === undefined || v === '' ? keep : dashless(v);
   }
-  if (!['battle-map', 'kinetic'].includes(out.line)) out.line = ['battle-map', 'kinetic'].includes(prev?.line) ? prev.line : null;
+  if (!LINES.includes(out.line)) out.line = LINES.includes(prev?.line) ? prev.line : null;
+  out.format = out.line === 'cutaway' ? (['16:9', '9:16'].includes(out.format) ? out.format : ['16:9', '9:16'].includes(prev?.format) ? prev.format : '16:9') : null;
   out.target_seconds = Number.isFinite(Number(out.target_seconds)) && out.target_seconds !== null ? Math.round(Number(out.target_seconds)) : null;
   return out;
 }
@@ -102,7 +106,7 @@ async function turn(messages, prior) {
 
   const runCrew = async (task) => {
     const drafts = await fanOut('crew', 3, {
-      messages: [{ role: 'system', content: 'You are a writer on the KINOFORGE crew. Be specific and truthful: real, well-documented subjects with a clear angle. No real people\'s voices, nothing illegal. The studio makes two kinds of film: "battle-map" (animated relief map of a battle, campaign or journey, 16:9, about 2.5 min) and "kinetic" (words, dates and documents in motion, 9:16, 1 to 3 min).' },
+      messages: [{ role: 'system', content: 'You are a writer on the KINOFORGE crew. Be specific and truthful: real, well-documented subjects with a clear angle. No real people\'s voices, nothing illegal. The studio makes three kinds of film: "battle-map" (animated relief map of a battle, campaign or journey, 16:9, about 2.5 min), "kinetic" (words, dates and documents in motion, 9:16, 1 to 3 min) and "cutaway" (a block of land cut open: life on top, layers and buried surprises underneath, 16:9 or 9:16, 30 to 90 s).' },
         ...(prior ? [{ role: 'system', content: 'Brief so far: ' + JSON.stringify(prior) }] : []), { role: 'user', content: task }],
       schema: IDEAS, name: 'crew_ideas', maxTokens: 900, deadline: Math.min(deadline, Date.now() + 40e3), book,
     });

@@ -22,6 +22,7 @@ The gates (docs/MEMORY.md explains the house rules they enforce):
   battlemap  films/lib/battlemap/tools/scenes.mjs on every Battle Map film (scene plan, camera speed, shot count, jump cuts)
   social     social/lib/check.mjs on every batch, and the social lane's unit tests
   director   the director's tests that need no browser (Fast)
+  workflows  a workflow that installs Playwright runs on ubuntu-24.04 (Playwright 1.56 does not install on ubuntu-latest)
   docs       a change to code or films comes with a docs/LOG.md line (or, for one film folder, its NOTES.md); LOG.md keeps
              its newest-first dated headings
  full only:
@@ -33,7 +34,7 @@ import ast, concurrent.futures as cf, fnmatch, json, os, re, subprocess, sys, te
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 ALLOW_FILE = os.path.join(ROOT, 'tools', 'verify-allow.txt')
-FAST = ['secrets', 'json', 'syntax', 'text', 'prompts', 'battlemap', 'social', 'director', 'docs']
+FAST = ['secrets', 'json', 'syntax', 'workflows', 'text', 'prompts', 'battlemap', 'social', 'director', 'docs']
 FULL = FAST[:-2] + ['director-full', 'check', 'score', 'docs']
 BAD_TEXT = re.compile('[–—…]|\\.\\.\\.')
 BINARY = re.compile(r'\.(png|jpe?g|webp|gif|mp3|m4a|wav|ogg|flac|mp4|webm|mov|ttf|otf|woff2?|glb|gltf|blend|npz|npy|bin|zip|tgz|gz|pdf|ico|exr|hdr)$', re.I)
@@ -140,6 +141,16 @@ def g_syntax(g):
             if code and not ALLOW.ok('syntax', p):
                 msg = next((l for l in err if 'Error' in l), err[-1] if err else 'node --check failed')
                 g.fail(p, f'JavaScript syntax error: {msg}', f'node --check {p} shows the line')
+
+
+# ------------------------------------------------------------------ workflows
+def g_workflows(g):
+    for p in tracked('.github/workflows'):
+        if not p.endswith(('.yml', '.yaml')): continue
+        g.n += 1; s = open(os.path.join(ROOT, p), encoding='utf-8').read()
+        if 'playwright' in s and re.search(r'runs-on:\s*ubuntu-latest', s) and not ALLOW.ok('workflows', p):
+            g.fail(p, 'installs Playwright on ubuntu-latest', 'use runs-on: ubuntu-24.04 (Playwright 1.56 cannot install on the newer image; seen 22 Oct 2026)')
+        if '\t' in s: g.fail(p, 'a tab character in YAML', 'indent with spaces')
 
 
 # ------------------------------------------------------------------ text (house style for on-screen and spoken words)
@@ -375,7 +386,7 @@ def g_docs(g, since):
                'a builder working inside one film folder may write the line in that folder\'s NOTES.md instead')
 
 
-GATES = {'secrets': g_secrets, 'json': g_json, 'syntax': g_syntax, 'text': g_text, 'prompts': g_prompts, 'battlemap': g_battlemap,
+GATES = {'secrets': g_secrets, 'json': g_json, 'syntax': g_syntax, 'workflows': g_workflows, 'text': g_text, 'prompts': g_prompts, 'battlemap': g_battlemap,
          'social': g_social, 'director': g_director, 'director-full': g_director_full, 'check': g_check, 'score': g_score}
 
 

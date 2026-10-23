@@ -30,9 +30,12 @@ function Tile({ film, open, i }) {
   );
 }
 
-export function Films({ open }) {
+const FILTERS = [['all', 'All'], ['cutaway', 'Cutaway'], ['battle', 'Battle Map'], ['dark', 'Dark Corners'], ['new', 'Made in this studio']];
+
+export function Films({ open, initial = 'all' }) {
   const [lib, setLib] = useState(null);
   const [err, setErr] = useState(false);
+  const [show, setShow] = useState(initial);
   useEffect(() => {
     let live = true;
     const load = () => fetch('/api/films').then((r) => r.json()).then((j) => live && setLib(j)).catch(() => live && setErr(true));
@@ -41,35 +44,51 @@ export function Films({ open }) {
   }, []);
   const battles = lib?.films.filter((f) => f.series === 'Battle Map') || [];
   const dark = lib?.films.filter((f) => f.series === 'Dark Corners') || [];
+  const cutaway = [...(lib?.fresh || []).filter((f) => f.style === 'Cutaway'), ...(lib?.films.filter((f) => f.style === 'Cutaway') || [])];
+  const fresh = (lib?.fresh || []).filter((f) => f.style !== 'Cutaway');
   const pilots = FILMS.map((f) => ({ id: f.id, title: f.title, series: 'Early test', subject: f.style, format: f.format, poster: `/media/${f.media}.jpg`, preview: `/media/${f.media}.mp4`, full: null }));
+  const on = (k) => show === 'all' || show === k;
   let n = 0;
   return (
     <>
       <motion.div className="page-head" {...appear(0)}><div><h1>Films</h1><p className="lede">Every film the studio has made. Tap one to watch it; the full-quality file is one tap away.</p></div></motion.div>
+      <div className="filters" role="group" aria-label="Show">
+        {FILTERS.map(([k, label]) => <button key={k} className={'chip' + (show === k ? ' on' : '')} aria-pressed={show === k} onClick={() => setShow(k)}>{label}</button>)}
+      </div>
       {err && <div className="card glass" role="alert">The library could not load. Check your connection and reload.</div>}
       {!lib && !err && <div className="card glass" role="status">Loading the library</div>}
-      {!!lib?.fresh?.length && (
+      {on('new') && !!fresh.length && (
         <section aria-labelledby="h-new">
           <h2 className="sect" id="h-new">Made in this studio</h2>
-          <div className="row">{lib.fresh.map((f) => <Tile key={f.id} film={f} open={open} i={n++} />)}</div>
+          <div className="row">{fresh.map((f) => <Tile key={f.id} film={f} open={open} i={n++} />)}</div>
         </section>
       )}
-      {!!battles.length && (
+      {on('cutaway') && lib && (
+        <section aria-labelledby="h-cw">
+          <h2 className="sect" id="h-cw">Cutaway <span className="faint">worlds cut open: life on top, layers and surprises underneath</span></h2>
+          {cutaway.length
+            ? <div className="row">{cutaway.map((f) => <Tile key={f.id} film={f} open={open} i={n++} />)}</div>
+            : <p className="faint" style={{ margin: '12px 0 0' }}>The first Cutaway films are rendering. They appear here on their own when they are ready.</p>}
+        </section>
+      )}
+      {on('battle') && !!battles.length && (
         <section aria-labelledby="h-bm">
           <h2 className="sect" id="h-bm">Battle Map <span className="faint">16:9, upbeat history on a relief map</span></h2>
           <div className="row">{battles.map((f) => <Tile key={f.id} film={f} open={open} i={n++} />)}</div>
         </section>
       )}
-      {!!dark.length && (
+      {on('dark') && !!dark.length && (
         <section aria-labelledby="h-dc">
           <h2 className="sect" id="h-dc">Dark Corners <span className="faint">9:16, adult, restrained</span></h2>
           <div className="row">{dark.map((f) => <Tile key={f.id} film={f} open={open} i={n++} />)}</div>
         </section>
       )}
-      <section aria-labelledby="h-old">
-        <h2 className="sect" id="h-old">Early tests <span className="faint">the first animation pilots, kept for reference</span></h2>
-        <div className="row">{pilots.map((f) => <Tile key={f.id} film={f} open={open} i={n++} />)}</div>
-      </section>
+      {show === 'all' && (
+        <section aria-labelledby="h-old">
+          <h2 className="sect" id="h-old">Early tests <span className="faint">the first animation pilots, kept for reference</span></h2>
+          <div className="row">{pilots.map((f) => <Tile key={f.id} film={f} open={open} i={n++} />)}</div>
+        </section>
+      )}
     </>
   );
 }

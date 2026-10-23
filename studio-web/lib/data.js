@@ -23,6 +23,30 @@ export const FILMS = [
   },
 ];
 
+// The house styles (the Styles page): what the studio makes films in. `line` = a live production line of the director
+// (films/director/lines.json): it builds a whole film from a conversation. `ref` = a finished film to watch (rc-render
+// release kino-films, or a local clip).
+export const HOUSE_STYLES = [
+  { id: 'cutaway', name: 'Cutaway', line: 'cutaway', formats: ['16:9', '9:16'], engine: 'Blender', poster: '/posters/style-cutaway.jpg',
+    what: 'A block of land cut out of the world: a living landscape on top, the layers underneath cut clean like a diagram, with surprises buried at their depth. Golden light, fog, animals, easter eggs.',
+    best: 'what lies under the surface: cities, digs, geology, nature, how things work underground; ads for trades',
+    ref: { id: 'cutaway-loop-seasons', title: 'Four Seasons Over One Block', format: '9:16' } },
+  { id: 'battle-map', name: 'Battle Map', line: 'battle-map', formats: ['16:9'], engine: 'Web 3D relief', poster: '/posters/battle-map-cannae.jpg',
+    what: 'A 3D relief map with armies as refined unit blocks, arrows that draw on, a legend panel, labels set in code. Upbeat, kid-clear history.',
+    best: 'battles, campaigns, journeys, expeditions: anything about places and movement',
+    ref: { id: 'battle-map-cannae', title: 'The Battle of Cannae', format: '16:9' } },
+  { id: 'kinetic', name: 'Kinetic', line: 'kinetic', formats: ['9:16'], vertical: true, engine: 'Web canvas', poster: '/posters/dark-corners-bamberg-kinetic.jpg',
+    what: 'Words, dates, numbers and documents in motion, restrained and adult. Facts carry the weight.',
+    best: 'true stories told through words and documents: history, science, ideas',
+    ref: { id: 'dark-corners-bamberg-kinetic', title: 'A Hundred Thousand Good Nights', format: '9:16' } },
+  { id: 'lantern-road', name: 'Lantern Road', line: null, formats: ['9:16'], engine: 'Web 2.5D', poster: '/posters/dark-corners-zong-lantern-road.jpg',
+    what: 'Painterly storybook sets with lantern light and slow moves.', best: 'dark history told as a fable', why: 'Hand-built for now: ask in chat for a film in it.',
+    ref: { id: 'dark-corners-zong-lantern-road', title: 'The Ship Called Care', format: '9:16' } },
+  { id: 'clay', name: 'Clay', line: null, formats: ['9:16'], engine: 'Blender', poster: '/posters/dark-corners-arabia-clay.jpg',
+    what: 'Thumb-sized clay figures and handmade sets, stepped motion.', best: 'intimate human stories', why: 'Hand-built for now: ask in chat for a film in it.',
+    ref: { id: 'dark-corners-arabia-clay', title: 'I Am Buying Her Life', format: '9:16' } },
+];
+
 // The 12 style packs. `motion` = the style's own motion language (blueprint, "Style motion").
 export const STYLES = [
   { id: 'clay', name: 'Clay', media: 'p10-clay', motion: 'Stepped on 2s, clay boil, face-replacement pops', renderer: 'Blender', phase: 'Phase 2 · first' },

@@ -1,5 +1,10 @@
 # Status (updated 22 Oct 2026, 14:00 UTC)
 
+## Cutaway in the studio (23 Oct, in progress)
+- Sam (22 Oct, 20:24 Toronto): "I love the cutaway style, I need it in the kinoforge studio." Free tools only.
+- Web studio: Films page has a Cutaway section and filters; Cutaway films appear on their own once their files are in rc-render `kino-films` (seasons loop now; Venice, the drainage ad in both formats, the cinematic test and the line example when they land). Styles page shows the five house styles (Cutaway, Battle Map, Kinetic, Lantern Road, Clay) with a poster each; "Start a film" on a live line opens the director with that line (Cutaway: 16:9 or 9:16). The director chat and `/api/build` know the `cutaway` line (30 to 90 s, format in the brief).
+- Engine: `films/lib/cutaway/` (spec-driven: a model writes data, not Blender code). Example `films/cutaway/meadow/` (40 s, estimated cues); runner check stills dispatched (rc-render `stills.yml`, tag `cutaway-line-r1`).
+
 ## Gates and agent harness (23 Oct, in progress)
 - `bash tools/verify.sh` (fast, about 1 min) and `--full` (about 10 min): every house rule as a gate; run it before every commit. CI runs it on every push (`verify.yml`) and on engine changes (`verify-engine.yml`). Main passes all gates.
 - Soul and memory for any agent (Muse Code, Codex, Cursor, Gemini CLI, Claude Code): being written now (`AGENTS.md`, `docs/SOUL.md`, `docs/MEMORY.md`, `docs/decisions/`, `docs/PLAYBOOKS/`).

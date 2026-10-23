@@ -1,5 +1,6 @@
 // The film library: the twelve films in rc-render's `kino-films` release (static catalogue, titles and lengths from
-// each film's film.json) plus anything the studio's own pipeline publishes to kinoforge's `films` release (read live).
+// each film's film.json), the Cutaway films (listed as soon as their files land in `kino-films`: read live), plus
+// anything the studio's own pipeline publishes to kinoforge's `films` release (read live).
 import { mediaUrl, downloadUrl } from './media';
 import { REPO } from './data';
 
@@ -20,6 +21,18 @@ export const KINO_FILMS = [
   dc('arabia-clay', 'I Am Buying Her Life', 'Clay', 175.8, null),
 ];
 
+// Cutaway (Blender cross-section worlds, films/cutaway/ and films/styles/cutaway/). Each shows up by itself once
+// `<id>.mp4` or `<id>-preview.mp4` is in rc-render's `kino-films` release (ids are the film.json ids).
+const cw = (id, title, format, duration, subject, series = 'Cutaway') => ({ id, title, series, line: null, style: 'Cutaway', format, duration, subject });
+export const CUTAWAY_FILMS = [
+  cw('under-the-surface-venice', 'Why Venice Sinks', '16:9', 157.0, 'Under the Surface, film 1', 'Under the Surface'),
+  cw('cutaway-loop-seasons', 'Four Seasons Over One Block', '9:16', 12, 'Social loop'),
+  cw('cutaway-ad-drainage-v169', 'Drainage and Landscaping (sample ad)', '16:9', 15, 'Sample trade ad, invented business'),
+  cw('cutaway-ad-drainage-v916', 'Drainage and Landscaping (sample ad)', '9:16', 15, 'Sample trade ad, vertical'),
+  cw('style-cutaway-cinematic', 'Cutaway, the cinematic test', '16:9', 12, 'Golden light, fog, animals, easter eggs'),
+  cw('cutaway-line-meadow', 'What Lies Under a Meadow', '16:9', 39.9, 'The Cutaway line example'),
+];
+
 const fromCatalogue = (f) => ({
   ...f, source: 'kino-films',
   preview: mediaUrl('kino-films', `${f.id}-preview.mp4`),
@@ -29,6 +42,31 @@ const fromCatalogue = (f) => ({
 });
 
 const pretty = (id) => id.replace(/[-_]+/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
+
+/** Asset names in rc-render's `kino-films` release (cached for a minute), or null when GitHub does not answer. */
+async function kinoAssets() {
+  try {
+    const r = await gh('repos/Eouchi147/rc-render/releases/tags/kino-films', { next: { revalidate: 60 } });
+    if (!r.ok) return null;
+    return new Set(((await r.json()).assets || []).map((a) => a.name));
+  } catch { return null; }
+}
+
+/** The Cutaway films whose files exist; poster: a committed one in public/posters, else the release poster, else the sheet. */
+async function cutawayFilms(posters) {
+  const have = await kinoAssets();
+  if (!have) return [];
+  return CUTAWAY_FILMS.filter((f) => have.has(`${f.id}.mp4`) || have.has(`${f.id}-preview.mp4`)).map((f) => ({
+    ...f, source: 'kino-films',
+    preview: mediaUrl('kino-films', have.has(`${f.id}-preview.mp4`) ? `${f.id}-preview.mp4` : `${f.id}.mp4`),
+    full: have.has(`${f.id}.mp4`) ? downloadUrl('kino-films', `${f.id}.mp4`) : null,
+    poster: posters.has(f.id) ? `/posters/${f.id}.jpg` : have.has(`${f.id}-poster.jpg`) ? mediaUrl('kino-films', `${f.id}-poster.jpg`) : have.has(`${f.id}-sheet.jpg`) ? mediaUrl('kino-films', `${f.id}-sheet.jpg`) : null,
+    sheet: have.has(`${f.id}-sheet.jpg`) ? mediaUrl('kino-films', `${f.id}-sheet.jpg`) : null,
+  }));
+}
+
+// Posters committed in public/posters (a frame chosen by hand), by film id.
+const POSTERS = new Set(['cutaway-loop-seasons']);
 
 async function gh(path, opts = {}) {
   const token = process.env.GITHUB_TOKEN;
@@ -59,11 +97,12 @@ async function liveFilms() {
         const b = await gh(`repos/${REPO}/contents/films/studio/${encodeURIComponent(g.id)}/brief.json`, { headers: { Accept: 'application/vnd.github.raw+json', 'User-Agent': 'kinoforge-studio', ...(process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {}) }, next: { revalidate: 300 } });
         if (b.ok) brief = await b.json();
       } catch { /* the title falls back to the id */ }
-      const line = brief?.line === 'kinetic' ? 'kinetic' : brief?.line === 'battle-map' ? 'battle-map' : null;
+      const line = ['kinetic', 'battle-map', 'cutaway'].includes(brief?.line) ? brief.line : null;
       const file = (a) => a && mediaUrl('films', a.name);
       return {
-        id: g.id, title: brief?.title || pretty(g.id), series: line === 'kinetic' ? 'Kinetic' : line === 'battle-map' ? 'Battle Map' : 'Studio',
-        line, style: line === 'kinetic' ? 'Kinetic' : line === 'battle-map' ? 'Terrain' : '', format: line === 'kinetic' ? '9:16' : '16:9',
+        id: g.id, title: brief?.title || pretty(g.id), series: { kinetic: 'Kinetic', 'battle-map': 'Battle Map', cutaway: 'Cutaway' }[line] || 'Studio',
+        line, style: { kinetic: 'Kinetic', 'battle-map': 'Terrain', cutaway: 'Cutaway' }[line] || '',
+        format: line === 'kinetic' ? '9:16' : line === 'cutaway' ? (brief?.format === '9:16' ? '9:16' : '16:9') : '16:9',
         duration: brief?.target_seconds || null, subject: brief?.subject || null, source: 'films', at: g.at,
         preview: file(g.preview) || file(g.full), full: g.full ? downloadUrl('films', g.full.name) : null,
         poster: file(g.poster), sheet: file(g.sheet), size: g.full?.size || null,
@@ -74,6 +113,6 @@ async function liveFilms() {
 }
 
 export async function library() {
-  const fresh = await liveFilms();
-  return { fresh, films: KINO_FILMS.map(fromCatalogue) };
+  const [fresh, cutaway] = await Promise.all([liveFilms(), cutawayFilms(POSTERS)]);
+  return { fresh, films: [...KINO_FILMS.map(fromCatalogue), ...cutaway] };
 }

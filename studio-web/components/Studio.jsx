@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, LayoutGroup } from 'framer-motion';
-import { STYLES, BUILD_GATES, REPO } from '@/lib/data';
+import { STYLES, HOUSE_STYLES, BUILD_GATES, REPO } from '@/lib/data';
+import { mediaUrl } from '@/lib/media';
 import { Films, Player } from './Films';
 import { Job } from './Job';
 import { appear, ease } from './ui';
@@ -38,6 +39,7 @@ export default function Studio() {
   const [status, setStatus] = useState(null);
   const [player, setPlayer] = useState(null);
   const [job, setJob] = useState(null);                 // id of the film job being watched (#job/<id>)
+  const [seed, setSeed] = useState(null);               // a house style picked on the Styles page: {line, format, say}
   useEffect(() => { fetch('/api/status').then((r) => r.json()).then(setStatus).catch(() => setStatus({ openrouter: false, github: false })); }, []);
   useEffect(() => {
     const sync = () => {
@@ -76,10 +78,10 @@ export default function Studio() {
         <main className="main">
           <AnimatePresence mode="wait">
             <motion.div key={tab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.45, ease }}>
-              {tab === 'director' && <Director status={status} go={go} openJob={openJob} />}
+              {tab === 'director' && <Director status={status} go={go} openJob={openJob} seed={seed} clearSeed={() => setSeed(null)} />}
               {tab === 'job' && job && <Job id={job} onWatch={setPlayer} goDirector={() => go('director')} />}
               {tab === 'films' && <Films open={setPlayer} />}
-              {tab === 'styles' && <Styles open={setPlayer} />}
+              {tab === 'styles' && <Styles open={setPlayer} pick={(x) => { setSeed({ ...x, at: Date.now() }); go('director'); }} />}
               {tab === 'renders' && <Renders />}
               {tab === 'setup' && <Setup status={status} />}
             </motion.div>
@@ -103,11 +105,12 @@ function Mark() {
 }
 
 // ------------------------------------------------------------------ Director: the conversation
-const LINE_NAME = { 'battle-map': 'Battle Map, 16:9', kinetic: 'Kinetic, 9:16' };
+const LINE_NAME = { 'battle-map': 'Battle Map, 16:9', kinetic: 'Kinetic, 9:16', cutaway: 'Cutaway' };
+const lineName = (b) => b?.line === 'cutaway' ? `Cutaway, ${b.format === '9:16' ? '9:16' : '16:9'}` : LINE_NAME[b?.line];
 const complete = (b) => ['title', 'line', 'subject', 'angle', 'audience', 'tone', 'target_seconds'].every((k) => b?.[k]);
 const lengthOf = (s) => (s ? `${Math.floor(s / 60)} min ${String(Math.round(s % 60)).padStart(2, '0')} s` : null);
 
-function Director({ status, go, openJob }) {
+function Director({ status, go, openJob, seed, clearSeed }) {
   const [msgs, setMsgs] = useState([]);
   const [brief, setBrief] = useState(null);
   const [options, setOptions] = useState([]);
@@ -131,17 +134,24 @@ function Director({ status, go, openJob }) {
   }, []);
   useEffect(() => { try { localStorage.setItem('kf-director-2', JSON.stringify({ msgs, brief, options, fallback })); } catch {} }, [msgs, brief, options, fallback]);
   useEffect(() => { thread.current?.scrollTo({ top: 1e6, behavior: 'smooth' }); }, [msgs, busy]);
-  useEffect(() => { if (connected && !started.current && !busy) { started.current = true; send(null); } }, [connected]);   // the director opens the conversation
+  useEffect(() => { if (connected && !started.current && !busy && !seed) { started.current = true; send(null); } }, [connected]);   // the director opens the conversation
+  // A house style picked on the Styles page: the line goes into the brief and the director hears the choice.
+  useEffect(() => {
+    if (!seed || !connected || busy) return;
+    started.current = true; clearSeed();
+    const b = { ...(brief || {}), line: seed.line, ...(seed.format ? { format: seed.format } : {}) };
+    setBrief(b); send(seed.say, b);
+  }, [seed, connected]);
 
-  async function send(content) {
+  async function send(content, briefNow = brief) {
     const next = content ? [...msgs, { role: 'user', content }] : msgs;
     if (content) setMsgs(next);
     setText(''); setOptions([]); setBusy(true); setErr(null);
     try {
-      const r = await fetch('/api/director', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: next.map(({ role, content }) => ({ role, content })), brief }) });
+      const r = await fetch('/api/director', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: next.map(({ role, content }) => ({ role, content })), brief: briefNow }) });
       const j = await r.json().catch(() => ({ error: 'The reply could not be read.' }));
       if (!r.ok) throw Object.assign(new Error(j.error), { code: j.code });
-      setMsgs([...next, { role: 'assistant', content: j.say, by: j.director }]); setOptions(j.options || []); setBrief(j.brief || brief);
+      setMsgs([...next, { role: 'assistant', content: j.say, by: j.director }]); setOptions(j.options || []); setBrief(j.brief || briefNow);
       setFallback(j.director?.fallback ? j.director.note : null);
     } catch (e) {
       setErr(e.code === 'credits' ? 'The studio key is out of credit and no free model could answer. Try again in a minute, or add credit on openrouter.ai.' : e.code === 'no-key' ? null : 'No model answered just now. Send your message again in a minute.');
@@ -200,13 +210,13 @@ function Director({ status, go, openJob }) {
             <p>{nextForSam}</p>
             {status && !status.openrouter && <button className="btn lamp" onClick={() => go('setup')}>Open Setup</button>}
             {ok && <button className="btn lamp" disabled={building} onClick={build}>{building ? 'Starting' : 'Build this film'}</button>}
-            {ok && <p className="faint" style={{ margin: '10px 0 0' }}>About $1 to $1.50 of model time, capped at $1.50. Nothing is published without you.</p>}
+            {ok && <p className="faint" style={{ margin: '10px 0 0' }}>{brief?.line === 'cutaway' ? 'Free models and free render machines: $0. A Cutaway film renders for a few hours on GitHub. Nothing is published without you.' : 'About $1 to $1.50 of model time, capped at $1.50. Nothing is published without you.'}</p>}
             {buildErr && <p role="alert" style={{ margin: '10px 0 0', color: '#ffb4b4' }}>{buildErr}</p>}
           </motion.div>
           <motion.div className="card brief glass" {...appear(3)}>
             <h2>The film so far</h2>
             <dl>
-              {[['Title', brief?.title], ['Line', LINE_NAME[brief?.line]], ['Subject', brief?.subject], ['Angle', brief?.angle], ['Audience', brief?.audience], ['Tone', brief?.tone], ['Length', lengthOf(brief?.target_seconds)], ['Extras', brief?.notes], ['Narrator', 'the series narrator']].map(([k, v]) => (
+              {[['Title', brief?.title], ['Line', lineName(brief)], ['Subject', brief?.subject], ['Angle', brief?.angle], ['Audience', brief?.audience], ['Tone', brief?.tone], ['Length', lengthOf(brief?.target_seconds)], ['Extras', brief?.notes], ['Narrator', 'the series narrator']].map(([k, v]) => (
                 <div key={k} style={{ display: 'contents' }}><dt>{k}</dt><dd className={v ? '' : 'empty'}>{v || 'not decided yet'}</dd></div>
               ))}
             </dl>
@@ -224,20 +234,52 @@ function Director({ status, go, openJob }) {
   );
 }
 
-// ------------------------------------------------------------------ Styles
-function Styles({ open }) {
+// ------------------------------------------------------------------ Styles: the house styles, then the early test looks
+function Styles({ open, pick }) {
+  const play = (h) => open({ title: h.name, series: 'House style', subject: h.ref.title, format: h.ref.format, poster: h.poster,
+    preview: h.ref.local ? h.ref.local : mediaUrl('kino-films', `${h.ref.id}-preview.mp4`), full: null });
   return (
     <>
-      <motion.div className="page-head" {...appear(0)}><div><h1>Looks the studio has tested</h1><p className="lede">Short test clips of each look. Terrain and Kinetic are live production lines: the director can build a film in them today. The others are test clips for now.</p></div></motion.div>
+      <motion.div className="page-head" {...appear(0)}><div><h1>House styles</h1><p className="lede">The looks the studio makes films in. Pick one to start a film with the director; the live lines build a whole film from a conversation.</p></div></motion.div>
+      <div className="styles">
+        {HOUSE_STYLES.map((h, i) => (
+          <motion.article key={h.id} className="tile glass style-card" {...appear(1 + i * 0.4)} aria-labelledby={`st-${h.id}`}>
+            <button className="thumb" onClick={() => play(h)} aria-label={`Play a ${h.name} film`} style={{ border: 0, padding: 0, width: '100%', cursor: 'pointer', display: 'block' }}>
+              {h.vertical && <img className="backdrop" src={h.poster} alt="" aria-hidden="true" loading="lazy" />}
+              <img className={h.vertical ? 'portrait' : ''} src={h.poster} alt="" loading="lazy" />
+              <span className="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6.5 9 5.5-9 5.5z" fill="currentColor" /></svg></span>
+              <span className="fmt">{h.formats.join(' or ')}</span>
+            </button>
+            <div className="body">
+              <b id={`st-${h.id}`} style={{ fontSize: 18, fontWeight: 640 }}>{h.name}</b>
+              <p>{h.what}</p>
+              <div className="tags">
+                <span className={'chip' + (h.line ? ' on' : '')}>{h.line ? 'live line' : 'hand-built'}</span>
+                <span className="chip">{h.engine}</span>
+              </div>
+              <p className="faint" style={{ fontSize: 13 }}>Best for: {h.best}</p>
+              <div className="acts">
+                {h.line && h.formats.map((f) => (
+                  <button key={f} className="btn lamp" onClick={() => pick({ line: h.line, format: h.line === 'cutaway' ? f : null, say: `Let's make a ${h.name} film${h.formats.length > 1 ? `, ${f === '9:16' ? 'vertical 9:16' : 'wide 16:9'}` : ''}.` })}>
+                    {h.formats.length > 1 ? `Start a film, ${f}` : 'Start a film'}
+                  </button>
+                ))}
+                {!h.line && <span className="faint" style={{ fontSize: 13 }}>{h.why}</span>}
+              </div>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+      <h2 className="sect">Early test looks <span className="faint">short clips from the first style prototypes</span></h2>
       <div className="row">
         {STYLES.map((s, i) => (
-          <motion.button key={s.id} className="tile glass" onClick={() => open({ title: s.name, series: 'Style test', format: s.vertical ? '9:16' : '16:9', poster: `/media/${s.media}.jpg`, preview: `/media/${s.media}.mp4` })} {...appear(1 + i * 0.4)} aria-label={`Play the ${s.name} test clip`}>
+          <motion.button key={s.id} className="tile glass" onClick={() => open({ title: s.name, series: 'Style test', format: s.vertical ? '9:16' : '16:9', poster: `/media/${s.media}.jpg`, preview: `/media/${s.media}.mp4` })} {...appear(3 + i * 0.3)} aria-label={`Play the ${s.name} test clip`}>
             <div className="thumb">
               {s.vertical && <img className="backdrop" src={`/media/${s.media}.jpg`} alt="" aria-hidden="true" loading="lazy" />}
               <img className={s.vertical ? 'portrait' : ''} src={`/media/${s.media}.jpg`} alt="" loading="lazy" />
               <span className="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6.5 9 5.5-9 5.5z" fill="currentColor" /></svg></span>
             </div>
-            <div className="meta"><b>{s.name}</b>{s.line && <span className="chip on" style={{ marginInlineStart: 8, padding: '1px 9px', fontSize: 12 }}>live line</span>}<span style={{ display: 'block' }}>{s.motion}</span></div>
+            <div className="meta"><b>{s.name}</b><span style={{ display: 'block' }}>{s.motion}</span></div>
           </motion.button>
         ))}
       </div>
