@@ -101,3 +101,4 @@ To be measured on the Mac lane (see below).
 - 2026-10-23 02:55 UTC: round 2: calmer dusk sky, real skyline windows, soft cool face fill, sewer bigger and lit, rat bigger, crane and wide closer.
 - 2026-10-23 03:00 UTC: round 2b: tree roots in the fill, an old cast-iron main, three people walking home, skyline as dark silhouettes, face fill aimed below the street.
 - 2026-10-23 03:15 UTC: round 3: face fill down to 45 W and exposure 0.1 (round 2 read flat and toy-like), darker limestone and floor, softer skyline haze, tunnel end caps kept inside the block (they bulged out of the side faces).
+- 2026-10-23 03:25 UTC: round 4: darker limestone (it read washed white), column moved into the crane frame, glossy 1, transparent 6, adaptive threshold 0.05 (the Mac slowed to 10 to 16 s/frame in round 3).

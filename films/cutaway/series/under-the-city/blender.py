@@ -39,7 +39,7 @@ SUN_AZ, SUN_EL = 112.0, 4.0
 # time runs down: street, utility fill, clay (sewer), grey till (metro), rubble (old brick), Roman loam, fossil limestone, bedrock
 STRATA = [('asphalt', 0.05, (0.13, 0.13, 0.14), 0.5), ('base', 0.07, (0.50, 0.48, 0.45), 0.9), ('fill', 0.40, (0.56, 0.44, 0.31), 0.35),
           ('clay', 0.34, (0.60, 0.40, 0.27), 0.04), ('till', 0.50, (0.47, 0.46, 0.44), 0.35), ('rubble', 0.22, (0.50, 0.37, 0.29), 0.55),
-          ('roman', 0.22, (0.62, 0.44, 0.27), 0.18), ('limestone', 0.65, (0.74, 0.70, 0.61), 0.08), ('bedrock', 1.0, (0.24, 0.25, 0.30), 0.35)]
+          ('roman', 0.22, (0.62, 0.44, 0.27), 0.18), ('limestone', 0.65, (0.60, 0.56, 0.48), 0.10), ('bedrock', 1.0, (0.24, 0.25, 0.30), 0.35)]
 SEWER = (-0.70, 0.13)            # centre z, radius (half tunnel cut lengthwise by the face)
 METRO = (-1.11, 0.20)
 MANHOLE_U = 0.95
@@ -524,8 +524,8 @@ def build_old_city(kit, land, eggs):
         for j in range(ring):
             a = 2 * math.pi * j / ring; rr_ = 0.052 * (1 - 0.07 * max(0.0, math.cos(a * 10)) ** 2); V.append((x, rr_ * math.cos(a) + 0.02, rr_ * math.sin(a)))
     F = [(j, (j + 1) % ring, ring + (j + 1) % ring, ring + j) for j in range(ring)] + [tuple(range(ring))[::-1], tuple(range(ring, 2 * ring))]
-    eggs.obj('utc_column', [(V, F, 0)], [ex.mat_pbr(kit, 'utc_marble', (0.88, 0.85, 0.78), 0.35, coat=0.2, cavity=0.6)], '-Y', 0.95, -1.70, 0.0, math.pi / 2 - 0.06)
-    eggs.spot('-Y', 0.85, -1.70, power=3.0, out=0.5, up=0.25, size=40, name='utc_spot_column')
+    eggs.obj('utc_column', [(V, F, 0)], [ex.mat_pbr(kit, 'utc_marble', (0.88, 0.85, 0.78), 0.35, coat=0.2, cavity=0.6)], '-Y', 0.74, -1.70, 0.0, math.pi / 2 - 0.06)
+    eggs.spot('-Y', 0.70, -1.70, power=3.0, out=0.5, up=0.25, size=40, name='utc_spot_column')
 
 def build_motes(kit, n=46, seed=8):
     """Dust motes drifting in front of the face (catch the warm practicals)."""
@@ -610,8 +610,8 @@ def build(bpy, ctx):
     S['cam'] = ex.ShotCam(kit); S['title'] = build_title(kit, S['cam'])
     cw.apply_cycles(bpy, fast=True)
     cy = bpy.context.scene.cycles
-    cy.max_bounces = 4; cy.diffuse_bounces = 2; cy.glossy_bounces = 2; cy.transmission_bounces = 4; cy.transparent_max_bounces = 10
-    cy.adaptive_threshold = 0.04; cy.sample_clamp_direct = 12.0; cy.sample_clamp_indirect = 4.0
+    cy.max_bounces = 4; cy.diffuse_bounces = 2; cy.glossy_bounces = 1; cy.transmission_bounces = 3; cy.transparent_max_bounces = 6
+    cy.adaptive_threshold = 0.05; cy.sample_clamp_direct = 12.0; cy.sample_clamp_indirect = 4.0
     frame(bpy, ctx, S, 0, 0.0)
     return S
 
