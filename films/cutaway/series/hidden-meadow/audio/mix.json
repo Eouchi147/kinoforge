@@ -1,0 +1,40 @@
+{
+ "seconds_wav": 20.0,
+ "seconds_m4a": 20.0,
+ "lufs": -18.01,
+ "peak_dbfs": -2.0,
+ "m4a_decoded_lufs": -18.05,
+ "m4a_decoded_peak_dbfs": -2.0,
+ "sample_rate": 48000,
+ "codec": "aac 256k stereo",
+ "fade_in_s": 0.8,
+ "fade_out_s": 1.2,
+ "sources": {
+  "birds_waking_3": [
+   "bed 0.0-20.0 s",
+   "bed 4.5-13.0 s"
+  ],
+  "bumblebee_1": [
+   "bumblebee at 2.60 s"
+  ],
+  "dig_shovel": [
+   "mole digs at 7.20 s",
+   "mole digs at 7.90 s",
+   "mole digs at 8.50 s"
+  ],
+  "field_cricket": [
+   "bed 0.0-20.0 s"
+  ],
+  "flight_bird_1": [
+   "hawk wings pass at 13.00 s"
+  ],
+  "steps_mud": [
+   "ants (tiny scratching) at 9.00 s",
+   "rabbit dives at 13.90 s",
+   "rabbit dives at 14.30 s",
+   "rabbit dives at 14.60 s"
+  ]
+ },
+ "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
+ "notes": "birdsong, crickets and a bee above; muffled below with the mole and ants; silence and wings for the hawk"
+}

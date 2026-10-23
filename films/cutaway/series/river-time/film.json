@@ -1,0 +1,16 @@
+{
+ "id": "cutaway-series-river-time",
+ "series": "Cutaway showcase",
+ "title": "The River Through Time",
+ "style": "cutaway",
+ "duration": 20,
+ "fps": 24,
+ "frames": 480,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "audio": "audio/mix.m4a",
+ "note": "Cutaway showcase film 1 (geology, time-lapse). A stream on a flat grassy block cuts a canyon through the rock beds over ages; time is shown by the sun racing and the light shifting; an ammonite, a fish and a trilobite are bared in the canyon wall; today: golden hour, a hiker on the rim, birds. Three shots. Blender Cycles, procedural, on the Cutaway kit (films/styles/cutaway) and its cinematic extras. Sound: real nature recordings only (see NOTES.md for the event table)."
+}

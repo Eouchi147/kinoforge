@@ -1,0 +1,60 @@
+{
+ "seconds_wav": 20.0,
+ "seconds_m4a": 20.0,
+ "lufs": -18.04,
+ "peak_dbfs": -2.0,
+ "m4a_decoded_lufs": -18.06,
+ "m4a_decoded_peak_dbfs": -2.0,
+ "sample_rate": 48000,
+ "codec": "aac 256k stereo",
+ "fade_in_s": 0.8,
+ "fade_out_s": 1.2,
+ "sources": {
+  "big_broth": [
+   "bed 3.5-20.0 s"
+  ],
+  "crows_1": [
+   "alarm calls as they lift at 11.20 s"
+  ],
+  "fall_of_stone": [
+   "stones fall back at 16.40 s",
+   "stones fall back at 17.40 s",
+   "stones fall back at 18.20 s"
+  ],
+  "fireplace_2": [
+   "bed 15.1-20.0 s"
+  ],
+  "flight_bird_2": [
+   "birds lift at 11.05 s"
+  ],
+  "flight_pigeon": [
+   "birds lift at 10.80 s"
+  ],
+  "forest": [
+   "bed 0.0-11.4 s"
+  ],
+  "ice_crack_1": [
+   "rock cracks as magma rises at 7.20 s"
+  ],
+  "ice_crack_2": [
+   "rock cracks as magma rises at 8.60 s"
+  ],
+  "ice_crack_3": [
+   "rock cracks as magma rises at 9.80 s"
+  ],
+  "small_waves_ocean": [
+   "bed 0.0-20.0 s"
+  ],
+  "steam_hiss_1": [
+   "steam from the vents at 11.80 s"
+  ],
+  "thunder_2": [
+   "the eruption roars at 14.80 s"
+  ],
+  "thunder_3": [
+   "bed 4.5-20.0 s"
+  ]
+ },
+ "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
+ "notes": "surf and birds; slow boil and rumble below; rock cracks; birds lift; steam; the eruption roar, fire, falling stones"
+}

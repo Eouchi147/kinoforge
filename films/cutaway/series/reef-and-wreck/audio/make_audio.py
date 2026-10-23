@@ -33,7 +33,7 @@ def main():
           env=[(0, 0), (u - 0.6, 0), (u + 0.6, -26), (EV['diver'] - 0.6, -26), (EV['diver'], -8), (20, -14)])
     m.spot('gulls_harbor', 0.6, gain=-14, p=-0.35, start=12, length=4.4, hp=600, fi=0.5, fo=1.2, trim=False, label='gulls')
     # under water: the hush, the surf heard through water, bubbles from the reef
-    m.bed('underwater', start=5, gain=-4, t0=u - 0.6, t1=20, fi=1.2, fo=1.0, env=[(u, 0), (EV['diver'], -2), (20, -4)])
+    m.bed('underwater', start=5, gain=-9, t0=u - 0.6, t1=20, fi=1.2, fo=1.0, env=[(u, 0), (EV['diver'], -2), (20, -4)])
     m.bed('small_waves_ocean', start=20, gain=-10, lp=350, t0=u - 0.3, t1=20, fi=1.0, fo=1.0)
     r0, r1 = EV['reef']
     m.spot('water_bubbles', r0 + 0.4, gain=-20, p=0.3, start=2.0, length=r1 - r0, lp=3500, fi=0.8, fo=1.0, trim=False, label='reef bubbles')

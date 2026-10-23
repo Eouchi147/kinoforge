@@ -1,0 +1,56 @@
+{
+ "seconds_wav": 20.0,
+ "seconds_m4a": 20.0,
+ "lufs": -18.0,
+ "peak_dbfs": -2.0,
+ "m4a_decoded_lufs": -18.09,
+ "m4a_decoded_peak_dbfs": -1.96,
+ "sample_rate": 48000,
+ "codec": "aac 256k stereo",
+ "fade_in_s": 0.8,
+ "fade_out_s": 1.2,
+ "sources": {
+  "anvil_1": [
+   "the ringing strike, the gold glints at 16.60 s"
+  ],
+  "campaign_night_1": [
+   "bed 0.0-5.0 s"
+  ],
+  "candle_sparkle_1": [
+   "bed 4.0-20.0 s"
+  ],
+  "cave_1": [
+   "bed 3.0-20.0 s"
+  ],
+  "fall_of_stone": [
+   "chips fall at 13.65 s",
+   "chips fall at 14.65 s",
+   "chips fall at 15.65 s",
+   "rock gives, the vein shows at 16.68 s"
+  ],
+  "hammer_concrete": [
+   "pick strikes rock at 13.60 s",
+   "pick strikes rock at 14.60 s",
+   "pick strikes rock at 15.60 s"
+  ],
+  "owl_tawny": [
+   "an owl on the mountain at 1.40 s"
+  ],
+  "squeaky_barrow_4": [
+   "cart wheels squeal at 8.50 s"
+  ],
+  "squeaky_steps_1": [
+   "ladder rung at 6.00 s",
+   "ladder rung at 6.70 s",
+   "ladder rung at 7.40 s"
+  ],
+  "steam_between_wagons": [
+   "cart rumble on the rails at 8.70 s"
+  ],
+  "wind_plain": [
+   "bed 0.0-5.5 s"
+  ]
+ },
+ "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
+ "notes": "night wind and owl outside; cave air, drips, lantern; ladder, cart, pick strikes; the ringing strike at the glint"
+}

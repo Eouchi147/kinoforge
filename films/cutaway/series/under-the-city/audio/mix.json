@@ -1,0 +1,47 @@
+{
+ "seconds_wav": 20.0,
+ "seconds_m4a": 20.0,
+ "lufs": -18.04,
+ "peak_dbfs": -2.0,
+ "m4a_decoded_lufs": -18.12,
+ "m4a_decoded_peak_dbfs": -1.96,
+ "sample_rate": 48000,
+ "codec": "aac 256k stereo",
+ "fade_in_s": 0.8,
+ "fade_out_s": 1.2,
+ "sources": {
+  "cave_2": [
+   "bed 12.2-20.0 s"
+  ],
+  "drops_2": [
+   "bed 7.0-16.5 s"
+  ],
+  "drops_3": [
+   "drip in the ruins at 14.10 s"
+  ],
+  "drops_4": [
+   "drip by the bones at 17.80 s"
+  ],
+  "london_bus": [
+   "bus passes at 1.60 s"
+  ],
+  "metro_paris_1": [
+   "a train far above at 16.30 s"
+  ],
+  "mouse_screams": [
+   "rat squeaks at 8.40 s"
+  ],
+  "paris_by_night": [
+   "bed 0.0-6.0 s",
+   "bed 3.5-8.0 s"
+  ],
+  "sewer_1": [
+   "bed 4.5-10.5 s"
+  ],
+  "train_passage_1": [
+   "metro passes at 9.40 s"
+  ]
+ },
+ "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
+ "notes": "street at dusk and a bus, water in pipes and sewer, a rat, the metro, cave stillness and drips"
+}
