@@ -1,5 +1,9 @@
 # Status (updated 22 Oct 2026, 14:00 UTC)
 
+## Gates and agent harness (23 Oct, in progress)
+- `bash tools/verify.sh` (fast, about 1 min) and `--full` (about 10 min): every house rule as a gate; run it before every commit. CI runs it on every push (`verify.yml`) and on engine changes (`verify-engine.yml`). Main passes all gates.
+- Soul and memory for any agent (Muse Code, Codex, Cursor, Gemini CLI, Claude Code): being written now (`AGENTS.md`, `docs/SOUL.md`, `docs/MEMORY.md`, `docs/decisions/`, `docs/PLAYBOOKS/`).
+
 ## NOOR Ramadan samples (22 Oct, started 14:30 UTC; delivered 23 Oct 00:40 UTC, waiting on Sam's verdict)
 - Sam asked (Noor Codex chat) for 2 to 3 free sample videos for the NOOR Ramadan 2027 series (series bible: Claude doc "NOOR · Thirty Nights of Light").
 - Building in `films/noor/`: `n05-iqra` (The Descent, Night 5), `j30-amma` (Tonight's Juz, Night 30), then a 9:16 short from Iqra. Narration and score: `noor-sound.yml` (free). Picture: Lantern Road engine, rendered by `films-render.yml` (free), release `films`.

@@ -1,0 +1,34 @@
+# Engine gates (tools/verify.py --full): every director test (Chromium), films/director/check.cjs on every Battle Map film,
+# the score engine selftest. About 10 minutes, so it runs only when engine, director, harness or gate code changes,
+# on pull requests, and by hand (Actions, verify-engine, Run workflow). No rendering, no paid call.
+name: verify-engine
+on:
+  push:
+    branches: [main]
+    paths: ['films/director/**', 'films/lib/**', 'harness/*.cjs', 'harness/kit/**', 'tools/verify*', '.github/workflows/verify-engine.yml']
+  pull_request:
+    paths: ['films/**', 'harness/**', 'tools/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: verify-engine-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  engine:
+    runs-on: ubuntu-24.04   # Playwright 1.56 does not install on newer images
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: 'npm', cache-dependency-path: harness/package-lock.json }
+      - name: tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q numpy scipy soundfile librosa pillow
+          npm ci --prefix harness --no-audit --no-fund
+          (cd harness && npx playwright install --with-deps chromium > /dev/null)
+      - name: director tests, director checks, score selftest
+        run: bash tools/verify.sh --full --only director-full,check,score

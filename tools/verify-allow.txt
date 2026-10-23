@@ -1,0 +1,15 @@
+# Exceptions to the gates in tools/verify.py. One per line: <gate> <path pattern (fnmatch)>  # <reason, required>
+# Rule: an exception is for frozen legacy work or for files a machine writes, never to get a green run on new work.
+# verify.py warns when a line matches nothing any more: then delete it.
+
+# --- rejected 15 Oct pieces (AI slop round), kept as history
+prompts  pieces/unmissed-brand-01/*  # "bars where text would be": asks for placeholder shapes, not words; piece rejected and frozen
+
+# --- files written by machines (runners, the director); they carry no human change to log
+docs     */ledger.json               # cost records written by the workflows
+docs     */account.json              # key usage readings written by board.yml
+docs     films/studio/*/status.json  # director job state, committed by film.yml after each stage
+docs     films/studio/*/seats.json   # director seat choices, written by film.yml
+docs     films/director/LESSONS.md   # appended by films/director/reflect.py after every job
+docs     */audio/*                   # narration, score and mix outputs committed by prep, sound and film workflows
+docs     */check/*                   # director check output

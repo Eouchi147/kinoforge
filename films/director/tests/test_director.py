@@ -20,6 +20,9 @@ REAL_ASK, REAL_COMPLETE = C.ask, C.complete
 import script as S, spec as SP, look as LK, reflect as RF, start as ST, sound as SO
 
 HAST = os.path.join(C.ROOT, 'films', 'battles', 'hastings')
+# Frozen copy of the v1 Hastings film (commit f6b29e6), made before CRAFT.md: the real film was re-directed on Battle Map v2 on
+# 22 Oct and now passes the craft checks, so the tests that need a v1 spec read this fixture instead of the live film.
+HAST_V1 = os.path.join(HERE, 'fixtures', 'hastings-v1')
 JOB = os.path.join(C.ROOT, 'films', 'studio', '_selftest')
 
 
@@ -222,7 +225,7 @@ class Chromium(unittest.TestCase):
     def test_spec_stage(self):
         os.environ['KF_CHECK_MAX'] = '6'; os.environ['KF_CRAFT'] = '0'   # Hastings predates CRAFT.md; the craft checks have their own test
         job = make_job()
-        good = open(os.path.join(HAST, 'spec.js')).read()
+        good = open(os.path.join(HAST_V1, 'spec.js')).read()
         bad = good.replace("at: 'l06.stood'", "at: 'l06.zzzz'", 1); self.assertNotEqual(bad, good)
         def edits(messages, label):
             if label.startswith('repair a'):
@@ -250,7 +253,7 @@ class Chromium(unittest.TestCase):
         """CRAFT.md section 9 in code, on a film made before it: every rule it breaks is reported."""
         out = tempfile.mkdtemp(); os.environ.pop('KF_CRAFT', None)
         import subprocess
-        subprocess.run(['node', os.path.join(C.HERE, 'check.cjs'), 'films/battles/hastings', '--line', 'battle-map', '--times', '30', '--out', out], cwd=C.ROOT, check=True, capture_output=True)
+        subprocess.run(['node', os.path.join(C.HERE, 'check.cjs'), os.path.relpath(HAST_V1, C.ROOT), '--line', 'battle-map', '--times', '30', '--out', out], cwd=C.ROOT, check=True, capture_output=True)
         r = json.load(open(os.path.join(out, 'report.json'))); hard = ' | '.join(r['hard'])
         self.assertFalse(r['ok'])
         for k in ('no scene list', 'cuts with no written reason', 'camera move from', 'no legend', 'no ambient'): self.assertIn(k, hard)
