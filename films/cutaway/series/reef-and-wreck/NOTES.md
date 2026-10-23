@@ -92,8 +92,13 @@ The Mac lane uses the MacBook Air M4 GPU (METAL), 1280x720 at 20 spp, with adapt
 | 1 | 40 arrive, 128 arrive | 4.0, 4.6 |
 | 1 | 200 descent, 262 descent | 5.0, 6.4 |
 | 1 | 336 wreck, 440 wreck | 6.4, 6.3 |
+| 2 | 20 arrive, 190 descent, 250 descent, 300 descent, 420 wreck | 4.1, 5.3, 6.0, 7.2, 6.2 |
+| 3 | 60 arrive, 132 arrive (splash), 245 descent, 290 descent, 400 wreck, 470 wreck | 4.6, 4.7, 6.4, 6.4, 6.4, 6.3 |
+| 4 | 129 and 134 arrive (splash), 330 wreck, 462 wreck | 4.9, 4.6, 6.2, 6.3 |
 
-Round 1 averaged about 5.5 s/frame, so the 480 frames take about 45 min on the Mac.
+Across 21 frames the range is 4.0 to 7.2 s/frame, about 5.8 s/frame on average. That is well under the 15 s target, so the 480 frames take about 45 to 50 min on the Mac.
+
+Best stills: round 3 frame 245 (the descent: diver, school, turtle, rays) and frame 470 (the end: the diver's torch on the chest), in `kinoforge-render/out/reef-and-wreck-check3/frames/`.
 
 ## Weak spots (honest)
 
@@ -104,4 +109,7 @@ Round 1 averaged about 5.5 s/frame, so the 480 frames take about 45 min on the M
 - The torch beam is a spot light only. There is no volumetric beam (no volumes, for cost).
 
 ## Log
-- 2026-10-23: first build and Mac check rounds (see Render cost). Cost 0 (Sam's Mac, free tools).
+- 2026-10-23: first build and four Mac check rounds (21 stills, see Render cost). Cost 0 (Sam's Mac, free tools).
+  - Round 1 to 2: wreck turned three-quarter to the glass, sea floor cleared at the wreck site, teal floor, lights hidden through the glass (the chest glow showed as a ball), rays gain set per shot.
+  - Round 2 to 3: splash crash fixed (numpy bool), bubbles in puffs, the school turns beside the diver and in frame, the turtle at mid-water, bed pebbles off, title higher.
+  - Round 3 to 4: bigger splash, stronger gold glow.
