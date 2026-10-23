@@ -368,7 +368,7 @@ def motes(kit, land, n=46, seed=23, name='hm_mote'):
             ob.location = (x0 + 0.04 * math.sin(0.23 * t + ph[0]) + 0.008 * t, y0 + 0.04 * math.sin(0.19 * t + ph[1]), z0 + 0.03 * math.sin(0.31 * t + ph[2]) + 0.004 * t)
         kit.on_frame(pose); pose(0.0)
 
-def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.25, heading=(0.42, -0.91), over=(-0.36, -0.52), name='hm_hawk'):
+def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(0.42, -0.91), over=(-0.36, -0.52), name='hm_hawk'):
     """A hawk's shadow: a flat horizontal silhouette (wings, tail) high between the sun and the meadow, seen by shadow
     rays only. Projection between horizontal planes is a translation, so the shadow keeps the true shape. Gliding with
     two slow wing beats; it passes over `over` at t_mid."""
@@ -385,7 +385,7 @@ def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.25, heading=(0.42, -0.9
         wings.append(ex.part(kit, f'{name}_w{sd}', [(V, F, 0)], [m], root))
     for ob in [body] + wings:
         for a in ('visible_camera', 'visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter'): setattr(ob, a, False)
-    root.scale = (1.5,) * 3
+    root.scale = (1.7,) * 3
     sd = np.asarray(sun_dir, float); hd = np.array([heading[0], heading[1], 0.0]); hd /= np.linalg.norm(hd)
     zt = ground(land, *over)
     def pose(t):
@@ -441,8 +441,8 @@ def build(bpy, ctx):
     land = cw.block(kit, size=(S_SIZE, S_SIZE), depth=DEPTH, strata=STRATA, seed=5, top=cw.rolling(amp=0.03, freq=0.9, seed=5, base=0.0),
                     season=season, keep_clear=clear, zones=_runs, tree_spots=TREES, tree_kinds=('round', 'cone'), boulders=3, flowers=1.0, sway=1.35, res=0.016)
     top_holes(kit, land, holes)
-    rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=5.0, sun_color=(1.0, 0.82, 0.62), fill=0.72, rim=0.8,
-                        zenith=(0.16, 0.34, 0.72), horizon=(0.99, 0.80, 0.60), away=(0.52, 0.62, 0.84), ground=(0.22, 0.24, 0.22), amb=0.28)
+    rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=7.0, sun_color=(1.0, 0.82, 0.62), fill=0.42, rim=0.5,
+                        zenith=(0.16, 0.34, 0.72), horizon=(0.99, 0.80, 0.60), away=(0.52, 0.62, 0.84), ground=(0.22, 0.24, 0.22), amb=0.17)
     sd = rig['sun_dir']
     T = np.asarray(land.trees); crown = (T[0, 0], T[0, 1], ground(land, T[0, 0], T[0, 1]) + 0.5)
     shafts = ex.Shafts(kit, land, sd, beams=ex.Shafts.around(crown, 0.18, sd, 9, L=(1.2, 2.2), w=(0.03, 0.10)), canopy=7, strength=2.0, spill=0.5)
@@ -517,8 +517,8 @@ def build(bpy, ctx):
     eggs.geode('+X', -0.10, -1.18, a=0.08, b=0.065)
     eggs.finish()
     ex.soften_roots(land)
-    ex.edge_spill(kit, land, '-Y', power=40.0)
-    ex.edge_spill(kit, land, '+X', power=22.0)
+    ex.edge_spill(kit, land, '-Y', power=55.0)
+    ex.edge_spill(kit, land, '+X', power=30.0)
 
     # ---- life on top
     bees(kit, land, [(-0.1, -0.35), (0.25, -0.2), (-0.45, -0.15), (0.4, -0.55), (0.05, 0.15), (-0.3, -0.6), (0.55, 0.1)])
