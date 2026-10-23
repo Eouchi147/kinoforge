@@ -102,6 +102,13 @@ commit that touches that workflow file (a blank line is enough), wait about 20 s
 Open https://kinoforge-studio.vercel.app (Vercel sign-in), Director tab, name a subject, agree the brief, tap "Build this film". The studio commits `films/studio/<id>/brief.json`; `film.yml` runs; the job page (`#job/<id>`) shows stages and spend from `films/studio/<id>/status.json`; the finished film appears under Films (release `films` of this repo). Media is streamed through `/api/media` from public releases (allow-list in `studio-web/lib/media.js`).
 By hand: commit `films/studio/<id>/brief.json` (format in `films/director/README.md`). Free-only by default since 22 Oct 2026: free OpenRouter seats, Chatterbox or Kokoro narration on the runner, the free score engine; a paid model is refused in code. Resume or restart a stage: dispatch `film.yml` with `job=<id>` and `from=` (REST: `gh api -X POST repos/Eouchi147/kinoforge/actions/workflows/film.yml/dispatches -f ref=main -f 'inputs[job]=<id>'`).
 
+Lines: `battle-map` (16:9), `kinetic` (9:16) and, since 23 Oct, `cutaway` (16:9 or 9:16 by the brief's `format`, 30 to
+90 s; Blender). For a Blender line the coder seat writes `spec.json` (data, `films/lib/cutaway/SPEC.md`), the check stage
+runs the line's validator (`films/lib/cutaway/tools/validate.py`, seconds) instead of Chromium, the eyes get a 480 px
+Blender contact sheet (`tools/stills.py`; `film.yml` installs bpy 5.2.2 in its own Python 3.13), and `films-render.yml`
+renders it with 48 frames a part (4 to 20 parts). The Styles page's "Start a film" opens the director on a line.
+Cutaway films by hand: `docs/PLAYBOOKS/cutaway-film.md`.
+
 ## Re-render a hand-built film (Dark Corners, Battle Map) on free runners
 The film folder in this repo (`films/<series>/<id>/`: `film.json`, `cues.json`, `audio/mix.m4a`, `index.html` or
 `blender.py`) is rendered by rc-render's `films.yml` (parallel parts, join with the film's own sound, release

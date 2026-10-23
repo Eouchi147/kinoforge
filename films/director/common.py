@@ -60,11 +60,12 @@ def line(name):
     L = dict(cfg[name]); L['name'] = name
     if not os.path.exists(os.path.join(ROOT, L['spec_md'])):
         raise ValueError(f'line {name!r} is not available yet: {L["spec_md"]} does not exist')
-    ex = [e for e in (L.get('examples') or []) if os.path.exists(os.path.join(ROOT, e, 'spec.js'))]
+    sf = L.get('spec_file') or 'spec.js'          # spec.json (data) on the Blender lines
+    ex = [e for e in (L.get('examples') or []) if os.path.exists(os.path.join(ROOT, e, sf))]
     if len(ex) < 2 and not L.get('examples_fixed'):
         ex += [e for e in discover_examples(L['engine']) if e not in ex]
     L['examples'] = ex[:2]
-    if not L['examples']: raise ValueError(f'line {name!r} has no example films with a spec.js')
+    if not L['examples']: raise ValueError(f'line {name!r} has no example films with a {sf}')
     return L
 
 

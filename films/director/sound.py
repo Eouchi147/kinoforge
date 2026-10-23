@@ -13,6 +13,7 @@ Every paid call is booked in the job's ledger.json against brief.cap_usd (prep r
 import os, sys, json, re, subprocess
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common as C
+import blender_line as BL
 
 
 def index_html(job, title):
@@ -87,9 +88,10 @@ def vo_check(job, P):
 
 
 def main(d):
-    job = C.Job(d); L = job.line; script = job.read('script.json')
+    job = C.Job(d); L = BL.apply_format(job); script = job.read('script.json')
     if not script: raise RuntimeError('no script.json: run the script stage first')
-    if job.has('cues.json') and job.has('audio', 'mix.m4a') and job.has('film.json') and job.has('index.html'):
+    page = 'blender.py' if BL.is_blender(L) else 'index.html'      # the film's picture entry: a Blender scene or a web page
+    if job.has('cues.json') and job.has('audio', 'mix.m4a') and job.has('film.json') and job.has(page):
         C.log('sound exists, skipped'); return
     C.set_status(job.dir, 'sound', 'running', 'Recording the narration and the score.')
     if not job.has('film.json'):
@@ -125,7 +127,8 @@ def main(d):
     cues = job.read('cues.json'); film = job.read('film.json')
     film['duration'] = cues['duration']; job.write('film.json', film)
     nowords = [l['id'] for l in cues['lines'] if not l.get('words')]
-    open(job.p('index.html'), 'w').write(index_html(job, script['title']))
+    if BL.is_blender(L): BL.prepare(job, script['title'])
+    else: open(job.p('index.html'), 'w').write(index_html(job, script['title']))
     job.ledger = C.Ledger(job.brief['cap_usd'], job.p('ledger.json'))
     msg = f'{len(cues["lines"])} lines on the score, {cues["duration"]:.1f} s, voice {vo["voice"]}.' + (f' No word timings for {", ".join(nowords)}.' if nowords else '') + music_note + \
         (f' Lines still heard imperfectly after a retake: {", ".join(f"l{k:02d}" for k in misheard)}.' if misheard else '')
