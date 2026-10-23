@@ -25,6 +25,7 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - The runner queue is shared: one stills run in flight per builder, at most 8 frames (22 Oct).
 
 ## Rendering
+- Mac lane on the Samsung X5 (exFAT): macOS writes a `._name` file beside every file. Count frames with `ls frames/[0-9]*.png`, never `ls | wc -l`; a job's `end` frame is exclusive.
 - ffmpeg: in a chain of `overlay` filters, `enable='between(n,a,b)'` on the second overlay does not see the main frame numbers (Agincourt insert B never showed). Enable by time (`between(t,(a-0.5)/fps,(b+0.5)/fps)`) and test with two inserts, not one.
 - Every frame is a pure function of the frame index: no clocks, no unseeded randomness, no CSS transitions.
 - Never measure a stage before its fonts load: an early `offsetWidth` read shifts glyph rasterization.

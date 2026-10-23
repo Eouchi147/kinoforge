@@ -4,7 +4,7 @@
 - Samsung X5 (1.9 TB, about 815 GB free), connected to this session as a folder. `KINOFORGE/render/` is the Mac lane's
   home (code copy, `mac-jobs/`); `KINOFORGE/frames/` the frames; `KINOFORGE/films/` an archive of every finished film.
   Start line: `exec(open('/Volumes/Samsung X5/KINOFORGE/render/harness/mac/go.py').read())`. Render leftovers in the iCloud
-  folder deleted (Sam, 14:09). A one-frame test job (`0-drive-test.json`) waits for the lane to start.
+  folder deleted (Sam, 14:09). Lane running from the drive since 15:34 Toronto (gen 1); a test frame rendered to the drive in 4.7 s.
 - Superseded v1 films stay in `Video Production/kino-films/` until Sam says (only copies; iCloud-only, no Mac disk).
 
 ## Cutaway showcase series (Sam, 22 Oct 22:18; due on his wake, 23 Oct morning)
