@@ -83,7 +83,8 @@ const EGG = {
   geode: { x: 1196, y: depthY(1.10, 1196) },
   well: { x: 1432, y: depthY(0.78, 1432) },
 };
-EGG.dino.skull = { x: EGG.dino.x - 128, y: EGG.dino.y - 8 };
+EGG.dino.skull = { x: EGG.dino.x - 170, y: EGG.dino.y - 18 };   // the skull leads; the skeleton runs right from it (scale DS)
+const DS = 0.62;
 
 // ------------------------------------------------------------------ static scatter (seeded, built once)
 const R = rng(4);
@@ -147,6 +148,8 @@ function hills() {
     pts.push([3500, 1300]); poly(pts); g.fillStyle = c; g.fill();
   }
   g.fillStyle = vgrad(470, 1150, P.under0, P.under1); g.fillRect(-1500, 470, 5000, 1500);
+  const glow = g.createRadialGradient(960, 470, 40, 960, 470, 1000); glow.addColorStop(0, rgba('#f6c08c', 0.28)); glow.addColorStop(1, rgba('#f6c08c', 0));
+  g.fillStyle = glow; g.fillRect(-1500, 470, 5000, 1500);
   // a faint far meadow line at the horizon
   g.fillStyle = rgba('#f2b48f', 0.25); g.fillRect(-1500, 466, 5000, 4);
 }
@@ -192,6 +195,12 @@ function strata(t, reveal) {
     }
   }
   g.globalAlpha = 1;
+  // bedding bands inside the thick limestone
+  for (const [d0, d1, a] of [[0.74, 0.79, 0.22], [0.96, 1.04, 0.16], [1.16, 1.2, 0.24]]) {
+    const pts = []; for (let x = BX0; x <= BX1; x += 8) pts.push([x, TOP0 + d0 * PX + wav(6, x) * 0.6 + 2 * Math.sin(x * 0.02 + d0 * 9)]);
+    for (let x = BX1; x >= BX0; x -= 8) pts.push([x, TOP0 + d1 * PX + wav(6, x) * 0.6 + 2 * Math.sin(x * 0.017 + d1 * 7)]);
+    poly(pts); g.fillStyle = rgba(STR[6][4], a); g.fill();
+  }
   // turf band with roots, right under the grass
   const tp = []; for (let x = BX0; x <= BX1; x += 4) { if (x > RL - 2 && x < RR + 2) continue; tp.push([x, faceTop(x)]); }
   g.lineWidth = 9; g.strokeStyle = P.turf; g.lineJoin = 'round';
@@ -299,70 +308,77 @@ function riverSection(t) {
 function sparkle(x, y, s, a) { if (a <= 0.01) return; g.save(); g.translate(x, y); g.globalAlpha = a; g.fillStyle = '#fffbe6'; poly([[0, -s], [s * 0.22, -s * 0.22], [s, 0], [s * 0.22, s * 0.22], [0, s], [-s * 0.22, s * 0.22], [-s, 0], [-s * 0.22, -s * 0.22]]); g.fill(); g.restore(); }
 function mole(t) {
   const { x, y } = EGG.mole;
-  // tunnel from the digging face to the nest, 0.6 m to the right
-  const tun = [[x - 4, y], [x + 40, y + 4], [x + 80, y - 3], [x + 120, y + 5], [x + 160, y + 8]];
+  // the tunnel: a hollow in the soil from the digging face to the nest, 0.6 m to the right
+  const path = () => { g.beginPath(); g.moveTo(x - 6, y); g.bezierCurveTo(x + 40, y + 10, x + 80, y - 8, x + 120, y + 4); g.quadraticCurveTo(x + 145, y + 10, x + 160, y + 8); };
   g.lineCap = 'round'; g.lineJoin = 'round';
-  g.beginPath(); g.moveTo(tun[0][0], tun[0][1]); for (let i = 1; i < tun.length; i++) { const [a, b] = tun[i - 1], [c, d] = tun[i]; g.quadraticCurveTo(a, b, (a + c) / 2, (b + d) / 2); } g.lineTo(tun[4][0], tun[4][1]);
-  g.strokeStyle = '#2c1c12'; g.lineWidth = 17; g.stroke();
-  g.strokeStyle = '#3c2819'; g.lineWidth = 11; g.stroke();
-  // a shaft up to the molehill
-  g.beginPath(); g.moveTo(x + 60, y); g.quadraticCurveTo(x + 66, y - 14, x + 62, faceTop(x + 62)); g.strokeStyle = '#2c1c12'; g.lineWidth = 9; g.stroke();
-  // nest chamber
-  ell(x + 178, y + 8, 26, 16); g.fillStyle = '#2c1c12'; g.fill();
-  ell(x + 178, y + 14, 22, 8); g.fillStyle = '#c9a35a'; g.fill();
-  g.strokeStyle = '#e6c27a'; g.lineWidth = 1;
-  for (let k = 0; k < 8; k++) { g.beginPath(); g.moveTo(x + 160 + k * 5, y + 10 + (k % 2) * 3); g.lineTo(x + 166 + k * 5, y + 16 - (k % 3)); g.stroke(); }
-  // the mole, facing left, digging
+  path(); g.strokeStyle = rgba('#3a2416', 0.35); g.lineWidth = 22; g.stroke();
+  path(); g.strokeStyle = '#3d2718'; g.lineWidth = 17; g.stroke();
+  g.save(); g.translate(0, 5); path(); g.strokeStyle = '#5a3b25'; g.lineWidth = 6; g.stroke(); g.restore();   // the floor, packed earth
+  // a side shaft up to the molehill
+  g.beginPath(); g.moveTo(x + 58, y - 2); g.quadraticCurveTo(x + 66, y - 16, x + 62, faceTop(x + 62) + 2); g.strokeStyle = '#3d2718'; g.lineWidth = 11; g.stroke();
+  // nest chamber lined with dry grass
+  ell(x + 180, y + 7, 30, 19); g.fillStyle = rgba('#3a2416', 0.35); g.fill();
+  ell(x + 180, y + 7, 27, 16.5); g.fillStyle = '#3d2718'; g.fill();
+  g.beginPath(); g.ellipse(x + 180, y + 9, 25, 13, 0, 0.05, Math.PI - 0.05); g.closePath(); g.fillStyle = '#d4ad62'; g.fill();
+  g.strokeStyle = '#efcf86'; g.lineWidth = 1.1;
+  for (let k = 0; k < 9; k++) { g.beginPath(); g.moveTo(x + 160 + k * 5, y + 12 + (k % 2) * 3); g.lineTo(x + 167 + k * 4.5, y + 17 - (k % 3) * 1.5); g.stroke(); }
+  // the mole, facing left, digging at the end of its tunnel
   const dig = Math.sin(t * 7), bob = Math.sin(t * 3.5) * 0.8;
-  g.save(); g.translate(x + 10, y + bob);
-  ell(-2, 0, 7, 3.2, 0.2); g.fillStyle = '#e79a8f'; g.fill();       // back paw
-  ell(4, 0, 15, 8.5); g.fillStyle = vgrad(-8, 8, '#4a414d', '#2d2730'); g.fill();
-  ell(-10, 1, 6, 4); g.fill();
-  poly([[-14, -1], [-21, 1.5], [-14, 3.5]]); g.fillStyle = '#e79a8f'; g.fill();  // snout
-  g.save(); g.translate(-9, 6); g.rotate(-0.5 + dig * 0.5); ell(-4, 0, 5.5, 3); g.fillStyle = '#f0a99c'; g.fill(); g.restore(); // digging paw
-  ell(18, 2, 3, 1.4, 0.4); g.fillStyle = '#e79a8f'; g.fill();
-  ell(2, -4, 9, 2.2); g.fillStyle = rgba('#ffffff', 0.12); g.fill();
+  g.save(); g.translate(x + 8, y + 1 + bob); g.scale(1.25, 1.25);
+  ell(14, 3, 4, 1.6, 0.4); g.fillStyle = '#e79a8f'; g.fill();          // tail
+  ell(9, 5, 5, 2.4, 0.2); g.fill();                                     // hind foot
+  ell(2, 0, 14, 7.5); g.fillStyle = vgrad(-8, 8, '#6a6170', '#3a333f'); g.fill();
+  ell(-9, 0.5, 6.5, 5); g.fill();
+  poly([[-13, -1.5], [-21, 1], [-13, 3.5]]); g.fillStyle = '#ef9f92'; g.fill();  // snout
+  circ(-21, 1, 1.2); g.fill();
+  g.save(); g.translate(-8, 5); g.rotate(-0.4 + dig * 0.55); ell(-5, 0, 6, 3.4); g.fillStyle = '#f2ab9e'; g.fill();
+  g.strokeStyle = '#d07e72'; g.lineWidth = 0.8; for (let k = 0; k < 3; k++) { g.beginPath(); g.moveTo(-8, -2 + k * 2); g.lineTo(-11.5, -2.5 + k * 2.4); g.stroke(); } g.restore();
+  ell(0, -4, 9, 2.2); g.fillStyle = rgba('#ffffff', 0.16); g.fill();
   g.restore();
-  // soil flicked back
-  for (let k = 0; k < 3; k++) { const ph = (t * 1.5 + k / 3) % 1; circ(x - 14 + ph * 24, y - 3 + ph * ph * 10 - ph * 8, 1.6); g.fillStyle = rgba('#7a5536', 1 - ph); g.fill(); }
+  // soil flicked back over its shoulder
+  for (let k = 0; k < 3; k++) { const ph = (t * 1.5 + k / 3) % 1; circ(x - 18 + ph * 26, y - 4 + ph * ph * 12 - ph * 9, 1.8); g.fillStyle = rgba('#9a6d45', 1 - ph); g.fill(); }
 }
 function chest(t) {
   const { x, y } = EGG.chest;
-  // coins leaking down into the soil
-  for (let k = 0; k < 14; k++) {
-    const u = k / 13, cx = x + 18 + u * 44 + Math.sin(k * 2.1) * 6, cy = y + 16 + u * u * 54 + (k % 3) * 2;
+  // coins leaking out of a split board and down into the soil
+  for (let k = 0; k < 15; k++) {
+    const u = k / 14, cx = x + 24 + u * 40 + Math.sin(k * 2.1) * 5, cy = y + 18 + u * u * 56 + (k % 3) * 2;
     ell(cx, cy, 5.5, 2.6, (k % 4) * 0.4); g.fillStyle = P.goldDark; g.fill();
     ell(cx, cy - 0.8, 5, 2.1, (k % 4) * 0.4); g.fillStyle = P.gold; g.fill();
   }
-  g.save(); g.translate(x, y); g.rotate(-0.12);
-  // body
-  rrect(-30, -6, 60, 30, 3); g.fillStyle = vgrad(-6, 24, '#9a6438', '#6e4224'); g.fill();
-  g.fillStyle = '#5b361d'; for (const yy of [3, 13]) g.fillRect(-30, yy, 60, 1.5);
-  g.fillStyle = '#d9a441'; g.fillRect(-22, -6, 5, 30); g.fillRect(17, -6, 5, 30);
-  rrect(-4, -2, 8, 9, 1.5); g.fillStyle = '#e8b84a'; g.fill();
-  // open lid, hinged at the back, gold glowing inside
-  ell(0, -6, 27, 5); g.fillStyle = '#3a2412'; g.fill();
-  for (let k = 0; k < 6; k++) { circ(-16 + k * 6.5, -8 - (k % 2) * 2, 3.4); g.fillStyle = k % 2 ? P.gold : '#f8d775'; g.fill(); }
-  g.save(); g.translate(30, -6); g.rotate(-0.95 + Math.sin(t * 0.8) * 0.02);
-  g.beginPath(); g.moveTo(-60, 0); g.lineTo(0, 0); g.lineTo(0, -6); g.quadraticCurveTo(-30, -22, -60, -6); g.closePath(); g.fillStyle = '#8a5530'; g.fill();
-  g.fillStyle = '#d9a441'; g.fillRect(-52, -12, 5, 12); g.fillRect(-13, -12, 5, 12);
+  g.save(); g.translate(x, y); g.rotate(-0.1);
+  // the lid, hinged at the back right, thrown open
+  g.save(); g.translate(30, -6); g.rotate(0.62 + Math.sin(t * 0.8) * 0.015);
+  g.beginPath(); g.moveTo(-60, 0); g.lineTo(-60, -6); g.bezierCurveTo(-58, -24, -2, -24, 0, -6); g.lineTo(0, 0); g.closePath();
+  g.fillStyle = vgrad(-22, 0, '#a86c3c', '#7a4a28'); g.fill();
+  g.fillStyle = '#e0ad48'; g.fillRect(-52, -19, 5, 19); g.fillRect(-13, -19, 5, 19);
   g.restore();
+  // the open mouth, heaped with gold
+  ell(0, -6, 29, 6); g.fillStyle = '#2a170b'; g.fill();
+  g.beginPath(); g.moveTo(-26, -6); g.quadraticCurveTo(-10, -20, 4, -13); g.quadraticCurveTo(16, -19, 27, -6); g.closePath(); g.fillStyle = P.gold; g.fill();
+  for (let k = 0; k < 7; k++) { ell(-18 + k * 6, -10 - Math.sin(k * 1.3) * 3 - (k > 1 && k < 5 ? 3 : 0), 3.6, 2, 0.3 * (k % 3 - 1)); g.fillStyle = k % 2 ? '#f8d775' : P.goldDark; g.fill(); }
+  // body
+  rrect(-30, -6, 60, 31, 3); g.fillStyle = vgrad(-6, 25, '#9e663a', '#6a3f22'); g.fill();
+  g.fillStyle = '#58331b'; for (const yy of [4, 14]) g.fillRect(-30, yy, 60, 1.6);
+  g.fillStyle = '#e0ad48'; g.fillRect(-22, -6, 5, 31); g.fillRect(17, -6, 5, 31);
+  rrect(-5, -3, 10, 11, 2); g.fillStyle = '#f1c35a'; g.fill(); circ(0, 3, 1.6); g.fillStyle = '#4a2a14'; g.fill();
+  poly([[22, 16], [30, 13], [30, 25], [24, 25]]); g.fillStyle = '#2a170b'; g.fill();          // the split it leaks through
   g.restore();
   // glints
-  for (let k = 0; k < 4; k++) { const a = Math.max(0, Math.sin(t * 2.4 + k * 1.7)); sparkle(x - 14 + k * 11, y - 14 - (k % 2) * 5, 5, a * 0.9); }
+  for (let k = 0; k < 4; k++) { const a = Math.max(0, Math.sin(t * 2.4 + k * 1.7)); sparkle(x - 16 + k * 11, y - 20 - (k % 2) * 5, 5.5, a * 0.9); }
 }
 function amphora(t) {
   const { x, y } = EGG.amphora;
   // shards and bronze coins around it
-  const shards = [[-58, 14, 0.3], [52, 18, -0.6], [62, -2, 1.1], [-40, -18, 2.2]];
-  for (const [dx, dy, r] of shards) { g.save(); g.translate(x + dx, y + dy); g.rotate(r); poly([[-7, -3], [6, -5], [8, 3], [-4, 5]]); g.fillStyle = '#b35a34'; g.fill(); g.restore(); }
+  const shards = [[-60, 16, 0.3], [56, 20, -0.6]];
+  for (const [dx, dy, r] of shards) { g.save(); g.translate(x + dx, y + dy); g.rotate(r); poly([[-7, -3], [6, -5], [8, 3], [-4, 5]]); g.fillStyle = '#9a4a2a'; g.fill(); g.restore(); }
   for (const [dx, dy] of [[-30, 22], [-18, 25], [24, 24]]) { ell(x + dx, y + dy, 5, 2.4); g.fillStyle = '#8c5a2b'; g.fill(); ell(x + dx, y + dy - 0.6, 4.4, 1.8); g.fillStyle = '#b8803e'; g.fill(); }
   g.save(); g.translate(x, y); g.rotate(-0.18);
   const body = () => { g.beginPath(); g.moveTo(-26, -7); g.bezierCurveTo(-18, -22, 26, -22, 40, -4); g.lineTo(52, 0); g.lineTo(40, 4); g.bezierCurveTo(26, 22, -18, 22, -26, 7); g.closePath(); };
   body(); g.fillStyle = vgrad(-20, 20, '#e08a57', '#a9532f'); g.fill();
   g.fillRect(-46, -5, 22, 10);                                                  // neck
   rrect(-52, -8, 8, 16, 2); g.fillStyle = '#c4683d'; g.fill();                  // rim
-  g.strokeStyle = '#9a4a2a'; g.lineWidth = 4; g.lineCap = 'round';
+  g.strokeStyle = '#b85e36'; g.lineWidth = 3.4; g.lineCap = 'round';
   g.beginPath(); g.moveTo(-40, -5); g.quadraticCurveTo(-32, -22, -20, -14); g.stroke();   // handles
   g.beginPath(); g.moveTo(-40, 5); g.quadraticCurveTo(-32, 22, -20, 14); g.stroke();
   g.beginPath(); g.moveTo(0, -18); g.quadraticCurveTo(4, 0, 0, 18); g.strokeStyle = '#6b3420'; g.lineWidth = 2.5; g.stroke();
@@ -387,58 +403,77 @@ function ammonite(t) {
   ell(x - 10 + k * 18, y - 8, 12, 5, -0.6); g.fillStyle = rgba('#bfe6dc', 0.35); g.fill();
 }
 function trilobite(t) {
+  // seen from above, lying in the stone: head shield with eyes, segmented body in three lobes, tail shield
   const { x, y } = EGG.trilobite;
-  g.save(); g.translate(x, y); g.rotate(-0.25);
-  ell(0, 0, 30, 19); g.fillStyle = mix(STR[6][3], P.ink, 0.18); g.fill();
-  ell(0, 0, 26, 15.5); g.fillStyle = '#7a6a58'; g.fill();
-  g.beginPath(); g.ellipse(-16, 0, 11, 15, 0, Math.PI * 0.5, Math.PI * 1.5); g.closePath(); g.fillStyle = '#958370'; g.fill();  // head shield
-  g.strokeStyle = '#5d4f40'; g.lineWidth = 1.3;
-  for (let k = 0; k < 8; k++) { const sx = -6 + k * 4.2, hh = 15 * Math.sqrt(1 - ((sx) / 27) ** 2); g.beginPath(); g.moveTo(sx, -hh); g.quadraticCurveTo(sx + 2, 0, sx, hh); g.stroke(); }
-  ell(4, 0, 18, 4); g.fillStyle = '#9b8975'; g.fill();          // axial lobe
-  circ(-18, -6, 2); circ(-18, 6, 2); g.fillStyle = '#4a3f33'; g.fill();
+  g.save(); g.translate(x, y); g.rotate(-0.18);
+  ell(2, 0, 34, 21); g.fillStyle = mix(STR[6][3], P.ink, 0.16); g.fill();
+  g.beginPath(); g.moveTo(-14, -17); g.bezierCurveTo(-34, -18, -36, 18, -14, 17); g.lineTo(18, 13); g.quadraticCurveTo(34, 0, 18, -13); g.closePath();
+  g.fillStyle = '#8a7862'; g.fill();
+  g.strokeStyle = '#5d4f40'; g.lineWidth = 1.4;
+  for (let k = 0; k < 9; k++) { const sx = -10 + k * 3.6, hh = lerp(16.5, 12, k / 8); g.beginPath(); g.moveTo(sx, -hh); g.quadraticCurveTo(sx + 2.2, 0, sx, hh); g.stroke(); }
+  g.beginPath(); g.moveTo(-14, -17); g.quadraticCurveTo(-12, 0, -14, 17); g.lineWidth = 2; g.stroke();          // head shield edge
+  ell(8, 0, 20, 5.5); g.fillStyle = '#a6937a'; g.fill();                                                      // the raised middle lobe
+  g.strokeStyle = '#7a6a58'; g.lineWidth = 1; for (let k = 0; k < 8; k++) { g.beginPath(); g.moveTo(-6 + k * 4, -5); g.lineTo(-6 + k * 4, 5); g.stroke(); }
+  ell(-22, 0, 7, 7.5); g.fillStyle = '#a6937a'; g.fill();                                                     // glabella
+  g.fillStyle = '#3f352b'; ell(-18, -10, 2.6, 2); g.fill(); ell(-18, 10, 2.6, 2); g.fill();                               // eyes
   g.restore();
 }
 function dino(t) {
-  const { x, y } = EGG.dino;
-  const bones = (w, col) => {
-    g.strokeStyle = col; g.fillStyle = col; g.lineCap = 'round'; g.lineJoin = 'round';
-    // spine: neck to the tip of the tail
-    g.lineWidth = 7 + w; g.beginPath(); g.moveTo(x - 104, y - 6); g.bezierCurveTo(x - 60, y - 34, x + 10, y - 30, x + 60, y - 14); g.bezierCurveTo(x + 110, y, x + 150, y + 6, x + 190, y + 2); g.stroke();
-    // ribs
-    g.lineWidth = 3.4 + w;
-    for (let k = 0; k < 8; k++) { const sx = x - 76 + k * 13, sy = y - 26 + Math.abs(k - 3) * 1.3; g.beginPath(); g.moveTo(sx, sy); g.quadraticCurveTo(sx - 9, sy + 24, sx + 2 - k * 0.5, sy + 40 - Math.abs(k - 3.5) * 3); g.stroke(); }
-    // hip and the folded hind leg
-    g.lineWidth = 8 + w; g.beginPath(); g.moveTo(x + 30, y - 20); g.lineTo(x + 12, y + 18); g.lineTo(x + 40, y + 46); g.lineTo(x + 18, y + 60); g.stroke();
-    g.lineWidth = 6 + w; g.beginPath(); g.moveTo(x + 18, y + 60); g.lineTo(x + 2, y + 62); g.moveTo(x + 18, y + 60); g.lineTo(x + 8, y + 68); g.stroke();
-    ell(x + 34, y - 18, 16 + w / 2, 9 + w / 2, -0.2); g.fill();
-    // little arm
-    g.lineWidth = 4 + w; g.beginPath(); g.moveTo(x - 84, y + 4); g.lineTo(x - 92, y + 20); g.lineTo(x - 84, y + 26); g.stroke();
-    // tail vertebrae as beads
-    for (let k = 0; k < 9; k++) { const u = k / 8; circ(x + 70 + u * 116, y - 11 + u * 14 - u * u * 4, 5 - u * 2.2 + w / 2); g.fill(); }
-    // skull
-    g.save(); g.translate(EGG.dino.skull.x, EGG.dino.skull.y); g.rotate(0.12);
-    g.beginPath(); g.moveTo(26, -10); g.bezierCurveTo(14, -26, -30, -26, -46, -12); g.lineTo(-52, 0); g.lineTo(-40, 8); g.lineTo(10, 10); g.lineTo(26, 6); g.closePath();
-    if (w) { g.lineWidth = w * 1.4; g.stroke(); } g.fill();
-    g.beginPath(); g.moveTo(22, 10); g.lineTo(-38, 14); g.lineTo(-44, 22); g.lineTo(-10, 24); g.lineTo(18, 18); g.closePath(); if (w) g.stroke(); g.fill();   // jaw
-    g.restore();
+  // a T. rex laid flat in the limestone, facing left: big skull, S-neck, ribcage, tiny arm, heavy hind legs, long tail
+  const { x: sx, y: sy } = EGG.dino.skull;
+  const hollow = mix(STR[6][3], '#6e5f45', 0.42), far = mix(P.bone, '#b9a986', 0.45);
+  g.save(); g.translate(sx, sy); g.scale(DS, DS);
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  const L = (pts, w) => { g.lineWidth = w; g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) g.lineTo(pts[i][0], pts[i][1]); g.stroke(); };
+  const C = (x0, y0, a, b, c, d, e, f, w) => { g.lineWidth = w; g.beginPath(); g.moveTo(x0, y0); g.bezierCurveTo(a, b, c, d, e, f); g.stroke(); };
+  const skull = () => { g.beginPath(); g.moveTo(-64, -4); g.bezierCurveTo(-60, -20, -30, -30, 4, -42); g.bezierCurveTo(30, -50, 52, -42, 60, -22); g.lineTo(62, 4); g.lineTo(48, 6); g.lineTo(-60, 8); g.closePath(); };
+  const jaw = () => { g.beginPath(); g.moveTo(-58, 13); g.lineTo(50, 10); g.lineTo(60, 26); g.bezierCurveTo(44, 40, -10, 36, -52, 22); g.closePath(); };
+  const legs = (col, w, dx, da) => {
+    g.strokeStyle = col; g.fillStyle = col;
+    const p = [[286 + dx, -16], [244 + dx + da, 40], [292 + dx + da, 98], [282 + dx + da * 0.5, 140]];
+    L(p.slice(0, 2), 17 + w); L(p.slice(1, 3), 12 + w); L(p.slice(2, 4), 9 + w);           // femur, shin, foot bones
+    const [fx, fy] = p[3];
+    L([[fx, fy], [fx - 30, fy + 4]], 6 + w); L([[fx, fy], [fx - 22, fy + 10]], 6 + w); L([[fx, fy], [fx + 10, fy + 4]], 5 + w);
   };
-  bones(5, mix(STR[6][3], '#6e5f45', 0.45));   // the hollow the bones lie in
-  bones(0, P.bone);
-  // skull details: eye, holes, teeth
-  g.save(); g.translate(EGG.dino.skull.x, EGG.dino.skull.y); g.rotate(0.12);
-  const hole = mix(STR[6][3], '#6e5f45', 0.45);
-  ell(4, -10, 7, 6); g.fillStyle = hole; g.fill();
-  ell(-18, -9, 9, 4.5, -0.2); g.fill();
-  ell(-38, -6, 3, 2); g.fill();
+  const body = (col, w) => {
+    g.strokeStyle = col; g.fillStyle = col;
+    C(46, -6, 74, 4, 98, -12, 128, -16, 19 + w);                         // neck, short and thick
+    C(124, -14, 170, -28, 236, -30, 286, -22, 13 + w);                    // back
+    C(286, -22, 360, -20, 450, -20, 570, -2, 10 + w);                     // tail, tapering below
+    C(420, -18, 470, -14, 520, -8, 570, -2, 6 + w);
+    for (let k = 0; k < 10; k++) { const rx = 136 + k * 13, ry = -22 - Math.sin(k / 9 * Math.PI) * 6; C(rx, ry, rx - 12, ry + 24, rx - 6, ry + 52, rx + 4 - k * 0.6, ry + 66 - Math.abs(k - 4.5) * 4.5, 4.6 + w); }
+    g.beginPath(); g.ellipse(286, -20, 36 + w / 2, 14 + w / 2, -0.08, 0, TAU); g.fill();         // hip blade
+    L([[278, -10], [270, 36], [254, 44]], 8 + w);                                                      // pubis and its boot
+    L([[140, 30], [148, 42]], 4.5 + w); L([[148, 42], [143, 49]], 3 + w); L([[148, 42], [153, 48]], 3 + w);   // the tiny arm
+    skull(); g.fill(); if (w) { g.lineWidth = w * 1.6; g.stroke(); }
+    jaw(); g.fill(); if (w) { g.lineWidth = w * 1.6; g.stroke(); }
+  };
+  legs(hollow, 8, -24, -6); body(hollow, 8); legs(hollow, 8, 0, 0);
+  legs(far, 0, -24, -6); body(P.bone, 0); legs(P.bone, 0, 0, 0);
+  // vertebrae: the spine and tail read as a chain of bones
+  g.strokeStyle = hollow; g.lineWidth = 1.6;
+  for (let k = 0; k < 6; k++) { const u = (k + 0.5) / 6, x = lerp(60, 124, u), y = -6 + Math.sin(u * Math.PI) * 2 - u * 10; g.beginPath(); g.moveTo(x, y - 8); g.lineTo(x - 1, y + 8); g.stroke(); }
+  for (let k = 0; k < 30; k++) {
+    const u = k / 29, x = lerp(132, 556, u), y = u < 0.36 ? lerp(-18, -27, Math.sin(u / 0.36 * Math.PI / 2)) : lerp(-25, -3, ((u - 0.36) / 0.64) ** 1.6);
+    const h = lerp(6, 2.5, u); g.beginPath(); g.moveTo(x, y - h); g.lineTo(x - 1, y + h); g.stroke();
+  }
+  // skull openings and teeth
+  g.fillStyle = hollow;
+  ell(-16, -14, 18, 9, -0.25); g.fill();       // the big opening in front of the eye
+  ell(22, -20, 8, 9); g.fill();                 // eye socket
+  ell(44, -10, 6, 10, 0.2); g.fill();           // the opening behind it
+  ell(-50, -6, 3.5, 2.5); g.fill();             // nostril
+  g.fillRect(-56, 8, 106, 4);                   // the mouth line
   g.fillStyle = P.bone;
-  for (let k = 0; k < 7; k++) { const tx = -42 + k * 7.5; poly([[tx, 8], [tx + 3, 15], [tx + 6, 8]]); g.fill(); }
-  g.beginPath(); g.moveTo(-30, -20); g.bezierCurveTo(-10, -26, 10, -22, 20, -12); g.strokeStyle = rgba('#ffffff', 0.7); g.lineWidth = 2; g.stroke();
+  for (let k = 0; k < 10; k++) { const tx = -54 + k * 9.5; poly([[tx, 8], [tx + 3, 18 - (k % 2) * 3], [tx + 6.5, 8]]); g.fill(); }
+  for (let k = 0; k < 9; k++) { const tx = -50 + k * 9.5; poly([[tx, 13], [tx + 3, 6 + (k % 2) * 2], [tx + 6, 13]]); g.fill(); }
+  g.strokeStyle = rgba('#ffffff', 0.75); g.lineWidth = 2.5; g.beginPath(); g.moveTo(-40, -18); g.bezierCurveTo(-20, -32, 10, -40, 40, -32); g.stroke();
   g.restore();
 }
 function goldSeam(t) {
   const { x, y } = EGG.gold, half = 1.5 * PX;
   const yv = (u) => y + 8 * Math.sin(u * 0.012 + 1) + 4 * Math.sin(u * 0.037);
-  const thick = (u) => 5 + 4 * Math.sin(u * 0.02 + 2) ** 2;
+  const thick = (u) => (5 + 4 * Math.sin(u * 0.02 + 2) ** 2) * Math.pow(Math.sin(Math.PI * clamp((u + half) / (2 * half))), 0.45);
   const pts = [], pb = [];
   for (let u = -half; u <= half; u += 6) { const X = x + u; pts.push([X, yv(u) - thick(u)]); pb.push([X, yv(u) + thick(u)]); }
   poly(pts.concat(pb.reverse())); g.fillStyle = '#e7e4ef'; g.fill();
@@ -664,16 +699,17 @@ function duck(d, k, t, male) {
   g.restore();
 }
 function butterflies(t) {
-  const cols = ['#f2b84b', '#f4f1ea', '#f08a7a'];
+  const cols = ['#f2b84b', '#c6a8f0', '#f08a7a'];
   for (let k = 0; k < 3; k++) {
     const cx = 610 + k * 70, cy = 380 - k * 10;
     const x = cx + Math.sin(t * 0.7 + k * 2) * 40 + Math.sin(t * 1.9 + k) * 10, y = cy + Math.sin(t * 1.3 + k * 1.3) * 16;
     const f = Math.abs(Math.cos(t * 13 + k * 2));
     g.save(); g.translate(x, y);
     g.fillStyle = cols[k];
-    ell(-3 * f, -2, 4.5 * f + 0.4, 3.6, -0.5); g.fill(); ell(3 * f, -2, 4.5 * f + 0.4, 3.6, 0.5); g.fill();
-    ell(-2.4 * f, 2, 3 * f + 0.3, 2.4, 0.4); g.fill(); ell(2.4 * f, 2, 3 * f + 0.3, 2.4, -0.4); g.fill();
-    g.fillStyle = P.ink; g.fillRect(-0.6, -3, 1.2, 6);
+    g.scale(f * 0.9 + 0.1, 1);
+    ell(-4, -3, 4.5, 3.4, -0.6); g.fill(); ell(4, -3, 4.5, 3.4, 0.6); g.fill();
+    g.fillStyle = mix(cols[k], P.ink, 0.25); ell(-3, 2.5, 3, 2.2, 0.5); g.fill(); ell(3, 2.5, 3, 2.2, -0.5); g.fill();
+    g.fillStyle = P.ink; g.fillRect(-0.7, -4, 1.4, 8);
     g.restore();
   }
 }
@@ -693,7 +729,7 @@ function petals(t) {
     const p = ((a + t * (0.025 + c * 0.02)) % 1);
     const x = BX0 - 120 + p * (BX1 - BX0 + 300), y = 250 + b * 200 + Math.sin(t * (0.8 + d) + a * 9) * 16 + p * 50;
     g.save(); g.translate(x, y); g.rotate(t * (1 + d * 2) + a * 6);
-    ell(0, 0, 3.2, 1.6 * Math.abs(Math.cos(t * 2 + b * 7)) + 0.4); g.fillStyle = d < 0.5 ? '#fbd9e3' : '#fff6ea'; g.fill();
+    ell(0, 0, 2.6, 1.3 * Math.abs(Math.cos(t * 2 + b * 7)) + 0.35); g.fillStyle = d < 0.6 ? rgba('#f7c6d6', 0.9) : rgba('#fff1e0', 0.75); g.fill();
     g.restore();
   }
 }
@@ -734,7 +770,7 @@ function lilies(t) {
   }
 }
 function boulder(x, d, s) { const [X, Y] = onTop(x, d); ell(X, Y - 5 * s, 12 * s, 7 * s); g.fillStyle = '#9a96a3'; g.fill(); ell(X - 3 * s, Y - 8 * s, 7 * s, 3.5 * s); g.fillStyle = '#b8b4bf'; g.fill(); }
-function molehill() { const x = EGG.mole.x + 62, y = top(x) + 1; g.beginPath(); g.moveTo(x - 16, y); g.quadraticCurveTo(x, y - 16, x + 16, y); g.closePath(); g.fillStyle = '#5a3a24'; g.fill(); }
+function molehill() { const x = EGG.mole.x + 62, y = top(x) + 2; g.beginPath(); g.moveTo(x - 18, y); g.quadraticCurveTo(x, y - 18, x + 18, y); g.closePath(); g.fillStyle = '#7a5536'; g.fill(); g.beginPath(); g.moveTo(x - 9, y - 6); g.quadraticCurveTo(x, y - 12, x + 7, y - 7); g.strokeStyle = rgba('#ffffff', 0.2); g.lineWidth = 1.5; g.stroke(); }
 
 const PROPS = [];   // things on the block's top, drawn back to front
 function prop(d, fn) { PROPS.push({ d, fn }); }
@@ -767,10 +803,11 @@ function world(t, reveal) {
   g.save(); g.translate(0, BOT + 60); g.scale(1, 0.06); g.translate(0, -(BOT + 60)); circ(960, BOT + 60, 700); g.fillStyle = gr; g.fill(); g.restore();
   for (const [a, b, c] of STONES.slice(0, 7)) {
     const x = BX0 + 60 + a * (BX1 - BX0 - 120), y = BOT + 22 + b * 50 + Math.sin(t * 0.8 + a * 9) * 4, s = 3 + c * 7;
-    g.save(); g.translate(x, y); g.rotate(t * 0.1 + c * 5); poly([[-s, -s * 0.5], [s * 0.2, -s], [s, -s * 0.1], [s * 0.4, s * 0.8], [-s * 0.7, s * 0.6]]); g.fillStyle = mix(STR[7][3], P.ink, 0.2); g.fill(); g.restore();
+    g.save(); g.translate(x, y); g.rotate(t * 0.1 + c * 5); poly([[-s, -s * 0.5], [s * 0.2, -s], [s, -s * 0.1], [s * 0.4, s * 0.8], [-s * 0.7, s * 0.6]]); g.fillStyle = mix(STR[7][2], '#8a8aa6', 0.35); g.fill(); g.restore();
   }
   rightFace();
   strata(t);
+  g.strokeStyle = rgba('#fff4d6', 0.22); g.lineWidth = 2; g.beginPath(); g.moveTo(BX0, top(BX0)); g.lineTo(BX0, BOT); g.lineTo(BX1, BOT); g.stroke();
   g.save(); facePath(); g.clip(); eggs(t); g.restore();
   riverSection(t);
   // the reveal: the cut face draws in from the top down (only in the opening)
@@ -816,14 +853,14 @@ function T(ref) {
 // ------------------------------------------------------------------ the shots: the meadow spec's shot list, in 2D
 // map -> opening wide (the cut draws in), ground -> close on the grass at the corner of the cut into the sun,
 // crane -> down the cut face, crane -> into deep time, macro -> the skull, hero -> the whole section, wide.
-// One change from the spec: the macro ends on line l04 (not after "grass") so frame 768 is the wide hero, as on the board.
+// Shot ends are the spec's own, so frame numbers match the Blender meadow (768 = the skull, 830 = the whole section).
 let SHOTS = [], LABELS = [], COUNTER = null;
 const CAM = {
   map: [{ x: 975, y: 560, z: 0.96 }, { x: 960, y: 548, z: 1.04 }],
-  ground: [{ x: 500, y: 392, z: 2.7 }, { x: 540, y: 388, z: 2.86 }],
-  crane: [{ x: 640, y: 330, z: 2.0 }, { x: 690, y: 560, z: 2.04 }],
-  crane2: [{ x: 690, y: 560, z: 2.04 }, { x: 650, y: 772, z: 2.04 }],
-  macro: [{ x: EGG.dino.skull.x + 30, y: EGG.dino.skull.y + 6, z: 3.5 }, { x: EGG.dino.skull.x + 24, y: EGG.dino.skull.y + 6, z: 3.8 }],
+  ground: [{ x: 690, y: 392, z: 2.45 }, { x: 726, y: 386, z: 2.58 }],
+  crane: [{ x: 640, y: 320, z: 2.1 }, { x: 700, y: 556, z: 2.16 }],
+  crane2: [{ x: 700, y: 556, z: 2.16 }, { x: 660, y: 770, z: 2.1 }],
+  macro: [{ x: EGG.dino.skull.x + 104, y: EGG.dino.skull.y + 20, z: 3.4 }, { x: EGG.dino.skull.x + 96, y: EGG.dino.skull.y + 18, z: 3.7 }],
   hero: [{ x: 990, y: 572, z: 1.1 }, { x: 960, y: 560, z: 1.0 }],
 };
 function buildShots() {
@@ -832,7 +869,6 @@ function buildShots() {
   for (const sc of SPEC.scenes) for (const sh of sc.shots) {
     let kind = sh.camera; if (kind === 'crane') kind = craneN++ ? 'crane2' : 'crane';
     let t1 = sh.until !== undefined ? T(sh.until) : DUR;
-    if (kind === 'macro') t1 = T('l04');
     list.push({ name: kind, t0, t1, labels: sh.labels || [], counter: sh.counter || null });
     for (const lb of sh.labels || []) LABELS.push({ text: lb.text.toUpperCase(), at: T(lb.at), until: Math.min(t1, T(lb.until)), point: lb.point, slot: lb.slot, shotEnd: t1 });
     if (sh.counter) COUNTER = { ...sh.counter, at: T(sh.counter.at), done: T(sh.counter.done), until: t1 };
@@ -909,13 +945,12 @@ function titleCard(t) {
   const tt = SPEC.title; const a = t - T(tt.at), until = T(tt.until); if (a < 0 || t >= until) return;
   const k = easeOut(a / 0.5), out = clamp((until - t) / 0.4);
   g.globalAlpha = k * out;
-  const x = 1080, y = 520;
-  g.font = '800 92px Inter'; track('', -2);
-  const w = g.measureText(tt.text).width;
+  g.font = '800 80px Inter'; track('', -2);
+  const w = g.measureText(tt.text).width, x = 1790 - w, y = 330;
   rrect(x - 50, y - 160 + (1 - k) * 14, w + 100, 230, 26); g.fillStyle = rgba(P.ink, 0.88); g.fill();
   g.fillStyle = P.gold; g.fillRect(x, y - 108 + (1 - k) * 10, 46, 4);
   g.font = '600 24px Inter'; track('', 9); g.fillStyle = P.gold; g.textBaseline = 'middle'; g.fillText(tt.kicker, x + 62, y - 105 + (1 - k) * 10);
-  g.font = '800 92px Inter'; track('', -2); g.fillStyle = P.cream; g.textBaseline = 'alphabetic'; g.fillText(tt.text, x, y + 10 + (1 - k) * 8);
+  g.font = '800 80px Inter'; track('', -2); g.fillStyle = P.cream; g.textBaseline = 'alphabetic'; g.fillText(tt.text, x, y + 10 + (1 - k) * 8);
   // the strata as a small colour bar under the title: the series mark
   STR.forEach((s, i) => { g.fillStyle = s[2]; g.fillRect(x + i * 30, y + 36 + (1 - k) * 8, 26, 6); });
   g.globalAlpha = 1; track('', 0);

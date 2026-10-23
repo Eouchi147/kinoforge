@@ -28,7 +28,7 @@ PALETTE = [
     '#2c7b82', '#5cb6b0', '#a7e0d4', '#6a6a72', '#9a98a0', '#d8d2c8', '#e8c14a', '#c9463d',
 ]
 LV = 16            # levels per channel of the colour cube
-SCALE = 4          # world pixels are SCALE x SCALE screen pixels (at 1280 wide)
+ART_W = 320        # the art is 320 pixels wide (180 high in 16:9): every art pixel is a SCALE x SCALE block
 
 
 def _lab(rgb):
@@ -60,6 +60,7 @@ def bayer(n=4):
 
 def apply(bpy, film, ctx):
     W, H = ctx['W'], ctx['H']; sc = bpy.context.scene
+    SCALE = max(1, int(round(W / ART_W)))                   # screen pixels per art pixel (4 at 1280 wide)
     # ---- the world, small and crisp
     sc.cycles.samples = min(sc.cycles.samples, 6)           # 16 rendered pixels are averaged into one art pixel
     # ---- the words in their own scene
@@ -73,11 +74,11 @@ def apply(bpy, film, ctx):
     rl = C.render(sc); words = C.render(B)
     bl = C.node('CompositorNodeBlur', {'Image': rl.outputs['Image'], 'Size': (SCALE / 2.0, SCALE / 2.0)}); bl.inputs['Type'].default_value = 'Flat'
     small = C.scale(bl.outputs['Image'], 1.0 / SCALE, interp='Bilinear')
-    col = C.display(small, view='AgX', look='AgX - Medium High Contrast', exposure=film.SETTINGS['exposure'])
+    col = C.display(small, view='AgX', look='AgX - Medium High Contrast', exposure=film.SETTINGS['exposure'] + 0.55)
     # a little lift in saturation and contrast so the palette picks the lively colours
-    hs = C.node('CompositorNodeHueSat', {'Image': col, 'Saturation': 1.18, 'Value': 1.0})
+    hs = C.node('CompositorNodeHueSat', {'Image': col, 'Saturation': 1.4, 'Value': 1.0})
     col = hs.outputs['Image']
-    d = C.image(dim); amp = 0.085
+    d = C.image(dim); amp = 0.055
     dd = C.vmath('SCALE', d, scale=amp)
     sep = C.sep(C.mix(1.0, col, dd, 'ADD'))
     q = lambda ch: C.math('FLOOR', C.math('MULTIPLY', C.math('MINIMUM', C.math('MAXIMUM', ch, 0.0), 0.9999), float(LV)))
@@ -96,10 +97,18 @@ def apply(bpy, film, ctx):
     big = C.scale(ink, float(SCALE), interp='Nearest')
     # words on top at full resolution
     ow = C.node('CompositorNodeAlphaOver', {'Background': big, 'Foreground': words.outputs['Image']})
-    C.finish(os.environ.get('KF_DBG') == '1' and col or ow.outputs['Image'])
+    dbg = os.environ.get('KF_DBG')
+    C.finish({'1': col, '2': rl.outputs['Image'], '3': words.outputs['Image'], '4': small, '5': pic}.get(dbg) or ow.outputs['Image'])
     P.display_raw(sc)
     film.pixel = {'scene_words': B}
 
 
 def frame(bpy, film, ctx, t, shot):
     film.cam.ob.data.dof.use_dof = False
+    if os.environ.get('KF_DBG') == '9':
+        B = film.pixel['scene_words']
+        print('WORDS', [(o.name, round(o.scale[0], 5), [round(v, 3) for v in o.location], o.type) for o in B.objects if not o.hide_render], flush=True)
+    if os.environ.get('KF_DBG') == '8':
+        B = film.pixel['scene_words']; B.render.filepath = '/tmp/claude-0/-home-claude/b576bd3d-71d2-5bea-b286-3ba8d53b8c9d/scratchpad/out/words.png'
+        B.render.image_settings.file_format = 'PNG'; B.render.image_settings.color_mode = 'RGBA'
+        bpy.ops.render.render(scene='kf_words', write_still=True)

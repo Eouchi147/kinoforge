@@ -56,7 +56,7 @@ RECOLOR = {'cw_wall': CREAM, 'cw_roof': DEEP_CORAL, 'cw_door': PLUM, 'cw_millwoo
            'cw_rock_mat': (0.36, 0.52, 0.56), 'cw_bankrock_mat': (0.50, 0.62, 0.62), 'cw_pebble_mat': (0.30, 0.50, 0.52),
            'cw_bottom': MIDNIGHT, 'cw_iron': INK, 'cw_bark': PLUM, 'cw_stem': DARK_EMERALD, 'cw_reed': (0.16, 0.48, 0.34),
            'cw_cattail': DEEP_CORAL, 'cw_lily': (0.10, 0.50, 0.36), 'cw_lilyflower': (1.0, 0.80, 0.82), 'cw_weed': (0.10, 0.44, 0.36),
-           'cw_bird': INK, 'ex_cavity': (0.20, 0.08, 0.16), 'ex_dig': (0.10, 0.20, 0.30), 'ex_soil': PLUM, 'ex_terracotta': CORAL,
+           'cw_bird': INK, 'ex_cavity': (0.20, 0.08, 0.16), 'ex_dig': (0.10, 0.20, 0.30), 'ex_soil': PLUM, 'ex_terracotta': (0.98, 0.84, 0.56), 'ex_bronze': GOLD,
            'ex_chestwood': (0.48, 0.20, 0.18), 'ex_bone': (0.98, 0.92, 0.78), 'ex_trilo': (0.98, 0.84, 0.62), 'ex_nacre': (0.98, 0.86, 0.74),
            'ex_masonry': (0.70, 0.62, 0.66), 'ex_wellstone': (0.74, 0.66, 0.70), 'ex_wellroof': DEEP_CORAL, 'ex_wellwood': (0.50, 0.26, 0.22),
            'ex_deercoat': (0.86, 0.50, 0.30), 'ex_foxred': (0.96, 0.44, 0.20), 'ex_herongrey': (0.70, 0.78, 0.86), 'ex_molefur': (0.22, 0.16, 0.30),
@@ -65,48 +65,6 @@ RECOLOR = {'cw_wall': CREAM, 'cw_roof': DEEP_CORAL, 'cw_door': PLUM, 'cw_millwoo
 
 def _key(name):
     return name.split('.')[0]
-
-
-# ---------------------------------------------------------------------------------------------- the paint shader
-class Paint:
-    """Flat paint: emission in a cool shadow colour + a hard toon terminator from the sun + contact shadow + gouache mottle."""
-    def __init__(self, cw, kit):
-        self.cw = cw; self.kit = kit
-
-    def shader(self, g, col, amb=0.60, lit=0.55, ao=0.05, tex=0.07, tex_scale=22.0, rim=0.0, cool=(0.62, 0.72, 0.98)):
-        tc = g.node('ShaderNodeTexCoord')
-        n = g.noise(tc.outputs['Object'], tex_scale, 3.0, 0.55); n2 = g.noise(tc.outputs['Object'], tex_scale * 0.18, 2.0, 0.5)
-        m = g.math('ADD', g.math('MULTIPLY_ADD', n.outputs['Fac'], 2 * tex, 1 - tex), g.math('MULTIPLY', g.math('SUBTRACT', n2.outputs['Fac'], 0.5), tex))
-        col = g.mix(1.0, col, m, 'MULTIPLY')
-        shadow = g.mix(1.0, col, cool + (1.0,), 'MULTIPLY')
-        a = g.node('ShaderNodeAmbientOcclusion', ins={'Distance': ao}); a.samples = 8
-        occl = g.math('MULTIPLY_ADD', a.outputs['AO'], 0.55, 0.45)
-        e = g.node('ShaderNodeEmission', ins={'Color': g.mix(1.0, shadow, occl, 'MULTIPLY'), 'Strength': amb})
-        warm = tuple(lit * c for c in lin((1.0, 0.90, 0.74))[:3]) + (1.0,)
-        t = g.node('ShaderNodeBsdfToon', ins={'Color': g.mix(1.0, col, warm, 'MULTIPLY'), 'Size': 0.62, 'Smooth': 0.04})
-        t.component = 'DIFFUSE'
-        ad = g.node('ShaderNodeAddShader'); g.link(e, ad.inputs[0]); g.link(t, ad.inputs[1])
-        if rim > 0:
-            lw = g.node('ShaderNodeLayerWeight', ins={'Blend': 0.35})
-            r = g.math('POWER', lw.outputs['Facing'], 3.0)
-            re = g.node('ShaderNodeEmission', ins={'Color': lin(PALE_GOLD), 'Strength': g.math('MULTIPLY', r, rim)})
-            a2 = g.node('ShaderNodeAddShader'); g.link(ad, a2.inputs[0]); g.link(re, a2.inputs[1]); ad = a2
-        return ad
-
-    def material(self, name, col, **kw):
-        cw = self.cw; m = cw._new_mat(self.kit.bpy, name); g = cw.G(m.node_tree, self.kit)
-        sh = self.shader(g, lin(col) if isinstance(col, tuple) and len(col) == 3 else col, **kw); cw._finish(g, sh); return m
-
-    def convert(self, mat, override=None, sat=1.25, **kw):
-        """Rebuild a kit material in paint, from its own base colour (or an override colour)."""
-        cw = self.cw; g = cw.G(mat.node_tree, self.kit)
-        if override is not None: col = lin(override)
-        else:
-            sock, val = J.base_color(mat)
-            if sock is None and val is None: return False
-            col = sock if sock is not None else val
-            hs = g.node('ShaderNodeHueSaturation', ins={'Saturation': sat, 'Value': 1.0, 'Color': col}); col = hs.outputs['Color']
-        J.set_surface(mat, self.shader(g, col, **kw)); return True
 
 
 # ---------------------------------------------------------------------------------------------- world: sky and hills
@@ -171,8 +129,8 @@ def _sky(bpy, cw, kit, sd):
 
 
 # ---------------------------------------------------------------------------------------------- set materials
-def _strata(P, cw, kit, layers, level):
-    m = cw._new_mat(kit.bpy, 'fable_strata'); g = cw.G(m.node_tree, kit)
+def _strata(P, cw, kit, layers, level, m):
+    g = cw.G(m.node_tree, kit)
     tc = g.node('ShaderNodeTexCoord'); pos = tc.outputs['Object']; sx = g.sep(pos)
     sd = g.attr('sd').outputs['Fac']; dtop = g.attr('dtop').outputs['Fac']
     hz = g.math('ADD', sx[0], sx[1])
@@ -221,6 +179,10 @@ def _strata(P, cw, kit, layers, level):
     line = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', fr, 0.5)), 14.0), clamp=True)
     root = g.math('MULTIPLY', g.math('MULTIPLY', line, g.math('MULTIPLY', g.math('SUBTRACT', rlen, dtop), 20.0, clamp=True)), g.math('GREATER_THAN', wn.outputs['Value'], 0.4))
     col = g.mix(g.math('MULTIPLY', root, 0.9), col, lin((0.16, 0.06, 0.14)))
+    # fine laminae in the deep layers: faint lighter lines, like brushed sediment
+    lam = g.math('ABSOLUTE', g.math('SINE', g.math('MULTIPLY', g.math('ADD', s, g.math('MULTIPLY', n2.outputs['Fac'], 0.02)), 150.0)))
+    lam = g.math('MULTIPLY', g.math('MULTIPLY', g.math('SUBTRACT', lam, 0.93), 14.0, clamp=True), g.math('MULTIPLY', g.math('SUBTRACT', s, deep_at + 0.03), 10.0, clamp=True))
+    col = g.mix(g.math('MULTIPLY', lam, 0.35), col, lin(JADE))
     top_dark = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', dtop, 40.0), clamp=True)
     col = g.mix(g.math('MULTIPLY', top_dark, 0.5), col, lin(DARK_EMERALD))
     sh = P.shader(g, col, amb=0.78, lit=0.30, ao=0.05, tex=0.0)
@@ -228,7 +190,7 @@ def _strata(P, cw, kit, layers, level):
     glow = g.math('MAXIMUM', g.math('MULTIPLY', lines, 1.0), g.math('MULTIPLY', fleck, 1.4))
     ge = g.node('ShaderNodeEmission', ins={'Color': lin(GOLD), 'Strength': 1.15})
     mx = g.node('ShaderNodeMixShader'); g.link(glow, mx.inputs[0]); g.link(sh, mx.inputs[1]); g.link(ge, mx.inputs[2])
-    cw._finish(g, mx); return m
+    J.under_mask(m, mx); return m
 
 
 def _top(P, cw, kit, land):
@@ -258,8 +220,8 @@ def _grass(P, cw, kit, name):
     J.set_surface(m, P.shader(g, col, amb=0.60, lit=0.50, ao=0.0, tex=0.0)); return m
 
 
-def _water(cw, kit, land, sd):
-    m = cw._new_mat(kit.bpy, 'fable_water'); g = cw.G(m.node_tree, kit)
+def _water(cw, kit, land, sd, m):
+    g = cw.G(m.node_tree, kit)
     tc = g.node('ShaderNodeTexCoord'); geo = g.node('ShaderNodeNewGeometry'); pos = tc.outputs['Object']; sx = g.sep(pos)
     nz = g.sep(geo.outputs['Normal'])[2]; topf = g.math('GREATER_THAN', nz, 0.5)
     lv = land.level if land.level is not None else 0.0
@@ -283,7 +245,7 @@ def _water(cw, kit, land, sd):
     e = g.node('ShaderNodeEmission', ins={'Color': col, 'Strength': 1.0})
     tr = g.node('ShaderNodeBsdfTransparent')
     mx = g.node('ShaderNodeMixShader'); g.put(mx, 0, g.math('ADD', 0.62, g.math('MULTIPLY', topf, 0.18))); g.link(tr, mx.inputs[1]); g.link(e, mx.inputs[2])
-    cw._finish(g, mx); return m
+    J.under_mask(m, mx); return m
 
 
 def _floor(cw, kit):
@@ -319,7 +281,7 @@ def _trees(bpy, film, P, cw, kit, land, sd):
     if inst is not None: J.hide(film, inst)
     rng = np.random.default_rng(7)
     mats = {}
-    for kind, crown, deep in (('green', EMERALD, DARK_EMERALD), ('teal', TEAL, DEEP_TEAL), ('coral', CORAL, DEEP_CORAL)):
+    for kind, crown, deep in (('green', EMERALD, DARK_EMERALD), ('teal', TEAL, DEEP_TEAL), ('coral', (0.99, 0.60, 0.50), (0.86, 0.38, 0.38))):
         m, g, col = _tree_mat(cw, kit, 'fable_tree_' + kind, crown, deep)
         J.set_surface(m, P.shader(g, col, amb=0.66, lit=0.60, ao=0.08, tex=0.05, tex_scale=30.0, rim=1.2)); mats[kind] = m
     trunk = P.material('fable_trunk', PLUM, amb=0.7, lit=0.4, ao=0.0)
@@ -350,7 +312,7 @@ def apply(bpy, film, ctx):
     cw = film.cw; sc = bpy.context.scene; W, H = ctx['W'], ctx['H']
     st = next(iter(film.built.values())); kit = st['kit']; land = st['land']; L = st['L']
     rig = st.get('rig'); sd = np.asarray(rig['sun_dir'] if rig else (-0.6, 0.6, 0.35), float); sd = sd / np.linalg.norm(sd)
-    P = Paint(cw, kit)
+    P = J.Paint(cw, kit)
     film._fable = {}
     # ---- materials
     objs = J.scene_objects(film); seen = set()
@@ -360,11 +322,13 @@ def apply(bpy, film, ctx):
         seen.add(m.name)
         if k in ('cw_strata', 'cw_top', 'cw_water', 'ex_floor', 'cw_leaf', 'cw_grass', 'ex_shaft_mat', 'ex_gobo'): continue
         if J.principled(m) is None: continue
-        if k in RECOLOR: P.convert(m, RECOLOR[k], amb=0.66, lit=0.5, ao=0.04)
-        else: P.convert(m, None, sat=1.3, amb=0.66, lit=0.5, ao=0.04)
-    walls = land.objects['walls']; walls.material_slots[0].material = _strata(P, cw, kit, L.strata, land.level)
+        # the finds glow a little brighter than the land around them (treasure in a storybook)
+        kw = dict(amb=0.92, lit=0.45, ao=0.03, cool=(0.86, 0.88, 1.0)) if k.startswith('ex_') and k not in ('ex_cavity', 'ex_dig', 'ex_soil') else dict(amb=0.66, lit=0.5, ao=0.04)
+        if k in RECOLOR: P.convert(m, RECOLOR[k], **kw)
+        else: P.convert(m, None, sat=1.3, **kw)
+    _strata(P, cw, kit, L.strata, land.level, land.objects['walls'].material_slots[0].material)
     land.objects['top'].material_slots[0].material = _top(P, cw, kit, land)
-    if 'water' in land.objects: land.objects['water'].material_slots[0].material = _water(cw, kit, land, sd)
+    if 'water' in land.objects: _water(cw, kit, land, sd, land.objects['water'].material_slots[0].material)
     grass_mats = {}
     for col in bpy.data.collections:
         for po in col.objects:

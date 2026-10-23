@@ -34,13 +34,25 @@ def stylize(P, info):
     build = NL.cls_mask(ma, 'build')
     lw = float(np.clip(2.6 / max(np.median(dep[~sky & ~floor]), 0.3), 0.8, 2.0))
     gm = NL.blur(grass.astype(np.float32), 3.0 * s); gmask = gm > 0.40
+    # --- line density follows the picture scale: about 5 px between lines whatever the camera distance (quantized so it does not crawl)
+    zc = cut | bottom
+    gzy, gzx = NL.grad(NL.blur(pos[..., 2], 1.0))
+    gz = np.sqrt(gzx * gzx + gzy * gzy)[zc]
+    pxm = 1.0 / max(float(np.median(gz[gz > 1e-5])) if (gz > 1e-5).any() else 1 / 390.0, 1e-4)
+    kf = float(2 ** (np.round(np.log2(np.clip(pxm / 390.0, 0.35, 1.6)) * 3) / 3))
     # --- tone: how dark each place must be drawn. The material's own darkness (layers, leaves, bark) carries most of it,
     # the light adds cast shadows and the glow round a find, as an engraver would add them to a drawing
     Lr = NL.lum(img) / np.maximum(NL.lum(alb), 0.05)
     rel = NL.blur(np.clip(Lr, 0, 3), 2.0 * s) / (NL.blur(np.clip(Lr, 0, 3), 40 * s) + 0.05)
     Alum = NL.lum(NL.lin_to_srgb(NL.blur(alb, 1.2 * s)))
     shadow = NL.smoothstep(0.9, 0.35, rel); glow = NL.smoothstep(1.1, 2.2, rel)
+    pal = info.get('strata') if isinstance(info, dict) else None
+    palc = np.asarray(pal if pal is not None else NL.STRATA_TIME, np.float32)
+    layerD = np.clip((1.0 - NL.lum(palc)) * 1.5 - 0.02, 0.22, 1.0)
+    lab = NL.strata_labels(alb, pal, 3.0 * s, 4.0 * s)
+    Dl = NL.blur(layerD[lab], 1.5 * s)
     D = np.clip(((1.0 - Alum) - 0.16) * 1.55 + 0.35 * shadow - 0.25 * glow, 0, 1)
+    D = np.where(cut, np.clip(0.65 * Dl + 0.35 * D, 0, 1), D)
     vv = NL.lum(NL.lin_to_srgb(np.clip(img / (1 + img) * 1.6, 0, 1)))
     D = np.where(water, np.clip(0.30 + 0.5 * (0.6 - NL.blur(vv, 2 * s)), 0.15, 0.7), D)
     D = np.where(leaf, np.clip(0.30 + 0.45 * shadow + 0.35 * (1 - np.clip(NL.blur(nrm[..., 2], 2 * s) * 0.5 + 0.6, 0, 1)), 0, 1), D)
@@ -59,15 +71,15 @@ def stylize(P, info):
     u1 = np.where(cut_f, sdv, np.where(top | gmask, pos[..., 1] + 0.35 * pos[..., 0],
                 np.where(leaf, nrm[..., 2] * 0.9 + nrm[..., 0] * 0.35,
                 np.where(bark, along, np.where(water | build, z, np.where(floor, pos[..., 0] - pos[..., 1], z - along * 0.7))))))
-    f1 = np.where(cut_f, 78.0, np.where(top | gmask, 80.0, np.where(leaf, 7.0, np.where(bark, 140.0, np.where(floor, 22.0, 110.0)))))
+    f1 = kf * np.where(cut_f, 78.0, np.where(top | gmask, 80.0, np.where(leaf, 7.0 / kf, np.where(bark, 140.0, np.where(floor, 22.0, 110.0)))))
     u1 = np.where(sky, np.mgrid[0:H, 0:W][0].astype(np.float32) / (6.0 * s), u1); f1 = np.where(sky, 1.0, f1)
     f1 = f1.astype(np.float32)
     u2 = np.where(cut_f, sdv * 0.8 - along * 0.55, np.where(leaf, nrm[..., 1] * 0.9 - nrm[..., 0] * 0.3, np.where(top | gmask, pos[..., 0] - 0.4 * pos[..., 1], z + along * 0.8)))
-    f2 = np.where(cut_f, 70.0, np.where(leaf, 7.0, 90.0)).astype(np.float32)
-    u3 = z - along * 0.8; f3 = np.full(sh, 120.0, np.float32)
+    f2 = (kf * np.where(cut_f, 70.0, np.where(leaf, 7.0 / kf, 90.0))).astype(np.float32)
+    u3 = z - along * 0.8; f3 = np.full(sh, 120.0 * kf, np.float32)
     # hatch(u*f): the helper takes a per-unit scalar, so fold the per-pixel frequency into u
     p1 = NL.tone_hatch(u1 * f1, 1.0, D, thresh=0.09, min_px=3.4 * s)
-    p2 = NL.tone_hatch(u2 * f2, 1.0, np.clip((D - 0.42) / 0.5, 0, 1), thresh=0.04, min_px=3.4 * s)
+    p2 = NL.tone_hatch(u2 * f2, 1.0, np.clip((D - 0.34) / 0.5, 0, 1), thresh=0.04, min_px=3.4 * s)
     p3 = NL.tone_hatch(u3 * f3, 1.0, np.clip((D - 0.72) / 0.28, 0, 1), thresh=0.04, min_px=3.4 * s)
     tone = np.maximum(p1, np.maximum(p2 * 0.95, p3 * 0.9))
     # sky: engraved sky is only a few level lines; keep it light

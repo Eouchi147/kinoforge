@@ -14,9 +14,13 @@ What is here:
   overlay objects over a transparent background (cheap).
 - hide(film, ob), adopt(film, ob): hide an object of the built set for good / add a new object to the set, so the engine's
   per-shot visibility switch (Film._show) keeps them that way.
-- principled(mat), base_color(g, mat): read a kit material's base colour (a linked socket or a value) to rebuild it.
+- principled(mat), base_color(mat): read a kit material's base colour (a linked socket or a value) to rebuild it.
+- under_mask(mat, shader): swap a wall or water shader while keeping the egg openings cut by Eggs.finish().
+- Paint(cw, kit): a flat paint shader (emission in a cool shadow colour, a hard toon terminator from the sun, contact
+  shadow, gouache mottle, optional rim) and convert(mat) to rebuild any kit material in it from its own colour.
 - recolor_overlay(film, ink, paper): restyle the words layer (ink and paper colours), keeping its alpha fades.
-- comp_begin / comp_end: a compositor tree with the picture and the words layers, the words laid over at the end.
+- comp_begin / comp_end: a compositor tree with the picture (render over its own sky, from the Environment pass) and
+  the words layer laid over at the end. comp_begin returns (tree, nodes, links, node whose 'Image' output is the picture).
 - vignette(N, L, img, W, H, amount): a soft vignette in the compositor (same maths as the cinematic extras).
 Free: Blender bpy 5.2, Cycles CPU, nothing downloaded.
 """
@@ -88,6 +92,21 @@ def set_surface(mat, shader_socket, keep_volume=False):
     o.target = 'ALL'
 
 
+def under_mask(mat, shader):
+    """Put a new surface shader into a kit material, keeping the egg openings: Eggs.finish() wraps the wall and water
+    shaders in a mix with a Transparent BSDF over every opening, so the new shader goes into that mix when it is there."""
+    if hasattr(shader, 'outputs') and not hasattr(shader, 'is_output'): shader = shader.outputs[0]
+    nt = mat.node_tree; o = output_node(mat)
+    if o is not None and o.inputs['Surface'].is_linked:
+        src = o.inputs['Surface'].links[0].from_node
+        if src.bl_idname == 'ShaderNodeMixShader' and src.inputs[2].is_linked and src.inputs[2].links[0].from_node.bl_idname == 'ShaderNodeBsdfTransparent':
+            for l in list(src.inputs[1].links): nt.links.remove(l)
+            nt.links.new(shader, src.inputs[1])
+            for l in list(o.inputs['Volume'].links): nt.links.remove(l)
+            return True
+    set_surface(mat, shader); return False
+
+
 def scene_materials(objs):
     seen = {}
     for o in objs:
@@ -130,9 +149,13 @@ def type_layer(bpy, film, samples=16):
     if cam.name not in words.objects: words.objects.link(cam)        # the words are parented to the camera
     paint = sc.view_layers[0]; paint.name = 'paint'
     tl = sc.view_layers.new('type')
-    paint.layer_collection.children['art_words'].exclude = True
+    # the words stay in the picture layer as 'indirect only' (invisible there: they never light anything), so the
+    # depsgraph still evaluates them and the overlay can measure its text (Overlay text_size_px)
+    paint.layer_collection.children['art_words'].indirect_only = True
     tl.layer_collection.children['art_world'].exclude = True
-    tl.use_sky = False; tl.samples = samples
+    tl.samples = samples
+    # the words need a true alpha: the film is transparent, and the picture gets its sky back from the Environment pass
+    sc.render.film_transparent = True; paint.use_pass_environment = True
     try: tl.cycles.use_denoising = False
     except Exception: pass
     return 'paint', 'type'
@@ -144,7 +167,9 @@ def comp_begin(bpy, name):
     ng.interface.new_socket(name='Image', in_out='OUTPUT', socket_type='NodeSocketColor')
     N, L = ng.nodes, ng.links
     rl = N.new('CompositorNodeRLayers'); rl.layer = 'paint'
-    return ng, N, L, rl
+    ao = N.new('CompositorNodeAlphaOver')
+    L.new(rl.outputs['Env'] if 'Env' in rl.outputs else rl.outputs['Environment'], ao.inputs['Background']); L.new(rl.outputs['Image'], ao.inputs['Foreground'])
+    return ng, N, L, ao
 
 
 def comp_end(bpy, ng, img, words=True):
@@ -237,3 +262,44 @@ def tree_points(film, set_name=None):
         a = me.attributes.get(name)
         return np.array([d.value for d in a.data]) if a is not None else dflt
     return P, att('scale', np.ones(len(P))), att('variant', np.zeros(len(P), int)).astype(int), ob
+
+
+class Paint:
+    """Flat paint: emission in a cool shadow colour + a hard toon terminator from the sun + contact shadow + gouache mottle."""
+    def __init__(self, cw, kit):
+        self.cw = cw; self.kit = kit
+
+    def shader(self, g, col, amb=0.60, lit=0.55, ao=0.05, tex=0.07, tex_scale=22.0, rim=0.0, cool=(0.62, 0.72, 0.98), rim_color=(1.00, 0.89, 0.60), warm=(1.0, 0.90, 0.74)):
+        tc = g.node('ShaderNodeTexCoord')
+        n = g.noise(tc.outputs['Object'], tex_scale, 3.0, 0.55); n2 = g.noise(tc.outputs['Object'], tex_scale * 0.18, 2.0, 0.5)
+        m = g.math('ADD', g.math('MULTIPLY_ADD', n.outputs['Fac'], 2 * tex, 1 - tex), g.math('MULTIPLY', g.math('SUBTRACT', n2.outputs['Fac'], 0.5), tex))
+        col = g.mix(1.0, col, m, 'MULTIPLY')
+        shadow = g.mix(1.0, col, cool + (1.0,), 'MULTIPLY')
+        a = g.node('ShaderNodeAmbientOcclusion', ins={'Distance': ao}); a.samples = 8
+        occl = g.math('MULTIPLY_ADD', a.outputs['AO'], 0.55, 0.45)
+        e = g.node('ShaderNodeEmission', ins={'Color': g.mix(1.0, shadow, occl, 'MULTIPLY'), 'Strength': amb})
+        warm = tuple(lit * c for c in lin(warm)[:3]) + (1.0,)
+        t = g.node('ShaderNodeBsdfToon', ins={'Color': g.mix(1.0, col, warm, 'MULTIPLY'), 'Size': 0.62, 'Smooth': 0.04})
+        t.component = 'DIFFUSE'
+        ad = g.node('ShaderNodeAddShader'); g.link(e, ad.inputs[0]); g.link(t, ad.inputs[1])
+        if rim > 0:
+            lw = g.node('ShaderNodeLayerWeight', ins={'Blend': 0.35})
+            r = g.math('POWER', lw.outputs['Facing'], 3.0)
+            re = g.node('ShaderNodeEmission', ins={'Color': lin(rim_color), 'Strength': g.math('MULTIPLY', r, rim)})
+            a2 = g.node('ShaderNodeAddShader'); g.link(ad, a2.inputs[0]); g.link(re, a2.inputs[1]); ad = a2
+        return ad
+
+    def material(self, name, col, **kw):
+        cw = self.cw; m = cw._new_mat(self.kit.bpy, name); g = cw.G(m.node_tree, self.kit)
+        sh = self.shader(g, lin(col) if isinstance(col, tuple) and len(col) == 3 else col, **kw); cw._finish(g, sh); return m
+
+    def convert(self, mat, override=None, sat=1.25, **kw):
+        """Rebuild a kit material in paint, from its own base colour (or an override colour)."""
+        cw = self.cw; g = cw.G(mat.node_tree, self.kit)
+        if override is not None: col = lin(override)
+        else:
+            sock, val = base_color(mat)
+            if sock is None and val is None: return False
+            col = sock if sock is not None else val
+            hs = g.node('ShaderNodeHueSaturation', ins={'Saturation': sat, 'Value': 1.0, 'Color': col}); col = hs.outputs['Color']
+        set_surface(mat, self.shader(g, col, **kw)); return True

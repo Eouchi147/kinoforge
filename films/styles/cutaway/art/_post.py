@@ -147,11 +147,14 @@ def split_overlay(bpy, film, ctx, exposure_gain=True):
     cy.max_bounces = 2; cy.transparent_max_bounces = 16; cy.volume_bounces = 0
     B.view_settings.view_transform = 'Standard'
     B.camera = film.cam.ob
+    col = bpy.data.collections.new('kf_words')
     for e in film.O.items:
         ob = e.ob
         for c in list(ob.users_collection): c.objects.unlink(ob)
-        B.collection.objects.link(ob)
-    if film.cam.ob.name not in B.collection.objects: B.collection.objects.link(film.cam.ob)
+        col.objects.link(ob)
+    A.collection.children.link(col); B.collection.children.link(col)
+    A.view_layers[0].layer_collection.children['kf_words'].indirect_only = True     # the picture scene does not see the words (they stay in it so the engine can measure them)
+    if film.cam.ob.name not in B.collection.all_objects: B.collection.objects.link(film.cam.ob)
     return B
 
 
@@ -191,7 +194,7 @@ def insert_colour_filter(g, node, fn):
     if s.is_linked:
         src = s.links[0].from_socket; g.L.remove(s.links[0]); new = fn(g, src)
     else:
-        new = fn(g, tuple(s.default_value))
+        new = fn(g, tuple(s.default_value)[:3])
     g.link(new, s)
     return new
 
