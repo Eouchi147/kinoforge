@@ -65,6 +65,7 @@ def apply(bpy, film, ctx):
     sc.cycles.samples = min(sc.cycles.samples, 6)           # 16 rendered pixels are averaged into one art pixel
     # ---- the words in their own scene
     B = P.split_overlay(bpy, film, ctx)
+    P.hide_shafts(film)
     # ---- compositor
     w, h = W // SCALE, H // SCALE
     bm = bayer(); dith = np.tile(bm, (h // 4 + 1, w // 4 + 1))[:h, :w]
