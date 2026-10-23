@@ -38,7 +38,7 @@ SETTINGS = {'samples': 20, 'denoise': True, 'motion_blur': False, 'view_transfor
 CHECK = {'title': 24, 'meadow': 110, 'below_top': 160, 'below_low': 285, 'hawk_dive': 330, 'arrive': 366, 'end': 470}
 
 S_SIZE, DEPTH = 1.6, 1.4
-SUN_AZ, SUN_EL = 122.0, 21.0
+SUN_AZ, SUN_EL = 158.0, 27.0
 SHAFT_GAIN = {'meadow': 1.0, 'below': 0.25, 'hawk': 0.7}
 STRATA = [('topsoil', 0.06, (0.22, 0.15, 0.09), 0.04), ('loam', 0.52, (0.52, 0.34, 0.20), 0.10), ('sand', 0.45, (0.80, 0.65, 0.42), 0.10),
           ('limestone', 0.20, (0.86, 0.82, 0.72), 0.05), ('bedrock', 1.0, (0.30, 0.29, 0.33), 0.30)]
@@ -109,7 +109,20 @@ def tunnel(eggs, face, pts, r, name, n=12):
     for a, b in zip(P[:-1], P[1:]): eggs.openings.append((face, 'cap', (a[0], a[1], b[0], b[1], r)))
     return P
 
-def cavity(kit): return ex.mat_cavity(kit, color=(0.40, 0.28, 0.17), name='hm_cavity')
+def cavity(kit):
+    """Earth inside a burrow: lit soil at the rim, falling to deep shade at the back (local Y = depth into the block),
+    so a tunnel reads as a hollow, not as a pipe."""
+    key = ('hm', 'cavity')
+    if key in kit.mats: return kit.mats[key]
+    m = cw._new_mat(kit.bpy, 'hm_cavity'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); pos = tc.outputs['Object']
+    n = g.noise(pos, 90.0, 4.0); n2 = g.noise(pos, 14.0, 3.0); py = g.sep(pos)[1]
+    rim = g.mix(n2.outputs['Fac'], srgb((0.40, 0.28, 0.17)), srgb((0.56, 0.40, 0.25)))
+    deep = g.math('POWER', g.math('MULTIPLY', py, 1 / 0.04, clamp=True), 0.8)
+    col = g.mix(deep, rim, srgb((0.075, 0.05, 0.035)))
+    col = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.35), col, srgb((0.05, 0.035, 0.02)))
+    pr = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.97})
+    b = g.node('ShaderNodeBump', ins={'Strength': 0.9, 'Height': n.outputs['Fac'], 'Distance': 0.005}); g.put(pr, 'Normal', b)
+    cw._finish(g, pr); kit.mats[key] = m; return m
 
 def chamber(eggs, u, z, a, b, depth, name):
     return eggs.hole_ellipse('-Y', u, z, a, b, depth, name, material=cavity(eggs.kit))
@@ -372,7 +385,7 @@ def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.25, heading=(0.42, -0.9
         wings.append(ex.part(kit, f'{name}_w{sd}', [(V, F, 0)], [m], root))
     for ob in [body] + wings:
         for a in ('visible_camera', 'visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter'): setattr(ob, a, False)
-    root.scale = (1.35,) * 3
+    root.scale = (1.5,) * 3
     sd = np.asarray(sun_dir, float); hd = np.array([heading[0], heading[1], 0.0]); hd /= np.linalg.norm(hd)
     zt = ground(land, *over)
     def pose(t):
@@ -392,7 +405,7 @@ def haze_cards(kit, cam_az=-56.0, name='hm_haze'):
     n = g.noise(g.comb(g.math('ADD', g.math('MULTIPLY', gx, 6.0), g.math('MULTIPLY', tv, 0.03)), g.math('MULTIPLY', gy, 2.0), 0.0), 1.4, 3.0, 0.5)
     a = g.math('MULTIPLY', g.math('MULTIPLY', band, edge), g.math('ADD', 0.35, g.math('MULTIPLY', n.outputs['Fac'], 0.9)))
     oi = g.node('ShaderNodeObjectInfo'); a = g.math('MULTIPLY', a, g.math('ADD', 0.35, g.math('MULTIPLY', oi.outputs['Random'], 0.3)))
-    e = g.node('ShaderNodeEmission', ins={'Color': srgb((1.0, 0.86, 0.70)), 'Strength': 1.2}); tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
+    e = g.node('ShaderNodeEmission', ins={'Color': srgb((1.0, 0.88, 0.74)), 'Strength': 0.75}); tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
     g.link(g.math('MINIMUM', a, 0.85), mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(e, mx.inputs[2]); cw._finish(g, mx)
     try: m.cycles.emission_sampling = 'NONE'
     except Exception: pass
@@ -428,8 +441,8 @@ def build(bpy, ctx):
     land = cw.block(kit, size=(S_SIZE, S_SIZE), depth=DEPTH, strata=STRATA, seed=5, top=cw.rolling(amp=0.03, freq=0.9, seed=5, base=0.0),
                     season=season, keep_clear=clear, zones=_runs, tree_spots=TREES, tree_kinds=('round', 'cone'), boulders=3, flowers=1.0, sway=1.35, res=0.016)
     top_holes(kit, land, holes)
-    rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=5.2, sun_color=(1.0, 0.80, 0.58), fill=0.95, rim=0.8,
-                        zenith=(0.26, 0.42, 0.72), horizon=(0.99, 0.78, 0.56), away=(0.62, 0.66, 0.82), ground=(0.24, 0.22, 0.20), amb=0.34)
+    rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=5.0, sun_color=(1.0, 0.82, 0.62), fill=0.72, rim=0.8,
+                        zenith=(0.16, 0.34, 0.72), horizon=(0.99, 0.80, 0.60), away=(0.52, 0.62, 0.84), ground=(0.22, 0.24, 0.22), amb=0.28)
     sd = rig['sun_dir']
     T = np.asarray(land.trees); crown = (T[0, 0], T[0, 1], ground(land, T[0, 0], T[0, 1]) + 0.5)
     shafts = ex.Shafts(kit, land, sd, beams=ex.Shafts.around(crown, 0.18, sd, 9, L=(1.2, 2.2), w=(0.03, 0.10)), canopy=7, strength=2.0, spill=0.5)
@@ -540,8 +553,8 @@ def shot_pose(S, name, u, t):
         tgt = np.array((-0.06 + 0.02 * e, -S_SIZE / 2, -0.30 - 0.36 * e))
     else:                         # hawk: hold on the top and the warren, then the long breath out to the whole world
         hold = ex.ease(u * 7.5 / 3.9) * 0.08; out = ex.ease5((t - 16.4) / 3.6) if t > 16.4 else 0.0
-        az = math.radians(-50 - 3 * hold + 6 * out); el = math.radians(20.0 + 4.0 * out); D = 2.15 - 0.6 * hold + 2.05 * out
-        tgt = ex.lerp((-0.20, -0.48, -0.14), (0.0, 0.0, -0.52), out)
+        az = math.radians(-50 - 3 * hold + 6 * out); el = math.radians(20.0 + 3.0 * out); D = 2.15 - 0.6 * hold + 1.6 * out
+        tgt = ex.lerp((-0.20, -0.48, -0.14), (0.0, 0.0, -0.56), out)
     tgt = np.asarray(tgt, float)
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
     lens = {'meadow': 42.0, 'below': 40.0, 'hawk': 35.0}[name]; fstop = {'meadow': 6.3, 'below': 7.1, 'hawk': 8.0}[name]

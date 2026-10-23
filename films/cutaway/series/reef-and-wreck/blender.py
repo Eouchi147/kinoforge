@@ -463,7 +463,7 @@ class Diver:
         self.bubbles = []; bm = _mat_bubble(kit); rng = np.random.default_rng(9)
         for k in range(28):
             bv, bf = ex.ell((0, 0, 0), (1, 1, 1), 1); r = rng.uniform(0.003, 0.0075)
-            ob = ex.part(kit, f'rw_bubble{k}', [(bv * r, bf, 0)], [bm]); ob.visible_shadow = False; self.bubbles.append((ob, r, rng.uniform(0, 1), rng.uniform(0, 6.28)))
+            ob = ex.part(kit, f'rw_bubble{k}', [(bv * r, bf, 0)], [bm]); ob.visible_shadow = False; self.bubbles.append((ob, r, (k % 3) / 3.0 + rng.uniform(0, 0.03), rng.uniform(0, 6.28)))   # three puffs in flight, one every 1.6 s
         kit.on_frame(self.pose); self.pose(0.0)
         # the splash: droplets thrown up, a foam ring and ripples
         sm = ex.mat(kit, 'rw_spray', (0.95, 0.98, 1.0), 0.2); self.drops = []
@@ -534,7 +534,7 @@ class Diver:
         for ob, v in self.drops:
             if a < 0 or a > 0.7: ob.hide_render = True; continue
             p = self.splash_at + v * a + np.array([0, 0, -1.6 * a * a])
-            ob.hide_render = p[2] < LV; ob.location = tuple(p)
+            ob.hide_render = bool(p[2] < LV); ob.location = tuple(map(float, p))
 
 
 def title(kit):
@@ -556,7 +556,7 @@ def build(bpy, ctx):
     kit = cw.Kit(bpy, seed=4, loop=DURATION)
     land = cw.block(kit, size=(4.0, 4.0), depth=1.32, strata=STRATA, seed=6, top=_top,
                     water=[cw.basin(lambda x, y: _isle_sd(x, y), depth=SEA_D, level=LV, shelf=0.65)], zones=_zones,
-                    grass=0.8, grass_height=1.2, trees=0, boulders=4, flowers=0.25, under=True, corals=0,
+                    grass=0.8, grass_height=1.2, trees=0, boulders=4, flowers=0.25, under=False, corals=0,
                     water_tint=(0.20, 0.80, 0.84), water_density=1.05, water_glow=0.035,
                     bed=((0.95, 0.89, 0.72), (0.84, 0.77, 0.58)), caustics=0.9)
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=4.6, sun_color=(1.0, 0.88, 0.70), fill=0.8, rim=0.6,
@@ -620,5 +620,5 @@ def frame(bpy, ctx, S, i, t):
     a = ex.ease(t / 0.7) * (1 - ex.ease((t - 1.9) / 0.6)); S['talpha'].default_value = a; S['title'].hide_render = a <= 0.001
     if a > 0.001:                 # set in the camera's view at the focus distance (sharp), upper third
         cam = S['cam'].ob; d = focus * 0.9; hw = d * 18.0 / lens; hh = hw * ctx['H'] / ctx['W']
-        S['title'].parent = cam; S['title'].location = (0.0, hh * 0.55, -d); S['title'].rotation_euler = (0, 0, 0)
-        S['title'].scale = (hh * 0.11,) * 3
+        S['title'].parent = cam; S['title'].location = (0.0, hh * 0.80, -d); S['title'].rotation_euler = (0, 0, 0)
+        S['title'].scale = (hh * 0.12,) * 3

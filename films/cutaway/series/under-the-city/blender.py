@@ -37,7 +37,7 @@ FY = -SY / 2                     # the cut face the camera sinks down (-Y)
 LIM = SX / 2 - 0.02              # vehicles fade out past the block's ends
 SUN_AZ, SUN_EL = 112.0, 4.0
 # time runs down: street, utility fill, clay (sewer), grey till (metro), rubble (old brick), Roman loam, fossil limestone, bedrock
-STRATA = [('asphalt', 0.05, (0.13, 0.13, 0.14), 0.5), ('base', 0.07, (0.50, 0.48, 0.45), 0.9), ('fill', 0.40, (0.66, 0.54, 0.38), 0.15),
+STRATA = [('asphalt', 0.05, (0.13, 0.13, 0.14), 0.5), ('base', 0.07, (0.50, 0.48, 0.45), 0.9), ('fill', 0.40, (0.56, 0.44, 0.31), 0.35),
           ('clay', 0.34, (0.60, 0.40, 0.27), 0.04), ('till', 0.50, (0.47, 0.46, 0.44), 0.35), ('rubble', 0.22, (0.50, 0.37, 0.29), 0.55),
           ('roman', 0.22, (0.62, 0.44, 0.27), 0.18), ('limestone', 0.65, (0.86, 0.82, 0.72), 0.05), ('bedrock', 1.0, (0.24, 0.25, 0.30), 0.35)]
 SEWER = (-0.70, 0.13)            # centre z, radius (half tunnel cut lengthwise by the face)
@@ -285,6 +285,10 @@ def build_utilities(kit, land, eggs):
     pipe_section(kit, eggs, '-Y', -1.00, -0.26, 0.042, (0.86, 0.86, 0.84), (0.20, 0.30, 0.50), 'utc_heat_b', ring=0.35)
     pipe_section(kit, eggs, '-Y', -1.85, -0.36, 0.045, (0.10, 0.28, 0.66), (0.05, 0.16, 0.24), 'utc_water2', ring=0.16)
     pipe_section(kit, eggs, '-Y', 1.85, -0.25, 0.03, (0.95, 0.72, 0.08), (0.10, 0.09, 0.08), 'utc_gas2')
+    iron = ex.mat_pbr(kit, 'utc_castiron', (0.16, 0.12, 0.10), 0.6, metallic=0.5, bump=0.4)
+    A = [(*cw._tube([(-SX / 2, 0.0, 0.0), (SX / 2, 0.0, 0.0)], [0.022, 0.022], 16), 0)]
+    for x in np.arange(-2.0, 2.1, 0.62): A.append((*cw._tube([(x - 0.02, 0, 0), (x + 0.02, 0, 0)], [0.027, 0.027], 16), 0))
+    ex.part(kit, 'utc_oldmain', A, [iron], None, (0, FY + 0.006, -0.49))
     # electrical duct bank: a concrete block with six conduits
     conc = cw.mat_simple(kit, 'utc_concrete', (0.62, 0.61, 0.58), 0.85, noise_amt=0.15, bump=0.3)
     P = [(*box(-0.13, -0.005, -0.075, 0.13, 0.30, 0.075), 0)]; cols = [(0.06, 0.06, 0.06), (0.85, 0.40, 0.06), (0.70, 0.10, 0.08)]
@@ -317,6 +321,30 @@ def build_utilities(kit, land, eggs):
     eggs.obj('utc_bottle', [(V, Fb, 0)], [ex.mat_pbr(kit, 'utc_glass', (0.16, 0.42, 0.20), 0.08, transmission=0.6, coat=0.3)], '-Y', -1.55, -0.33, 0.004, 0.5)
     worm = cw.mk_mesh(kit.bpy, 'utc_worm', *cw._tube([(0, 0, 0), (0.01, 0, 0), (0.02, 0, 0), (0.03, 0, 0)], [0.004] * 4, 6), [ex.mat_pbr(kit, 'utc_wormskin', (0.72, 0.40, 0.38), 0.4, coat=0.6)], None, True, kit.coll)
     out['worm'] = worm
+    return out
+
+def build_roots(kit, rng):
+    """Roots of the street trees reaching down into the fill between the pipes (half proud of the face)."""
+    bark = ex.mat_pbr(kit, 'utc_rootbark', (0.36, 0.25, 0.16), 0.8, bump=0.3, bump_scale=200.0); P = []
+    for tx in (-2.05, -1.15, 0.0, 1.15, 2.05):
+        for k in range(4):
+            x0 = tx + rng.normal(0, 0.03); L = rng.uniform(0.12, 0.26); ang = rng.uniform(-0.9, 0.9); pts = [(x0, 0.0, -0.01)]
+            for j in range(1, 7):
+                q = j / 6; pts.append((x0 + math.sin(ang) * L * q * 0.7 + rng.normal(0, 0.008), 0.0, -0.01 - L * q + rng.normal(0, 0.006)))
+            C = cw.catmull(pts, 16); P.append((*cw._tube(C, np.linspace(0.0075, 0.0012, 16), 6), 0))
+    ob = ex.part(kit, 'utc_roots', P, [bark], None, (0, FY + 0.003, 0))
+    return ob
+
+def build_people(kit):
+    """Three people walking home along the front sidewalk (storybook scale: they read at phone size)."""
+    bpy = kit.bpy; out = []
+    for k, (coat, x0, v) in enumerate((((0.20, 0.30, 0.46), -1.9, 0.055), ((0.62, 0.36, 0.16), 0.75, -0.05), ((0.30, 0.30, 0.32), 1.6, -0.06))):
+        root = ex.empty(kit, f'utc_person{k}'); cm = ex.mat(kit, f'utc_coat{k}', coat, 0.8); sk = ex.mat(kit, 'utc_skin', (0.78, 0.58, 0.46), 0.6)
+        dk = ex.mat(kit, 'utc_trousers', (0.08, 0.08, 0.09), 0.8)
+        ex.part(kit, f'utc_person{k}_body', [(*cw._tube([(0, 0, 0.032), (0, 0, 0.05), (0, 0, 0.062)], [0.0085, 0.0095, 0.006], 8), 0),
+                                              (*ex.ell((0, 0, 0.0695), (0.0055, 0.0055, 0.0062), 1), 1)], [cm, sk], root)
+        legs = [ex.part(kit, f'utc_person{k}_leg', [(*cw._tube([(0, 0, 0), (0, 0, -0.032)], [0.0032, 0.0028], 6), 0)], [dk], root, (0, s * 0.0035, 0.034)) for s in (-1, 1)]
+        out.append((root, legs, x0, v, k * 1.3))
     return out
 
 def build_sewer(kit, land, eggs, rng):
@@ -517,7 +545,7 @@ def build_background(kit, rng):
     cell = g.comb(g.math('FLOOR', g.math('MULTIPLY', al, 5.0)), g.math('FLOOR', g.math('MULTIPLY', pz, 4.0)), 0.0)
     rnd = g.node('ShaderNodeTexWhiteNoise', noise_dimensions='3D'); g.put(rnd, 'Vector', cell)
     lit = g.math('MULTIPLY', g.math('MULTIPLY', wx, wz), g.math('GREATER_THAN', rnd.outputs['Value'], 0.72))
-    p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.04, 0.045, 0.07)), 'Roughness': 0.8})
+    p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.012, 0.014, 0.022)), 'Roughness': 0.9})
     g.put(p, 'Emission Color', srgb((1.0, 0.72, 0.40))); g.put(p, 'Emission Strength', g.math('MULTIPLY', lit, 0.9)); cw._finish(g, p)
     A = cw._Acc()
     for k in range(30):
@@ -559,6 +587,8 @@ def build(bpy, ctx):
     S['street'] = build_street(kit, land, rng)
     eggs = ex.Eggs(kit, land, light_power=0.9, light_color=(1.0, 0.84, 0.64)); S['eggs'] = eggs
     S['util'] = build_utilities(kit, land, eggs)
+    build_roots(kit, rng)
+    S['people'] = build_people(kit)
     S['sewer'] = build_sewer(kit, land, eggs, rng)
     S['metro'] = build_metro(kit, land, eggs)
     build_old_city(kit, land, eggs)
@@ -568,8 +598,8 @@ def build(bpy, ctx):
     eggs.finish()
     ex.soften_roots(land)
     ex.edge_spill(kit, land, '-Y', power=28.0)
-    ld = bpy.data.lights.new('utc_facefill', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = 5.0; ld.size_y = 3.0; ld.energy = 85.0; ld.color = (0.60, 0.70, 1.0)
-    fo = bpy.data.objects.new(ld.name, ld); kit.coll.objects.link(fo); fo.location = (0.6, FY - 3.2, -0.9); ex.look_at(fo, (0.3, FY, -1.2))
+    ld = bpy.data.lights.new('utc_facefill', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = 5.0; ld.size_y = 1.8; ld.spread = math.radians(28); ld.energy = 110.0; ld.color = (0.60, 0.70, 1.0)
+    fo = bpy.data.objects.new(ld.name, ld); kit.coll.objects.link(fo); fo.location = (0.6, FY - 3.2, -1.25); ex.look_at(fo, (0.3, FY, -1.25))
     fo.visible_camera = False; fo.visible_glossy = False
     S['motes'] = build_motes(kit)
     build_background(kit, rng)
@@ -648,6 +678,12 @@ def frame(bpy, ctx, S, i, t):
         V = st[kind]; x = xf(t); V['root'].location = (x, y, 0.0); V['root'].rotation_euler = (0, 0, 0 if sgn > 0 else math.pi)
         for w in V['wheels']: w.rotation_euler = (0, sgn * x / V['r'], 0)
         V['beam'].data.energy = (1.4 if kind == 'bus' else 0.9) * (1.0 if abs(x) < LIM else 0.0)
+    # people walking home
+    for root, legs, x0, v, ph in S['people']:
+        x = x0 + v * t; root.location = (x, -0.585, 0.016); root.rotation_euler = (0, 0, 0 if v > 0 else math.pi)
+        sw = math.sin(t * 7.5 + ph); root.location.z = 0.016 + 0.0012 * abs(sw)
+        legs[0].rotation_euler = (0, 0.42 * sw, 0); legs[1].rotation_euler = (0, -0.42 * sw, 0)
+        root.hide_render = abs(x) > LIM
     # steam
     for k, c in enumerate(st['steam']['cards']):
         ph = (t / 3.2 + k / 3.0) % 1.0; c.location = (MANHOLE_U + 0.01 * math.sin(t * 0.7 + k) + 0.012 * (k - 1), FY + 0.03, 0.02 + 0.10 * ph)
