@@ -522,9 +522,9 @@ def build_old_city(kit, land, eggs):
     ring = 40; V = []; F = []
     for x in (-0.12, 0.12):
         for j in range(ring):
-            a = 2 * math.pi * j / ring; rr_ = 0.052 * (1 - 0.07 * max(0.0, math.cos(a * 10)) ** 2); V.append((x, rr_ * math.cos(a) + 0.02, rr_ * math.sin(a)))
+            a = 2 * math.pi * j / ring; rr_ = 0.050 * (1 - 0.16 * max(0.0, math.cos(a * 12)) ** 0.6); V.append((x, rr_ * math.cos(a) + 0.02, rr_ * math.sin(a)))
     F = [(j, (j + 1) % ring, ring + (j + 1) % ring, ring + j) for j in range(ring)] + [tuple(range(ring))[::-1], tuple(range(ring, 2 * ring))]
-    eggs.obj('utc_column', [(V, F, 0)], [ex.mat_pbr(kit, 'utc_marble', (0.88, 0.85, 0.78), 0.35, coat=0.2, cavity=0.6)], '-Y', 0.74, -1.70, 0.0, math.pi / 2 - 0.06)
+    eggs.obj('utc_column', [(V, F, 0)], [ex.mat_pbr(kit, 'utc_marble', (0.80, 0.75, 0.66), 0.35, coat=0.2, cavity=0.6, bump=0.15, bump_scale=40.0)], '-Y', 0.74, -1.70, 0.0, math.pi / 2 - 0.06)
     eggs.spot('-Y', 0.70, -1.70, power=3.0, out=0.5, up=0.25, size=40, name='utc_spot_column')
 
 def build_motes(kit, n=46, seed=8):
