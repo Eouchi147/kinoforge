@@ -9,11 +9,11 @@ GitHub runners' worth. Reference: `docs/WORKFLOWS.md` ("Render on Sam's Mac").
 2. **Code copy:** the Mac renders from its own copy, `Video Production/kinoforge-render/` (harness, films/lib, films/styles,
    films/cutaway, ads/fonts). Refresh it from GitHub's tarball when the film or the kit changed.
 3. **Start the lane** once per Blender launch: in Blender's Python console (computer use, Blender only), run the `exec(...)`
-   line from `docs/WORKFLOWS.md`. It writes `mac-queue/heartbeat.txt` every 10 s: check it is fresh.
+   line from `docs/WORKFLOWS.md`. It writes `mac-jobs/heartbeat.txt` every 10 s: check it is fresh.
 4. **Queue a job:** write `{film, out, w, h, samples, start, end, device: "METAL"}` as a JSON file into
-   `kinoforge-render/mac-queue/` (device file tools; committing a staged file works even when the Mac's shell is down).
+   `kinoforge-render/mac-jobs/` (device file tools; committing a staged file works even when the Mac's shell is down).
    Split long films into frame ranges.
-5. **Watch:** the job's `.log`, then `mac-queue/done/`. Frames land in `<out>/frames`.
+5. **Watch:** the job's `.log`, then `mac-jobs/done/`. Frames land in `<out>/frames`.
 6. **Encode and add sound** (ffmpeg on the Mac or in the container), then `check-before-showing-sam.md`.
 7. **Log** the job, the time per frame and anything odd in `docs/LOG.md`.
 
