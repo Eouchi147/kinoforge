@@ -13,7 +13,7 @@ permissions:
   contents: read
 concurrency:
   group: verify-engine-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false   # a running check finishes; only the newest waiting one is kept (main is pushed often)
 jobs:
   engine:
     runs-on: ubuntu-24.04   # Playwright 1.56 does not install on newer images
