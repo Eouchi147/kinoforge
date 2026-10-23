@@ -58,7 +58,7 @@ indirect 6, adaptive min samples 16, `transparent_max_bounces = 64` (cut-out can
    light), `GRASS`, `LEAF`, `TREES` (fixed spots), and what `populate` scatters. Keep the camera fixed (`SWAY` 3 degrees
    or less).
 6. In `szlife.py`: the life and the surprise in the face, each a pure function of `t`; change the title text in
-   `build_title` (words set in code: no dash, no "...").
+   `build_title` (words set in code: no dash, no three-dot ellipsis).
 7. Check locally (2-core box): `python3 harness/blender_render.py films/cutaway/<group>/<id> --w 270 --h 480 --samples 8 --start 100 --end 101`.
    For a loop, render the last frame and frame 0 and compare (the reference's seam is smaller than a normal frame step).
 8. Sound: edit `audio/make_audio.py` (chords per phase, ambience events per phase) and run

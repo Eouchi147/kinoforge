@@ -16,7 +16,7 @@ Note: it is cut-based (6 shots, 8 camera presets available); Sam's 17:32 verdict
 | File | What |
 | --- | --- |
 | `script.json` | title and 5 narration lines (l00 hook, l01 title, l02 young layers, l03 deep time, l04 the smile) |
-| `cues.json` | estimated by `tools/cues_estimate.py` (`estimated: true`, `title_line` l01, `outro_s` 4.2, 5 lines) |
+| `cues.json` | estimated by `films/lib/cutaway/tools/cues_estimate.py` (`estimated: true`, `title_line` l01, `outro_s` 4.2, 5 lines) |
 | `spec.json` | format 16:9, look 20 spp fast, title and end cards, one set `meadow`, four scenes, six shots |
 | `film.json` | id, `line: cutaway`, 24 fps, render 1280x720, delivery 1920x1080, 20 spp, `duration` 39.937, `audio/mix.m4a` |
 | `blender.py` | identical copy of `films/lib/cutaway/blender.py` |

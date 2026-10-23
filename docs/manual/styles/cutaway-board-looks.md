@@ -30,7 +30,7 @@ The kit (`cutaway.md`), Blender `bpy` 5.2.2, an aspect (`'16:9'` or `'9:16'`).
    ```
    Frame % 4 picks the look (24 A, 25 B, 26 C, 27 D). For vertical stills use `stills/mixed` (0 A 9:16, 1 B 16:9,
    2 C 16:9, 3 D 9:16) or pass `--w 1080 --h 1920`.
-3. To use a look in a film: `import looks; d = looks.look_d(bpy, kit, aspect)`, or copy its `cw.block(kit, size=..., ...)` call and
+3. To use a look in a film: `import looks; d = looks.look_d(bpy, kit, aspect)`, or copy its `cw.block` call and
    change only what the story needs. As a moving scene: `from scene import make; DURATION, SETTINGS, build, frame =
    make('A', duration=8.0, move='orbit', samples=32, deg=16.0, fast=True)` (moves: `orbit`, `push`, `none`).
 

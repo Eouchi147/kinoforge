@@ -123,7 +123,7 @@ planned in `films/cutaway/README.md`; none is recorded as made.
    hand-built worlds.
 
 ## Checks before showing Sam
-Length 156.965 s; -14 LUFS; labels from the script only; no dash or "..." on screen; the two dips; a full contact sheet.
+Length 156.965 s; -14 LUFS; labels from the script only; no dash or three-dot ellipsis on screen; the two dips; a full contact sheet.
 
 ## Known traps
 A one-frame still must build only one set (it reads `--start/--end` from the harness command line). The free voice needs

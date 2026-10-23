@@ -49,25 +49,25 @@ diver, splash, title), `NOTES.md`, `audio/make_audio.py`, `audio/mix.json`, `aud
    was the iCloud copy `Video Production/kinoforge-render/` (the Samsung X5 drive came later on 23 Oct). A job is a JSON
    file in the lane home's `mac-jobs/` (or `mac-queue/` for the older lane thread), one per frame range, for example:
    ```json
-   {"film": "films/cutaway/series/reef-and-wreck", "out": "out/reef-and-wreck", "w": 1280, "h": 720, "samples": 20, "start": 0, "end": 120, "device": "METAL"}
+   {"film": "films/cutaway/series/reef-and-wreck", "out": "out/series/reef-and-wreck", "w": 1280, "h": 720, "samples": 20, "start": 0, "end": 48, "device": "METAL"}
    ```
    (`end` is exclusive; name chunks `5-<film>-c00.json`, `5-<film>-c01.json`, so check jobs named `0-<name>.json` run first). The
-   exact job files and chunk sizes used are not recorded. The lane runs
+   job files are in step 4 below. The lane runs
    `blender -b --python harness/blender_render.py -- <film> --out <out> --w --h --fps 24 --start --end --device METAL --samples 20`
    under `caffeinate -i`; frames land in `<out>/frames/%05d.png`; logs and jobs move to `mac-jobs/done/`.
 3. Count frames: `ls <out>/frames/[0-9]*.png | wc -l` must be 480 (never count `._` files on the exFAT drive).
 4. Assemble with ffmpeg on the Mac (LOG: "assembled with the Mac's ffmpeg: 20.0 s, -16.2 LUFS, preview and sheet
-   checked"). The exact command line is not recorded; these reproduce the runner join (`films.yml`) step for step:
+   checked"). The coordinator ran these on the Mac's Linux shell (lane home then `Video Production/kinoforge-render/`, `R` = that folder,
+`F` = `$R/films/cutaway/series/reef-and-wreck`), from `Video Production/kino-films/series/`:
    ```bash
-   ID=cutaway-series-reef-and-wreck; F=films/cutaway/series/reef-and-wreck
-   ffmpeg -nostdin -y -framerate 24 -start_number 0 -i <out>/frames/%05d.png -frames:v 480 \
-     -c:v libx264 -preset medium -crf 12 -pix_fmt yuv420p picture.mp4
-   ffmpeg -nostdin -y -i picture.mp4 -i $F/audio/mix.m4a -vf scale=1920:1080:flags=lanczos \
-     -c:v libx264 -preset slow -crf 17 -maxrate 16M -bufsize 32M -pix_fmt yuv420p -movflags +faststart \
-     -map 0:v -map 1:a -c:a aac -b:a 256k -shortest $ID.mp4
-   ffmpeg -nostdin -y -i $ID.mp4 -vf scale=960:-2 -c:v libx264 -crf 24 -c:a aac -b:a 128k -movflags +faststart $ID-preview.mp4
-   ffmpeg -nostdin -y -i $ID.mp4 -vf "fps=1/6,scale=240:-2,tile=8x4" -frames:v 1 $ID-sheet.jpg
+   ffmpeg -framerate 24 -i $R/out/series/reef-and-wreck/frames/%05d.png -i $F/audio/mix.m4a -map 0:v -map 1:a \
+     -vf scale=1920:1080:flags=lanczos -c:v libx264 -preset fast -crf 18 -pix_fmt yuv420p -c:a aac -b:a 256k \
+     -shortest -movflags +faststart cutaway-series-reef-and-wreck.mp4
+   ffmpeg -y -i cutaway-series-reef-and-wreck.mp4 -vf scale=960:-2 -c:v libx264 -crf 24 -c:a aac -b:a 128k cutaway-series-reef-and-wreck-preview.mp4
+   ffmpeg -y -i cutaway-series-reef-and-wreck.mp4 -vf "fps=1,scale=384:-1,tile=5x4" -frames:v 1 cutaway-series-reef-and-wreck-sheet.jpg
    ```
+   Checks then run: ffprobe duration 20.011 s, `ebur128` integrated -16.2 LUFS, `freezedetect` none. The jobs were ten
+   chunks of 48 frames, `5-reef-and-wreck-c00.json` to `c09.json`, out `out/series/reef-and-wreck`, 1280x720 (Gold Mine 720x1280), 20 samples, METAL.
 5. Delivered to Sam's Mac `Video Production/kino-films/series/` with its preview and sheet; archived on the Samsung X5
    `KINOFORGE/films/`. To publish it to `kino-films` as well, upload the three files to the release (or re-render with
    rc-render `films.yml`, 20 parts).

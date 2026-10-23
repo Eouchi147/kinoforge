@@ -46,20 +46,18 @@ Cut 1 to 2 follows the miner inside; cut 2 to 3 shows where the bats go (out of 
    `check6/frames/00470.png`, `check6/frames/00030.png`).
 2. Full render on the Mac lane at about 5 s a frame (LOG 23 Oct). Jobs as for Reef and Wreck, at 720x1280:
    ```json
-   {"film": "films/cutaway/series/gold-mine", "out": "out/gold-mine", "w": 720, "h": 1280, "samples": 20, "start": 0, "end": 120, "device": "METAL"}
+   {"film": "films/cutaway/series/gold-mine", "out": "out/series/gold-mine", "w": 720, "h": 1280, "samples": 20, "start": 0, "end": 48, "device": "METAL"}
    ```
-   (`end` exclusive; the exact job files and chunk sizes are not recorded.)
+   (`end` exclusive; ten chunks of 48 frames, `6-gold-mine-c00.json` to `c09.json`.)
 3. Count 480 frames (`ls <out>/frames/[0-9]*.png | wc -l`).
-4. Assemble on the Mac (exact command not recorded; equivalent of the runner join):
+4. Assemble on the Mac. The coordinator ran these on the Mac's Linux shell (`R` = the lane home, then
+   `Video Production/kinoforge-render/`; `F` = `$R/films/cutaway/series/gold-mine`), from `Video Production/kino-films/series/`:
    ```bash
-   ID=cutaway-series-gold-mine; F=films/cutaway/series/gold-mine
-   ffmpeg -nostdin -y -framerate 24 -start_number 0 -i <out>/frames/%05d.png -frames:v 480 \
-     -c:v libx264 -preset medium -crf 12 -pix_fmt yuv420p picture.mp4
-   ffmpeg -nostdin -y -i picture.mp4 -i $F/audio/mix.m4a -vf scale=1080:1920:flags=lanczos \
-     -c:v libx264 -preset slow -crf 17 -maxrate 16M -bufsize 32M -pix_fmt yuv420p -movflags +faststart \
-     -map 0:v -map 1:a -c:a aac -b:a 256k -shortest $ID.mp4
-   ffmpeg -nostdin -y -i $ID.mp4 -vf scale=540:-2 -c:v libx264 -crf 24 -c:a aac -b:a 128k -movflags +faststart $ID-preview.mp4
-   ffmpeg -nostdin -y -i $ID.mp4 -vf "fps=1/6,scale=240:-2,tile=8x4" -frames:v 1 $ID-sheet.jpg
+   ffmpeg -v error -y -framerate 24 -i $R/out/series/gold-mine/frames/%05d.png -i $F/audio/mix.m4a -map 0:v -map 1:a \
+     -vf scale=1080:1920:flags=lanczos -c:v libx264 -preset fast -crf 18 -pix_fmt yuv420p -c:a aac -b:a 256k \
+     -shortest -movflags +faststart cutaway-series-gold-mine.mp4
+   ffmpeg -v error -y -i cutaway-series-gold-mine.mp4 -vf scale=540:-2 -c:v libx264 -crf 24 -c:a aac -b:a 128k cutaway-series-gold-mine-preview.mp4
+   ffmpeg -v error -y -i cutaway-series-gold-mine.mp4 -vf "fps=1,scale=216:-1,tile=10x2" -frames:v 1 cutaway-series-gold-mine-sheet.jpg
    ```
 5. Checked: 9:16, 1080x1920, 20.0 s, -16.2 LUFS; delivered to Sam's Mac `Video Production/kino-films/series/`; archived
    on the Samsung X5 `KINOFORGE/films/`.

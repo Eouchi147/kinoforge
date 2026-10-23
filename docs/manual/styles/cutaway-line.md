@@ -14,8 +14,8 @@ small `deg`, or `hero`), or build on the seasons loop itself (`cutaway-seasons-l
 film on the line.
 
 ## Inputs
-- `script.json` (`{"title", "lines": [{"text"}]}`: no dashes, no "...", facts checked) or real narration.
-- `cues.json`: from the sound stage (kinoforge `sound.yml`) or estimated by `tools/cues_estimate.py`.
+- `script.json` (`{"title", "lines": [{"text"}]}`: no dashes, no three-dot ellipsis, facts checked) or real narration.
+- `cues.json`: from the sound stage (kinoforge `sound.yml`) or estimated by `films/lib/cutaway/tools/cues_estimate.py`.
 - `film.json` and the line's generic `blender.py` (copied unchanged from `films/lib/cutaway/blender.py`).
 
 ## Files
@@ -57,7 +57,7 @@ Leave `art` out for the plain look.
 Rules the validator enforces: every shot has a `why`; shots run in order with no gaps and end on `until` (the last has
 none); a word reference that is not in the line is an error naming the line's words; eggs: one of each kind per set (two
 geodes), at most 12 per set, inside the block, not overlapping, recent above old above deep; labels in capitals, about
-4 words, no dashes, no "...", at most two at once, never two in one slot, upper slots in `ground` shots, nothing in the
+4 words, no dashes, no three-dot ellipsis, at most two at once, never two in one slot, upper slots in `ground` shots, nothing in the
 title card's place; camera speed: pan or crane at most 0.25 frames per second, push at most 10 % of the frame per second
 (twice that is an error); a crane over the whole block needs about 6 s or more.
 

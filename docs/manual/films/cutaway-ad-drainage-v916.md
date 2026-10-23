@@ -70,7 +70,7 @@ The framing crops the house at the left edge; the puddle reads weakly in stills.
 
 ## Rules this film must keep
 Invented business marked Sample; no phone, no website; no claims about Unmissed; words in code, one face, inside R-2-08;
-no dash, no "..." on screen; nothing published or sent before Sam has watched it (`films/cutaway/README.md`).
+no dash, no three-dot ellipsis on screen; nothing published or sent before Sam has watched it (`films/cutaway/README.md`).
 
 ## To make a new one like it (another trade)
 1. Copy `ads/drainage/` to `ads/<trade>/`; keep the four-beat shape (problem in the yard, the cause in the cut, the fix as

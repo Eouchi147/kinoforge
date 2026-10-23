@@ -160,7 +160,7 @@ Levers: `samples`, `fast=True`, `grass` density, `apply_cycles(bpy, fast=True)`,
 ## Checks before showing Sam
 - `docs/PLAYBOOKS/check-before-showing-sam.md`: length, size, loudness, freeze and black detection, a contact sheet,
   three moving stretches. For a loop, render frames `last` and `0` and compare.
-- Every cut and move has a written job (`films/director/CRAFT.md` sections 1 to 4); words set in code, no dash, no "...".
+- Every cut and move has a written job (`films/director/CRAFT.md` sections 1 to 4); words set in code, no dash, no three-dot ellipsis.
 
 ## Known traps
 - A full haze volume fogs the whole frame: make god rays as light cards (`docs/LESSONS.md`).

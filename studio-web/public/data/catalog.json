@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23T22:36:27Z",
+ "generated": "2026-10-23T22:41:44Z",
  "films": [
   {
    "id": "p01-static",
@@ -1595,7 +1595,7 @@
     "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
     "kinoforge codead.yml"
    ],
-   "recipe": "docs/manual/styles/business-ads.md",
+   "recipe": "docs/manual/films/unmissed-01.md",
    "summary": "The first Unmissed ad built in code (AI front desk offer), fourth revision delivered to Sam.",
    "verdict": "Sam, 16 Oct: \"really bad quality\", the voice \"not the greatest\".",
    "date": "2026-10-16"
@@ -1626,7 +1626,7 @@
     "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
     "kinoforge codead.yml"
    ],
-   "recipe": "docs/manual/styles/business-ads.md",
+   "recipe": "docs/manual/films/unmissed-v1.md",
    "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
    "verdict": "Sam, 16 Oct: \"a little\".",
    "date": "2026-10-16"
@@ -1657,7 +1657,7 @@
     "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
     "kinoforge codead.yml"
    ],
-   "recipe": "docs/manual/styles/business-ads.md",
+   "recipe": "docs/manual/films/unmissed-v2.md",
    "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
    "verdict": "Sam, 16 Oct: \"a little\".",
    "date": "2026-10-16"
@@ -1688,7 +1688,7 @@
     "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
     "kinoforge codead.yml"
    ],
-   "recipe": "docs/manual/styles/business-ads.md",
+   "recipe": "docs/manual/films/unmissed-v3.md",
    "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
    "verdict": "Sam, 16 Oct: loved, but the voice sounds too fake.",
    "date": "2026-10-16"
@@ -1719,7 +1719,7 @@
     "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
     "kinoforge codead.yml"
    ],
-   "recipe": "docs/manual/styles/business-ads.md",
+   "recipe": "docs/manual/films/unmissed-v4.md",
    "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
    "verdict": "Sam, 16 Oct: \"a big NO\".",
    "date": "2026-10-16"
@@ -1750,7 +1750,7 @@
     "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
     "kinoforge codead.yml"
    ],
-   "recipe": "docs/manual/styles/business-ads.md",
+   "recipe": "docs/manual/films/unmissed-v5.md",
    "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
    "verdict": "Sam, 16 Oct: loved, sound and visuals; the chosen direction for Unmissed.",
    "date": "2026-10-16"

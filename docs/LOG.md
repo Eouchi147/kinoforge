@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- AI manual, Cutaway part: 17 style pages (`docs/manual/styles/cutaway*.md`: kit, board looks, cinematic, line, seasons loop as the house default, art hook and 12 looks, flat vector) and 15 film pages; the coordinator filled the Mac assembly commands for Reef and Wreck and The Gold Mine. Mismatches between docstrings and code are named in the pages (the code wins). Catalog regenerated. US$0.
 - Checkpoint: the manual writers' style, film and sound pages so far (`docs/manual/styles`, `films`, `sound`), and the fable look's seasons pass in progress. The studio OS (`studio-web/`) stays uncommitted until it builds and passes its tests, because every push redeploys the live studio. US$0.
 - Human guide `docs/GUIDE.md`: the studio in ten minutes (what it makes, how a film gets made, where things are, the rules, what Sam does). US$0.
 - AI manual, part 1: `docs/manual/README.md` (front door and index), `docs/manual/system/` (8 pages: architecture, autonomous run, gates, money and keys, quality checks, delivery, record, catalog) and `docs/manual/workflows/` (14 pages with exact REST dispatch calls, alternatives and traps). `tools/catalog.py` builds `studio-web/public/data/catalog.json` (55 films, 19 styles, 14 workflows; deterministic, `--check`). US$0.
