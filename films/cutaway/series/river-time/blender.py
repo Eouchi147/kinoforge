@@ -54,7 +54,7 @@ LAYERS = [('soil', 0.035, (0.30, 0.21, 0.13), 0.05, 1.0),
           ('brown sandstone', 0.09, (0.54, 0.35, 0.22), 0.25, 0.5),
           ('dark schist', 1.0, (0.21, 0.20, 0.23), 0.35, 0.4)]
 SUN_END = (112.0, 7.5)          # golden hour, behind the block from the last camera
-SUN_START = (-40.0, 38.0)       # morning light from the camera side
+SUN_START = (-35.0, 21.0)       # low morning light from the camera side
 DAYS = 2.0                      # extra full turns of the sun during the time-lapse
 
 

@@ -5,7 +5,7 @@ science explainers. Files: `film.json`, `blender.py` (the whole scene), `audio/`
 
 ## Story (beginning, middle, end)
 
-- **Beginning:** a flat grassy block in morning light with a small stream running across it. A deer grazes.
+- **Beginning:** a flat grassy block in low morning light with a small stream running across it. A deer grazes.
 - **Middle:** time starts to race (the sun swings round the sky, shadows sweep, cloud shadows race, the light warms and
   cools). The stream cuts down through the rock beds. As the cut passes them, three fossils are bared in the canyon wall,
   youngest first: an ammonite, a fish, a trilobite. Each one catches a museum light as it appears.
@@ -111,5 +111,5 @@ grass (about 10,000 tufts), the glass water and the 37k-vertex top that is rebui
 - **Grass is storybook-tall** (5 to 8 cm against an 11 cm hiker), so the hiker is placed on the bare soil lip of the rim.
 - **The time-lapse animals** (deer, birds, butterflies) move in real time while the sun races; they sit mostly out of the
   middle shot's frame.
-- **The morning sky** is a pale grey-blue (bright, clean, but not dramatic); the drama is saved for golden hour.
+- **The morning sky** is soft and pale (a low warm sun, long shadows, a pale pink-grey haze), not dramatic; the drama is saved for golden hour.
 - **The horizon** behind the canyon in the last shot is the far floor fading into haze, a soft but visible line.
