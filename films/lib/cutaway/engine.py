@@ -198,7 +198,7 @@ class Film:
         self.labels = {}
         for s in pl.shots:
             for j, lb in enumerate(s['labels']):
-                key = (s['i'], j); self.labels[key] = ov.Label(O, f'cl_lb{s["i"]}_{j}', lb['text'], 22 * r)
+                key = (s['i'], j); self.labels[key] = ov.Label(O, f'cl_lb{s["i"]}_{j}', lb['text'], 26 * r)
         self.fits = {}
 
     def _fit(self, el, maxw):

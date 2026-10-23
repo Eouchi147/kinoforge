@@ -92,14 +92,11 @@ class Layout:
     def water_point(self, toward='-Y'):
         """A point in the water close to a cut face (where the glass shows)."""
         if not self.water: return None
-        best = None
-        for x in np.linspace(-self.sx / 2 + 0.2, self.sx / 2 - 0.2, 41):
-            for y in np.linspace(-self.sy / 2 + 0.15, self.sy / 2 - 0.15, 41):
-                d = float(self.sd(np.array([x]), np.array([y]))[0])
-                if d > -0.12: continue
-                score = (y if toward == '-Y' else -x)
-                if best is None or score < best[0]: best = (score, float(x), float(y))
-        return (best[1], best[2]) if best else None
+        X, Y = np.meshgrid(np.linspace(-self.sx / 2 + 0.2, self.sx / 2 - 0.2, 41), np.linspace(-self.sy / 2 + 0.15, self.sy / 2 - 0.15, 41))
+        X, Y = X.ravel(), Y.ravel(); ok = self.sd(X, Y) <= -0.12
+        if not ok.any(): return None
+        score = np.where(ok, Y if toward == '-Y' else -X, np.inf); i = int(np.argmin(score))
+        return (float(X[i]), float(Y[i]))
 
     # ---------------------------------------------------------------- props
     def _props(self):
@@ -226,14 +223,11 @@ class Layout:
             self.animals.append(rec)
 
     def _shallow(self):
-        best = None
-        for x in np.linspace(-self.sx / 2 + 0.3, self.sx / 2 - 0.3, 31):
-            for y in np.linspace(-self.sy / 2 + 0.25, self.sy / 2 - 0.3, 31):
-                d = float(self.sd(np.array([x]), np.array([y]))[0])
-                if -0.14 < d < -0.03:
-                    score = y + 0.3 * abs(x - 0.6 * self.k)
-                    if best is None or score < best[0]: best = (score, float(x), float(y))
-        return (best[1], best[2]) if best else (0.0, -self.sy / 2 + 0.3)
+        X, Y = np.meshgrid(np.linspace(-self.sx / 2 + 0.3, self.sx / 2 - 0.3, 31), np.linspace(-self.sy / 2 + 0.25, self.sy / 2 - 0.3, 31))
+        X, Y = X.ravel(), Y.ravel(); d = self.sd(X, Y); ok = (d > -0.14) & (d < -0.03)
+        if not ok.any(): return (0.0, -self.sy / 2 + 0.3)
+        score = np.where(ok, Y + 0.3 * np.abs(X - 0.6 * self.k), np.inf); i = int(np.argmin(score))
+        return (float(X[i]), float(Y[i]))
 
     def _duck_path(self):
         w = self.water[0]
