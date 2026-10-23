@@ -1,6 +1,86 @@
 {
- "_": "Director pipeline switches. free_only (Sam, 22 Oct 2026 09:20: spend nothing): every model seat uses OpenRouter models whose id ends in ':free', any paid model is refused in code, and the sound stage uses free engines on the runner (voice: Chatterbox or Kokoro; music: the procedural score engine). Only Sam turns this off (set false here, or KF_FREE_ONLY=0 in the workflow env).",
- "free_only": true,
+ "_": "Director pipeline switches. Default since 22 Oct 2026 20:50 (Sam: 'cap the budget per film but I need good results every time I pay'): paid mode, the best model per role (paid_seats, verified against OpenRouter's live list and priced on the runner), a hard cap per film (brief.cap_usd, default 2.00, 0.50 to 5.00) booked before every call, and quality gates before the next stage costs money (gates). free_only: true (or KF_FREE_ONLY=1 in the workflow env) switches every seat to ':free' models and the voice to Chatterbox (free_seats).",
+ "free_only": false,
+ "default_cap_usd": 2.0,
+ "cap_range_usd": [
+  0.5,
+  5.0
+ ],
+ "paid_seats": {
+  "_": "Chosen by role (not live ranking). Each list is tried in order; ids missing from OpenRouter's live list are skipped (logged on the runner). 'seat' is the crew.json seat used for timeouts.",
+  "writer": {
+   "models": [
+    "anthropic/claude-opus-5.5",
+    "anthropic/claude-sonnet-5.5"
+   ],
+   "seat": "head"
+  },
+  "checker": {
+   "models": [
+    "google/gemini-4-argon",
+    "openai/gpt-6.1-sol"
+   ],
+   "seat": "deputy",
+   "not_provider_of": "writer"
+  },
+  "coder": {
+   "models": [
+    "anthropic/claude-opus-5.5",
+    "anthropic/claude-sonnet-5.5"
+   ],
+   "seat": "coder"
+  },
+  "coder2": {
+   "models": [
+    "anthropic/claude-sonnet-5.5",
+    "google/gemini-4-argon"
+   ],
+   "seat": "coder"
+  },
+  "repair": {
+   "models": [
+    "anthropic/claude-sonnet-5.5",
+    "anthropic/claude-opus-5.5"
+   ],
+   "seat": "coder"
+  },
+  "eyes": {
+   "models": [
+    "google/gemini-4-argon",
+    "anthropic/claude-sonnet-5.5"
+   ],
+   "seat": "eyes"
+  },
+  "crew": {
+   "models": [
+    "anthropic/claude-haiku-5.5",
+    "anthropic/claude-sonnet-5.5"
+   ],
+   "seat": "crew"
+  }
+ },
+ "paid_voice": "elevenlabs/eleven-v4|brian",
+ "paid_music": {
+  "engine": "procedural"
+ },
+ "gates": {
+  "_": "Quality gates (Sam pays only for films that pass): a film that cannot pass inside its cap stops with a plain message and is never rendered.",
+  "script_max_cut_share": 0.2,
+  "script_min_words_share": 0.7,
+  "eyes_min_score": 6.5,
+  "compose_rounds": 2,
+  "vo_max_wer": 0.25,
+  "vo_retakes": 1
+ },
+ "estimate_usd": {
+  "_": "Expected spend per stage for a 150 s film (README.md has the table); used to decide whether a second spec draft fits the cap.",
+  "script": 0.25,
+  "sound": 0.15,
+  "spec_draft": 0.5,
+  "repair": 0.12,
+  "eyes": 0.05,
+  "reflect": 0.01
+ },
  "free_voice": "chatterbox",
  "free_music": {
   "engine": "procedural"

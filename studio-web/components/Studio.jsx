@@ -119,6 +119,7 @@ function Director({ status, go, openJob, seed, clearSeed }) {
   const [text, setText] = useState('');
   const [fallback, setFallback] = useState(null);       // one line when a free model is answering
   const [building, setBuilding] = useState(false);
+  const [cap, setCap] = useState(2);                   // the film's hard money cap in US$ (the pipeline allows 0.50 to 5.00)
   const [buildErr, setBuildErr] = useState(null);
   const [lastJob, setLastJob] = useState(null);
   const thread = useRef(null);
@@ -162,7 +163,7 @@ function Director({ status, go, openJob, seed, clearSeed }) {
   async function build() {
     setBuilding(true); setBuildErr(null);
     try {
-      const r = await fetch('/api/build', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ brief }) });
+      const r = await fetch('/api/build', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ brief: { ...brief, cap_usd: cap } }) });
       const j = await r.json();
       if (!j.saved) throw new Error(j.code === 'no-github' ? 'Connect GitHub on the Setup page so the studio can start builds.' : j.error || 'The build could not be started.');
       openJob(j.id);
@@ -210,13 +211,17 @@ function Director({ status, go, openJob, seed, clearSeed }) {
             <p>{nextForSam}</p>
             {status && !status.openrouter && <button className="btn lamp" onClick={() => go('setup')}>Open Setup</button>}
             {ok && <button className="btn lamp" disabled={building} onClick={build}>{building ? 'Starting' : 'Build this film'}</button>}
-            {ok && <p className="faint" style={{ margin: '10px 0 0' }}>{brief?.line === 'cutaway' ? 'Free models and free render machines: $0. A Cutaway film renders for a few hours on GitHub. Nothing is published without you.' : 'About $1 to $1.50 of model time, capped at $1.50. Nothing is published without you.'}</p>}
+            {ok && <div style={{ margin: '12px 0 0' }}>
+              <div className="label">Money cap for this film</div>
+              <div className="options" role="radiogroup" aria-label="Money cap">{[1, 2, 3, 5].map((c) => <button key={c} role="radio" aria-checked={cap === c} className={'opt' + (cap === c ? ' on' : '')} onClick={() => setCap(c)}>${c}</button>)}</div>
+              <p className="faint" style={{ margin: '8px 0 0' }}>A 2.5 minute film usually costs about $1 to $1.50 (script, narration, picture plan and checks; the music and the render are free). It is checked for facts and by eye before it is rendered; if it cannot pass inside ${cap}, it stops and nothing is rendered.{brief?.line === 'cutaway' ? ' A Cutaway film renders for a few hours.' : ''} Nothing is published without you.</p>
+            </div>}
             {buildErr && <p role="alert" style={{ margin: '10px 0 0', color: '#ffb4b4' }}>{buildErr}</p>}
           </motion.div>
           <motion.div className="card brief glass" {...appear(3)}>
             <h2>The film so far</h2>
             <dl>
-              {[['Title', brief?.title], ['Line', lineName(brief)], ['Subject', brief?.subject], ['Angle', brief?.angle], ['Audience', brief?.audience], ['Tone', brief?.tone], ['Length', lengthOf(brief?.target_seconds)], ['Extras', brief?.notes], ['Narrator', 'the series narrator']].map(([k, v]) => (
+              {[['Title', brief?.title], ['Line', lineName(brief)], ['Subject', brief?.subject], ['Angle', brief?.angle], ['Audience', brief?.audience], ['Tone', brief?.tone], ['Length', lengthOf(brief?.target_seconds)], ['Extras', brief?.notes], ['Narrator', 'the series narrator'], ['Money cap', ok ? `$${cap}` : null]].map(([k, v]) => (
                 <div key={k} style={{ display: 'contents' }}><dt>{k}</dt><dd className={v ? '' : 'empty'}>{v || 'not decided yet'}</dd></div>
               ))}
             </dl>

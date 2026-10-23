@@ -8,7 +8,7 @@ outputs of the stages that must run again, sets status.json to queued and commit
 $GITHUB_OUTPUT. A push of a brief whose approved_at differs from the one in status.json starts fresh; otherwise every
 stage whose outputs exist is skipped (re-running a failed job does not pay twice).
 """
-import os, sys, json, shutil
+import os, sys, json, shutil, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common as C
 
@@ -31,13 +31,21 @@ def check_brief(d):
     if L.get('formats') and b.get('format') and b['format'] not in L['formats']: probs.append(f'format {b["format"]!r} is not one of {", ".join(L["formats"])}')
     try:
         cap = float(b.get('cap_usd') or C.DEFAULTS['cap_usd'])
-        if not 0.3 <= cap <= 5: probs.append(f'cap_usd {cap} is outside 0.30 to 5.00')
+        if not C.CAP_RANGE[0] <= cap <= C.CAP_RANGE[1]: probs.append(f'cap_usd {cap} is outside {C.CAP_RANGE[0]:.2f} to {C.CAP_RANGE[1]:.2f}')
         ts = float(b.get('target_seconds') or C.DEFAULTS['target_seconds'])
         lo, hi = L.get('target_range') or (45, 240)
         if not lo <= ts <= hi: probs.append(f'target_seconds {ts} is outside {lo} to {hi} for the {ln} line')
     except (TypeError, ValueError): probs.append('cap_usd and target_seconds must be numbers')
     if b.get('id') and b['id'] != os.path.basename(d): probs.append(f'id {b["id"]!r} does not match the folder {os.path.basename(d)!r}')
     return b, probs
+
+
+def expected_cost(b):
+    """What a film usually costs (config.json estimate_usd, scaled by length), capped by the brief's cap: the key must hold this."""
+    E = C.CONFIG.get('estimate_usd', {}); k = float(b.get('target_seconds') or C.DEFAULTS['target_seconds']) / 150
+    cap = float(b.get('cap_usd') or C.DEFAULTS['cap_usd'])
+    usual = (E.get('script', .25) + E.get('sound', .15) + E.get('spec_draft', .5) + 2 * E.get('repair', .12) + 2 * E.get('eyes', .05) + E.get('reflect', .01)) * k
+    return round(min(cap, usual), 2)
 
 
 def clear(d, stages):
@@ -55,8 +63,10 @@ def open_job(d, frm, push):
     if not os.environ.get('OPENROUTER_API_KEY'):
         C.set_status(d, 'script', 'failed', 'The OPENROUTER_API_KEY secret is missing on GitHub.'); return None
     acc = C.agents.account()
-    if not C.FREE_ONLY and acc and acc.get('remaining') is not None and acc['remaining'] < 0.25:
-        C.set_status(d, 'script', 'failed', f'The OpenRouter key has only ${acc["remaining"]:.2f} left; add credit or raise its limit.'); return None
+    need = expected_cost(b)
+    if not C.FREE_ONLY and acc and acc.get('remaining') is not None and acc['remaining'] < need:
+        C.set_status(d, 'script', 'failed', f'The build key (GitHub secret OPENROUTER_API_KEY) has US${acc["remaining"]:.2f} left and this film needs about '
+                     f'US${need:.2f}. Nothing was spent. Add credit or raise the key limit on openrouter.ai (films/director/README.md, "Credit").'); return None
     st = C.read_status(d)
     fresh = push and st.get('approved_at') != b.get('approved_at')
     if fresh or frm == 'script':
@@ -86,6 +96,11 @@ if __name__ == '__main__':
         logu = a[a.index('--log') + 1] if '--log' in a else None
         prev = st.get('message') or ''
         if (st.get('state') == 'failed'): msg = prev   # the stage already said why
+        elif re.search(r'402|key limit reached|out of credit', msg):
+            msg = ('The OpenRouter build key ran out of credit (HTTP 402) during this stage. Add credit or raise the key limit on openrouter.ai, '
+                   'then re-run the job (it resumes where it stopped; nothing finished is paid twice).')
+        elif re.search(r'film cap US\$[0-9.]+ would be passed', msg):
+            msg = 'Stopped before passing the film cap: ' + re.search(r'the film cap US\$[0-9.]+ would be passed[^|]*', msg).group(0).strip() + '. Raise cap_usd in the brief to go on.'
         C.set_status(d, stage, 'failed', msg, outputs={'log': logu} if logu else None); sys.exit(0)
     frm = a[a.index('--from') + 1] if '--from' in a else 'resume'
     r = open_job(d, frm, '--push' in a)

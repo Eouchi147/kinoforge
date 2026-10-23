@@ -91,13 +91,14 @@ def check_claims(job, data, writer, round_no):
              'in mainstream scholarship), "doubtful" (disputed, uncertain, legendary, or stated with more certainty than the sources allow), or "false". '
              'Judge the claim as worded in its line. Give a one-sentence reason and, when not true, the accurate statement. Return a verdict for every id.'},
             {'role': 'user', 'content': f'Film subject: {job.brief.get("subject") or job.brief.get("title")}\n\nClaims:\n' + json.dumps(claims, indent=1, ensure_ascii=False)}]
-    pool = C.seat_models(job.brief.get('seats', {}).get('checker', 'deputy'))
+    cseat = job.brief.get('seats', {}).get('checker', 'checker')
+    pool = C.seat_models(cseat)
     models = [m for m in pool if C.provider(m) != avoid_provider]
     models += [m for m in pool if m not in models and m != writer][:2]   # last resort: another model of the writer's provider, never the writer itself
     last = None
     for m in models or [None]:
         try:
-            v, used = C.ask(job.brief.get('seats', {}).get('checker', 'deputy'), msgs, VERDICT_SCHEMA, job.ledger, name='verdicts', max_tokens=3000,
+            v, used = C.ask(cseat, msgs, VERDICT_SCHEMA, job.ledger, name='verdicts', max_tokens=3000,
                             only=m, label=f'fact check round {round_no}')
             got = {x['id']: x for x in v['verdicts']}
             for c in data['claims']:   # a claim the checker skipped counts as doubtful
@@ -139,6 +140,14 @@ def make_ad(job, data):
                 'prep': {'voice': v, 'voice_settings': L.get('free_voice_settings', {}), 'vo_words': True,
                          'music': {**C.CONFIG.get('free_music', {'engine': 'procedural'}), 'prompt': mp, 'line': L['name'], 'style': L.get('music_style', '')},
                          'vo': [{'text': l['text']} for l in data['lines']]}}
+    lyria = str(b.get('music', '')).lower() == 'lyria'
+    if not lyria:   # paid voice (ElevenLabs through harness/shots/prep.py), free score (films/lib/score through sound.py)
+        return {'_': f"{L['series']}: {data['title']} ({data['year_label']}). Narration by films/director/script.py; voice by harness/shots/prep.py; free score by films/director/sound.py.",
+                'id': job.id, 'cap_usd': b['cap_usd'],
+                'prep': {'voice_cast': [b['voice']], 'cast_lines': 3, 'vo_words': True,
+                         'voice_brief': L['voice_brief'], 'voice_instructions': L['voice_instructions'],
+                         'music': {**C.CONFIG.get('paid_music', {'engine': 'procedural'}), 'prompt': mp, 'line': L['name'], 'style': L.get('music_style', '')},
+                         'vo': [{'text': l['text']} for l in data['lines']]}}
     return {'_': f"{L['series']}: {data['title']} ({data['year_label']}). Narration by films/director/script.py; prepared by harness/shots/prep.py.",
             'id': job.id, 'cap_usd': b['cap_usd'],
             'prep': {'music': {'prompt': mp, 'models': ['google/lyria-3-pro-preview', 'google/lyria-3-clip-preview']},
@@ -151,7 +160,7 @@ def main(d):
     job = C.Job(d)
     if job.has('script.json') and job.has('ad.json'):
         C.log('script exists, skipped'); return job.read('script.json')
-    b = job.brief; seats = b.get('seats', {}); wseat = seats.get('writer', 'head')
+    b = job.brief; seats = b.get('seats', {}); wseat = seats.get('writer', 'writer')
     C.set_status(job.dir, 'script', 'running', 'The writer is drafting the narration.')
     msgs = [{'role': 'system', 'content': writer_system(job)}, {'role': 'user', 'content': 'The approved brief:\n' + brief_text(b)}]
     data, writer = C.ask(wseat, msgs, SCRIPT_SCHEMA, job.ledger, name='script', max_tokens=5000, label='script draft')
@@ -195,7 +204,22 @@ def main(d):
               'verdicts': rounds[-1]['not_true'] if rounds else [], 'rounds': rounds, 'cuts': cuts, 'notes': data.get('notes', ''),
               'music_prompt': data.get('music_prompt', ''), 'writer': writer, 'checker': rounds[-1]['checker'] if rounds else None,
               'usd': round(job.ledger.total, 4)}
-    job.write('script.json', script); job.write('ad.json', make_ad(job, data))
+    # Gate 1 (Sam pays only for films that pass): the script must survive its fact check before any sound is paid for
+    n_claims = len(data['claims']) + len([c for c in cuts if c.get('claim')]); claim_cuts = len([c for c in cuts if c.get('claim')])
+    G = C.GATES; why = []
+    if n_claims and claim_cuts / n_claims > G.get('script_max_cut_share', 0.2):
+        why.append(f'{claim_cuts} of {n_claims} claims failed the fact check')
+    if script['words'] < G.get('script_min_words_share', 0.7) * targets(b)['words']:
+        why.append(f'only {script["words"]} words survived (the film needs about {targets(b)["words"]})')
+    if any(str(c.get('cut', '')).startswith('kept') for c in cuts):
+        why.append('a doubtful claim sits in the hook or the title line')
+    script['gate'] = {'passed': not why, 'why': why}
+    job.write('script.json', script)
+    if why:
+        C.set_status(job.dir, 'script', 'failed', 'Stopped at the fact check gate (nothing more was paid): ' + '; '.join(why) +
+                     '. Try a better documented subject or angle.', outputs={'script': C.rel(job.p('script.json'))})
+        raise SystemExit(1)
+    job.write('ad.json', make_ad(job, data))
     C.set_status(job.dir, 'script', 'done', f'{len(lines)} lines, {script["words"]} words, {len(data["claims"])} claims checked, {len(cuts)} cut.',
                  outputs={'script': C.rel(job.p('script.json'))})
     return script

@@ -14,9 +14,10 @@ export async function POST(req) {
   const missing = ['title', 'line', 'subject', 'angle', 'audience', 'tone'].filter((k) => !str(b?.[k]));
   if (missing.length) return Response.json({ error: `The brief still needs: ${missing.join(', ')}.` }, { status: 400 });
   if (!LINES.includes(b.line)) return Response.json({ error: 'The line must be battle-map, kinetic or cutaway.' }, { status: 400 });
+  if (!process.env.GITHUB_TOKEN) return Response.json({ saved: false, code: 'no-github', error: 'GitHub is not connected yet.' }, { status: 409 });
   const range = RANGE[b.line];
   const target = Math.min(range[1], Math.max(range[0], Math.round(Number(b.target_seconds) || { kinetic: 120, 'battle-map': 150, cutaway: 60 }[b.line])));
-  const cap = Math.min(3, Math.max(0.5, Number(b.cap_usd) || 1.5));
+  const cap = Math.min(5, Math.max(0.5, Number(b.cap_usd) || 2));   // the film's hard money cap (films/director/config.json: 0.50 to 5.00, default 2.00)
   if (!(await exists(ENGINE_SPEC[b.line]).catch(() => true))) return Response.json({ error: `The ${b.line} line is not available on the build side yet. Choose the other line, or try again later.` }, { status: 409 });
   let id = slug(b.title) || 'film'; const base = id;
   try {
@@ -28,6 +29,7 @@ export async function POST(req) {
     };
     if (str(b.notes, 800)) out.notes = dashless(str(b.notes, 800));
     if (b.line === 'cutaway') out.format = b.format === '9:16' ? '9:16' : '16:9';
+    if (b.music === 'lyria') out.music = 'lyria';   // default: the free procedural score; Lyria only when asked
     // voice is a "model|voice" id for the narration lane (e.g. elevenlabs/eleven-v4|brian); left out, the pipeline's default narrator is used
     if (/^[A-Za-z0-9._\/-]+\|[A-Za-z0-9_-]+$/.test(str(b.voice, 120))) out.voice = str(b.voice, 120);
     const url = await commitFile(`films/studio/${id}/brief.json`, JSON.stringify(out, null, 1) + '\n', `studio: brief for ${id} (${b.line})`);

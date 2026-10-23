@@ -18,7 +18,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE)); sys.path.insert(0, HERE)
 API = 'https://openrouter.ai/api/v1'
 CFG = json.load(open(os.path.join(HERE, 'config.json')))
-SEAT_ROLE = {'head': 'text', 'deputy': 'text', 'crew': 'text', 'free': 'text', 'ears': 'text', 'coder': 'code', 'eyes': 'vision'}
+SEAT_ROLE = {'head': 'text', 'deputy': 'text', 'crew': 'text', 'free': 'text', 'ears': 'text', 'writer': 'text', 'checker': 'text',
+             'coder': 'code', 'coder2': 'code', 'repair': 'code', 'eyes': 'vision'}
 BENCH = {}          # model -> reason (for this process)
 FAILS = {}          # model -> failed calls
 COOL = {}           # model -> time until which it is skipped (rate limited three times in a row)

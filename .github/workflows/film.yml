@@ -5,9 +5,10 @@
 #   repairs) -> eyes (contact sheets, winner, one compose round) -> render (films-render.yml, release "films") -> reflect
 #   (LESSONS.md) -> done. Every OpenRouter call is booked in films/studio/<id>/ledger.json against brief.cap_usd.
 # Re-running a job resumes at the first stage whose outputs are missing (nothing is paid twice); `from` restarts earlier.
-# Free-only mode (films/director/config.json, default since 22 Oct 2026): every model is an OpenRouter ':free' model (a paid
-# model is refused in code, any charge stops the job); the voice is Chatterbox or Kokoro on the runner; the score is the
-# free procedural engine (placeholder pad until it exists). OPENROUTER_API_KEY is still needed (free models need a key).
+# Paid mode (films/director/config.json, default since 22 Oct 2026 20:50): the best model per role, a hard cap per film
+# (brief.cap_usd, default 2.00) booked before every call, and quality gates (fact check; Chromium and engine checks plus the
+# eyes score) before any render: a film that cannot pass inside its cap stops and is never rendered. The score is the free
+# procedural engine; the narration ElevenLabs. Free mode (free_only: true): ':free' models, Chatterbox voice, US$0.
 name: film
 on:
   push:
@@ -74,8 +75,8 @@ jobs:
           test -f "$D/brief.json" || { echo "::error::no $D/brief.json"; exit 1; }
           python3 films/director/start.py "$D" --from "${{ inputs.from || 'resume' }}" ${{ github.event_name == 'push' && '--push' || '' }} > "$RUNNER_TEMP/open.out"
           cat "$RUNNER_TEMP/open.out"; grep -E '^(render|sound|tts|kind)=' "$RUNNER_TEMP/open.out" >> "$GITHUB_OUTPUT"
-      - name: free seats (the live free models on OpenRouter, the seat chosen for each role)
-        run: python3 films/director/free.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
+      - name: seats (the model for each role, checked against OpenRouter's live list, with prices)
+        run: python3 films/director/seats.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - uses: actions/setup-node@v4
@@ -87,7 +88,7 @@ jobs:
           npm ci --prefix harness --no-audit --no-fund
           (cd harness && npx playwright install --with-deps chromium > /dev/null)
       - name: free voice (Chatterbox, MIT; or Kokoro, Apache 2.0) in its own Python 3.11
-        if: steps.open.outputs.sound == 'true' && steps.open.outputs.tts != 'paid'
+        if: steps.open.outputs.sound == 'true' && steps.open.outputs.tts != 'paid'   # free mode only (paid narration is ElevenLabs)
         run: |
           python3.11 --version 2>/dev/null || sudo apt-get install -y -qq python3.11 python3.11-venv > /dev/null || true
           uv --version 2>/dev/null || pip install -q uv

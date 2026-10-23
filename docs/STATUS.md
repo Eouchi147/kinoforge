@@ -1,9 +1,14 @@
-# Status (updated 22 Oct 2026, 14:00 UTC)
+# Status (updated 23 Oct 2026, director paid mode)
 
 ## Cutaway in the studio (23 Oct, in progress)
 - Sam (22 Oct, 20:24 Toronto): "I love the cutaway style, I need it in the kinoforge studio." Free tools only.
 - Web studio: Films page has a Cutaway section and filters; Cutaway films appear on their own once their files are in rc-render `kino-films` (seasons loop now; Venice, the drainage ad in both formats, the cinematic test and the line example when they land). Styles page shows the five house styles (Cutaway, Battle Map, Kinetic, Lantern Road, Clay) with a poster each; "Start a film" on a live line opens the director with that line (Cutaway: 16:9 or 9:16). The director chat and `/api/build` know the `cutaway` line (30 to 90 s, format in the brief).
 - Engine: `films/lib/cutaway/` (spec-driven: a model writes data, not Blender code). Example `films/cutaway/meadow/` (40 s, estimated cues); runner check stills dispatched (rc-render `stills.yml`, tag `cutaway-line-r1`).
+
+## Paid director with caps and gates (23 Oct, ready, nothing run)
+- Sam (22 Oct, 20:50): capped paid films, good results every time he pays, best tool per job. Director code is ready (`films/director/README.md`, "Money"): paid mode by default in `config.json` (free mode kept as `free_only: true`), models by role (writer Opus 5.5, checker Gemini 4 Argon, coder Opus with a Sonnet second draft only when it fits, repairs Sonnet, eyes Gemini, lessons Haiku; ids and prices checked on the runner by `seats.py`), ElevenLabs `brian` with Whisper retakes, free procedural score. Cap per film default US$2.00 (0.50 to 5.00), worst case booked before every call. Gates: fact check before narration; checks plus an eyes score of 6.5/10 before any render; a film that cannot pass stops and is not rendered. Usual cost US$0.90 to 1.50 per 2.5 min film.
+- Web studio: cap chooser ($1, $2, $3, $5) before "Build this film", spend per stage on the job page, plain messages for no GitHub and no credit; `studio-web/tests/flow.mjs` passes against a mock OpenRouter.
+- **Waiting on Sam:** confirm the money rule (above) and add credit: about US$25 account credit, build key limit US$20, studio key US$5 more (README "Credit"). No paid job has been dispatched.
 
 ## Gates and agent harness (23 Oct, done)
 - Any agent starts at `AGENTS.md` (Muse Code, Codex, Cursor read it; Claude Code through `CLAUDE.md`, Gemini CLI through `.gemini/settings.json`; Muse's committed memory `.agents/memory/MEMORY.md` is an index into `docs/`). Then `docs/SOUL.md` (taste, verdicts, styles), `docs/MEMORY.md` (who writes what), `docs/decisions/` (12 records), `docs/PLAYBOOKS/` (9 jobs, each with a definition of done), `docs/LESSONS.md`. Research with sources: `docs/research/AGENT_HARNESS_2026-10.md`.
@@ -26,14 +31,14 @@
   - Kleidion re-directed (done: 9 scenes, 29 shots instead of 64, opening in real time, fuller worlds); done and on Sam's Mac (`-v2`);
   - Arabia re-directed (done: pin-hole star sky in its own no-blur pass, 31 shots in 9 scenes instead of 49, fuller camp, cut-paper cards); done and on Sam's Mac (`-v2`);
   - Bamberg polished (done: eight movements, every effect with a job); done and on Sam's Mac (`-v2`);
-  - director pipeline: done and free-only by default; first live day: Salamis through script and sound, stopped at the picture spec by the free daily limit (1,000 requests); resumes 00:10 UTC by a scheduled task; Great Emu War after it.
+  - director pipeline: done; paid with caps and gates by default since 23 Oct (see above), free mode kept; first free day: Salamis through script and sound, stopped at the picture spec by the free daily limit (1,000 requests); resumes 00:10 UTC by a scheduled task; Great Emu War after it.
   - new style **Cutaway** (Sam, 10:11): Blender kit and a four-look style board in `films/styles/cutaway/`, nothing rendered on runners yet. Sam (10:16) wants all four uses built: briefs in `films/cutaway/` (sample trade ad, Why Venice Sinks, Agincourt mud inserts, seasons loop); the kit's first usable version landed (516ec0b); four builders are on them now.
 - Next: re-render on GitHub runners (free), new stories through the free director, one render home for the studio.
 
 ## Web studio (22 Oct, studio-web/)
 - Reworked: `/api/media` streams release assets (allow-list: rc-render `kino-films`, kinoforge `films` and `gallery`; Range forwarded, no token) so previews play and seek; the old pilot clips in `studio-web/public/media/` are now committed (`.gitignore` exception) and deploy.
 - Films page lists the 12 `kino-films` films (posters in `public/posters/`) plus anything in kinoforge release `films` (live, cached 60 s), 16:9 and 9:16 players, download link to the full file on GitHub.
-- Director chat makes the pipeline brief (`title, line, subject, angle, audience, tone, target_seconds, notes`); "Build this film" (`/api/build`) commits `films/studio/<id>/brief.json` (with `approved_at`, cap 1.50); the job page (`#job/<id>`, `/api/job`) polls `status.json` every 6 s. A 402 from OpenRouter now falls through to the free seat; the UI says so in one line; Setup shows the key's remaining credit.
+- Director chat makes the pipeline brief (`title, line, subject, angle, audience, tone, target_seconds, notes`); "Build this film" (`/api/build`) commits `films/studio/<id>/brief.json` (with `approved_at` and the cap Sam picks, default 2.00); the job page (`#job/<id>`, `/api/job`) polls `status.json` every 6 s. A 402 from OpenRouter now falls through to the free seat; the UI says so in one line; Setup shows the key's remaining credit.
 - Not tested live (needs the Vercel deployment and real keys): a real director turn, a real build commit, the release `films` listing (the release does not exist yet). Local test used a mock OpenRouter (`OPENROUTER_BASE`, tests only).
 
 ## Films (22 Oct)

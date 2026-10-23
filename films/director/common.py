@@ -16,9 +16,11 @@ from agents import Ledger, OverBudget, AllFailed  # noqa: E402,F401
 
 STAGES = ['script', 'sound', 'spec', 'check', 'eyes', 'render', 'reflect', 'done']
 CONFIG = json.load(open(os.path.join(HERE, 'config.json')))
-FREE_ONLY = os.environ.get('KF_FREE_ONLY', '1' if CONFIG.get('free_only', True) else '0') != '0'
-DEFAULTS = {'target_seconds': 150, 'cap_usd': 1.5, 'voice': CONFIG.get('free_voice', 'chatterbox') if FREE_ONLY else 'elevenlabs/eleven-v4|brian',
-            'line': 'battle-map'}
+FREE_ONLY = os.environ.get('KF_FREE_ONLY', '1' if CONFIG.get('free_only', False) else '0') != '0'
+DEFAULTS = {'target_seconds': 150, 'cap_usd': CONFIG.get('default_cap_usd', 2.0),
+            'voice': CONFIG.get('free_voice', 'chatterbox') if FREE_ONLY else CONFIG.get('paid_voice', 'elevenlabs/eleven-v4|brian'), 'line': 'battle-map'}
+CAP_RANGE = CONFIG.get('cap_range_usd', [0.5, 5.0])
+GATES = CONFIG.get('gates', {})
 RELEASE = 'films'
 
 
@@ -83,7 +85,7 @@ class Job:
         self.brief = {**DEFAULTS, **{k: v for k, v in b.items() if v not in (None, '')}}
         self.brief['id'] = self.id
         self.brief['target_seconds'] = float(self.brief['target_seconds'])
-        self.brief['cap_usd'] = float(self.brief['cap_usd'])
+        self.brief['cap_usd'] = min(CAP_RANGE[1], max(CAP_RANGE[0], float(self.brief['cap_usd'])))
         self.line = line(self.brief['line'])
         self.ledger = Ledger(self.brief['cap_usd'], self.p('ledger.json'))
 
@@ -108,10 +110,12 @@ def set_status(d, stage, state, message='', outputs=None, commit=True, extra_pat
     led = os.path.join(d, 'ledger.json'); usd = json.load(open(led)).get('total', 0) if os.path.exists(led) else 0
     st = s.get('stages') or {}
     cur = st.get(stage) or {}
-    if state == 'running' and cur.get('state') != 'running': cur = {'state': 'running', 'started_at': now()}
+    if state == 'running' and cur.get('state') != 'running': cur = {'state': 'running', 'started_at': now(), 'usd_start': round(usd, 4)}
     else: cur = {**cur, 'state': state}
     if state in ('done', 'failed', 'skipped'): cur['ended_at'] = now()
-    cur['usd'] = round(usd, 4); st[stage] = cur
+    cur['usd'] = round(usd, 4)                                          # the job's total when this stage last reported
+    cur['spent'] = round(usd - cur.get('usd_start', usd), 4)            # what this stage cost
+    st[stage] = cur
     run_url = None
     if os.environ.get('GITHUB_RUN_ID'):
         run_url = f"{os.environ.get('GITHUB_SERVER_URL', 'https://github.com')}/{os.environ.get('GITHUB_REPOSITORY')}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
@@ -158,10 +162,62 @@ def _guard_free(model, ledger, before):
         raise OverBudget(f'free-only mode: {model} charged US${ledger.total - before:.4f}; stopped')
 
 
+# ------------------------------------------------------------------ paid seats (by role) and the hard cap
+PAID = {k: v for k, v in CONFIG.get('paid_seats', {}).items() if not k.startswith('_')}
+_PENDING = {}; _BOOK = __import__('threading').Lock()
+UNKNOWN_PRICE = {'in': 5.0, 'out': 25.0}   # US$ per million tokens, assumed for a model the live list does not price
+
+
+def role_models(role):
+    """The configured models for a role that exist on OpenRouter right now (all of them when the list cannot be read)."""
+    if role not in PAID: return agents.seat(role)
+    mk = agents.market(); ms = PAID[role]['models']
+    live = [m for m in ms if not mk or m in mk]
+    return live or ms
+
+
+def price(model):
+    m = (agents.market() or {}).get(model)
+    return {'in': m['in'], 'out': m['out']} if m else dict(UNKNOWN_PRICE)
+
+
+def worst_cost(model, messages, max_tokens):
+    p = price(model); in_tok = len(json.dumps(messages)) / 3.5
+    return (in_tok * p['in'] + max_tokens * p['out']) / 1e6
+
+
+def book(ledger, usd):
+    """Reserve a call's worst case against the cap (parallel calls included). False when it would pass the cap."""
+    with _BOOK:
+        k = id(ledger); pend = _PENDING.get(k, 0.0)
+        if ledger.total + pend + usd > ledger.cap + 1e-9: return False
+        _PENDING[k] = pend + usd; return True
+
+
+def unbook(ledger, usd):
+    with _BOOK: _PENDING[id(ledger)] = max(0.0, _PENDING.get(id(ledger), 0.0) - usd)
+
+
+def _paid_ask(name, messages, schema, ledger, only=None, **kw):
+    cfg = PAID.get(name); seat = cfg['seat'] if cfg else name
+    chain = [only] if only else role_models(name)
+    mt = kw.get('max_tokens', 2000); errors = []
+    for m in chain:
+        w = worst_cost(m, messages, mt)
+        if not book(ledger, w): errors.append(f'{m}: would pass the cap (worst case US${w:.3f})'); continue
+        try: return agents.ask(seat, messages, schema, ledger, only=m, **kw)
+        except OverBudget: raise
+        except AllFailed as e: errors.append(str(e)[:240])
+        finally: unbook(ledger, w)
+    if errors and all('pass the cap' in e or 'over the cap' in e for e in errors):
+        raise OverBudget(f'the film cap US${ledger.cap:.2f} would be passed (spent US${ledger.total:.2f})')
+    raise AllFailed(' | '.join(errors))
+
+
 def ask(seat_name, messages, schema, ledger, only=None, **kw):
     """JSON replies (strict schema), through the seat's chain and the ledger. Free-only mode: films/director/free.py (curated
     free models, robust JSON, 429 back-off, a paid model refused, any charge stops the job)."""
-    if not FREE_ONLY: return agents.ask(seat_name, messages, schema, ledger, only=only, **kw)
+    if not FREE_ONLY: kw.pop('allow_free', None); return _paid_ask(seat_name, messages, schema, ledger, only=only, **kw)
     if only and not is_free(only): raise PaidRefused(f'free-only mode: {only} is not a free model')
     import free
     kw.pop('allow_free', None)
@@ -171,7 +227,7 @@ def ask(seat_name, messages, schema, ledger, only=None, **kw):
 
 
 def seat_models(name):
-    return free_chain(name) if FREE_ONLY else agents.seat(name)
+    return free_chain(name) if FREE_ONLY else role_models(name)
 
 
 def provider(model):
@@ -188,41 +244,51 @@ def complete(seat_name, messages, ledger, max_tokens=24000, only=None, label='',
         except RuntimeError as e: raise AllFailed(str(e))
     if FREE_ONLY and only and not is_free(only): raise PaidRefused(f'free-only mode: {only} is not a free model')
     mk = agents.market(); chain = [only] if only else seat_models(seat_name)
+    crew_seat = PAID.get(seat_name, {}).get('seat', seat_name)
     if FREE_ONLY: chain = [m for m in chain if is_free(m)] * 2   # two passes: free models are rate limited
     in_tok = len(json.dumps(messages)) // 3.5; errors = []
-    timeout = max(600, agents.CREW['seats'][seat_name].get('timeout_s', 60) * 1.5)   # long code replies
+    timeout = max(600, agents.CREW['seats'].get(crew_seat, {}).get('timeout_s', 60) * 1.5)   # long code replies
     for model in chain:
-        m = mk.get(model) or {'in': 0, 'out': 0}
+        m = mk.get(model) or dict(UNKNOWN_PRICE)
         worst = (in_tok * m['in'] + max_tokens * m['out']) / 1e6
-        if not ledger.room(worst): errors.append(f'{model}: over the cap'); continue
-        body = {'model': model, 'max_tokens': max_tokens, 'messages': agents._cached(messages, model), 'usage': {'include': True}}
-        req = urllib.request.Request(f'{agents.API}/chat/completions', data=json.dumps(body).encode(),
-                                     headers={'Authorization': f'Bearer {agents.KEY}', 'Content-Type': 'application/json', 'X-Title': 'KINOFORGE director'})
-        t0 = time.time()
+        if not book(ledger, worst): errors.append(f'{model}: over the cap (worst case US${worst:.3f})'); continue
         try:
-            j = json.load(urllib.request.urlopen(req, timeout=timeout))
-            u = j.get('usage') or {}
-            cost = float(u.get('cost') if u.get('cost') is not None else (u.get('prompt_tokens', in_tok) * m['in'] + u.get('completion_tokens', max_tokens) * m['out']) / 1e6)
-            text = (j['choices'][0]['message'].get('content') or '')
-            fin = j['choices'][0].get('finish_reason')
-            problem = 'empty reply' if not text.strip() else ('reply cut at max_tokens' if fin == 'length' else None)
-            if not problem and validate: problem = validate(text)
-            ledger.add(seat=seat_name, model=j.get('model', model), task=label, usd=round(cost, 6), s=round(time.time() - t0, 1), ok=not problem, note=problem,
-                       tok_in=u.get('prompt_tokens'), tok_out=u.get('completion_tokens'))
-            if FREE_ONLY and cost > 0: raise OverBudget(f'free-only mode: {model} charged US${cost:.4f}; stopped')
-            if problem: errors.append(f'{model}: {problem}'); continue
-            return text, model
-        except urllib.error.HTTPError as e:
-            msg = e.read().decode(errors='ignore')[:200]; errors.append(f'{model}: {e.code} {msg}')
-            ledger.add(seat=seat_name, model=model, task=label, usd=0, s=round(time.time() - t0, 1), ok=False, note=f'{e.code}')
-            if e.code == 402: raise OverBudget('OpenRouter key limit reached (HTTP 402)')
-            if e.code == 429: time.sleep(15)
-        except OverBudget: raise
-        except Exception as e:
-            errors.append(f'{model}: {type(e).__name__} {e}'[:200])
-            ledger.add(seat=seat_name, model=model, task=label, usd=0, s=round(time.time() - t0, 1), ok=False, note=type(e).__name__)
-    if errors and all('over the cap' in e for e in errors): raise OverBudget('the film cap would be passed')
+            got = _complete_one(model, messages, ledger, seat_name, max_tokens, label, validate, timeout, in_tok, m, errors)
+        finally: unbook(ledger, worst)
+        if got: return got
+    if errors and all('over the cap' in e for e in errors): raise OverBudget(f'the film cap US${ledger.cap:.2f} would be passed (spent US${ledger.total:.2f})')
     raise AllFailed(' | '.join(errors))
+
+
+def _complete_one(model, messages, ledger, seat_name, max_tokens, label, validate, timeout, in_tok, m, errors):
+    """One plain-text call; (text, model) or None (the reason is appended to errors)."""
+    body = {'model': model, 'max_tokens': max_tokens, 'messages': agents._cached(messages, model), 'usage': {'include': True}}
+    req = urllib.request.Request(f'{agents.API}/chat/completions', data=json.dumps(body).encode(),
+                                 headers={'Authorization': f'Bearer {agents.KEY}', 'Content-Type': 'application/json', 'X-Title': 'KINOFORGE director'})
+    t0 = time.time()
+    try:
+        j = json.load(urllib.request.urlopen(req, timeout=timeout))
+        u = j.get('usage') or {}
+        cost = float(u.get('cost') if u.get('cost') is not None else (u.get('prompt_tokens', in_tok) * m['in'] + u.get('completion_tokens', max_tokens) * m['out']) / 1e6)
+        text = (j['choices'][0]['message'].get('content') or '')
+        fin = j['choices'][0].get('finish_reason')
+        problem = 'empty reply' if not text.strip() else ('reply cut at max_tokens' if fin == 'length' else None)
+        if not problem and validate: problem = validate(text)
+        ledger.add(seat=seat_name, model=j.get('model', model), task=label, usd=round(cost, 6), s=round(time.time() - t0, 1), ok=not problem, note=problem,
+                   tok_in=u.get('prompt_tokens'), tok_out=u.get('completion_tokens'))
+        if FREE_ONLY and cost > 0: raise OverBudget(f'free-only mode: {model} charged US${cost:.4f}; stopped')
+        if problem: errors.append(f'{model}: {problem}'); return None
+        return text, model
+    except urllib.error.HTTPError as e:
+        msg = e.read().decode(errors='ignore')[:200]; errors.append(f'{model}: {e.code} {msg}')
+        ledger.add(seat=seat_name, model=model, task=label, usd=0, s=round(time.time() - t0, 1), ok=False, note=f'{e.code}')
+        if e.code == 402: raise OverBudget('OpenRouter key limit reached (HTTP 402)')
+        if e.code == 429: time.sleep(15)
+    except OverBudget: raise
+    except Exception as e:
+        errors.append(f'{model}: {type(e).__name__} {e}'[:200])
+        ledger.add(seat=seat_name, model=model, task=label, usd=0, s=round(time.time() - t0, 1), ok=False, note=type(e).__name__)
+    return None
 
 
 def code_block(text):

@@ -53,7 +53,7 @@ class Mock:
         if isinstance(data, list): data = data.pop(0) if len(data) > 1 else data[0]
         if validate and validate(data): raise C.AllFailed(validate(data))
         ledger.add(seat=seat, model=only or f'{seat}/model', task=label, usd=0.01, s=0.1, ok=True)
-        return json.loads(json.dumps(data)), only or ('anthropic/x' if seat == 'head' else f'{seat}-prov/model')
+        return json.loads(json.dumps(data)), only or ('anthropic/x' if seat in ('head', 'writer') else f'{seat}-prov/model')
 
     def complete(self, seat, messages, ledger, max_tokens=24000, only=None, label='', validate=None):
         self.calls.append(('complete', seat, label, only))
@@ -65,6 +65,15 @@ class Mock:
 
 def install(m):
     C.ask, C.complete = m.ask, m.complete
+
+
+class Mode:
+    """with Mode(free=True): run a test in free-only mode (the default is paid)."""
+    def __init__(self, free): self.free = free
+    def __enter__(self):
+        self.was = (C.FREE_ONLY, dict(C.DEFAULTS)); C.FREE_ONLY = self.free
+        C.DEFAULTS['voice'] = C.CONFIG['free_voice'] if self.free else C.CONFIG['paid_voice']
+    def __exit__(self, *a): C.FREE_ONLY, d = self.was; C.DEFAULTS.clear(); C.DEFAULTS.update(d)
 
 
 def install_real():
@@ -115,8 +124,10 @@ class Fast(unittest.TestCase):
         checkers = [c for c in m.calls if c[2] == 'verdicts']
         self.assertTrue(all(C.provider(c[4]) != 'anthropic' for c in checkers), 'the checker must be another provider than the writer')
         ad = json.load(open(os.path.join(JOB, 'ad.json')))
-        self.assertTrue(C.FREE_ONLY)
-        self.assertEqual(ad['prep']['voice'], 'chatterbox'); self.assertEqual(ad['prep']['music']['engine'], 'procedural'); self.assertNotIn('voice_cast', ad['prep'])
+        self.assertFalse(C.FREE_ONLY)   # paid is the default (Sam, 22 Oct 20:50)
+        self.assertEqual(ad['prep']['voice_cast'], ['elevenlabs/eleven-v4|brian']); self.assertEqual(ad['prep']['music']['engine'], 'procedural')
+        self.assertNotIn('voice', ad['prep']); self.assertEqual(json.load(open(os.path.join(JOB, 'script.json')))['gate']['passed'], True)
+        self.assertEqual([c[1] for c in m.calls if c[0] == 'ask'][:2], ['writer', 'checker'])
         self.assertEqual(len(ad['prep']['vo']), 17); self.assertIn('Instrumental', ad['prep']['music']['prompt'])
         self.assertIn('# Craft:', m.calls[0][5][0]['content'])                     # the writer reads CRAFT.md
         self.assertTrue(ad['_'].startswith('Battle Map: The Battle of Hastings'))
@@ -167,55 +178,104 @@ class Fast(unittest.TestCase):
             self.assertEqual(sum(1 for l in open(tmp) if l.startswith('- ')), RF.KEEP)
         finally: os.remove(tmp)
 
+    def test_script_gate(self):
+        """Too many claims fail the fact check: the job stops before any sound is paid for."""
+        make_job(with_sound=False)
+        lines = [{'text': f'Line {k} states a doubtful thing about the battle in enough words to count as a full line here.', 'picture': 'map'} for k in range(17)]
+        lines[1] = {'text': 'The Battle of Hastings.', 'picture': 'title'}
+        draft = {'title': 'The Battle of Hastings', 'year_label': '1066', 'music_prompt': 'x', 'notes': '', 'lines': lines,
+                 'claims': [{'id': f'c{k}', 'claim': f'claim {k}', 'line': k + 2, 'quote': f'Line {k + 2} states'} for k in range(6)]}
+        bad = {'verdicts': [{'id': f'c{k}', 'verdict': 'false', 'reason': 'no', 'correction': ''} for k in range(6)]}
+        install(Mock({'script': [draft], 'verdicts': [bad]}))
+        with self.assertRaises(SystemExit): S.main(JOB)
+        st = json.load(open(os.path.join(JOB, 'status.json')))
+        self.assertEqual((st['stage'], st['state']), ('script', 'failed')); self.assertIn('fact check gate', st['message'])
+        self.assertFalse(os.path.exists(os.path.join(JOB, 'ad.json')))
+
+    def test_paid_seats_and_cap(self):
+        job = make_job({'cap_usd': 2.0})
+        self.assertEqual([m for _, m in SP.spec_models(job)], ['anthropic/claude-opus-5.5', 'anthropic/claude-sonnet-5.5'])   # two drafts fit in US$2
+        job = make_job({'cap_usd': 1.0})
+        self.assertEqual([m for _, m in SP.spec_models(job)], ['anthropic/claude-opus-5.5'])                                   # one draft, Sonnet repairs
+        self.assertEqual(C.seat_models('checker')[0], 'google/gemini-4-argon'); self.assertEqual(C.seat_models('repair')[0], 'anthropic/claude-sonnet-5.5')
+        self.assertEqual(C.Job(JOB).brief['cap_usd'], 1.0)
+        json.dump({**json.load(open(os.path.join(JOB, 'brief.json'))), 'cap_usd': 99}, open(os.path.join(JOB, 'brief.json'), 'w'))
+        self.assertEqual(C.Job(JOB).brief['cap_usd'], 5.0)                                                                       # clamped to 0.50 to 5.00
+        led = C.Ledger(1.0, None)
+        self.assertTrue(C.book(led, 0.6)); self.assertFalse(C.book(led, 0.6)); C.unbook(led, 0.6); self.assertTrue(C.book(led, 0.6)); C.unbook(led, 0.6)
+        install_real(); led = C.Ledger(0.01, None)
+        with self.assertRaises(C.OverBudget): C.ask('writer', [{'role': 'user', 'content': 'x' * 4000}], {'type': 'object'}, led, max_tokens=5000)
+
+    def test_eyes_gate(self):
+        """A picture the eyes score under the threshold is never rendered: the job stops at the eyes stage."""
+        job = make_job({'cap_usd': 2.0}); os.makedirs(os.path.join(JOB, 'cand'), exist_ok=True)
+        from PIL import Image
+        for n in ('a', 'b'): os.makedirs(os.path.join(JOB, 'check', n), exist_ok=True); Image.new('RGB', (64, 36)).save(os.path.join(JOB, 'check', n, 'sheet.jpg'))
+        orig = (SP.run_candidate, SP.check, SP.LK if hasattr(SP, 'LK') else None)
+        SP.run_candidate = lambda job, n, src, m, log: {'name': n, 'model': m, 'src': src, 'report': {'ok': True, 'hard': [], 'soft': []}, 'best_round': 0, 'sheet': os.path.join(JOB, 'check', n, 'sheet.jpg')}
+        def eyes(messages, label):
+            names = re.findall(r'Candidate (\w+)', ' '.join(c.get('text', '') for c in messages[0]['content'] if c['type'] == 'text'))
+            return {'candidates': [{'name': n, 'clarity': 5, 'match': 5, 'beauty': 5, 'fixes': []} for n in names], 'winner': names[0], 'why': 'weak'}
+        install(Mock({'eyes': eyes, 'edits': {'edits': [], 'note': ''}}, {'spec draft a': '```js\nexport default {};\n```', 'spec draft b': '```js\nexport default {};\n```'}))
+        try:
+            with self.assertRaises(SystemExit): SP.main(JOB)
+        finally: SP.run_candidate, SP.check = orig[0], orig[1]
+        st = json.load(open(os.path.join(JOB, 'status.json')))
+        self.assertEqual((st['stage'], st['state']), ('eyes', 'failed')); self.assertIn('picture gate', st['message'])
+        self.assertFalse(os.path.exists(os.path.join(JOB, 'spec.js')))
+
     def test_spec_models_free(self):
-        job = make_job({'cap_usd': 1.5})
-        ms = SP.spec_models(job); self.assertEqual(len(ms), 2); self.assertNotEqual(C.provider(ms[0][1]), C.provider(ms[1][1]))
-        self.assertTrue(all(C.is_free(m) for _, m in ms), ms)
+      with Mode(free=True):
+          job = make_job({'cap_usd': 1.5})
+          ms = SP.spec_models(job); self.assertEqual(len(ms), 2); self.assertNotEqual(C.provider(ms[0][1]), C.provider(ms[1][1]))
+          self.assertTrue(all(C.is_free(m) for _, m in ms), ms)
 
     def test_free_guards(self):
-        install_real(); led = C.Ledger(1.0, None)
-        with self.assertRaises(C.PaidRefused): C.ask('head', [], {}, led, only='anthropic/claude-opus-5.5')
-        with self.assertRaises(C.PaidRefused): C.complete('coder', [], led, only='z-ai/glm-5.3')
-        orig = FR._post
-        FR._post = lambda body, timeout: {'model': body['model'], 'usage': {'cost': 0.01}, 'choices': [{'message': {'content': '{"a": 1}'}, 'finish_reason': 'stop'}]}
-        try:
-            with self.assertRaises(C.OverBudget): C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)
-            # prose around the JSON, then a reply with no JSON and a good retry
-            FR._post = lambda body, timeout: {'model': body['model'], 'usage': {'cost': 0}, 'choices': [{'message': {'content': 'Here you go:\n```json\n{"a": 2}\n```\nDone.'}, 'finish_reason': 'stop'}]}
-            self.assertEqual(C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)[0], {'a': 2})
-            replies = iter(['I think the answer is two.', '{"a": 3}'])
-            FR._post = lambda body, timeout: {'model': body['model'], 'usage': {}, 'choices': [{'message': {'content': next(replies)}, 'finish_reason': 'stop'}]}
-            self.assertEqual(C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)[0], {'a': 3})
-        finally: FR._post = orig
-        mk = {m: {'id': m, 'name': '', 'ctx': 1, 'mods': ['text', 'image'] if 'maverick' in m else ['text'], 'params': [], 'created': 0, 'iq': None, 'size_b': FR.size_b(m)}
-              for m in ['liquid/lfm-2.5-2.6b:free', 'recursive/flint-v1.0:free', 'cohere/north-mini-code:free', 'thinkingmachines/inkling-small:free',
-                        'google/gemma-4-26b-a4b-it:free', 'minimax/minimax-m3.1-flash:free', 'qwen/qwen3-235b-a22b:free', 'qwen/qwen3-coder:free',
-                        'meta-llama/llama-4-maverick:free', 'openai/gpt-oss-20b:free', 'big/thing-405b:free']}
-        self.assertEqual(FR.chain('text', mk), ['minimax/minimax-m3.1-flash:free', 'qwen/qwen3-235b-a22b:free', 'meta-llama/llama-4-maverick:free', 'big/thing-405b:free'])
-        self.assertEqual(FR.chain('code', mk)[0], 'qwen/qwen3-coder:free')
-        self.assertEqual(FR.chain('vision', mk), ['meta-llama/llama-4-maverick:free'])
-        self.assertEqual(FR.size_b('qwen/qwen3-235b-a22b'), 235); self.assertIsNone(FR.size_b('minimax/minimax-m3.1-flash'))
+      with Mode(free=True):
+          install_real(); led = C.Ledger(1.0, None)
+          with self.assertRaises(C.PaidRefused): C.ask('head', [], {}, led, only='anthropic/claude-opus-5.5')
+          with self.assertRaises(C.PaidRefused): C.complete('coder', [], led, only='z-ai/glm-5.3')
+          orig = FR._post
+          FR._post = lambda body, timeout: {'model': body['model'], 'usage': {'cost': 0.01}, 'choices': [{'message': {'content': '{"a": 1}'}, 'finish_reason': 'stop'}]}
+          try:
+              with self.assertRaises(C.OverBudget): C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)
+              # prose around the JSON, then a reply with no JSON and a good retry
+              FR._post = lambda body, timeout: {'model': body['model'], 'usage': {'cost': 0}, 'choices': [{'message': {'content': 'Here you go:\n```json\n{"a": 2}\n```\nDone.'}, 'finish_reason': 'stop'}]}
+              self.assertEqual(C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)[0], {'a': 2})
+              replies = iter(['I think the answer is two.', '{"a": 3}'])
+              FR._post = lambda body, timeout: {'model': body['model'], 'usage': {}, 'choices': [{'message': {'content': next(replies)}, 'finish_reason': 'stop'}]}
+              self.assertEqual(C.ask('crew', [{'role': 'user', 'content': 'x'}], {'type': 'object', 'required': ['a']}, led)[0], {'a': 3})
+          finally: FR._post = orig
+          mk = {m: {'id': m, 'name': '', 'ctx': 1, 'mods': ['text', 'image'] if 'maverick' in m else ['text'], 'params': [], 'created': 0, 'iq': None, 'size_b': FR.size_b(m)}
+                for m in ['liquid/lfm-2.5-2.6b:free', 'recursive/flint-v1.0:free', 'cohere/north-mini-code:free', 'thinkingmachines/inkling-small:free',
+                          'google/gemma-4-26b-a4b-it:free', 'minimax/minimax-m3.1-flash:free', 'qwen/qwen3-235b-a22b:free', 'qwen/qwen3-coder:free',
+                          'meta-llama/llama-4-maverick:free', 'openai/gpt-oss-20b:free', 'big/thing-405b:free']}
+          self.assertEqual(FR.chain('text', mk), ['minimax/minimax-m3.1-flash:free', 'qwen/qwen3-235b-a22b:free', 'meta-llama/llama-4-maverick:free', 'big/thing-405b:free'])
+          self.assertEqual(FR.chain('code', mk)[0], 'qwen/qwen3-coder:free')
+          self.assertEqual(FR.chain('vision', mk), ['meta-llama/llama-4-maverick:free'])
+          self.assertEqual(FR.size_b('qwen/qwen3-235b-a22b'), 235); self.assertIsNone(FR.size_b('minimax/minimax-m3.1-flash'))
 
     def test_free_sound(self):
         """The free sound stage without the TTS: a recorded vo.json (Hastings lines), the placeholder pad, the beat map, the mix."""
-        job = make_job(with_sound=False)
-        cues = json.load(open(os.path.join(HAST, 'cues.json'))); vo = json.load(open(os.path.join(HAST, 'audio', 'vo.json')))
-        n = 5; os.makedirs(os.path.join(JOB, 'audio', 'vo'))
-        for k in range(n): shutil.copy(os.path.join(HAST, 'audio', 'vo', f'line{k}.mp3'), os.path.join(JOB, 'audio', 'vo'))
-        json.dump({'voice': 'chatterbox', 'lines': vo['lines'][:n]}, open(os.path.join(JOB, 'audio', 'vo.json'), 'w'))
-        json.dump({'title': 'The Battle of Hastings', 'year_label': '1066', 'lines': [{'id': f'l{k:02d}', 'text': l['text'], 'picture': 'x'} for k, l in enumerate(vo['lines'][:n])]},
-                  open(os.path.join(JOB, 'script.json'), 'w'))
-        json.dump(S.make_ad(C.Job(JOB), {'title': 'The Battle of Hastings', 'year_label': '1066', 'music_prompt': 'drums', 'lines': [{'text': l['text']} for l in vo['lines'][:n]]}),
-                  open(os.path.join(JOB, 'ad.json'), 'w'))
-        SO.main(JOB)
-        c = json.load(open(os.path.join(JOB, 'cues.json'))); f = json.load(open(os.path.join(JOB, 'film.json')))
-        self.assertEqual(len(c['lines']), n); self.assertTrue(c['beats']); self.assertEqual((f['render_w'], f['render_h']), (1280, 720))
-        self.assertTrue(os.path.getsize(os.path.join(JOB, 'audio', 'mix.m4a')) > 10000)
-        note = json.load(open(os.path.join(JOB, 'ad.json')))['prep'].get('music_note', '')
-        if os.path.exists(os.path.join(C.ROOT, 'films/lib/score/remix.py')):
-            self.assertEqual(note, 'Score: procedural engine.'); self.assertTrue(os.path.exists(os.path.join(JOB, 'audio', 'score.json')))
-        else: self.assertIn('placeholder', note)
-        self.assertIn("get('spec')", open(os.path.join(JOB, 'index.html')).read())
+        with Mode(free=True):
+            job = make_job(with_sound=False)
+            cues = json.load(open(os.path.join(HAST, 'cues.json'))); vo = json.load(open(os.path.join(HAST, 'audio', 'vo.json')))
+            n = 5; os.makedirs(os.path.join(JOB, 'audio', 'vo'))
+            for k in range(n): shutil.copy(os.path.join(HAST, 'audio', 'vo', f'line{k}.mp3'), os.path.join(JOB, 'audio', 'vo'))
+            json.dump({'voice': 'chatterbox', 'lines': vo['lines'][:n]}, open(os.path.join(JOB, 'audio', 'vo.json'), 'w'))
+            json.dump({'title': 'The Battle of Hastings', 'year_label': '1066', 'lines': [{'id': f'l{k:02d}', 'text': l['text'], 'picture': 'x'} for k, l in enumerate(vo['lines'][:n])]},
+                      open(os.path.join(JOB, 'script.json'), 'w'))
+            json.dump(S.make_ad(C.Job(JOB), {'title': 'The Battle of Hastings', 'year_label': '1066', 'music_prompt': 'drums', 'lines': [{'text': l['text']} for l in vo['lines'][:n]]}),
+                      open(os.path.join(JOB, 'ad.json'), 'w'))
+            SO.main(JOB)
+            c = json.load(open(os.path.join(JOB, 'cues.json'))); f = json.load(open(os.path.join(JOB, 'film.json')))
+            self.assertEqual(len(c['lines']), n); self.assertTrue(c['beats']); self.assertEqual((f['render_w'], f['render_h']), (1280, 720))
+            self.assertTrue(os.path.getsize(os.path.join(JOB, 'audio', 'mix.m4a')) > 10000)
+            note = json.load(open(os.path.join(JOB, 'ad.json')))['prep'].get('music_note', '')
+            if os.path.exists(os.path.join(C.ROOT, 'films/lib/score/remix.py')):
+                self.assertEqual(note, 'Score: procedural engine.'); self.assertTrue(os.path.exists(os.path.join(JOB, 'audio', 'score.json')))
+            else: self.assertIn('placeholder', note)
+            self.assertIn("get('spec')", open(os.path.join(JOB, 'index.html')).read())
 
 
 class Chromium(unittest.TestCase):
@@ -231,10 +291,14 @@ class Chromium(unittest.TestCase):
             if label.startswith('repair a'):
                 self.assertIn('zzzz', messages[-1]['content'])
                 return {'edits': [{'find': "at: 'l06.zzzz'", 'replace': "at: 'l06.stood'"}], 'note': 'fixed the word'}
-            if label == 'compose': return {'edits': [{'find': "text: 'A RUMOR'", 'replace': "text: 'A RUMOUR'"}], 'note': 'spelling'}
+            if label.startswith('compose'): return {'edits': [{'find': "text: 'A RUMOR'", 'replace': "text: 'A RUMOUR'"}], 'note': 'spelling'}
             return {'edits': [], 'note': 'nothing'}
         def eyes(messages, label):
-            imgs = [c for c in messages[0]['content'] if c['type'] == 'image_url']; self.assertEqual(len(imgs), 2)
+            imgs = [c for c in messages[0]['content'] if c['type'] == 'image_url']
+            if len(imgs) == 1:   # the re-score of a composed version
+                n = re.findall(r'Candidate (\w+)', ' '.join(c.get('text', '') for c in messages[0]['content'] if c['type'] == 'text'))[0]
+                return {'candidates': [{'name': n, 'clarity': 8.5, 'match': 8, 'beauty': 8, 'fixes': []}], 'winner': n, 'why': 'better'}
+            self.assertEqual(len(imgs), 2)
             return {'candidates': [{'name': 'a', 'clarity': 7, 'match': 7, 'beauty': 7, 'fixes': []},
                                    {'name': 'b', 'clarity': 8, 'match': 8, 'beauty': 8, 'fixes': ['l09: spell rumour the British way']}], 'winner': 'b', 'why': 'clearer'}
         m = Mock({'edits': edits, 'eyes': eyes}, {'spec draft a': '```js\n' + bad + '```', 'spec draft b': 'Here it is\n```js\n' + good + '```'}); install(m)

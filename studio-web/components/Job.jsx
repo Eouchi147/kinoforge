@@ -69,7 +69,8 @@ export function Job({ id, onWatch, goDirector }) {
           <ol className="pipeline">
             {STAGES.map(([k, label], i) => {
               const status = rowState(st, k, i, curIdx);
-              return <li key={k} className={status}><i className={'dot ' + (status === 'wait' || status === 'queued' ? '' : status)} /><span>{label}</span>{status === 'run' && <em>working</em>}{status === 'queued' && <em>queued</em>}</li>;
+              const spent = Number(st?.stages?.[k]?.spent || 0);
+              return <li key={k} className={status}><i className={'dot ' + (status === 'wait' || status === 'queued' ? '' : status)} /><span>{label}</span>{status === 'run' && <em>working</em>}{status === 'queued' && <em>queued</em>}{spent > 0.0005 && <em>{usd(spent)}</em>}</li>;
             })}
           </ol>
           <p className="msg ai" style={{ marginTop: 18 }} role="status">
@@ -90,7 +91,7 @@ export function Job({ id, onWatch, goDirector }) {
             <h2>Money</h2>
             <p className="big">{usd(st?.usd) || '$0.00'}{cap != null && <span className="faint"> of {usd(cap)} cap</span>}</p>
             <div className="meter" aria-hidden="true"><i style={{ width: `${Math.min(100, cap ? (Number(st?.usd || 0) / cap) * 100 : 0)}%` }} /></div>
-            <p className="faint" style={{ margin: '10px 0 0' }}>Every paid call is booked against the cap. The build stops before it passes it.</p>
+            <p className="faint" style={{ margin: '10px 0 0' }}>Every paid call is booked against the cap before it is made. A film that cannot pass the fact check and the picture checks inside the cap stops, and is not rendered.</p>
           </motion.div>
           {brief && (
             <motion.div className="card brief glass" {...appear(3)}>

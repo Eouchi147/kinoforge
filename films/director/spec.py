@@ -72,14 +72,24 @@ def draft_prompt(job):
 
 
 def spec_models(job):
-    """Two draft models from different providers. brief.seats.spec = [seatA, seatB] overrides; default: head + coder when
-    the cap allows the head seat (cap >= 1.4), else the two best coder models."""
-    seats = job.brief.get('seats', {}).get('spec') or (['head', 'coder'] if job.brief['cap_usd'] >= 1.4 else ['coder', 'coder'])
+    """The draft models. Paid mode: the main draft by the `coder` role (Opus); a second draft by `coder2` (Sonnet) only when
+    the cap still leaves room for the repairs, the eyes and the lessons (config.json estimate_usd). Free mode: two free code
+    models from different providers. brief.seats.spec = [roleA, roleB] overrides."""
+    over = job.brief.get('seats', {}).get('spec')
+    if C.FREE_ONLY:
+        seats = over or ['coder', 'coder']
+    else:
+        E = C.CONFIG.get('estimate_usd', {}); scale = job.brief['target_seconds'] / 150
+        rest = (E.get('repair', 0.12) * 3 + E.get('eyes', 0.05) * 2 + E.get('reflect', 0.01)) * scale
+        two = job.ledger.total + 2 * E.get('spec_draft', 0.5) * scale + rest <= job.brief['cap_usd']
+        seats = over or (['coder', 'coder2'] if two else ['coder'])
     out, used = [], set()
-    for s in seats:
-        for m in C.seat_models(s):
-            if C.provider(m) not in used: out.append((s, m)); used.add(C.provider(m)); break
-    if len(out) < 2:   # not enough providers: allow the same provider, different model
+    for s_ in seats:
+        ms = C.seat_models(s_)
+        pick = next((m for m in ms if C.provider(m) not in used and all(m != x[1] for x in out)), None) if C.FREE_ONLY else \
+               next((m for m in ms if all(m != x[1] for x in out)), None)
+        if pick: out.append((s_, pick)); used.add(C.provider(pick))
+    if C.FREE_ONLY and len(out) < 2:   # not enough providers: allow the same provider, different model
         for m in C.seat_models('coder'):
             if all(m != x[1] for x in out): out.append(('coder', m))
             if len(out) == 2: break
@@ -130,7 +140,7 @@ def repair(job, src, problems, model, label, extra=''):
              '\n'.join('- ' + p for p in problems[:40]) + (f"\n\n{extra}" if extra else '') +
              "\n\nFix every problem with the smallest edits. Return edits: each `find` is an exact, unique snippet of the current spec (copy it "
              "verbatim, include enough of the line to be unique) and `replace` is the new text. Do not rewrite parts that work."}]
-    seat = job.brief.get('seats', {}).get('repair', 'coder')
+    seat = job.brief.get('seats', {}).get('repair', 'coder' if C.FREE_ONLY else 'repair')
     only = model if model in C.seat_models(seat) else None
     try:
         res, used = C.ask(seat, msgs, EDITS_SCHEMA, job.ledger, name='edits', max_tokens=12000, only=only, label=label)
@@ -193,7 +203,7 @@ def main(d):
     os.makedirs(job.p('cand'), exist_ok=True)
     # 3. probe: two drafts in parallel
     models = spec_models(job)
-    C.set_status(job.dir, 'spec', 'running', 'Two coders are drafting the picture: ' + ', '.join(m for _, m in models) + '.')
+    C.set_status(job.dir, 'spec', 'running', ('Two coders are drafting the picture: ' if len(models) > 1 else 'The coder is drafting the picture: ') + ', '.join(m for _, m in models) + '.')
     msgs = draft_prompt(job); drafts = {}; errs = {}
     def draft(name, seat, model):
         try:
@@ -236,39 +246,57 @@ def main(d):
         C.set_status(job.dir, 'check', 'failed', f'No draft passed the checks ({summary}; at most {MAX_REPAIR} repairs each). First error: {best["report"]["hard"][0][:200]}')
         raise SystemExit(1)
     C.set_status(job.dir, 'check', 'done', summary + '.')
-    # 5. eyes, then one compose round
-    C.set_status(job.dir, 'eyes', 'running', 'The eyes are comparing the drafts.')
+    # 5. eyes, then compose rounds; Gate 2: the picture must reach the eyes score threshold before any render
+    G = C.GATES; need = float(G.get('eyes_min_score', 6.5)); E = C.CONFIG.get('estimate_usd', {})
+    C.set_status(job.dir, 'eyes', 'running', 'The eyes are comparing the drafts.' if len(alive) > 1 else 'The eyes are reviewing the draft.')
     verdict = look.score(job, [{'name': c['name'], 'sheet': c['sheet'], 'report': c['report']} for c in alive])
     slog['eyes'] = verdict; job.write('spec_log.json', slog)
     win = next(c for c in alive if c['name'] == verdict['winner'])
-    fixes = next((c['fixes'] for c in verdict['candidates'] if c['name'] == win['name']), []) or []
-    final_src, final_rep, composed = win['src'], win['report'], False
-    todo = fixes + fixable_soft(win['report'])
-    if todo:
-        C.set_status(job.dir, 'eyes', 'running', f'Draft {win["name"].upper()} wins; composing {len(todo)} fixes from the eyes.', commit=False)
+    sc = lambda v, n: next((c.get('total') for c in v['candidates'] if c['name'] == n), None)
+    fx = lambda v, n: next((c.get('fixes') for c in v['candidates'] if c['name'] == n), []) or []
+    cur = {'src': win['src'], 'report': win['report'], 'dir': win['name'], 'score': sc(verdict, win['name']), 'fixes': fx(verdict, win['name'])}
+    slog['compose'] = []
+    for r in range(int(G.get('compose_rounds', 2))):
+        todo = cur['fixes'] + fixable_soft(cur['report'])
+        good = cur['score'] is not None and cur['score'] >= need
+        if not todo or (r > 0 and good): break
+        if not C.FREE_ONLY and job.ledger.total + E.get('repair', 0.12) + E.get('eyes', 0.05) > job.brief['cap_usd']:
+            slog['compose'].append({'round': r, 'skipped': 'no room left in the cap'}); break
+        C.set_status(job.dir, 'eyes', 'running', f'Composing {len(todo)} fixes from the eyes (round {r + 1}).', commit=False)
         try:
-            new, used, fails, note = repair(job, win['src'], todo, win['model'], 'compose', extra='These are notes from the picture editor who watched the contact sheet. '
+            new, used, fails, note = repair(job, cur['src'], todo, win['model'], f'compose {r + 1}', extra='These are notes from the picture editor who watched the contact sheet. '
                                             'Apply the ones you can do with the engine; keep everything that already works.')
-            if new != win['src']:
-                open(job.p('cand', 'final.js'), 'w').write(new)
-                rep = check(job, './cand/final.js', 'final')
-                slog['compose'] = {'model': used, 'failed_edits': fails, 'note': note, 'ok': rep['ok'], 'hard': rep['hard'][:20], 'soft': rep.get('soft', [])[:20]}
-                if rep['ok'] and len(fixable_soft(rep)) <= len(fixable_soft(win['report'])) + 1:
-                    final_src, final_rep, composed = new, rep, True
         except C.OverBudget: raise
         except Exception as e:
-            slog['compose'] = {'error': str(e)[:300]}; C.log('compose failed:', str(e)[:300])
-    if not composed:   # the final check folder is the winner's
-        shutil.rmtree(job.p('check', 'final'), ignore_errors=True); shutil.copytree(job.p('check', win['name']), job.p('check', 'final'))
-        if os.path.exists(job.p('cand', 'final.js')): os.rename(job.p('cand', 'final.js'), job.p('cand', 'final-rejected.js'))
-    open(job.p('spec.js'), 'w').write(final_src)
-    score = next((c.get('total') for c in verdict['candidates'] if c['name'] == win['name']), None)
-    slog['final'] = {'ok': True, 'candidate': win['name'], 'model': win['model'], 'composed': composed, 'score': score, 'soft': final_rep.get('soft', [])[:20],
-                     'still_s': final_rep.get('still_s'), 'bytes': len(final_src)}
+            slog['compose'].append({'round': r, 'error': str(e)[:300]}); C.log('compose failed:', str(e)[:300]); break
+        if new == cur['src']: break
+        name = f'compose{r + 1}'; open(job.p('cand', f'{name}.js'), 'w').write(new)
+        rep = check(job, f'./cand/{name}.js', name)
+        rec = {'round': r, 'model': used, 'failed_edits': fails, 'note': note, 'ok': rep['ok'], 'hard': rep['hard'][:20], 'soft': rep.get('soft', [])[:20]}
+        if not rep['ok']: rec['kept'] = False; slog['compose'].append(rec); break
+        v2 = look.score(job, [{'name': name, 'sheet': job.p('check', name, 'sheet.jpg'), 'report': rep}]); s2 = sc(v2, name)
+        rec.update(score=s2, before=cur['score'])
+        if cur['score'] is None or (s2 is not None and s2 >= cur['score']):
+            cur = {'src': new, 'report': rep, 'dir': name, 'score': s2, 'fixes': fx(v2, name)}; rec['kept'] = True
+        else: rec['kept'] = False
+        slog['compose'].append(rec); job.write('spec_log.json', slog)
+        if not rec['kept']: break
+    shutil.rmtree(job.p('check', 'final'), ignore_errors=True); shutil.copytree(job.p('check', cur['dir']), job.p('check', 'final'))
+    score = cur['score']; composed = cur['dir'] != win['name']
+    passed = (score is not None and score >= need) or (score is None and C.FREE_ONLY)
+    slog['final'] = {'ok': passed, 'candidate': win['name'], 'model': win['model'], 'composed': composed, 'score': score, 'need': need,
+                     'soft': cur['report'].get('soft', [])[:20], 'still_s': cur['report'].get('still_s'), 'bytes': len(cur['src'])}
     job.write('spec_log.json', slog)
+    if not passed:
+        open(job.p('cand', 'best-unapproved.js'), 'w').write(cur['src'])
+        C.set_status(job.dir, 'eyes', 'failed', 'Stopped at the picture gate, so no render: ' + (f'the eyes scored it {score}/10 (it needs {need}).' if score is not None
+                     else 'the eyes model could not score it.') + ' The best version and its contact sheet are kept for a look.',
+                     outputs={'check_sheet': C.rel(job.p('check', 'final', 'sheet.jpg'))})
+        raise SystemExit(1)
+    open(job.p('spec.js'), 'w').write(cur['src'])
     C.set_status(job.dir, 'eyes', 'done', f'Draft {win["name"].upper()} ({win["model"]}) wins' + (f' at {score}/10' if score is not None else '') +
                  (', fixes composed and re-checked.' if composed else ', kept as checked.'),
-                 outputs={'spec': C.rel(job.p('spec.js')), 'check_sheet': C.rel(job.p('check', 'final', 'sheet.jpg'))})
+                 outputs={'spec': C.rel(job.p('spec.js')), 'check_sheet': C.rel(job.p('check', 'final', 'sheet.jpg')), 'eyes_score': score})
 
 
 if __name__ == '__main__':
