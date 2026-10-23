@@ -112,8 +112,10 @@ def mat_water_pool(kit):
     n = g.noise(g.vmath('MULTIPLY', tc.outputs['Object'], (1, 1, 0)), 38.0, 2.0, 0.5, '4D', g.math('MULTIPLY', tv, 0.35))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.55, 0.80, 0.90)), 'Roughness': 0.03, 'IOR': 1.33, 'Transmission Weight': 1.0})
     b = g.node('ShaderNodeBump', ins={'Strength': 0.25, 'Height': n.outputs['Fac'], 'Distance': 0.002}); g.put(p, 'Normal', b)
-    v = g.node('ShaderNodeVolumeAbsorption', ins={'Color': srgb((0.10, 0.45, 0.55)), 'Density': 9.0})
-    cw._finish(g, p, v); return m
+    lp = g.node('ShaderNodeLightPath'); tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
+    g.link(lp.outputs['Is Shadow Ray'], mx.inputs[0]); g.link(p, mx.inputs[1]); g.link(tr, mx.inputs[2])
+    v = g.node('ShaderNodeVolumeAbsorption', ins={'Color': srgb((0.20, 0.62, 0.70)), 'Density': 1.6})
+    cw._finish(g, mx, v); return m
 
 
 # =============================================================================================== night sky, moon, floor
@@ -420,7 +422,7 @@ def build(bpy, ctx):
         if any(math.hypot(x - a, y - b) < 0.24 for a, b, *_ in spots): continue
         spots.append((x, y, rng.uniform(0.55, 0.95), 'cone'))
     land = cw.block(kit, size=(SX, SY), depth=DEPTH, strata=STRATA, top=top, water=None, seed=6, season=season, grass=0.4, grass_height=0.8,
-                    tree_kinds=('cone',), tree_spots=spots, boulders=26, flowers=0.0, sway=0.9, keep_clear=[(-1.05, -1.15, 0.28)])
+                    tree_kinds=('cone',), tree_spots=spots, boulders=14, flowers=0.0, sway=0.9, keep_clear=[(-1.05, -1.15, 0.28)])
     rig = night(kit, land); ridges(kit); moon = Moon(kit)
     eggs = ex.Eggs(kit, land, light_power=0.55, light_color=(1.0, 0.86, 0.66))
     mine = Mine(kit, land, eggs)
@@ -496,7 +498,7 @@ def build(bpy, ctx):
     dig1 = miner(kit, 'dig1', (0.46, 0.30, 0.20)); dig2 = miner(kit, 'dig2', (0.32, 0.30, 0.42))
     goldm = miner(kit, 'goldminer', (0.58, 0.22, 0.14))
     cart = ore_cart(kit, mine)
-    bats_in = [bat(kit, f'batc{k}') for k in range(14)]
+    bats_in = [bat(kit, f'batc{k}', 1.35) for k in range(14)]
     bats_out = [bat(kit, f'bato{k}', 2.3) for k in range(34)]
 
     S = {'kit': kit, 'land': land, 'moon': moon, 'eggs': eggs, 'mine': mine, 'walker': walker, 'pusher': pusher, 'climber': climber,
@@ -524,7 +526,8 @@ def cavern(kit, eggs, mine):
     w = np.clip(V[:, 1] / dep, 0, 1) ** 0.6
     n = cw.fbm(V[:, 0] * 1.0 + V[:, 1] * 1.3, V[:, 2] - V[:, 1] * 0.7, 3, 4, 9.0)
     ctr = np.array((0.0, dep * 0.45, 0.0)); dv = ctr - V; dv /= np.maximum(np.linalg.norm(dv, axis=1)[:, None], 1e-6)
-    V = V + dv * (w * 0.03 * (n + 0.35))[:, None]
+    n2 = cw.fbm(V[:, 0] * 2.0 - V[:, 1], V[:, 2] * 2.0 + V[:, 1], 9, 3, 14.0)
+    V = V + dv * (w * (0.05 * (n + 0.35) + 0.02 * n2))[:, None]
     ob = ex.part(kit, 'gm_cave', [(V, F, 0)], [mine.rock]); eggs.faces['-Y'].put(ob, c['u'], c['z'], 0.0015)
     eggs.openings.append(('-Y', 'ell', (c['u'], c['z'], c['a'], c['b'])))
     rng = np.random.default_rng(21); stone = ex.mat_pbr(kit, 'gm_dripstone', (0.50, 0.49, 0.50), 0.4, coat=0.4)
@@ -545,20 +548,23 @@ def rock_face(kit, land):
     p = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeBsdfPrincipled'][0]; bump = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeBump'][0]
     bc = p.inputs['Base Color'].links[0].from_socket; hs = bump.inputs['Height'].links[0].from_socket
     pos = g.node('ShaderNodeTexCoord').outputs['Object']
-    big = g.noise(pos, 6.0, 4.0, 0.6); vor = g.voronoi(pos, 7.0, 'DISTANCE_TO_EDGE'); vor2 = g.voronoi(pos, 23.0, 'DISTANCE_TO_EDGE')
-    crack = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vor.outputs['Distance'], 30.0), clamp=True)
-    crack2 = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vor2.outputs['Distance'], 40.0), clamp=True)
+    big = g.noise(pos, 3.0, 4.0, 0.6); warp = g.noise(pos, 4.0, 3.0, 0.5)
+    q = g.vmath('ADD', pos, g.vmath('SCALE', g.vmath('SUBTRACT', warp.outputs['Color'], (0.5, 0.5, 0.5)), scale=0.25))
+    vor = g.voronoi(q, 2.2, 'DISTANCE_TO_EDGE'); vor2 = g.voronoi(q, 6.5, 'DISTANCE_TO_EDGE')
+    gate = g.math('MULTIPLY', g.math('SUBTRACT', g.noise(pos, 5.0, 2.0).outputs['Fac'], 0.42), 6.0, clamp=True)   # fractures die out here and there
+    crack = g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vor.outputs['Distance'], 110.0), clamp=True), gate)
+    crack2 = g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', vor2.outputs['Distance'], 160.0), clamp=True), g.math('SUBTRACT', 1.0, gate))
     mot = g.math('MULTIPLY', g.math('SUBTRACT', big.outputs['Fac'], 0.3), 1.6, clamp=True)
-    col = g.mix(mot, g.mix(1.0, bc, (0.62, 0.63, 0.68), 'MULTIPLY'), g.mix(1.0, bc, (1.25, 1.25, 1.3), 'MULTIPLY'))
-    col = g.mix(g.math('ADD', g.math('MULTIPLY', crack, 0.75), g.math('MULTIPLY', crack2, 0.35)), col, srgb((0.04, 0.045, 0.06)))
+    col = g.mix(mot, g.mix(1.0, bc, (0.80, 0.81, 0.85), 'MULTIPLY'), g.mix(1.0, bc, (1.14, 1.14, 1.17), 'MULTIPLY'))
+    col = g.mix(g.math('ADD', g.math('MULTIPLY', crack, 0.55), g.math('MULTIPLY', crack2, 0.22)), col, srgb((0.05, 0.055, 0.07)))
     g.link(col, p.inputs['Base Color'])
-    h = g.math('ADD', hs, g.math('SUBTRACT', g.math('MULTIPLY', big.outputs['Fac'], 0.8), g.math('ADD', g.math('MULTIPLY', crack, 0.6), g.math('MULTIPLY', crack2, 0.3))))
-    g.link(h, bump.inputs['Height']); bump.inputs['Strength'].default_value = 0.9
+    h = g.math('ADD', hs, g.math('SUBTRACT', g.math('MULTIPLY', big.outputs['Fac'], 0.5), g.math('ADD', g.math('MULTIPLY', crack, 0.35), g.math('MULTIPLY', crack2, 0.15))))
+    g.link(h, bump.inputs['Height']); bump.inputs['Strength'].default_value = 0.7
 
 def raking(kit):
     """Cool light skimming each camera-facing cut face from its side: it brings out the rock texture."""
     bpy = kit.bpy
-    for name, pos, tgt, pw in (('gm_rake_y', (-SX / 2 - 1.6, FY - 0.45, -0.3), (0.8, FY, -0.9), 90.0),
+    for name, pos, tgt, pw in (('gm_rake_y', (-SX / 2 - 1.6, FY - 0.45, -0.3), (0.8, FY, -0.9), 65.0),
                                ('gm_rake_x', (SX / 2 + 0.45, -SY / 2 - 1.6, -0.3), (SX / 2, 0.8, -0.9), 70.0)):
         ld = bpy.data.lights.new(name, 'AREA'); ld.size = 1.4; ld.shape = 'DISK'; ld.energy = pw; ld.color = (0.60, 0.70, 1.0)
         ob = bpy.data.objects.new(name, ld); kit.coll.objects.link(ob); ob.location = pos; ex.look_at(ob, tgt)
@@ -720,8 +726,8 @@ def bats_outside(S, t):
         start = np.array((pu - 0.02, FY + rng.uniform(0.04, 0.14), 0.07))
         md = _MOON_DIR.get('flight', np.array((0.3, 0.6, 0.75))); md = md / np.linalg.norm(md)
         side = np.cross(md, (0, 0, 1.0)); side /= np.linalg.norm(side); upv = np.cross(side, md)
-        spread = side * rng.normal(0, 0.28) + upv * rng.normal(0, 0.18)
-        aim = md + spread; aim /= np.linalg.norm(aim)
+        spread = side * rng.normal(0, 0.16) + upv * rng.normal(0, 0.12)
+        aim = md + np.array((0, 0, 0.42)) + spread; aim /= np.linalg.norm(aim)      # up over the ridge, toward the moon
         out = np.array((-1.0, 0.0, 0.25)); sp = rng.uniform(0.75, 1.05)
         e1 = min(1.0, tau / 0.45); k2 = max(0.0, tau - 0.25)
         p = start + out * 0.16 * (e1 * e1 * (3 - 2 * e1)) + aim * sp * k2 ** 1.15
@@ -754,7 +760,7 @@ def shot_pose(name, u, t):
         return pos, tgt, 35.0, D, 11.0, (0.42, 0.62)
     if name == 'descent':        # crane down the cut face, then a slow push in on the deepest gallery
         a = ex.ease5(min(1.0, u / 0.56)); b = ex.ease(max(0.0, (u - 0.56) / 0.44))
-        tu = -0.12 + 0.34 * a + 0.02 * b; tz = -0.18 - 1.29 * a - 0.02 * b; Dd = 1.62 - 0.67 * a - 0.10 * b
+        tu = -0.12 + 0.34 * a + 0.02 * b; tz = -0.18 - 1.22 * a - 0.02 * b; Dd = 1.62 - 0.67 * a - 0.10 * b
         el = math.radians(9 - 5 * a)
         tgt = np.array((tu, FY + 0.08, tz)); pos = np.array((tu - 0.20, FY - Dd, tz + Dd * math.tan(el)))
         return pos, tgt, 32.0, Dd + 0.08, 9.0, None
