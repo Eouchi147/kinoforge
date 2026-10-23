@@ -100,12 +100,12 @@ no music, no voice.
 Estimate for the whole film: about 480 x 4.5 s = 36 min on the M4 (well under the 15 s/frame target).
 
 Settings: 20 spp, adaptive (threshold 0.04), OIDN denoise, max bounces 4 (diffuse 1, glossy 1, transmission 4), no
-volumes (fog and haze are cards), no motion blur, compositor bloom and vignette.
+volumes (the clouds are cards), no motion blur, compositor bloom and vignette.
 
 ## Check stills
 
-Mac lane rounds `out/gold-mine-check1` to `check5` (on Sam's Mac, `Video Production/kinoforge-render/out/`). Best stills:
-`check3/frames/00300.png` (the bats burst out of the cave) and `check4/frames/00470.png` (the closing image).
+Mac lane rounds `out/gold-mine-check1` to `check6` (on Sam's Mac, `Video Production/kinoforge-render/out/`). Best stills:
+`check3/frames/00300.png` (the bats burst out of the cave) and `check6/frames/00470.png` (the closing image) and `check6/frames/00030.png` (the title shot).
 
 - r1: layout and light worked; the faces read as flat felt, the pool was black, the strike was too far away.
 - r2: rock fractures added (too strong: crazy paving); lumpy cave and stalactites; a closer final frame for the strike.
@@ -129,4 +129,5 @@ Mac lane rounds `out/gold-mine-check1` to `check5` (on Sam's Mac, `Video Product
 - **Continuity cheat:** the miner who walks in during shot 1 is not followed inside. The cart stops at the shaft at 10.5 s
   and is not unloaded.
 - **The yard boulders look pale,** almost like snow lumps, under the moon.
+- **No ground fog or haze cards:** depth comes from the far ridges, the moon halo and the clouds.
 - **The moon is set per shot.** Its position on screen differs between shot 1 and shot 3 on purpose (each frames its shot).
