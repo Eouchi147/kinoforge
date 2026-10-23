@@ -48,7 +48,7 @@ def stylize(P, info):
     shadow = NL.smoothstep(0.9, 0.35, rel); glow = NL.smoothstep(1.1, 2.2, rel)
     pal = info.get('strata') if isinstance(info, dict) else None
     palc = np.asarray(pal if pal is not None else NL.STRATA_TIME, np.float32)
-    layerD = np.clip((1.0 - NL.lum(palc)) * 1.5 - 0.02, 0.22, 1.0)
+    layerD = np.clip((1.0 - NL.lum(palc)) * 1.5 - 0.02, 0.32, 1.0)
     lab = NL.strata_labels(alb, pal, 3.0 * s, 4.0 * s)
     Dl = NL.blur(layerD[lab], 1.5 * s)
     D = np.clip(((1.0 - Alum) - 0.16) * 1.55 + 0.35 * shadow - 0.25 * glow, 0, 1)
@@ -78,7 +78,7 @@ def stylize(P, info):
     f2 = (kf * np.where(cut_f, 70.0, np.where(leaf, 7.0 / kf, 90.0))).astype(np.float32)
     u3 = z - along * 0.8; f3 = np.full(sh, 120.0 * kf, np.float32)
     # hatch(u*f): the helper takes a per-unit scalar, so fold the per-pixel frequency into u
-    p1 = NL.tone_hatch(u1 * f1, 1.0, D, thresh=0.09, min_px=3.4 * s)
+    p1 = NL.tone_hatch(u1 * f1, 1.0, D, thresh=0.09, min_px=2.7 * s, hair=0.5)
     p2 = NL.tone_hatch(u2 * f2, 1.0, np.clip((D - 0.34) / 0.5, 0, 1), thresh=0.04, min_px=3.4 * s)
     p3 = NL.tone_hatch(u3 * f3, 1.0, np.clip((D - 0.72) / 0.28, 0, 1), thresh=0.04, min_px=3.4 * s)
     tone = np.maximum(p1, np.maximum(p2 * 0.95, p3 * 0.9))
