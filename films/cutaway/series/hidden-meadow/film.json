@@ -1,0 +1,16 @@
+{
+ "id": "cutaway-series-hidden-meadow",
+ "series": "Cutaway showcase",
+ "title": "The Hidden Meadow",
+ "style": "cutaway",
+ "duration": 20,
+ "fps": 24,
+ "frames": 480,
+ "render_w": 720,
+ "render_h": 1280,
+ "w": 1080,
+ "h": 1920,
+ "samples": 20,
+ "audio": "audio/mix.m4a",
+ "note": "Cutaway showcase film 3 (wildlife documentary, kids, nature brands), 9:16. A spring meadow at morning; below in the cut face a rabbit warren, a mole, a fox den with two cubs and an ant nest; a hawk's shadow crosses and the rabbits on top dive into the burrow and arrive underground; calm returns. Three shots (meadow, below, hawk). Blender Cycles, kit films/styles/cutaway + cinematic/extras.py (imported). Title set in code (Archivo), first 2.5 s. Sound: nature recordings only (see NOTES.md events table)."
+}
