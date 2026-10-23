@@ -44,31 +44,39 @@ def clay_height(g, pos, thumb=24.0):
     return h
 
 
-def clay_material(m, kit, strong=1.0, sat=1.28):
+def clay_material(m, kit, strong=1.0, sat=1.28, thumb=24.0, colour=True, rough=0.52):
     for n in m.node_tree.nodes:
         if n.bl_idname != 'ShaderNodeBsdfPrincipled': continue
         g = cw.G(m.node_tree, kit)
         for k in ('Roughness',):
             for l in list(n.inputs[k].links): g.L.remove(l)
-        P.set_default_principled(n, **{'Roughness': 0.52, 'Metallic': 0.0, 'Specular IOR Level': 0.45, 'Coat Weight': 0.0, 'Transmission Weight': 0.0,
+        P.set_default_principled(n, **{'Roughness': rough, 'Metallic': 0.0, 'Specular IOR Level': 0.45, 'Coat Weight': 0.0, 'Transmission Weight': 0.0,
                                       'Subsurface Weight': 0.12, 'Subsurface Scale': 0.012, 'Sheen Weight': 0.0})
         try: n.inputs['Subsurface Radius'].default_value = (1.0, 0.45, 0.3)
         except Exception: pass
         def sat_fn(g_, c):
             hs = g_.node('ShaderNodeHueSaturation', ins={'Saturation': sat, 'Value': 1.0, 'Fac': 1.0}); g_.put(hs, 'Color', c); return hs.outputs['Color']
-        P.insert_colour_filter(g, n, sat_fn)
+        if colour: P.insert_colour_filter(g, n, sat_fn)
         if n.inputs['Normal'].is_linked:
             for l in list(n.inputs['Normal'].links): g.L.remove(l)
-        tc = g.node('ShaderNodeTexCoord'); h = clay_height(g, tc.outputs['Object'])
+        tc = g.node('ShaderNodeTexCoord'); h = clay_height(g, tc.outputs['Object'], thumb)
         b = g.node('ShaderNodeBump', ins={'Strength': 0.8 * strong, 'Height': h, 'Distance': 0.012}); g.link(b.outputs['Normal'], n.inputs['Normal'])
 
 
 def apply(bpy, film, ctx):
     name, st = P.sets_of(bpy, film)[0]; kit = st['kit']; land = st.get('land'); sc = bpy.context.scene
     BOIL.clear()
+    kitscene = P.is_kit(film)
     for m in list(bpy.data.materials):
         if not m.node_tree or m.name.startswith('cl_') or m.name in ('cw_water', 'ex_shaft_mat', 'ex_gobo', 'ex_floor') or m.name.startswith(('cw_window', 'cw_lamphead')): continue
+        if kitscene:     # the seasons loop: bigger thumbs and bolder lumps so they read at phone size; colours stay season-driven
+            if m.name in ('sz_water', 'sz_ice', 'sz_haze', 'sz_fog', 'sz_titlemat'): continue
+            clay_material(m, kit, strong=2.4 if m.name in ('sz_strata', 'sz_top') else 1.6, sat=1.45, thumb=9.0, colour=(m.name != 'cw_floor'), rough=0.4)
+            continue
         clay_material(m, kit, strong=1.5 if m.name == 'cw_strata' else 1.0)
+    if kitscene:
+        for o in list(bpy.data.objects):
+            if o.name == 'sz_grass': o.hide_render = True      # clay does not do blades: the top is modelled with thumb dents
     # the strata: clay seams (a darker pinched line between layers) on top of the kit's soft bands
     # (kept as is: the kit's wobbly bands already read as rolled slabs of clay)
     # baseboard
@@ -105,8 +113,8 @@ def apply(bpy, film, ctx):
     for o in bpy.data.objects:
         if o.type != 'MESH' or not o.data or len(o.data.vertices) < 60: continue
         names = {mm.name for mm in o.data.materials if mm}
-        if any(n.startswith(('cw_leaf', 'cw_rock', 'cw_bankrock', 'cw_pebble')) for n in names):
-            md = o.modifiers.new('kf_lump', 'DISPLACE'); md.texture = tex; md.strength = 0.035; md.mid_level = 0.5; md.texture_coords = 'LOCAL'
+        if any(n.startswith(('cw_leaf', 'cw_rock', 'cw_bankrock', 'cw_pebble', 'sz_leaf', 'sz_needles')) for n in names):
+            md = o.modifiers.new('kf_lump', 'DISPLACE'); md.texture = tex; md.strength = 0.035 if not kitscene else 0.06; md.mid_level = 0.5; md.texture_coords = 'LOCAL'
     sc.view_settings.exposure = 0.25
 
 

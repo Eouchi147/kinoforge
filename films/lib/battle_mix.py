@@ -4,7 +4,7 @@
 
 Reads audio/vo.json (lines, durations, word timings from prep), audio/music.mp3 + audio/music.json (beats, biggest rise).
 Writes cues.json (every line with start, end and word times on the film timeline, beats, strong hits), film.json
-(duration and render sizes) and audio/mix.m4a (narration over the ducked score, -14 LUFS).
+(duration and render sizes) and audio/mix.m4a (narration over the ducked score, -14 LUFS by a two-pass linear loudnorm).
 Placement: each line starts on the first beat at least GAP after the previous line ends; the title line (index 1,
 "This is the Battle of X.") lands on the score's biggest rise when it is reachable, with a held pause after it for the
 title card; the film ends with a 4 s outro for the end card while the score resolves.
@@ -73,7 +73,28 @@ fl.append(''.join(f'[v{k}]' for k in range(len(lines))) + f'amix=inputs={len(lin
 fl.append('[vo]asplit=2[voA][voS]')
 fl.append(f'[0:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{dur},volume=-7dB,afade=t=in:d=0.4,afade=t=out:st={dur - 2.6}:d=2.6[mu]')
 fl.append('[mu][voS]sidechaincompress=threshold=0.04:ratio=3.5:attack=25:release=420:makeup=1[duck]')
-fl.append('[duck][voA]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11[out]')
+fl.append('[duck][voA]amix=inputs=2:normalize=0[out]')
+# two-pass linear loudnorm (P8): pass 1 renders the mix before loudnorm and measures it, pass 2 applies the measured values with
+# linear=true, so the whole mix gets one constant gain (no dynamic gain riding) and lands on -14 LUFS with true peak under -1.5 dBTP
+LN = 'I=-14:TP=-1.5:LRA=11'
+pre = f'{d}/audio/mix_pre.wav'
 subprocess.run(['ffmpeg', '-nostdin', '-y', '-loglevel', 'error'] + ins + ['-filter_complex', ';'.join(fl), '-map', '[out]', '-t', str(dur),
+                '-c:a', 'pcm_f32le', pre], check=True)
+
+def loudnorm_json(args):
+    err = subprocess.run(['ffmpeg', '-nostdin', '-hide_banner', '-i', pre, '-af', f'loudnorm={LN}{args}:print_format=json', '-f', 'null', '-'],
+                         capture_output=True, text=True, check=True).stderr
+    return json.loads(err[err.rindex('{'):err.rindex('}') + 1])
+
+m = loudnorm_json('')
+for k in ('input_i', 'input_tp', 'input_lra', 'input_thresh', 'target_offset'):
+    m[k] = float(m[k])
+if m['input_i'] < -69:
+    sys.exit('battle_mix: the mix is silent (loudnorm measured ' + str(m['input_i']) + ' LUFS)')
+meas = (f":measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
+        f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
+subprocess.run(['ffmpeg', '-nostdin', '-y', '-loglevel', 'error', '-i', pre, '-af', f'loudnorm={LN}{meas}', '-ar', '48000',
                 '-c:a', 'aac', '-b:a', '256k', f'{d}/audio/mix.m4a'], check=True)
+os.remove(pre)
+print(f"loudnorm pass 1: {m['input_i']} LUFS, true peak {m['input_tp']}, LRA {m['input_lra']}; pass 2 applied linearly (offset {m['target_offset']} dB)")
 print(fid, 'duration', dur, 's;', len(lines), 'lines; title line at', lines[TITLE]['start'], 's; rise', rise, '; hits', len(hits))

@@ -2,7 +2,7 @@
 """KINOFORGE Blender renderer (bpy as a Python module, CPU Cycles). Same frame naming as render.cjs.
 
     python3 harness/blender_render.py proto/<scene> [--out out/<scene>] [--w 1280 --h 720 --fps 24] [--samples 96]
-                                      [--start 0 --end N] [--engine CYCLES|BLENDER_EEVEE_NEXT|BLENDER_WORKBENCH] [--mp4 --audio f.wav]
+                                      [--start 0 --end N] [--engine CYCLES|BLENDER_EEVEE|BLENDER_WORKBENCH] [--mp4 --audio f.wav]
 
 Scene contract (proto/<scene>/blender.py):
     DURATION = 6.0                         # seconds (or SHOTS = [{'name':..., 'dur':...}, ...])

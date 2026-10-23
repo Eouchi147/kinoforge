@@ -31,16 +31,19 @@ def posterize(g, col, n):
     return g.comb(f(s[0]), f(s[1]), f(s[2]))
 
 
-def paper_filter(levels=7, fib=0.30, scale=380.0, dark=1.0):
+def paper_filter(levels=7, fib=0.30, scale=380.0, dark=1.0, gamma=False):
     def fn(g, c):
         if dark != 1.0: c = srgb((0.36, 0.25, 0.18))[:3]
         tc = g.node('ShaderNodeTexCoord'); f = P.fibre(g, tc.outputs['Object'], scale)
-        if dark == 1.0: c = posterize(g, c, levels)
+        if dark == 1.0:
+            if gamma:       # posterise in a perceptual space so dark tones keep their hue (used on the seasons loop)
+                c = g.vmath('POWER', c, (1 / 2.2,) * 3); c = posterize(g, c, levels); c = g.vmath('POWER', c, (2.2,) * 3)
+            else: c = posterize(g, c, levels)
         return g.mix(1.0, c, g.vmath('ADD', (1.0 - fib * 0.5,) * 3, g.vmath('SCALE', (fib,) * 3, scale=f)), 'MULTIPLY')
     return fn
 
 
-def paper_surface(m, kit, levels=7, dark=1.0):
+def paper_surface(m, kit, levels=7, dark=1.0, gamma=False, colour=True):
     """Principled materials -> flat card with fibre."""
     for n in m.node_tree.nodes:
         if n.bl_idname != 'ShaderNodeBsdfPrincipled': continue
@@ -50,7 +53,7 @@ def paper_surface(m, kit, levels=7, dark=1.0):
         if n.inputs['Roughness'].is_linked:
             for l in list(n.inputs['Roughness'].links): g.L.remove(l)
             n.inputs['Roughness'].default_value = 0.93
-        P.insert_colour_filter(g, n, paper_filter(levels, dark=dark))
+        if colour: P.insert_colour_filter(g, n, paper_filter(levels, dark=dark, gamma=gamma))
         # replace any bump with the paper fibre
         if n.inputs['Normal'].is_linked:
             for l in list(n.inputs['Normal'].links): g.L.remove(l)
@@ -126,11 +129,71 @@ def strata_paper(film, kit, land):
     b = g.node('ShaderNodeBump', ins={'Strength': 0.9, 'Height': h, 'Distance': 0.004}); g.link(b.outputs['Normal'], p.inputs['Normal'])
 
 
-def ridges(film, kit, land):
+def patchwork(m, kit):
+    """The meadow top as patches of cut paper: per-patch tone, a thin shadow line along each patch edge (season colours stay)."""
+    nt = m.node_tree; g = cw.G(nt, kit); p = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeBsdfPrincipled'][0]
+    tcn = g.node('ShaderNodeTexCoord'); pos = tcn.outputs['Object']
+    vo = g.voronoi(pos, 11.0, 'F1'); ve = g.voronoi(pos, 11.0, 'DISTANCE_TO_EDGE')
+    tone = g.math('ADD', 0.95, g.math('MULTIPLY', g.sep(vo.outputs['Color'])[0], 0.55))
+    edge = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', ve.outputs['Distance'], 42.0), clamp=True)
+    def fn(g_, c):
+        c = g_.mix(1.0, c, g_.vmath('SCALE', (1.0, 1.0, 1.0), scale=tone), 'MULTIPLY')
+        return g_.mix(g_.math('MULTIPLY', edge, 0.5), c, g_.mix(1.0, c, (0.35, 0.30, 0.25), 'MULTIPLY'))
+    P.insert_colour_filter(g, p, fn)
+
+
+def strata_patch(film, kit, m):
+    """The seasons loop's own strata material (sz_strata: snow cap, gold vein, frog chamber, roots stay): hard sheet edges,
+    deckle, a drop shadow under each sheet and a torn pale core, added on top of its own colour chain."""
+    nt = m.node_tree; g = cw.G(nt, kit)
+    ramps = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeValToRGB']
+    col_r = [r for r in ramps if r.color_ramp.interpolation != 'CONSTANT'][0]
+    div = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeMath' and n.operation == 'DIVIDE' and abs(n.inputs[1].default_value) > 0.5][0]
+    total = float(div.inputs[1].default_value)
+    els = [e.position for e in col_r.color_ramp.elements]
+    starts = [0.0] + [els[k] for k in range(2, len(els), 2)]
+    soft = 0.012 / total; edges = [0.0] + [max(0.0, x - soft) for x in starts[1:]]
+    col_r.color_ramp.interpolation = 'CONSTANT'
+    # deckle on the band edges: finer noise added to the depth that feeds the bands
+    src = div.inputs[0].links[0].from_socket; g.L.remove(div.inputs[0].links[0])
+    tcn = g.node('ShaderNodeTexCoord'); pos = tcn.outputs['Object']; sx = g.sep(pos); hz = g.math('ADD', sx[0], sx[1])
+    deck = g.noise(g.comb(hz, sx[2], 0.0), 140.0, 5.0, 0.7); deck2 = g.noise(g.comb(g.math('MULTIPLY', hz, 7.0), sx[2], 0.0), 420.0, 2.0, 0.6)
+    g.link(g.math('ADD', src, g.math('ADD', g.math('MULTIPLY', g.math('SUBTRACT', deck.outputs['Fac'], 0.5), 0.016), g.math('MULTIPLY', g.math('SUBTRACT', deck2.outputs['Fac'], 0.5), 0.006))), div.inputs[0])
+    fac = div.outputs[0]
+    for n in nt.nodes:                                       # the kit's 60/m mottling becomes paper-scale grain
+        if n.bl_idname == 'ShaderNodeTexNoise' and abs(n.inputs['Scale'].default_value - 60.0) < 1e-3: n.inputs['Scale'].default_value = 800.0
+    pos_ = [0.0] + [e + 1e-5 * i for i, e in enumerate(edges[1:], 1)]
+    def const_ramp(vals):
+        n = g.node('ShaderNodeValToRGB'); cr = n.color_ramp; cr.interpolation = 'CONSTANT'
+        while len(cr.elements) < len(pos_): cr.elements.new(0.5)
+        for el, p_, v in zip(cr.elements, pos_, vals): el.position = p_; el.color = (v, v, v, 1.0)
+        g.put(n, 'Fac', fac); return g.sep(n.outputs['Color'])[0]
+    start = const_ramp(edges); endv = const_ramp([edges[i + 1] if i + 1 < len(edges) else 9.0 for i in range(len(edges))])
+    d = g.math('SUBTRACT', fac, start)
+    shadow = g.math('EXPONENT', g.math('MULTIPLY', d, -total / 0.024))
+    tear = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('SUBTRACT', endv, fac), total / 0.0035), clamp=True)
+    tear = g.math('MULTIPLY', tear, g.math('LESS_THAN', endv, 5.0))
+    core = g.mix(g.noise(pos, 300.0, 3.0).outputs['Fac'], srgb((0.96, 0.92, 0.82)), srgb((0.86, 0.80, 0.68)))
+    f = P.fibre(g, pos, 380.0)
+    def fn(g_, c):
+        c = g_.mix(g_.math('MULTIPLY', shadow, 0.6), c, g_.mix(1.0, c, (0.12, 0.07, 0.05), 'MULTIPLY'))
+        c = g_.mix(g_.math('MULTIPLY', tear, 0.85), c, core)
+        return g_.mix(1.0, c, g_.vmath('ADD', (0.85,) * 3, g_.vmath('SCALE', (0.30,) * 3, scale=f)), 'MULTIPLY')
+    p = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeBsdfPrincipled'][0]
+    P.insert_colour_filter(g, p, fn); p.inputs['Roughness'].default_value = 0.95
+    P.set_default_principled(p, **{'Specular IOR Level': 0.1})
+
+
+def ridges(film, kit, land, soft=False):
     """Three standing sheets of layered paper behind the block: wavy tops, flat colours, real shadows on each other."""
     bpy = kit.bpy; z0 = -land.depth - 0.001
+    k_ = (float(land.size[0]) if hasattr(land.size, '__len__') else float(land.size)) / 4.0
     specs = [(5.4, 3.0, (0.80, 0.62, 0.42), 1.0), (7.0, 3.8, (0.55, 0.64, 0.50), 2.3), (8.8, 4.8, (0.40, 0.52, 0.52), 3.7), (10.8, 6.0, (0.78, 0.54, 0.46), 5.1)]
     out = []
+    if soft:      # the loop: pastel, lower and farther, so the title and the seasons stay readable
+        pas = [(0.93, 0.80, 0.62), (0.82, 0.87, 0.76), (0.72, 0.82, 0.82), (0.94, 0.80, 0.74)]
+        specs = [(d_ * 1.25, h_ * 0.65, pas[i], p_) for i, (d_, h_, c_, p_) in enumerate(specs)]
+    specs = [(d_ * k_, h_ * k_, c_, p_) for d_, h_, c_, p_ in specs]
     for k, (dist, hgt, c, ph), ax in [(k, sp, a) for k, sp in enumerate(specs) for a in (0, 1)]:
         N = 220; xs = np.linspace(-16, 16, N)
         top = hgt * (0.62 + 0.20 * np.sin(xs * 0.31 + ph) + 0.12 * np.sin(xs * 0.83 + ph * 2.1) + 0.06 * np.sin(xs * 2.1 + ph))
@@ -153,18 +216,26 @@ def apply(bpy, film, ctx):
     name, st = P.sets_of(bpy, film)[0]; kit = st['kit']; land = st.get('land')
     sc = bpy.context.scene
     # ---- materials
+    kitscene = P.is_kit(film)
     for m in list(bpy.data.materials):
         if not m.node_tree or m.name.startswith('cl_') or m.name.startswith('pc_'): continue
         if m.name in ('cw_water', 'ex_shaft_mat', 'ex_gobo') or m.name.startswith('cw_window') or m.name.startswith('cw_lamphead') or m.name == 'ex_floor': continue
-        if m.name == 'cw_strata': continue
-        paper_surface(m, kit, dark=0.5 if m.name in ('ex_cavity', 'ex_dig') else 1.0)
-    if land is not None and 'strata' in getattr(land, 'mats', {}): strata_paper(film, kit, land)
+        if m.name in ('cw_strata', 'sz_strata') or m.name in ('sz_water', 'sz_ice', 'sz_haze', 'sz_fog', 'sz_titlemat'): continue
+        if m.name == 'cw_floor': paper_surface(m, kit, colour=False); continue        # the loop drives the floor colour by season
+        paper_surface(m, kit, dark=0.5 if m.name in ('ex_cavity', 'ex_dig') else 1.0, gamma=kitscene)
+    if kitscene and bpy.data.materials.get('sz_strata'): strata_patch(film, kit, bpy.data.materials['sz_strata'])
+    elif land is not None and 'strata' in getattr(land, 'mats', {}): strata_paper(film, kit, land)
     # ---- flat shading on the folded-card things
     for o in bpy.data.objects:
         if o.type != 'MESH' or not o.data: continue
         names = {mm.name for mm in o.data.materials if mm}
-        if names & {'cw_leaf', 'cw_rock_mat', 'cw_bankrock_mat', 'cw_bark', 'cw_roof', 'cw_wall', 'cw_pebble_mat', 'ex_bone', 'ex_white', 'ex_terracotta'} or any(n.startswith(('cw_leaf', 'cw_roof', 'cw_wall', 'cw_rock')) for n in names):
+        if names & {'cw_leaf', 'cw_rock_mat', 'cw_bankrock_mat', 'cw_bark', 'cw_roof', 'cw_wall', 'cw_pebble_mat', 'ex_bone', 'ex_white', 'ex_terracotta'} or any(n.startswith(('cw_leaf', 'cw_roof', 'cw_wall', 'cw_rock', 'sz_leaf', 'sz_needles')) for n in names):
             o.data.polygons.foreach_set('use_smooth', [False] * len(o.data.polygons)); o.data.update()
+    if kitscene:
+        for o in list(bpy.data.objects):
+            if o.name == 'sz_grass': o.hide_render = True      # real blades off: the meadow is cut paper (patchwork on the top material)
+        topm = bpy.data.materials.get('sz_top')
+        if topm: patchwork(topm, kit)
     P.hide_shafts(film)
     for o in P.all_scene_objects(film):
         if o.name.startswith('ex_gobo'): o.hide_render = True
@@ -199,7 +270,7 @@ def apply(bpy, film, ctx):
         az, el_ = math.radians(-72.0), math.radians(42.0)
         sun.rotation_euler = (math.pi / 2 - el_, 0.0, az + math.pi / 2)          # points from (az, el) toward the block
         sun.rotation_mode = 'XYZ'
-    st['ridges'] = ridges(film, kit, land) if land is not None else []
+    st['ridges'] = ridges(film, kit, land, soft=kitscene) if land is not None else []
     sc.view_settings.exposure = 0.2
 
 

@@ -256,3 +256,8 @@ def all_scene_objects(film):
 
 def lights(bpy):
     return list(bpy.data.lights)
+
+
+def is_kit(film):
+    """True when the film is a kit-built scene behind art/_adapter.py (the seasons loop), not the line engine's Film."""
+    return getattr(film, 'kind', None) == 'kit'
