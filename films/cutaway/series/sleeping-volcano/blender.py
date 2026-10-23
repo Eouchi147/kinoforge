@@ -133,7 +133,7 @@ def mat_magma(kit, name, front=False, flow=0.25, base=3.0):
     return m
 
 
-def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.17, 0.14, 0.12), glow_col=(1.0, 0.38, 0.10), soft=1.6, scale=2.4):
+def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.42, 0.36, 0.32), glow_col=(1.0, 0.38, 0.10), soft=1.6, scale=2.4):
     """Smoke or steam card: a soft round puff broken by noise that evolves in t. Per-object colour drives it:
     R = opacity, G = darkness (steam to ash), B = glow from below (lava light)."""
     m = cw._new_mat(kit.bpy, name); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); oi = g.node('ShaderNodeObjectInfo'); t_val = ex.time_value(kit, g)
@@ -142,14 +142,15 @@ def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.17, 0.14, 0.12), glow_c
     r = g.math('MULTIPLY', g.math('SQRT', g.math('ADD', g.math('MULTIPLY', dx, dx), g.math('MULTIPLY', dy, dy))), 2.0)
     fall = g.math('POWER', g.math('SUBTRACT', 1.0, r, clamp=True), soft)
     q = g.comb(g.math('MULTIPLY', gx, scale), g.math('MULTIPLY', gy, scale), g.math('MULTIPLY', oi.outputs['Random'], 40.0))
-    n = g.noise(q, 1.6, 5.0, 0.62, '4D', g.math('ADD', g.math('MULTIPLY', t_val, 0.18), g.math('MULTIPLY', oi.outputs['Random'], 9.0)), distortion=0.4)
-    den = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.22), 3.4, clamp=True)
+    n = g.noise(q, 1.5, 3.0, 0.55, '4D', g.math('ADD', g.math('MULTIPLY', t_val, 0.18), g.math('MULTIPLY', oi.outputs['Random'], 9.0)), distortion=0.4)
+    den = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.20), 2.4, clamp=True)
     a = g.math('MULTIPLY', g.math('MULTIPLY', fall, den), oc[0], clamp=True)
     col = g.mix(oc[1], srgb(steam), srgb(ash))
     shade = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.6), col, g.mix(0.5, col, (0, 0, 0), 'MULTIPLY'))
+    shade = g.mix(1.0, shade, (1.0, 0.80, 0.62), 'MULTIPLY')          # warm: the cool sky fill must not turn the smoke blue
     df = g.node('ShaderNodeBsdfDiffuse', ins={'Color': shade})
-    em = g.node('ShaderNodeEmission'); g.put(em, 'Color', g.mix(g.math('MINIMUM', oc[2], 1.0), g.mix(1.0, shade, (0.30, 0.26, 0.24), 'MULTIPLY'), srgb(glow_col)))
-    g.put(em, 'Strength', g.math('ADD', 0.35, g.math('MULTIPLY', oc[2], g.math('MULTIPLY', g.math('SUBTRACT', 1.0, gy, clamp=True), 2.2))))   # a little self light: no blue cast from the sky fill
+    em = g.node('ShaderNodeEmission'); g.put(em, 'Color', g.mix(g.math('MINIMUM', oc[2], 1.0), g.mix(1.0, shade, (0.5, 0.5, 0.5), 'MULTIPLY'), srgb(glow_col)))
+    g.put(em, 'Strength', g.math('ADD', 0.45, g.math('MULTIPLY', oc[2], g.math('MULTIPLY', g.math('SUBTRACT', 1.0, gy, clamp=True), 2.2))))   # a little self light: no blue cast from the sky fill
     ad = g.node('ShaderNodeAddShader'); g.link(df, ad.inputs[0]); g.link(em, ad.inputs[1])
     tr = g.node('ShaderNodeBsdfTransparent'); mx = g.node('ShaderNodeMixShader')
     g.link(a, mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(ad, mx.inputs[2]); cw._finish(g, mx)
@@ -181,7 +182,7 @@ class Plume:
             off = np.array([P['wind'][0] * a + P['spread'] * jit[0] * a, P['wind'][1] * a + P['spread'] * jit[1] * a, P['rise'] * (a ** 0.8)])
             ob.location = tuple(self.vent + off)
             s = P['size'] * (0.35 + P['grow'] * a ** 0.7) * (1 + 0.15 * jit[2]); ob.scale = (s, s, s)
-            fade = math.sin(math.pi * min(1.0, a * 1.15)) ** 1.2 if a < 0.87 else 0.0
+            fade = sm(0.0, 0.07, a) * (1.0 - sm(0.55, 0.92, a))          # dense right from the vent, thinning as it rises
             ob.color = (P['opacity'] * fade, P['dark'] * (0.7 + 0.3 * a), P['glow'] * (1 - a) ** 2, 1.0)
             ob['spin'] = spin * t
     def face(self, cam):
@@ -453,11 +454,11 @@ def build(bpy, ctx):
     lava, entry = lava_stream(kit, land)
     fountain(kit, vent)
     embers(kit, vent)
-    smoke_m = mat_card(kit, 'sv_smoke')
+    smoke_m = mat_card(kit, 'sv_smoke', soft=1.25)
     def crater_p(t):
         s1 = sm(*T_SMOKE, t); e = sm(T_ERUPT - 0.3, T_ERUPT + 2.0, t)
-        return {'period': 5.0 - 1.0 * e, 'rise': 0.45 + 0.45 * s1 + 1.0 * e, 'spread': 0.05 + 0.10 * e, 'size': 0.16 + 0.10 * s1 + 0.38 * e, 'grow': 1.6 + 0.8 * e,
-                'opacity': 0.55 + 0.40 * s1 + 0.25 * e, 'dark': 0.08 + 0.60 * s1 + 0.30 * e, 'glow': 0.9 * e, 'wind': (0.14 + 0.18 * e, 0.30 + 0.35 * e)}
+        return {'period': 5.0 - 1.0 * e, 'rise': 0.45 + 0.35 * s1 + 0.55 * e, 'spread': 0.05 + 0.12 * e, 'size': 0.16 + 0.10 * s1 + 0.30 * e, 'grow': 1.6 + 0.6 * e,
+                'opacity': 0.55 + 0.40 * s1 + 0.25 * e, 'dark': 0.08 + 0.60 * s1 + 0.30 * e, 'glow': 1.7 * e, 'wind': (0.14 + 0.10 * e, 0.30 + 0.20 * e)}
     plume = Plume(kit, 'sv_plume', smoke_m, vent + np.array([0, 0.03, 0.0]), 18, crater_p, 41)
     steam_m = mat_card(kit, 'sv_steam', steam=(0.96, 0.95, 0.95), ash=(0.80, 0.78, 0.78), glow_col=(1.0, 0.45, 0.18))
     def steam_p(t):
@@ -509,11 +510,11 @@ def shot_pose(S, name, u, t):
         tgt = np.array((tu, -SX / 2, tz)); pos = np.array((tu + 0.38 + 0.25 * e, -SX / 2 - D * math.cos(el), tz + D * math.sin(el)))
         return pos, tgt, 38.0, float(np.linalg.norm(pos - tgt)), 6.0, 0.0, 0.0
     # eruption at dusk: low wide three-quarter, a slow arc; the ground shakes once at the first burst
-    e = ex.ease(u); az = math.radians(-50 + 7 * e); el = math.radians(9.0 + 1.5 * e); D = 7.9 - 0.3 * e
-    tgt = np.array((0.10, -0.40, -0.40))
+    e = ex.ease(u); az = math.radians(-50 + 7 * e); el = math.radians(9.0 + 1.5 * e); D = 7.4 - 0.3 * e
+    tgt = np.array((0.10, -0.40, -0.12))
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
     k = max(0.0, t - T_ERUPT); shake = 0.006 * math.exp(-2.5 * k) * math.sin(38 * k) if t > T_ERUPT else 0.0
-    return pos + np.array((0, 0, shake)), tgt, 32.0, D, 9.0, 0.0, shake
+    return pos + np.array((0, 0, shake)), tgt, 28.0, D, 9.0, 0.0, shake
 
 
 def frame(bpy, ctx, S, i, t):
