@@ -86,7 +86,7 @@ Nature recordings only (no music, no voice). Times in seconds.
 | Hiker | appears at 14.0 s, walks 14.6 to 18.2 s, turns to look along the canyon 18.2 to 19.4 s |
 | Deer | the first lifts its head at 4.2 s and lowers it at 5.6 s; the second at 17.2 s and 19.0 s |
 
-Check stills (frames): 30 (then, title), 120 (then, time racing), 160 and 230 (ages, ammonite), 290 and 330 (ages, fish and
+Check stills (frames, best still: 300, all three fossils in one frame): 30 (then, title), 120 (then, time racing), 160 and 230 (ages, ammonite), 290 and 330 (ages, fish and
 trilobite), 360, 400, 470 and 479 (today).
 
 ## Render cost (measured on Sam's Mac, M4 GPU, METAL, 1280x720, 20 spp)
@@ -95,8 +95,11 @@ trilobite), 360, 400, 470 and 479 (today).
 | --- | --- | --- |
 | 1 | 24, 130, 200, 280, 330, 440 | 3.1 to 6.3 |
 | 3 | 30, 215, 290, 330, 400, 470 | 2.9 to 4.6 (job wall 5 to 7 s each, scene build 1.5 s) |
+| 4 | 30, 120, 160, 230, 360, 479 | 3.7 to 16.3 (the lane was busier) |
+| 5 | 30, 120, 300 | 11.4 to 12.5 (same scene as round 4 plus a lower sun; the lane was busier) |
 
-So the whole film (480 frames) is about 25 to 40 minutes on the Mac. Settings: adaptive sampling (threshold 0.03), OIDN,
+So the whole film (480 frames) is about 30 minutes on an idle Mac (about 4 s a frame) and up to about 2 hours when the
+Mac is busy (up to 16 s a frame, still inside the 15 to 20 s target). Settings: adaptive sampling (threshold 0.03), OIDN,
 max bounces 4 (diffuse 1, glossy 1, transmission 4), no volumes (haze is cards), no motion blur. The heavy parts are the
 grass (about 10,000 tufts), the glass water and the 37k-vertex top that is rebuilt every frame (cheap: numpy).
 
