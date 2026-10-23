@@ -1,5 +1,12 @@
 # Status (updated 23 Oct 2026, director paid mode)
 
+## Sam's external drive (23 Oct)
+- Samsung X5 (1.9 TB, 816 GB free) connected to this session as a folder. `KINOFORGE/films/` holds an archive of every
+  finished film (18 plus the six series films, sizes checked against the releases); `KINOFORGE/frames/` the series
+  frames. Mac lane jobs now write frames there (`docs/PLAYBOOKS/render-on-the-mac.md`). The lane stopped at 07:49
+  Toronto (Blender restarted); it restarts the next time a Mac render is needed. A one-frame test job (`0-drive-test.json`) waits in
+  `mac-jobs/` to prove Blender can write to the drive. `KINOFORGE/_to_delete/` holds 11 empty files from a failed iCloud copy.
+
 ## Cutaway showcase series (Sam, 22 Oct 22:18; due on his wake, 23 Oct morning)
 - Six 20 s films, no voice, CC0 nature recordings plus a quiet score (`films/cutaway/series/README.md`). Final files go to
   Sam's Mac `Video Production/kino-films/series/`.
