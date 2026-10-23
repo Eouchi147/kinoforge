@@ -39,20 +39,22 @@ Beds: stream to river, wind; spots: falling stones, fossil ticks, birds and step
 
 ## Under the City (`under-the-city`)
 
-Street at dusk and a bus, water in pipes and sewer, a rat, the metro, cave stillness and drips. Measured: -18.12 LUFS, peak -1.96 dBFS, 20.0 s.
+Street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, the metro, stillness in old stone, the city faintly back with a far train. Measured: -18.18 LUFS, peak -1.97 dBFS, 20.0 s.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `cave_2` | bed 12.2-20.0 s | https://bigsoundbank.com/s2136.html |
-| `drops_2` | bed 7.0-16.5 s | https://bigsoundbank.com/s1385.html |
-| `drops_3` | drip in the ruins at 14.10 s | https://bigsoundbank.com/s1386.html |
-| `drops_4` | drip by the bones at 17.80 s | https://bigsoundbank.com/s1387.html |
-| `london_bus` | bus passes at 1.60 s | https://bigsoundbank.com/s0644.html |
-| `metro_paris_1` | a train far above at 16.30 s | https://bigsoundbank.com/s0090.html |
+| `cave_2` | bed 11.3-20.0 s | https://bigsoundbank.com/s2136.html |
+| `drops_3` | slow drip on the Roman floor at 13.90 s | https://bigsoundbank.com/s1386.html |
+| `drops_4` | drip into the sewer at 6.70 s; drip into the sewer at 8.40 s; drip into the sewer at 10.10 s | https://bigsoundbank.com/s1387.html |
+| `evening_birds` | bed 0.0-5.0 s | https://bigsoundbank.com/s1859.html |
+| `fall_of_stone` | a trickle of grit at 12.40 s | https://bigsoundbank.com/s1022.html |
+| `london_bus` | bus passes left to right at 0.20 s; faint bus on top at 15.50 s | https://bigsoundbank.com/s0644.html |
 | `mouse_screams` | rat squeaks at 8.40 s | https://bigsoundbank.com/s0459.html |
-| `paris_by_night` | bed 0.0-6.0 s; bed 3.5-8.0 s | https://bigsoundbank.com/s0680.html |
-| `sewer_1` | bed 4.5-10.5 s | https://bigsoundbank.com/s0607.html |
-| `train_passage_1` | metro passes at 9.40 s | https://bigsoundbank.com/s0900.html |
+| `paris_by_night` | bed 0.0-6.0 s; bed 3.5-7.5 s; bed 15.3-20.0 s | https://bigsoundbank.com/s0680.html |
+| `pencil_2` | rat claws at 6.90 s; rat claws at 7.02 s; rat claws at 7.14 s; rat claws at 7.26 s; rat claws at 7.38 s; rat claws at 7.50 s; rat claws at 7.62 s; rat claws at 7.74 s; rat bolts at 10.00 s; rat bolts at 10.08 s; rat bolts at 10.16 s; rat bolts at 10.24 s; rat bolts at 10.32 s; rat bolts at 10.40 s | https://bigsoundbank.com/s3233.html |
+| `sewer_1` | bed 4.5-10.9 s | https://bigsoundbank.com/s0607.html |
+| `steam_hiss_1` | manhole steam at 0.30 s | https://bigsoundbank.com/s0227.html |
+| `train_passage_1` | metro roars past at 8.74 s; rumble before the train at 9.60 s; second train far below at 16.10 s | https://bigsoundbank.com/s0900.html |
 
 ## The Hidden Meadow (`hidden-meadow`)
 

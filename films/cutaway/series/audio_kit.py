@@ -134,14 +134,18 @@ class Mix:
         return self
 
     def spot(self, name, t, gain=0.0, p=0.0, start=0.0, length=None, hp=None, lp=None, speed=1.0, fi=0.005, fo=0.05,
-             trim=True, width=1.0, label=''):
-        """One recording placed so its onset lands at t (seconds)."""
+             trim=True, width=1.0, label='', sweep=None):
+        """One recording placed so its onset lands at t (seconds); `length` is the heard length (after any slowing);
+        sweep=(p0, p1) moves it across the frame (a bus or a train passing)."""
         x = load(name)[int(start * SR):]
-        if length is not None: x = x[:int(length * SR / speed)]
+        if length is not None: x = x[:int(length * SR * speed)]
         if trim: x = onset(x)
         x = shape(x, hp, lp, speed, width)
         x = fades(x, fi, fo) * db(gain)
         if p: x = pan(x, p)
+        if sweep is not None:
+            a = (np.clip(np.linspace(sweep[0], sweep[1], len(x)), -1, 1) + 1) * np.pi / 4
+            x = x * np.stack([np.cos(a), np.sin(a)], 1).astype(np.float32) * 1.414
         i = int(round(t * SR))
         if i < 0: x = x[-i:]; i = 0
         m = min(len(x), N - i)

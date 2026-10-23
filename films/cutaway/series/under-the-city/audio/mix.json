@@ -1,47 +1,72 @@
 {
  "seconds_wav": 20.0,
  "seconds_m4a": 20.0,
- "lufs": -18.04,
+ "lufs": -18.11,
  "peak_dbfs": -2.0,
- "m4a_decoded_lufs": -18.12,
- "m4a_decoded_peak_dbfs": -1.96,
+ "m4a_decoded_lufs": -18.18,
+ "m4a_decoded_peak_dbfs": -1.97,
  "sample_rate": 48000,
  "codec": "aac 256k stereo",
  "fade_in_s": 0.8,
  "fade_out_s": 1.2,
  "sources": {
   "cave_2": [
-   "bed 12.2-20.0 s"
-  ],
-  "drops_2": [
-   "bed 7.0-16.5 s"
+   "bed 11.3-20.0 s"
   ],
   "drops_3": [
-   "drip in the ruins at 14.10 s"
+   "slow drip on the Roman floor at 13.90 s"
   ],
   "drops_4": [
-   "drip by the bones at 17.80 s"
+   "drip into the sewer at 6.70 s",
+   "drip into the sewer at 8.40 s",
+   "drip into the sewer at 10.10 s"
+  ],
+  "evening_birds": [
+   "bed 0.0-5.0 s"
+  ],
+  "fall_of_stone": [
+   "a trickle of grit at 12.40 s"
   ],
   "london_bus": [
-   "bus passes at 1.60 s"
-  ],
-  "metro_paris_1": [
-   "a train far above at 16.30 s"
+   "bus passes left to right at 0.20 s",
+   "faint bus on top at 15.50 s"
   ],
   "mouse_screams": [
    "rat squeaks at 8.40 s"
   ],
   "paris_by_night": [
    "bed 0.0-6.0 s",
-   "bed 3.5-8.0 s"
+   "bed 3.5-7.5 s",
+   "bed 15.3-20.0 s"
+  ],
+  "pencil_2": [
+   "rat claws at 6.90 s",
+   "rat claws at 7.02 s",
+   "rat claws at 7.14 s",
+   "rat claws at 7.26 s",
+   "rat claws at 7.38 s",
+   "rat claws at 7.50 s",
+   "rat claws at 7.62 s",
+   "rat claws at 7.74 s",
+   "rat bolts at 10.00 s",
+   "rat bolts at 10.08 s",
+   "rat bolts at 10.16 s",
+   "rat bolts at 10.24 s",
+   "rat bolts at 10.32 s",
+   "rat bolts at 10.40 s"
   ],
   "sewer_1": [
-   "bed 4.5-10.5 s"
+   "bed 4.5-10.9 s"
+  ],
+  "steam_hiss_1": [
+   "manhole steam at 0.30 s"
   ],
   "train_passage_1": [
-   "metro passes at 9.40 s"
+   "metro roars past at 8.74 s",
+   "rumble before the train at 9.60 s",
+   "second train far below at 16.10 s"
   ]
  },
  "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
- "notes": "street at dusk and a bus, water in pipes and sewer, a rat, the metro, cave stillness and drips"
+ "notes": "street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, the metro, stillness in old stone, the city faintly back with a far train"
 }
