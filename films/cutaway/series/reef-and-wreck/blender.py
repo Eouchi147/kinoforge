@@ -291,14 +291,14 @@ def chest(kit, land):
 
 
 # ============================================================================== life
-def school(kit, n=34, center=(0.05, -1.30, -0.46), rx=0.55, ry=0.26):
+def school(kit, n=34, center=(-0.05, -1.25, -0.44), rx=0.55, ry=0.26):
     body = ex.mat_pbr(kit, 'rw_fishbody', (0.55, 0.72, 0.86), 0.3, metallic=0.5, film=340.0)
     tailm = ex.mat(kit, 'rw_fishtail', (1.0, 0.82, 0.18), 0.5, sss=0.3); eye = ex.mat(kit, 'ex_dark', (0.05, 0.04, 0.04), 0.3)
     rng = np.random.default_rng(71); ts = np.linspace(0, DURATION + 1, 2400); v0 = 0.24
     vel = v0 * (1 - 2 * np.array([ex.ease((t - T_TURN) / 0.9) for t in ts]))
     phi = np.concatenate([[0], np.cumsum(0.5 * (vel[1:] + vel[:-1]) * np.diff(ts))])
     def center_at(t):
-        p = np.interp(t, ts, phi) / max(rx, ry) + 1.3
+        p = np.interp(t, ts, phi) / max(rx, ry) + 0.43          # phase chosen so the turn happens beside the diver, in frame
         return np.array([center[0] + rx * math.cos(p), center[1] + ry * math.sin(p), center[2] + 0.05 * math.sin(0.5 * t)]), p
     fish = []
     for k in range(n):
@@ -321,7 +321,7 @@ def school(kit, n=34, center=(0.05, -1.30, -0.46), rx=0.55, ry=0.26):
     kit.on_frame(pose); pose(0.0)
 
 
-def turtle(kit, path=((1.75, -1.72, -0.34), (0.6, -1.74, -0.30), (-0.4, -1.70, -0.24), (-1.4, -1.62, -0.20)), t0=0.0, t1=20.0):
+def turtle(kit, path=((1.75, -1.72, -0.40), (0.6, -1.74, -0.47), (-0.4, -1.70, -0.45), (-1.4, -1.62, -0.36)), t0=0.0, t1=20.0):
     shell = cw._new_mat(kit.bpy, 'rw_shell'); g = G(shell.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
     vo = g.voronoi(g.vmath('MULTIPLY', tc.outputs['Object'], (1.0, 1.3, 1.0)), 28.0, 'DISTANCE_TO_EDGE'); n = g.noise(tc.outputs['Object'], 60.0, 4.0)
     col = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.8), srgb((0.36, 0.30, 0.16)), srgb((0.56, 0.42, 0.20)))
@@ -616,7 +616,7 @@ def frame(bpy, ctx, S, i, t):
     S['kit'].update(t)
     tl = ctx['timeline'].at(t); pos, tgt, lens, focus, fstop = shot_pose(S, tl['name'], tl['u'], t)
     S['cam'].set(pos, tgt, lens, focus, fstop); S['rays'].update(pos); S['rays'].gain.default_value = RAY_GAIN[tl['name']]
-    S['glow'].data.energy = 0.35 + (0.9 * ex.ease((t - 16.6) / 1.0) * (0.85 + 0.15 * math.sin(2 * math.pi * 1.3 * t)) if t > 16.6 else 0.0)
+    S['glow'].data.energy = 0.35 + (1.8 * ex.ease((t - 16.6) / 1.0) * (0.85 + 0.15 * math.sin(2 * math.pi * 1.3 * t)) if t > 16.6 else 0.0)
     a = ex.ease(t / 0.7) * (1 - ex.ease((t - 1.9) / 0.6)); S['talpha'].default_value = a; S['title'].hide_render = a <= 0.001
     if a > 0.001:                 # set in the camera's view at the focus distance (sharp), upper third
         cam = S['cam'].ob; d = focus * 0.9; hw = d * 18.0 / lens; hh = hw * ctx['H'] / ctx['W']
