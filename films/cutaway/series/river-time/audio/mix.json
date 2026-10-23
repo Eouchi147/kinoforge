@@ -3,37 +3,46 @@
  "seconds_m4a": 20.0,
  "lufs": -18.0,
  "peak_dbfs": -2.0,
- "m4a_decoded_lufs": -18.14,
- "m4a_decoded_peak_dbfs": -2.02,
+ "m4a_decoded_lufs": -18.12,
+ "m4a_decoded_peak_dbfs": -1.67,
  "sample_rate": 48000,
  "codec": "aac 256k stereo",
  "fade_in_s": 0.8,
  "fade_out_s": 1.2,
  "sources": {
   "evening_birds": [
-   "bed 15.4-20.0 s"
+   "bed 13.4-20.0 s"
   ],
   "fall_of_stone": [
-   "stones fall at 5.60 s",
-   "stones fall at 8.30 s",
-   "stones fall at 11.10 s",
-   "stones fall at 13.40 s"
+   "stones fall at 5.40 s",
+   "stones fall at 7.60 s",
+   "stones fall at 9.60 s",
+   "stones fall at 11.60 s",
+   "stones fall at 13.20 s"
   ],
   "mountain_stream_1": [
-   "bed 3.0-20.0 s"
+   "bed 2.6-20.0 s"
   ],
   "small_stream_4": [
-   "bed 0.0-16.5 s"
+   "bed 0.0-15.5 s"
   ],
   "steps_gravel_1": [
-   "hiker steps at 16.70 s",
-   "hiker steps at 17.25 s",
-   "hiker steps at 17.80 s",
-   "hiker steps at 18.35 s"
+   "hiker steps at 14.91 s",
+   "hiker steps at 15.22 s",
+   "hiker steps at 15.54 s",
+   "hiker steps at 15.85 s",
+   "hiker steps at 16.16 s",
+   "hiker steps at 16.48 s",
+   "hiker steps at 16.79 s",
+   "hiker steps at 17.10 s",
+   "hiker steps at 17.41 s",
+   "hiker steps at 17.73 s",
+   "hiker steps at 18.04 s"
   ],
   "steps_stone_stair": [
-   "fossil revealed at 9.20 s",
-   "fossil revealed at 12.20 s"
+   "fossil revealed at 8.50 s",
+   "fossil revealed at 10.30 s",
+   "fossil revealed at 12.10 s"
   ],
   "wind_plain": [
    "bed 4.0-20.0 s"

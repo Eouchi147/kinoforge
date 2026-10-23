@@ -14,14 +14,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
 import audio_kit as K  # noqa: E402
 
-# Events (s): from the film's NOTES.md event table when it lands, else the README story.
+# Events (s): blender.py (shots then 0-6, ages 6-14, today 14-20; the hiker walks 14.6 to 18.2 at 1.6 strides a
+# second, so a step every 0.3125 s); fossil times are estimates until NOTES.md gives them.
 EV = {
-    'title_end': 2.0,          # title gone, the block and its trickle
-    'cut_deepens': (3.0, 15.0),  # ages pass, the water cuts down
-    'stones': [5.6, 8.3, 11.1, 13.4],  # layers give way, stones fall
-    'fossils': [9.2, 12.2],    # fossils revealed in the walls (a dry tick of stone)
-    'today': 16.0,             # the present: the hiker on the rim
-    'steps': [16.7, 17.25, 17.8, 18.35],
+    'title_end': 2.0,
+    'cut_deepens': (2.6, 14.0),     # time races, the water cuts down
+    'stones': [5.4, 7.6, 9.6, 11.6, 13.2],
+    'fossils': [8.5, 10.3, 12.1],   # an ammonite, a fish, a trilobite bared in the wall
+    'today': 14.0,                  # time has stopped: golden hour, birds over the canyon
+    'steps': [14.6 + 0.3125 * k for k in range(1, 12)],
 }
 
 
@@ -37,14 +38,14 @@ def main():
     m.bed('wind_plain', start=5, gain=-14, hp=90, lp=4000, t0=4, t1=20, fi=4, fo=1,
           env=[(4, -12), (t1, 0), (EV['today'], -3), (20, -5)])
     for k, t in enumerate(EV['stones']):
-        m.spot('fall_of_stone', t, gain=-10 - 2 * (k % 2), p=(-0.4, 0.35, -0.2, 0.5)[k], start=(0.5, 6.0, 12.0, 18.0)[k],
+        m.spot('fall_of_stone', t, gain=-10 - 2 * (k % 2), p=(-0.4, 0.35, -0.2, 0.5, 0.1)[k], start=(0.5, 6.0, 12.0, 18.0, 25.0)[k],
                length=1.6, hp=80, fo=0.6, label='stones fall')
     for k, t in enumerate(EV['fossils']):
-        m.spot('steps_stone_stair', t, gain=-20, p=(0.3, -0.3)[k], start=1.0 + k, length=0.3, hp=400, fo=0.1, label='fossil revealed')
+        m.spot('steps_stone_stair', t, gain=-20, p=(0.3, -0.3, 0.1)[k], start=1.0 + 3 * k, length=0.3, hp=400, fo=0.1, label='fossil revealed')
     # today: open air, a few birds far off, the hiker's steps on the rim gravel
     m.bed('evening_birds', start=30, gain=-16, hp=900, t0=EV['today'] - 0.6, t1=20, fi=1.2, fo=1.0)
     for k, t in enumerate(EV['steps']):
-        m.spot('steps_gravel_1', t, gain=-15, p=0.25, start=0.4 + 0.55 * k, length=0.5, hp=120, fo=0.15, label='hiker steps')
+        m.spot('steps_gravel_1', t, gain=-19 - 0.4 * k, p=0.25, start=0.3 + 0.8 * k, length=0.28, hp=150, fo=0.1, label='hiker steps')
     m.master(HERE, notes='beds: stream to river, wind; spots: falling stones, fossil ticks, birds and steps of today')
 
 

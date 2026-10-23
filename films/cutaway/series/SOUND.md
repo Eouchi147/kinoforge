@@ -25,16 +25,16 @@ where the story asks for it (the meadow before the hawk, the bottom under the ci
 
 ## The River Through Time (`river-time`)
 
-Beds: stream to river, wind; spots: falling stones, fossil ticks, birds and steps of today. Measured: -18.14 LUFS, peak -2.02 dBFS, 20.0 s.
+Beds: stream to river, wind; spots: falling stones, fossil ticks, birds and steps of today. Measured: -18.12 LUFS, peak -1.67 dBFS, 20.0 s.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `evening_birds` | bed 15.4-20.0 s | https://bigsoundbank.com/s1859.html |
-| `fall_of_stone` | stones fall at 5.60 s; stones fall at 8.30 s; stones fall at 11.10 s; stones fall at 13.40 s | https://bigsoundbank.com/s1022.html |
-| `mountain_stream_1` | bed 3.0-20.0 s | https://bigsoundbank.com/s2754.html |
-| `small_stream_4` | bed 0.0-16.5 s | https://bigsoundbank.com/s1354.html |
-| `steps_gravel_1` | hiker steps at 16.70 s; hiker steps at 17.25 s; hiker steps at 17.80 s; hiker steps at 18.35 s | https://bigsoundbank.com/s0510.html |
-| `steps_stone_stair` | fossil revealed at 9.20 s; fossil revealed at 12.20 s | https://bigsoundbank.com/s0606.html |
+| `evening_birds` | bed 13.4-20.0 s | https://bigsoundbank.com/s1859.html |
+| `fall_of_stone` | stones fall at 5.40 s; stones fall at 7.60 s; stones fall at 9.60 s; stones fall at 11.60 s; stones fall at 13.20 s | https://bigsoundbank.com/s1022.html |
+| `mountain_stream_1` | bed 2.6-20.0 s | https://bigsoundbank.com/s2754.html |
+| `small_stream_4` | bed 0.0-15.5 s | https://bigsoundbank.com/s1354.html |
+| `steps_gravel_1` | hiker steps at 14.91 s; hiker steps at 15.22 s; hiker steps at 15.54 s; hiker steps at 15.85 s; hiker steps at 16.16 s; hiker steps at 16.48 s; hiker steps at 16.79 s; hiker steps at 17.10 s; hiker steps at 17.41 s; hiker steps at 17.73 s; hiker steps at 18.04 s | https://bigsoundbank.com/s0510.html |
+| `steps_stone_stair` | fossil revealed at 8.50 s; fossil revealed at 10.30 s; fossil revealed at 12.10 s | https://bigsoundbank.com/s0606.html |
 | `wind_plain` | bed 4.0-20.0 s | https://bigsoundbank.com/s0595.html |
 
 ## Under the City (`under-the-city`)
@@ -58,30 +58,33 @@ Street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, t
 
 ## The Hidden Meadow (`hidden-meadow`)
 
-Birdsong, crickets and a bee above; muffled below with the mole and ants; silence and wings for the hawk. Measured: -18.05 LUFS, peak -2.0 dBFS, 20.0 s.
+Birdsong, crickets and bees above; muffled below with the mole and the ants; silence and wings for the hawk, the rabbits run; the meadow breathes again. Measured: -18.05 LUFS, peak -2.3 dBFS, 20.0 s.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `birds_waking_3` | bed 0.0-20.0 s; bed 4.5-13.0 s | https://bigsoundbank.com/s0999.html |
-| `bumblebee_1` | bumblebee at 2.60 s | https://bigsoundbank.com/s1000.html |
-| `dig_shovel` | mole digs at 7.20 s; mole digs at 7.90 s; mole digs at 8.50 s | https://bigsoundbank.com/s1305.html |
-| `field_cricket` | bed 0.0-20.0 s | https://bigsoundbank.com/s1020.html |
-| `flight_bird_1` | hawk wings pass at 13.00 s | https://bigsoundbank.com/s2891.html |
-| `steps_mud` | ants (tiny scratching) at 9.00 s; rabbit dives at 13.90 s; rabbit dives at 14.30 s; rabbit dives at 14.60 s | https://bigsoundbank.com/s0495.html |
+| `birds_waking_3` | bed 0.0-20.0 s; bed 5.5-12.8 s | https://bigsoundbank.com/s0999.html |
+| `bumblebee_1` | a bee crosses at 1.40 s | https://bigsoundbank.com/s1000.html |
+| `bumblebee_2` | a bee crosses at 4.20 s | https://bigsoundbank.com/s1001.html |
+| `countryside` | bed 5.5-12.8 s | https://bigsoundbank.com/s0097.html |
+| `dig_shovel` | the mole digs at 7.90 s; the mole digs at 8.50 s; the mole digs at 9.20 s | https://bigsoundbank.com/s1305.html |
+| `field_cricket` | bed 0.0-20.0 s; bed 5.5-12.8 s | https://bigsoundbank.com/s1020.html |
+| `flight_bird_1` | hawk wings pass over at 12.90 s | https://bigsoundbank.com/s2891.html |
+| `steps_mud` | ants scratching at 10.90 s; rabbits bolt at 13.50 s; rabbits bolt at 13.75 s; rabbits bolt at 14.00 s; rabbits bolt at 14.30 s; safe in the warren at 15.15 s; safe in the warren at 15.40 s | https://bigsoundbank.com/s0495.html |
 
 ## Reef and Wreck (`reef-and-wreck`)
 
-Surf and gulls; underwater hush with the surf through water; reef bubbles; hull creaks; diver splash. Measured: -18.14 LUFS, peak -2.0 dBFS, 20.0 s.
+Surf and terns, the roll and splash; underwater hush with the surf through water; her breath bubbles; the school turns; the hull creaks. Measured: -18.24 LUFS, peak -1.74 dBFS, 20.0 s.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `bubbles_burst` | turtle breath bubbles at 9.50 s; diver bubbles at 17.15 s | https://bigsoundbank.com/s1074.html |
-| `creaking_door_2` | the hull creaks at 12.40 s; the hull creaks at 14.60 s | https://bigsoundbank.com/s3205.html |
-| `gulls_harbor` | gulls at 0.60 s | https://bigsoundbank.com/s2573.html |
-| `small_waves_ocean` | bed 0.0-20.0 s; bed 4.2-20.0 s | https://bigsoundbank.com/s1046.html |
-| `splash_big_1` | diver splash (above) at 16.80 s | https://bigsoundbank.com/s1519.html |
-| `underwater` | bed 3.9-20.0 s | https://bigsoundbank.com/s3430.html |
-| `water_bubbles` | reef bubbles at 6.40 s | https://bigsoundbank.com/s0150.html |
+| `bubbles_burst` | foam fizz at 5.55 s; her breath bubbles up at 8.20 s; her breath bubbles up at 11.60 s; her breath bubbles up at 15.00 s; her breath bubbles up at 18.30 s | https://bigsoundbank.com/s1074.html |
+| `creaking_door_2` | the boat rocks as she rolls at 4.80 s; the hull creaks at 14.10 s; the hull creaks at 16.30 s | https://bigsoundbank.com/s3205.html |
+| `sea_tern` | bed 0.0-7.4 s | https://bigsoundbank.com/s0267.html |
+| `small_waves_ocean` | bed 0.0-20.0 s; bed 6.6-20.0 s | https://bigsoundbank.com/s1046.html |
+| `splash_big_1` | the diver splashes in at 5.35 s | https://bigsoundbank.com/s1519.html |
+| `underwater` | bed 6.5-20.0 s | https://bigsoundbank.com/s3430.html |
+| `water_bubbles` | the reef fizzes as the turtle passes at 10.50 s | https://bigsoundbank.com/s0150.html |
+| `whoosh_3` | the school turns (a rush of water) at 10.05 s | https://bigsoundbank.com/s1795.html |
 
 ## The Gold Mine (`gold-mine`)
 
@@ -109,21 +112,25 @@ Night wind, crickets, owl and the miner's steps; cave air and lanterns; cart, la
 
 ## The Sleeping Volcano (`sleeping-volcano`)
 
-Surf and birds; slow boil and rumble below; rock cracks; birds lift; steam; the eruption roar, fire, falling stones. Measured: -18.07 LUFS, peak -1.97 dBFS, 20.0 s.
+Surf, gulls and birds; slow boil and rumble growing below; rock cracks; birds lift; steam to smoke; the eruption roar, fire, falling stones, the sea hissing under the lava. Measured: -18.09 LUFS, peak -1.98 dBFS, 20.0 s.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `big_broth` | bed 3.5-20.0 s | https://bigsoundbank.com/s0491.html |
-| `crows_1` | alarm calls as they lift at 11.20 s | https://bigsoundbank.com/s0754.html |
-| `fall_of_stone` | stones fall back at 16.40 s; stones fall back at 17.40 s; stones fall back at 18.20 s | https://bigsoundbank.com/s1022.html |
-| `fireplace_2` | bed 15.1-20.0 s | https://bigsoundbank.com/s0031.html |
-| `flight_bird_2` | birds lift at 11.05 s | https://bigsoundbank.com/s2892.html |
-| `flight_pigeon` | birds lift at 10.80 s | https://bigsoundbank.com/s0840.html |
-| `forest` | bed 0.0-11.4 s | https://bigsoundbank.com/s0100.html |
-| `ice_crack_1` | rock cracks as magma rises at 7.20 s | https://bigsoundbank.com/s2205.html |
-| `ice_crack_2` | rock cracks as magma rises at 8.60 s | https://bigsoundbank.com/s2206.html |
-| `ice_crack_3` | rock cracks as magma rises at 9.80 s | https://bigsoundbank.com/s2207.html |
+| `big_broth` | bed 4.0-20.0 s | https://bigsoundbank.com/s0491.html |
+| `crows_1` | alarm calls as they lift at 11.30 s | https://bigsoundbank.com/s0754.html |
+| `fall_of_stone` | stones fall back at 15.40 s; stones fall back at 16.30 s; stones fall back at 17.20 s | https://bigsoundbank.com/s1022.html |
+| `fireplace_2` | bed 14.5-20.0 s | https://bigsoundbank.com/s0031.html |
+| `flight_bird_1` | birds burst from the trees at 11.25 s | https://bigsoundbank.com/s2891.html |
+| `flight_bird_2` | birds burst from the trees at 11.10 s | https://bigsoundbank.com/s2892.html |
+| `flight_pigeon` | birds burst from the trees at 10.90 s | https://bigsoundbank.com/s0840.html |
+| `forest` | bed 0.0-11.3 s | https://bigsoundbank.com/s0100.html |
+| `gulls_harbor` | gulls at 1.00 s | https://bigsoundbank.com/s2573.html |
+| `ice_crack_1` | rock cracks as magma climbs at 7.80 s; rock cracks as magma climbs at 12.70 s | https://bigsoundbank.com/s2205.html |
+| `ice_crack_2` | rock cracks as magma climbs at 9.40 s | https://bigsoundbank.com/s2206.html |
+| `ice_crack_3` | rock cracks as magma climbs at 11.30 s | https://bigsoundbank.com/s2207.html |
 | `small_waves_ocean` | bed 0.0-20.0 s | https://bigsoundbank.com/s1046.html |
-| `steam_hiss_1` | steam from the vents at 11.80 s | https://bigsoundbank.com/s0227.html |
-| `thunder_2` | the eruption roars at 14.80 s | https://bigsoundbank.com/s3113.html |
-| `thunder_3` | bed 4.5-20.0 s | https://bigsoundbank.com/s3114.html |
+| `steam_hiss_1` | steam turns to smoke at 10.00 s | https://bigsoundbank.com/s0227.html |
+| `steam_hiss_3` | thin steam wisp at 0.80 s; the sea steams at 17.00 s | https://bigsoundbank.com/s3011.html |
+| `thunder_2` | the eruption roars at 14.20 s | https://bigsoundbank.com/s3113.html |
+| `thunder_3` | bed 5.0-20.0 s | https://bigsoundbank.com/s3114.html |
+| `water_that_burns` | lava meets the sea at 16.90 s | https://bigsoundbank.com/s0202.html |
