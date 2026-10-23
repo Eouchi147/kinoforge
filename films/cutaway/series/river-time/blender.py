@@ -179,9 +179,9 @@ def mat_land(kit, terr):
     fac = g.math('DIVIDE', s, total, clamp=True)
     col = g.ramp(fac, stops); pden = g.sep(g.ramp(fac, pst, 'CONSTANT'))[0]
     n1 = g.noise(pos, 70.0, 5.0, 0.6)
-    lam = g.noise(g.comb(g.math('MULTIPLY', hz, 0.6), g.math('MULTIPLY', s, 90.0), 0.0), 1.0, 2.0, 0.5)      # thin laminae
+    lam = g.noise(g.comb(g.math('MULTIPLY', hz, 4.0), g.math('MULTIPLY', s, 70.0), 0.0), 1.0, 2.0, 0.5)      # thin laminae
     col = g.mix(g.math('MULTIPLY', n1.outputs['Fac'], 0.40), col, g.mix(0.55, col, (0, 0, 0), 'MULTIPLY'))
-    col = g.mix(g.math('MULTIPLY', lam.outputs['Fac'], 0.30), col, g.mix(0.5, col, (1, 1, 1), 'SCREEN'))
+    col = g.mix(g.math('MULTIPLY', lam.outputs['Fac'], 0.18), col, g.mix(0.5, col, (1, 1, 1), 'SCREEN'))
     vp = g.voronoi(pos, 30.0, 'F1'); rr = g.sep(vp.outputs['Color'])
     radius = g.math('MULTIPLY', g.math('MULTIPLY', pden, 0.42), g.math('MULTIPLY_ADD', rr[0], 0.8, 0.4))
     peb = g.math('MULTIPLY', g.math('SUBTRACT', radius, vp.outputs['Distance']), 25.0, clamp=True)
@@ -421,7 +421,7 @@ def hiker(kit):
     bpy = kit.bpy; m = {k: ex.mat(kit, 'rt_h_' + k, c, r) for k, c, r in (('cloth', (0.20, 0.26, 0.34), 0.7), ('pack', (0.78, 0.16, 0.10), 0.6),
                                                                        ('skin', (0.78, 0.56, 0.42), 0.5), ('boot', (0.16, 0.12, 0.09), 0.8),
                                                                        ('hat', (0.86, 0.78, 0.58), 0.7), ('pole', (0.70, 0.70, 0.72), 0.3))}
-    root_ob = ex.empty(kit, 'rt_hiker'); root_ob.scale = (1.25, 1.25, 1.25)
+    root_ob = ex.empty(kit, 'rt_hiker'); root_ob.scale = (1.5, 1.5, 1.5)
     body = ex.part(kit, 'rt_hiker_body', [(*ex.ell((0, 0, 0.052), (0.0085, 0.0065, 0.016), 2), 0), (*ex.ell((-0.0085, 0, 0.055), (0.0055, 0.008, 0.012), 2), 1),
                                          (*ex.ell((0.001, 0, 0.0735), (0.0058, 0.0058, 0.0064), 2), 2), (*ex.ell((0.001, 0, 0.0785), (0.0085, 0.0085, 0.0018), 2), 3)],
                    [m['cloth'], m['pack'], m['skin'], m['hat']], root_ob)
@@ -432,7 +432,7 @@ def hiker(kit):
         legs.append((lg, side))
     arm = ex.part(kit, 'rt_hiker_arm', [(*cw._tube([(0, 0, 0), (0.004, 0, -0.012), (0.010, 0, -0.020)], [0.0024, 0.0022, 0.002], 6), 0),
                                         (*cw._tube([(0.010, 0, -0.020), (0.012, 0, 0.0), (0.016, 0, -0.06)], [0.0007] * 3, 4), 1)], [m['cloth'], m['pole']], root_ob, (0.001, -0.0095, 0.064))
-    A = np.array([1.03, -1.62]); B = np.array([0.80, -1.30]); T0, T1 = 14.6, 18.2
+    A = np.array([0.98, -1.62]); B = np.array([0.70, -1.30]); T0, T1 = 14.6, 18.2
     def pose(t):
         root_ob.hide_render = t < 14.0
         for ob in [body, arm] + [l for l, _ in legs]: ob.hide_render = t < 14.0
@@ -481,15 +481,13 @@ def build(bpy, ctx):
     ex.butterflies(kit, land, [(1.35, -0.6), (-1.5, -0.9), (1.55, 0.4)])
     ex.petals(kit, land, 24)
     cw.birds(kit, 5, center=(-0.05, 0.1), radius=0.85, height=0.42, size=0.045)
-    sd_end = ex.sph(*SUN_END)
-    shafts = ex.Shafts(kit, land, sd_end, beams=ex.Shafts.around((xc(1.2), 1.45, 0.10), 0.55, sd_end, 10), canopy=0, strength=1.8)
     ex.finish(bpy, W, H, bloom=0.2, vignette=0.24)
     cam = ex.ShotCam(kit); title(kit, cam, 35.0)
     cw.apply_cycles(bpy, fast=True)
     sc = bpy.context.scene; cy = sc.cycles
     cy.max_bounces = 4; cy.diffuse_bounces = 1; cy.glossy_bounces = 1; cy.transmission_bounces = 4; cy.transparent_max_bounces = 8
     cy.adaptive_threshold = 0.03; cy.sample_clamp_direct = 12.0
-    return {'kit': kit, 'terr': terr, 'follow': follow, 'sky': sky, 'mist': mg, 'fos': fos, 'cam': cam, 'shafts': shafts}
+    return {'kit': kit, 'terr': terr, 'follow': follow, 'sky': sky, 'mist': mg, 'fos': fos, 'cam': cam}
 
 
 def shot_pose(name, u, t):
@@ -502,9 +500,9 @@ def shot_pose(name, u, t):
         e = ex.ease(u); pos = ex.lerp((0.75, -2.55, 0.42), (0.62, -2.40, -0.08), e); tgt = ex.lerp((-0.75, -1.38, -0.22), (-0.50, -1.33, -0.76), e)
         return pos, tgt, 33.0, float(np.linalg.norm(pos - tgt)), 8.0, True
     # today: low three-quarter into the setting sun, a slow push toward the hiker
-    e = ex.ease(u); az = math.radians(-44 + 5 * e); el = math.radians(16.0 - 2.0 * e); D = 4.4 - 0.9 * e; tgt = ex.lerp((0.05, -0.25, -0.35), (0.35, -0.75, -0.25), e)
+    e = ex.ease(u); az = math.radians(-80 + 5 * e); el = math.radians(13.0 - 2.0 * e); D = 5.1 - 0.8 * e; tgt = ex.lerp((0.0, -0.30, -0.36), (0.22, -0.70, -0.30), e)
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
-    return pos, tgt, 32.0, float(np.linalg.norm(pos - np.array((0.80, -1.30, 0.0)))), 11.0, True
+    return pos, tgt, 32.0, float(np.linalg.norm(pos - np.array((0.70, -1.30, 0.0)))), 11.0, True
 
 
 def frame(bpy, ctx, S, i, t):
@@ -512,5 +510,4 @@ def frame(bpy, ctx, S, i, t):
     s = carve_s(t); S['terr'].set(s); S['follow'](s); S['sky'].set(t); S['fos'].update(t)
     tl = ctx['timeline'].at(t); pos, tgt, lens, focus, fstop, dof = shot_pose(tl['name'], tl['u'], t)
     S['cam'].set(pos, tgt, lens, focus, fstop); S['cam'].ob.data.dof.use_dof = dof
-    S['shafts'].update(pos); S['shafts'].gain.default_value = 1.0 if tl['name'] == 'today' else 0.0
     S['mist'].default_value = 1.0 if tl['name'] == 'today' else 0.35 * ex.ease((t - 8.0) / 3.0)
