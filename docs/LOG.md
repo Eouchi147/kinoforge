@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Sam (22 Oct, 20:24 Toronto): loves Cutaway and wants it in the KINOFORGE studio; asked for a soul and memory document so any agent (he uses Meta's Muse Code) can take over at the same quality, with harness research and the system relying on the build, not the model. Two builders started: the soul, memory, playbooks and an enforced verify gate (CI); Cutaway as a studio style and a spec-driven director line.
 - Free-model daily limit reset: Salamis resumed from the picture spec stage on the free director (film.yml, 00:21 UTC); a check-in is scheduled at 01:22 UTC; Great Emu War follows only after Salamis.
 
 ## 22 Oct 2026
