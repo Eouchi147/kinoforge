@@ -89,11 +89,33 @@ amphora, the mosaic's missing tiles, the ammonite, the trilobite, the T. rex.
 ## Check stills
 
 Frames 40 (street), 150 (pipes), 200 (sewer and rat), 252 (metro, train in frame), 320 (bricks and Roman), 368 (bones),
-440 (city, second train).
+440 (city, second train). Latest stills on the Mac: `kinoforge-render/out/under-the-city-check4/frames/` (best: 00440.png,
+the whole column at nightfall; also 00252.png, the train) and `check2/frames/00200.png` (the rat in the sewer).
 
-## Render cost
+## Render cost (measured on Sam's Mac lane, MacBook Air M4 GPU, METAL, 1280x720, 20 spp, OIDN, adaptive 0.05)
 
-To be measured on the Mac lane (see below).
+| Round | Frames | s/frame (one-frame jobs include kernel load and scene sync) |
+| --- | --- | --- |
+| 1 (Mac cool, 02:45 UTC) | 40, 150, 200, 252, 320, 440 | 3.2, 3.9, 4.1, 4.5, 4.8, 4.8 |
+| 3 (Mac warm, after an hour of other builders' checks) | 40, 200, 252, 320, 368, 440 | 9.7, 13.2, 5.9, 12.6, 16.5, 9.6 |
+| 4 (final settings: glossy 1, transparent 6, adaptive 0.05) | 40, 252, 320, 368, 440 | 15.4, 11.0, 14.6, 14.6, 14.1 |
+| 5 (one 4-frame job, steady state) | 430 to 433 | 10.6 to 15.9, **13.0 mean** |
+
+The same frames rose from about 4 s to about 13 s with fewer settings, so the Mac (fanless) is thermally throttled after
+sustained load; expect about 13 s/frame for the full run (480 frames: about 1 h 45 min), about 4 to 5 s/frame on a
+cool Mac. Scene build 0.3 to 1 s. 31 lights, no volumes, no glass water, no grass.
+
+## Weak spots (honest)
+
+- The T. rex is the cinematic kit's egg: its skull lies apart from the neck (head thrown back), which reads as a broken
+  fossil, toy-like rather than a museum cast.
+- The amphora reads as an orange blob at crane distance; the Roman column is plain white at wide distance.
+- Pale bands (limestone, the walkway and track-bed tops seen from above) are large plain areas in the crane.
+- Passengers in the train are blob silhouettes; the train is boxy (it reads at speed).
+- The skyline buildings are flat boxes behind a haze card; fine at dusk, would not survive a close look.
+- People and the rat are storybook-sized; the people are about 15 px tall in the street shot.
+- No motion blur, so the train (2.6 m/s, about 11 cm a frame) may strobe a little; the streak cards are there to help.
+- I could not watch motion: only stills were checked.
 
 ## Log
 
@@ -102,3 +124,4 @@ To be measured on the Mac lane (see below).
 - 2026-10-23 03:00 UTC: round 2b: tree roots in the fill, an old cast-iron main, three people walking home, skyline as dark silhouettes, face fill aimed below the street.
 - 2026-10-23 03:15 UTC: round 3: face fill down to 45 W and exposure 0.1 (round 2 read flat and toy-like), darker limestone and floor, softer skyline haze, tunnel end caps kept inside the block (they bulged out of the side faces).
 - 2026-10-23 03:25 UTC: round 4: darker limestone (it read washed white), column moved into the crane frame, glossy 1, transparent 6, adaptive threshold 0.05 (the Mac slowed to 10 to 16 s/frame in round 3).
+- 2026-10-23 03:45 UTC: deeper column flutes; final Mac numbers in Render cost above. Ready for the lead's full render (not queued by me). Cost: 0.
