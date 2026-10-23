@@ -165,8 +165,23 @@ class Mix:
         self.bus = self.bus + dsp.convolve(src, ir) * wet
         return self
 
-    def master(self, out_dir, lufs=-18.0, ceiling=-2.0, fi=0.8, fo=1.2, notes=None):
+    def music(self, y, under=10.0, info=None, rel=None):
+        """The quiet score (music_kit.Score.render()) under the nature: its loudest 3 s sit `under` dB below the
+        nature's loudest 3 s (the brief: 8 to 12 dB under the nature bed's loudest moments)."""
+        self.mus = y[:N].astype(np.float32); self.mus_under = under; self.mus_info = info or {}
+        return self
+
+    def master(self, out_dir, lufs=-16.0, ceiling=-2.0, fi=0.8, fo=1.5, notes=None):
         x = dsp.highpass(self.bus, 28, 2)
+        mus = getattr(self, 'mus', None); mstat = None
+        if mus is not None:
+            st = lambda y: np.array([dsp.loudness(y[i:i + 3 * SR]) for i in range(0, N - 3 * SR + 1, SR // 2)])
+            sn = st(x); mus = mus * db(float(sn.max()) - self.mus_under - float(st(mus).max())); sm = st(mus)
+            mstat = {'nature_max_short_term_lufs': round(float(sn.max()), 1),
+                     'music_short_term_lufs_min_max': [round(float(sm.min()), 1), round(float(sm.max()), 1)],
+                     'music_under_nature_peak_db': round(float(sn.max() - sm.max()), 1),
+                     'music_vs_nature_integrated_db': round(dsp.loudness(mus) - dsp.loudness(x), 1), **self.mus_info}
+            x = x + mus
         x = x * db(lufs - dsp.loudness(x))
         x = dsp.limiter(x, ceiling)
         x = fades(x, fi, fo)
@@ -189,8 +204,9 @@ class Mix:
                 'm4a_decoded_lufs': round(dsp.loudness(z), 2), 'm4a_decoded_peak_dbfs': round(float(dsp.lin2db(np.abs(z).max())), 2),
                 'sample_rate': SR, 'codec': 'aac 256k stereo',
                 'fade_in_s': fi, 'fade_out_s': fo, 'sources': {k: v for k, v in sorted(self.used.items())},
-                'licence': 'all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md'}
+                'licence': 'all CC0 (BigSoundBank recordings; VSCO-2 CE samples), see films/cutaway/series/SOUND.md'}
         if notes: meas['notes'] = notes
+        if mstat: meas['music'] = mstat
         json.dump(meas, open(os.path.join(out_dir, 'mix.json'), 'w'), indent=1)
         print(json.dumps({k: v for k, v in meas.items() if k not in ('sources',)}))
         return meas

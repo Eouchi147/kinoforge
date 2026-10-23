@@ -16,6 +16,7 @@ import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
 import audio_kit as K  # noqa: E402
+import music_kit as MK  # noqa: E402
 
 EV = {
     'night': (0.0, 6.0),
@@ -32,6 +33,22 @@ EV = {
     'outside': 14.0,               # cut outside: the wind returns
     'bats_out': (14.15, 17.9),     # 34 bats pour out of the entrance, thinning
 }
+
+
+def score():
+    """Low bowed strings and a dulcimer-like pluck in D minor, mysterious: the mountain at night (Dm), inside (Bbmaj7,
+    Gm add9) with the pluck walking, the gold struck (A major, the swell and a glint of high notes), the flight
+    (Bb to D), resolved on an open D at the end."""
+    s = MK.Score(seed=47)
+    for t, d, ch in ((0.0, 6.4, [38, 50, 57, 62, 65]), (6.0, 2.9, [46, 53, 58, 62, 69]), (8.6, 2.6, [43, 55, 58, 62, 69]),
+                     (11.0, 3.2, [45, 57, 61, 64, 69]), (14.0, 2.4, [46, 53, 58, 62, 65]), (16.2, 3.8, [38, 50, 57, 62, 64, 69])):
+        s.pad(t, d, ch, vel=0.48, att=1.8)
+    for t, m in ((1.0, 62), (1.5, 65), (2.2, 69), (3.4, 67), (4.4, 65), (6.6, 62), (7.4, 65), (8.2, 70), (9.4, 69),
+                 (10.2, 67), (11.1, 69), (11.35, 73), (11.6, 76), (15.0, 70), (15.8, 69), (16.6, 65), (17.6, 64), (18.4, 62)):
+        s.note('dulcimer', m, t, ring=2.2, vel=0.4, pan=0.2)
+    y = s.render(env=[(0, -3), (6, -3), (10.5, -1), (11.2, 2), (13.5, -1), (16, -2), (20, -3)], lp=7000)
+    return y, {'engine': MK.engine(), 'voices': sorted(s.used) + ['dulcimer (synthesised pluck)'], 'key': 'D minor',
+               'turn': 'the gold, 11.0 s'}
 
 
 def main():
@@ -93,6 +110,8 @@ def main():
         m.spot(('flight_pigeon', 'flight_bird_1', 'flight_bird_2')[k % 3], t, gain=-12 - 1.6 * k, p=(-0.3, 0.2, 0.5)[k % 3] * (1 - k / 10),
                length=1.6, label='dense wing flutter, thinning')
     m.room(rt60=1.6, wet=0.5, seed=17)
+    y, info = score()
+    m.music(y, under=10.0, info=info)
     m.master(HERE, notes='night wind, crickets, owl and the miner\'s steps; cave air, drips, lanterns; cart, ladder, diggers; '
                          'three blows, the last rings with sparks; bats shiver, burst past the lens and pour out toward the moon')
 

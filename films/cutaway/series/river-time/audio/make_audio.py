@@ -13,6 +13,7 @@ import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
 import audio_kit as K  # noqa: E402
+import music_kit as MK  # noqa: E402
 
 # Events (s): the "Events for the sound designer" table in ../NOTES.md (23 Oct).
 EV = {
@@ -26,6 +27,20 @@ EV = {
     'raven': 15.6,
     'steps': [14.6 + 0.3125 * k for k in range(1, 12)],   # the hiker walks to the rim, stops at 18.2
 }
+
+
+def score():
+    """Slow strings and harp in D: the meadow (D), the canyon wall and the ages (Bm7, G), the turn as time slows (A sus4
+    to A), today resolved (D, the harp rising to the high D)."""
+    s = MK.Score(seed=31)
+    for t, d, ch in ((0.0, 6.6, [38, 50, 57, 64, 66]), (6.0, 4.4, [47, 54, 62, 69]), (10.0, 3.9, [43, 55, 62, 69, 71]),
+                     (13.4, 1.2, [45, 57, 62, 64, 69]), (14.0, 6.0, [38, 50, 57, 66, 69, 74])):
+        s.pad(t, d, ch, vel=0.5)
+    for t, m in ((0.9, 66), (1.5, 69), (2.2, 74), (3.5, 73), (4.4, 69), (7.0, 71), (8.6, 74), (11.0, 78), (12.4, 76),
+                 (14.5, 74), (15.1, 78), (15.8, 81), (17.1, 78), (18.3, 74)):
+        s.note('harp', m, t, ring=3.2, vel=0.42, pan=-0.2)
+    y = s.render(env=[(0, -4), (6, -3), (12.0, -1), (13.8, 1), (15, -1.5), (20, -3)])
+    return y, {'engine': MK.engine(), 'voices': sorted(s.used), 'key': 'D', 'turn': 'time slows, 12.2 to 14.4 s'}
 
 
 def main():
@@ -50,6 +65,8 @@ def main():
     m.spot('crows_1', EV['raven'], gain=-20, p=-0.5, start=9.5, length=1.6, hp=250, fo=0.6, label='a raven over the canyon')
     for k, t in enumerate(EV['steps']):
         m.spot('steps_gravel_1', t, gain=-19 - 0.4 * k, p=0.25, start=0.3 + 0.8 * k, length=0.28, hp=150, fo=0.1, label='hiker steps')
+    y, info = score()
+    m.music(y, under=10.0, info=info)
     m.master(HERE, notes='brook, wind and songbirds; time races: wind rising, the brook becomes a river, a rockfall, grit '
                          'as each fossil is bared; today: rim wind, the river far below, a raven, the hiker\'s steps')
 

@@ -1,14 +1,14 @@
 {
  "seconds_wav": 20.0,
  "seconds_m4a": 20.0,
- "lufs": -18.11,
+ "lufs": -16.11,
  "peak_dbfs": -2.0,
- "m4a_decoded_lufs": -18.18,
- "m4a_decoded_peak_dbfs": -1.97,
+ "m4a_decoded_lufs": -16.18,
+ "m4a_decoded_peak_dbfs": -1.88,
  "sample_rate": 48000,
  "codec": "aac 256k stereo",
  "fade_in_s": 0.8,
- "fade_out_s": 1.2,
+ "fade_out_s": 1.5,
  "sources": {
   "cave_2": [
    "bed 11.3-20.0 s"
@@ -67,6 +67,24 @@
    "second train far below at 16.10 s"
   ]
  },
- "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
- "notes": "street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, the metro, stillness in old stone, the city faintly back with a far train"
+ "licence": "all CC0 (BigSoundBank recordings; VSCO-2 CE samples), see films/cutaway/series/SOUND.md",
+ "notes": "street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, the metro, stillness in old stone, the city faintly back with a far train",
+ "music": {
+  "nature_max_short_term_lufs": -19.9,
+  "music_short_term_lufs_min_max": [
+   -35.5,
+   -29.9
+  ],
+  "music_under_nature_peak_db": 10.0,
+  "music_vs_nature_integrated_db": -7.1,
+  "engine": "samples (VSCO-2 CE, CC0) + synth",
+  "voices": [
+   "cello",
+   "harp",
+   "viola",
+   "violin"
+  ],
+  "key": "A minor to C",
+  "turn": "the metro, 10.74 s"
+ }
 }

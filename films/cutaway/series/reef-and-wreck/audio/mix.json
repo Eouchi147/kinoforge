@@ -1,47 +1,86 @@
 {
  "seconds_wav": 20.0,
  "seconds_m4a": 20.0,
- "lufs": -18.12,
+ "lufs": -16.07,
  "peak_dbfs": -2.0,
- "m4a_decoded_lufs": -18.24,
- "m4a_decoded_peak_dbfs": -1.74,
+ "m4a_decoded_lufs": -16.16,
+ "m4a_decoded_peak_dbfs": -1.98,
  "sample_rate": 48000,
  "codec": "aac 256k stereo",
  "fade_in_s": 0.8,
- "fade_out_s": 1.2,
+ "fade_out_s": 1.5,
  "sources": {
   "bubbles_burst": [
-   "foam fizz at 5.55 s",
-   "her breath bubbles up at 8.20 s",
-   "her breath bubbles up at 11.60 s",
-   "her breath bubbles up at 15.00 s",
-   "her breath bubbles up at 18.30 s"
+   "first bubbles at 5.80 s",
+   "her regulator exhales at 6.95 s",
+   "her regulator exhales at 8.55 s",
+   "her regulator exhales at 10.15 s",
+   "her regulator exhales at 11.75 s",
+   "her regulator exhales at 13.35 s",
+   "her regulator exhales at 14.95 s",
+   "her regulator exhales at 16.55 s",
+   "her regulator exhales at 18.15 s",
+   "her regulator exhales at 19.75 s"
+  ],
+  "cloth": [
+   "a rustle of gear at 4.90 s"
   ],
   "creaking_door_2": [
-   "the boat rocks as she rolls at 4.80 s",
-   "the hull creaks at 14.10 s",
-   "the hull creaks at 16.30 s"
+   "the boat creaks as she tips back at 4.80 s",
+   "the hull creaks at 13.80 s",
+   "the hull creaks at 16.90 s"
   ],
   "sea_tern": [
-   "bed 0.0-7.4 s"
+   "bed 0.0-6.0 s"
   ],
   "small_waves_ocean": [
    "bed 0.0-20.0 s",
-   "bed 6.6-20.0 s"
+   "bed 5.5-20.0 s"
   ],
   "splash_big_1": [
    "the diver splashes in at 5.35 s"
   ],
+  "splash_small_1": [
+   "water laps the hull at 2.00 s",
+   "water laps the hull at 2.90 s",
+   "water laps the hull at 3.80 s",
+   "water laps the hull at 4.70 s"
+  ],
   "underwater": [
-   "bed 6.5-20.0 s"
+   "bed 5.5-20.0 s"
   ],
   "water_bubbles": [
-   "the reef fizzes as the turtle passes at 10.50 s"
+   "bed 7.0-20.0 s"
   ],
   "whoosh_3": [
    "the school turns (a rush of water) at 10.05 s"
+  ],
+  "whoosh_5": [
+   "a slow stroke through water at 10.50 s",
+   "a slow stroke through water at 13.10 s",
+   "a slow stroke through water at 15.90 s",
+   "a slow stroke through water at 17.30 s"
   ]
  },
- "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
- "notes": "surf and terns, the roll and splash; underwater hush with the surf through water; her breath bubbles; the school turns; the hull creaks"
+ "licence": "all CC0 (BigSoundBank recordings; VSCO-2 CE samples), see films/cutaway/series/SOUND.md",
+ "notes": "surf, terns, the boat and the splash; underwater hush, reef crackle and her breath every 1.6 s; the school turns; the hull creaks; a quiet oceanic score with a soft bell for the gold",
+ "music": {
+  "nature_max_short_term_lufs": -25.1,
+  "music_short_term_lufs_min_max": [
+   -40.5,
+   -35.1
+  ],
+  "music_under_nature_peak_db": 10.0,
+  "music_vs_nature_integrated_db": -5.2,
+  "engine": "samples (VSCO-2 CE, CC0) + synth",
+  "voices": [
+   "cello",
+   "glock",
+   "harp",
+   "viola",
+   "violin"
+  ],
+  "key": "E",
+  "turn": "the school turns, 10.2 s; the gold, 17 s"
+ }
 }

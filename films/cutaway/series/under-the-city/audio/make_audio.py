@@ -14,6 +14,7 @@ import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
 import audio_kit as K  # noqa: E402
+import music_kit as MK  # noqa: E402
 
 EV = {
     'street': (0.0, 4.5),          # dusk street; the bus left to right in the near lane
@@ -33,6 +34,22 @@ EV = {
     'wide': 15.5,                  # the whole block: the city faintly back
     'train2_centre': 18.1,         # second train below, right to left, far
 }
+
+
+def score():
+    """Warm pad with a distant pulse in A minor: dusk (Am9), down through the pipes (Fmaj7) and the sewer (Dm9) with a
+    soft low pulse, the metro as the turn (E sus, the swell at 10.7 s), stillness by the bones, and the city at
+    nightfall resolved in C major; a soft harp in the middle register stands in for an electric piano."""
+    s = MK.Score(seed=37)
+    for t, d, ch in ((0.0, 4.9, [45, 52, 59, 60, 64]), (4.4, 4.2, [41, 53, 57, 60, 64]), (8.3, 3.2, [38, 50, 57, 60, 64]),
+                     (11.2, 4.4, [40, 52, 57, 59, 64]), (15.4, 4.6, [36, 48, 55, 59, 64, 67])):
+        s.pad(t, d, ch, vel=0.45, att=2.0)
+    for k in range(9):
+        s.note('cello_pizz', 45, 4.7 + 1.15 * k, ring=1.4, vel=0.32, gain=-5, pan=0.0)
+    for t, m in ((0.6, 64), (1.5, 67), (2.5, 72), (3.6, 71), (16.0, 67), (16.8, 71), (17.7, 74), (18.6, 72)):
+        s.note('harp', m, t, ring=3.0, vel=0.35, pan=0.15)
+    y = s.render(env=[(0, -3), (4.5, -3), (9.6, -2), (10.8, 1), (12.4, -4), (14.8, -9), (15.6, -3), (20, -3)], lp=6500)
+    return y, {'engine': MK.engine(), 'voices': sorted(s.used), 'key': 'A minor to C', 'turn': 'the metro, 10.74 s'}
 
 
 def main():
@@ -75,6 +92,8 @@ def main():
     m.spot('train_passage_1', EV['train2_centre'] - 2.0, gain=-15, lp=350, sweep=(0.5, -0.5), start=2.5, length=3.6, fi=1.0,
            fo=1.2, trim=False, label='second train far below')
     m.room(rt60=0.9, wet=0.12, seed=23)
+    y, info = score()
+    m.music(y, under=10.0, info=info)
     m.master(HERE, notes='street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, the metro, '
                          'stillness in old stone, the city faintly back with a far train')
 

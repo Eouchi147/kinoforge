@@ -1,9 +1,17 @@
 # Sound of the Cutaway showcase series
 
-Sam (22 Oct 2026): "no voice, just nature sounds (try to use the free 2.5gig sound bank we have already)". So: no music,
-no voice, no synthesis. Every sound is a real recording from BigSoundBank (Joseph Sardin), all **CC0** (public domain;
-each sound page was checked to say "CC0" by the bank workflow), placed only on what we see or feel; silence is used
-where the story asks for it (the meadow before the hawk, the bottom under the city).
+Sam (22 Oct 2026): "no voice, just nature sounds (try to use the free 2.5gig sound bank we have already)", then (22:54
+Toronto) "I said no music but actually I would like ambient, peaceful subtle music. I need artistic, cinema direction,
+self contained." So: no voice; every effect and ambience is a real recording from BigSoundBank (Joseph Sardin), all
+**CC0** (public domain; each sound page was checked to say "CC0" by the bank workflow), placed only on what we see or
+feel; and under it a quiet score per film (long warm pads, one sparse solo voice for the place), its loudest moment
+10 dB under the nature's loudest, swelling only at the film's turn and resolving at the end. Silence is still a tool
+(the meadow falls quiet, music too, when the hawk's shadow comes).
+
+- **The score:** `music_kit.py`, written note by note in each film's `make_audio.py` (`score()`), played by the free score
+  engine's instruments (`films/lib/score/voices.py`): VSCO-2 CE samples (CC0) when the sample folder is found
+  (`$SCORE_SAMPLES`, see `films/lib/score/README.md`; this build found it), else the engine's own synthesis. The gold
+  mine's dulcimer is a synthesised Karplus-Strong pluck. No paid service.
 
 - **The bank:** release `sfx-bank` of `Eouchi147/rc-render`: `sfx-bank.tar` (197 recordings as 48 kHz stereo 24-bit FLAC:
   the 138 BigSoundBank rows of the Dark Corners bank `dark/assets.csv` plus 59 extras in `sfx/bank_extra.txt`) and
@@ -11,8 +19,8 @@ where the story asks for it (the meadow before the hawk, the bottom under the ci
   `.github/workflows/sfx-bank.yml` (script `sfx/bank.sh`, run by hand) on a GitHub runner, because chat containers
   cannot reach bigsoundbank.com. Audio never goes into git.
 - **The mixes:** `<film>/audio/make_audio.py` with the shared kit `audio_kit.py` (numpy, scipy, soundfile, ffmpeg; free,
-  deterministic). Each writes `audio/mix.m4a` (20.0 s, 48 kHz stereo AAC 256k, about -18 LUFS integrated, peaks under
-  -1.5 dBFS after decoding, fade in 0.8 s and out 1.2 s) and `audio/mix.json` (measurements and every recording used,
+  deterministic). Each writes `audio/mix.m4a` (20.0 s, 48 kHz stereo AAC 256k, about -16 LUFS integrated, peaks under
+  -1.5 dBFS after decoding, fade in 0.8 s and out 1.5 s) and `audio/mix.json` (measurements and every recording used,
   with where). The kit finds the bank in `$SFX_BANK`, else `~/.cache/kinoforge/sfx-bank`, else downloads the archive once.
 - **Events:** each script's `EV` table holds the film's event times; update it from the film's NOTES.md event table and
   run the script again (about 10 s).
@@ -25,21 +33,22 @@ where the story asks for it (the meadow before the hawk, the bottom under the ci
 
 ## The River Through Time (`river-time`)
 
-Beds: stream to river, wind; spots: falling stones, fossil ticks, birds and steps of today. Measured: -18.12 LUFS, peak -1.67 dBFS, 20.0 s.
+Brook, wind and songbirds; time races: wind rising, the brook becomes a river, a rockfall, grit as each fossil is bared; today: rim wind, the river far below, a raven, the hiker's steps. Measured: -16.1 LUFS, peak -2.28 dBFS, 20.0 s. Score: key D, cello, harp, viola, violin; turn: time slows, 12.2 to 14.4 s; its loudest 3 s sit 10.0 dB under the nature's.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `evening_birds` | bed 13.4-20.0 s | https://bigsoundbank.com/s1859.html |
-| `fall_of_stone` | stones fall at 5.40 s; stones fall at 7.60 s; stones fall at 9.60 s; stones fall at 11.60 s; stones fall at 13.20 s | https://bigsoundbank.com/s1022.html |
-| `mountain_stream_1` | bed 2.6-20.0 s | https://bigsoundbank.com/s2754.html |
-| `small_stream_4` | bed 0.0-15.5 s | https://bigsoundbank.com/s1354.html |
+| `crows_1` | a raven over the canyon at 15.60 s | https://bigsoundbank.com/s0754.html |
+| `evening_birds` | bed 13.7-20.0 s | https://bigsoundbank.com/s1859.html |
+| `fall_of_stone` | a small rockfall at 9.50 s; grit trickles as a fossil is bared at 7.99 s; grit trickles as a fossil is bared at 11.31 s; grit trickles as a fossil is bared at 12.11 s | https://bigsoundbank.com/s1022.html |
+| `forest` | bed 0.0-6.3 s | https://bigsoundbank.com/s0100.html |
+| `mountain_stream_1` | bed 3.2-20.0 s; bed 5.8-14.4 s; bed 13.7-20.0 s | https://bigsoundbank.com/s2754.html |
+| `small_stream_4` | bed 0.0-6.4 s | https://bigsoundbank.com/s1354.html |
 | `steps_gravel_1` | hiker steps at 14.91 s; hiker steps at 15.22 s; hiker steps at 15.54 s; hiker steps at 15.85 s; hiker steps at 16.16 s; hiker steps at 16.48 s; hiker steps at 16.79 s; hiker steps at 17.10 s; hiker steps at 17.41 s; hiker steps at 17.73 s; hiker steps at 18.04 s | https://bigsoundbank.com/s0510.html |
-| `steps_stone_stair` | fossil revealed at 8.50 s; fossil revealed at 10.30 s; fossil revealed at 12.10 s | https://bigsoundbank.com/s0606.html |
-| `wind_plain` | bed 4.0-20.0 s | https://bigsoundbank.com/s0595.html |
+| `wind_plain` | bed 0.0-20.0 s | https://bigsoundbank.com/s0595.html |
 
 ## Under the City (`under-the-city`)
 
-Street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, the metro, stillness in old stone, the city faintly back with a far train. Measured: -18.18 LUFS, peak -1.97 dBFS, 20.0 s.
+Street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, the metro, stillness in old stone, the city faintly back with a far train. Measured: -16.18 LUFS, peak -1.88 dBFS, 20.0 s. Score: key A minor to C, cello, harp, viola, violin; turn: the metro, 10.74 s; its loudest 3 s sit 10.0 dB under the nature's.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
@@ -58,7 +67,7 @@ Street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, t
 
 ## The Hidden Meadow (`hidden-meadow`)
 
-Birdsong, crickets and bees above; muffled below with the mole and the ants; silence and wings for the hawk, the rabbits run; the meadow breathes again. Measured: -18.05 LUFS, peak -2.3 dBFS, 20.0 s.
+Birdsong, crickets and bees above; muffled below with the mole and the ants; silence and wings for the hawk, the rabbits run; the meadow breathes again. Measured: -16.11 LUFS, peak -1.95 dBFS, 20.0 s. Score: key G, cello, flute, pizz, viola, violin; turn: the hawk, 12.7 to 16.4 s (the music falls away); its loudest 3 s sit 10.0 dB under the nature's.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
@@ -73,22 +82,25 @@ Birdsong, crickets and bees above; muffled below with the mole and the ants; sil
 
 ## Reef and Wreck (`reef-and-wreck`)
 
-Surf and terns, the roll and splash; underwater hush with the surf through water; her breath bubbles; the school turns; the hull creaks. Measured: -18.24 LUFS, peak -1.74 dBFS, 20.0 s.
+Surf, terns, the boat and the splash; underwater hush, reef crackle and her breath every 1.6 s; the school turns; the hull creaks; a quiet oceanic score with a soft bell for the gold. Measured: -16.16 LUFS, peak -1.98 dBFS, 20.0 s. Score: key E, cello, glock, harp, viola, violin; turn: the school turns, 10.2 s; the gold, 17 s; its loudest 3 s sit 10.0 dB under the nature's.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `bubbles_burst` | foam fizz at 5.55 s; her breath bubbles up at 8.20 s; her breath bubbles up at 11.60 s; her breath bubbles up at 15.00 s; her breath bubbles up at 18.30 s | https://bigsoundbank.com/s1074.html |
-| `creaking_door_2` | the boat rocks as she rolls at 4.80 s; the hull creaks at 14.10 s; the hull creaks at 16.30 s | https://bigsoundbank.com/s3205.html |
-| `sea_tern` | bed 0.0-7.4 s | https://bigsoundbank.com/s0267.html |
-| `small_waves_ocean` | bed 0.0-20.0 s; bed 6.6-20.0 s | https://bigsoundbank.com/s1046.html |
+| `bubbles_burst` | first bubbles at 5.80 s; her regulator exhales at 6.95 s; her regulator exhales at 8.55 s; her regulator exhales at 10.15 s; her regulator exhales at 11.75 s; her regulator exhales at 13.35 s; her regulator exhales at 14.95 s; her regulator exhales at 16.55 s; her regulator exhales at 18.15 s; her regulator exhales at 19.75 s | https://bigsoundbank.com/s1074.html |
+| `cloth` | a rustle of gear at 4.90 s | https://bigsoundbank.com/s0013.html |
+| `creaking_door_2` | the boat creaks as she tips back at 4.80 s; the hull creaks at 13.80 s; the hull creaks at 16.90 s | https://bigsoundbank.com/s3205.html |
+| `sea_tern` | bed 0.0-6.0 s | https://bigsoundbank.com/s0267.html |
+| `small_waves_ocean` | bed 0.0-20.0 s; bed 5.5-20.0 s | https://bigsoundbank.com/s1046.html |
 | `splash_big_1` | the diver splashes in at 5.35 s | https://bigsoundbank.com/s1519.html |
-| `underwater` | bed 6.5-20.0 s | https://bigsoundbank.com/s3430.html |
-| `water_bubbles` | the reef fizzes as the turtle passes at 10.50 s | https://bigsoundbank.com/s0150.html |
+| `splash_small_1` | water laps the hull at 2.00 s; water laps the hull at 2.90 s; water laps the hull at 3.80 s; water laps the hull at 4.70 s | https://bigsoundbank.com/s1529.html |
+| `underwater` | bed 5.5-20.0 s | https://bigsoundbank.com/s3430.html |
+| `water_bubbles` | bed 7.0-20.0 s | https://bigsoundbank.com/s0150.html |
 | `whoosh_3` | the school turns (a rush of water) at 10.05 s | https://bigsoundbank.com/s1795.html |
+| `whoosh_5` | a slow stroke through water at 10.50 s; a slow stroke through water at 13.10 s; a slow stroke through water at 15.90 s; a slow stroke through water at 17.30 s | https://bigsoundbank.com/s1797.html |
 
 ## The Gold Mine (`gold-mine`)
 
-Night wind, crickets, owl and the miner's steps; cave air, drips, lanterns; cart, ladder, diggers; three blows, the last rings with sparks; bats shiver, burst past the lens and pour out toward the moon. Measured: -18.08 LUFS, peak -2.02 dBFS, 20.0 s.
+Night wind, crickets, owl and the miner's steps; cave air, drips, lanterns; cart, ladder, diggers; three blows, the last rings with sparks; bats shiver, burst past the lens and pour out toward the moon. Measured: -16.11 LUFS, peak -1.62 dBFS, 20.0 s. Score: key D minor, cello, viola, violin, dulcimer (synthesised pluck); turn: the gold, 11.0 s; its loudest 3 s sit 10.0 dB under the nature's.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
@@ -116,25 +128,27 @@ Night wind, crickets, owl and the miner's steps; cave air, drips, lanterns; cart
 
 ## The Sleeping Volcano (`sleeping-volcano`)
 
-Surf, gulls and birds; slow boil and rumble growing below; rock cracks; birds lift; steam to smoke; the eruption roar, fire, falling stones, the sea hissing under the lava. Measured: -18.09 LUFS, peak -1.98 dBFS, 20.0 s.
+Waves, gulls and a far fumarole; the chamber: mud-pot boil and a felt rumble growing, rock cracks, the hiss thickening, a flock lifting; a beat of quiet at dusk, then the boom, fire, bombs and the sea hissing under the lava; deep string drones that swell at the eruption and settle. Measured: -16.34 LUFS, peak -1.79 dBFS, 20.0 s. Score: key C, cello, harp, viola, violin; turn: the eruption, 14.2 s; its loudest 3 s sit 10.0 dB under the nature's.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
 | `big_broth` | bed 4.0-20.0 s | https://bigsoundbank.com/s0491.html |
-| `crows_1` | alarm calls as they lift at 11.30 s | https://bigsoundbank.com/s0754.html |
-| `fall_of_stone` | stones fall back at 15.40 s; stones fall back at 16.30 s; stones fall back at 17.20 s | https://bigsoundbank.com/s1022.html |
-| `fireplace_2` | bed 14.5-20.0 s | https://bigsoundbank.com/s0031.html |
-| `flight_bird_1` | birds burst from the trees at 11.25 s | https://bigsoundbank.com/s2891.html |
-| `flight_bird_2` | birds burst from the trees at 11.10 s | https://bigsoundbank.com/s2892.html |
-| `flight_pigeon` | birds burst from the trees at 10.90 s | https://bigsoundbank.com/s0840.html |
-| `forest` | bed 0.0-11.3 s | https://bigsoundbank.com/s0100.html |
-| `gulls_harbor` | gulls at 1.00 s | https://bigsoundbank.com/s2573.html |
+| `crows_1` | alarm calls at 11.20 s | https://bigsoundbank.com/s0754.html |
+| `fall_of_stone` | a short rock tumble at 14.35 s; a bomb thuds down at 15.40 s; a bomb thuds down at 16.50 s; a bomb thuds down at 18.30 s | https://bigsoundbank.com/s1022.html |
+| `fire_branching_1` | bed 14.7-18.2 s | https://bigsoundbank.com/s0987.html |
+| `fireplace_2` | bed 14.4-20.0 s | https://bigsoundbank.com/s0031.html |
+| `flight_bird_1` | a flock takes off at 11.25 s | https://bigsoundbank.com/s2891.html |
+| `flight_bird_2` | a flock takes off at 11.10 s | https://bigsoundbank.com/s2892.html |
+| `flight_pigeon` | a flock takes off at 10.90 s | https://bigsoundbank.com/s0840.html |
+| `forest` | bed 0.0-6.8 s | https://bigsoundbank.com/s0100.html |
+| `gulls_harbor` | gulls circling at 0.30 s | https://bigsoundbank.com/s2573.html |
 | `ice_crack_1` | rock cracks as magma climbs at 7.80 s; rock cracks as magma climbs at 12.70 s | https://bigsoundbank.com/s2205.html |
 | `ice_crack_2` | rock cracks as magma climbs at 9.40 s | https://bigsoundbank.com/s2206.html |
 | `ice_crack_3` | rock cracks as magma climbs at 11.30 s | https://bigsoundbank.com/s2207.html |
 | `small_waves_ocean` | bed 0.0-20.0 s | https://bigsoundbank.com/s1046.html |
-| `steam_hiss_1` | steam turns to smoke at 10.00 s | https://bigsoundbank.com/s0227.html |
-| `steam_hiss_3` | thin steam wisp at 0.80 s; the sea steams at 17.00 s | https://bigsoundbank.com/s3011.html |
-| `thunder_2` | the eruption roars at 14.20 s | https://bigsoundbank.com/s3113.html |
-| `thunder_3` | bed 5.0-20.0 s | https://bigsoundbank.com/s3114.html |
-| `water_that_burns` | lava meets the sea at 16.90 s | https://bigsoundbank.com/s0202.html |
+| `steam_hiss_1` | the hiss thickens at 10.00 s; bed 18.3-20.0 s | https://bigsoundbank.com/s0227.html |
+| `steam_hiss_3` | far fumarole hiss at 0.50 s; steam roars up at 17.75 s | https://bigsoundbank.com/s3011.html |
+| `thunder_2` | the eruption booms at 14.20 s | https://bigsoundbank.com/s3113.html |
+| `thunder_3` | bed 4.0-20.0 s | https://bigsoundbank.com/s3114.html |
+| `water_that_burns` | lava meets the sea at 17.70 s | https://bigsoundbank.com/s0202.html |
+| `wind_plain` | bed 13.3-20.0 s | https://bigsoundbank.com/s0595.html |

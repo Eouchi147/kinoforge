@@ -1,14 +1,14 @@
 {
  "seconds_wav": 20.0,
  "seconds_m4a": 20.0,
- "lufs": -18.01,
+ "lufs": -16.04,
  "peak_dbfs": -2.0,
- "m4a_decoded_lufs": -18.08,
- "m4a_decoded_peak_dbfs": -2.02,
+ "m4a_decoded_lufs": -16.11,
+ "m4a_decoded_peak_dbfs": -1.62,
  "sample_rate": 48000,
  "codec": "aac 256k stereo",
  "fade_in_s": 0.8,
- "fade_out_s": 1.2,
+ "fade_out_s": 1.5,
  "sources": {
   "anvil_1": [
    "bright click at 8.61 s",
@@ -123,6 +123,24 @@
    "bed 0.0-20.0 s"
   ]
  },
- "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
- "notes": "night wind, crickets, owl and the miner's steps; cave air, drips, lanterns; cart, ladder, diggers; three blows, the last rings with sparks; bats shiver, burst past the lens and pour out toward the moon"
+ "licence": "all CC0 (BigSoundBank recordings; VSCO-2 CE samples), see films/cutaway/series/SOUND.md",
+ "notes": "night wind, crickets, owl and the miner's steps; cave air, drips, lanterns; cart, ladder, diggers; three blows, the last rings with sparks; bats shiver, burst past the lens and pour out toward the moon",
+ "music": {
+  "nature_max_short_term_lufs": -25.6,
+  "music_short_term_lufs_min_max": [
+   -41.0,
+   -35.6
+  ],
+  "music_under_nature_peak_db": 10.0,
+  "music_vs_nature_integrated_db": -8.0,
+  "engine": "samples (VSCO-2 CE, CC0) + synth",
+  "voices": [
+   "cello",
+   "viola",
+   "violin",
+   "dulcimer (synthesised pluck)"
+  ],
+  "key": "D minor",
+  "turn": "the gold, 11.0 s"
+ }
 }
