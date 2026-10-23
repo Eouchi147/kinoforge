@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Sam (18:17): put everything in the studio platform, an AI manual that can recreate every style and film, a short human guide, and a studio operating system (write, click, see options in the page); research upgrades. Started: researcher (`docs/research/STUDIO_UPGRADES_2026-10.md`), three manual writers (`docs/manual/`), catalog (`tools/catalog.py` to `studio-web/public/data/catalog.json`), studio OS builder (`studio-web/`). Look board images added to the studio as static files (`studio-web/public/looks/`, 42 frames, 6 MB): this session may not create releases. US$0.
 - Seasons board folders for the other eight looks (make_seasons.py), to see every look on the seasons loop. US$0.
 - Seasons loop takes the art directions: opt-in hook in its blender.py (unchanged without a look: frame 100 identical to the pixel), `_adapter.py`, `make_seasons.py`, board folders `films/cutaway/looks/seasons-{fable,night-glow,stained-glass}/` (frames 40 spring, 100 summer, 260 winter). US$0.
 - Seasons loop: NOTES.md from the builder porting the art directions to the loop (work in progress). US$0.
