@@ -1,5 +1,9 @@
 # Engines the director can use (pick per film, per scene or per shot)
 
+> 15 Oct 2026 list, mostly paid engines. The engines used since 21 Oct are free: Battle Map (`films/lib/battlemap/`),
+> Kinetic (`films/lib/kinetic/`), Cutaway (`films/styles/cutaway/`, `films/lib/cutaway/`), the score engine
+> (`films/lib/score/`), Chatterbox and Kokoro voices. The money rule is in `docs/decisions/`; see `docs/SOUL.md` section 4.
+
 | Engine | What it makes best | Cost | Where |
 | --- | --- | --- | --- |
 | Shot factory (`harness/shots/factory.py`) | Cinema-level footage: people, acting, real light, products, stylised 3D/anime looks, ads | $0.03–0.40 per generated second (live list: OpenRouter `/api/v1/videos/models`) | GitHub runner calling OpenRouter |

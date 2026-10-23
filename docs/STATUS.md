@@ -5,9 +5,10 @@
 - Web studio: Films page has a Cutaway section and filters; Cutaway films appear on their own once their files are in rc-render `kino-films` (seasons loop now; Venice, the drainage ad in both formats, the cinematic test and the line example when they land). Styles page shows the five house styles (Cutaway, Battle Map, Kinetic, Lantern Road, Clay) with a poster each; "Start a film" on a live line opens the director with that line (Cutaway: 16:9 or 9:16). The director chat and `/api/build` know the `cutaway` line (30 to 90 s, format in the brief).
 - Engine: `films/lib/cutaway/` (spec-driven: a model writes data, not Blender code). Example `films/cutaway/meadow/` (40 s, estimated cues); runner check stills dispatched (rc-render `stills.yml`, tag `cutaway-line-r1`).
 
-## Gates and agent harness (23 Oct, in progress)
-- `bash tools/verify.sh` (fast, about 1 min) and `--full` (about 10 min): every house rule as a gate; run it before every commit. CI runs it on every push (`verify.yml`) and on engine changes (`verify-engine.yml`). Main passes all gates.
-- Soul and memory for any agent (Muse Code, Codex, Cursor, Gemini CLI, Claude Code): being written now (`AGENTS.md`, `docs/SOUL.md`, `docs/MEMORY.md`, `docs/decisions/`, `docs/PLAYBOOKS/`).
+## Gates and agent harness (23 Oct, done)
+- Any agent starts at `AGENTS.md` (Muse Code, Codex, Cursor read it; Claude Code through `CLAUDE.md`, Gemini CLI through `.gemini/settings.json`; Muse's committed memory `.agents/memory/MEMORY.md` is an index into `docs/`). Then `docs/SOUL.md` (taste, verdicts, styles), `docs/MEMORY.md` (who writes what), `docs/decisions/` (12 records), `docs/PLAYBOOKS/` (9 jobs, each with a definition of done), `docs/LESSONS.md`. Research with sources: `docs/research/AGENT_HARNESS_2026-10.md`.
+- `bash tools/verify.sh` (fast, about 1 min) and `--full` (about 10 min): every house rule as a gate; run it before every commit. CI: `verify.yml` on every push (green), `verify-engine.yml` on engine changes. Main passes all gates.
+- **Waiting on Sam: the money rule.** `docs/decisions/0001` (spend nothing, 22 Oct 09:20) and a later repo entry (capped paid films, 22 Oct 20:50: LOG, CRAFT.md, director config) disagree. Until he confirms, `AGENTS.md` says: no paid call without his explicit go.
 
 ## NOOR Ramadan samples (22 Oct, started 14:30 UTC; delivered 23 Oct 00:40 UTC, waiting on Sam's verdict)
 - Sam asked (Noor Codex chat) for 2 to 3 free sample videos for the NOOR Ramadan 2027 series (series bible: Claude doc "NOOR · Thirty Nights of Light").
@@ -53,6 +54,8 @@ engine inside Unmissed; Sam's approval is the only human step. **Start with `doc
 what works, how to start a job, costs per content type, money, decisions, open problems, recommendation.
 
 ## Focus
+(16 Oct wording below; films resumed at Sam's request on 21 Oct, so which lane comes first is an open question for him:
+`docs/decisions/0011`.)
 Premium short video ads for Unmissed and its clients, to bring in money. Films and channels are parked. New since 16 Oct:
 the **social lane** (`social/`, workflow `social.yml`) for Unmissed's Social Autopilot (12 short videos a month per
 client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toronto opening in December).

@@ -1,5 +1,8 @@
 # Showrunner playbook — how KINOFORGE makes a film, every time
 
+> History (14 Oct 2026, the anthology era). The playbooks in use are in `docs/PLAYBOOKS/`; craft rules in
+> `films/director/CRAFT.md`; entry point `AGENTS.md`. Its non-negotiables (common sense, polish, licence ledger) still hold.
+
 This is the operating manual for the studio's AI director (the Showrunner on OpenRouter) and for any agent working in
 this repo. It encodes how the films so far were actually made, including the mistakes that were caught. Follow it in
 order. Where it points to another document, that document is part of the rules.

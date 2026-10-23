@@ -1,11 +1,10 @@
-# KINOFORGE (for Claude Code sessions)
+@AGENTS.md
 
-Read `docs/HANDOVER-2026-10-16.md` first (handover to the "Unmissed with studio" chat), then `AGENTS.md` (the rules, the
-map), then `docs/STATUS.md` (where things stand).
-
-Every change: update `docs/STATUS.md` and add a dated line to `docs/LOG.md` in the same commit; update
-`docs/WORKFLOWS.md` when a process changes. Sam asked for this so any AI can take over seamlessly.
-
-Short rules: no paid video before Sam picks a look on a style board; book every paid call against a cap; words, logos and
-numbers are set in code; Unmissed claims only in the site's own words; no em or en dashes and no "..." on screen; never
-handle API keys; heavy work runs on GitHub runners, not in the chat session.
+## Claude Code only (everything that matters for every agent is in AGENTS.md above)
+- Muse Code, Codex and Cursor never read this file: a rule written only here is lost. Put rules in `AGENTS.md` or `docs/`.
+- `gh` GraphQL commands (`gh workflow run`, `gh release download`) are blocked in Claude Code sessions: use `gh api` (REST).
+- Builder subagents: give each one folder and the playbook for its job; they run `bash tools/verify.sh` and write their
+  `NOTES.md`; the coordinator writes `docs/LOG.md` and `docs/STATUS.md` and pushes.
+- The Mac lane and delivery to Sam's Mac need the desktop connection's device tools and computer use
+  (`docs/PLAYBOOKS/render-on-the-mac.md`, `deliver-to-sams-mac.md`).
+- Commit trailer: the attribution lines from the session's system reminder.

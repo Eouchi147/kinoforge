@@ -1,5 +1,8 @@
 # The studio director: from a conversation to a finished film (design, 22 Oct 2026)
 
+> The design as first written. The money and seat sections below describe the original paid design; the mode in force
+> is in `config.json` and `README.md`, and the money rule in `docs/decisions/` (see `AGENTS.md` section 3).
+
 Goal (Sam, 22 Oct): the studio makes films like the Battle Map and Dark Corners series about **any subject**, from a
 simple discussion with the director, **self-contained and self-sufficient**: no Claude Code session in the loop. Sam
 talks to the director in the web studio, approves the brief, and gets the finished film back. Everything else runs on

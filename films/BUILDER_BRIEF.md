@@ -1,5 +1,10 @@
 # Films lane: brief for every scene builder (22 Oct 2026)
 
+> Written for the night of 21 to 22 Oct. Two points are superseded by `films/director/CRAFT.md` (Sam's verdicts of 22 Oct):
+> a music hit alone is never a reason to cut (cut for the story; land on a hit only when a story beat falls near it), and
+> Battle Map uses v2 graphics (no cartoon icons). "Do not edit the docs" means: builders write their film's `NOTES.md`;
+> the coordinator writes `docs/LOG.md` and `docs/STATUS.md` (`docs/MEMORY.md`). Playbooks: `docs/PLAYBOOKS/`.
+
 Sam (the owner) asked on 21 Oct for two things, finished by the morning:
 1. **Dark Corners** (his dark-history series, 9:16, about 3 minutes each) re-made in three KINOFORGE styles:
    Bamberg in **Kinetic** (`proto/p11-kinetic`), Zong and Kleidion in **Lantern Road** (`proto/p03-lantern-road`),

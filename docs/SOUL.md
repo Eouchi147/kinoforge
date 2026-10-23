@@ -55,7 +55,7 @@ engine of Unmissed, his AI marketing agency (`docs/UNMISSED_HANDOFF.md`).
 | 22 Oct | Battle Map v1 | Good concept. Music not right: wants the feel of Age of Empires and Anno; no emoji graphics; a motion-graphics legend; pre-planned cameras; armies that never clip; the most entertaining explanation | Became Battle Map v2 and the free score engine (`docs/decisions/0003`, `0006`) |
 | 22 Oct | Cutaway style board | "look amazing"; elevate with cinema lighting (haze, fog, god rays), animated fauna and flora, easter eggs in the soil (dino bones, gold ore), interesting angles | Became the cinematic Cutaway (`films/styles/cutaway/cinematic/`) |
 | 22 Oct (20:24 Toronto) | Cutaway | Loves it; wants it as a KINOFORGE studio style | A spec-driven Cutaway line is being built (`films/lib/cutaway/`) |
-| 22 Oct | Money | "Spend nothing." Free models and free tools only | `docs/decisions/0001` |
+| 22 Oct | Money | "Spend nothing." Free models and free tools only | `docs/decisions/0001` (contested by a later repo entry of 22 Oct 20:50; Sam to confirm, see the record) |
 
 Waiting on his verdict (23 Oct): the eight Battle Map v2 films, the re-made Dark Corners, the NOOR samples, the Cutaway
 films (Venice, the drainage sample ad, the seasons loop, the Agincourt inserts). See `docs/STATUS.md`.

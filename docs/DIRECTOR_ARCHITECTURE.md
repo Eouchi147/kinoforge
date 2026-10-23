@@ -1,5 +1,8 @@
 # The director: architecture
 
+> History (14 Oct 2026): the first paid multi-agent director (`harness/director/`, `director.yml`, never run). The film
+> director in use is `films/director/` (`README.md`, `DESIGN.md`); the money rule is in `docs/decisions/`.
+
 One chain of command, two places it runs, hard limits on money and loops.
 
 ```
