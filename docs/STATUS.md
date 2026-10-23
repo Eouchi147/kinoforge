@@ -1,5 +1,17 @@
 # Status (updated 23 Oct 2026, director paid mode)
 
+## Cutaway showcase series (Sam, 22 Oct 22:18; due on his wake, 23 Oct morning)
+- Six 20 s films, no voice, CC0 nature recordings plus a quiet score (`films/cutaway/series/README.md`). Final files go to
+  Sam's Mac `Video Production/kino-films/series/`.
+- Reef and Wreck: done (Mac lane, 480 frames; 20.0 s, -16.2 LUFS; on the Mac with preview and sheet). Weak spot: the
+  opening wide holds nearly still for about 7 s.
+- The Gold Mine: rendering on the Mac lane (about 5 s a frame, started 04:20 UTC).
+- River Through Time, Sleeping Volcano, Under the City, The Hidden Meadow: rendering on rc-render `films.yml` (runs
+  39894366759, 39895728062, 39896034330, 39896254752).
+- Also delivered to the Mac on 23 Oct: Why Venice Sinks (`under-the-surface-venice.mp4`, 2:37, -14.1 LUFS) and the
+  cinematic look test (`style-cutaway-cinematic.mp4`, 12 s, silent). Agincourt v2: both inserts landed; chain.yml
+  dispatched by hand at 04:21 UTC (its cron had not fired).
+
 ## Cutaway in the studio (23 Oct, in progress)
 - Sam (22 Oct, 20:24 Toronto): "I love the cutaway style, I need it in the kinoforge studio." Free tools only.
 - Web studio: Films page has a Cutaway section and filters; Cutaway films appear on their own once their files are in rc-render `kino-films` (seasons loop now; Venice, the drainage ad in both formats, the cinematic test and the line example when they land). Styles page shows the five house styles (Cutaway, Battle Map, Kinetic, Lantern Road, Clay) with a poster each; "Start a film" on a live line opens the director with that line (Cutaway: 16:9 or 9:16). The director chat and `/api/build` know the `cutaway` line (30 to 90 s, format in the brief).
