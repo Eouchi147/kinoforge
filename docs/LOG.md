@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Sam (22:54): adds subtle ambient music under the nature sounds; artistic, cinematic, self-contained films; Mac unlocked, he ran caffeinate. Mac lane v2 started in Blender (gen 1, `mac-jobs/`, caffeinate per job); the old lane on `mac-queue/` keeps serving the builders' check stills. His 2 TB external drive does not appear in /Volumes (only Macintosh HD, 13 GB free).
 - Cutaway series sound: The Gold Mine re-mixed on its NOTES event table (owl 2.0 s, lantern creak, drips, cart clunk at 10.5 s, both diggers' blows, ladder every other rung, bright clicks then the ringing strike at 11.0 s, bats shiver, burst past the lens at 12.9 s, dense flutter thinning from 14.15 s). US$0.
 - Cutaway series sound: River, Meadow, Reef and Volcano re-mixed on their builds' own times (blender.py shot lists and T_ constants: hiker steps 14.6 to 18.2 s, hawk shadow 12.7 s and the silence to 16.4 s, splash 5.35 s and breath bubbles, eruption 14.2 s and the sea hissing under the lava); NOTES tables will refine them. US$0.
 - Cutaway series sound: The Gold Mine re-mixed on its build's own times (blender.py: walk 0.6 to 5.4 s, cart to 10.5, ladder 5.6 to 12.6, blows 8.6, 9.8, 11.0 with the ring and sparks, bats wake 11.45 and pour out at 14.15 with the bat recording BigSoundBank 0458); kit: reverb sends. US$0.

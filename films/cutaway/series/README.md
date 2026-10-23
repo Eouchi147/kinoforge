@@ -4,7 +4,7 @@
 The seasons loop (`films/cutaway/loops/seasons/`) was the first; these six show other kinds of story the style can tell.
 Each film: about 20 s, 24 fps, one place, a beginning, a middle and an end, cinematic light (Sam, 12:01: haze, fog, god
 rays, animated fauna and flora, easter eggs in the soil, interesting angles), a small title set in code at the start
-(the film's name) and nothing else written, sound = real nature recordings only (BigSoundBank CC0), no music, no voice.
+(the film's name) and nothing else written, sound = real nature recordings (BigSoundBank CC0) with a subtle, peaceful ambient score under them (free score engine; Sam, 22:54: "ambient, peaceful subtle music; artistic, cinema direction, self contained"), no voice.
 
 | # | id | Title | Use it shows | Format | Story in 20 s |
 | --- | --- | --- | --- | --- | --- |
