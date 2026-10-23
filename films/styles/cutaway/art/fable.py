@@ -263,6 +263,30 @@ def _floor(cw, kit):
     mx = g.node('ShaderNodeAddShader'); g.link(e, mx.inputs[0]); g.link(t, mx.inputs[1]); cw._finish(g, mx); return m
 
 
+def _kit_floor(cw, kit):
+    """The seasons loop's backdrop as a painted wash: its colour follows the loop's own season backdrop (set in frame),
+    richer, lighter round the block and deeper toward the edges, with a soft painted shadow under the block."""
+    m = cw._new_mat(kit.bpy, 'fable_backdrop'); g = cw.G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
+    rgb = g.node('ShaderNodeRGB'); rgb.outputs[0].default_value = lin(CREAM); rgb.label = 'fable_bg'
+    r = g.vmath('LENGTH', g.vmath('MULTIPLY', tc.outputs['Object'], (1, 1, 0)))
+    edge = g.math('MULTIPLY', g.math('SUBTRACT', r, 1.6), 1 / 7.0, clamp=True)
+    col = g.mix(1.0, rgb.outputs[0], g.math('SUBTRACT', 1.08, g.math('MULTIPLY', edge, 0.30)), 'MULTIPLY')
+    n = g.noise(tc.outputs['Object'], 0.8, 3.0, 0.55)
+    col = g.mix(1.0, col, g.math('ADD', 0.94, g.math('MULTIPLY', n.outputs['Fac'], 0.12)), 'MULTIPLY')
+    a = g.node('ShaderNodeAmbientOcclusion', ins={'Distance': 0.9}); a.samples = 8
+    col = g.mix(1.0, col, g.math('MULTIPLY_ADD', a.outputs['AO'], 0.35, 0.65), 'MULTIPLY')
+    e = g.node('ShaderNodeEmission', ins={'Color': col, 'Strength': 1.0}); cw._finish(g, e)
+    return m, rgb
+
+
+def _rich(c_lin):
+    """A pale backdrop colour (linear) made a storybook wash: more saturated, a touch deeper."""
+    import colorsys
+    f = lambda v: 12.92 * v if v <= 0.0031308 else 1.055 * v ** (1 / 2.4) - 0.055
+    h, sat, v = colorsys.rgb_to_hsv(*(f(x) for x in c_lin[:3]))
+    return lin(colorsys.hsv_to_rgb(h, min(1.0, sat * 3.2 + 0.08), v * 0.92))
+
+
 # ---------------------------------------------------------------------------------------------- trees
 def _tree_mat(cw, kit, name, crown, deep):
     m = cw._new_mat(kit.bpy, name); g = cw.G(m.node_tree, kit)
@@ -328,11 +352,13 @@ def apply(bpy, film, ctx):
         if J.principled(m) is None: continue
         # the finds glow a little brighter than the land around them (treasure in a storybook)
         kw = dict(amb=0.92, lit=0.45, ao=0.03, cool=(0.86, 0.88, 1.0)) if k.startswith('ex_') and k not in ('ex_cavity', 'ex_dig', 'ex_soil') else dict(amb=0.66, lit=0.5, ao=0.04)
+        if kitscene and k.startswith('sz_') and k not in ('sz_cavity',):   # the seasons' living colours, bright as paint
+            kw = dict(amb=0.88, lit=0.45, ao=0.04, cool=(0.74, 0.80, 1.0)); P.convert(m, None, sat=1.45, **kw); continue
         if k in RECOLOR: P.convert(m, RECOLOR[k], **kw)
         else: P.convert(m, None, sat=1.3, **kw)
     _strata(P, cw, kit, L.strata, land.level, land.objects['walls'].material_slots[0].material)
     if kitscene:    # the seasons loop's own ground (season colour, wet, snow) is kept and repainted
-        P.convert(land.objects['top'].material_slots[0].material, None, sat=1.3, amb=0.62, lit=0.55, ao=0.06, tex=0.06, tex_scale=14.0)
+        P.convert(land.objects['top'].material_slots[0].material, None, sat=1.45, amb=0.85, lit=0.45, ao=0.06, tex=0.06, tex_scale=14.0, cool=(0.74, 0.80, 1.0))
     else: land.objects['top'].material_slots[0].material = _top(P, cw, kit, land)
     if 'water' in land.objects: _water(cw, kit, land, sd, land.objects['water'].material_slots[0].material)
     grass_mats = {}
@@ -343,7 +369,10 @@ def apply(bpy, film, ctx):
                     if s.material.name not in grass_mats: grass_mats[s.material.name] = _grass(P, cw, kit, 'fable_' + s.material.name)
                     s.material = grass_mats[s.material.name]
     for o in objs:
-        if o.name in ('ex_floor', 'cw_floor'): o.material_slots[0].material = _floor(cw, kit)
+        if o.name == 'ex_floor': o.material_slots[0].material = _floor(cw, kit)
+        if o.name == 'cw_floor' and kitscene:
+            src = o.material_slots[0].material; m, rgb = _kit_floor(cw, kit); o.material_slots[0].material = m
+            film._fable['bg'] = (J.principled(src), rgb)
         if o.name == 'sz_haze': J.hide(film, o)      # the seasons loop's god-ray haze box would grey the paint
     # god rays: warm gold, a little stronger (the painted rays of a storybook sunset)
     sm = bpy.data.materials.get('ex_shaft_mat')
@@ -401,5 +430,7 @@ def frame(bpy, film, ctx, t, shot):
     sun's strength each frame (after which this runs), the sun is softened again for the flat paint."""
     sun = film._fable.get('sun')
     if sun is not None: sun.data.energy *= 0.55
+    bg = film._fable.get('bg')
+    if bg is not None and bg[0] is not None: bg[1].outputs[0].default_value = _rich(tuple(bg[0].inputs['Base Color'].default_value))
     for ob, ph, amp in film._fable.get('trees', []):
         ob.rotation_euler = (amp * math.sin(0.9 * t + ph), amp * 0.7 * math.cos(0.7 * t + 1.3 * ph), 0.0)

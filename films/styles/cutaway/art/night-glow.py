@@ -13,6 +13,10 @@ What it changes: every material (moonlit dark paint plus emission for what glows
 aurora), the floor, the lights (sun turned into a cool moon, fill, rim, edge spills, god rays and cloud shadows off,
 museum spots dimmed to a glow), adds fireflies (the cinematic extras' fireflies), the compositor (bloom, vignette).
 
+Works on the line films and on the seasons loop (a kit scene, through art/_adapter.py): there the loop's season-driven
+ground, grass, leaves, blossom, snow and ice keep their own colours (dimmed less than the rest, so the seasons read
+under the moon), the grass tips, snowflakes, ice edge, frog, acorns and fossil glow, and the loop's haze is hidden.
+
 Render cost vs the reference: about the same or cheaper. Mostly emission, 3 bounces, no glass refraction (the water is
 emissive and partly transparent); the fireflies add tiny emitters only.
 """
@@ -44,6 +48,8 @@ GLOW = {'ex_bone': (SEA, 1.2), 'ex_tooth': (SEA, 1.2), 'ex_nacre': (CYAN, 1.6), 
         'ex_terracotta': ((1.0, 0.55, 0.30), 0.8), 'ex_bronze': (GOLD, 1.5), 'ex_chestwood': ((1.0, 0.60, 0.30), 0.5),
         'ex_straw': (LIME, 0.6), 'ex_spines': (LIME, 0.4), 'ex_molefur': (CYAN, 0.4), 'ex_wellwater': (CYAN, 2.0),
         'cw_lilyflower': ((1.0, 0.75, 0.95), 1.6), 'cw_bloom': ((0.95, 0.60, 1.0), 1.4), 'cw_cattail': (LIME, 0.5),
+        'sz_flake': ((0.85, 0.95, 1.0), 1.2), 'sz_ice': (CYAN, 0.6), 'sz_frog': (LIME, 1.0), 'sz_acorn': (GOLD, 1.0), 'sz_fossil': (CYAN, 1.2),
+        'sz_leaf': (SEA, 0.25), 'sz_fish': (CYAN, 1.5), 'sz_fin': (CYAN, 1.5),
         'ex_deercoat': (SEA, 0.35), 'ex_foxred': (SEA, 0.35), 'ex_herongrey': (SEA, 0.5), 'ex_fish': (CYAN, 1.5), 'ex_fin': (CYAN, 1.5)}
 
 
@@ -225,7 +231,7 @@ def apply(bpy, film, ctx):
     st = next(iter(film.built.values())); kit = st['kit']; land = st['land']; L = st['L']
     rig = st.get('rig'); sd = np.asarray(rig['sun_dir'] if rig else (-0.6, 0.6, 0.35), float)
     md = np.array([sd[0], sd[1], 0.0]); md = md / np.linalg.norm(md) * math.cos(math.radians(9)) + np.array([0, 0, math.sin(math.radians(9))])
-    P = J.Paint(cw, kit)
+    P = J.Paint(cw, kit); kitscene = J.is_kit(film); film._night = {'md': md}
     objs = J.scene_objects(film); seen = set()
     for m in J.scene_materials(objs):
         k = _key(m.name)
@@ -235,13 +241,20 @@ def apply(bpy, film, ctx):
         sock, val = J.base_color(m)
         g = cw.G(m.node_tree, kit)
         col = sock if sock is not None else val
-        dark = g.mix(1.0, col, (0.55, 0.62, 0.80, 1.0), 'MULTIPLY')
-        sh = _night(P, g, dark)
+        if kitscene and k.startswith('sz_'):    # the seasons' living colours stay readable under the moon
+            sh = _night(P, g, g.mix(1.0, col, (0.80, 0.84, 0.95, 1.0), 'MULTIPLY'), amb=0.42, lit=0.6)
+        else: sh = _night(P, g, g.mix(1.0, col, (0.55, 0.62, 0.80, 1.0), 'MULTIPLY'))
+        if k == 'sz_grass':     # glowing tips on the seasons grass (its own colour and snow underneath)
+            tc = g.node('ShaderNodeTexCoord'); oi = g.node('ShaderNodeObjectInfo')
+            tip = g.math('POWER', g.math('MULTIPLY', g.sep(tc.outputs['Object'])[2], 13.0, clamp=True), 4.0)
+            e = g.node('ShaderNodeEmission', ins={'Color': g.mix(oi.outputs['Random'], lin(LIME), lin(CYAN)),
+                                                  'Strength': g.math('MULTIPLY', g.math('MULTIPLY', tip, g.math('GREATER_THAN', oi.outputs['Random'], 0.55)), 2.2)})
+            ad = g.node('ShaderNodeAddShader'); g.link(sh, ad.inputs[0]); g.link(e, ad.inputs[1]); sh = ad
         if k in GLOW:
             c, s = GLOW[k]; sh = _glow_add(g, sh, c, s)
-        J.set_surface(m, sh)
+        J.under_mask(m, sh)
     _strata(P, cw, kit, L.strata, land.objects['walls'].material_slots[0].material)
-    land.objects['top'].material_slots[0].material = _top(P, cw, kit, land)
+    if not kitscene: land.objects['top'].material_slots[0].material = _top(P, cw, kit, land)
     if 'water' in land.objects: _water(cw, kit, land, land.objects['water'].material_slots[0].material)
     done = {}
     for col in bpy.data.collections:
@@ -255,7 +268,8 @@ def apply(bpy, film, ctx):
                 elif k == 'cw_leaf' and s.material.name not in done:
                     _leaf(P, cw, kit, s.material); done[s.material.name] = s.material
     for o in objs:
-        if o.name == 'ex_floor': o.material_slots[0].material = _floor(cw, kit)
+        if o.name in ('ex_floor', 'cw_floor'): o.material_slots[0].material = _floor(cw, kit)
+        if o.name == 'sz_haze': J.hide(film, o)
         if o.name.startswith(('ex_shaft', 'ex_gobo')): J.hide(film, o)
     # ---- world and light: the sun becomes a cool moon; the museum spots become a faint glow on the finds
     wd = _sky(bpy, cw, kit, md)
@@ -271,11 +285,15 @@ def apply(bpy, film, ctx):
     # ---- fireflies over the grass (the cinematic extras' own, blinking on their own rhythm)
     before = set(bpy.data.objects.keys())
     T = getattr(land, 'trees', None)
-    ex.fireflies(kit, land, 70, near=[tuple(p) for p in T] if T is not None and len(T) else None, z=(0.03, 0.30), name='ng_ff')
+    hx, hy = land.size[0] / 2 - 0.15, land.size[1] / 2 - 0.15
+    ex.fireflies(kit, land, 70, area=((-hx, hx), (-hy, hy)), near=[tuple(p) for p in T] if T is not None and len(T) else None, z=(0.03, 0.30), name='ng_ff')
     for n in set(bpy.data.objects.keys()) - before: J.adopt(film, bpy.data.objects[n])
     # ---- render
-    cy = sc.cycles; cy.max_bounces = 3; cy.diffuse_bounces = 1; cy.glossy_bounces = 1; cy.transmission_bounces = 2; cy.transparent_max_bounces = 24
-    J.recolor_overlay(film, ink=INK, paper=PAPER)
+    cy = sc.cycles; cy.max_bounces = 3; cy.diffuse_bounces = 1; cy.glossy_bounces = 1; cy.transmission_bounces = 2
+    cy.transparent_max_bounces = max(24, cy.transparent_max_bounces)
+    if kitscene: film._night['sun'] = J.sun_object(film)
+    # the line films' words sit on pale plates (midnight ink); the seasons title has no plate, so it is set pale itself
+    J.recolor_overlay(film, ink=(0.80, 0.90, 1.0) if kitscene else INK, paper=PAPER)
     J.type_layer(bpy, film)
     ng, N, Lk, base = J.comp_begin(bpy, 'night_comp')
     img = base.outputs['Image']
@@ -285,3 +303,13 @@ def apply(bpy, film, ctx):
     Lk.new(img, gl.inputs['Image']); img = gl.outputs['Image']
     img = J.vignette(N, Lk, img, W, H, amount=0.30)
     J.comp_end(bpy, ng, img)
+
+
+def frame(bpy, film, ctx, t, shot):
+    """On the seasons loop its own frame() re-poses the sun each frame (season height and colour): turn it back into the
+    cool low moon, dimmed. Nothing to do on the line films."""
+    sun = film._night.get('sun')
+    if sun is None: return
+    from mathutils import Vector
+    sun.data.color = (0.62, 0.74, 1.0); sun.data.energy *= 0.45
+    sun.rotation_euler = Vector(tuple(film._night['md'])).to_track_quat('Z', 'Y').to_euler()

@@ -114,21 +114,22 @@ def under_mask(mat, shader):
 
 
 def scene_materials(objs):
+    """Every material the scene renders: on its objects, and on the instance prototypes of the kit's scatter (grass,
+    flowers, trees, rocks, reeds, lilies, weed), which live in collections that are not linked to the scene."""
+    import bpy
     seen = {}
-    for o in objs:
+    def add(o):
         for s in getattr(o, 'material_slots', []):
             if s.material is not None: seen[s.material.name] = s.material
-        # instancers (geometry nodes on point meshes) carry no slots: their prototypes do
-        for md in getattr(o, 'modifiers', []):
-            if md.type == 'NODES':
-                for it in md.node_group.interface.items_tree if md.node_group else []:
-                    if getattr(it, 'socket_type', '') == 'NodeSocketCollection':
-                        try: c = md[it.identifier]
-                        except Exception: c = None
-                        if c is not None:
-                            for po in c.all_objects:
-                                for s in po.material_slots:
-                                    if s.material is not None: seen[s.material.name] = s.material
+    for o in objs: add(o)
+    linked = set()
+    def walk(c):
+        linked.add(c.name)
+        for ch in c.children: walk(ch)
+    walk(bpy.context.scene.collection)
+    for c in bpy.data.collections:
+        if c.name not in linked:
+            for o in c.all_objects: add(o)
     return list(seen.values())
 
 

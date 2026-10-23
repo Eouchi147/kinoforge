@@ -39,3 +39,12 @@ Runner stills were not dispatched (this builder does not commit or push); the co
    and social loops. They pay for a striking, shareable night image.
 3. Wellness, sleep and meditation apps: calm looping backgrounds (fireflies, glowing water, slow moon). They pay for
    long, quiet, loopable footage.
+
+## On the seasons loop (23 Oct, Sam's new base)
+Board folder `films/cutaway/looks/seasons-night-glow/`, frames 40, 100, 260. What differs from the meadow: the loop's
+season materials keep their own colours, dimmed less than the rest (so blossom, green, autumn and snow read under the
+moon); the grass tips glow; snowflakes, the ice edge, the frog, the acorns and the fish glow; the loop's haze box is
+hidden; the loop re-poses the sun each frame, so this look turns it back into the low cool moon each frame; the title is
+pale (no plate on the loop). Rounds (270x480, 8 samples, local): r1 seasons read, but the dark title vanished on the dark
+ground; r2 pale title, accepted. 13 to 35 s a frame here at 270x480. Weak spots: the camera looks down, so the night sky
+(moon, aurora, stars) is not in this frame: the background is a dark floor; the summer grass tips glow busily.

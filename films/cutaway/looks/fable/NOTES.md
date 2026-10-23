@@ -56,3 +56,14 @@ lowering into the hills by the end. It should feel like the opening pages of a p
    rather than technical. They pay for an exhibit piece that families stop for.
 3. Wineries, terroir food brands and luxury hospitality: the land cut open to show the soil under a vineyard or an
    estate, told with classical music. They pay for premium storytelling about place and origin.
+
+## On the seasons loop (23 Oct, Sam's new base)
+Board folder `films/cutaway/looks/seasons-fable/`, frames 40, 100, 260. What differs from the meadow: the loop's own
+season-driven ground, grass, leaves (blossom, summer green, autumn, thinning), snow and ice are kept and repainted in the
+same paint (their colours drive it, brighter: ambient 0.85 to 0.88, saturation 1.45); the kit trees stay (their seasons
+are the story), no painted trees; the backdrop is a painted wash whose colour follows the loop's own season backdrop
+(pale green, gold, peach, blue), made richer each frame; the loop's haze box is hidden; the sun is softened each frame
+after the loop sets it; the title is midnight ink (no plate). Rounds (270x480, 8 samples, local): r1 dark teal backdrop
+and dark plants (the instance prototypes were not repainted: fixed for every look in _jewel.scene_materials); r2 seasonal
+backdrop; r3 brighter plants; r4 accepted (spring blossom, summer green, winter snow and ice all read). 13 to 32 s a frame
+here at 270x480. Weak spot: the brushwork is subtler at 9:16 because the block is small in the frame.

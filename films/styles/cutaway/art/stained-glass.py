@@ -15,6 +15,11 @@ rosette), the floor (dark leaded slabs), the grass and flowers (hidden), the lig
 only the sun is kept for nothing but shadows, which do not show), view transform Standard, the compositor (edge lead,
 glow, vignette).
 
+Works on the line films and on the seasons loop (a kit scene, through art/_adapter.py): there the loop's season-driven
+ground (with its snow), leaves (blossom, autumn, thinning), ice and life keep their own colours as glass, the grass and
+flowers are hidden as on the line, the ground under the block takes the loop's season backdrop colour, and the title is
+set in pale glass white (it has no plate there).
+
 Render cost vs the reference: cheaper. Emission only, no grass blades (the most expensive geometry), 2 bounces: about
 0.3 to 0.5 times the reference per frame, plus 1 to 2 s of compositing at 1280x720.
 """
@@ -179,16 +184,20 @@ def _water(cw, kit, land, m):
     J.under_mask(m, mx)
 
 
-def _floor(cw, kit):
+def _floor(cw, kit, tinted=False):
+    """Dark leaded slabs; tinted=True (the seasons loop) takes its colour from an RGB node set each frame from the loop's
+    own season backdrop, so the window's ground changes with the year."""
     m = cw._new_mat(kit.bpy, 'glass_floor'); g = cw.G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
-    e = glass(g, lin((0.10, 0.14, 0.30)), tc.outputs['Object'], scale=0.9, lead=0.02, sat=1.0, glow=0.55)
-    cw._finish(g, e); return m
+    rgb = g.node('ShaderNodeRGB'); rgb.outputs[0].default_value = lin((0.10, 0.14, 0.30))
+    e = glass(g, rgb.outputs[0] if tinted else lin((0.10, 0.14, 0.30)), tc.outputs['Object'], scale=0.9, lead=0.02, sat=1.0 if not tinted else 1.3, glow=0.55 if not tinted else 0.85)
+    cw._finish(g, e); return m, rgb
 
 
 def apply(bpy, film, ctx):
     cw = film.cw; sc = bpy.context.scene; W, H = ctx['W'], ctx['H']
     st = next(iter(film.built.values())); kit = st['kit']; land = st['land']; L = st['L']
     rig = st.get('rig'); sd = np.asarray(rig['sun_dir'] if rig else (-0.6, 0.6, 0.35), float); sd = sd / np.linalg.norm(sd)
+    kitscene = J.is_kit(film); film._glass = {}
     objs = J.scene_objects(film); seen = set()
     for m in J.scene_materials(objs):
         k = _key(m.name)
@@ -201,31 +210,54 @@ def apply(bpy, film, ctx):
             sock, val = J.base_color(m)
             if sock is None and val is None: continue
             col = sock if sock is not None else val
-        J.set_surface(m, glass(g, col, tc.outputs['Object'], scale=14.0, lead=0.025, bubbles=False))
+        big = k == 'sz_top'     # the seasons ground (its own season colour and snow), cut in large panes
+        # on the seasons loop the many small things (fallen leaves, flakes, canopies, animals) get no inner lead (it
+        # turned them black at this distance): one tinted pane each, outlined by the edge lead in the compositor
+        ld = 0.022 if big else (0.0 if kitscene else 0.025)
+        J.under_mask(m, glass(g, col, tc.outputs['Object'], scale=5.0 if big else 14.0, lead=ld, bubbles=big))
     _strata(cw, kit, L.strata, land.objects['walls'].material_slots[0].material)
-    land.objects['top'].material_slots[0].material = _top(cw, kit, land)
+    if not kitscene: land.objects['top'].material_slots[0].material = _top(cw, kit, land)
     if 'water' in land.objects: _water(cw, kit, land, land.objects['water'].material_slots[0].material)
     for o in objs:
-        if o.name == 'ex_floor': o.material_slots[0].material = _floor(cw, kit)
-        if o.name in ('cw_grass', 'cw_flowers') or o.name.startswith(('ex_shaft', 'ex_gobo')): J.hide(film, o)
+        if o.name == 'ex_floor': o.material_slots[0].material = _floor(cw, kit)[0]
+        if o.name == 'cw_floor':
+            src = o.material_slots[0].material; m, rgb = _floor(cw, kit, tinted=kitscene); o.material_slots[0].material = m
+            film._glass['bg'] = (J.principled(src), rgb)
+        if o.name in ('cw_grass', 'cw_flowers', 'sz_grass', 'sz_flowers', 'sz_haze') or o.name.startswith(('ex_shaft', 'ex_gobo')): J.hide(film, o)
     wd = _sky(bpy, cw, kit, sd)
     for s in film.built.values(): s['world'] = wd
     sc.world = wd
-    cy = sc.cycles; cy.max_bounces = 2; cy.diffuse_bounces = 0; cy.glossy_bounces = 0; cy.transmission_bounces = 1; cy.transparent_max_bounces = 16
+    cy = sc.cycles; cy.max_bounces = 2; cy.diffuse_bounces = 0; cy.glossy_bounces = 0; cy.transmission_bounces = 1
+    cy.transparent_max_bounces = max(16, cy.transparent_max_bounces)
     sc.view_settings.view_transform = 'Standard'
     try: sc.view_settings.look = 'None'
     except Exception: pass
-    J.recolor_overlay(film, ink=(0.03, 0.03, 0.04), paper=(0.98, 0.97, 0.94))
+    J.recolor_overlay(film, ink=(0.99, 0.96, 0.86) if kitscene else (0.03, 0.03, 0.04), paper=(0.98, 0.97, 0.94))
     J.type_layer(bpy, film)
+    if kitscene:
+        land.objects['top'].pass_index = 7; sc.view_layers['paint'].use_pass_object_index = True
+        for o in objs:      # and none on what lies on it: fallen leaves, snowflakes, the ice sheet (a cut-out over the whole top), mist
+            if o.name in ('sz_leaves', 'sz_snow', 'sz_ice', 'sz_fog'): o.pass_index = 7
     ng, N, Lk, base = J.comp_begin(bpy, 'glass_comp')
     img = base.outputs['Image']
     # lead along every outline: an edge filter on the flat render, thresholded and thickened
     sob = N.new('CompositorNodeFilter')
     try: sob.inputs['Type'].default_value = 'Sobel'
     except Exception: pass
-    Lk.new(img, sob.inputs['Image'])
+    bl = N.new('CompositorNodeBlur'); Lk.new(img, bl.inputs['Image'])       # a light blur first: lead on shapes, not on texture
+    r = max(1.0, 1.5 * max(W, H) / 1280.0)
+    try: bl.inputs['Size'].default_value = (r, r)
+    except Exception: pass
+    Lk.new(bl.outputs['Image'], sob.inputs['Image'])
     bw = N.new('CompositorNodeRGBToBW'); Lk.new(sob.outputs['Image'], bw.inputs['Image'])
     edge = J.cmath(N, Lk, 'GREATER_THAN', bw.outputs['Val'], 0.55)
+    if kitscene:    # no edge lead inside the seasons ground (its snow and litter are patchy): its own panes lead it
+        rl = [n for n in N if n.bl_idname == 'CompositorNodeRLayers' and n.layer == 'paint'][0]
+        im = N.new('CompositorNodeIDMask'); im.inputs['Index'].default_value = 7; Lk.new(rl.outputs['Object Index'], im.inputs['ID value'])
+        px = max(1, int(round(2.0 * max(W, H) / 1280.0)))
+        cl = N.new('CompositorNodeDilateErode'); Lk.new(im.outputs['Alpha'], cl.inputs['Mask']); cl.inputs['Size'].default_value = px + 1   # close pinholes
+        er = N.new('CompositorNodeDilateErode'); Lk.new(cl.outputs['Mask'], er.inputs['Mask']); er.inputs['Size'].default_value = -(2 * px + 1)
+        edge = J.cmath(N, Lk, 'MULTIPLY', edge, J.cmath(N, Lk, 'SUBTRACT', 1.0, er.outputs['Mask']))
     di = N.new('CompositorNodeDilateErode'); Lk.new(edge, di.inputs['Mask']); di.inputs['Size'].default_value = int(round(1.0 * W / 1280.0))
     img = J.cmix(N, Lk, di.outputs['Mask'], img, lin(LEAD))
     gl = N.new('CompositorNodeGlare')
@@ -234,3 +266,15 @@ def apply(bpy, film, ctx):
     Lk.new(img, gl.inputs['Image']); img = gl.outputs['Image']
     img = J.vignette(N, Lk, img, W, H, amount=0.22)
     J.comp_end(bpy, ng, img)
+
+
+def frame(bpy, film, ctx, t, shot):
+    """On the seasons loop: the leaded ground under the block takes the loop's season backdrop colour (set by its own
+    frame just before), deepened like coloured glass. Nothing to do on the line films."""
+    bg = film._glass.get('bg')
+    if bg is None or bg[0] is None: return
+    import colorsys
+    c = bg[0].inputs['Base Color'].default_value
+    h, sat, v = colorsys.rgb_to_hsv(c[0], c[1], c[2])
+    r, g, b = colorsys.hsv_to_rgb(h, min(1.0, sat * 3.5 + 0.18), v * 0.10)
+    bg[1].outputs[0].default_value = (r, g, b, 1.0)

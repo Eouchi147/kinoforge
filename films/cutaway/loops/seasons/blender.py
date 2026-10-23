@@ -14,6 +14,8 @@ Check: render frames 287 and 0 and compare.
 Life and light (szlife.py): haze with god rays, spring mist, autumn ground fog; a duck, fish behind the glass, a squirrel
 burying acorns, a robin leaving tracks in the snow; easter eggs in the cut faces (an ammonite, a gold vein, the acorn
 cache); the title "One pond. One year." set in code.
+Art directions (opt-in): $KF_ART=<name> (or KF_ART_NAME set by a look-board folder, films/cutaway/looks/seasons-<name>/)
+dresses the finished scene with films/styles/cutaway/art/<name>.py through art/_adapter.py; without it, unchanged.
 Files: szworld.py (land, pond, timeline), szmats.py (season-driven materials), szlife.py, this file (build and frame),
 audio/make_audio.py (ambience and the loopable score -> audio/mix.m4a). Kit: films/styles/cutaway/cutaway.py (imported).
 """
@@ -428,6 +430,15 @@ def build(bpy, ctx):
          'ramp': next(n for n in nodes if n.bl_idname == 'ShaderNodeValToRGB').color_ramp,
          'bg_light': next(b for b in bgs if not b.inputs['Color'].is_linked)}
     frame(bpy, ctx, S, 0, 0.0)
+    # opt-in art direction (films/styles/cutaway/art/<name>.py) through the kit adapter: the look-board folders set
+    # KF_ART_NAME before running this file, or $KF_ART names it; without either, nothing here changes the film
+    art = globals().get('KF_ART_NAME') or os.environ.get('KF_ART')
+    if art:
+        import importlib.util
+        sp = importlib.util.spec_from_file_location('kf_art_adapter', os.path.join(ROOT, 'films', 'styles', 'cutaway', 'art', '_adapter.py'))
+        ad = importlib.util.module_from_spec(sp); sp.loader.exec_module(ad)
+        S['art'] = ad.attach(bpy, ctx, art, kit=kit, land=L, cam=cam, settings=SETTINGS, strata=STRATA, words=[life['title']])
+        S['art'].frame(bpy, ctx, 0.0)
     return S
 
 def frame(bpy, ctx, S, i, t):
@@ -455,3 +466,4 @@ def frame(bpy, ctx, S, i, t):
     ice['ob'].data.vertices.foreach_set('co', co.ravel()); ice['ob'].data.update()
     lf = S['life']; LF.duck_pose(lf['duck'], t); LF.fish_pose(lf['fish'], t); LF.squirrel_pose(lf['squirrel'], t); LF.robin_pose(lf['robin'], t)
     frog_pose(S['frog'], kit, t); leaves_pose(S['leaves'], t); snow_pose(S['snow'], t); birds_pose(S['birds'], kit, t); flies_pose(S['flies'], t)
+    if S.get('art') is not None: S['art'].frame(bpy, ctx, t)

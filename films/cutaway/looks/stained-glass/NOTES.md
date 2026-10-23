@@ -41,3 +41,15 @@ Runner stills were not dispatched (this builder does not commit or push); the co
    poster. They pay for a look that becomes part of the brand.
 3. Cultural seasons and festivals (Art Nouveau exhibitions, city anniversaries, light festivals): title sequences and
    posters. They pay for a striking, period-flavoured identity.
+
+## On the seasons loop (23 Oct, Sam's new base)
+Board folder `films/cutaway/looks/seasons-stained-glass/`, frames 40, 100, 260. What differs from the meadow: the loop's
+season ground (with its snow) is cut in large glass panes, leaves, ice and life are glass in their own colours; small
+things get no inner lead (one tinted pane each, outlined by the compositor's edge lead); grass and flowers are hidden as
+on the meadow; the leaded ground around the block takes the loop's season backdrop colour (green, ochre, blue); the edge
+lead is masked off the ground, the ice sheet, the fallen leaves and the snowflakes (object index pass), else the patchy
+snow turned into black scribble; the title is pale glass white (no plate). Rounds (270x480, 8 samples, local): r1 grey
+backdrop, winter top black with lead; r2 seasonal backdrop, light blur before the edge filter; r3 no inner lead on small
+things; r4 to r6 edge lead masked off the ground (pinholes in the index mask closed); r7 quieter backdrop, accepted.
+10 to 19 s a frame here at 270x480, the cheapest. Weak spots: the backdrop panes are busy next to the block; spring
+blossom canopies read as outlined blobs.
