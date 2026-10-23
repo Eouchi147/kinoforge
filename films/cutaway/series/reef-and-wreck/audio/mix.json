@@ -1,0 +1,40 @@
+{
+ "seconds_wav": 20.0,
+ "seconds_m4a": 20.0,
+ "lufs": -18.01,
+ "peak_dbfs": -1.5,
+ "m4a_decoded_lufs": -18.1,
+ "m4a_decoded_peak_dbfs": -1.49,
+ "sample_rate": 48000,
+ "codec": "aac 256k stereo",
+ "fade_in_s": 0.8,
+ "fade_out_s": 1.2,
+ "sources": {
+  "bubbles_burst": [
+   "turtle breath bubbles at 9.50 s",
+   "diver bubbles at 17.15 s"
+  ],
+  "creaking_door_2": [
+   "the hull creaks at 12.40 s",
+   "the hull creaks at 14.60 s"
+  ],
+  "gulls_harbor": [
+   "gulls at 0.60 s"
+  ],
+  "small_waves_ocean": [
+   "bed 0.0-20.0 s",
+   "bed 4.2-20.0 s"
+  ],
+  "splash_big_1": [
+   "diver splash (above) at 16.80 s"
+  ],
+  "underwater": [
+   "bed 3.9-20.0 s"
+  ],
+  "water_bubbles": [
+   "reef bubbles at 6.40 s"
+  ]
+ },
+ "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
+ "notes": "surf and gulls; underwater hush with the surf through water; reef bubbles; hull creaks; diver splash"
+}

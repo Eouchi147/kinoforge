@@ -1,0 +1,16 @@
+{
+ "id": "cutaway-series-reef-and-wreck",
+ "series": "Cutaway showcase",
+ "title": "Reef and Wreck",
+ "style": "cutaway",
+ "duration": 20,
+ "fps": 24,
+ "frames": 480,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "audio": "audio/mix.m4a",
+ "note": "Cutaway showcase film 4 (ocean, travel, adventure, tourism), 16:9. A small tropical island on a block of clear sea; through the glass cut faces: light rays, a coral reef with anemones, a school of fish that turns together, a sea turtle, a sunken wooden ship and an open chest of gold; a diver rolls off a little boat and swims down to the chest. Three shots (arrive, descent, wreck). Blender Cutaway kit + cinematic extras (imported). Sound: real nature recordings only (see NOTES.md events table)."
+}
