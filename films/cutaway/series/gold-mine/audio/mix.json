@@ -1,56 +1,96 @@
 {
  "seconds_wav": 20.0,
  "seconds_m4a": 20.0,
- "lufs": -18.0,
+ "lufs": -18.02,
  "peak_dbfs": -2.0,
  "m4a_decoded_lufs": -18.09,
- "m4a_decoded_peak_dbfs": -1.96,
+ "m4a_decoded_peak_dbfs": -1.99,
  "sample_rate": 48000,
  "codec": "aac 256k stereo",
  "fade_in_s": 0.8,
  "fade_out_s": 1.2,
  "sources": {
   "anvil_1": [
-   "the ringing strike, the gold glints at 16.60 s"
+   "the strike rings: gold at 11.00 s"
+  ],
+  "bats": [
+   "bats wake in the cavern at 11.45 s",
+   "bats pour out across the moon at 14.15 s"
   ],
   "campaign_night_1": [
-   "bed 0.0-5.0 s"
+   "bed 0.0-20.0 s"
   ],
-  "candle_sparkle_1": [
-   "bed 4.0-20.0 s"
+  "candle_sparkle_2": [
+   "bed 6.0-14.2 s"
   ],
   "cave_1": [
-   "bed 3.0-20.0 s"
+   "bed 5.4-14.8 s"
   ],
   "fall_of_stone": [
-   "chips fall at 13.65 s",
-   "chips fall at 14.65 s",
-   "chips fall at 15.65 s",
-   "rock gives, the vein shows at 16.68 s"
+   "chips fall at 8.64 s",
+   "chips fall at 9.84 s",
+   "chips fall at 11.04 s"
+  ],
+  "fire_foley": [
+   "sparks at 11.02 s"
+  ],
+  "flight_bird_1": [
+   "wings in the cavern at 11.95 s",
+   "wings rush out at 14.60 s"
+  ],
+  "flight_bird_2": [
+   "wings rush out at 15.05 s"
+  ],
+  "flight_pigeon": [
+   "wings in the cavern at 12.85 s",
+   "wings rush out at 14.20 s",
+   "wings rush out at 15.75 s"
   ],
   "hammer_concrete": [
-   "pick strikes rock at 13.60 s",
-   "pick strikes rock at 14.60 s",
-   "pick strikes rock at 15.60 s"
+   "diggers far off at 7.20 s",
+   "diggers far off at 8.35 s",
+   "diggers far off at 9.50 s",
+   "diggers far off at 10.65 s",
+   "diggers far off at 11.80 s",
+   "diggers far off at 7.85 s",
+   "diggers far off at 9.25 s",
+   "diggers far off at 10.65 s",
+   "diggers far off at 12.05 s",
+   "pick strikes rock at 8.60 s",
+   "pick strikes rock at 9.80 s",
+   "pick strikes rock at 11.00 s"
   ],
   "owl_tawny": [
-   "an owl on the mountain at 1.40 s"
+   "an owl on the mountain at 1.20 s"
   ],
   "squeaky_barrow_4": [
-   "cart wheels squeal at 8.50 s"
+   "cart wheels squeal at 5.70 s"
   ],
   "squeaky_steps_1": [
-   "ladder rung at 6.00 s",
-   "ladder rung at 6.70 s",
-   "ladder rung at 7.40 s"
+   "ladder rung creaks at 6.20 s",
+   "ladder rung creaks at 7.27 s",
+   "ladder rung creaks at 8.33 s",
+   "ladder rung creaks at 9.40 s",
+   "ladder rung creaks at 10.47 s",
+   "ladder rung creaks at 11.53 s"
   ],
   "steam_between_wagons": [
-   "cart rumble on the rails at 8.70 s"
+   "cart rumble on the rails at 5.70 s"
+  ],
+  "steps_gravel_1": [
+   "the miner walks in at 0.60 s",
+   "the miner walks in at 1.15 s",
+   "the miner walks in at 1.70 s",
+   "the miner walks in at 2.25 s",
+   "the miner walks in at 2.80 s",
+   "the miner walks in at 3.35 s",
+   "the miner walks in at 3.90 s",
+   "the miner walks in at 4.45 s"
   ],
   "wind_plain": [
-   "bed 0.0-5.5 s"
+   "bed 0.0-20.0 s"
   ]
  },
  "licence": "all CC0 (BigSoundBank), see films/cutaway/series/SOUND.md",
- "notes": "night wind and owl outside; cave air, drips, lantern; ladder, cart, pick strikes; the ringing strike at the glint"
+ "notes": "night wind, crickets, owl and the miner's steps; cave air and lanterns; cart, ladder, far diggers; three blows, the last rings with sparks; bats wake and pour out across the moon"
 }

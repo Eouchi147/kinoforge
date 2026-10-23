@@ -111,6 +111,7 @@ def onset(x, thr=0.1):
 class Mix:
     def __init__(self, seed=1):
         self.bus = np.zeros((N, 2), np.float32)
+        self.send = np.zeros((N, 2), np.float32)   # what goes to the room (send=dB on bed and spot)
         self.rng = np.random.default_rng(seed)
         self.used = {}                       # name -> how it is used, for mix.json and SOUND.md
 
@@ -118,7 +119,7 @@ class Mix:
         self.used.setdefault(name, []).append(how)
 
     def bed(self, name, start=0.0, gain=0.0, env=None, hp=None, lp=None, speed=1.0, width=1.0, p=0.0, t0=0.0, t1=DUR,
-            fi=1.0, fo=1.0, xf=0.8):
+            fi=1.0, fo=1.0, xf=0.8, send=None):
         """A looped bed from `start` s into the recording, heard t0..t1 (with fades), level `gain` dB, optional dB
         envelope [(t, dB)] over the film (absolute times)."""
         x = load(name); x = x[int(start * SR) % len(x):] if start < len(x) / SR else x
@@ -130,11 +131,12 @@ class Mix:
         seg = y[:m]
         if env is not None: seg = seg * envelope(env)[i:i + m, None]
         self.bus[i:i + m] += seg
+        if send is not None: self.send[i:i + m] += seg * db(send)
         self._note(name, f'bed {t0:.1f}-{t1:.1f} s')
         return self
 
     def spot(self, name, t, gain=0.0, p=0.0, start=0.0, length=None, hp=None, lp=None, speed=1.0, fi=0.005, fo=0.05,
-             trim=True, width=1.0, label='', sweep=None):
+             trim=True, width=1.0, label='', sweep=None, send=None):
         """One recording placed so its onset lands at t (seconds); `length` is the heard length (after any slowing);
         sweep=(p0, p1) moves it across the frame (a bus or a train passing)."""
         x = load(name)[int(start * SR):]
@@ -149,14 +151,18 @@ class Mix:
         i = int(round(t * SR))
         if i < 0: x = x[-i:]; i = 0
         m = min(len(x), N - i)
-        if m > 0: self.bus[i:i + m] += x[:m]
+        if m > 0:
+            self.bus[i:i + m] += x[:m]
+            if send is not None: self.send[i:i + m] += x[:m] * db(send)
         self._note(name, f'{label or "spot"} at {t:.2f} s')
         return self
 
     def room(self, rt60=1.5, wet=0.25, seed=7, predelay=0.02):
-        """Send the whole bus through a synthetic room (the cave, the tunnel): wet adds to dry."""
+        """A synthetic room (the cave, the tunnel): the sends (send=dB on bed and spot) if any were used, else the
+        whole bus, go through it; wet adds to dry."""
         ir = dsp.make_ir(rt60, np.random.default_rng(seed), predelay=predelay)
-        self.bus = self.bus + dsp.convolve(self.bus, ir) * wet
+        src = self.send if np.abs(self.send).max() > 0 else self.bus
+        self.bus = self.bus + dsp.convolve(src, ir) * wet
         return self
 
     def master(self, out_dir, lufs=-18.0, ceiling=-2.0, fi=0.8, fo=1.2, notes=None):

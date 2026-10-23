@@ -85,21 +85,27 @@ Surf and gulls; underwater hush with the surf through water; reef bubbles; hull 
 
 ## The Gold Mine (`gold-mine`)
 
-Night wind and owl outside; cave air, drips, lantern; ladder, cart, pick strikes; the ringing strike at the glint. Measured: -18.09 LUFS, peak -1.96 dBFS, 20.0 s.
+Night wind, crickets, owl and the miner's steps; cave air and lanterns; cart, ladder, far diggers; three blows, the last rings with sparks; bats wake and pour out across the moon. Measured: -18.09 LUFS, peak -1.99 dBFS, 20.0 s.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `anvil_1` | the ringing strike, the gold glints at 16.60 s | https://bigsoundbank.com/s3589.html |
-| `campaign_night_1` | bed 0.0-5.0 s | https://bigsoundbank.com/s0110.html |
-| `candle_sparkle_1` | bed 4.0-20.0 s | https://bigsoundbank.com/s1278.html |
-| `cave_1` | bed 3.0-20.0 s | https://bigsoundbank.com/s2135.html |
-| `fall_of_stone` | chips fall at 13.65 s; chips fall at 14.65 s; chips fall at 15.65 s; rock gives, the vein shows at 16.68 s | https://bigsoundbank.com/s1022.html |
-| `hammer_concrete` | pick strikes rock at 13.60 s; pick strikes rock at 14.60 s; pick strikes rock at 15.60 s | https://bigsoundbank.com/s1108.html |
-| `owl_tawny` | an owl on the mountain at 1.40 s | https://bigsoundbank.com/s0429.html |
-| `squeaky_barrow_4` | cart wheels squeal at 8.50 s | https://bigsoundbank.com/s2519.html |
-| `squeaky_steps_1` | ladder rung at 6.00 s; ladder rung at 6.70 s; ladder rung at 7.40 s | https://bigsoundbank.com/s3440.html |
-| `steam_between_wagons` | cart rumble on the rails at 8.70 s | https://bigsoundbank.com/s3020.html |
-| `wind_plain` | bed 0.0-5.5 s | https://bigsoundbank.com/s0595.html |
+| `anvil_1` | the strike rings: gold at 11.00 s | https://bigsoundbank.com/s3589.html |
+| `bats` | bats wake in the cavern at 11.45 s; bats pour out across the moon at 14.15 s | https://bigsoundbank.com/s0458.html |
+| `campaign_night_1` | bed 0.0-20.0 s | https://bigsoundbank.com/s0110.html |
+| `candle_sparkle_2` | bed 6.0-14.2 s | https://bigsoundbank.com/s1279.html |
+| `cave_1` | bed 5.4-14.8 s | https://bigsoundbank.com/s2135.html |
+| `fall_of_stone` | chips fall at 8.64 s; chips fall at 9.84 s; chips fall at 11.04 s | https://bigsoundbank.com/s1022.html |
+| `fire_foley` | sparks at 11.02 s | https://bigsoundbank.com/s3322.html |
+| `flight_bird_1` | wings in the cavern at 11.95 s; wings rush out at 14.60 s | https://bigsoundbank.com/s2891.html |
+| `flight_bird_2` | wings rush out at 15.05 s | https://bigsoundbank.com/s2892.html |
+| `flight_pigeon` | wings in the cavern at 12.85 s; wings rush out at 14.20 s; wings rush out at 15.75 s | https://bigsoundbank.com/s0840.html |
+| `hammer_concrete` | diggers far off at 7.20 s; diggers far off at 8.35 s; diggers far off at 9.50 s; diggers far off at 10.65 s; diggers far off at 11.80 s; diggers far off at 7.85 s; diggers far off at 9.25 s; diggers far off at 10.65 s; diggers far off at 12.05 s; pick strikes rock at 8.60 s; pick strikes rock at 9.80 s; pick strikes rock at 11.00 s | https://bigsoundbank.com/s1108.html |
+| `owl_tawny` | an owl on the mountain at 1.20 s | https://bigsoundbank.com/s0429.html |
+| `squeaky_barrow_4` | cart wheels squeal at 5.70 s | https://bigsoundbank.com/s2519.html |
+| `squeaky_steps_1` | ladder rung creaks at 6.20 s; ladder rung creaks at 7.27 s; ladder rung creaks at 8.33 s; ladder rung creaks at 9.40 s; ladder rung creaks at 10.47 s; ladder rung creaks at 11.53 s | https://bigsoundbank.com/s3440.html |
+| `steam_between_wagons` | cart rumble on the rails at 5.70 s | https://bigsoundbank.com/s3020.html |
+| `steps_gravel_1` | the miner walks in at 0.60 s; the miner walks in at 1.15 s; the miner walks in at 1.70 s; the miner walks in at 2.25 s; the miner walks in at 2.80 s; the miner walks in at 3.35 s; the miner walks in at 3.90 s; the miner walks in at 4.45 s | https://bigsoundbank.com/s0510.html |
+| `wind_plain` | bed 0.0-20.0 s | https://bigsoundbank.com/s0595.html |
 
 ## The Sleeping Volcano (`sleeping-volcano`)
 
