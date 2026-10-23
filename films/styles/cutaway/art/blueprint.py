@@ -171,8 +171,12 @@ def stylize(P, info):
 
 def _dims(bpy, film, ctx, t, shot):
     """Screen positions of the block's dimension anchors (NaN when behind the camera)."""
-    st = next(iter(film.built.values())); land = st['kit'] and st['land']
-    sx, sy = land.size; dp = land.depth; off = 0.22
+    if not hasattr(film.O, 'project'): return {}
+    try:
+        st = next(iter(film.built.values())); land = st['land']; sx, sy = land.size; dp = land.depth
+    except Exception:
+        return {}
+    off = 0.22
     pts = [(-sx / 2, -sy / 2, 0.0), (-sx / 2, -sy / 2, -dp), (sx / 2, -sy / 2, -dp),
            (-sx / 2 - off, -sy / 2, 0.0), (-sx / 2 - off, -sy / 2, -dp), (sx / 2, -sy / 2 - off, -dp - off)]
     q = NL.project_points(film, pts)
@@ -181,10 +185,13 @@ def _dims(bpy, film, ctx, t, shot):
 
 def apply(bpy, film, ctx):
     NL.setup(bpy, film, ctx, stylize)
-    film.bp_tag = film.O.text('bp_section', 'SECTION A-A', 21 * film.r, (0.07, 0.09, 0.12), 'LEFT', 1.25, bold=0.3)
+    film.bp_tag = None
+    if hasattr(film.O, 'text') and hasattr(film, 'r'):       # the line engine's overlay; a kit scene (adapter) has no text maker
+        film.bp_tag = film.O.text('bp_section', 'SECTION A-A', 21 * film.r, (0.07, 0.09, 0.12), 'LEFT', 1.25, bold=0.3)
     NL.recolor_overlay(film, (0.045, 0.16, 0.34), (0.84, 0.96, 1.0), font=FONT)
 
 
 def frame(bpy, film, ctx, t, shot):
-    r = film.r; film.bp_tag.set_alpha(0.95); film.bp_tag.place_text(-ctx['W'] / 2 + 46 * r, -ctx['H'] / 2 + 50 * r)
+    if getattr(film, 'bp_tag', None) is not None:
+        r = film.r; film.bp_tag.set_alpha(0.95); film.bp_tag.place_text(-ctx['W'] / 2 + 46 * r, -ctx['H'] / 2 + 50 * r)
     NL.frame(bpy, film, ctx, t, shot, extra=_dims)

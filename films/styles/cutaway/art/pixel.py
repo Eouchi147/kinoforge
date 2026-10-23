@@ -72,10 +72,10 @@ def apply(bpy, film, ctx):
     dim = P.array_image(bpy, 'kf_dither', dith)
     lim = P.array_image(bpy, 'kf_lut', lut_array())
     C = P.Comp(bpy, sc)
-    rl = C.render(sc); words = C.render(B)
+    rl = C.render(sc); words = C.render(B) if B else None
     bl = C.node('CompositorNodeBlur', {'Image': rl.outputs['Image'], 'Size': (SCALE / 2.0, SCALE / 2.0)}); bl.inputs['Type'].default_value = 'Flat'
     small = C.scale(bl.outputs['Image'], 1.0 / SCALE, interp='Bilinear')
-    col = C.display(small, view='AgX', look='AgX - Medium High Contrast', exposure=film.SETTINGS['exposure'] + 0.55)
+    col = C.display(small, view='AgX', look='AgX - Medium High Contrast', exposure=P.exposure_of(film) + 0.55)
     # a little lift in saturation and contrast so the palette picks the lively colours
     hs = C.node('CompositorNodeHueSat', {'Image': col, 'Saturation': 1.4, 'Value': 1.0})
     col = hs.outputs['Image']
@@ -97,19 +97,10 @@ def apply(bpy, film, ctx):
     ink = C.mix(C.math('MULTIPLY', edge, 0.85), pic, P.hexrgb(PALETTE[0]) + (1.0,))
     big = C.scale(ink, float(SCALE), interp='Nearest')
     # words on top at full resolution
-    ow = C.node('CompositorNodeAlphaOver', {'Background': big, 'Foreground': words.outputs['Image']})
-    dbg = os.environ.get('KF_DBG')
-    C.finish({'1': col, '2': rl.outputs['Image'], '3': words.outputs['Image'], '4': small, '5': pic}.get(dbg) or ow.outputs['Image'])
+    ow = C.node('CompositorNodeAlphaOver', {'Background': big, 'Foreground': words.outputs['Image']}) if words else None
+    C.finish(ow.outputs['Image'] if ow else big)
     P.display_raw(sc)
-    film.pixel = {'scene_words': B}
 
 
 def frame(bpy, film, ctx, t, shot):
-    film.cam.ob.data.dof.use_dof = False
-    if os.environ.get('KF_DBG') == '9':
-        B = film.pixel['scene_words']
-        print('WORDS', [(o.name, round(o.scale[0], 5), [round(v, 3) for v in o.location], o.type) for o in B.objects if not o.hide_render], flush=True)
-    if os.environ.get('KF_DBG') == '8':
-        B = film.pixel['scene_words']; B.render.filepath = '/tmp/claude-0/-home-claude/b576bd3d-71d2-5bea-b286-3ba8d53b8c9d/scratchpad/out/words.png'
-        B.render.image_settings.file_format = 'PNG'; B.render.image_settings.color_mode = 'RGBA'
-        bpy.ops.render.render(scene='kf_words', write_still=True)
+    P.set_dof(film, False)

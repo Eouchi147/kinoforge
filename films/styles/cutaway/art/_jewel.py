@@ -15,7 +15,9 @@ What is here:
 - hide(film, ob), adopt(film, ob): hide an object of the built set for good / add a new object to the set, so the engine's
   per-shot visibility switch (Film._show) keeps them that way.
 - principled(mat), base_color(mat): read a kit material's base colour (a linked socket or a value) to rebuild it.
-- under_mask(mat, shader): swap a wall or water shader while keeping the egg openings cut by Eggs.finish().
+- under_mask(mat, shader): swap a shader while keeping its cut-out (egg openings, thinning canopies, forming ice).
+- is_kit(film), sun_object(film): True for a kit-built scene behind the adapter (films/styles/cutaway/art/_adapter.py),
+  and the scene's sun lamp.
 - Paint(cw, kit): a flat paint shader (emission in a cool shadow colour, a hard toon terminator from the sun, contact
   shadow, gouache mottle, optional rim) and convert(mat) to rebuild any kit material in it from its own colour.
 - recolor_overlay(film, ink, paper): restyle the words layer (ink and paper colours), keeping its alpha fades.
@@ -93,17 +95,21 @@ def set_surface(mat, shader_socket, keep_volume=False):
 
 
 def under_mask(mat, shader):
-    """Put a new surface shader into a kit material, keeping the egg openings: Eggs.finish() wraps the wall and water
-    shaders in a mix with a Transparent BSDF over every opening, so the new shader goes into that mix when it is there."""
+    """Put a new surface shader into a material, keeping its cut-out: Eggs.finish() wraps the wall and water shaders in
+    a mix with a Transparent BSDF over every opening, and the seasons loop does the same for its burrow, its thinning
+    canopies and its ice; when the output is such a mix, the new shader replaces only the non-transparent side."""
     if hasattr(shader, 'outputs') and not hasattr(shader, 'is_output'): shader = shader.outputs[0]
     nt = mat.node_tree; o = output_node(mat)
     if o is not None and o.inputs['Surface'].is_linked:
         src = o.inputs['Surface'].links[0].from_node
-        if src.bl_idname == 'ShaderNodeMixShader' and src.inputs[2].is_linked and src.inputs[2].links[0].from_node.bl_idname == 'ShaderNodeBsdfTransparent':
-            for l in list(src.inputs[1].links): nt.links.remove(l)
-            nt.links.new(shader, src.inputs[1])
-            for l in list(o.inputs['Volume'].links): nt.links.remove(l)
-            return True
+        if src.bl_idname == 'ShaderNodeMixShader':
+            tr = [k for k in (1, 2) if src.inputs[k].is_linked and src.inputs[k].links[0].from_node.bl_idname == 'ShaderNodeBsdfTransparent']
+            if tr:      # a cut-out (egg openings, a thinning canopy, ice that forms): keep it, swap the other side
+                k = 3 - tr[0]
+                for l in list(src.inputs[k].links): nt.links.remove(l)
+                nt.links.new(shader, src.inputs[k])
+                for l in list(o.inputs['Volume'].links): nt.links.remove(l)
+                return True
     set_surface(mat, shader); return False
 
 
@@ -302,4 +308,15 @@ class Paint:
             if sock is None and val is None: return False
             col = sock if sock is not None else val
             hs = g.node('ShaderNodeHueSaturation', ins={'Saturation': sat, 'Value': 1.0, 'Color': col}); col = hs.outputs['Color']
-        set_surface(mat, self.shader(g, col, **kw)); return True
+        under_mask(mat, self.shader(g, col, **kw)); return True
+
+
+def is_kit(film):
+    """True when the film is a kit-built scene seen through _adapter.KitFilm (the seasons loop), not the line engine."""
+    return getattr(film, 'kind', 'line') == 'kit'
+
+
+def sun_object(film):
+    for o in scene_objects(film):
+        if o.type == 'LIGHT' and o.data.type == 'SUN': return o
+    return None

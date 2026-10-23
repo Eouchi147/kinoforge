@@ -132,10 +132,15 @@ def stylize(P, info):
 
 
 def apply(bpy, film, ctx):
-    nt = bpy.data.materials['cw_strata'].node_tree
-    att = [n for n in nt.nodes if n.bl_idname == 'ShaderNodeAttribute' and n.attribute_name == 'sd'][0]
-    aov = nt.nodes.new('ShaderNodeOutputAOV'); aov.aov_name = 'sd'; nt.links.new(att.outputs['Fac'], aov.inputs['Value'])
-    NL.setup(bpy, film, ctx, stylize, aovs=['sd'])
+    # an AOV with the strata coordinate ('sd') from the strata material (cw_strata, or sz_strata of the seasons loop); if a
+    # scene has none, the lines on the cut faces run level (world height) instead
+    have = False
+    for m in bpy.data.materials:
+        if 'strata' in m.name and m.node_tree:
+            att = [n for n in m.node_tree.nodes if n.bl_idname == 'ShaderNodeAttribute' and n.attribute_name == 'sd']
+            if att and not any(n.bl_idname == 'ShaderNodeOutputAOV' for n in m.node_tree.nodes):
+                aov = m.node_tree.nodes.new('ShaderNodeOutputAOV'); aov.aov_name = 'sd'; m.node_tree.links.new(att[0].outputs['Fac'], aov.inputs['Value']); have = True
+    NL.setup(bpy, film, ctx, stylize, aovs=['sd'] if have else [])
     NL.recolor_overlay(film, (0.97, 0.93, 0.82), (0.20, 0.115, 0.065))
 
 

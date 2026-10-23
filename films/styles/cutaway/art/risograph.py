@@ -60,8 +60,8 @@ def apply(bpy, film, ctx):
     P.hide_shafts(film)
     inv = separation_matrix()
     C = P.Comp(bpy, sc)
-    rl = C.render(sc); words = C.render(B)
-    col = C.display(rl.outputs['Image'], view='AgX', look='AgX - Medium High Contrast', exposure=film.SETTINGS['exposure'] + 0.5)
+    rl = C.render(sc); words = C.render(B) if B else None
+    col = C.display(rl.outputs['Image'], view='AgX', look='AgX - Medium High Contrast', exposure=P.exposure_of(film) + 0.5)
     col = C.node('CompositorNodeHueSat', {'Image': col, 'Saturation': 1.1, 'Value': 1.0}).outputs['Image']
     col = C.node('CompositorNodeBrightContrast', {'Image': col, 'Brightness': 0.0, 'Contrast': 0.22}).outputs['Image']
     # optical density of the picture against the paper
@@ -86,12 +86,11 @@ def apply(bpy, film, ctx):
         f = C.mix(plates[k], (1.0, 1.0, 1.0, 1.0), tuple(INKS[k]) + (1.0,))
         out = C.mix(1.0, out, f, 'MULTIPLY')
     # words printed in one dark ink (their own scene, crisp)
-    wi = words.outputs['Image']
-    ow = C.node('CompositorNodeAlphaOver', {'Background': out, 'Foreground': wi})
-    C.finish(ow.outputs['Image'])
+    if words:
+        ow = C.node('CompositorNodeAlphaOver', {'Background': out, 'Foreground': words.outputs['Image']}); out = ow.outputs['Image']
+    C.finish(out)
     P.display_raw(sc)
-    film.riso = {'words': B}
 
 
 def frame(bpy, film, ctx, t, shot):
-    film.cam.ob.data.dof.use_dof = False
+    P.set_dof(film, False)

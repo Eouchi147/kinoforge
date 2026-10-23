@@ -16,6 +16,10 @@ What it changes: every material of the set (paint shaders), the world (painted s
 spills off, museum spots halved), view transform Standard, the compositor (brushwork, grain, glow, vignette), the words'
 colours (midnight ink on cream). Animals, eggs, houses, mill and bridge keep their shapes and are repainted.
 
+Works on the line films (engine.Film) and on the seasons loop (a kit scene, through art/_adapter.py): there the loop's
+own season-driven ground, grass, leaves (blossom, autumn, thinning), snow and ice are kept and repainted in the same
+paint (their colours drive the paint), the kit trees stay (their seasons are the story), and the loop's haze is hidden.
+
 Render cost vs the reference: cheaper. Mostly emission with few bounces (3), no glass refraction, no world lighting:
 about 0.6 to 0.8 times the reference per frame on the same machine, plus about 1 to 3 s of compositing at 1280x720.
 """
@@ -313,7 +317,7 @@ def apply(bpy, film, ctx):
     st = next(iter(film.built.values())); kit = st['kit']; land = st['land']; L = st['L']
     rig = st.get('rig'); sd = np.asarray(rig['sun_dir'] if rig else (-0.6, 0.6, 0.35), float); sd = sd / np.linalg.norm(sd)
     P = J.Paint(cw, kit)
-    film._fable = {}
+    film._fable = {}; kitscene = J.is_kit(film)      # the seasons loop (kit scene through _adapter) or the line engine
     # ---- materials
     objs = J.scene_objects(film); seen = set()
     for m in J.scene_materials(objs):
@@ -327,7 +331,9 @@ def apply(bpy, film, ctx):
         if k in RECOLOR: P.convert(m, RECOLOR[k], **kw)
         else: P.convert(m, None, sat=1.3, **kw)
     _strata(P, cw, kit, L.strata, land.level, land.objects['walls'].material_slots[0].material)
-    land.objects['top'].material_slots[0].material = _top(P, cw, kit, land)
+    if kitscene:    # the seasons loop's own ground (season colour, wet, snow) is kept and repainted
+        P.convert(land.objects['top'].material_slots[0].material, None, sat=1.3, amb=0.62, lit=0.55, ao=0.06, tex=0.06, tex_scale=14.0)
+    else: land.objects['top'].material_slots[0].material = _top(P, cw, kit, land)
     if 'water' in land.objects: _water(cw, kit, land, sd, land.objects['water'].material_slots[0].material)
     grass_mats = {}
     for col in bpy.data.collections:
@@ -337,7 +343,8 @@ def apply(bpy, film, ctx):
                     if s.material.name not in grass_mats: grass_mats[s.material.name] = _grass(P, cw, kit, 'fable_' + s.material.name)
                     s.material = grass_mats[s.material.name]
     for o in objs:
-        if o.name == 'ex_floor': o.material_slots[0].material = _floor(cw, kit)
+        if o.name in ('ex_floor', 'cw_floor'): o.material_slots[0].material = _floor(cw, kit)
+        if o.name == 'sz_haze': J.hide(film, o)      # the seasons loop's god-ray haze box would grey the paint
     # god rays: warm gold, a little stronger (the painted rays of a storybook sunset)
     sm = bpy.data.materials.get('ex_shaft_mat')
     if sm is not None:
@@ -353,11 +360,13 @@ def apply(bpy, film, ctx):
     # ---- trees
     film._fable['trees'] = _trees(bpy, film, P, cw, kit, land, sd)
     # ---- render: flat paint wants few bounces and the Standard view (colours as painted)
-    cy = sc.cycles; cy.max_bounces = 3; cy.diffuse_bounces = 1; cy.glossy_bounces = 1; cy.transmission_bounces = 2; cy.transparent_max_bounces = 24
+    cy = sc.cycles; cy.max_bounces = 3; cy.diffuse_bounces = 1; cy.glossy_bounces = 1; cy.transmission_bounces = 2
+    cy.transparent_max_bounces = max(24, cy.transparent_max_bounces)     # the seasons canopies are cut-outs: keep its 64
     sc.view_settings.view_transform = 'Standard'
     try: sc.view_settings.look = 'None'
     except Exception: pass
-    sc.view_settings.exposure = film.SETTINGS['exposure']
+    sc.view_settings.exposure = 0.0 if kitscene else film.SETTINGS['exposure']
+    if kitscene: film._fable['sun'] = J.sun_object(film)
     # ---- words: midnight ink on cream, in their own layer, laid over the brushwork
     J.recolor_overlay(film, ink=INK, paper=CREAM)
     J.type_layer(bpy, film)
@@ -366,12 +375,12 @@ def apply(bpy, film, ctx):
     kw = N.new('CompositorNodeKuwahara')
     try: kw.inputs['Type'].default_value = 'Anisotropic'
     except Exception: pass
-    kw.inputs['Size'].default_value = max(2.0, 5.0 * W / 1280.0); kw.inputs['Uniformity'].default_value = 4
+    kw.inputs['Size'].default_value = max(2.0, 5.0 * max(W, H) / 1280.0); kw.inputs['Uniformity'].default_value = 4
     kw.inputs['Sharpness'].default_value = 0.75; kw.inputs['Eccentricity'].default_value = 1.1
     Lk.new(img, kw.inputs['Image']); img = kw.outputs['Image']
     # paper grain and a broad wash (screen space, like paint on a board)
     nrm, x, y = J.uv(N, Lk, img)
-    sv = N.new('ShaderNodeVectorMath'); sv.operation = 'MULTIPLY'; Lk.new(nrm, sv.inputs[0]); sv.inputs[1].default_value = (W / 1280.0 * 16, W / 1280.0 * 9, 1)
+    sv = N.new('ShaderNodeVectorMath'); sv.operation = 'MULTIPLY'; Lk.new(nrm, sv.inputs[0]); sv.inputs[1].default_value = (W / 80.0, H / 80.0, 1)
     gr = N.new('ShaderNodeTexNoise'); gr.inputs['Scale'].default_value = 26.0; gr.inputs['Detail'].default_value = 6.0; gr.inputs['Roughness'].default_value = 0.75
     Lk.new(sv.outputs[0], gr.inputs['Vector'])
     wa = N.new('ShaderNodeTexNoise'); wa.inputs['Scale'].default_value = 0.35; wa.inputs['Detail'].default_value = 3.0
@@ -388,6 +397,9 @@ def apply(bpy, film, ctx):
 
 
 def frame(bpy, film, ctx, t, shot):
-    """The painted trees sway a little in the wind (pure function of t)."""
+    """The painted trees sway a little in the wind (pure function of t). On the seasons loop, whose own frame() sets the
+    sun's strength each frame (after which this runs), the sun is softened again for the flat paint."""
+    sun = film._fable.get('sun')
+    if sun is not None: sun.data.energy *= 0.55
     for ob, ph, amp in film._fable.get('trees', []):
         ob.rotation_euler = (amp * math.sin(0.9 * t + ph), amp * 0.7 * math.cos(0.7 * t + 1.3 * ph), 0.0)

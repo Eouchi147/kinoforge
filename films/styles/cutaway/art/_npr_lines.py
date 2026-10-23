@@ -40,6 +40,13 @@ _MAT_RULES = [
     ('ex_deer', 'animal'), ('ex_fox', 'animal'), ('ex_heron', 'animal'), ('ex_duck', 'animal'), ('ex_fish', 'animal'), ('ex_fin', 'animal'),
     ('ex_mole', 'animal'), ('ex_hog', 'animal'), ('ex_spines', 'animal'), ('_fur', 'animal'), ('ex_pink', 'animal'), ('ex_nose', 'animal'),
     ('ex_beak', 'animal'), ('ex_eye', 'animal'),
+    # the seasons loop (films/cutaway/loops/seasons) names its materials sz_*
+    ('sz_strata', 'strata'), ('sz_top', 'top'), ('sz_block', 'bottom'), ('sz_water', 'water'), ('sz_ice', 'water'), ('sz_grass', 'grass'),
+    ('sz_leaf', 'leaf'), ('sz_needles', 'leaf'), ('sz_pines', 'leaf'), ('sz_trees', 'leaf'), ('sz_bark', 'bark'), ('sz_birch', 'bark'),
+    ('sz_bankstones', 'rock'), ('sz_boulders', 'rock'), ('sz_bedstones', 'rock'), ('sz_flowers', 'plant'), ('sz_reeds', 'plant'),
+    ('sz_weed', 'plant'), ('sz_lilies', 'plant'), ('sz_fallen', 'fly'), ('sz_leaves', 'fly'), ('sz_flake', 'fly'), ('sz_snow', 'top'),
+    ('sz_duck', 'animal'), ('sz_fish', 'animal'), ('sz_fin', 'animal'), ('sz_frog', 'animal'), ('sz_fur', 'animal'), ('sz_robin', 'animal'),
+    ('sz_squirrel', 'animal'), ('sz_bird', 'animal'), ('sz_eye', 'animal'), ('sz_fly', 'fly'), ('sz_flywing', 'fly'),
 ]
 
 
@@ -62,7 +69,7 @@ class Runner:
         sc = bpy.context.scene; vl = sc.view_layers[0]
         classify_materials(bpy)
         k = 0
-        for st in film.built.values():      # one object index per object: boundaries between objects become lines
+        for st in getattr(film, 'built', {}).values():      # one object index per object: boundaries between objects become lines
             for ob in st['objs']:
                 if ob.type == 'MESH': k += 1; ob.pass_index = k
         for a in ('use_pass_normal', 'use_pass_z', 'use_pass_position', 'use_pass_diffuse_color', 'use_pass_material_index', 'use_pass_object_index'):
@@ -71,7 +78,7 @@ class Runner:
         self.cap_group = self._capture_group(sc)
         self.fin_group = None
         self.img = None
-        self.over = [e.ob for e in film.O.items]      # overlay objects: only these are drawn in the final render
+        self.over = [e.ob for e in getattr(getattr(film, 'O', None), 'items', [])]      # overlay objects (labels, title): only these are drawn in the final render
         sc.compositing_node_group = self.cap_group
         self.orig = dict(samples=sc.cycles.samples, denoise=sc.cycles.use_denoising, adapt=sc.cycles.use_adaptive_sampling,
                          transp=sc.render.film_transparent, vt=sc.view_settings.view_transform, look=sc.view_settings.look,
@@ -120,7 +127,7 @@ class Runner:
         bpy = self.bpy; sc = bpy.context.scene
         if self.saved is not None:
             shown, objs = self.saved
-            if self.film.shown == shown:
+            if getattr(self.film, 'shown', None) == shown:
                 for ob, h in objs:
                     try: ob.hide_render = h
                     except ReferenceError: pass
@@ -164,12 +171,12 @@ class Runner:
         self.img.pixels.foreach_set(px.ravel()); self.img.update()
         sc.compositing_node_group = self.fin_group
         objs = []
-        for st in self.film.built.values():
+        for st in getattr(self.film, 'built', {}).values():
             for ob in st['objs']:
                 try:
                     if not ob.hide_render: objs.append((ob, False)); ob.hide_render = True
                 except ReferenceError: pass
-        self.saved = (self.film.shown, objs)
+        self.saved = (getattr(self.film, 'shown', None), objs)
         cy = sc.cycles; cy.samples = 1; cy.use_denoising = False; cy.use_adaptive_sampling = False; sc.render.film_transparent = True
         sc.view_settings.view_transform = 'Standard'
         try: sc.view_settings.look = 'None'
@@ -178,7 +185,7 @@ class Runner:
         # the overlay items re-draw themselves each frame (hide_render follows their alpha): nothing to restore for them
 
     def info(self, t, shot):
-        film = self.film; O = film.O; d = {'t': t, 'shot': shot.get('camera'), 'W': self.W, 'H': self.H, 'frame': self.n}
+        d = {'t': t, 'shot': (shot or {}).get('camera', ''), 'W': self.W, 'H': self.H, 'frame': self.n}
         return d
 
 
@@ -376,7 +383,7 @@ def project_points(film, pts):
     """World points -> pixel coordinates (origin top-left, y down) in the delivery frame, via the overlay's camera maths."""
     W, H = film.O.W, film.O.H; out = []
     for p in pts:
-        q = film.O.project(p)
+        q = film.O.project(p) if hasattr(film.O, 'project') else None
         out.append(None if q is None else (W / 2 + q[0], H / 2 - q[1]))
     return out
 
@@ -439,13 +446,13 @@ def recolor_overlay(film, paper_rgb, ink_rgb, font=None):
     """Re-colour the overlay (labels, title, counters) so it belongs to the look: light things become paper_rgb, dark ink_rgb.
     Colours in sRGB 0..1. font: path to a ttf for the text objects (optional). Words stay what the script says."""
     import bpy
-    gain = film.O.gain
-    for e in film.O.items:
+    for e in getattr(getattr(film, 'O', None), 'items', []):
+        if getattr(e, 'em', None) is None: continue
         c = e.em.inputs['Color'].default_value; l = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
         tgt = paper_rgb if l > 0.35 else ink_rgb
         e.em.inputs['Color'].default_value = (*[float(v) for v in srgb_to_lin(np.array(tgt))], 1.0)
         e.em.inputs['Strength'].default_value = 1.0
-        if font and e.kind == 'text': e.ob.data.font = bpy.data.fonts.load(font)
+        if font and e.ob.type == 'FONT': e.ob.data.font = bpy.data.fonts.load(font)
 
 
 STRATA_TIME = [(0.26, 0.17, 0.10), (0.90, 0.74, 0.46), (0.78, 0.44, 0.28), (0.56, 0.36, 0.22), (0.62, 0.58, 0.54), (0.84, 0.60, 0.28), (0.88, 0.84, 0.74), (0.24, 0.25, 0.30)]
@@ -466,7 +473,7 @@ def strata_labels(alb, palette=None, sigma=3.0, vote=5.0):
 def strata_palette(film):
     """The strata colours (sRGB) of the first built set, top-down; None if not found."""
     try:
-        st = next(iter(film.built.values())); return [tuple(l[2]) for l in st['L'].strata]
+        st = next(iter(film.built.values())); return [tuple(l[2]) for l in st['L'].strata] or None
     except Exception:
         return None
 

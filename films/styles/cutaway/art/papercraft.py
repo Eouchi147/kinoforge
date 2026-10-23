@@ -33,9 +33,9 @@ def posterize(g, col, n):
 
 def paper_filter(levels=7, fib=0.30, scale=380.0, dark=1.0):
     def fn(g, c):
-        if dark != 1.0: c = srgb((0.40, 0.23, 0.15))[:3]
+        if dark != 1.0: c = srgb((0.36, 0.25, 0.18))[:3]
         tc = g.node('ShaderNodeTexCoord'); f = P.fibre(g, tc.outputs['Object'], scale)
-        c = posterize(g, c, levels)
+        if dark == 1.0: c = posterize(g, c, levels)
         return g.mix(1.0, c, g.vmath('ADD', (1.0 - fib * 0.5,) * 3, g.vmath('SCALE', (fib,) * 3, scale=f)), 'MULTIPLY')
     return fn
 
@@ -150,7 +150,7 @@ def ridges(film, kit, land):
 
 
 def apply(bpy, film, ctx):
-    name, st = next(iter(film.built.items())); kit = st['kit']; land = st['land']
+    name, st = P.sets_of(bpy, film)[0]; kit = st['kit']; land = st.get('land')
     sc = bpy.context.scene
     # ---- materials
     for m in list(bpy.data.materials):
@@ -158,7 +158,7 @@ def apply(bpy, film, ctx):
         if m.name in ('cw_water', 'ex_shaft_mat', 'ex_gobo') or m.name.startswith('cw_window') or m.name.startswith('cw_lamphead') or m.name == 'ex_floor': continue
         if m.name == 'cw_strata': continue
         paper_surface(m, kit, dark=0.5 if m.name in ('ex_cavity', 'ex_dig') else 1.0)
-    strata_paper(film, kit, land)
+    if land is not None and 'strata' in getattr(land, 'mats', {}): strata_paper(film, kit, land)
     # ---- flat shading on the folded-card things
     for o in bpy.data.objects:
         if o.type != 'MESH' or not o.data: continue
@@ -177,7 +177,11 @@ def apply(bpy, film, ctx):
         g = cw.G(nt, kit); tcn = g.node('ShaderNodeTexCoord'); f = P.fibre(g, tcn.outputs['Object'], 9.0, 4.0)
         cc = g.mix(1.0, srgb((0.86, 0.72, 0.52)), g.vmath('ADD', (0.8,) * 3, g.vmath('SCALE', (0.4,) * 3, scale=f)), 'MULTIPLY')
         p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': cc, 'Roughness': 0.95}); P.set_default_principled(p, **{'Specular IOR Level': 0.1}); cw._finish(g, p)
-    wd = st['world']; nt = wd.node_tree
+    wd = st.get('world') or sc.world
+    if wd is None: wd = bpy.data.worlds.new('pc_world'); sc.world = wd
+    try: wd.use_nodes = True
+    except Exception: pass
+    nt = wd.node_tree
     for n in list(nt.nodes): nt.nodes.remove(n)
     g = cw.G(nt, kit); tcn = g.node('ShaderNodeTexCoord'); el = g.sep(g.vmath('NORMALIZE', tcn.outputs['Generated']))[2]
     sky = g.mix(g.math('POWER', g.math('MAXIMUM', el, 0.0), 0.5), srgb((0.99, 0.90, 0.74)), srgb((0.95, 0.74, 0.58)))
@@ -195,7 +199,7 @@ def apply(bpy, film, ctx):
         az, el_ = math.radians(-72.0), math.radians(42.0)
         sun.rotation_euler = (math.pi / 2 - el_, 0.0, az + math.pi / 2)          # points from (az, el) toward the block
         sun.rotation_mode = 'XYZ'
-    st['ridges'] = ridges(film, kit, land)
+    st['ridges'] = ridges(film, kit, land) if land is not None else []
     sc.view_settings.exposure = 0.2
 
 

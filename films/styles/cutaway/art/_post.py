@@ -135,26 +135,46 @@ def array_image(bpy, name, arr, linear=True):
 
 
 # ===================================================================================== the words in their own scene
+def sets_of(bpy, film):
+    """[(name, st)] of the built sets; a film without the engine's `built` (an adapter, a hand-built scene) gets one pseudo set
+    with a throw-away kit, the scene's world and no land."""
+    b = getattr(film, 'built', None)
+    if b: return list(b.items())
+    return [('scene', {'kit': cw.Kit(bpy, seed=1), 'land': None, 'world': bpy.context.scene.world, 'objs': list(bpy.context.scene.objects)})]
+
+
+def exposure_of(film, default=0.1):
+    try: return float(film.SETTINGS['exposure'])
+    except Exception: return default
+
+
+def set_dof(film, on=False):
+    try: cam.data.dof.use_dof = on
+    except Exception: pass
+
+
 def split_overlay(bpy, film, ctx, exposure_gain=True):
     """Move the code-set words (film.O items: labels, title, end card, counters) out of the picture scene into a second
     scene 'kf_words' that shares the camera. Rendered at full resolution on a transparent film; the art direction's
     compositor lays it over its own picture, crisp. Returns the words scene (and its render settings are final)."""
     A = bpy.context.scene; W, H = ctx['W'], ctx['H']
+    O = getattr(film, 'O', None); cam = getattr(getattr(film, 'cam', None), 'ob', None)
+    if O is None or cam is None or not getattr(O, 'items', None): return None        # no code-set words in this film
     B = bpy.data.scenes.new('kf_words')
     B.render.engine = 'CYCLES'; B.render.film_transparent = True; B.render.resolution_x = W; B.render.resolution_y = H
     B.render.resolution_percentage = 100; B.render.fps = A.render.fps
     cy = B.cycles; cy.device = 'CPU'; cy.samples = 6; cy.use_adaptive_sampling = False; cy.use_denoising = False
     cy.max_bounces = 2; cy.transparent_max_bounces = 16; cy.volume_bounces = 0
     B.view_settings.view_transform = 'Standard'
-    B.camera = film.cam.ob
+    B.camera = cam
     col = bpy.data.collections.new('kf_words')
-    for e in film.O.items:
+    for e in O.items:
         ob = e.ob
         for c in list(ob.users_collection): c.objects.unlink(ob)
         col.objects.link(ob)
     A.collection.children.link(col); B.collection.children.link(col)
     A.view_layers[0].layer_collection.children['kf_words'].indirect_only = True     # the picture scene does not see the words (they stay in it so the engine can measure them)
-    if film.cam.ob.name not in B.collection.all_objects: B.collection.objects.link(film.cam.ob)
+    if cam.name not in B.collection.all_objects: B.collection.objects.link(cam)
     return B
 
 
@@ -221,7 +241,7 @@ def srgb_tuple_scale(c, k):
 def hide_shafts(film):
     """God-ray cards (ex_shaft_mat) off: looks that do not want volumetric light."""
     import bpy
-    for st in film.built.values():
+    for _n, st in sets_of(bpy, film):
         for o in st['objs']:
             if o.name.startswith('ex_shaft') or o.name.startswith('cl_shaft') or (o.data and getattr(o.data, 'materials', None) and any(m and m.name == 'ex_shaft_mat' for m in o.data.materials)):
                 o.hide_render = True
@@ -229,7 +249,8 @@ def hide_shafts(film):
 
 
 def all_scene_objects(film):
-    for st in film.built.values():
+    import bpy
+    for _n, st in sets_of(bpy, film):
         for o in st['objs']: yield o
 
 

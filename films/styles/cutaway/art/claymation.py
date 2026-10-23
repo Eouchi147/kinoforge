@@ -64,7 +64,7 @@ def clay_material(m, kit, strong=1.0, sat=1.28):
 
 
 def apply(bpy, film, ctx):
-    name, st = next(iter(film.built.items())); kit = st['kit']; land = st['land']; sc = bpy.context.scene
+    name, st = P.sets_of(bpy, film)[0]; kit = st['kit']; land = st.get('land'); sc = bpy.context.scene
     BOIL.clear()
     for m in list(bpy.data.materials):
         if not m.node_tree or m.name.startswith('cl_') or m.name in ('cw_water', 'ex_shaft_mat', 'ex_gobo', 'ex_floor') or m.name.startswith(('cw_window', 'cw_lamphead')): continue
@@ -81,7 +81,11 @@ def apply(bpy, film, ctx):
         P.set_default_principled(p, **{'Subsurface Weight': 0.1, 'Subsurface Scale': 0.012})
         b = g.node('ShaderNodeBump', ins={'Strength': 0.6, 'Height': h, 'Distance': 0.03}); g.link(b.outputs['Normal'], p.inputs['Normal']); cw._finish(g, p)
     # a painted cyclorama instead of the golden sky
-    wd = st['world']; nt = wd.node_tree
+    wd = st.get('world') or sc.world
+    if wd is None: wd = bpy.data.worlds.new('cl_world'); sc.world = wd
+    try: wd.use_nodes = True
+    except Exception: pass
+    nt = wd.node_tree
     for n in list(nt.nodes): nt.nodes.remove(n)
     g = cw.G(nt, kit); tcn = g.node('ShaderNodeTexCoord'); fy = g.math('ADD', g.sep(tcn.outputs['Window'])[1], 0.2)
     sky = g.mix(g.math('MINIMUM', g.math('MAXIMUM', fy, 0.0), 1.0), srgb((1.0, 0.78, 0.50)), srgb((0.08, 0.50, 0.66)))
@@ -109,6 +113,6 @@ def apply(bpy, film, ctx):
 def frame(bpy, film, ctx, t, shot):
     # stepped on twos: 12 poses a second, and the clay boils a hair between poses
     k = int(math.floor(t * 12 + 1e-6)); tq = k / 12.0
-    for st in film.built.values(): st['kit'].update(tq)
+    for _n, st in P.sets_of(bpy, film): st['kit'].update(tq)
     a = ((zlib.crc32(f'boil{k}'.encode()) & 0xffff) / 65535.0 - 0.5) * 0.012; b = ((zlib.crc32(f'boy{k}'.encode()) & 0xffff) / 65535.0 - 0.5) * 0.012
     for bx, by in BOIL: bx.default_value = a; by.default_value = b
