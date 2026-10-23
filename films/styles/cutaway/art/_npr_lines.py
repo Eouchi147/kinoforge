@@ -78,12 +78,29 @@ class Runner:
         self.cap_group = self._capture_group(sc)
         self.fin_group = None
         self.img = None
+        self.vols = self._volume_objects(bpy)
         self.over = [e.ob for e in getattr(getattr(film, 'O', None), 'items', [])]      # overlay objects (labels, title): only these are drawn in the final render
         sc.compositing_node_group = self.cap_group
         self.orig = dict(samples=sc.cycles.samples, denoise=sc.cycles.use_denoising, adapt=sc.cycles.use_adaptive_sampling,
                          transp=sc.render.film_transparent, vt=sc.view_settings.view_transform, look=sc.view_settings.look,
                          exp=sc.view_settings.exposure)
         if samples: self.orig['samples'] = samples
+
+    # --- haze, fog and light-shaft objects (materials with a volume and no surface) are left out of the capture: they make the
+    # index, depth and normal passes noisy, and a line drawing has no use for them
+    @staticmethod
+    def _volume_objects(bpy):
+        out = []
+        for ob in bpy.data.objects:
+            if ob.type not in ('MESH', 'CURVE', 'META') or not getattr(ob.data, 'materials', None): continue
+            vol = False
+            for m in ob.data.materials:
+                if m is None or not m.node_tree: continue
+                for n in m.node_tree.nodes:
+                    if n.bl_idname == 'ShaderNodeOutputMaterial' and n.is_active_output:
+                        if n.inputs['Volume'].is_linked and not n.inputs['Surface'].is_linked: vol = True
+            if vol: out.append(ob)
+        return out
 
     # --- aov
     def _aov(self, vl, name):
@@ -154,7 +171,14 @@ class Runner:
         for ob in self.over: ob.hide_render = True        # the overlay is added after the stylization
         sc.compositing_node_group = self.cap_group
         sc.render.film_transparent = False
+        vh = []
+        for ob in self.vols:
+            try: vh.append((ob, ob.hide_render)); ob.hide_render = True
+            except ReferenceError: pass
         bpy.ops.render.render(write_still=False)
+        for ob, h in vh:
+            try: ob.hide_render = h
+            except ReferenceError: pass
         P = {}
         for nm in self.names:
             a = self.read(nm)
@@ -197,7 +221,11 @@ def setup(bpy, film, ctx, stylize, aovs=(), samples=None):
 def frame(bpy, film, ctx, t, shot, extra=None):
     """Called by a look's frame(): capture, stylize, hand the picture to the final render."""
     import time
-    r = film.npr; r.restore()
+    r = film.npr
+    # a scene may call the look's frame() once while it builds (scene.frame_current is not the frame time then): that is no
+    # frame to draw, so skip it (a capture is a whole render)
+    if bpy.context.scene.frame_current != int(round(t * ctx.get('fps', 24))): return
+    r.restore()
     t0 = time.time(); P = r.capture(); t1 = time.time()
     info = r.info(t, shot)
     pal = strata_palette(film)
