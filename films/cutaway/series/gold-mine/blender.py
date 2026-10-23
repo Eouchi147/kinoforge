@@ -152,7 +152,7 @@ def night(kit, land):
     # floor: dark ground under the mountain that melts into the night horizon
     m = cw._new_mat(bpy, 'gm_floor'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
     r = g.vmath('LENGTH', g.vmath('MULTIPLY', tc.outputs['Object'], (1, 1, 0)))
-    far = g.math('MULTIPLY', g.math('SUBTRACT', r, 2.5), 1 / 20.0, clamp=True)
+    far = g.math('MULTIPLY', g.math('SUBTRACT', r, 7.0), 1 / 22.0, clamp=True)
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.035, 0.038, 0.045)), 'Roughness': 0.95})
     e = g.node('ShaderNodeEmission', ins={'Color': srgb((0.10, 0.14, 0.27)), 'Strength': 0.45})
     mx = g.node('ShaderNodeMixShader'); g.link(g.math('POWER', far, 0.6), mx.inputs[0]); g.link(p, mx.inputs[1]); g.link(e, mx.inputs[2]); cw._finish(g, mx)
