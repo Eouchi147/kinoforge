@@ -383,6 +383,9 @@ def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(-0.77, -0.6
         geo = g.node('ShaderNodeNewGeometry'); wx, wy, _ = g.sep(geo.outputs['Position']); hs = S_SIZE / 2 - 0.004    # only over the block
         edge = g.math('MAXIMUM', g.math('ABSOLUTE', wx), g.math('ABSOLUTE', wy))     # fades out near the cut edges (it lies above the grass)
         inside = g.math('MULTIPLY', g.math('SUBTRACT', hs - 0.03, edge), 1 / 0.12, clamp=True)
+        back = g.math('ADD', g.math('MULTIPLY', wx, -0.64), g.math('MULTIPLY', wy, 0.77))   # far side as the hawk shot sees it: there the
+        inside = g.math('MULTIPLY', inside, g.math('MULTIPLY', g.math('SUBTRACT', 0.5, back), 1 / 0.3, clamp=True))   # veil would show above the grass line
+        inside = g.math('MULTIPLY', inside, g.math('MULTIPLY', g.math('ADD', wx, 0.60), 1 / 0.15, clamp=True))   # and the left silhouette edge
         g.link(g.math('MULTIPLY', inside, alpha), mx.inputs[0]); g.link(tr, mx.inputs[1]); g.link(dk, mx.inputs[2]); cw._finish(g, mx); return vm
     def wing(sd):
         return [(0.02, 0, 0), (0.035, sd * 0.06, 0), (0.02, sd * 0.15, 0), (-0.005, sd * 0.23, 0), (-0.035, sd * 0.22, 0), (-0.04, sd * 0.17, 0),
