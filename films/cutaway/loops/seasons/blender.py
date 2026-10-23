@@ -456,7 +456,11 @@ def frame(bpy, ctx, S, i, t):
     S['sun'].data.energy = B('sun_e'); S['sun'].data.color = B('sun_col'); S['sun'].data.angle = math.radians(B('sun_ang'))
     bg = cw.srgb(B('bg')); S['floor'].inputs['Base Color'].default_value = bg
     for el_ in S['ramp'].elements: el_.color = bg
-    S['bg_light'].inputs['Color'].default_value = cw.srgb(B('fill_col')); S['bg_light'].inputs['Strength'].default_value = B('fill')
+    bl = S['bg_light']   # an art direction may replace the world: then its own light stays as it set it
+    try:
+        if 'Color' in bl.inputs: bl.inputs['Color'].default_value = cw.srgb(B('fill_col')); bl.inputs['Strength'].default_value = B('fill')
+    except ReferenceError:
+        pass
     # growth and decay
     ob, sc = S['pop']['grass']; ob.data.attributes['scale'].data.foreach_set('value', (sc * W.cv('grassh', t)).astype(np.float32)); ob.data.update()
     ob, sc, on, off = S['pop']['flowers']; ob.data.attributes['scale'].data.foreach_set('value', (sc * W.win(t, on, off, 0.5)).astype(np.float32)); ob.data.update()
