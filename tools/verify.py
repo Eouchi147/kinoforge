@@ -360,8 +360,11 @@ def g_docs(g, since):
     if not dates: g.fail('docs/LOG.md', 'no dated heading', 'add "## <day> <Mon> <year>" at the top')
     # 2. the change set: commits after `since` (bots excluded) plus the working tree
     if since is None:
-        r = sh(['git', 'rev-parse', '--verify', '-q', 'origin/main'])
-        since = sh(['git', 'merge-base', 'HEAD', 'origin/main']).stdout.strip() if r.returncode == 0 else 'HEAD'
+        # the last known state of GitHub's main: origin/main, the upstream branch, or the tip the last `git pull origin main` fetched
+        since = 'HEAD'
+        for ref in ('origin/main', '@{upstream}', 'FETCH_HEAD'):
+            if sh(['git', 'rev-parse', '--verify', '-q', ref + '^{commit}']).returncode == 0:
+                since = sh(['git', 'merge-base', 'HEAD', ref]).stdout.strip() or 'HEAD'; break
     changed = set()
     revs = sh(['git', 'rev-list', '--no-merges', '--format=%H %an <%ae>', f'{since}..HEAD']).stdout.splitlines() if since and since != 'HEAD' else []
     commits = [l.split(' ', 1) for l in revs if not l.startswith('commit ')]
