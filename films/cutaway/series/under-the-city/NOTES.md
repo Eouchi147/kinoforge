@@ -97,4 +97,5 @@ To be measured on the Mac lane (see below).
 
 ## Log
 
-- 2026-10-23 02:55 UTC: first build (scene builds in 2.2 s, 186 objects, 30 lights); Mac check round 1 queued. Cost so far: 0.
+- 2026-10-23 02:40 UTC: first build (scene builds in 2.2 s, 186 objects, 30 lights). Mac round 1: 3.2 to 4.8 s/frame. Cost: 0.
+- 2026-10-23 02:55 UTC: round 2: calmer dusk sky, real skyline windows, soft cool face fill, sewer bigger and lit, rat bigger, crane and wide closer.

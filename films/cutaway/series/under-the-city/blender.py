@@ -30,7 +30,7 @@ SHOTS = [{'name': 'street', 'dur': 4.5}, {'name': 'descent', 'dur': 11.0}, {'nam
 DURATION = 20.0
 FRAMES = {'street': 40, 'pipes': 150, 'sewer': 200, 'metro': 252, 'roman': 320, 'dino': 368, 'city': 440}   # check stills
 SETTINGS = {'samples': 20, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Medium High Contrast',
-            'exposure': 0.25, 'max_bounces': 4, 'volume_bounces': 0, 'clamp_indirect': 4.0, 'adaptive_min_samples': 8, 'denoising_prefilter': 'FAST'}
+            'exposure': 0.2, 'max_bounces': 4, 'volume_bounces': 0, 'clamp_indirect': 4.0, 'adaptive_min_samples': 8, 'denoising_prefilter': 'FAST'}
 
 SX, SY, DEPTH = 4.6, 1.5, 2.6
 FY = -SY / 2                     # the cut face the camera sinks down (-Y)
@@ -40,7 +40,7 @@ SUN_AZ, SUN_EL = 112.0, 4.0
 STRATA = [('asphalt', 0.05, (0.13, 0.13, 0.14), 0.5), ('base', 0.07, (0.50, 0.48, 0.45), 0.9), ('fill', 0.40, (0.66, 0.54, 0.38), 0.15),
           ('clay', 0.34, (0.60, 0.40, 0.27), 0.04), ('till', 0.50, (0.47, 0.46, 0.44), 0.35), ('rubble', 0.22, (0.50, 0.37, 0.29), 0.55),
           ('roman', 0.22, (0.62, 0.44, 0.27), 0.18), ('limestone', 0.65, (0.86, 0.82, 0.72), 0.05), ('bedrock', 1.0, (0.24, 0.25, 0.30), 0.35)]
-SEWER = (-0.70, 0.11)            # centre z, radius (half tunnel cut lengthwise by the face)
+SEWER = (-0.70, 0.13)            # centre z, radius (half tunnel cut lengthwise by the face)
 METRO = (-1.11, 0.20)
 MANHOLE_U = 0.95
 
@@ -332,7 +332,7 @@ def build_sewer(kit, land, eggs, rng):
     b = g.node('ShaderNodeBump', ins={'Strength': 0.35, 'Height': n.outputs['Fac'], 'Distance': 0.003}); g.put(p, 'Normal', b); cw._finish(g, p)
     d_at = lambda z: math.sqrt(max(0.0, r * r - (z - zc) ** 2))
     cw.mk_mesh(bpy, 'utc_sewage', [(-2.18, FY + 0.03, wl), (2.18, FY + 0.03, wl), (2.18, FY + d_at(wl) + 0.01, wl), (-2.18, FY + d_at(wl) + 0.01, wl)], [(0, 1, 2, 3)], [m], None, False, kit.coll)
-    stone = cw.mat_simple(kit, 'utc_ledge', (0.40, 0.36, 0.32), 0.8, noise_amt=0.2, bump=0.4)
+    stone = cw.mat_simple(kit, 'utc_ledge', (0.30, 0.27, 0.24), 0.8, noise_amt=0.2, bump=0.4)
     cw.mk_mesh(bpy, 'utc_ledge', *box(-2.18, FY - 0.0005, zc - r, 2.18, FY + 0.032, wl + 0.012), [stone], None, False, kit.coll)
     # caged lamp on the back wall
     lamp_on = mat_glow_anim(kit, 'utc_sewerbulb', (1.0, 0.62, 0.30), 40.0)
@@ -340,7 +340,7 @@ def build_sewer(kit, land, eggs, rng):
     for a in np.linspace(0, math.pi, 5): A.add(*cw._tube([(0.012 * math.cos(a), 0.012 * math.sin(a) - 0.004, -0.012), (0.012 * math.cos(a), 0.012 * math.sin(a) - 0.004, 0.012)], [0.0012, 0.0012], 4), 1)
     bulb = A.build(bpy, 'utc_sewerlamp', [lamp_on[0], cw.mat_simple(kit, 'utc_cage', (0.08, 0.08, 0.08), 0.5, metallic=0.6)], True, kit.coll)
     bulb.location = (0.15, FY + d_at(zc + 0.05) - 0.012, zc + 0.05)
-    ld = bpy.data.lights.new('utc_sewer_l', 'POINT'); ld.energy = 0.5; ld.color = (1.0, 0.62, 0.32); ld.shadow_soft_size = 0.008
+    ld = bpy.data.lights.new('utc_sewer_l', 'POINT'); ld.energy = 1.6; ld.color = (1.0, 0.62, 0.32); ld.shadow_soft_size = 0.008
     lo = bpy.data.objects.new(ld.name, ld); kit.coll.objects.link(lo); lo.location = (0.15, FY + d_at(zc + 0.05) - 0.03, zc + 0.05)
     out['lamp'] = (lamp_on[1], ld)
     # mist on the water (additive card, drifting downstream)
@@ -351,14 +351,14 @@ def build_sewer(kit, land, eggs, rng):
     th = np.linspace(0, 2 * math.pi, 25)
     ringob = cw.mk_mesh(bpy, 'utc_dropring', *cw._tube([(math.cos(a), math.sin(a), 0) for a in th], np.full(25, 0.06), 5, False), [ex.mat_pbr(kit, 'utc_ringmat', (0.5, 0.5, 0.45), 0.05, coat=1.0)], None, True, kit.coll)
     out['drop'] = (drop, ringob, wl, d_at)
-    eggs.spot('-Y', 0.2, zc, power=2.5, out=0.6, up=0.18, size=50, name='utc_spot_sewer', color=(1.0, 0.80, 0.6))
+    eggs.spot('-Y', 0.2, zc, power=7.0, out=0.6, up=0.18, size=60, name='utc_spot_sewer', color=(1.0, 0.80, 0.6))
     out['rat'] = build_rat(kit, wl + 0.012)
     return out
 
 def build_rat(kit, z):
     bpy = kit.bpy; fur = ex.mat_pbr(kit, 'utc_rat_fur', (0.30, 0.27, 0.24), 0.7, bump=0.25, bump_scale=300.0)
     pink = ex.mat(kit, 'utc_rat_pink', (0.78, 0.52, 0.50), 0.5); eye = ex.mat_pbr(kit, 'utc_rat_eye', (0.01, 0.01, 0.01), 0.05, coat=1.0)
-    root = ex.empty(kit, 'utc_rat'); root.location = (0.0, FY + 0.018, z)
+    root = ex.empty(kit, 'utc_rat'); root.location = (0.0, FY + 0.018, z); root.scale = (1.35, 1.35, 1.35)
     body = ex.part(kit, 'utc_rat_body', [(*ex.ell((0, 0, 0.017), (0.032, 0.015, 0.014), 2, 0.05, 1), 0),
                                           (*ex.ell((-0.018, 0, 0.012), (0.018, 0.016, 0.013), 2, 0.0, 2), 0)], [fur], root)
     head = ex.part(kit, 'utc_rat_head', [(*ex.ell((0.016, 0, 0.0), (0.019, 0.0105, 0.0095), 2), 0), (*ex.cone((0.03, 0, -0.002), (0.042, 0, -0.004), 0.005, 0.0015, 8), 0),
@@ -384,7 +384,7 @@ def build_metro(kit, land, eggs):
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.8}); cw._finish(g, p)
     eggs.hole_tunnel('-Y', [(-2.2, zc), (2.2, zc)], r, 'utc_metro', material=m)
     d_at = lambda z: math.sqrt(max(0.0, r * r - (z - zc) ** 2))
-    zf = zc - 0.13; conc = cw.mat_simple(kit, 'utc_trackbed', (0.36, 0.35, 0.34), 0.9, noise_amt=0.2, bump=0.4)
+    zf = zc - 0.13; conc = cw.mat_simple(kit, 'utc_trackbed', (0.22, 0.21, 0.21), 0.9, noise_amt=0.2, bump=0.4)
     cw.mk_mesh(bpy, 'utc_trackbed', *box(-2.2, FY - 0.0005, zc - r, 2.2, FY + d_at(zf) + 0.02, zf), [conc], None, False, kit.coll)
     steel = ex.mat_pbr(kit, 'utc_rail', (0.7, 0.7, 0.72), 0.25, metallic=1.0); A = []
     for dd in (0.03, 0.10):
@@ -512,15 +512,16 @@ def build_background(kit, rng):
     """A far skyline at dusk (dark blocks with scattered lit windows) behind a haze card, so the frame has a city around it."""
     bpy = kit.bpy; m = cw._new_mat(bpy, 'utc_skyline'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
     pos = tc.outputs['Object']; px, py, pz = g.sep(pos)
-    br = g.node('ShaderNodeTexBrick', ins={'Vector': g.comb(g.math('ADD', px, py), pz, 0.0), 'Color1': (1, 1, 1, 1), 'Color2': (0, 0, 0, 1), 'Mortar': (0, 0, 0, 1), 'Scale': 3.0,
-                                           'Mortar Size': 0.35, 'Brick Width': 0.45, 'Row Height': 0.5, 'Bias': 0.0})
-    vo = g.voronoi(g.vmath('MULTIPLY', pos, (3.2, 3.2, 2.0)), 1.0, 'F1', rand=1.0)
-    lit = g.math('MULTIPLY', g.math('GREATER_THAN', vo.outputs['Color'], 0.62), g.math('GREATER_THAN', br.outputs['Fac'], 0.5))
+    al = g.math('ADD', px, py)
+    wx = g.math('LESS_THAN', g.math('FRACT', g.math('MULTIPLY', al, 5.0)), 0.45); wz = g.math('LESS_THAN', g.math('FRACT', g.math('MULTIPLY', pz, 4.0)), 0.40)
+    cell = g.comb(g.math('FLOOR', g.math('MULTIPLY', al, 5.0)), g.math('FLOOR', g.math('MULTIPLY', pz, 4.0)), 0.0)
+    rnd = g.node('ShaderNodeTexWhiteNoise', noise_dimensions='3D'); g.put(rnd, 'Vector', cell)
+    lit = g.math('MULTIPLY', g.math('MULTIPLY', wx, wz), g.math('GREATER_THAN', rnd.outputs['Value'], 0.72))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.04, 0.045, 0.07)), 'Roughness': 0.8})
-    g.put(p, 'Emission Color', srgb((1.0, 0.72, 0.40))); g.put(p, 'Emission Strength', g.math('MULTIPLY', lit, 1.6)); cw._finish(g, p)
+    g.put(p, 'Emission Color', srgb((1.0, 0.72, 0.40))); g.put(p, 'Emission Strength', g.math('MULTIPLY', lit, 0.9)); cw._finish(g, p)
     A = cw._Acc()
-    for k in range(34):
-        a = math.radians(rng.uniform(55, 185)); R = rng.uniform(10.0, 15.0); w = rng.uniform(0.8, 2.0); d = rng.uniform(0.8, 1.6); h = rng.uniform(1.0, 5.5)
+    for k in range(30):
+        a = math.radians(rng.uniform(50, 190)); R = rng.uniform(13.0, 19.0); w = rng.uniform(0.9, 2.0); d = rng.uniform(0.8, 1.6); h = rng.uniform(0.6, 3.6)
         cx, cy = R * math.cos(a), R * math.sin(a); V, F = box(-w / 2, -d / 2, -DEPTH - 0.01, w / 2, d / 2, -DEPTH + h + 2.0)
         ca, sa = math.cos(a), math.sin(a); V = [(cx + x * ca - y * sa, cy + x * sa + y * ca, z) for x, y, z in V]; A.add(V, F, 0)
     sk = A.build(bpy, 'utc_skyline', [m], False, kit.coll)
@@ -553,7 +554,7 @@ def build(bpy, ctx):
     land = cw.block(kit, size=(SX, SY), depth=DEPTH, strata=STRATA, seed=5, top=lambda x, y: np.zeros_like(np.asarray(x, float)),
                     water=None, res=0.03, grass=0, trees=0, tree_spots=trees, tree_kinds=('round',), boulders=0, flowers=0, under=False, sway=1.3)
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=3.2, sun_color=(1.0, 0.48, 0.24), fill=0.75, rim=0.8,
-                        zenith=(0.035, 0.06, 0.16), horizon=(0.95, 0.46, 0.26), away=(0.26, 0.22, 0.40), ground=(0.06, 0.05, 0.07), amb=0.22)
+                        zenith=(0.03, 0.05, 0.14), horizon=(0.78, 0.38, 0.24), away=(0.20, 0.18, 0.34), ground=(0.04, 0.04, 0.06), amb=0.22)
     S = {'kit': kit, 'land': land, 'rig': rig}
     S['street'] = build_street(kit, land, rng)
     eggs = ex.Eggs(kit, land, light_power=0.9, light_color=(1.0, 0.84, 0.64)); S['eggs'] = eggs
@@ -567,6 +568,9 @@ def build(bpy, ctx):
     eggs.finish()
     ex.soften_roots(land)
     ex.edge_spill(kit, land, '-Y', power=28.0)
+    ld = bpy.data.lights.new('utc_facefill', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = 5.0; ld.size_y = 3.0; ld.energy = 85.0; ld.color = (0.60, 0.70, 1.0)
+    fo = bpy.data.objects.new(ld.name, ld); kit.coll.objects.link(fo); fo.location = (0.6, FY - 3.2, -0.9); ex.look_at(fo, (0.3, FY, -1.2))
+    fo.visible_camera = False; fo.visible_glossy = False
     S['motes'] = build_motes(kit)
     build_background(kit, rng)
     cw.birds(kit, 3, center=(0.3, 0.6), radius=1.8, height=1.3)
@@ -595,7 +599,7 @@ def rat_pose(R, t):
     """Scurries in along the walkway, stops, sniffs; flinches and dashes off when the train rumbles past below."""
     keys_t = [0.0, 6.9, 7.9, 9.85, 10.5, 20.0]; keys_x = [1.6, 0.95, 0.30, 0.30, -0.45, -0.45]
     x = float(np.interp(t, keys_t, keys_x)); v = (np.interp(t + 0.02, keys_t, keys_x) - np.interp(t - 0.02, keys_t, keys_x)) / 0.04
-    run = min(1.0, abs(v) / 0.4); R['root'].location.x = x; R['root'].rotation_euler = (0, 0, math.pi)
+    run = min(1.0, abs(v) / 0.4); R['root'].location.x = x; R['root'].rotation_euler = (0, 0, math.pi if v <= 0.01 else 0.0)
     ph = t * 26.0
     R['body'].location.z = 0.002 * run * abs(math.sin(ph))
     for i, lg in enumerate(R['legs']): lg.rotation_euler = (0, 0.9 * run * math.sin(ph + (math.pi if i in (1, 2) else 0)), 0)
@@ -614,11 +618,11 @@ def shot_pose(name, u, t):
         ts = [4.5, 6.4, 8.3, 10.4, 12.4, 13.9, 15.5]
         tz = mono(ts, [0.06, -0.30, -0.69, -1.10, -1.48, -1.71, -2.08], t)
         tx = mono([4.5, 8.3, 10.4, 13.9, 15.5], [0.30, 0.25, 0.05, 0.10, -0.25], t)
-        D = mono([4.5, 13.9, 15.5], [2.25, 2.15, 1.70], t); el = math.radians(mono([4.5, 7.0, 15.5], [15.0, 9.0, 6.0], t))
+        D = mono([4.5, 13.9, 15.5], [1.85, 1.75, 1.38], t); el = math.radians(mono([4.5, 7.0, 15.5], [15.0, 9.0, 6.0], t))
         tgt = np.array((tx, FY, tz)); pos = tgt + np.array([0.32, -D * math.cos(el), D * math.sin(el)])
         return pos, tgt, 35.0, float(np.linalg.norm(pos - tgt)), 5.6
     e = ex.ease(u)            # city: wide, low, a slow pull back and rise: the whole column
-    az = math.radians(-60 + 4 * e); el = math.radians(6 + 4 * e); D = 8.6 + 0.8 * e; tgt = np.array((0.05, 0.0, -1.10 + 0.05 * e))
+    az = math.radians(-58 + 4 * e); el = math.radians(7 + 4 * e); D = 6.4 + 0.7 * e; tgt = np.array((0.05, 0.0, -1.10 + 0.05 * e))
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
     return pos, tgt, 35.0, D, 16.0
 
@@ -656,7 +660,7 @@ def frame(bpy, ctx, S, i, t):
     U['worm'].scale = (1.0 + 0.18 * math.sin(t * 5.0), 1.0, 1.0 - 0.1 * math.sin(t * 5.0))
     # sewer: lamp buzz, the drip, the rat
     sw_ = S['sewer']; v, ld = sw_['lamp']; fl = 1.0 - 0.25 * (math.sin(t * 37.0) > 0.93) - 0.1 * math.sin(t * 13.0) ** 8
-    v.default_value = fl; ld.energy = 0.5 * fl
+    v.default_value = fl; ld.energy = 1.6 * fl
     drop, ringob, wl, d_at = sw_['drop']; per = 1.7; ph = (t % per) / per; zt = SEWER[0] + 0.07
     if ph < 0.45:
         q = ph / 0.45; drop.location = (0.42, FY + 0.05, zt - (zt - wl) * q * q); drop.hide_render = False; ringob.hide_render = True
