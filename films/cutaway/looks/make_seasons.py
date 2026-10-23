@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Make (or refresh) look-board folders for the seasons loop with an art direction.
 
-    python3 films/cutaway/looks/make_seasons.py <art-name> [<art-name> ...]
+    python3 films/cutaway/looks/make_seasons.py <art-name> [<art-name> <art-name>]   # one or more names
 
 Each folder films/cutaway/looks/seasons-<name>/ holds a tiny blender.py that names the art direction (KF_ART_NAME, a
 module global, so nothing leaks into the environment of a render process that runs several films) and then runs the

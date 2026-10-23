@@ -13,7 +13,7 @@ after apply; the art module's frame() runs after the scene's own frame(), so it 
 Use from a kit scene's blender.py (opt-in, so the scene renders exactly as before without it):
 
     S['art'] = _adapter.attach(bpy, ctx, art_name, kit=kit, land=L, cam=cam, settings=SETTINGS, strata=STRATA, words=[title])
-    ...each frame, after the scene has posed everything:  if S.get('art'): S['art'].frame(bpy, ctx, t)
+    and each frame, after the scene has posed everything:  if S.get('art'): S['art'].frame(bpy, ctx, t)
 """
 import importlib.util
 import os
