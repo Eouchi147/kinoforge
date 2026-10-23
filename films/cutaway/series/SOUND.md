@@ -67,18 +67,21 @@ Street at dusk with a bus and steam, water in pipes and sewer, drips, the rat, t
 
 ## The Hidden Meadow (`hidden-meadow`)
 
-Birdsong, crickets and bees above; muffled below with the mole and the ants; silence and wings for the hawk, the rabbits run; the meadow breathes again. Measured: -16.11 LUFS, peak -1.95 dBFS, 20.0 s. Score: key G, cello, flute, pizz, viola, violin; turn: the hawk, 12.7 to 16.4 s (the music falls away); its loudest 3 s sit 10.0 dB under the nature's.
+Birdsong, crickets and bees above; below, muffled, the mole, the fox cubs and the ants; a hush, two slow wing beats, the rabbits run and land; the meadow breathes again; flute and pizzicato that fall silent for the hawk. Measured: -16.1 LUFS, peak -1.99 dBFS, 20.0 s. Score: key G, cello, flute, pizz, viola, violin; turn: the hawk, 12.7 to 16.4 s (the music falls away); its loudest 3 s sit 10.0 dB under the nature's.
 
 | Recording | Used as | Source page (CC0) |
 | --- | --- | --- |
-| `birds_waking_3` | bed 0.0-20.0 s; bed 5.5-12.8 s | https://bigsoundbank.com/s0999.html |
-| `bumblebee_1` | a bee crosses at 1.40 s | https://bigsoundbank.com/s1000.html |
-| `bumblebee_2` | a bee crosses at 4.20 s | https://bigsoundbank.com/s1001.html |
-| `countryside` | bed 5.5-12.8 s | https://bigsoundbank.com/s0097.html |
-| `dig_shovel` | the mole digs at 7.90 s; the mole digs at 8.50 s; the mole digs at 9.20 s | https://bigsoundbank.com/s1305.html |
-| `field_cricket` | bed 0.0-20.0 s; bed 5.5-12.8 s | https://bigsoundbank.com/s1020.html |
-| `flight_bird_1` | hawk wings pass over at 12.90 s | https://bigsoundbank.com/s2891.html |
-| `steps_mud` | ants scratching at 10.90 s; rabbits bolt at 13.50 s; rabbits bolt at 13.75 s; rabbits bolt at 14.00 s; rabbits bolt at 14.30 s; safe in the warren at 15.15 s; safe in the warren at 15.40 s | https://bigsoundbank.com/s0495.html |
+| `birds_waking_3` | bed 0.0-20.0 s; bed 5.8-12.7 s | https://bigsoundbank.com/s0999.html |
+| `bumblebee_1` | a bee crosses close at 1.50 s | https://bigsoundbank.com/s1000.html |
+| `bumblebee_2` | a bee crosses close at 4.00 s | https://bigsoundbank.com/s1001.html |
+| `cloth` | straw rustles at 6.71 s; straw rustles at 9.31 s; straw rustles at 11.91 s | https://bigsoundbank.com/s0013.html |
+| `countryside` | bed 5.8-12.7 s | https://bigsoundbank.com/s0097.html |
+| `dig_shovel` | a dirt trickle at 7.30 s; a dirt trickle at 9.60 s; into the burrow at 13.86 s; into the burrow at 14.07 s | https://bigsoundbank.com/s1305.html |
+| `field_cricket` | bed 0.0-20.0 s | https://bigsoundbank.com/s1020.html |
+| `flight_bird_1` | slow wing beat overhead at 13.70 s | https://bigsoundbank.com/s2891.html |
+| `flight_pigeon` | slow wing beat overhead at 13.08 s | https://bigsoundbank.com/s0840.html |
+| `steps_mud` | the mole digs (paw strokes) at 6.20 s; the mole digs (paw strokes) at 6.65 s; the mole digs (paw strokes) at 7.11 s; the mole digs (paw strokes) at 7.56 s; the mole digs (paw strokes) at 8.02 s; the mole digs (paw strokes) at 8.47 s; the mole digs (paw strokes) at 8.93 s; the mole digs (paw strokes) at 9.38 s; the mole digs (paw strokes) at 9.84 s; the mole digs (paw strokes) at 10.29 s; the mole digs (paw strokes) at 10.75 s; a fox cub lands on straw at 6.68 s; a fox cub lands on straw at 9.28 s; a fox cub lands on straw at 11.88 s; ants scratching at 7.50 s; a rabbit bolts at 13.45 s; a rabbit bolts at 13.63 s; safe in the warren at 15.10 s; safe in the warren at 15.38 s | https://bigsoundbank.com/s0495.html |
+| `wind_plain` | bed 0.0-20.0 s; a gust as the shadow passes at 13.70 s | https://bigsoundbank.com/s0595.html |
 
 ## Reef and Wreck (`reef-and-wreck`)
 
