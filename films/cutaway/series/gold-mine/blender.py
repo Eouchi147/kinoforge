@@ -153,8 +153,8 @@ def night(kit, land):
     m = cw._new_mat(bpy, 'gm_floor'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord')
     r = g.vmath('LENGTH', g.vmath('MULTIPLY', tc.outputs['Object'], (1, 1, 0)))
     far = g.math('MULTIPLY', g.math('SUBTRACT', r, 2.5), 1 / 20.0, clamp=True)
-    p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.10, 0.11, 0.13)), 'Roughness': 0.95})
-    e = g.node('ShaderNodeEmission', ins={'Color': srgb((0.10, 0.14, 0.27)), 'Strength': 0.6})
+    p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.035, 0.038, 0.045)), 'Roughness': 0.95})
+    e = g.node('ShaderNodeEmission', ins={'Color': srgb((0.10, 0.14, 0.27)), 'Strength': 0.45})
     mx = g.node('ShaderNodeMixShader'); g.link(g.math('POWER', far, 0.6), mx.inputs[0]); g.link(p, mx.inputs[1]); g.link(e, mx.inputs[2]); cw._finish(g, mx)
     cw._plane(kit, 'gm_floor', 60, -DEPTH - 0.0005, m)
     return {'moonlight': moon}
@@ -499,7 +499,7 @@ def build(bpy, ctx):
     goldm = miner(kit, 'goldminer', (0.58, 0.22, 0.14))
     cart = ore_cart(kit, mine)
     bats_in = [bat(kit, f'batc{k}', 1.35) for k in range(14)]
-    bats_out = [bat(kit, f'bato{k}', 2.3) for k in range(34)]
+    bats_out = [bat(kit, f'bato{k}', 3.4) for k in range(34)]
 
     S = {'kit': kit, 'land': land, 'moon': moon, 'eggs': eggs, 'mine': mine, 'walker': walker, 'pusher': pusher, 'climber': climber,
          'dig1': dig1, 'dig2': dig2, 'goldm': goldm, 'cart': cart, 'bats_in': bats_in, 'bats_out': bats_out, 'sparks': sparks,
@@ -564,8 +564,8 @@ def rock_face(kit, land):
 def raking(kit):
     """Cool light skimming each camera-facing cut face from its side: it brings out the rock texture."""
     bpy = kit.bpy
-    for name, pos, tgt, pw in (('gm_rake_y', (-SX / 2 - 1.6, FY - 0.45, -0.3), (0.8, FY, -0.9), 65.0),
-                               ('gm_rake_x', (SX / 2 + 0.45, -SY / 2 - 1.6, -0.3), (SX / 2, 0.8, -0.9), 70.0)):
+    for name, pos, tgt, pw in (('gm_rake_y', (-SX / 2 - 1.6, FY - 0.45, -0.3), (0.8, FY, -0.9), 42.0),
+                               ('gm_rake_x', (SX / 2 + 0.45, -SY / 2 - 1.6, -0.3), (SX / 2, 0.8, -0.9), 48.0)):
         ld = bpy.data.lights.new(name, 'AREA'); ld.size = 1.4; ld.shape = 'DISK'; ld.energy = pw; ld.color = (0.60, 0.70, 1.0)
         ob = bpy.data.objects.new(name, ld); kit.coll.objects.link(ob); ob.location = pos; ex.look_at(ob, tgt)
         ob.visible_camera = False; ob.visible_glossy = False
@@ -728,7 +728,7 @@ def bats_outside(S, t):
         side = np.cross(md, (0, 0, 1.0)); side /= np.linalg.norm(side); upv = np.cross(side, md)
         spread = side * rng.normal(0, 0.16) + upv * rng.normal(0, 0.12)
         aim = md + np.array((0, 0, 0.42)) + spread; aim /= np.linalg.norm(aim)      # up over the ridge, toward the moon
-        out = np.array((-1.0, 0.0, 0.25)); sp = rng.uniform(0.75, 1.05)
+        out = np.array((-1.0, 0.0, 0.25)); sp = rng.uniform(0.95, 1.3)
         e1 = min(1.0, tau / 0.45); k2 = max(0.0, tau - 0.25)
         p = start + out * 0.16 * (e1 * e1 * (3 - 2 * e1)) + aim * sp * k2 ** 1.15
         p = p + side * 0.06 * math.sin(3.7 * tau + ph) + upv * 0.04 * math.sin(5.3 * tau + ph)
@@ -765,7 +765,7 @@ def shot_pose(name, u, t):
         tgt = np.array((tu, FY + 0.08, tz)); pos = np.array((tu - 0.20, FY - Dd, tz + Dd * math.tan(el)))
         return pos, tgt, 32.0, Dd + 0.08, 9.0, None
     # flight: low by the yard, the entrance and the moon; the bats pour out; the camera rises and pulls back
-    e = ex.ease(u); tgt = ex.lerp((-0.62, -0.95, 0.42), (-0.15, -0.30, -0.10), e)
+    e = ex.ease(u); tgt = ex.lerp((-0.62, -0.95, 0.42), (-0.15, -0.30, 0.15), e)
     az = math.radians(-112 + 12 * e); el = math.radians(3 + 12 * e); D = 2.3 + 4.2 * e
     pos = tgt + D * np.array((math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)))
     return pos, tgt, 30.0, D, 11.0, (0.28, 0.60)
