@@ -12,8 +12,9 @@
   as a pale grey trench more than water.
 - The Hidden Meadow: done (run 39896254752; 9:16, 20.0 s, -16.2 LUFS, no frozen frames), on the Mac. All six series
   films are on Sam's Mac and were sent to him; waiting on his verdict.
-- Agincourt v2: the first render (run 39900294683) laid insert A but not insert B (overlay bug, fixed in rc-render
-  54c1bb4: inserts enabled by time). Re-rendering (run 39908562175); then check frames 2081 to 2420 and deliver as -v2.
+- Agincourt v2: done (run 39908562175, 147.3 s, -14.2 LUFS, no frozen frames); both mud inserts checked on their
+  boundary frames (after the overlay fix in rc-render 54c1bb4); on Sam's Mac as `battle-map-agincourt-v2.mp4`. All eight
+  battles now done on Battle Map v2.
 - Also delivered to the Mac on 23 Oct: Why Venice Sinks (`under-the-surface-venice.mp4`, 2:37, -14.1 LUFS) and the
   cinematic look test (`style-cutaway-cinematic.mp4`, 12 s, silent). Agincourt v2: both inserts landed; chain.yml
   dispatched by hand at 04:21 UTC (its cron had not fired).
