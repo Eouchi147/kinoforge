@@ -16,6 +16,7 @@ This is the director's teaching file. Every builder, every repair round and the 
   a goal, a beginning and an end; stories self-contained and masterfully crafted and arranged; Hollywood-level editing;
   worlds that feel alive and full.
 - **Cutaway (22 Oct, 12:01):** the cross-section worlds look amazing; elevate them with cinema lighting (haze, fog, god rays), animated fauna and flora, easter eggs in the soil layers that make people smile (dino bones, gold ore), interesting perspectives and camera angles.
+- **Cutaway (23 Oct, 17:32):** he did not like the cinematic test (camera moves, cuts). He liked the seasons loop: barely any camera movement, no cuts, a lively world. The seasons loop is the base for Cutaway work: one fixed view, the world changes and lives in front of it.
 - **Money (22 Oct, 20:50, replaces the 09:20 no-spend rule):** be cost effective with a hard cap per film, and only pay for good results: the best tool for each job, free tools where they are as good (rendering on GitHub or the Mac, the procedural score), quality gates before each paid stage, and no render unless the film passed.
 
 ## 1. Every element earns its place
