@@ -1,5 +1,11 @@
 # Status (updated 23 Oct 2026, director paid mode)
 
+## Studio OS and manual (Sam, 23 Oct 18:17; in progress)
+- AI manual `docs/manual/` (system and workflows done; styles, films and sound being written), human guide `docs/GUIDE.md`
+  (after the manual), catalog `tools/catalog.py` to `studio-web/public/data/catalog.json` (done), studio OS rebuild of
+  `studio-web/` (in progress; not deployed until it builds and passes its tests), upgrade research
+  (`docs/research/STUDIO_UPGRADES_2026-10.md`, in progress).
+
 ## Cutaway art directions (Sam, 23 Oct 16:34)
 - Done: twelve looks on the meadow frames, full size from the Mac lane, sent to Sam with a board; guide doc sent
   (Claude doc "Cutaway: where to take it and how it earns"). Waiting on Sam's pick.

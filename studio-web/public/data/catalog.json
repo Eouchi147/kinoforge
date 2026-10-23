@@ -1,0 +1,2264 @@
+{
+ "generated": "2026-10-23T22:36:27Z",
+ "films": [
+  {
+   "id": "p01-static",
+   "title": "Static",
+   "series": "Anthology prototypes",
+   "style": "static",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 10.0,
+   "folder": "proto/p01-static",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p01-static.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p01-static.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p02-ink-ember",
+   "title": "Ink Ember",
+   "series": "Anthology prototypes",
+   "style": "ink-ember",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 10.0,
+   "folder": "proto/p02-ink-ember",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p02-ink-ember.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p02-ink-ember.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p03-lantern-road",
+   "title": "Lantern Road",
+   "series": "Anthology prototypes",
+   "style": "lantern-road",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 12.0,
+   "folder": "proto/p03-lantern-road",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p03-lantern-road.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p03-lantern-road.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p04-witness",
+   "title": "Witness",
+   "series": "Anthology prototypes",
+   "style": "witness",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 6.0,
+   "folder": "proto/p04-witness",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p04-witness.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p04-witness.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p05-relic",
+   "title": "Relic",
+   "series": "Anthology prototypes",
+   "style": "relic",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 10.0,
+   "folder": "proto/p05-relic",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p05-relic.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p05-relic.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p06-cel",
+   "title": "Cel",
+   "series": "Anthology prototypes",
+   "style": "cel",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 10.0,
+   "folder": "proto/p06-cel",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p06-cel.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p06-cel.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p07-ash-ascent",
+   "title": "Ash Ascent",
+   "series": "Anthology prototypes",
+   "style": "ash-ascent",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 6.0,
+   "folder": "proto/p07-ash-ascent",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p07-ash-ascent.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p07-ash-ascent.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p08-two-chairs",
+   "title": "Two Chairs",
+   "series": "Anthology prototypes",
+   "style": "two-chairs",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 12.0,
+   "folder": "proto/p08-two-chairs",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p08-two-chairs.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p08-two-chairs.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p09-paper-kingdom",
+   "title": "Paper Kingdom",
+   "series": "Anthology prototypes",
+   "style": "paper-kingdom",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 10.0,
+   "folder": "proto/p09-paper-kingdom",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p09-paper-kingdom.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p09-paper-kingdom.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p10-clay",
+   "title": "Clay",
+   "series": "Anthology prototypes",
+   "style": "clay",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 6.0,
+   "folder": "proto/p10-clay",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p10-clay.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p10-clay.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p11-kinetic",
+   "title": "Kinetic",
+   "series": "Anthology prototypes",
+   "style": "kinetic",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 8.0,
+   "folder": "proto/p11-kinetic",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p11-kinetic.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p11-kinetic.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p12-terrain",
+   "title": "Terrain",
+   "series": "Anthology prototypes",
+   "style": "terrain",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 10.0,
+   "folder": "proto/p12-terrain",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p12-terrain.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p12-terrain.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p13-pixel-vigil",
+   "title": "Pixel Vigil",
+   "series": "Anthology prototypes",
+   "style": "pixel-vigil",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 10.0,
+   "folder": "proto/p13-pixel-vigil",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p13-pixel-vigil.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p13-pixel-vigil.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p15-moon-lesson",
+   "title": "Why the Moon Changes Shape (pilot)",
+   "series": "Anthology prototypes",
+   "style": "moon-lesson",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 62.5,
+   "folder": "proto/p15-moon-lesson",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p15-moon-lesson.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p15-moon-lesson.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "p16-dragon-tale",
+   "title": "The Dragon Who Couldn't Fly (pilot)",
+   "series": "Anthology prototypes",
+   "style": "dragon-tale",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 124.0,
+   "folder": "proto/p16-dragon-tale",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p16-dragon-tale.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "gallery",
+    "name": "p16-dragon-tale.contact.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "proto scene (web or Blender)",
+    "kinoforge render.yml"
+   ],
+   "recipe": "docs/manual/styles/anthology-prototypes.md",
+   "summary": "Anthology style prototype rendered by render.yml to the gallery release; the origin of a house style or a pilot.",
+   "verdict": null,
+   "date": "2026-10-13"
+  },
+  {
+   "id": "battle-map-agincourt",
+   "title": "The Battle of Agincourt",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 147.28,
+   "folder": "films/battles/agincourt",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-agincourt.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-agincourt-preview.mp4"
+   },
+   "poster": "/posters/battle-map-agincourt.jpg",
+   "sound": "ElevenLabs narration (brian), free procedural score (films/lib/score), final mix by remux.yml at -14.2 LUFS",
+   "made_with": [
+    "Battle Map engine v2 (films/lib/battlemap, Three.js)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "free score engine (films/lib/score)",
+    "rc-render films.yml",
+    "rc-render remux.yml",
+    "two Cutaway mud inserts laid by films.yml"
+   ],
+   "recipe": "docs/manual/films/battle-map-agincourt.md",
+   "summary": "Henry V wins at Agincourt, 1415, on Battle Map v2 with two Cutaway inserts of the mud (9 scenes, 29 shots).",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "battle-map-ain-jalut",
+   "title": "The Battle of Ain Jalut",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 139.63,
+   "folder": "films/battles/ain-jalut",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-ain-jalut.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-ain-jalut-preview.mp4"
+   },
+   "poster": "/posters/battle-map-ain-jalut.jpg",
+   "sound": "ElevenLabs narration (brian), free procedural score (films/lib/score), final mix by remux.yml at -14.2 LUFS",
+   "made_with": [
+    "Battle Map engine v2 (films/lib/battlemap, Three.js)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "free score engine (films/lib/score)",
+    "rc-render films.yml",
+    "rc-render remux.yml"
+   ],
+   "recipe": "docs/manual/films/battle-map-ain-jalut.md",
+   "summary": "The Mamluks stop the Mongols at Ain Jalut, 1260, with a feigned retreat (9 scenes, 23 shots).",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "battle-map-cannae",
+   "title": "The Battle of Cannae",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 157.63,
+   "folder": "films/battles/cannae",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-cannae.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-cannae-preview.mp4"
+   },
+   "poster": "/posters/battle-map-cannae.jpg",
+   "sound": "ElevenLabs narration (brian), free procedural score (films/lib/score), final mix by remux.yml at -14.2 LUFS",
+   "made_with": [
+    "Battle Map engine v2 (films/lib/battlemap, Three.js)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "free score engine (films/lib/score)",
+    "rc-render films.yml",
+    "rc-render remux.yml"
+   ],
+   "recipe": "docs/manual/films/battle-map-cannae.md",
+   "summary": "Hannibal encircles a Roman army twice its size, 216 BC; the Battle Map v2 reference film (9 scenes, 26 shots).",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "battle-map-gaugamela",
+   "title": "The Battle of Gaugamela",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 151.25,
+   "folder": "films/battles/gaugamela",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-gaugamela.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-gaugamela-preview.mp4"
+   },
+   "poster": "/posters/battle-map-gaugamela.jpg",
+   "sound": "ElevenLabs narration (brian), free procedural score (films/lib/score), final mix by remux.yml at -14.2 LUFS",
+   "made_with": [
+    "Battle Map engine v2 (films/lib/battlemap, Three.js)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "free score engine (films/lib/score)",
+    "rc-render films.yml",
+    "rc-render remux.yml"
+   ],
+   "recipe": "docs/manual/films/battle-map-gaugamela.md",
+   "summary": "Alexander against Darius at Gaugamela, 331 BC, scythed chariots and the gap (9 scenes, 27 shots).",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "battle-map-hastings",
+   "title": "The Battle of Hastings",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 155.4,
+   "folder": "films/battles/hastings",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-hastings.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-hastings-preview.mp4"
+   },
+   "poster": "/posters/battle-map-hastings.jpg",
+   "sound": "ElevenLabs narration (brian), free procedural score (films/lib/score), final mix by remux.yml at -14.2 LUFS",
+   "made_with": [
+    "Battle Map engine v2 (films/lib/battlemap, Three.js)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "free score engine (films/lib/score)",
+    "rc-render films.yml",
+    "rc-render remux.yml"
+   ],
+   "recipe": "docs/manual/films/battle-map-hastings.md",
+   "summary": "Harold against William at Hastings, 1066, on Battle Map v2 (8 scenes, 30 shots).",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "battle-map-hattin",
+   "title": "The Battle of Hattin",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 141.55,
+   "folder": "films/battles/hattin",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-hattin.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-hattin-preview.mp4"
+   },
+   "poster": "/posters/battle-map-hattin.jpg",
+   "sound": "ElevenLabs narration (brian), free procedural score (films/lib/score), final mix by remux.yml at -14.2 LUFS",
+   "made_with": [
+    "Battle Map engine v2 (films/lib/battlemap, Three.js)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "free score engine (films/lib/score)",
+    "rc-render films.yml",
+    "rc-render remux.yml"
+   ],
+   "recipe": "docs/manual/films/battle-map-hattin.md",
+   "summary": "Saladin traps the crusader army at the Horns of Hattin, 1187: thirst, brush fire (9 scenes, 28 shots).",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "battle-map-thermopylae",
+   "title": "The Battle of Thermopylae",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 164.11,
+   "folder": "films/battles/thermopylae",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-thermopylae.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-thermopylae-preview.mp4"
+   },
+   "poster": "/posters/battle-map-thermopylae.jpg",
+   "sound": "ElevenLabs narration (brian), free procedural score (films/lib/score), final mix by remux.yml at -14.2 LUFS",
+   "made_with": [
+    "Battle Map engine v2 (films/lib/battlemap, Three.js)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "free score engine (films/lib/score)",
+    "rc-render films.yml",
+    "rc-render remux.yml"
+   ],
+   "recipe": "docs/manual/films/battle-map-thermopylae.md",
+   "summary": "The pass and the hidden path at Thermopylae, 480 BC (9 scenes, 32 shots).",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "battle-map-waterloo",
+   "title": "The Battle of Waterloo",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 158.51,
+   "folder": "films/battles/waterloo",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-waterloo.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-waterloo-preview.mp4"
+   },
+   "poster": "/posters/battle-map-waterloo.jpg",
+   "sound": "ElevenLabs narration (brian), free procedural score (films/lib/score), final mix by remux.yml at -14.2 LUFS",
+   "made_with": [
+    "Battle Map engine v2 (films/lib/battlemap, Three.js)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "free score engine (films/lib/score)",
+    "rc-render films.yml",
+    "rc-render remux.yml"
+   ],
+   "recipe": "docs/manual/films/battle-map-waterloo.md",
+   "summary": "Wellington, Blucher and Napoleon at Waterloo, 1815: hollow squares and artillery (9 scenes, 28 shots).",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "battle-of-tours",
+   "title": "The Battle of Tours",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 100.39,
+   "folder": "films/studio/battle-of-tours",
+   "status": "draft",
+   "video": null,
+   "preview": null,
+   "poster": null,
+   "sound": "script and sound done before the stop",
+   "made_with": [
+    "director pipeline (film.yml)"
+   ],
+   "recipe": "docs/manual/films/battle-of-tours.md",
+   "summary": "Paid director test job, cancelled at 09:20 on 22 Oct by the no-spend order after US$0.36.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "cutaway-agincourt-mud-A",
+   "title": "The Battle of Agincourt, mud insert A",
+   "series": "Battle Map",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 14.7,
+   "folder": "films/cutaway/agincourt-mud/A",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-agincourt-mud-A.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-agincourt-mud-A-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-agincourt-mud-A-sheet.jpg"
+   },
+   "sound": "none of its own: laid over the Agincourt film, which carries the mix",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-agincourt-mud-A.md",
+   "summary": "Agincourt insert A: the rain-soaked field and the stakes in section, frames 1375 to 1727 of the battle film.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-agincourt-mud-B",
+   "title": "The Battle of Agincourt, mud insert B",
+   "series": "Battle Map",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 14.16,
+   "folder": "films/cutaway/agincourt-mud/B",
+   "status": "rendered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-agincourt-mud-B.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-agincourt-mud-B-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-agincourt-mud-B-sheet.jpg"
+   },
+   "sound": "none of its own: laid over the Agincourt film, which carries the mix",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-agincourt-mud-B.md",
+   "summary": "Agincourt insert B: knights sinking to the knee at the cut face, crows, frames 2081 to 2420.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "salamis",
+   "title": "The Battle of Salamis",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 119.16,
+   "folder": "films/studio/salamis",
+   "status": "in-progress",
+   "video": null,
+   "preview": null,
+   "poster": null,
+   "sound": "Chatterbox narration and the procedural score (free day, 22 Oct), 119 s",
+   "made_with": [
+    "director pipeline (film.yml)",
+    "Battle Map engine v2"
+   ],
+   "recipe": "docs/manual/films/salamis.md",
+   "summary": "First director film: script and sound done; stopped at the picture spec, waits for credit to run as the first paid film.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-ad-drainage-v169",
+   "title": "Sample trade ad: drainage and landscaping (16:9)",
+   "series": "Cutaway",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 15.0,
+   "folder": "films/cutaway/ads/drainage/v169",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v169.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v169-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v169-sheet.jpg"
+   },
+   "sound": "free score engine only, words on screen, -14.2 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Inter Tight words set in code",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-ad-drainage-v169.md",
+   "summary": "Sample trade ad for an invented drainage business (marked Sample): the drain laid under a soggy yard, 16:9.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-ad-drainage-v916",
+   "title": "Sample trade ad: drainage and landscaping (9:16)",
+   "series": "Cutaway",
+   "style": "cutaway",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 15.0,
+   "folder": "films/cutaway/ads/drainage/v916",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v916.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v916-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v916-sheet.jpg"
+   },
+   "sound": "free score engine only, words on screen, -14.2 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Inter Tight words set in code",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-ad-drainage-v916.md",
+   "summary": "The same sample drainage ad in 9:16, words inside the phone safe box (rule R-2-08).",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-line-meadow",
+   "title": "What Lies Under a Meadow",
+   "series": "Cutaway",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 39.94,
+   "folder": "films/cutaway/meadow",
+   "status": "in-progress",
+   "video": null,
+   "preview": null,
+   "poster": null,
+   "sound": "no voice: CC0 recordings timed to the cue words, harp, strings and flute in D thinning to a low drone, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Cutaway line (films/lib/cutaway: spec.json as data)",
+    "Mac lane (Metal, Samsung X5 drive)"
+   ],
+   "recipe": "docs/manual/films/cutaway-line-meadow.md",
+   "summary": "What Lies Under a Meadow, the Cutaway line's example: river, village, mill and ten finds in the soil layers.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-loop-seasons",
+   "title": "Four seasons over one block",
+   "series": "Cutaway loops",
+   "style": "cutaway",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 12.0,
+   "folder": "films/cutaway/loops/seasons",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-loop-seasons.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-loop-seasons-preview.mp4"
+   },
+   "poster": "/posters/cutaway-loop-seasons.jpg",
+   "sound": "soft ambience and a short loopable score, an exact 12 s loop in picture and sound",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-loop-seasons.md",
+   "summary": "One pond block through four seasons, one fixed view, no cuts, a living world: the Cutaway base (Sam, 23 Oct).",
+   "verdict": "Sam, 23 Oct 17:32: liked it, barely any camera movement, no cuts, a lively world; the seasons loop is the base.",
+   "date": "2026-10-22"
+  },
+  {
+   "id": "cutaway-series-gold-mine",
+   "title": "The Gold Mine",
+   "series": "Cutaway showcase",
+   "style": "cutaway",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 20.0,
+   "folder": "films/cutaway/series/gold-mine",
+   "status": "delivered",
+   "video": null,
+   "preview": null,
+   "poster": null,
+   "sound": "no voice: BigSoundBank CC0 recordings timed to the picture (release sfx-bank) under a quiet VSCO-2 score, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "cinematic extras (films/styles/cutaway/cinematic/extras.py)",
+    "sfx kit (films/cutaway/series/audio_kit.py, music_kit.py)",
+    "Mac lane (Metal)"
+   ],
+   "recipe": "docs/manual/films/cutaway-series-gold-mine.md",
+   "summary": "A mountain at night: lantern-lit tunnels, ladders, a cart on rails, miners, a gold vein that rings when struck.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-series-hidden-meadow",
+   "title": "The Hidden Meadow",
+   "series": "Cutaway showcase",
+   "style": "cutaway",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 20.0,
+   "folder": "films/cutaway/series/hidden-meadow",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-hidden-meadow.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-hidden-meadow-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-hidden-meadow-poster.jpg"
+   },
+   "sound": "no voice: BigSoundBank CC0 recordings timed to the picture (release sfx-bank) under a quiet VSCO-2 score, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "cinematic extras (films/styles/cutaway/cinematic/extras.py)",
+    "sfx kit (films/cutaway/series/audio_kit.py, music_kit.py)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-series-hidden-meadow.md",
+   "summary": "A spring meadow over a warren, an ant nest, a mole and a fox den; a hawk's shadow sends the rabbits under.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-series-reef-and-wreck",
+   "title": "Reef and Wreck",
+   "series": "Cutaway showcase",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 20.0,
+   "folder": "films/cutaway/series/reef-and-wreck",
+   "status": "delivered",
+   "video": null,
+   "preview": null,
+   "poster": null,
+   "sound": "no voice: BigSoundBank CC0 recordings timed to the picture (release sfx-bank) under a quiet VSCO-2 score, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "cinematic extras (films/styles/cutaway/cinematic/extras.py)",
+    "sfx kit (films/cutaway/series/audio_kit.py, music_kit.py)",
+    "Mac lane (Metal)"
+   ],
+   "recipe": "docs/manual/films/cutaway-series-reef-and-wreck.md",
+   "summary": "A small island cut through the sea: light rays, a reef, fish, a turtle, a sunken ship with a chest, a diver.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-series-river-time",
+   "title": "The River Through Time",
+   "series": "Cutaway showcase",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 20.0,
+   "folder": "films/cutaway/series/river-time",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-river-time.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-river-time-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-river-time-poster.jpg"
+   },
+   "sound": "no voice: BigSoundBank CC0 recordings timed to the picture (release sfx-bank) under a quiet VSCO-2 score, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "cinematic extras (films/styles/cutaway/cinematic/extras.py)",
+    "sfx kit (films/cutaway/series/audio_kit.py, music_kit.py)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-series-river-time.md",
+   "summary": "A stream cuts down through the layers over ages until a canyon stands; today, a hiker on the rim.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-series-sleeping-volcano",
+   "title": "The Sleeping Volcano",
+   "series": "Cutaway showcase",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 20.0,
+   "folder": "films/cutaway/series/sleeping-volcano",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-sleeping-volcano.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-sleeping-volcano-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-sleeping-volcano-poster.jpg"
+   },
+   "sound": "no voice: BigSoundBank CC0 recordings timed to the picture (release sfx-bank) under a quiet VSCO-2 score, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "cinematic extras (films/styles/cutaway/cinematic/extras.py)",
+    "sfx kit (films/cutaway/series/audio_kit.py, music_kit.py)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-series-sleeping-volcano.md",
+   "summary": "A green island over a glowing magma chamber; birds lift, smoke, then a gentle eruption at dusk.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "cutaway-series-under-the-city",
+   "title": "Under the City",
+   "series": "Cutaway showcase",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 20.0,
+   "folder": "films/cutaway/series/under-the-city",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-under-the-city.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-under-the-city-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-series-under-the-city-poster.jpg"
+   },
+   "sound": "no voice: BigSoundBank CC0 recordings timed to the picture (release sfx-bank) under a quiet VSCO-2 score, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "cinematic extras (films/styles/cutaway/cinematic/extras.py)",
+    "sfx kit (films/cutaway/series/audio_kit.py, music_kit.py)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/cutaway-series-under-the-city.md",
+   "summary": "From a dusk street down through pipes, a sewer, a metro train and Roman ruins to dinosaur bones.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "dark-corners-arabia-clay",
+   "title": "I Am Buying Her Life",
+   "series": "Dark Corners",
+   "style": "clay",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 175.84,
+   "folder": "films/dark-corners/arabia",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-arabia-clay.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-arabia-clay-preview.mp4"
+   },
+   "poster": "/posters/dark-corners-arabia-clay.jpg",
+   "sound": "original Dark Corners narration, score and mix (rc-render release dark-films), kept unchanged",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles (Clay, hand-built)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/dark-corners-arabia-clay.md",
+   "summary": "A desert story in Clay, re-directed: pin-hole stars in their own pass, 31 shots in 9 scenes, a fuller camp.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "dark-corners-bamberg-kinetic",
+   "title": "A Hundred Thousand Good Nights",
+   "series": "Dark Corners",
+   "style": "kinetic",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 163.31,
+   "folder": "films/dark-corners/bamberg",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-bamberg-kinetic.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-bamberg-kinetic-preview.mp4"
+   },
+   "poster": "/posters/dark-corners-bamberg-kinetic.jpg",
+   "sound": "original Dark Corners narration, score and mix (rc-render release dark-films), kept unchanged",
+   "made_with": [
+    "Kinetic engine (films/lib/kinetic, web canvas)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/dark-corners-bamberg-kinetic.md",
+   "summary": "The Bamberg witch trials in eight movements on one candle-lit desk: documents, dates and numbers in motion.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "dark-corners-kleidion-lantern-road",
+   "title": "As They Say",
+   "series": "Dark Corners",
+   "style": "lantern-road",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 169.05,
+   "folder": "films/dark-corners/kleidion",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-kleidion-lantern-road.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-kleidion-lantern-road-preview.mp4"
+   },
+   "poster": "/posters/dark-corners-kleidion-lantern-road.jpg",
+   "sound": "original Dark Corners narration, score and mix (rc-render release dark-films), kept unchanged",
+   "made_with": [
+    "Lantern Road (hand-built 2.5D painted multiplane, web)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/dark-corners-kleidion-lantern-road.md",
+   "summary": "Kleidion, 1014, re-directed after Sam's notes: 9 scenes and 29 shots, an opening in real time.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "dark-corners-zong-lantern-road",
+   "title": "The Ship Called Care",
+   "series": "Dark Corners",
+   "style": "lantern-road",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 179.4,
+   "folder": "films/dark-corners/zong",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-zong-lantern-road.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-zong-lantern-road-preview.mp4"
+   },
+   "poster": "/posters/dark-corners-zong-lantern-road.jpg",
+   "sound": "original Dark Corners narration, score and mix (rc-render release dark-films), kept unchanged",
+   "made_with": [
+    "Lantern Road (hand-built 2.5D painted multiplane, web)",
+    "Chromium frame renderer (harness/render.cjs)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/dark-corners-zong-lantern-road.md",
+   "summary": "The Zong, 1781: the ship called Care, told as a lantern-lit painted fable.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "kinetic-demo",
+   "title": "Kinetic line example: The Ship Called Care",
+   "series": "Director examples",
+   "style": "kinetic",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 179.4,
+   "folder": "films/studio/kinetic-demo",
+   "status": "draft",
+   "video": null,
+   "preview": null,
+   "poster": null,
+   "sound": "the Zong mix (Dark Corners)",
+   "made_with": [
+    "Kinetic engine (films/lib/kinetic)"
+   ],
+   "recipe": "docs/manual/films/kinetic-demo.md",
+   "summary": "The director's example film for the kinetic line (films/director/lines.json); not a release.",
+   "verdict": null,
+   "date": null
+  },
+  {
+   "id": "great-emu-war",
+   "title": "The Great Emu War",
+   "series": "Kinetic",
+   "style": "kinetic",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 120.0,
+   "folder": "films/studio/great-emu-war",
+   "status": "draft",
+   "video": null,
+   "preview": null,
+   "poster": null,
+   "sound": "not made",
+   "made_with": [
+    "director pipeline (film.yml)"
+   ],
+   "recipe": "docs/manual/films/great-emu-war.md",
+   "summary": "Slate film for the kinetic line; stopped at the script stage by the free models' daily limit.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "noor-descent-05-iqra",
+   "title": "Iqra",
+   "series": "NOOR",
+   "style": "lantern-road",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 158.84,
+   "folder": "films/noor/n05-iqra",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-descent-05-iqra.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-descent-05-iqra-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-descent-05-iqra-poster.jpg"
+   },
+   "sound": "Chatterbox narration on the runner, free procedural score (noor-sound.yml)",
+   "made_with": [
+    "Lantern Road (web)",
+    "Amiri Quran type set in code",
+    "kinoforge noor-sound.yml",
+    "kinoforge films-render.yml"
+   ],
+   "recipe": "docs/manual/films/noor-descent-05-iqra.md",
+   "summary": "NOOR Ramadan sample, The Descent, Night 5: Iqra; mountain, cave and sky, light only, no figure drawn.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "noor-descent-05-iqra-short",
+   "title": "Iqra (short)",
+   "series": "NOOR",
+   "style": "lantern-road",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 36.44,
+   "folder": "films/noor/s05-iqra-short",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-descent-05-iqra-short.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-descent-05-iqra-short-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-descent-05-iqra-short-poster.jpg"
+   },
+   "sound": "cut from the Iqra film's mix by make_short.py",
+   "made_with": [
+    "Lantern Road (web)",
+    "kinoforge films-render.yml"
+   ],
+   "recipe": "docs/manual/films/noor-descent-05-iqra-short.md",
+   "summary": "The 9:16 short cut from the Iqra sample, the same sets reframed.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "noor-juz-30-amma",
+   "title": "Juz Amma",
+   "series": "NOOR",
+   "style": "lantern-road",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 138.98,
+   "folder": "films/noor/j30-amma",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-juz-30-amma.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-juz-30-amma-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "films",
+    "name": "noor-juz-30-amma-poster.jpg"
+   },
+   "sound": "Chatterbox narration on the runner, free procedural score (noor-sound.yml)",
+   "made_with": [
+    "Lantern Road (web)",
+    "Amiri Quran type set in code",
+    "kinoforge noor-sound.yml",
+    "kinoforge films-render.yml"
+   ],
+   "recipe": "docs/manual/films/noor-juz-30-amma.md",
+   "summary": "NOOR Ramadan sample, Tonight's Juz, Night 30: seven painted sets, teaching graphics, no person shown.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "style-cutaway-cinematic",
+   "title": "Cutaway, cinematic hero version",
+   "series": "Styles",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 12.0,
+   "folder": "films/styles/cutaway/cinematic",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "style-cutaway-cinematic.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "style-cutaway-cinematic-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "style-cutaway-cinematic-sheet.jpg"
+   },
+   "sound": "silent",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "cinematic extras (films/styles/cutaway/cinematic/extras.py)",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/style-cutaway-cinematic.md",
+   "summary": "The cinematic Cutaway test: golden backlight, mist, animals, ten buried surprises, five camera angles.",
+   "verdict": "Sam, 23 Oct 17:32: did not like the cinematic test (camera moves, cuts).",
+   "date": "2026-10-23"
+  },
+  {
+   "id": "style-cutaway-test",
+   "title": "Cutaway motion test",
+   "series": "Styles",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 8.0,
+   "folder": "films/styles/cutaway/test",
+   "status": "draft",
+   "video": null,
+   "preview": null,
+   "poster": null,
+   "sound": "none",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)"
+   ],
+   "recipe": "docs/manual/films/style-cutaway-test.md",
+   "summary": "The kit's 8 s motion test folder; never rendered (the cinematic version came first).",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "under-the-surface-venice",
+   "title": "Why Venice Sinks",
+   "series": "Under the Surface",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 156.97,
+   "folder": "films/cutaway/venice",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "under-the-surface-venice.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "under-the-surface-venice-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "under-the-surface-venice-sheet.jpg"
+   },
+   "sound": "Kokoro narration (bm_george), harp, pizzicato and flute from the free score engine, -14.1 LUFS (sound.yml)",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "overlay.py words set in code",
+    "kinoforge sound.yml",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/under-the-surface-venice.md",
+   "summary": "Why Venice Sinks: 23 shots in 8 scenes through the lagoon, the wooden piles and the MOSE gates, in section.",
+   "verdict": null,
+   "date": "2026-10-23"
+  },
+  {
+   "id": "unmissed-01",
+   "title": "Unmissed ad, first version (v4)",
+   "series": "Unmissed ads",
+   "style": "business",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 27.6,
+   "folder": "ads/unmissed-01",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-01.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-01-sheet.jpg"
+   },
+   "sound": "ElevenLabs voice, Lyria score, synthesised interface sounds, -14 LUFS",
+   "made_with": [
+    "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
+    "kinoforge codead.yml"
+   ],
+   "recipe": "docs/manual/styles/business-ads.md",
+   "summary": "The first Unmissed ad built in code (AI front desk offer), fourth revision delivered to Sam.",
+   "verdict": "Sam, 16 Oct: \"really bad quality\", the voice \"not the greatest\".",
+   "date": "2026-10-16"
+  },
+  {
+   "id": "unmissed-v1",
+   "title": "Unmissed direction 1: Manifesto",
+   "series": "Unmissed ads",
+   "style": "business",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 16.0,
+   "folder": "ads/unmissed-v1",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v1.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v1-sheet.jpg"
+   },
+   "sound": "Lyria score, ElevenLabs voice (roger), -14 LUFS",
+   "made_with": [
+    "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
+    "kinoforge codead.yml"
+   ],
+   "recipe": "docs/manual/styles/business-ads.md",
+   "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
+   "verdict": "Sam, 16 Oct: \"a little\".",
+   "date": "2026-10-16"
+  },
+  {
+   "id": "unmissed-v2",
+   "title": "Unmissed direction 2: The Catch (3D)",
+   "series": "Unmissed ads",
+   "style": "business",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 18.2,
+   "folder": "ads/unmissed-v2",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v2.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v2-sheet.jpg"
+   },
+   "sound": "Lyria score, ElevenLabs voice (river), -14 LUFS",
+   "made_with": [
+    "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
+    "kinoforge codead.yml"
+   ],
+   "recipe": "docs/manual/styles/business-ads.md",
+   "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
+   "verdict": "Sam, 16 Oct: \"a little\".",
+   "date": "2026-10-16"
+  },
+  {
+   "id": "unmissed-v3",
+   "title": "Unmissed direction 3: The Call",
+   "series": "Unmissed ads",
+   "style": "business",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 26.8,
+   "folder": "ads/unmissed-v3",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v3.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v3-sheet.jpg"
+   },
+   "sound": "Lyria score (delayed 3 bars), ElevenLabs dialogue with Whisper word times, -14 LUFS",
+   "made_with": [
+    "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
+    "kinoforge codead.yml"
+   ],
+   "recipe": "docs/manual/styles/business-ads.md",
+   "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
+   "verdict": "Sam, 16 Oct: loved, but the voice sounds too fake.",
+   "date": "2026-10-16"
+  },
+  {
+   "id": "unmissed-v4",
+   "title": "Unmissed direction 4: Night Shift (AI footage)",
+   "series": "Unmissed ads",
+   "style": "business",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 22.9,
+   "folder": "ads/unmissed-v4",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v4.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v4-sheet.jpg"
+   },
+   "sound": "Lyria score, ElevenLabs voice (eric), -14 LUFS",
+   "made_with": [
+    "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
+    "kinoforge codead.yml"
+   ],
+   "recipe": "docs/manual/styles/business-ads.md",
+   "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
+   "verdict": "Sam, 16 Oct: \"a big NO\".",
+   "date": "2026-10-16"
+  },
+  {
+   "id": "unmissed-v5",
+   "title": "Unmissed direction 5: Bento",
+   "series": "Unmissed ads",
+   "style": "business",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 18.0,
+   "folder": "ads/unmissed-v5",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v5.mp4"
+   },
+   "preview": null,
+   "poster": {
+    "repo": "Eouchi147/kinoforge",
+    "release": "ads",
+    "name": "unmissed-v5-sheet.jpg"
+   },
+   "sound": "Lyria score cut on whole bars, ElevenLabs voice (jessica), -14 LUFS",
+   "made_with": [
+    "code ad (ads/lib/motion.js, harness/dom-render.cjs)",
+    "kinoforge codead.yml"
+   ],
+   "recipe": "docs/manual/styles/business-ads.md",
+   "summary": "Unmissed ad direction built in code, music first; shown to Sam on the page \"Unmissed Ad Directions\".",
+   "verdict": "Sam, 16 Oct: loved, sound and visuals; the chosen direction for Unmissed.",
+   "date": "2026-10-16"
+  }
+ ],
+ "styles": [
+  {
+   "id": "cutaway",
+   "name": "Cutaway",
+   "family": "house",
+   "summary": "A block of land cut out of the world: a living landscape on top, clean strata on the cut faces, clear water, surprises in the soil.",
+   "best_for": "what lies under the surface: cities, digs, geology, nature, how things work underground; ads for trades",
+   "engine": "films/styles/cutaway/cutaway.py",
+   "recipe": "docs/manual/styles/cutaway.md",
+   "board": [
+    "/posters/cutaway-loop-seasons.jpg",
+    {
+     "repo": "Eouchi147/rc-render",
+     "release": "kino-films",
+     "name": "cutaway-loop-seasons-sheet.jpg"
+    },
+    "/looks/reference-470.jpg",
+    "/looks/reference-830.jpg",
+    "/looks/board-meadow-830.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": null
+   }
+  },
+  {
+   "id": "cutaway-seasons",
+   "name": "Cutaway seasons loop",
+   "family": "house",
+   "summary": "The Cutaway base grammar since 23 Oct: one fixed view, no cuts, a living world changing through the seasons.",
+   "best_for": "social loops, ambient and music films, brand loops; every art look is ported onto it",
+   "engine": "films/cutaway/loops/seasons/blender.py",
+   "recipe": "docs/manual/styles/cutaway-seasons-loop.md",
+   "board": [
+    "/posters/cutaway-loop-seasons.jpg",
+    {
+     "repo": "Eouchi147/rc-render",
+     "release": "kino-films",
+     "name": "cutaway-loop-seasons-sheet.jpg"
+    },
+    "/looks/seasons-base-40.jpg",
+    "/looks/seasons-base-100.jpg",
+    "/looks/seasons-base-260.jpg"
+   ],
+   "start": {
+    "line": null,
+    "format": "9:16",
+    "look": null
+   }
+  },
+  {
+   "id": "cutaway-cinematic",
+   "name": "Cutaway cinematic",
+   "family": "house",
+   "summary": "The kit with cinema light, mist, animals and buried surprises, shot with moving cameras and cuts; Sam did not like the test.",
+   "best_for": "set pieces inside another film (the Agincourt inserts) and explainers that need many angles",
+   "engine": "films/styles/cutaway/cinematic/extras.py",
+   "recipe": "docs/manual/styles/cutaway-cinematic.md",
+   "board": [
+    {
+     "repo": "Eouchi147/rc-render",
+     "release": "kino-films",
+     "name": "style-cutaway-cinematic-sheet.jpg"
+    }
+   ],
+   "start": {
+    "line": null,
+    "format": "16:9",
+    "look": null
+   }
+  },
+  {
+   "id": "battle-map",
+   "name": "Battle Map",
+   "family": "house",
+   "summary": "A 3D relief map that reads as drawn and engraved, armies as soldier figures on trays, ink arrows, a legend, labels in code.",
+   "best_for": "battles, campaigns, journeys, expeditions: anything about places and movement",
+   "engine": "films/lib/battlemap",
+   "recipe": "docs/manual/styles/battle-map.md",
+   "board": [
+    "/posters/battle-map-cannae.jpg",
+    {
+     "repo": "Eouchi147/rc-render",
+     "release": "kino-films",
+     "name": "battle-map-cannae-sheet.jpg"
+    }
+   ],
+   "start": {
+    "line": "battle-map",
+    "format": "16:9",
+    "look": null
+   }
+  },
+  {
+   "id": "kinetic",
+   "name": "Kinetic",
+   "family": "house",
+   "summary": "Words, dates, numbers and documents in motion on one lit desk, restrained and adult, every word inside the phone safe box.",
+   "best_for": "true stories told through words and documents: history, science, ideas",
+   "engine": "films/lib/kinetic",
+   "recipe": "docs/manual/styles/kinetic.md",
+   "board": [
+    "/posters/dark-corners-bamberg-kinetic.jpg",
+    {
+     "repo": "Eouchi147/rc-render",
+     "release": "kino-films",
+     "name": "dark-corners-bamberg-kinetic-sheet.jpg"
+    }
+   ],
+   "start": {
+    "line": "kinetic",
+    "format": "9:16",
+    "look": null
+   }
+  },
+  {
+   "id": "lantern-road",
+   "name": "Lantern Road",
+   "family": "house",
+   "summary": "Painterly storybook sets at true depths (a 2.5D multiplane), lanterns that relight the paint, slow real moves.",
+   "best_for": "dark history told as a fable; NOOR (reverent, no figures)",
+   "engine": "proto/p03-lantern-road",
+   "recipe": "docs/manual/styles/lantern-road.md",
+   "board": [
+    "/posters/dark-corners-zong-lantern-road.jpg",
+    {
+     "repo": "Eouchi147/rc-render",
+     "release": "kino-films",
+     "name": "dark-corners-zong-lantern-road-sheet.jpg"
+    }
+   ],
+   "start": {
+    "line": null,
+    "format": "9:16",
+    "look": null
+   }
+  },
+  {
+   "id": "clay",
+   "name": "Clay",
+   "family": "house",
+   "summary": "Thumb-sized clay figures and handmade sets in Blender, poses on twos, deadpan timing.",
+   "best_for": "intimate human stories",
+   "engine": "proto/p10-clay",
+   "recipe": "docs/manual/styles/clay.md",
+   "board": [
+    "/posters/dark-corners-arabia-clay.jpg",
+    {
+     "repo": "Eouchi147/rc-render",
+     "release": "kino-films",
+     "name": "dark-corners-arabia-clay-sheet.jpg"
+    }
+   ],
+   "start": {
+    "line": null,
+    "format": "9:16",
+    "look": null
+   }
+  },
+  {
+   "id": "cutaway-blueprint",
+   "name": "Blueprint",
+   "family": "cutaway-look",
+   "summary": "An engineering drawing: cyanotype blue, drafting grid, hatched soil symbols, depth ruler and dimensions.",
+   "best_for": "civil, geotechnical and drilling firms, infrastructure start-ups, engineering schools",
+   "engine": "films/styles/cutaway/art/blueprint.py",
+   "recipe": "docs/manual/styles/cutaway-art-blueprint.md",
+   "board": [
+    "/looks/blueprint-470.jpg",
+    "/looks/blueprint-830.jpg",
+    "/looks/seasons-blueprint-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "blueprint"
+   }
+  },
+  {
+   "id": "cutaway-chalkboard",
+   "name": "Chalkboard",
+   "family": "cutaway-look",
+   "summary": "The cutaway drawn in chalk on a slate board: dusty white outlines, a few coloured sticks, smudged layers.",
+   "best_for": "teachers and course brands, museum education, soil-testing and garden businesses",
+   "engine": "films/styles/cutaway/art/chalkboard.py",
+   "recipe": "docs/manual/styles/cutaway-art-chalkboard.md",
+   "board": [
+    "/looks/chalkboard-470.jpg",
+    "/looks/chalkboard-830.jpg",
+    "/looks/seasons-chalkboard-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "chalkboard"
+   }
+  },
+  {
+   "id": "cutaway-claymation",
+   "name": "Claymation",
+   "family": "cutaway-look",
+   "summary": "Plasticine stop-motion: every material clay with lumps, thumb prints and tool marks.",
+   "best_for": "family, kids, toy and food brands, museum and children's TV explainers, mascot shorts",
+   "engine": "films/styles/cutaway/art/claymation.py",
+   "recipe": "docs/manual/styles/cutaway-art-claymation.md",
+   "board": [
+    "/looks/claymation-470.jpg",
+    "/looks/claymation-830.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "claymation"
+   }
+  },
+  {
+   "id": "cutaway-engraving",
+   "name": "Engraving",
+   "family": "cutaway-look",
+   "summary": "A 19th-century encyclopaedia plate: sepia copperplate hatching on cream paper that follows the forms.",
+   "best_for": "history channels and heritage trusts, illustrated history publishers, firms with old roots",
+   "engine": "films/styles/cutaway/art/engraving.py",
+   "recipe": "docs/manual/styles/cutaway-art-engraving.md",
+   "board": [
+    "/looks/engraving-470.jpg",
+    "/looks/engraving-830.jpg",
+    "/looks/seasons-engraving-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "engraving"
+   }
+  },
+  {
+   "id": "cutaway-fable",
+   "name": "Fable",
+   "family": "cutaway-look",
+   "summary": "A mid-century storybook painting in gouache: jewel palette, painted sky and sun halos, tall decorative trees.",
+   "best_for": "children's and family brands, museums and parks, terroir and luxury hospitality; the Fable music film",
+   "engine": "films/styles/cutaway/art/fable.py",
+   "recipe": "docs/manual/styles/cutaway-art-fable.md",
+   "board": [
+    "/looks/fable-470.jpg",
+    "/looks/fable-830.jpg",
+    "/looks/seasons-fable-40.jpg",
+    "/looks/seasons-fable-100.jpg",
+    "/looks/seasons-fable-260.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "fable"
+   }
+  },
+  {
+   "id": "cutaway-flat-vector",
+   "name": "Flat vector",
+   "family": "cutaway-look",
+   "summary": "The Cutaway as a 2D web film: flat shapes and clean labels, renders in minutes in Chromium.",
+   "best_for": "weekly explainer series, trade and local business ads in both formats, data and infographic pieces",
+   "engine": "films/cutaway/looks/flat-vector/index.html",
+   "recipe": "docs/manual/styles/cutaway-flat-vector.md",
+   "board": [
+    "/looks/flat-vector-470.jpg",
+    "/looks/flat-vector-830.jpg"
+   ],
+   "start": {
+    "line": null,
+    "format": "16:9",
+    "look": "flat-vector"
+   }
+  },
+  {
+   "id": "cutaway-night-glow",
+   "name": "Night glow",
+   "family": "cutaway-look",
+   "summary": "The block at night, alive with light: stars, a pale moon, glowing roots, finds that burn warm.",
+   "best_for": "natural history museums and science centres, night events and gaming, sleep and calm apps",
+   "engine": "films/styles/cutaway/art/night-glow.py",
+   "recipe": "docs/manual/styles/cutaway-art-night-glow.md",
+   "board": [
+    "/looks/night-glow-470.jpg",
+    "/looks/night-glow-830.jpg",
+    "/looks/seasons-night-glow-40.jpg",
+    "/looks/seasons-night-glow-100.jpg",
+    "/looks/seasons-night-glow-260.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "night-glow"
+   }
+  },
+  {
+   "id": "cutaway-papercraft",
+   "name": "Papercraft",
+   "family": "cutaway-look",
+   "summary": "Layered cut paper under a desk lamp: posterised card colours, torn-edged strata sheets, drop shadows.",
+   "best_for": "children's book publishers and museum exhibits, craft brands, schools and science channels",
+   "engine": "films/styles/cutaway/art/papercraft.py",
+   "recipe": "docs/manual/styles/cutaway-art-papercraft.md",
+   "board": [
+    "/looks/papercraft-470.jpg",
+    "/looks/papercraft-830.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "papercraft"
+   }
+  },
+  {
+   "id": "cutaway-pixel",
+   "name": "Pixel",
+   "family": "cutaway-look",
+   "summary": "A 16-bit game diorama: rendered small, Bayer dither, a fixed 32-colour palette, scaled up crisp.",
+   "best_for": "game studios and indie launches, retro-gaming and developer brands, educational games",
+   "engine": "films/styles/cutaway/art/pixel.py",
+   "recipe": "docs/manual/styles/cutaway-art-pixel.md",
+   "board": [
+    "/looks/pixel-470.jpg",
+    "/looks/pixel-830.jpg",
+    "/looks/seasons-pixel-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "pixel"
+   }
+  },
+  {
+   "id": "cutaway-risograph",
+   "name": "Risograph",
+   "family": "cutaway-look",
+   "summary": "A riso print in three spot inks (fluorescent pink, teal, yellow) through coarse halftone screens.",
+   "best_for": "posters, album and festival art, cultural institutions, craft food and drink",
+   "engine": "films/styles/cutaway/art/risograph.py",
+   "recipe": "docs/manual/styles/cutaway-art-risograph.md",
+   "board": [
+    "/looks/risograph-470.jpg",
+    "/looks/risograph-830.jpg",
+    "/looks/seasons-risograph-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "risograph"
+   }
+  },
+  {
+   "id": "cutaway-stained-glass",
+   "name": "Stained glass",
+   "family": "cutaway-look",
+   "summary": "A leaded Art Nouveau window (secular, no figures): jewel panes held by dark lead lines.",
+   "best_for": "heritage and craft brands, wineries and terroir food, cultural seasons and festivals",
+   "engine": "films/styles/cutaway/art/stained-glass.py",
+   "recipe": "docs/manual/styles/cutaway-art-stained-glass.md",
+   "board": [
+    "/looks/stained-glass-470.jpg",
+    "/looks/stained-glass-830.jpg",
+    "/looks/seasons-stained-glass-40.jpg",
+    "/looks/seasons-stained-glass-100.jpg",
+    "/looks/seasons-stained-glass-260.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "stained-glass"
+   }
+  },
+  {
+   "id": "cutaway-storybook-ink",
+   "name": "Storybook ink",
+   "family": "cutaway-look",
+   "summary": "A children's picture book: ink lines over a soft, hand-made picture.",
+   "best_for": "children's publishers and parenting brands, museum family trails, school and library films",
+   "engine": "films/styles/cutaway/art/storybook-ink.py",
+   "recipe": "docs/manual/styles/cutaway-art-storybook-ink.md",
+   "board": [
+    "/looks/storybook-ink-470.jpg",
+    "/looks/storybook-ink-830.jpg",
+    "/looks/seasons-storybook-ink-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "16:9",
+    "look": "storybook-ink"
+   }
+  }
+ ],
+ "workflows": [
+  {
+   "id": "render-film",
+   "name": "Render a film on runners",
+   "summary": "Any film folder rendered in parallel parts on free runners, joined with its own sound.",
+   "doc": "docs/manual/workflows/render-film-on-runners.md",
+   "run": "rc-render films.yml (REST dispatch: film, parts, ref)"
+  },
+  {
+   "id": "check-stills",
+   "name": "Check stills",
+   "summary": "Full-quality single frames of a film folder on free runners, before any full render.",
+   "doc": "docs/manual/workflows/check-stills.md",
+   "run": "rc-render stills.yml (REST dispatch: film, frames, tag, w, h, samples, per_job, ref)"
+  },
+  {
+   "id": "mac-lane",
+   "name": "Render on the Mac lane",
+   "summary": "Blender films on Sam's M4 GPU from his Samsung X5 drive, about 7 runners' worth.",
+   "doc": "docs/manual/workflows/render-on-the-mac.md",
+   "run": "a job JSON in KINOFORGE/render/mac-jobs/ on the drive; lane started by harness/mac/go.py in Blender"
+  },
+  {
+   "id": "remux",
+   "name": "Remux sound",
+   "summary": "New sound on a finished film without re-rendering the picture.",
+   "doc": "docs/manual/workflows/remux-sound.md",
+   "run": "rc-render remux.yml (REST dispatch: film, ref)"
+  },
+  {
+   "id": "chain",
+   "name": "Follow-up chains",
+   "summary": "A render that waits for other renders, checked every 15 minutes on GitHub.",
+   "doc": "docs/manual/workflows/follow-up-chains.md",
+   "run": "a rule line in rc-render .github/workflows/chain.yml (cron, or REST dispatch)"
+  },
+  {
+   "id": "music-fetch",
+   "name": "Fetch music",
+   "summary": "A public domain or CC0 recording from Wikimedia Commons with its licence record.",
+   "doc": "docs/manual/workflows/fetch-music.md",
+   "run": "rc-render music-fetch.yml (REST dispatch: file, name)"
+  },
+  {
+   "id": "sfx-bank",
+   "name": "Build the sound bank",
+   "summary": "The BigSoundBank CC0 recordings as one checked archive with loudness.",
+   "doc": "docs/manual/workflows/build-the-sound-bank.md",
+   "run": "rc-render sfx-bank.yml (REST dispatch, no inputs)"
+  },
+  {
+   "id": "narration-score",
+   "name": "Narration and score",
+   "summary": "Free narration (Kokoro or Chatterbox), the procedural score and the mix for a film folder.",
+   "doc": "docs/manual/workflows/narration-and-score.md",
+   "run": "kinoforge sound.yml or noor-sound.yml (REST dispatch)"
+  },
+  {
+   "id": "director",
+   "name": "Director pipeline",
+   "summary": "An approved brief in, a checked and rendered film out, inside a hard money cap.",
+   "doc": "docs/manual/workflows/director-pipeline.md",
+   "run": "push films/studio/<id>/brief.json, or kinoforge film.yml (REST dispatch: job, from)"
+  },
+  {
+   "id": "web-build",
+   "name": "Web studio build button",
+   "summary": "The studio's \"Build this film\" commits the brief that starts the director.",
+   "doc": "docs/manual/workflows/web-studio-build.md",
+   "run": "button in the web studio (POST /api/build)"
+  },
+  {
+   "id": "social",
+   "name": "Social videos",
+   "summary": "Phone-format batch videos from code templates, one runner per video (lane paused).",
+   "doc": "docs/manual/workflows/social.md",
+   "run": "kinoforge social.yml (REST dispatch: batch, only)"
+  },
+  {
+   "id": "ads",
+   "name": "Code ads",
+   "summary": "Business ads built in code, music first: prep then render (lane paused).",
+   "doc": "docs/manual/workflows/ads.md",
+   "run": "kinoforge codead.yml (REST dispatch: ad, mode)"
+  },
+  {
+   "id": "boards-pieces",
+   "name": "Style boards and AI footage",
+   "summary": "Paid AI stills and clips for a style board, and the AI-footage shot factory.",
+   "doc": "docs/manual/workflows/style-boards-and-ai-footage.md",
+   "run": "kinoforge board.yml and piece.yml (REST dispatch; Sam's go per job)"
+  },
+  {
+   "id": "legacy",
+   "name": "Legacy lanes",
+   "summary": "The 13 to 16 Oct lanes kept for history: gallery, showcase, voice, finish, director.yml, motion, smoke.",
+   "doc": "docs/manual/workflows/legacy-lanes.md",
+   "run": "see the page; not used for new work"
+  }
+ ],
+ "music": [
+  {
+   "id": "borodin-steppes-musopen",
+   "title": "Borodin, In the Steppes of Central Asia (Musopen Symphony)",
+   "source": "https://commons.wikimedia.org/wiki/File:Borodin_-_In_the_Steppes_of_Central_Asia_(Musopen_Symphony).flac",
+   "licence": "Public domain (Wikimedia Commons record in borodin-steppes-musopen.licence.json)",
+   "asset": {
+    "repo": "Eouchi147/rc-render",
+    "release": "music",
+    "name": "borodin-steppes-musopen.flac"
+   }
+  }
+ ]
+}
