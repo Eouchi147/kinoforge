@@ -13,3 +13,4 @@ __pycache__/
 films/battles/*/check/
 films/dark-corners/*/check/
 films/cutaway/**/check/
+films/studio/_selftest*/

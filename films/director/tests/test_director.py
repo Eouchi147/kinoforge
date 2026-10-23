@@ -23,18 +23,19 @@ HAST = os.path.join(C.ROOT, 'films', 'battles', 'hastings')
 # Frozen copy of the v1 Hastings film (commit f6b29e6), made before CRAFT.md: the real film was re-directed on Battle Map v2 on
 # 22 Oct and now passes the craft checks, so the tests that need a v1 spec read this fixture instead of the live film.
 HAST_V1 = os.path.join(HERE, 'fixtures', 'hastings-v1')
-JOB = os.path.join(C.ROOT, 'films', 'studio', '_selftest')
+JOB_ID = f'_selftest{os.getpid()}'   # one folder per run: parallel runs (several agents, CI) must not share a job
+JOB = os.path.join(C.ROOT, 'films', 'studio', JOB_ID)
 
 
 def make_job(brief_extra=None, with_sound=True):
     shutil.rmtree(JOB, ignore_errors=True); os.makedirs(JOB)
-    b = {'id': '_selftest', 'title': 'The Battle of Hastings', 'line': 'battle-map', 'subject': 'The Battle of Hastings, 1066', 'audience': 'kids 8 to 14',
+    b = {'id': JOB_ID, 'title': 'The Battle of Hastings', 'line': 'battle-map', 'subject': 'The Battle of Hastings, 1066', 'audience': 'kids 8 to 14',
          'target_seconds': 150, 'cap_usd': 1.5, 'approved_at': '2026-10-22T09:00:00Z', **(brief_extra or {})}
     json.dump(b, open(os.path.join(JOB, 'brief.json'), 'w'))
     if with_sound:
         cues = json.load(open(os.path.join(HAST, 'cues.json')))
         shutil.copy(os.path.join(HAST, 'cues.json'), JOB)
-        film = json.load(open(os.path.join(HAST, 'film.json'))); film['id'] = '_selftest'; film['line'] = 'battle-map'
+        film = json.load(open(os.path.join(HAST, 'film.json'))); film['id'] = JOB_ID; film['line'] = 'battle-map'
         json.dump(film, open(os.path.join(JOB, 'film.json'), 'w'))
         json.dump({'title': 'The Battle of Hastings', 'year_label': '1066', 'lines': [{'id': l['id'], 'text': l['text'], 'picture': 'the map'} for l in cues['lines']]},
                   open(os.path.join(JOB, 'script.json'), 'w'))
@@ -173,7 +174,7 @@ class Fast(unittest.TestCase):
             install(Mock({'lessons': {'lessons': ['Copy cue words exactly — always']}}))
             fresh = RF.main(JOB)
             self.assertEqual(len(fresh), 1); self.assertNotIn('—', fresh[0])
-            txt = open(tmp).read(); self.assertIn('_selftest: Copy cue words exactly', txt); self.assertIn('seed', txt)
+            txt = open(tmp).read(); self.assertIn(f'{JOB_ID}: Copy cue words exactly', txt); self.assertIn('seed', txt)
             for k in range(45): RF.write_lessons([f'lesson {k}'], 't')
             self.assertEqual(sum(1 for l in open(tmp) if l.startswith('- ')), RF.KEEP)
         finally: os.remove(tmp)

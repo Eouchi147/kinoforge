@@ -25,9 +25,9 @@ Free: Blender 5.2, all procedural, no downloaded assets. Sound: nature recording
 | --- | --- | --- | --- | --- | --- |
 | 1 | island | 0 to 6.5 s | 0 to 155 | wide three-quarter from the +X/-Y side, 35 mm, a slow eased push (8.7 to 7.9 m) with a 4 degree arc | where we are: the whole block reads at once, the title sits above the cone |
 | 2 | rise | 6.5 to 13.5 s | 156 to 323 | starts close on the chamber (38 mm, f/6), cranes up the cut face with the magma front to the crater, tilting down from 4 to 20 degrees and pulling back | the cause: the cut to the chamber happens because it has just started to brighten (4 s); the camera is motivated by the rising magma and arrives as the birds lift |
-| 3 | eruption | 13.5 to 20 s | 324 to 479 | low wide three-quarter (32 mm, 9 to 10.5 degrees up), a slow 7 degree arc and push; one damped vertical jolt at 14.2 s | the climax and the end image: we cut wide 0.7 s before the first fountain so the eruption happens on screen |
+| 3 | eruption | 13.5 to 20 s | 324 to 479 | low wide three-quarter (28 mm, 9 to 10.5 degrees up, room above the cone for the plume), a slow 7 degree arc and push; one damped vertical jolt at 14.2 s | the climax and the end image: we cut wide 0.7 s before the first fountain so the eruption happens on screen |
 
-Every move is eased (smoothstep or quintic) and real time. Check frames: 30, 175, 235, 305, 400, 470.
+Every move is eased (smoothstep or quintic) and real time. Check frames (one per beat): 30, 120, 175, 235, 300, 345, 420, 450.
 
 ## The job of every element
 
