@@ -53,7 +53,7 @@ class Film:
         if self.plan.errors:
             raise SpecError('the spec has errors (run films/lib/cutaway/tools/validate.py):\n- ' + '\n- '.join(self.plan.errors[:30]))
         fj = os.path.join(self.dir, 'film.json'); self.meta = json.load(open(fj)) if os.path.exists(fj) else {}
-        look = spec.get('look') or {}
+        look = spec.get('look') or {}; self.spec_look = look
         self.DURATION = float(self.plan.duration)
         self.SETTINGS = {'samples': int(look.get('samples', self.meta.get('samples', 20))), 'denoise': True, 'motion_blur': False,
                          'view_transform': 'AgX', 'look': look.get('contrast', 'AgX - Medium High Contrast'), 'exposure': float(look.get('exposure', 0.1)),
@@ -96,6 +96,16 @@ class Film:
         except Exception: pass
         sc.view_settings.look = self.SETTINGS['look']; sc.view_settings.exposure = self.SETTINGS['exposure']
         self.shown = None
+        # an art direction on top of the line (films/styles/cutaway/art/<name>.py): spec "look": {"art": name}, or $KF_ART
+        self.art = None; art = os.environ.get('KF_ART') or (self.spec_look.get('art') if self.spec_look else None)
+        if art:
+            import importlib.util
+            ap = os.path.join(ROOT, 'films', 'styles', 'cutaway', 'art', art + '.py')
+            if not os.path.exists(ap): raise SpecError(f'unknown art direction {art!r} (no {ap})')
+            spec_ = importlib.util.spec_from_file_location('kf_art_' + art, ap); self.art = importlib.util.module_from_spec(spec_)
+            spec_.loader.exec_module(self.art)
+            self.art.apply(bpy, self, ctx)
+            print(f'art direction: {art}', flush=True)
         return {'film': self}
 
     def _build_set(self, bpy, L):
@@ -278,6 +288,7 @@ class Film:
         if st['fog_gain'] is not None: st['fog_gain'].default_value = FOG_GAIN.get(cam, 0.8)
         self.O.d = (0.97 * c['focus']) if dof else 0.5          # depth of field keeps the overlay sharp only at the focus
         self._draw_overlays(t, shot, ctx['W'], ctx['H'])
+        if self.art is not None and hasattr(self.art, 'frame'): self.art.frame(bpy, self, ctx, t, shot)
 
 
 def scene(film_dir):

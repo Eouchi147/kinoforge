@@ -1,5 +1,10 @@
 # Status (updated 23 Oct 2026, director paid mode)
 
+## Cutaway art directions (Sam, 23 Oct 16:34; in progress)
+- At least ten looks of the same meadow frame (`films/cutaway/looks/<name>/`, modules `films/styles/cutaway/art/`),
+  stills on rc-render `stills.yml`; a uses and earning guide; one artistic look with classical music (public domain
+  recording), synced. Nothing paid.
+
 ## What Lies Under a Meadow (Cutaway line example; Sam, 15:58 "go")
 - Rendering on the Mac lane from the Samsung X5 (959 frames, about 6.5 s a frame, done about 17:45 Toronto); sound done
   (`films/cutaway/meadow/audio/mix.m4a`, -16 LUFS, no voice). Then: encode on the Mac, check, deliver to `kino-films/`.

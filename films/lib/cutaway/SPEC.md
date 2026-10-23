@@ -48,6 +48,7 @@ A word that is not in the line is an error that names the line's words, so a spe
 | --- | --- |
 | `format` | `"16:9"` (render 1280x720, delivered 1920x1080) or `"9:16"` (720x1280, delivered 1080x1920) |
 | `look.samples` | Cycles samples (20 is the house value; denoised); `quality: "full"` = full bounces (slower) |
+| `look.art` | optional art direction on top of the line: the name of a module in `films/styles/cutaway/art/` (`apply(bpy, film, ctx)` once after the build, optional `frame(bpy, film, ctx, t, shot)` each frame); `$KF_ART` overrides it |
 | `title` | the title card (set in code, on a paper plate): `text`, optional `kicker` (small caps above), `at`/`until` (default: the title line and 2 s after it) |
 | `end` | the end card over the outro: `text` (series or brand, capitals) and `sub` (the film title) |
 
