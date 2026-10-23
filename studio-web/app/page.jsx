@@ -1,2 +1,2 @@
-import Studio from '@/components/Studio';
-export default function Page() { return <Studio />; }
+import OS from '@/components/os/OS';
+export default function Page() { return <OS />; }

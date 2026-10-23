@@ -2,9 +2,9 @@
 
 ## Studio OS and manual (Sam, 23 Oct 18:17; in progress)
 - AI manual `docs/manual/` (system and workflows done; styles, films and sound being written), human guide `docs/GUIDE.md`
-  (after the manual), catalog `tools/catalog.py` to `studio-web/public/data/catalog.json` (done), studio OS rebuild of
-  `studio-web/` (in progress; not deployed until it builds and passes its tests), upgrade research
-  (`docs/research/STUDIO_UPGRADES_2026-10.md`, in progress).
+  (after the manual), catalog `tools/catalog.py` to `studio-web/public/data/catalog.json` (done), studio OS `studio-web/`
+  (deployed 23 Oct; waiting on Sam: set `STUDIO_PASSCODE` on Vercel), upgrade research
+  (`docs/research/STUDIO_UPGRADES_2026-10.md`, done; QC gate `tools/qc.py` being built).
 
 ## Cutaway art directions (Sam, 23 Oct 16:34)
 - Done: twelve looks on the meadow frames, full size from the Mac lane, sent to Sam with a board; guide doc sent

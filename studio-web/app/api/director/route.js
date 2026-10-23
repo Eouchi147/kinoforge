@@ -3,6 +3,7 @@
 // fallback chain; every cent is counted against the caps in lib/crew.json.
 import { ask, fanOut, ledger, account } from '@/lib/agents';
 import CREW from '@/lib/crew.json';
+import { guard } from '@/lib/gate';
 export const maxDuration = 300;
 export const dynamic = 'force-dynamic';
 
@@ -143,6 +144,7 @@ async function turn(messages, prior) {
 }
 
 export async function POST(req) {
+  const locked = guard(req); if (locked) return locked;   // every turn spends OpenRouter credit
   const { messages = [], brief = null } = await req.json().catch(() => ({}));
   if (!process.env.OPENROUTER_API_KEY) return Response.json({ error: 'no key', code: 'no-key' }, { status: 409 });
   try { return Response.json(await turn(messages, brief)); }
@@ -150,7 +152,8 @@ export async function POST(req) {
 }
 
 // GET = health check: runs the real opening turn and reports models, time and cost.
-export async function GET() {
+export async function GET(req) {
+  const locked = guard(req); if (locked) return locked;
   try { const t = await turn([], null); return Response.json({ ok: true, ...t }); }
   catch (e) { return Response.json({ ok: false, code: e.code, error: e.message }, { status: 502 }); }
 }

@@ -1,7 +1,8 @@
 // GET /api/media?r=<release>&f=<file>  streams a public GitHub release asset, forwarding Range requests so that
 // <video> plays and seeks. Allow-list only (lib/media.js); no token is sent or exposed (the repos are public).
 // &dl=1 redirects to the GitHub download URL instead (big files should not pass through a function).
-import { RELEASES, NAME_OK, TYPES, downloadUrl } from '@/lib/media';
+// r is an old short key ("kino-films") or "<repo>:<tag>" for a release of Eouchi147/kinoforge or Eouchi147/rc-render.
+import { resolveRelease, NAME_OK, TYPES, downloadUrl } from '@/lib/media';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
@@ -9,7 +10,7 @@ const PASS = ['content-length', 'content-range', 'etag', 'last-modified'];
 
 export async function GET(req) {
   const u = new URL(req.url);
-  const rel = RELEASES[u.searchParams.get('r') || ''], name = u.searchParams.get('f') || '';
+  const rel = resolveRelease(u.searchParams.get('r') || ''), name = u.searchParams.get('f') || '';
   if (!rel || !NAME_OK.test(name)) return new Response('Not found', { status: 404 });
   const src = `https://github.com/${rel.repo}/releases/download/${rel.tag}/${encodeURIComponent(name)}`;
   if (u.searchParams.get('dl')) return Response.redirect(downloadUrl(u.searchParams.get('r'), name), 302);

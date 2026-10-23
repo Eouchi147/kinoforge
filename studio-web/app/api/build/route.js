@@ -1,5 +1,6 @@
 // POST /api/build  { brief }  commits films/studio/<id>/brief.json; that push starts .github/workflows/film.yml.
 import { commitFile, readJSON, exists } from '@/lib/github';
+import { guard } from '@/lib/gate';
 export const dynamic = 'force-dynamic';
 
 const LINES = ['battle-map', 'kinetic', 'cutaway'];
@@ -10,6 +11,7 @@ const str = (v, max = 600) => (typeof v === 'string' ? v.trim().slice(0, max) : 
 const dashless = (s) => s.replace(/[\u2013\u2014]/g, ',').replace(/\.{3,}|\u2026/g, '');
 
 export async function POST(req) {
+  const locked = guard(req); if (locked) return locked;
   const { brief: b } = await req.json().catch(() => ({}));
   const missing = ['title', 'line', 'subject', 'angle', 'audience', 'tone'].filter((k) => !str(b?.[k]));
   if (missing.length) return Response.json({ error: `The brief still needs: ${missing.join(', ')}.` }, { status: 400 });
@@ -32,6 +34,11 @@ export async function POST(req) {
     if (b.music === 'lyria') out.music = 'lyria';   // default: the free procedural score; Lyria only when asked
     // voice is a "model|voice" id for the narration lane (e.g. elevenlabs/eleven-v4|brian); left out, the pipeline's default narrator is used
     if (/^[A-Za-z0-9._\/-]+\|[A-Za-z0-9_-]+$/.test(str(b.voice, 120))) out.voice = str(b.voice, 120);
+    // Recorded for the record and the next pipeline step; the pipeline reads neither yet (films/director/common.py keeps
+    // unknown keys and ignores them): look = a Cutaway art direction (films/styles/cutaway/art/<look>.py), music_piece =
+    // a catalog.music id or "none".
+    if (b.line === 'cutaway' && /^[a-z0-9][a-z0-9-]{0,39}$/.test(str(b.look, 40))) out.look = str(b.look, 40);
+    if (/^[a-z0-9][a-z0-9._-]{0,79}$/.test(str(b.music_piece, 80))) out.music_piece = str(b.music_piece, 80);
     const url = await commitFile(`films/studio/${id}/brief.json`, JSON.stringify(out, null, 1) + '\n', `studio: brief for ${id} (${b.line})`);
     return Response.json({ saved: true, id, url, brief: out });
   } catch (e) {

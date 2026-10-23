@@ -1,0 +1,921 @@
+{
+ "generated": "2026-10-23T00:00:00Z",
+ "films": [
+  {
+   "id": "cutaway-loop-seasons",
+   "title": "Four seasons over one block",
+   "series": "Cutaway loops",
+   "style": "cutaway",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 12,
+   "folder": "films/cutaway/loops/seasons",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-loop-seasons.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-loop-seasons-preview.mp4"
+   },
+   "poster": "/posters/cutaway-loop-seasons.jpg",
+   "sound": "Free score engine voices and synthesised ambience, exact 12 s loop",
+   "made_with": [
+    "Blender (Cutaway kit)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/cutaway-loop-seasons.md",
+   "summary": "Seamless 12 s social loop: one fixed view, the year turns over a cut-open block.",
+   "verdict": "The base for Cutaway: one fixed view, no cuts, a living world.",
+   "date": "2026-10-22"
+  },
+  {
+   "id": "cutaway-line-meadow",
+   "title": "What lies under a meadow",
+   "series": "Cutaway",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 39.9,
+   "folder": "films/cutaway/meadow",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-line-meadow.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-line-meadow-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-line-meadow-sheet.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "Blender (Cutaway line)"
+   ],
+   "recipe": "docs/manual/films/cutaway-line-meadow.md",
+   "summary": "The Cutaway line example: a golden-hour meadow block cut open.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "under-the-surface-venice",
+   "title": "Why Venice sinks",
+   "series": "Under the Surface",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 157,
+   "folder": "films/cutaway/venice",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "under-the-surface-venice.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "under-the-surface-venice-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "under-the-surface-venice-sheet.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "Blender (Cutaway kit)"
+   ],
+   "recipe": "docs/manual/films/under-the-surface-venice.md",
+   "summary": "Under the Surface, film 1.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "cutaway-ad-drainage-v169",
+   "title": "Drainage and landscaping (sample ad)",
+   "series": "Cutaway ads",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 15,
+   "folder": "films/cutaway/ads/drainage",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v169.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v169-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v169-sheet.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "Blender (Cutaway kit)"
+   ],
+   "recipe": "docs/manual/films/cutaway-ad-drainage-v169.md",
+   "summary": "Sample trade ad for an invented business.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "cutaway-ad-drainage-v916",
+   "title": "Drainage and landscaping (sample ad, vertical)",
+   "series": "Cutaway ads",
+   "style": "cutaway",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 15,
+   "folder": "films/cutaway/ads/drainage",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v916.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v916-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "cutaway-ad-drainage-v916-sheet.jpg"
+   },
+   "sound": "not recorded",
+   "made_with": [
+    "Blender (Cutaway kit)"
+   ],
+   "recipe": "docs/manual/films/cutaway-ad-drainage-v916.md",
+   "summary": "Sample trade ad, vertical.",
+   "verdict": null,
+   "date": "2026-10-22"
+  },
+  {
+   "id": "style-cutaway-cinematic",
+   "title": "Cutaway, the cinematic test",
+   "series": "Cutaway",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 12,
+   "folder": "films/styles/cutaway/cinematic",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "style-cutaway-cinematic.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "style-cutaway-cinematic-preview.mp4"
+   },
+   "poster": "/posters/style-cutaway.jpg",
+   "sound": "not recorded",
+   "made_with": [],
+   "recipe": "docs/manual/films/style-cutaway-cinematic.md",
+   "summary": "Camera moves and cuts over the Cutaway world.",
+   "verdict": "Not liked: camera moves and cuts. The fixed-view loop is the base.",
+   "date": "2026-10-22"
+  },
+  {
+   "id": "battle-map-cannae",
+   "title": "The Battle of Cannae",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 157.6,
+   "folder": "films/battles/cannae",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-cannae.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-cannae-preview.mp4"
+   },
+   "poster": "/posters/battle-map-cannae.jpg",
+   "sound": "Narration, free procedural score, sound bank",
+   "made_with": [
+    "Battle Map engine (web 3D relief)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/battle-map-cannae.md",
+   "summary": "216 BC",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "battle-map-hastings",
+   "title": "The Battle of Hastings",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 155.4,
+   "folder": "films/battles/hastings",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-hastings.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-hastings-preview.mp4"
+   },
+   "poster": "/posters/battle-map-hastings.jpg",
+   "sound": "Narration, free procedural score, sound bank",
+   "made_with": [
+    "Battle Map engine (web 3D relief)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/battle-map-hastings.md",
+   "summary": "1066",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "battle-map-agincourt",
+   "title": "The Battle of Agincourt",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 147.3,
+   "folder": "films/battles/agincourt",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-agincourt.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-agincourt-preview.mp4"
+   },
+   "poster": "/posters/battle-map-agincourt.jpg",
+   "sound": "Narration, free procedural score, sound bank",
+   "made_with": [
+    "Battle Map engine (web 3D relief)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/battle-map-agincourt.md",
+   "summary": "1415",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "battle-map-waterloo",
+   "title": "The Battle of Waterloo",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 158.5,
+   "folder": "films/battles/waterloo",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-waterloo.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-waterloo-preview.mp4"
+   },
+   "poster": "/posters/battle-map-waterloo.jpg",
+   "sound": "Narration, free procedural score, sound bank",
+   "made_with": [
+    "Battle Map engine (web 3D relief)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/battle-map-waterloo.md",
+   "summary": "1815",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "battle-map-thermopylae",
+   "title": "The Battle of Thermopylae",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 164.1,
+   "folder": "films/battles/thermopylae",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-thermopylae.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-thermopylae-preview.mp4"
+   },
+   "poster": "/posters/battle-map-thermopylae.jpg",
+   "sound": "Narration, free procedural score, sound bank",
+   "made_with": [
+    "Battle Map engine (web 3D relief)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/battle-map-thermopylae.md",
+   "summary": "480 BC",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "battle-map-gaugamela",
+   "title": "The Battle of Gaugamela",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 151.3,
+   "folder": "films/battles/gaugamela",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-gaugamela.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-gaugamela-preview.mp4"
+   },
+   "poster": "/posters/battle-map-gaugamela.jpg",
+   "sound": "Narration, free procedural score, sound bank",
+   "made_with": [
+    "Battle Map engine (web 3D relief)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/battle-map-gaugamela.md",
+   "summary": "331 BC",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "battle-map-hattin",
+   "title": "The Battle of Hattin",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 141.6,
+   "folder": "films/battles/hattin",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-hattin.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-hattin-preview.mp4"
+   },
+   "poster": "/posters/battle-map-hattin.jpg",
+   "sound": "Narration, free procedural score, sound bank",
+   "made_with": [
+    "Battle Map engine (web 3D relief)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/battle-map-hattin.md",
+   "summary": "1187",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "battle-map-ain-jalut",
+   "title": "The Battle of Ain Jalut",
+   "series": "Battle Map",
+   "style": "battle-map",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 139.6,
+   "folder": "films/battles/ain-jalut",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-ain-jalut.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "battle-map-ain-jalut-preview.mp4"
+   },
+   "poster": "/posters/battle-map-ain-jalut.jpg",
+   "sound": "Narration, free procedural score, sound bank",
+   "made_with": [
+    "Battle Map engine (web 3D relief)",
+    "free score engine"
+   ],
+   "recipe": "docs/manual/films/battle-map-ain-jalut.md",
+   "summary": "1260",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "dark-corners-bamberg-kinetic",
+   "title": "A Hundred Thousand Good Nights",
+   "series": "Dark Corners",
+   "style": "kinetic",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 163.3,
+   "folder": "films/dark-corners/bamberg",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-bamberg-kinetic.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-bamberg-kinetic-preview.mp4"
+   },
+   "poster": "/posters/dark-corners-bamberg-kinetic.jpg",
+   "sound": "not recorded",
+   "made_with": [],
+   "recipe": "docs/manual/films/dark-corners-bamberg-kinetic.md",
+   "summary": "The Bamberg witch trials.",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "dark-corners-zong-lantern-road",
+   "title": "The Ship Called Care",
+   "series": "Dark Corners",
+   "style": "lantern-road",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 179.4,
+   "folder": "films/dark-corners/zong",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-zong-lantern-road.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-zong-lantern-road-preview.mp4"
+   },
+   "poster": "/posters/dark-corners-zong-lantern-road.jpg",
+   "sound": "not recorded",
+   "made_with": [],
+   "recipe": "docs/manual/films/dark-corners-zong-lantern-road.md",
+   "summary": "The Zong, 1781.",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "dark-corners-kleidion-lantern-road",
+   "title": "As They Say",
+   "series": "Dark Corners",
+   "style": "lantern-road",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 169,
+   "folder": "films/dark-corners/kleidion",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-kleidion-lantern-road.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-kleidion-lantern-road-preview.mp4"
+   },
+   "poster": "/posters/dark-corners-kleidion-lantern-road.jpg",
+   "sound": "not recorded",
+   "made_with": [],
+   "recipe": "docs/manual/films/dark-corners-kleidion-lantern-road.md",
+   "summary": "Kleidion, 1014.",
+   "verdict": null,
+   "date": "2026-10-21"
+  },
+  {
+   "id": "dark-corners-arabia-clay",
+   "title": "I Am Buying Her Life",
+   "series": "Dark Corners",
+   "style": "clay",
+   "look": null,
+   "format": "9:16",
+   "duration_s": 175.8,
+   "folder": "films/dark-corners/arabia",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-arabia-clay.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "dark-corners-arabia-clay-preview.mp4"
+   },
+   "poster": "/posters/dark-corners-arabia-clay.jpg",
+   "sound": "not recorded",
+   "made_with": [],
+   "recipe": "docs/manual/films/dark-corners-arabia-clay.md",
+   "summary": "",
+   "verdict": null,
+   "date": "2026-10-21"
+  }
+ ],
+ "styles": [
+  {
+   "id": "cutaway",
+   "name": "Cutaway",
+   "family": "house",
+   "summary": "A block of land cut out of the world: a living landscape on top, the layers underneath cut clean like a diagram.",
+   "best_for": "What lies under the surface; trade ads",
+   "engine": "films/lib/cutaway",
+   "recipe": "docs/manual/styles/cutaway.md",
+   "board": [
+    "/looks/reference-830.jpg",
+    "/looks/reference-470.jpg",
+    "/looks/seasons-base-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": null
+   }
+  },
+  {
+   "id": "battle-map",
+   "name": "Battle Map",
+   "family": "house",
+   "summary": "A 3D relief map with armies as unit blocks, arrows that draw on, labels set in code.",
+   "best_for": "Battles, campaigns, journeys",
+   "engine": "films/lib/battlemap",
+   "recipe": "docs/manual/styles/battle-map.md",
+   "board": [
+    "/posters/battle-map-cannae.jpg"
+   ],
+   "start": {
+    "line": "battle-map",
+    "format": "16:9",
+    "look": null
+   }
+  },
+  {
+   "id": "kinetic",
+   "name": "Kinetic",
+   "family": "house",
+   "summary": "Words, dates, numbers and documents in motion, restrained and adult.",
+   "best_for": "True stories told through words",
+   "engine": "films/lib/kinetic",
+   "recipe": "docs/manual/styles/kinetic.md",
+   "board": [
+    "/posters/dark-corners-bamberg-kinetic.jpg"
+   ],
+   "start": {
+    "line": "kinetic",
+    "format": "9:16",
+    "look": null
+   }
+  },
+  {
+   "id": "lantern-road",
+   "name": "Lantern Road",
+   "family": "house",
+   "summary": "Painterly storybook sets with lantern light and slow moves.",
+   "best_for": "Dark history told as a fable",
+   "engine": "films/dark-corners",
+   "recipe": "docs/manual/styles/lantern-road.md",
+   "board": [
+    "/posters/dark-corners-zong-lantern-road.jpg"
+   ],
+   "start": {
+    "line": null,
+    "format": "9:16",
+    "look": null
+   }
+  },
+  {
+   "id": "clay",
+   "name": "Clay",
+   "family": "house",
+   "summary": "Thumb-sized clay figures and handmade sets, stepped motion.",
+   "best_for": "Intimate human stories",
+   "engine": "films/dark-corners/arabia",
+   "recipe": "docs/manual/styles/clay.md",
+   "board": [
+    "/posters/dark-corners-arabia-clay.jpg"
+   ],
+   "start": {
+    "line": null,
+    "format": "9:16",
+    "look": null
+   }
+  },
+  {
+   "id": "cutaway-fable",
+   "name": "Fable",
+   "family": "cutaway-look",
+   "summary": "Hand-painted storybook light",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/fable.py",
+   "recipe": "docs/manual/styles/cutaway-fable.md",
+   "board": [
+    "/looks/fable-830.jpg",
+    "/looks/fable-470.jpg",
+    "/looks/seasons-fable-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "fable"
+   }
+  },
+  {
+   "id": "cutaway-night-glow",
+   "name": "Night glow",
+   "family": "cutaway-look",
+   "summary": "Dark world, glowing finds",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/night-glow.py",
+   "recipe": "docs/manual/styles/cutaway-night-glow.md",
+   "board": [
+    "/looks/night-glow-830.jpg",
+    "/looks/night-glow-470.jpg",
+    "/looks/seasons-night-glow-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "night-glow"
+   }
+  },
+  {
+   "id": "cutaway-stained-glass",
+   "name": "Stained glass",
+   "family": "cutaway-look",
+   "summary": "Leaded colour panels",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/stained-glass.py",
+   "recipe": "docs/manual/styles/cutaway-stained-glass.md",
+   "board": [
+    "/looks/stained-glass-830.jpg",
+    "/looks/stained-glass-470.jpg",
+    "/looks/seasons-stained-glass-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "stained-glass"
+   }
+  },
+  {
+   "id": "cutaway-papercraft",
+   "name": "Papercraft",
+   "family": "cutaway-look",
+   "summary": "Cut paper layers",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/papercraft.py",
+   "recipe": "docs/manual/styles/cutaway-papercraft.md",
+   "board": [
+    "/looks/papercraft-830.jpg",
+    "/looks/papercraft-470.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "papercraft"
+   }
+  },
+  {
+   "id": "cutaway-claymation",
+   "name": "Claymation",
+   "family": "cutaway-look",
+   "summary": "Thumb-pressed clay",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/claymation.py",
+   "recipe": "docs/manual/styles/cutaway-claymation.md",
+   "board": [
+    "/looks/claymation-830.jpg",
+    "/looks/claymation-470.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "claymation"
+   }
+  },
+  {
+   "id": "cutaway-pixel",
+   "name": "Pixel",
+   "family": "cutaway-look",
+   "summary": "Whole-pixel art",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/pixel.py",
+   "recipe": "docs/manual/styles/cutaway-pixel.md",
+   "board": [
+    "/looks/pixel-830.jpg",
+    "/looks/pixel-470.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "pixel"
+   }
+  },
+  {
+   "id": "cutaway-risograph",
+   "name": "Risograph",
+   "family": "cutaway-look",
+   "summary": "Two-ink print grain",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/risograph.py",
+   "recipe": "docs/manual/styles/cutaway-risograph.md",
+   "board": [
+    "/looks/risograph-830.jpg",
+    "/looks/risograph-470.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "risograph"
+   }
+  },
+  {
+   "id": "cutaway-storybook-ink",
+   "name": "Storybook ink",
+   "family": "cutaway-look",
+   "summary": "Ink line and wash",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/storybook-ink.py",
+   "recipe": "docs/manual/styles/cutaway-storybook-ink.md",
+   "board": [
+    "/looks/storybook-ink-830.jpg",
+    "/looks/storybook-ink-470.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "storybook-ink"
+   }
+  },
+  {
+   "id": "cutaway-blueprint",
+   "name": "Blueprint",
+   "family": "cutaway-look",
+   "summary": "Technical drawing on blue",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/blueprint.py",
+   "recipe": "docs/manual/styles/cutaway-blueprint.md",
+   "board": [
+    "/looks/blueprint-830.jpg",
+    "/looks/blueprint-470.jpg",
+    "/looks/seasons-blueprint-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "blueprint"
+   }
+  },
+  {
+   "id": "cutaway-chalkboard",
+   "name": "Chalkboard",
+   "family": "cutaway-look",
+   "summary": "Chalk on slate",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/chalkboard.py",
+   "recipe": "docs/manual/styles/cutaway-chalkboard.md",
+   "board": [
+    "/looks/chalkboard-830.jpg",
+    "/looks/chalkboard-470.jpg",
+    "/looks/seasons-chalkboard-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "chalkboard"
+   }
+  },
+  {
+   "id": "cutaway-engraving",
+   "name": "Engraving",
+   "family": "cutaway-look",
+   "summary": "Fine line engraving",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/engraving.py",
+   "recipe": "docs/manual/styles/cutaway-engraving.md",
+   "board": [
+    "/looks/engraving-830.jpg",
+    "/looks/engraving-470.jpg",
+    "/looks/seasons-engraving-100.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "engraving"
+   }
+  },
+  {
+   "id": "cutaway-flat-vector",
+   "name": "Flat vector",
+   "family": "cutaway-look",
+   "summary": "Flat shapes in code",
+   "best_for": "not recorded",
+   "engine": "films/styles/cutaway/art/flat-vector.py",
+   "recipe": "docs/manual/styles/cutaway-flat-vector.md",
+   "board": [
+    "/looks/flat-vector-830.jpg",
+    "/looks/flat-vector-470.jpg"
+   ],
+   "start": {
+    "line": "cutaway",
+    "format": "9:16",
+    "look": "flat-vector"
+   }
+  }
+ ],
+ "workflows": [
+  {
+   "id": "director",
+   "name": "Director film build",
+   "summary": "A brief committed by the studio builds a whole film inside its money cap.",
+   "doc": "docs/manual/workflows/director.md",
+   "run": "Studio Create, Build (commits films/studio/<id>/brief.json; .github/workflows/film.yml)"
+  },
+  {
+   "id": "films-render",
+   "name": "Film render",
+   "summary": "Renders a film folder on free runners and publishes to kino-films.",
+   "doc": "docs/manual/workflows/films-render.md",
+   "run": "Eouchi147/rc-render films.yml (workflow dispatch)"
+  },
+  {
+   "id": "stills",
+   "name": "Stills",
+   "summary": "Renders chosen frames of a film folder.",
+   "doc": "docs/manual/workflows/stills.md",
+   "run": "Eouchi147/rc-render stills.yml"
+  },
+  {
+   "id": "score",
+   "name": "Free score engine",
+   "summary": "Procedural music in code, no money.",
+   "doc": "docs/manual/sound/score.md",
+   "run": "python3 films/lib/score/remix.py <job>"
+  },
+  {
+   "id": "music-fetch",
+   "name": "Music fetch",
+   "summary": "Fetches a public-domain recording with its licence record into release music.",
+   "doc": "docs/manual/sound/music-fetch.md",
+   "run": "Eouchi147/rc-render music-fetch.yml"
+  }
+ ],
+ "music": [
+  {
+   "id": "borodin-steppes",
+   "title": "Borodin, In the Steppes of Central Asia",
+   "source": "Musopen (2012) via Wikimedia Commons",
+   "licence": "Public domain",
+   "asset": {
+    "repo": "Eouchi147/rc-render",
+    "release": "music",
+    "name": "borodin-steppes-musopen.flac"
+   }
+  }
+ ]
+}
