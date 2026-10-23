@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.join(ROOT, 'films', 'lib', 'score'))
 import dsp  # noqa: E402  (filters, room, BS.1770 loudness, limiter)
 
 SR = 48000
-DUR = 20.0
+DUR = float(os.environ.get('KF_SOUND_DUR', '20.0'))  # the series films are 20 s; other films set KF_SOUND_DUR
 N = int(DUR * SR)
 URL = 'https://github.com/Eouchi147/rc-render/releases/download/sfx-bank/sfx-bank.tar'
 CACHE = os.path.expanduser('~/.cache/kinoforge')

@@ -1,0 +1,81 @@
+{
+ "seconds_wav": 39.937,
+ "seconds_m4a": 39.937,
+ "lufs": -16.05,
+ "peak_dbfs": -2.0,
+ "m4a_decoded_lufs": -16.09,
+ "m4a_decoded_peak_dbfs": -1.98,
+ "sample_rate": 48000,
+ "codec": "aac 256k stereo",
+ "fade_in_s": 1.0,
+ "fade_out_s": 2.5,
+ "sources": {
+  "bumblebee_1": [
+   "a bee crosses the low sun at the grass at 8.20 s"
+  ],
+  "candle_sparkle_2": [
+   "the chest leaks a glint of gold at 17.77 s"
+  ],
+  "cave_1": [
+   "bed 21.8-29.4 s"
+  ],
+  "countryside": [
+   "bed 12.6-23.0 s"
+  ],
+  "dig_shovel": [
+   "a dirt trickle at 17.58 s",
+   "earth settles round the Roman jar at 19.35 s"
+  ],
+  "drops_1": [
+   "a drip in the giant's chamber at 26.90 s",
+   "a drip in the giant's chamber at 28.40 s"
+  ],
+  "evening_birds": [
+   "bed 0.0-39.9 s"
+  ],
+  "fall_of_stone": [
+   "deep stone settles at 25.80 s"
+  ],
+  "field_cricket": [
+   "bed 6.7-39.9 s"
+  ],
+  "small_stream_4": [
+   "bed 0.0-39.9 s"
+  ],
+  "steps_mud": [
+   "the mole digs (paw strokes) at 15.18 s",
+   "the mole digs (paw strokes) at 15.63 s",
+   "the mole digs (paw strokes) at 16.09 s",
+   "the mole digs (paw strokes) at 16.54 s",
+   "the mole digs (paw strokes) at 17.00 s"
+  ],
+  "whoosh_3": [
+   "the years roll into millions (slow, low) at 23.96 s"
+  ],
+  "wind_plain": [
+   "bed 0.0-39.9 s",
+   "the sun bursts round the tree at 30.50 s"
+  ]
+ },
+ "licence": "all CC0 (BigSoundBank recordings; VSCO-2 CE samples), see films/cutaway/series/SOUND.md",
+ "notes": "golden meadow from above (birds, the river, wind), crickets and a bee at the grass; muffled under the turf with the mole, a glint of gold and the Roman jar; deep stone and a slow fall through the years to a drip by the giant; the meadow full again for the end; harp and strings in D, low and still in deep time, the flute when we come back up",
+ "music": {
+  "nature_max_short_term_lufs": -28.1,
+  "music_short_term_lufs_min_max": [
+   -49.7,
+   -38.1
+  ],
+  "music_under_nature_peak_db": 10.0,
+  "music_vs_nature_integrated_db": -8.8,
+  "engine": "samples (VSCO-2 CE, CC0) + synth",
+  "voices": [
+   "cello",
+   "flute",
+   "harp",
+   "viola",
+   "violin"
+  ],
+  "key": "D",
+  "turn": "deep time, 22.4 to 29 s (the music thins to a low D and A)"
+ }
+}

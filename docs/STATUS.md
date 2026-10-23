@@ -1,5 +1,9 @@
 # Status (updated 23 Oct 2026, director paid mode)
 
+## What Lies Under a Meadow (Cutaway line example; Sam, 15:58 "go")
+- Rendering on the Mac lane from the Samsung X5 (959 frames, about 6.5 s a frame, done about 17:45 Toronto); sound done
+  (`films/cutaway/meadow/audio/mix.m4a`, -16 LUFS, no voice). Then: encode on the Mac, check, deliver to `kino-films/`.
+
 ## Sam's external drive (23 Oct)
 - Samsung X5 (1.9 TB, about 815 GB free), connected to this session as a folder. `KINOFORGE/render/` is the Mac lane's
   home (code copy, `mac-jobs/`); `KINOFORGE/frames/` the frames; `KINOFORGE/films/` an archive of every finished film.

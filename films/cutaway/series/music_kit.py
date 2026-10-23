@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.join(ROOT, 'films', 'lib', 'score'))
 import dsp, voices  # noqa: E402
 
 SR = dsp.SR
-DUR = 20.0
+DUR = float(os.environ.get('KF_SOUND_DUR', '20.0'))  # the series films are 20 s; other films set KF_SOUND_DUR
 N = int(DUR * SR)
 TAIL = int(6 * SR)
 FOLDERS = {

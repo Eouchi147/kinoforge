@@ -11,5 +11,6 @@
  "h": 1080,
  "samples": 20,
  "duration": 39.937,
- "note": "Example film of the Cutaway production line: picture built from spec.json + cues.json by films/lib/cutaway (blender.py here is the line's generic scene). Cues are estimated (no narration yet)."
+ "note": "Example film of the Cutaway production line: picture built from spec.json + cues.json by films/lib/cutaway (blender.py here is the line's generic scene). Cues are estimated (no narration yet); sound: CC0 nature recordings and a quiet score (audio/make_audio.py).",
+ "audio": "audio/mix.m4a"
 }
