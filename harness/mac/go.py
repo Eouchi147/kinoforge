@@ -1,4 +1,7 @@
 # KINOFORGE render lane on Sam's Mac (Apple M-series GPU through Metal). Run ONCE inside the Blender app's Python console:
+#   exec(open('/Volumes/Samsung X5/KINOFORGE/render/harness/mac/go.py').read())
+# The lane's home (code copy, mac-jobs, frames) is Sam's external drive when it is plugged in (no iCloud file locks, 800 GB
+# free); otherwise the older copy in the iCloud Desktop folder:
 #   exec(open('/Users/sam/Desktop/Projects/AI tools/Video Production/kinoforge-render/harness/mac/go.py').read())
 # It starts a background thread that watches <root>/mac-jobs/ (renamed from mac-queue so an older lane still running in the same Blender session stays idle) for job files (*.json) and runs them one at a time, in
 # file-name order (name check jobs "0-..." so they jump ahead of film chunks "5-..."). Every job runs under `caffeinate -i`
@@ -10,7 +13,8 @@
 # The lane writes mac-jobs/heartbeat.txt every 10 s, <job>.log while running, and moves the job and log to mac-jobs/done/.
 # Re-running this file stops the previous lane thread (generation counter) and starts the new one.
 import os, json, time, threading, subprocess, glob, bpy
-_root = '/Users/sam/Desktop/Projects/AI tools/Video Production/kinoforge-render'
+_drive = '/Volumes/Samsung X5/KINOFORGE/render'
+_root = _drive if os.path.isdir(os.path.join(_drive, 'harness')) else '/Users/sam/Desktop/Projects/AI tools/Video Production/kinoforge-render'
 _gen = bpy.app.driver_namespace.get('kf_lane_gen', 0) + 1
 bpy.app.driver_namespace['kf_lane_gen'] = _gen
 
