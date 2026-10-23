@@ -10,7 +10,10 @@
 - River Through Time (-16.2 LUFS), Sleeping Volcano (-16.4), Under the City (-16.3): done on rc-render `films.yml`
   (runs 39894366759, 39895728062, 39896034330), 20.0 s each, no frozen frames, on the Mac. Weak spot: River's water reads
   as a pale grey trench more than water.
-- The Hidden Meadow: rendering on rc-render (run 39896254752). Agincourt v2 rendering (run 39900294683).
+- The Hidden Meadow: done (run 39896254752; 9:16, 20.0 s, -16.2 LUFS, no frozen frames), on the Mac. All six series
+  films are on Sam's Mac and were sent to him; waiting on his verdict.
+- Agincourt v2: the first render (run 39900294683) laid insert A but not insert B (overlay bug, fixed in rc-render
+  54c1bb4: inserts enabled by time). Re-rendering (run 39908562175); then check frames 2081 to 2420 and deliver as -v2.
 - Also delivered to the Mac on 23 Oct: Why Venice Sinks (`under-the-surface-venice.mp4`, 2:37, -14.1 LUFS) and the
   cinematic look test (`style-cutaway-cinematic.mp4`, 12 s, silent). Agincourt v2: both inserts landed; chain.yml
   dispatched by hand at 04:21 UTC (its cron had not fired).
