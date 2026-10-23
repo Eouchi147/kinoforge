@@ -83,8 +83,44 @@ Every move is eased (smoothstep or quintic) and real time. Check frames (one per
 
 ## Render cost (measured on Sam's Mac lane, M4 GPU, METAL, 1280x720, 20 samples)
 
-Filled in from the check logs below.
+Each check job renders one frame; the "s/frame" line in the job log includes the first-frame scene sync. Scene build 2.4 s
+(7.3 s when the Mac was hot), 378 objects.
+
+| Round (23 Oct, UTC) | Frames | s/frame |
+| --- | --- | --- |
+| 1 (02:40) | 30, 175, 280, 380, 455 | 7.0, 5.4, 4.4, 3.9, 4.0 |
+| 2 (02:50) | 30, 175, 300, 380, 465 | 5.3, 4.2, 5.1, 4.2, 4.0 |
+| 3 (03:05) | 30, 175, 235, 305, 400, 470 | 5.6, 5.5, 4.2, 4.3, 4.0, 4.3 |
+| 4 (03:15) | 30, 235, 300, 330, 420 | 9.7, 20.9, 14.9, 9.2, 11.3 |
+| 5 (03:25, final scene) | 120, 300, 345, 420, 450 | 14.6, 15.1, 11.9, 12.2, 14.0 |
+
+- **Cool Mac: about 4 to 6 s a frame. Hot or shared Mac: about 9 to 15 s a frame (one 21 s outlier).** The slowdown in
+  rounds 4 and 5 is the machine, not the scene: in the same window the other builders' frames slowed 2 to 3 times as
+  well (river-time 3 to 6 s became 14 to 16 s) and this film's pure-CPU scene build went from 2.4 s to 7.3 s. The MacBook
+  Air has no fan, so a long queue throttles it.
+- Full film estimate: 480 frames x 4 to 15 s = about 35 min (cool) to 2 h (throttled).
+- Settings: 20 samples, adaptive threshold 0.04, OIDN denoise, max bounces 4 (diffuse 1, glossy 1, transmission 4,
+  transparent 16), no volumes (smoke, steam, mist and the vent halo are cards), no motion blur.
+- Levers if it must be faster: 16 samples; drop the 3 mist cards; fewer plume cards (18 to 12).
 
 ## Weak spots (honest)
 
-Filled in after the last check round.
+- **Smoke is cards.** The ash plume reads as a warm glowing column at phone size, but up close it is soft blobs, and
+  the first second of the eruption (around 14.2 to 14.6 s) shows small grainy puffs before the column fills in.
+- **The cone face is dark at dusk.** The nested layers read well in shot 1 and the crane; in the last shot the face is
+  mostly lit by the conduit and chamber, so the layers fade into shadow (deliberate for dusk, but less science on screen).
+- **Lava stream** is a ribbon on the far flank: it reads as a glowing line threading through the trees, not as a wide
+  flow. The trees are kept out of a corridor around it, but some crowns still overlap it from the closing angle.
+- **Chamber texture** is a cracked lava-lake pattern (bright seams on dark crust): very readable, a little regular.
+- **Trees** are the kit's lumpy miniatures; birds are simple dark silhouettes (about 8 cm wingspan on a 3 m block).
+- **Cracks** read as thin black lines before the magma reaches them (6.5 to 9 s), then glow.
+- The sky shows a soft horizon line where the floor meets the dome at dusk; it reads as a distant sea horizon.
+- Not seen moving yet: checked on stills only (frames 30, 120, 175, 235, 300, 345, 420, 450, 465, 470). The puff
+  cycles (plume, steam) and the fountain are continuous functions of t, but their motion should be checked in the first
+  full render.
+
+## Best still
+
+Round 5, frame 420 (17.5 s, the eruption at dusk, lava reaching the sea):
+`/Users/sam/Desktop/Projects/AI tools/Video Production/kinoforge-render/out/sleeping-volcano-check5/frames/00420.png`
+(on Sam's Mac). Shot 1 at its best: round 5 frame 120.
