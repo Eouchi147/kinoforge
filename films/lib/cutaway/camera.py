@@ -85,7 +85,12 @@ def pose(shot, L, u, aspect='16:9'):
     cam = shot['camera']; k = L.sx / 4.0; v = aspect == '9:16'; d = shot.get('dir', 1) or 1
     if cam == 'map':
         e = ease_io(u); tanh, tanv = tans(50.0, aspect); fill = shot.get('fill', 0.86)
-        H = max(L.sx, L.sy) / fill / (2 * min(tanh, tanv)) * 1.06
+        rmax = max(abs(shot.get('roll', 22.0)), abs(shot.get('roll', 22.0) + shot.get('turn', 6.0) * d))
+        H = 0.0                     # fit the turned block in both directions over the whole turn
+        for rr in np.linspace(shot.get('roll', 22.0), shot.get('roll', 22.0) + shot.get('turn', 6.0) * d, 5):
+            c, s_ = abs(math.cos(math.radians(rr))), abs(math.sin(math.radians(rr)))
+            H = max(H, (L.sx * c + L.sy * s_) / (2 * tanh), (L.sx * s_ + L.sy * c) / (2 * tanv))
+        H = H / fill
         drift = 0.06 * k * d
         pos = (0.08 * k - drift * e, -0.05, H * (1 - 0.04 * e)); tgt = (0.08 * k - drift * e, -0.049, 0.0)
         return dict(pos=pos, tgt=tgt, lens=50.0, focus=H, fstop=16.0, roll=shot.get('roll', 22.0) + shot.get('turn', 6.0) * d * e)
@@ -105,7 +110,7 @@ def pose(shot, L, u, aspect='16:9'):
     if cam == 'ground':
         e = ease_io(u); c = np.array([L.sx / 2, -L.sy / 2, 0.0])
         pos = c + np.array([0.36 * k, -0.52 * k, 0.30]) + (np.array([-0.12, 0.07, -0.01]) * k) * e
-        tgt = np.array([-0.8 * k, -L.sy / 2 + 0.6 * k, -0.22])
+        tgt = np.array([-0.8 * k, -L.sy / 2 + 0.6 * k, -0.22]) if not v else np.array([-0.6 * k, -L.sy / 2 + 1.0 * k, -0.18])
         foc = float(np.linalg.norm(pos - np.array([0.66 * k, -L.sy / 2 + 0.15 * k, 0.0])))
         return dict(pos=tuple(pos), tgt=tuple(tgt), lens=24.0 if v else 28.0, focus=foc, fstop=5.6, roll=0.0)
     if cam == 'crane':

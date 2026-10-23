@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Cutaway line, 9:16 checked locally (the example re-cut vertical, 8 stills): the map shot now fits the turned block in both directions, the vertical ground shot aims further into the block.
 - Cutaway line: playbook `docs/PLAYBOOKS/cutaway-film.md` (through the director or by hand), `tools/selftest.py` (the example passes; 13 broken specs fail with the right message), validator 10 times faster (0.4 s), labels 26 px. Runner stills r1: crane frames about 80 s each at 1280x720, 20 samples (rc-render run 39880127743).
 - Director, Blender lines: `films/director/blender_line.py` (spec.json as data, the line validator as the check, a Blender contact sheet for the eyes, the generic scene copied in), `start.py` line-aware (spec file, the line's length range, `kind`), `film.yml` installs bpy 5.2.2 in its own Python 3.13 for Blender lines, `films-render.yml` gives Blender films 48 frames a part (4 to 20 parts). The spec stage hook follows once the director rework in `spec.py` lands.
 - `tools/verify.py` docs gate: finds GitHub's main also through FETCH_HEAD (this checkout has no `origin/main` ref, so unpushed commits were not judged); tested in a throwaway worktree (a harness change without a log line fails; a film change with its NOTES.md passes).
