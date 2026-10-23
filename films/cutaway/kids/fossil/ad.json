@@ -1,0 +1,25 @@
+{
+ "_": "Little Big Questions: How does a dinosaur turn into stone? Free narration (Kokoro, sound.yml) and the free score. Words exactly as the vo lines; facts in docs/research/KIDS_FACTS_2026-10.md.",
+ "id": "kids-fossil",
+ "cap_usd": 0,
+ "prep": {
+  "voice": "kokoro|bm_george",
+  "voice_settings": {"speed": 0.92},
+  "pad_bpm": 72,
+  "title_line": 1,
+  "audition": {"lines": [0, 1, 4], "voices": ["kokoro|bm_george", "kokoro|bm_fable", "kokoro|bm_lewis", "kokoro|bm_daniel"]},
+  "vo": [
+   {"text": "This rock was once alive. Want to know how?"},
+   {"text": "How does a dinosaur turn into stone?"},
+   {"text": "Long, long ago, a big, gentle dinosaur lived right here, munching ferns by the river."},
+   {"text": "One day, very old and very tired, it lay down by the water, and fell asleep forever."},
+   {"text": "The river brought mud and sand, and tucked its bones in, like a blanket."},
+   {"text": "Then more mud came. And more. Layer on layer, for millions and millions of years."},
+   {"text": "Deep down, water crept into the bones and left tiny bits of stone behind. Slowly, slowly, the bones became rock."},
+   {"text": "Then wind and rain wore the land away, little by little."},
+   {"text": "Until one sunny day, a girl with a little brush found something poking out of the ground."},
+   {"text": "A fossil! A real dinosaur, turned to stone."},
+   {"text": "I wonder what is sleeping under your feet."}
+  ]
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "_": "Little Big Questions: How is a volcano born? Free narration (Kokoro, sound.yml) and the free score. Words exactly as the vo lines; facts in docs/research/KIDS_FACTS_2026-10.md.",
+ "id": "kids-volcano",
+ "cap_usd": 0,
+ "prep": {
+  "voice": "kokoro|bm_george",
+  "voice_settings": {"speed": 0.92},
+  "pad_bpm": 72,
+  "title_line": 1,
+  "vo": [
+   {"text": "Deep under our feet, it is so hot that rock can melt."},
+   {"text": "How is a volcano born?"},
+   {"text": "This melted rock is called magma. It is lighter than the rock around it, so it slowly pushes up, and up."},
+   {"text": "It finds a crack. The pressure builds. The ground begins to rumble."},
+   {"text": "And then, whoosh! It bursts out of the ground. Now we call it lava."},
+   {"text": "The lava cools down, and turns into brand new rock."},
+   {"text": "Every time it erupts, it adds another layer, and the mountain grows taller and taller."},
+   {"text": "When the volcano rests, rain and sun make the land green again. Volcano soil is wonderful for growing plants."},
+   {"text": "Some islands, like the islands of Hawaii, were built by volcanoes, one eruption at a time."},
+   {"text": "So the ground under your feet is not as still as it looks."}
+  ]
+ }
+}
