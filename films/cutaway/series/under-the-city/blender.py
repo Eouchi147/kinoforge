@@ -518,13 +518,13 @@ def build_old_city(kit, land, eggs):
     slab.rotation_euler = (math.radians(-20), 0, 0)
     eggs.spot('-Y', -0.55, -1.69, power=4.0, out=0.55, up=0.3, size=40, name='utc_spot_mosaic', color=(1.0, 0.86, 0.68))
     eggs.amphora('-Y', 0.25, -1.70, tilt=0.35, light=3.5)
-    # a fallen column drum, fluted marble
+    # a broken column, still standing, fluted marble
     ring = 40; V = []; F = []
     for x in (-0.12, 0.12):
         for j in range(ring):
             a = 2 * math.pi * j / ring; rr_ = 0.052 * (1 - 0.07 * max(0.0, math.cos(a * 10)) ** 2); V.append((x, rr_ * math.cos(a) + 0.02, rr_ * math.sin(a)))
     F = [(j, (j + 1) % ring, ring + (j + 1) % ring, ring + j) for j in range(ring)] + [tuple(range(ring))[::-1], tuple(range(ring, 2 * ring))]
-    eggs.obj('utc_column', [(V, F, 0)], [ex.mat_pbr(kit, 'utc_marble', (0.88, 0.85, 0.78), 0.35, coat=0.2, cavity=0.6)], '-Y', 0.95, -1.72, 0.0, 0.12)
+    eggs.obj('utc_column', [(V, F, 0)], [ex.mat_pbr(kit, 'utc_marble', (0.88, 0.85, 0.78), 0.35, coat=0.2, cavity=0.6)], '-Y', 0.95, -1.70, 0.0, math.pi / 2 - 0.06)
     eggs.spot('-Y', 0.85, -1.70, power=3.0, out=0.5, up=0.25, size=40, name='utc_spot_column')
 
 def build_motes(kit, n=46, seed=8):
@@ -581,7 +581,7 @@ def build(bpy, ctx):
     trees = [(x, -0.655, 0.52, 'round') for x in (-2.05, -1.15, 0.0, 1.15, 2.05)] + [(x, 0.30, 0.42, 'round') for x in (-1.75, 0.95)]
     land = cw.block(kit, size=(SX, SY), depth=DEPTH, strata=STRATA, seed=5, top=lambda x, y: np.zeros_like(np.asarray(x, float)),
                     water=None, res=0.03, grass=0, trees=0, tree_spots=trees, tree_kinds=('round',), boulders=0, flowers=0, under=False, sway=1.3)
-    rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=3.2, sun_color=(1.0, 0.48, 0.24), fill=0.75, rim=0.8,
+    rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=3.2, sun_color=(1.0, 0.48, 0.24), fill=0.5, rim=0.8,
                         zenith=(0.03, 0.05, 0.14), horizon=(0.78, 0.38, 0.24), away=(0.20, 0.18, 0.34), ground=(0.04, 0.04, 0.06), amb=0.22)
     S = {'kit': kit, 'land': land, 'rig': rig}
     S['street'] = build_street(kit, land, rng)

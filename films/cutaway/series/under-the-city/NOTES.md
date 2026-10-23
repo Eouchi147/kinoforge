@@ -37,7 +37,7 @@ Sound: `audio/` (made by the sound designer from the event table below).
 | 0.52 to 0.86 m | clay | the brick sewer cut lengthwise: flowing dark water with a mist card, a stone walkway, a caged warm lamp that buzzes, a drip and its ring every 1.7 s, the rat | the hidden plumbing, and the first animal |
 | 0.86 to 1.36 m | grey till | the metro tunnel cut lengthwise: concrete segment rings, track bed, rails and sleepers, warm wall lamps, the train (three cars, lit windows with passenger silhouettes, headlights, red tail lights, light streaks, its interior light sweeps the tunnel) | the one loud, fast moment |
 | 1.36 to 1.58 m | rubble | an older city: a vaulted brick cellar with a barrel, a brick wall on a stone footing, a horseshoe | history begins |
-| 1.58 to 1.80 m | Roman loam | a fallen mosaic floor fragment (tile pattern, meander band, missing tesserae), an amphora with bronze coins, a fluted marble column drum | the classic dig |
+| 1.58 to 1.80 m | Roman loam | a fallen mosaic floor fragment (tile pattern, meander band, missing tesserae), an amphora with bronze coins, a broken fluted marble column, still standing | the classic dig |
 | 1.80 to 2.45 m | fossil limestone | the T. rex skeleton (the cinematic kit's egg, scale 0.72) in its dug pocket, an ammonite, a trilobite | deep time, the bottom of everything |
 | below | bedrock | dark slate | the floor |
 
