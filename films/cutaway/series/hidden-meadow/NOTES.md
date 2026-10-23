@@ -100,6 +100,7 @@ no volumes, no motion blur, from the check logs (the `s/frame` line of each one-
 | 2 | 24, 200, 318, 336, 372, 470 | 4.6, 6.9, 6.0, 5.6, 5.6, 6.3 |
 | 3 (Mac busy) | 24, 130, 250, 324, 372, 479 | 15.0, 14.8, 19.6, 14.5, 15.1, 21.0 |
 | 4 (Mac busy) | 200, 312, 330, 342, 479 | 15.1, 12.5, 12.0, 17.0, 14.8 |
+| 5 (Mac busy) | 330, 336 (final shadow check) | 13.8, 13.5 |
 
 Rounds 1 and 2 ran on an idle lane (scene build 6 s): **about 5 to 7 s per frame**, so 480 frames take about 45 to 55
 minutes. In rounds 3 and 4 the lead's film chunks were rendering on the same Mac at the same time (scene build went
