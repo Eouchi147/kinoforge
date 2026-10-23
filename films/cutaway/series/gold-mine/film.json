@@ -1,0 +1,16 @@
+{
+ "id": "cutaway-series-gold-mine",
+ "series": "Cutaway showcase",
+ "title": "The Gold Mine",
+ "style": "cutaway",
+ "duration": 20,
+ "fps": 24,
+ "frames": 480,
+ "render_w": 720,
+ "render_h": 1280,
+ "w": 1080,
+ "h": 1920,
+ "samples": 20,
+ "audio": "audio/mix.m4a",
+ "note": "Cutaway showcase film 5 (history, adventure, games, mining). 9:16, night: a mountain block under stars and a moon; the cut face opens lantern-lit galleries, a ladder shaft, an ore cart on rails, miners, a gold vein that sparks under the pick, an underground pool and a bat colony that pours out of the entrance. Three shots (night, descent, flight). Blender Cycles, kit films/styles/cutaway + cinematic/extras.py, all procedural. Render on the Mac lane (METAL)."
+}
