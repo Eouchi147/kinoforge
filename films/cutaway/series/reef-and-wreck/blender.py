@@ -37,10 +37,11 @@ SEA_D = 0.85                     # sea depth beyond the island shelf
 ISLE, ISLE_R = (-0.50, 0.85), 0.95
 SUN_AZ, SUN_EL = 135.0, 52.0
 BOAT = (-0.32, -1.08, 0.30)      # x, y, yaw
-WRECK = (-0.86, -1.36, 0.14)     # x, y, yaw
+WRECK = (-0.88, -1.30, -0.48)    # x, y, yaw (bow toward the near glass, three-quarter to the camera)
 CHEST = (-0.06, -1.70)
 T_ROLL, T_IN, T_SWIM, T_ARRIVE = 4.8, 5.35, 5.7, 15.9
 T_TURN = 10.2                    # the school turns together
+RAY_GAIN = {'arrive': 0.25, 'descent': 1.7, 'wreck': 1.2}
 STRATA = [('sand', 0.10, (0.92, 0.84, 0.64), 0.10), ('rubble', 0.10, (0.80, 0.74, 0.62), 0.65), ('limestone', 0.22, (0.86, 0.82, 0.72), 0.05),
           ('basalt', 1.0, (0.22, 0.23, 0.27), 0.30)]
 
@@ -87,10 +88,10 @@ class Rays:
     own axis every frame. Visible to camera and transmission rays (we see them through the glass), nothing else."""
     def __init__(self, kit, land, sun_dir, n=16, seed=5):
         self.sd = sd = np.asarray(sun_dir, float) / np.linalg.norm(sun_dir); rng = np.random.default_rng(seed)
-        m, self.gain = _mat_emit_card(kit, 'rw_ray', (0.80, 0.97, 1.0), 0.55); self.cards = []
+        m, self.gain = _mat_emit_card(kit, 'rw_ray', (0.80, 0.97, 1.0), 0.85); self.cards = []
         k = 0
         while len(self.cards) < n and k < 400:
-            k += 1; x, y = rng.uniform(-1.8, 1.7), rng.uniform(-1.9, -0.2)
+            k += 1; x, y = rng.uniform(-1.5, 1.2), rng.uniform(-1.75, -0.5)
             bed = float(land.height(np.array([x]), np.array([y]))[0])
             if LV - bed < 0.3: continue
             L = (LV - bed) / sd[2] * rng.uniform(0.8, 1.0); w = rng.uniform(0.05, 0.16)
@@ -243,10 +244,10 @@ def wreck(kit, land):
     kv, kf = cw._tube([(-L * 0.46, 0, -H * 0.8), (L * 0.5, 0, -H * 0.75)], [0.012, 0.012], 6); pieces.append((kv, kf, 1))
     ob = ex.part(kit, 'rw_wreck', pieces, [wood, dark])
     x, y, yaw = WRECK; bed = float(land.height(np.array([x]), np.array([y]))[0])
-    ob.location = (x, y, bed + H * 0.45); ob.rotation_euler = (-0.42, 0.05, yaw)
+    ob.location = (x, y, bed + H * 0.42); ob.rotation_euler = (-0.50, 0.06, yaw)
     # the fallen mast and its yard lying on the sand beside the hull
     m2 = ex.part(kit, 'rw_mast', [(*cw._tube([(0, 0, 0), (0.62, 0, 0)], [0.016, 0.011], 8), 0), (*cw._tube([(0.42, -0.16, 0.01), (0.46, 0.16, 0.01)], [0.008, 0.008], 6), 0)], [wood])
-    m2.location = (x + 0.20, y - 0.20, bed + 0.012); m2.rotation_euler = (0.0, -0.03, -0.55)
+    m2.location = (x - 0.62, y - 0.32, bed + 0.012); m2.rotation_euler = (0.0, -0.03, 0.35)
     return ob, bed
 
 
@@ -285,7 +286,7 @@ def chest(kit, land):
         c = np.array([rng.uniform(-0.03, 0.03), rng.uniform(-0.02, 0.02), h * 1.05]); gv, gf = ex.ell(c, (0.006, 0.006, 0.005), 1); C.append((gv, gf, 1 + k % 2))
     ex.part(kit, 'rw_coins', C, [gold, gem_r, gem_g], root)
     bp = kit.bpy; ld = bp.data.lights.new('rw_goldglow', 'POINT'); ld.energy = 0.35; ld.color = (1.0, 0.78, 0.40); ld.shadow_soft_size = 0.02
-    lo = bp.data.objects.new('rw_goldglow', ld); kit.coll.objects.link(lo); lo.parent = root; lo.location = (0, -0.01, h * 1.6); lo.visible_camera = False
+    lo = bp.data.objects.new('rw_goldglow', ld); kit.coll.objects.link(lo); lo.parent = root; lo.location = (0, -0.01, h * 1.6); lo.visible_camera = False; lo.visible_transmission = False; lo.visible_glossy = False
     return root, bed, lo
 
 
@@ -341,8 +342,8 @@ def turtle(kit, path=((1.75, -1.72, -0.34), (0.6, -1.74, -0.30), (-0.4, -1.70, -
             pv_ = (0.04 * S, side * 0.045 * S, 0) if front else (-0.055 * S, side * 0.04 * S, 0)
             pz = ex.empty(kit, f'rw_tpiv{side}{front}', root, pv_)
             ln, wd = (0.075 * S, 0.02 * S) if front else (0.03 * S, 0.014 * S)
-            fv, ff = ex.ell((-0.25 * ln if front else -0.4 * ln, side * ln * 0.75, 0), (ln * 0.45, ln * 0.6 if front else ln * 0.5, 0.004 * S), 2)
-            fv = ex.rot_pts(fv, 'z', side * (-0.5 if front else -0.9))
+            fv, ff = ex.ell((-0.12 * ln if front else -0.3 * ln, side * ln * 0.62, 0), (ln * 0.19 if front else ln * 0.3, ln * 0.62 if front else ln * 0.45, 0.0035 * S), 2)
+            fv = ex.rot_pts(fv, 'z', side * (-0.62 if front else -0.9))
             ex.part(kit, f'rw_tflip{side}{front}', [(fv, ff, 1)], M, pz); fl.append((pz, side, front))
     C = cw.catmull(path, 120); seg = np.r_[0, np.cumsum(np.linalg.norm(np.diff(C, axis=0), axis=1))]
     def pose(t):
@@ -352,7 +353,7 @@ def turtle(kit, path=((1.75, -1.72, -0.34), (0.6, -1.74, -0.30), (-0.4, -1.70, -
         root.location = tuple(p + np.array([0, 0, 0.012 * math.sin(2 * math.pi * t / 2.6 - 0.8)]))
         hd = math.atan2(q[1] - p[1], q[0] - p[0]); root.rotation_euler = (0.06 * stroke, -0.06 + 0.04 * stroke, hd)
         for pz, side, front in fl:
-            if front: pz.rotation_euler = (side * 0.55 * stroke, 0.0, side * 0.25 * math.cos(2 * math.pi * t / 2.6))
+            if front: pz.rotation_euler = (side * 0.38 * stroke, 0.0, side * 0.22 * math.cos(2 * math.pi * t / 2.6))
             else: pz.rotation_euler = (side * 0.15 * stroke, 0, 0)
     kit.on_frame(pose); pose(0.0)
 
@@ -449,7 +450,7 @@ class Diver:
             if side < 0:
                 ld = bp.data.lights.new('rw_torch', 'SPOT'); ld.energy = 2.2; ld.spot_size = math.radians(30); ld.spot_blend = 0.6; ld.shadow_soft_size = 0.004; ld.color = (1.0, 0.95, 0.85)
                 to = bp.data.objects.new('rw_torch', ld); kit.coll.objects.link(to); to.parent = pz; to.location = (-0.08, 0, -0.004); to.rotation_euler = (0, math.radians(90), 0)
-                to.visible_camera = False; self.torch = to
+                to.visible_camera = False; to.visible_transmission = False; to.visible_glossy = False; self.torch = to
         # the path
         bx, by, yaw = BOAT; n_out = np.array([math.sin(yaw), -math.cos(yaw), 0.0])     # the boat's -Y side, outward
         self.n_out = n_out; self.gun = np.array([bx, by, LV + 0.03]) + n_out * 0.068
@@ -559,14 +560,18 @@ def build(bpy, ctx):
                     water_tint=(0.20, 0.80, 0.84), water_density=1.05, water_glow=0.035,
                     bed=((0.95, 0.89, 0.72), (0.84, 0.77, 0.58)), caustics=0.9)
     rig = ex.cine_light(kit, land, SUN_AZ, SUN_EL, sun=4.6, sun_color=(1.0, 0.88, 0.70), fill=0.8, rim=0.6,
-                        zenith=(0.14, 0.36, 0.70), horizon=(0.90, 0.80, 0.64), away=(0.60, 0.78, 0.90), ground=(0.50, 0.70, 0.72), amb=0.40)
+                        zenith=(0.14, 0.36, 0.70), horizon=(0.80, 0.80, 0.70), away=(0.60, 0.78, 0.90), ground=(0.50, 0.70, 0.72), amb=0.40)
+    fl = bpy.data.materials.get('ex_floor')          # a pale sea-sand floor instead of the dusk floor (tropical daylight)
+    if fl:
+        for n in fl.node_tree.nodes:
+            if n.bl_idname == 'ShaderNodeBsdfPrincipled': n.inputs['Base Color'].default_value = srgb((0.30, 0.46, 0.50))
     palms(kit, land)
     boat(kit)
     wr, wbed = wreck(kit, land)
     ch, cbed, glow = chest(kit, land)
     keep = [(WRECK[0], WRECK[1], 0.62), (CHEST[0], CHEST[1], 0.2), (BOAT[0] + 0.05, BOAT[1] - 0.3, 0.22), (-0.2, -1.5, 0.2)]
     reef(kit, land, keep)
-    rays = Rays(kit, land, rig['sun_dir'], 16)
+    rays = Rays(kit, land, rig['sun_dir'], 22)
     school(kit)
     turtle(kit)
     ex.fish(kit, land, (1.05, -1.78), n=5, rx=0.22, ry=0.06, depth=(0.62, 0.74), name='rw_reeffish')
@@ -574,7 +579,7 @@ def build(bpy, ctx):
     cw.birds(kit, 3, center=(-0.5, 0.8), radius=1.2, height=1.1, size=0.05, color=(0.92, 0.92, 0.90))
     # easter eggs in the rock under the sea floor, museum lit
     eggs = ex.Eggs(kit, land, light_power=0.8); fy = eggs.faces['-Y']
-    eggs.amphora('-Y', -0.42, fy.top(-0.42) - 0.11, tilt=0.35, light=3.0)
+    eggs.amphora('-Y', -0.40, fy.top(-0.40) - 0.085, tilt=0.30, light=3.0)
     eggs.ammonite('-Y', 0.70, -1.10, R=0.05)
     eggs.trilobite('+X', -0.85, -1.08, Lt=0.15)
     eggs.geode('+X', 0.55, -1.22, a=0.075, b=0.06)
@@ -603,14 +608,14 @@ def shot_pose(S, name, u, t):
         return pos, tgt, 30.0, float(np.linalg.norm(pos - np.array([dp[0], dp[1], dp[2]]))), 6.0
     # wreck: close on the chest by the bow, a slow push; the diver arrives from the upper left
     e = ex.ease(u); cx, cy = CHEST; b = S['bed']
-    tgt = np.array([cx - 0.16, cy + 0.10, b + 0.07]); pos = np.array([cx - 0.24 - 0.04 * e, -2.0 - 0.95 + 0.22 * e, b + 0.24 - 0.04 * e])
+    tgt = np.array([cx - 0.20, cy + 0.10, b + 0.04]); pos = np.array([cx - 0.28 - 0.04 * e, -2.0 - 0.95 + 0.22 * e, b + 0.13 - 0.02 * e])
     return pos, tgt, 38.0, float(np.linalg.norm(pos - np.array([cx, cy, b + 0.03]))), 5.0
 
 
 def frame(bpy, ctx, S, i, t):
     S['kit'].update(t)
     tl = ctx['timeline'].at(t); pos, tgt, lens, focus, fstop = shot_pose(S, tl['name'], tl['u'], t)
-    S['cam'].set(pos, tgt, lens, focus, fstop); S['rays'].update(pos)
+    S['cam'].set(pos, tgt, lens, focus, fstop); S['rays'].update(pos); S['rays'].gain.default_value = RAY_GAIN[tl['name']]
     S['glow'].data.energy = 0.35 + (0.9 * ex.ease((t - 16.6) / 1.0) * (0.85 + 0.15 * math.sin(2 * math.pi * 1.3 * t)) if t > 16.6 else 0.0)
     a = ex.ease(t / 0.7) * (1 - ex.ease((t - 1.9) / 0.6)); S['talpha'].default_value = a; S['title'].hide_render = a <= 0.001
     if a > 0.001:                 # set in the camera's view at the focus distance (sharp), upper third
