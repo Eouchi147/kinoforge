@@ -1,0 +1,16 @@
+{
+ "id": "cutaway-loop-seasons-art-claymation",
+ "series": "Cutaway loops",
+ "title": "Seasons loop look board: claymation",
+ "style": "cutaway",
+ "duration": 12,
+ "fps": 24,
+ "frames": 288,
+ "render_w": 720,
+ "render_h": 1280,
+ "w": 1080,
+ "h": 1920,
+ "samples": 40,
+ "loop": true,
+ "note": "Look board of the seasons loop (films/cutaway/loops/seasons) with art direction claymation (films/styles/cutaway/art/claymation.py). Board frames: 40 (spring), 100 (summer), 230 (winter)."
+}
