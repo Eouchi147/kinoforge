@@ -466,9 +466,9 @@ class Diver:
             ob = ex.part(kit, f'rw_bubble{k}', [(bv * r, bf, 0)], [bm]); ob.visible_shadow = False; self.bubbles.append((ob, r, (k % 3) / 3.0 + rng.uniform(0, 0.03), rng.uniform(0, 6.28)))   # three puffs in flight, one every 1.6 s
         kit.on_frame(self.pose); self.pose(0.0)
         # the splash: droplets thrown up, a foam ring and ripples
-        sm = ex.mat(kit, 'rw_spray', (0.95, 0.98, 1.0), 0.2); self.drops = []
-        for k in range(18):
-            bv, bf = ex.ell((0, 0, 0), (1, 1, 1), 1); r = rng.uniform(0.003, 0.007)
+        sm = ex.mat(kit, 'rw_spray', (0.95, 0.98, 1.0), 0.2, emission=(0.9, 0.97, 1.0), strength=0.6); self.drops = []
+        for k in range(26):
+            bv, bf = ex.ell((0, 0, 0), (1, 1, 1), 1); r = rng.uniform(0.006, 0.013)
             ob = ex.part(kit, f'rw_drop{k}', [(bv * r, bf, 0)], [sm]); a = rng.uniform(0, 6.28); sp = rng.uniform(0.15, 0.4); up = rng.uniform(0.6, 1.1)
             self.drops.append((ob, np.array([math.cos(a) * sp, math.sin(a) * sp, up])))
         self.splash_at = self.gun + n_out * 0.10
@@ -616,7 +616,7 @@ def frame(bpy, ctx, S, i, t):
     S['kit'].update(t)
     tl = ctx['timeline'].at(t); pos, tgt, lens, focus, fstop = shot_pose(S, tl['name'], tl['u'], t)
     S['cam'].set(pos, tgt, lens, focus, fstop); S['rays'].update(pos); S['rays'].gain.default_value = RAY_GAIN[tl['name']]
-    S['glow'].data.energy = 0.35 + (1.8 * ex.ease((t - 16.6) / 1.0) * (0.85 + 0.15 * math.sin(2 * math.pi * 1.3 * t)) if t > 16.6 else 0.0)
+    S['glow'].data.energy = 0.35 + (3.5 * ex.ease((t - 16.6) / 1.0) * (0.85 + 0.15 * math.sin(2 * math.pi * 1.3 * t)) if t > 16.6 else 0.0)
     a = ex.ease(t / 0.7) * (1 - ex.ease((t - 1.9) / 0.6)); S['talpha'].default_value = a; S['title'].hide_render = a <= 0.001
     if a > 0.001:                 # set in the camera's view at the focus distance (sharp), upper third
         cam = S['cam'].ob; d = focus * 0.9; hw = d * 18.0 / lens; hh = hw * ctx['H'] / ctx['W']
