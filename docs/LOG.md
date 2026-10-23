@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Kids voice audition round 2 recorded (sound.yml run 40041587962, success): six voices, all words recognised except Puck and Michael ("wanted" for "want"); speaking rate still 3.2 to 4.2 words a second, faster than the 2.3 to 3.0 target, so final takes get slower speed and longer pauses. Sent to Sam. US$0.
 - Sam (19:44): all four deep British male voices are bad for kids (scary). Round 2 audition on the fossil pilot: af_heart, bf_emma, af_bella, bf_lily, am_puck, am_michael at speed 0.85 (sound.yml, free). US$0.
 - Sam (19:43): recognisable everyday easter eggs in every kids film; the background a lively 3D extension of the world, not a flat card. Rules in the series README and CRAFT.md; passed to the pilot builder. US$0.
 - Kids pilot voice audition (sound.yml run 40040883745, success): Kokoro bm_george, bm_fable, bm_lewis, bm_daniel on three fossil lines, all word error 0; all read 3.3 to 3.9 words a second, too fast for ages 6 to 8 (target about 2.3 to 2.5): final takes slower with longer pauses. Recommendation sent to Sam: bm_fable (deepest, widest pitch range). US$0.
