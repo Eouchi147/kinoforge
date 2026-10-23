@@ -1,0 +1,16 @@
+{
+ "id": "cutaway-series-under-the-city",
+ "series": "Cutaway showcase",
+ "title": "Under the City",
+ "style": "cutaway",
+ "duration": 20,
+ "fps": 24,
+ "frames": 480,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "audio": "audio/mix.m4a",
+ "note": "Cutaway showcase #2 (infrastructure, real estate, trades): a dusk street on a block cut out of the city; the camera sinks down the cut face through pipes, a sewer with a rat, a metro train, old bricks, a Roman floor and a T. rex; then the whole column at nightfall. Blender Cycles, procedural, kit films/styles/cutaway (imported). Check stills: frames 40, 150, 200, 252, 320, 368, 440."
+}
