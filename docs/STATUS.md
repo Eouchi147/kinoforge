@@ -5,9 +5,12 @@
   Sam's Mac `Video Production/kino-films/series/`.
 - Reef and Wreck: done (Mac lane, 480 frames; 20.0 s, -16.2 LUFS; on the Mac with preview and sheet). Weak spot: the
   opening wide holds nearly still for about 7 s.
-- The Gold Mine: rendering on the Mac lane (about 5 s a frame, started 04:20 UTC).
-- River Through Time, Sleeping Volcano, Under the City, The Hidden Meadow: rendering on rc-render `films.yml` (runs
-  39894366759, 39895728062, 39896034330, 39896254752).
+- The Gold Mine: done (Mac lane, 480 frames at about 5 s each, 9:16 1080x1920, 20.0 s, -16.2 LUFS). Weak spot: the
+  title is small over the moonlit trees.
+- River Through Time (-16.2 LUFS), Sleeping Volcano (-16.4), Under the City (-16.3): done on rc-render `films.yml`
+  (runs 39894366759, 39895728062, 39896034330), 20.0 s each, no frozen frames, on the Mac. Weak spot: River's water reads
+  as a pale grey trench more than water.
+- The Hidden Meadow: rendering on rc-render (run 39896254752). Agincourt v2 rendering (run 39900294683).
 - Also delivered to the Mac on 23 Oct: Why Venice Sinks (`under-the-surface-venice.mp4`, 2:37, -14.1 LUFS) and the
   cinematic look test (`style-cutaway-cinematic.mp4`, 12 s, silent). Agincourt v2: both inserts landed; chain.yml
   dispatched by hand at 04:21 UTC (its cron had not fired).
