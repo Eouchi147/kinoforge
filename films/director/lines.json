@@ -146,5 +146,101 @@
    "require_cut_why": false,
    "require_legend": false
   }
+ },
+ "cutaway": {
+  "series": "Cutaway",
+  "style": "cutaway",
+  "kind": "blender",
+  "engine": "films/lib/cutaway",
+  "entry": null,
+  "spec_md": "films/lib/cutaway/SPEC.md",
+  "spec_file": "spec.json",
+  "validator": "films/lib/cutaway/tools/validate.py",
+  "stills": "films/lib/cutaway/tools/stills.py",
+  "scene": "films/lib/cutaway/blender.py",
+  "examples": [
+   "films/cutaway/meadow"
+  ],
+  "examples_fixed": true,
+  "lint": null,
+  "mix": "films/lib/battle_mix.py",
+  "aspect": "16:9",
+  "render": [
+   1280,
+   720
+  ],
+  "delivery": [
+   1920,
+   1080
+  ],
+  "formats": {
+   "16:9": {
+    "render": [
+     1280,
+     720
+    ],
+    "delivery": [
+     1920,
+     1080
+    ]
+   },
+   "9:16": {
+    "render": [
+     720,
+     1280
+    ],
+    "delivery": [
+     1080,
+     1920
+    ]
+   }
+  },
+  "fps": 24,
+  "samples": 20,
+  "target_range": [
+   30,
+   90
+  ],
+  "title_line": 1,
+  "kid_safe": true,
+  "default_tone": "warm, curious and kid-clear, like a favourite science teacher showing what lies under our feet, with a smile",
+  "structure": "l00 is the hook (a surprising fact about what is hidden under the surface, or a question). l01 is the title line (the film title). Then the descent: each line one layer, one find or one cause, linked by but and therefore, down to the deepest surprise; then back up to the surface for a closing line with a smile.",
+  "picture_rules": "Every line needs ONE clear picture idea in a cross-section world: a place on the living top (a river, a village, a mill, animals), a find in the cut faces at its depth (fossils, treasure, ruins, a mole tunnel, a well, gold, geodes), or a camera move that reveals it (the map from above, a crane down the cut, a macro on one find). Names, dates and numbers become labels and counters set in code.",
+  "end_card": "the series name (CUTAWAY or the series) over the outro, with the film title",
+  "music_prompt": "Warm, curious, living underscore for a kids science animation: harp, plucked strings, soft woodwinds and a gentle pulse, around 90 BPM, it grows as we go deeper and swells once at the deepest find, then settles. Instrumental only, no vocals.",
+  "voice_brief": "a warm, curious, completely natural-sounding narrator for an animated cross-section film for kids and families",
+  "voice_instructions": "Warm, curious storyteller showing what lies under the ground. Natural and conversational, a smile in the voice, a little wonder on the big finds. Never robotic, never a trailer announcer. Unhurried pace, natural pauses.",
+  "spec_rules": [
+   "Write DATA only: one JSON object in the format of the SPEC.md, like the example. No code, no comments, no keys the SPEC.md does not list.",
+   "Order: `sets` first (usually ONE set; a second set only for a change of place or time, with `like`), then `scenes` (2 to 6 for a 30 to 90 s film), each with name, job, set, begin, middle, end, then its shots.",
+   "Every shot but the last ends with `until` on a cue reference ('l03>', 'l03.word', with an offset to hold 0.5 to 1 s on the picture after a key line); the last shot has no until. Shots of 4 to 10 s; every shot has `why`.",
+   "Cameras: open on `map` or `orbit` (where we are), a `crane` down the -Y face for the reveal (6 s or more for the full height), `macro` on the payoff egg, `hero` or `pull` to close. Never two `orbit`, `map` or `hero` shots of the same set in a row. The validator refuses moves faster than a real camera.",
+   "Easter eggs: put every find the narration names in the cut faces at its depth (recent near the top, deep time at the bottom), on the -Y face where the crane and the macro look, with `u` positions that do not overlap; 4 to 10 per set; each kind once (two geodes).",
+   "Words on screen: labels for the things the narration names, AT the word ('l02.mole'), pinned with `point` to the egg or place, CAPITALS, at most 4 words, at most two at once, never in the same slot at the same time; numbers as a `counter`; a date or place as a `caption`. In a `ground` shot only upper slots.",
+   "Title card over the title line (`title`), the end card over the outro (`end`). No emoji; no em or en dashes and no '...' in any text.",
+   "Cost: keep `fog` at 0 unless the story needs mist (it more than doubles a wide shot's render time) and `look.samples` at 20; prefer `time` golden for beauty, day for speed.",
+   "Copy cue words exactly from the word lists given; a wrong word is an error. Keep the spec under 40 KB."
+  ],
+  "free_voice_settings": {
+   "exaggeration": 0.5,
+   "cfg": 0.4,
+   "temperature": 0.7,
+   "speed": 0.98
+  },
+  "music_style": "warm, curious and living: harp, plucked strings, soft woodwinds, a gentle pulse; one swell at the deepest find",
+  "craft": {
+   "_": "CRAFT.md checks for this line run in films/lib/cutaway/tools/validate.py (scenes, why on every cut, shot count and length, camera speed on screen, eggs, labels, render cost)",
+   "require_scenes": true,
+   "scenes": [
+    2,
+    6
+   ],
+   "max_shots_per_3min": 40,
+   "avg_shot_s": [
+    4,
+    12
+   ],
+   "require_cut_why": true
+  }
  }
 }
