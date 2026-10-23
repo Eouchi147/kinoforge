@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23T22:42:49Z",
+ "generated": "2026-10-23T22:51:20Z",
  "films": [
   {
    "id": "p01-static",
@@ -1964,7 +1964,8 @@
    "recipe": "docs/manual/styles/cutaway-art-claymation.md",
    "board": [
     "/looks/claymation-470.jpg",
-    "/looks/claymation-830.jpg"
+    "/looks/claymation-830.jpg",
+    "/looks/seasons-claymation-100.jpg"
    ],
    "start": {
     "line": "cutaway",
@@ -2061,7 +2062,8 @@
    "recipe": "docs/manual/styles/cutaway-art-papercraft.md",
    "board": [
     "/looks/papercraft-470.jpg",
-    "/looks/papercraft-830.jpg"
+    "/looks/papercraft-830.jpg",
+    "/looks/seasons-papercraft-100.jpg"
    ],
    "start": {
     "line": "cutaway",
