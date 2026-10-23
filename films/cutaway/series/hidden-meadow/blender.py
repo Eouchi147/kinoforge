@@ -42,7 +42,7 @@ SUN_AZ, SUN_EL = 158.0, 27.0
 SHAFT_GAIN = {'meadow': 1.0, 'below': 0.25, 'hawk': 0.7}
 STRATA = [('topsoil', 0.06, (0.22, 0.15, 0.09), 0.04), ('loam', 0.52, (0.52, 0.34, 0.20), 0.10), ('sand', 0.45, (0.80, 0.65, 0.42), 0.10),
           ('limestone', 0.20, (0.86, 0.82, 0.72), 0.05), ('bedrock', 1.0, (0.30, 0.29, 0.33), 0.30)]
-TREES = [(-0.52, 0.50, 1.05, 'round'), (0.36, 0.60, 0.80, 'round'), (-0.08, 0.66, 0.62, 'cone')]
+TREES = [(-0.52, 0.50, 1.0, 'cone'), (0.36, 0.60, 0.80, 'round'), (-0.08, 0.66, 0.62, 'round')]
 # the -Y face column of homes, in face coordinates (u = x, z); top of the face is about z = 0
 WARREN_X = -0.30                      # burrow mouth (a notch at the cut edge)
 WARREN = [(WARREN_X, 0.02), (-0.285, -0.08), (-0.235, -0.155), (-0.15, -0.205), (-0.10, -0.225)]
@@ -368,32 +368,46 @@ def motes(kit, land, n=46, seed=23, name='hm_mote'):
             ob.location = (x0 + 0.04 * math.sin(0.23 * t + ph[0]) + 0.008 * t, y0 + 0.04 * math.sin(0.19 * t + ph[1]), z0 + 0.03 * math.sin(0.31 * t + ph[2]) + 0.004 * t)
         kit.on_frame(pose); pose(0.0)
 
-def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(0.42, -0.91), over=(-0.36, -0.52), name='hm_hawk'):
-    """A hawk's shadow: a flat horizontal silhouette (wings, tail) high between the sun and the meadow, seen by shadow
-    rays only. Projection between horizontal planes is a translation, so the shadow keeps the true shape. Gliding with
-    two slow wing beats; it passes over `over` at t_mid."""
+def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(0.42, -0.91), over=(-0.36, -0.52), name='hm_hawk',
+         veil=(0.012, 0.04, 0.07), veil_alpha=0.24):
+    """A hawk's shadow. The hawk itself is never seen: a flat horizontal silhouette (wings, tail) high between the sun and
+    the meadow, seen by shadow rays only (projection between horizontal planes is a translation, so the shadow keeps the
+    true shape). Dense backlit grass hides a real shadow (most of its light is fill, bounce and translucency), so the
+    shadow is also art-directed: the same silhouette laid in the grass at three blade heights as soft dark veils (camera
+    rays only), each exactly where the sun would throw it at that height. Two slow wing beats; it passes `over` at t_mid."""
     bpy = kit.bpy; m = ex.mat(kit, 'hm_hawkm', (0.1, 0.08, 0.06), 0.8)
+    vm = cw._new_mat(bpy, 'hm_veil'); g = G(vm.node_tree, kit)
+    tr = g.node('ShaderNodeBsdfTransparent'); dk = g.node('ShaderNodeBsdfDiffuse', ins={'Color': (0.0, 0.0, 0.0, 1.0)}); mx = g.node('ShaderNodeMixShader')
+    g.put(mx, 0, veil_alpha); g.link(tr, mx.inputs[1]); g.link(dk, mx.inputs[2]); cw._finish(g, mx)
     def wing(sd):
         return [(0.02, 0, 0), (0.035, sd * 0.06, 0), (0.02, sd * 0.15, 0), (-0.005, sd * 0.23, 0), (-0.035, sd * 0.22, 0), (-0.04, sd * 0.17, 0),
                 (-0.055, sd * 0.12, 0), (-0.04, sd * 0.05, 0), (-0.03, 0, 0)]
-    root = ex.empty(kit, name)
     bodyV = [(0.085, 0, 0), (0.06, 0.018, 0), (0.0, 0.026, 0), (-0.07, 0.016, 0), (-0.13, 0.04, 0), (-0.145, 0.0, 0), (-0.13, -0.04, 0), (-0.07, -0.016, 0), (0.0, -0.026, 0), (0.06, -0.018, 0)]
-    body = ex.part(kit, name + '_body', [(bodyV, [tuple(range(len(bodyV)))], 0)], [m], root)
-    wings = []
-    for sd in (-1, 1):
-        V = wing(sd); F = [tuple(range(len(V)))] if sd > 0 else [tuple(reversed(range(len(V))))]
-        wings.append(ex.part(kit, f'{name}_w{sd}', [(V, F, 0)], [m], root))
-    for ob in [body] + wings:
-        for a in ('visible_camera', 'visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter'): setattr(ob, a, False)
-    root.scale = (1.7,) * 3
+    def bird(nm, mat, shadow_only):
+        root = ex.empty(kit, nm)
+        body = ex.part(kit, nm + '_body', [(bodyV, [tuple(range(len(bodyV)))], 0)], [mat], root); wings = []
+        for sd in (-1, 1):
+            V = wing(sd); F = [tuple(range(len(V)))] if sd > 0 else [tuple(reversed(range(len(V))))]
+            wings.append(ex.part(kit, f'{nm}_w{sd}', [(V, F, 0)], [mat], root))
+        for ob in [body] + wings:
+            if shadow_only:
+                for at in ('visible_camera', 'visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter'): setattr(ob, at, False)
+            else: camera_only(ob)
+        root.scale = (1.7,) * 3; return root, wings
+    birds = [(bird(name, m, True), h)] + [(bird(f'{name}_veil{k}', vm, False), -z) for k, z in enumerate(veil)]
     sd = np.asarray(sun_dir, float); hd = np.array([heading[0], heading[1], 0.0]); hd /= np.linalg.norm(hd)
     zt = ground(land, *over)
     def pose(t):
         S = np.array([over[0], over[1], zt]) + hd * speed * (t - t_mid) + np.array([-hd[1], hd[0], 0]) * 0.12 * math.sin(0.9 * (t - t_mid))
-        p = S + sd * (h / sd[2]); root.location = tuple(p); root.rotation_euler = (0, 0, math.atan2(hd[1], hd[0]) + 0.12 * math.cos(0.9 * (t - t_mid)))
+        rz = math.atan2(hd[1], hd[0]) + 0.12 * math.cos(0.9 * (t - t_mid))
         beat = math.sin(2 * math.pi * 1.6 * (t - t_mid + 0.3)) if abs(t - t_mid + 0.3) < 0.62 else 0.0
-        for k, w in enumerate(wings): w.scale = (1.0, 1.0 - 0.3 * abs(beat), 1.0)
-    kit.on_frame(pose); pose(0.0); return root
+        for (root, wings), hh in birds:      # hh > 0: the hawk, hh above the ground; hh < 0: a veil -hh above the ground
+            p = S + sd * (hh / sd[2]) if hh > 0 else S + np.array([0, 0, -hh]) + sd * (-hh / sd[2]) * 0.0
+            if hh < 0:   # where the shadow line through the hawk meets the plane z = ground - hh
+                hp = S + sd * (h / sd[2]); p = hp - sd * ((hp[2] - (zt - hh)) / sd[2])
+            root.location = tuple(p); root.rotation_euler = (0, 0, rz)
+            for w in wings: w.scale = (1.0, 1.0 - 0.3 * abs(beat), 1.0)
+    kit.on_frame(pose); pose(0.0); return birds[0][0][0]
 
 def haze_cards(kit, cam_az=-56.0, name='hm_haze'):
     """Morning haze as cards (no volume): wide soft emissive bands behind the block that veil the horizon and the floor,
@@ -504,9 +518,9 @@ def build(bpy, ctx):
     def _queen(t, q=q): q.scale = (2.0, 2.0, 2.0 + 0.08 * math.sin(2 * math.pi * 0.8 * t))
     kit.on_frame(_queen)
     ant_column(kit, eggs, fy, [(u, fy.top(u) + 0.01 if k == 0 else z) for k, (u, z) in enumerate(ANTS)], 24, 0.055, 0.024, 'hm_ant', 31)
-    eggs.spot('-Y', -0.10, -0.86, 3.4, out=0.5, up=0.25, size=50, side=0.0, name='hm_spot_ants')
+    eggs.spot('-Y', -0.10, -0.86, 5.5, out=0.5, up=0.25, size=52, side=0.0, name='hm_spot_ants')
     point_glow(kit, 'hm_glow_eggs', fy.world(ANT_CH[2][0], ANT_CH[2][1], 0.02), 0.05)
-    for k, i in enumerate((1, 3, 5, 9)): point_glow(kit, f'hm_aglow{k}', fy.world(ANTS[i][0], ANTS[i][1], 0.012), 0.025)
+    for k, i in enumerate((1, 3, 4, 6, 8, 10)): point_glow(kit, f'hm_aglow{k}', fy.world(ANTS[i][0], ANTS[i][1], 0.012), 0.04)
     surface_ants(kit, land, [(-0.05, -0.30), (-0.25, -0.42), (-0.42, -0.62), (-0.53, -0.74), (ANT_X, -0.79)], 9, 0.05, 'hm_sant', 41)
     # deep time
     eggs.ammonite('-Y', 0.30, -1.11, R=0.05)

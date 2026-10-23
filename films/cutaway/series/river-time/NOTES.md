@@ -74,10 +74,42 @@ Nature recordings only (no music, no voice). Times in seconds.
 | 17.2 | The second deer lifts its head | nothing, or a faint rustle |
 | 20.0 | End | let the wind tail out |
 
+## Timing reference
+
+| What | When |
+| --- | --- |
+| Title | fades in 0.0 to 0.6 s, out 1.9 to 2.5 s |
+| Sun starts and stops racing | 2.6 s and 14.4 s (ease5; peak about 140 degrees a second, 2 extra turns) |
+| Cutting starts, steady, stops | 3.2 s, from 6.2 s steady, eases out 12.2 to 13.8 s |
+| River floor depth | 0.07 m at the start, 0.23 m at 6 s, 0.70 m at 10 s, 1.03 m (final) at about 13 s |
+| Fossils bared (printed by `build`) | ammonite 7.99 s, fish 11.31 s, trilobite 12.11 s |
+| Hiker | appears at 14.0 s, walks 14.6 to 18.2 s, turns to look along the canyon 18.2 to 19.4 s |
+| Deer | the first lifts its head at 4.2 s and lowers it at 5.6 s; the second at 17.2 s and 19.0 s |
+
+Check stills (frames): 30 (then, title), 120 (then, time racing), 160 and 230 (ages, ammonite), 290 and 330 (ages, fish and
+trilobite), 360, 400, 470 and 479 (today).
+
 ## Render cost (measured on Sam's Mac, M4 GPU, METAL, 1280x720, 20 spp)
 
-See the measured numbers below (filled from the check rounds).
+| Round | Frames | s/frame (from the lane logs) |
+| --- | --- | --- |
+| 1 | 24, 130, 200, 280, 330, 440 | 3.1 to 6.3 |
+| 3 | 30, 215, 290, 330, 400, 470 | 2.9 to 4.6 (job wall 5 to 7 s each, scene build 1.5 s) |
+
+So the whole film (480 frames) is about 25 to 40 minutes on the Mac. Settings: adaptive sampling (threshold 0.03), OIDN,
+max bounces 4 (diffuse 1, glossy 1, transmission 4), no volumes (haze is cards), no motion blur. The heavy parts are the
+grass (about 10,000 tufts), the glass water and the 37k-vertex top that is rebuilt every frame (cheap: numpy).
 
 ## Weak spots (honest)
 
-See the end of the build.
+- **Carving is a morph of a height field,** not erosion: the walls are smooth between beds (no blocky talus, no overhangs), and
+  the cut face where the canyon meets it can show stretched texture at extreme close range.
+- **The fossils are oversized** (an ammonite 19 cm across in a 1 m canyon) so they read on a phone. The ammonite is turned out
+  of the cliff toward the crane camera so its spiral reads; in the last shot it is seen edge-on as a crescent.
+- **The fish is thin** (spine and rib cones); it reads at 1280 px and is smaller at phone size.
+- **The river** reads as pale glass with a turquoise depth on the cut face; from above it is mostly sky reflection, not blue.
+- **Grass is storybook-tall** (5 to 8 cm against an 11 cm hiker), so the hiker is placed on the bare soil lip of the rim.
+- **The time-lapse animals** (deer, birds, butterflies) move in real time while the sun races; they sit mostly out of the
+  middle shot's frame.
+- **The morning sky** is a pale grey-blue (bright, clean, but not dramatic); the drama is saved for golden hour.
+- **The horizon** behind the canyon in the last shot is the far floor fading into haze, a soft but visible line.

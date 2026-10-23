@@ -1,7 +1,90 @@
 # The Hidden Meadow (Cutaway showcase, film 3)
 
-20 s, 24 fps, 9:16 (render 720x1280, out 1080x1920), 20 spp. Use: wildlife documentary, kids, nature brands.
-Files: `blender.py` (the whole scene), `film.json`. Kit: `films/styles/cutaway/cutaway.py` and
-`films/styles/cutaway/cinematic/extras.py`, both imported and never edited. Free: Blender Cycles, all procedural.
+20 s, 24 fps, 480 frames, 9:16 (render 720x1280, out 1080x1920), 20 spp. Use it shows: wildlife documentary, kids,
+nature brands. Files: `blender.py` (the whole scene), `film.json`. Kit: `films/styles/cutaway/cutaway.py` and
+`films/styles/cutaway/cinematic/extras.py`, both imported and never edited (the rabbit model is copied into
+`blender.py` so its motion can be our own). Free: Blender Cycles, all procedural, no downloaded assets.
 
-Draft, round 1 of checks. Filled in at the end.
+## Story (beginning, middle, end)
+
+- **Beginning (0 to 6 s):** a spring meadow in soft morning light, the world above. Two rabbits graze beside their burrow.
+- **Middle (6 to 16.4 s):** the hidden world below: the warren, a mole, a fox den with two cubs, the ant nest. Then a
+  hawk's shadow sweeps across the meadow; the two rabbits bolt into the burrow and we see them arrive underground.
+- **End (16.4 to 20 s):** calm returns (the rabbits below lower their ears) and the camera breathes out to the whole block.
+
+## Shots (and why each cut)
+
+| # | Shot | Time | Camera | Job |
+| --- | --- | --- | --- | --- |
+| 1 | meadow | 0.0 to 6.0 s (frames 0 to 143) | Low three-quarter (az -62 to -57, el 8 to 12, 42 mm, f/6.3), into the side-back sun; a slow push that settles on the burrow mouth at the cut edge | The world above: where we are, who lives here. Title 0 to 2.5 s in the sky. |
+| 2 | below | 6.0 to 12.5 s (144 to 299) | Frontal on the -Y cut face (az -82 to -77, el 7 to 5, 40 mm, f/7.1); a slow crane down the column of homes, warren to ants | The reveal. Cut motivated by shot 1 ending on the burrow mouth: we follow it down. |
+| 3 | hawk | 12.5 to 20.0 s (300 to 479) | Three-quarter (az -50, el 20, 35 mm, f/8) on the top and the warren together; holds while the shadow passes and the rabbits dive, then from 16.4 s eases out to the whole block (el 23) | The event and the resolution: the cut lands as the shadow reaches the block; one frame holds both the threat above and the shelter below. |
+
+Every move is eased (smoothstep, quintic for the pull back) and slow: 5 to 10 cm per second at block scale.
+
+## Layout of the -Y cut face (one column, made for 9:16)
+
+Face coordinates: u along the face (x), z height (top of the face about 0); the block is 1.6 x 1.6 m, 1.4 m deep.
+
+| Home | Where | What it holds, and what moves |
+| --- | --- | --- |
+| Warren | mouth at u -0.30 (a notch in the cut edge, the top made transparent there), a run down to chamber A (u -0.12, z -0.23), a link to chamber B (u -0.34, z -0.37) | B: a doe and two kits on straw, breathing, ears twitching, sniffing; they look up at the hawk (13.05 s) and relax (16.4 s). A: empty straw until the two runners arrive. |
+| Mole | tunnel u 0.07 to 0.37 just under the turf (z about -0.1), nest at its end, molehill on top | extras `Eggs.mole`: paws dig, nose twitches. |
+| Fox den | den at u 0.12, z -0.57; its run climbs to a second notch at u 0.60 | one cub asleep curled nose to tail (breathing, an ear flick); one cub playing: play bow, pounce, back, every 2.6 s, tail wagging; a bone. |
+| Ant nest | entrance at u -0.56 (small notch, anthill clods), one gallery down through four chambers (z -0.74 to -1.0) | 24 ants walk the gallery floor (down with a green leaf bit, up empty); the queen (pulsing), a pile of eggs, a leaf store. Nine more ants carry leaves across the top to the entrance. |
+
+Burrows are hollows, not booleans: the wall material is transparent over each opening (extras `Eggs` masks) and a
+half-tube or bowl closes it from inside. Our own cavity material darkens with depth into the block, so a tunnel reads
+as a hole and not as a pipe. Each home has a soft warm museum spot and tiny glow lights along the runs.
+
+## Easter eggs (deep time below the homes, museum-lit)
+
+- -Y face: an **ammonite** (limestone, u 0.30, z -1.11), a **trilobite** (u -0.36, z -1.19), a cracked **geode** at the bottom (u 0.02, z -1.29).
+- +X face: a **hedgehog** asleep in a leaf-lined burrow under the turf (it breathes), a lost **amphora** (z -0.62), a second **geode** (z -1.18).
+
+## Life (at least three layers of motion in every shot)
+
+- Top: grass and flowers in the travelling wind (kit), 7 bees (wings at 23 Hz, figure-eight flights), 3 butterflies,
+  24 petals and leaves drifting, 46 pollen motes in the sun (camera only), the two rabbits grazing (head down nibbling,
+  sniffing), 9 ants on a trail, 3 birds circling far off, god-ray cards shimmering (extras `Shafts`).
+- Below: mole digging, ants marching, cubs (sleep and play), doe and kits breathing and twitching, the hedgehog breathing.
+- Air: three haze cards behind the block drift (no volumes anywhere).
+
+## Light and look
+
+Morning sun from the side-back (az 158, el 27, warm 1.0/0.82/0.62, strength 7), weak cool fill (0.42) and sky ambient
+(0.17) so the sun dominates the top and the hawk's shadow reads; warm rim; extras golden sky dome (bluer zenith for
+spring); warm spill on the cut edges; museum spots underground. Compositor bloom and vignette (extras `finish`).
+AgX Medium High Contrast, exposure +0.25. The title "The Hidden Meadow" is a Blender text object in Archivo
+(`ads/fonts/Archivo.ttf`), emission, parented to the camera at the focus distance (sharp under depth of field), in the
+sky in the upper third, fading in 0.25 to 0.85 s and out 1.85 to 2.5 s. Nothing else is written on screen.
+
+The hawk itself is never seen: a flat horizontal silhouette (wings, tail) 0.85 m above the meadow toward the sun, seen
+by shadow rays only. Projection between horizontal planes is a translation, so the shadow keeps the true shape.
+
+## Events for the sound designer
+
+| time (s) | event | sound idea |
+| --- | --- | --- |
+| 0.0 to 12.5 | meadow morning: wind in grass, birds far off | birdsong bed, light wind, crickets |
+| 0.0 to 6.0 | bees cross the meadow close to camera (7 bees all along) | bumblebee passes, one near 2.6 s |
+| 0.25 to 2.5 | title fades in and out | (nothing; keep it nature only) |
+| 6.0 | cut below the surface | everything above muffles (low-pass), close earthy room tone |
+| 6.0 to 11.0 | mole digging (paw strokes at about 2.2 per second) in the top right | soft soil scratching, small dirt trickles |
+| 6.11, 8.71, 11.31 | fox cub pounces (take-off); lands at 6.68, 9.28, 11.88 | tiny soft thump on straw, rustle |
+| 7.5 to 12.5 | ants marching in the gallery (the crane reaches them) | very faint ticking or scratching |
+| 12.5 | cut to the hawk shot; the shadow reaches the back of the block (about 12.4 to 12.7) | birdsong stops, a hush |
+| 13.08 to 14.32 | two slow wing beats overhead (the hawk is never seen) | large wings, a whoosh, distant hawk cry optional (bank has none) |
+| 13.25 | the two rabbits on top look up | (silence) |
+| 13.45 / 13.63 | rabbit 1 / rabbit 2 bolt for the burrow | quick thumps on turf |
+| 13.86 / 14.07 | rabbit 1 / rabbit 2 drop into the burrow mouth | soft dirt scuffle |
+| 14.0 | the shadow passes right over the grazing spot | wind gust |
+| 14.6 | the shadow leaves the front of the block | |
+| 15.10 / 15.38 | rabbit 1 / rabbit 2 arrive in chamber A and stop | muffled scrabble, then stillness |
+| 16.4 | calm returns: rabbits below lower their ears; the camera begins its pull back | birdsong returns, wind |
+| 16.4 to 20.0 | slow pull back to the whole block | bed swells gently to the end |
+
+## Render cost
+
+Measured on Sam's Mac lane (Apple M4 GPU, METAL), 720x1280, 20 spp, adaptive, denoised, 4 bounces, no volumes: see the
+table below (filled from the check logs). Scene build about 6 s on the Mac (about 25 s on the 2-core chat box).
