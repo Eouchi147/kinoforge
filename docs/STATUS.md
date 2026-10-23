@@ -1,11 +1,11 @@
 # Status (updated 23 Oct 2026, director paid mode)
 
 ## Sam's external drive (23 Oct)
-- Samsung X5 (1.9 TB, 816 GB free) connected to this session as a folder. `KINOFORGE/films/` holds an archive of every
-  finished film (18 plus the six series films, sizes checked against the releases); `KINOFORGE/frames/` the series
-  frames. Mac lane jobs now write frames there (`docs/PLAYBOOKS/render-on-the-mac.md`). The lane stopped at 07:49
-  Toronto (Blender restarted); it restarts the next time a Mac render is needed. A one-frame test job (`0-drive-test.json`) waits in
-  `mac-jobs/` to prove Blender can write to the drive. `KINOFORGE/_to_delete/` holds 11 empty files from a failed iCloud copy.
+- Samsung X5 (1.9 TB, about 815 GB free), connected to this session as a folder. `KINOFORGE/render/` is the Mac lane's
+  home (code copy, `mac-jobs/`); `KINOFORGE/frames/` the frames; `KINOFORGE/films/` an archive of every finished film.
+  Start line: `exec(open('/Volumes/Samsung X5/KINOFORGE/render/harness/mac/go.py').read())`. Render leftovers in the iCloud
+  folder deleted (Sam, 14:09). A one-frame test job (`0-drive-test.json`) waits for the lane to start.
+- Superseded v1 films stay in `Video Production/kino-films/` until Sam says (only copies; iCloud-only, no Mac disk).
 
 ## Cutaway showcase series (Sam, 22 Oct 22:18; due on his wake, 23 Oct morning)
 - Six 20 s films, no voice, CC0 nature recordings plus a quiet score (`films/cutaway/series/README.md`). Final files go to
