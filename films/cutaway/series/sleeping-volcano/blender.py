@@ -42,7 +42,7 @@ CX, CY = 0.08, -1.45             # volcano centre: the -Y cut face (y = -1.5) ru
 R_SHORE = 1.15                   # island radius
 PEAK = 1.25                      # cone height scale
 CR = 0.15                        # crater radius
-SUN_AZ, SUN_EL = 100.0, 6.0      # low sun behind and to the right of every camera (just out of frame)
+SUN_AZ, SUN_EL = 92.0, 6.0      # low sun behind and to the right of every camera (just out of frame)
 HORIZON = (0.96, 0.58, 0.34)
 LAVA_AZ = math.radians(14.0)     # the lava stream runs down this flank (east, toward the camera side)
 STRATA = [('soil', 0.05, (0.20, 0.14, 0.10), 0.05), ('ash', 0.07, (0.66, 0.63, 0.60), 0.05), ('tuff', 0.11, (0.76, 0.56, 0.34), 0.10),
@@ -133,7 +133,7 @@ def mat_magma(kit, name, front=False, flow=0.25, base=3.0):
     return m
 
 
-def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.20, 0.18, 0.18), glow_col=(1.0, 0.38, 0.10), soft=1.6, scale=2.4):
+def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.13, 0.12, 0.12), glow_col=(1.0, 0.38, 0.10), soft=1.6, scale=2.4):
     """Smoke or steam card: a soft round puff broken by noise that evolves in t. Per-object colour drives it:
     R = opacity, G = darkness (steam to ash), B = glow from below (lava light)."""
     m = cw._new_mat(kit.bpy, name); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); oi = g.node('ShaderNodeObjectInfo'); t_val = ex.time_value(kit, g)
@@ -143,7 +143,7 @@ def mat_card(kit, name, steam=(0.93, 0.92, 0.92), ash=(0.20, 0.18, 0.18), glow_c
     fall = g.math('POWER', g.math('SUBTRACT', 1.0, r, clamp=True), soft)
     q = g.comb(g.math('MULTIPLY', gx, scale), g.math('MULTIPLY', gy, scale), g.math('MULTIPLY', oi.outputs['Random'], 40.0))
     n = g.noise(q, 1.6, 5.0, 0.62, '4D', g.math('ADD', g.math('MULTIPLY', t_val, 0.18), g.math('MULTIPLY', oi.outputs['Random'], 9.0)), distortion=0.4)
-    den = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.32), 2.4, clamp=True)
+    den = g.math('MULTIPLY', g.math('SUBTRACT', n.outputs['Fac'], 0.26), 3.0, clamp=True)
     a = g.math('MULTIPLY', g.math('MULTIPLY', fall, den), oc[0], clamp=True)
     col = g.mix(oc[1], srgb(steam), srgb(ash))
     shade = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.6), col, g.mix(0.5, col, (0, 0, 0), 'MULTIPLY'))
@@ -191,12 +191,12 @@ class Plume:
             q = d.to_track_quat('Z', 'Y'); ob.rotation_euler = (q.to_matrix() @ Matrix.Rotation(ob.get('spin', 0.0), 3, 'Z')).to_euler()
 
 
-def fountain(kit, vent, n=90, seed=11):
+def fountain(kit, vent, n=120, seed=11):
     """Lava fountain: glowing blobs on ballistic arcs (slow diorama gravity), cooling and shrinking as they fall."""
     bpy = kit.bpy; rng = np.random.default_rng(seed)
     hot = cw.mat_glow(kit, 'sv_bomb', (1.0, 0.55, 0.14), 26.0); V0, F0 = cw._icosphere(1); grav = 2.1; out = []
     for k in range(n):
-        ob = cw.mk_mesh(bpy, f'sv_bomb{k}', V0 * 0.014, F0, [hot], None, True, kit.coll); ob.visible_shadow = False
+        ob = cw.mk_mesh(bpy, f'sv_bomb{k}', V0 * 0.016, F0, [hot], None, True, kit.coll); ob.visible_shadow = False
         az = rng.uniform(0.15, math.pi - 0.15); vh = rng.uniform(0.02, 0.26); v0 = rng.uniform(1.0, 1.6); per = rng.uniform(0.0, 1.0); sz = rng.uniform(0.6, 1.4)
         def pose(t, ob=ob, az=az, vh=vh, v0=v0, per=per, sz=sz):
             I = sm(T_ERUPT, T_ERUPT + 1.6, t) * (0.85 + 0.15 * math.sin(1.7 * t + per * 6))
@@ -211,7 +211,7 @@ def fountain(kit, vent, n=90, seed=11):
     return out
 
 
-def embers(kit, vent, n=60, seed=21):
+def embers(kit, vent, n=90, seed=21):
     """Sparks rising and drifting downwind from the crater, blinking out as they cool."""
     bpy = kit.bpy; rng = np.random.default_rng(seed); m = cw.mat_glow(kit, 'sv_ember', (1.0, 0.62, 0.22), 30.0); V0, F0 = cw._icosphere(1)
     for k in range(n):
@@ -234,7 +234,7 @@ def lava_stream(kit, land):
     T = np.gradient(P, axis=0); T /= np.linalg.norm(T, axis=1)[:, None]; N = np.stack([-T[:, 1], T[:, 0]], 1)
     across = [-1.0, -0.5, 0.0, 0.5, 1.0]; V = []; AL = []; AC = []
     for i in range(n):
-        w = 0.055 + 0.060 * along[i] ** 0.7
+        w = 0.075 + 0.075 * along[i] ** 0.7
         for c in across:
             x, y = P[i] + N[i] * c * w / 2
             z = float(land.height(np.array([x]), np.array([y]))[0]) + 0.004 + 0.006 * (1 - c * c)
@@ -278,6 +278,28 @@ def lava_stream(kit, land):
     for i in range(n):
         if float(land.height(P[i:i + 1, 0], P[i:i + 1, 1])[0]) < LV + 0.005: i_end = i; break
     return ob, np.array([P[i_end, 0], P[i_end, 1], LV + 0.01])
+
+
+class _Halo:
+    """A soft additive glow card over the vent (camera only): the fountain's heat bloom."""
+    def __init__(self): self.cards = []
+    def face(self, cam): Plume.face(self, cam)
+HALO = _Halo()
+
+
+def halo(kit, vent):
+    bpy = kit.bpy; m = cw._new_mat(bpy, 'sv_halo'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); gx, gy, _ = g.sep(tc.outputs['Generated'])
+    dx = g.math('SUBTRACT', gx, 0.5); dy = g.math('SUBTRACT', gy, 0.5)
+    r = g.math('MULTIPLY', g.math('SQRT', g.math('ADD', g.math('MULTIPLY', dx, dx), g.math('MULTIPLY', dy, dy))), 2.0)
+    f = g.math('POWER', g.math('SUBTRACT', 1.0, r, clamp=True), 2.6); k = g.value(0.0, 'sv_halo_k')
+    e = g.node('ShaderNodeEmission', ins={'Color': srgb((1.0, 0.45, 0.14))}); g.put(e, 'Strength', g.math('MULTIPLY', f, k))
+    tr = g.node('ShaderNodeBsdfTransparent'); ad = g.node('ShaderNodeAddShader'); g.link(tr, ad.inputs[0]); g.link(e, ad.inputs[1]); cw._finish(g, ad)
+    try: m.cycles.emission_sampling = 'NONE'
+    except Exception: pass
+    ob = card(kit, 'sv_halo', m); ob.location = tuple(np.asarray(vent) + np.array([0, 0.0, 0.22])); ob.scale = (0.9, 0.9, 0.9)
+    HALO.cards.append((ob, 0, 0, 0)); ob['spin'] = 0.0
+    def pose(t): k.default_value = 1.4 * sm(T_ERUPT - 0.3, T_ERUPT + 1.0, t) * (0.85 + 0.15 * math.sin(6.1 * t) * math.sin(2.3 * t + 1))
+    kit.on_frame(pose)
 
 
 def flock(kit, land, perches, seed=31):
@@ -329,11 +351,11 @@ def build(bpy, ctx):
     for _ in range(4000):
         r = rng.uniform(0.40, R_SHORE - 0.10); a = rng.uniform(0, 2 * math.pi); x, y = CX + r * math.cos(a), CY + r * math.sin(a)
         if y < -SX / 2 + 0.03 or abs(x) > SX / 2 - 0.03: continue
-        if abs(((a - LAVA_AZ + math.pi) % (2 * math.pi)) - math.pi) < 0.42 and r > 0.3: continue      # keep the lava's path clear
+        if abs(((a - LAVA_AZ + math.pi) % (2 * math.pi)) - math.pi) < 0.55 and r > 0.3: continue      # keep the lava's path clear
         if all(math.hypot(x - p[0], y - p[1]) > 0.115 for p in spots): spots.append((x, y, rng.uniform(0.6, 1.0) * (1.25 - 0.4 * (r - 0.5)), 'round' if rng.uniform() < 0.62 else 'cone'))
         if len(spots) >= 52: break
     land = cw.block(kit, size=(SX, SX), depth=1.8, strata=STRATA, seed=6, top=cone_h, water=[sea], zones=zones,
-                    tree_spots=spots, tree_kinds=('round', 'cone'), tree_scale=0.42, boulders=8, flowers=0.35, corals=16, reeds=0.0, sway=1.3,
+                    tree_spots=spots, tree_kinds=('round', 'cone'), tree_scale=0.42, boulders=0, keep_clear=[(CX, CY, 0.30)], flowers=0.35, corals=16, reeds=0.0, sway=1.3,
                     water_density=1.9, water_glow=0.012, water_tint=(0.16, 0.60, 0.66), bed=((0.78, 0.72, 0.56), (0.62, 0.58, 0.46)), caustics=0.45)
     # cut-face layering: the cone's own layers drape parallel to its flanks (nested, a stratovolcano), the old sea floor
     # below runs flat; an unconformity line at z = Z_OLD separates them (the kit's default flattens to the mean top height,
@@ -341,10 +363,10 @@ def build(bpy, ctx):
     Z_OLD = -1.05; wall = land.objects['walls']; nv = len(wall.data.vertices)
     co = np.zeros(nv * 3); wall.data.vertices.foreach_get('co', co); z = co.reshape(-1, 3)[:, 2]
     dt = np.zeros(nv); wall.data.attributes['dtop'].data.foreach_get('value', dt)
-    skin = 0.68; flat = skin + (Z_OLD - z) + 0.0
-    core = 0.18 + np.mod(dt - skin, 0.50)
-    sdn = np.where(dt < skin, dt, np.where(z > Z_OLD, core, np.maximum(flat, 0.68)))
-    sdn = np.where((z <= Z_OLD) & (dt < skin), dt, sdn)
+    skin = 0.68; flat = np.maximum(skin + (Z_OLD - z), skin)
+    core = 0.68 - np.abs(np.mod(dt - skin, 1.0) - 0.5)                  # ping-pong: nested bands with no jumps
+    wc = np.clip((z - (Z_OLD - 0.18)) / 0.36, 0, 1); wc = wc * wc * (3 - 2 * wc)
+    sdn = np.where(dt < skin, dt, core * wc + flat * (1 - wc))
     wall.data.attributes['sd'].data.foreach_set('value', sdn.astype(np.float32))
     # dark volcanic rock for the bare upper cone (this film's own copy of the top material: the kit's path colour)
     PATH = tuple(srgb((0.52, 0.42, 0.30)))[:3]
@@ -435,13 +457,14 @@ def build(bpy, ctx):
     def crater_p(t):
         s1 = sm(*T_SMOKE, t); e = sm(T_ERUPT - 0.3, T_ERUPT + 2.0, t)
         return {'period': 5.0 - 1.0 * e, 'rise': 0.45 + 0.45 * s1 + 1.0 * e, 'spread': 0.05 + 0.10 * e, 'size': 0.16 + 0.10 * s1 + 0.38 * e, 'grow': 1.6 + 0.8 * e,
-                'opacity': 0.45 + 0.35 * s1 + 0.25 * e, 'dark': 0.08 + 0.55 * s1 + 0.30 * e, 'glow': 1.8 * e, 'wind': (0.14 + 0.18 * e, 0.30 + 0.35 * e)}
+                'opacity': 0.45 + 0.35 * s1 + 0.25 * e, 'dark': 0.08 + 0.60 * s1 + 0.30 * e, 'glow': 0.9 * e, 'wind': (0.14 + 0.18 * e, 0.30 + 0.35 * e)}
     plume = Plume(kit, 'sv_plume', smoke_m, vent + np.array([0, 0.03, 0.0]), 18, crater_p, 41)
     steam_m = mat_card(kit, 'sv_steam', steam=(0.96, 0.95, 0.95), ash=(0.80, 0.78, 0.78), glow_col=(1.0, 0.45, 0.18))
     def steam_p(t):
         s1 = sm(T_FLOW[1] - 0.3, T_FLOW[1] + 1.2, t)
-        return {'period': 3.2, 'rise': 0.55, 'spread': 0.06, 'size': 0.14, 'grow': 2.0, 'opacity': 0.85 * s1, 'dark': 0.0, 'glow': 0.5 * s1, 'wind': (0.05, 0.16)}
-    steam = Plume(kit, 'sv_steam', steam_m, entry, 9, steam_p, 43)
+        return {'period': 3.0, 'rise': 0.65, 'spread': 0.08, 'size': 0.20, 'grow': 2.2, 'opacity': 0.95 * s1, 'dark': 0.0, 'glow': 0.4 * s1, 'wind': (0.05, 0.16)}
+    steam = Plume(kit, 'sv_steam', steam_m, entry, 12, steam_p, 43)
+    halo(kit, vent)
     # mist drifting low over the sea (two big soft cards, camera only)
     mist_m = mat_card(kit, 'sv_mist', steam=(0.98, 0.90, 0.84), soft=1.2, scale=1.4)
     mists = []
@@ -461,7 +484,6 @@ def build(bpy, ctx):
     for x, y, sc in near[:9]:
         gz = float(land.height(np.array([x]), np.array([y]))[0]); perches.append((x, y, gz + 0.55 * sc * 0.42 * 0.85))
     flock(kit, land, perches)
-    shafts = ex.Shafts(kit, land, rig['sun_dir'], beams=(), canopy=5, strength=1.0)
 
     ex.finish(bpy, W, H, bloom=0.30, threshold=1.0, vignette=0.28)
     cam = ex.ShotCam(kit)
@@ -470,7 +492,7 @@ def build(bpy, ctx):
     sc = bpy.context.scene; cy = sc.cycles
     cy.max_bounces = 4; cy.diffuse_bounces = 1; cy.glossy_bounces = 1; cy.transmission_bounces = 4; cy.transparent_max_bounces = 16
     cy.adaptive_threshold = 0.04; cy.sample_clamp_direct = 12.0
-    return {'kit': kit, 'land': land, 'cam': cam, 'eggs': eggs, 'plumes': [plume, steam], 'shafts': shafts, 'zc': zc, 'ch': (ch_u, ch_z), 'front': CTRL['front']}
+    return {'kit': kit, 'land': land, 'cam': cam, 'eggs': eggs, 'plumes': [plume, steam, HALO], 'zc': zc, 'ch': (ch_u, ch_z), 'front': CTRL['front']}
 
 
 # =============================================================================================== cameras
@@ -497,7 +519,6 @@ def shot_pose(S, name, u, t):
 def frame(bpy, ctx, S, i, t):
     S['kit'].update(t)
     tl = ctx['timeline'].at(t); pos, tgt, lens, focus, fstop, roll, _ = shot_pose(S, tl['name'], tl['u'], t)
-    S['cam'].set(pos, tgt, lens, focus, fstop, roll); S['shafts'].update(pos)
-    S['shafts'].gain.default_value = {'island': 0.9, 'rise': 0.0, 'eruption': 0.35}[tl['name']]
+    S['cam'].set(pos, tgt, lens, focus, fstop, roll)
     for p in S['plumes']: p.face(pos)
     sc = bpy.context.scene; sc.view_settings.exposure = SETTINGS['exposure'] - 7.0 * sm(*T_FADE, t) ** 1.5
