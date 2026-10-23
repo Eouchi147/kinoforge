@@ -40,7 +40,7 @@ CHECK = {'title': 24, 'meadow': 110, 'below_top': 160, 'below_low': 285, 'hawk_d
 S_SIZE, DEPTH = 1.6, 1.4
 SUN_AZ, SUN_EL = 158.0, 27.0
 SHAFT_GAIN = {'meadow': 1.0, 'below': 0.25, 'hawk': 0.7}
-STRATA = [('topsoil', 0.06, (0.22, 0.15, 0.09), 0.04), ('loam', 0.52, (0.52, 0.34, 0.20), 0.10), ('sand', 0.45, (0.80, 0.65, 0.42), 0.10),
+STRATA = [('topsoil', 0.06, (0.22, 0.15, 0.09), 0.04), ('loam', 0.52, (0.52, 0.34, 0.20), 0.16), ('sand', 0.45, (0.80, 0.65, 0.42), 0.24),
           ('limestone', 0.20, (0.86, 0.82, 0.72), 0.05), ('bedrock', 1.0, (0.30, 0.29, 0.33), 0.30)]
 TREES = [(-0.52, 0.50, 1.0, 'cone'), (0.36, 0.60, 0.80, 'round'), (-0.08, 0.66, 0.62, 'round')]
 # the -Y face column of homes, in face coordinates (u = x, z); top of the face is about z = 0
@@ -369,7 +369,7 @@ def motes(kit, land, n=46, seed=23, name='hm_mote'):
         kit.on_frame(pose); pose(0.0)
 
 def hawk(kit, land, sun_dir, h=0.85, t_mid=14.0, speed=1.1, heading=(-0.77, -0.64), over=(-0.33, -0.60), name='hm_hawk',
-         veil=((0.10, 1.10, 0.26), (0.10, 0.95, 0.42))):
+         veil=((0.10, 1.12, 0.3), (0.10, 0.95, 0.5))):
     """A hawk's shadow. The hawk itself is never seen: a flat horizontal silhouette (wings, tail) high between the sun and
     the meadow, seen by shadow rays only (projection between horizontal planes is a translation, so the shadow keeps the
     true shape). Dense backlit grass hides a real shadow (most of its light is fill, bounce and translucency), so the
@@ -572,8 +572,8 @@ def shot_pose(S, name, u, t):
         tgt = np.array((-0.06 + 0.02 * e, -S_SIZE / 2, -0.30 - 0.36 * e))
     else:                         # hawk: hold on the top and the warren, then the long breath out to the whole world
         hold = ex.ease(u * 7.5 / 3.9) * 0.08; out = ex.ease5((t - 16.4) / 3.6) if t > 16.4 else 0.0
-        az = math.radians(-50 - 3 * hold + 6 * out); el = math.radians(20.0 + 3.0 * out); D = 2.15 - 0.6 * hold + 1.6 * out
-        tgt = ex.lerp((-0.20, -0.48, -0.14), (0.0, 0.0, -0.56), out)
+        az = math.radians(-50 - 3 * hold + 6 * out); el = math.radians(20.0 + 3.0 * out); D = 2.15 - 0.6 * hold + 1.8 * out
+        tgt = ex.lerp((-0.20, -0.48, -0.14), (-0.10, -0.08, -0.56), out)
     tgt = np.asarray(tgt, float)
     pos = tgt + D * np.array([math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)])
     lens = {'meadow': 42.0, 'below': 40.0, 'hawk': 35.0}[name]; fstop = {'meadow': 6.3, 'below': 7.1, 'hawk': 8.0}[name]

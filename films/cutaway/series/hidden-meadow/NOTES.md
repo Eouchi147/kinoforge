@@ -59,8 +59,13 @@ AgX Medium High Contrast, exposure +0.25. The title "The Hidden Meadow" is a Ble
 (`ads/fonts/Archivo.ttf`), emission, parented to the camera at the focus distance (sharp under depth of field), in the
 sky in the upper third, fading in 0.25 to 0.85 s and out 1.85 to 2.5 s. Nothing else is written on screen.
 
-The hawk itself is never seen: a flat horizontal silhouette (wings, tail) 0.85 m above the meadow toward the sun, seen
-by shadow rays only. Projection between horizontal planes is a translation, so the shadow keeps the true shape.
+The hawk itself is never seen: a flat horizontal silhouette (wings, tail, 0.75 m span) 0.85 m above the meadow toward
+the sun, seen by shadow rays only. Projection between horizontal planes is a translation, so the shadow keeps the true
+shape. Measured: dense backlit grass hides a real shadow (only about a quarter of the grass brightness is direct sun; the
+rest is fill, bounce and translucency), so the shadow is also art-directed: the same silhouette laid over the grass
+tips (10 cm) as two soft dark veils (a wide faint one, a tighter darker one), exactly where the sun would throw it at
+that height, fading out near the cut edges so it never hangs in the air. It crosses the hawk shot's frame from right
+to left (heading -0.77, -0.64; 1.1 m/s) and passes over the grazing spot at 14.0 s.
 
 ## Events for the sound designer
 
@@ -73,18 +78,46 @@ by shadow rays only. Projection between horizontal planes is a translation, so t
 | 6.0 to 11.0 | mole digging (paw strokes at about 2.2 per second) in the top right | soft soil scratching, small dirt trickles |
 | 6.11, 8.71, 11.31 | fox cub pounces (take-off); lands at 6.68, 9.28, 11.88 | tiny soft thump on straw, rustle |
 | 7.5 to 12.5 | ants marching in the gallery (the crane reaches them) | very faint ticking or scratching |
-| 12.5 | cut to the hawk shot; the shadow reaches the back of the block (about 12.4 to 12.7) | birdsong stops, a hush |
+| 12.5 | cut to the hawk shot; the shadow enters the block on the right (12.5 to 12.7) | birdsong stops, a hush |
 | 13.08 to 14.32 | two slow wing beats overhead (the hawk is never seen) | large wings, a whoosh, distant hawk cry optional (bank has none) |
 | 13.25 | the two rabbits on top look up | (silence) |
 | 13.45 / 13.63 | rabbit 1 / rabbit 2 bolt for the burrow | quick thumps on turf |
 | 13.86 / 14.07 | rabbit 1 / rabbit 2 drop into the burrow mouth | soft dirt scuffle |
-| 14.0 | the shadow passes right over the grazing spot | wind gust |
-| 14.6 | the shadow leaves the front of the block | |
+| 13.9 to 14.15 | the shadow sweeps over the two grazing spots, just as the rabbits vanish | wind gust |
+| 14.3 to 14.6 | the shadow leaves the block at the front left | |
 | 15.10 / 15.38 | rabbit 1 / rabbit 2 arrive in chamber A and stop | muffled scrabble, then stillness |
 | 16.4 | calm returns: rabbits below lower their ears; the camera begins its pull back | birdsong returns, wind |
 | 16.4 to 20.0 | slow pull back to the whole block | bed swells gently to the end |
 
 ## Render cost
 
-Measured on Sam's Mac lane (Apple M4 GPU, METAL), 720x1280, 20 spp, adaptive, denoised, 4 bounces, no volumes: see the
-table below (filled from the check logs). Scene build about 6 s on the Mac (about 25 s on the 2-core chat box).
+Measured on Sam's Mac lane (Apple M4 GPU, METAL), 720x1280, 20 spp, adaptive (threshold 0.04), OIDN denoise, 4 bounces,
+no volumes, no motion blur, from the check logs (the `s/frame` line of each one-frame job):
+
+| Round | Frames | s/frame |
+| --- | --- | --- |
+| 1 | 24, 336 | 4.8, 5.8 |
+| 2 | 24, 200, 318, 336, 372, 470 | 4.6, 6.9, 6.0, 5.6, 5.6, 6.3 |
+
+So about 5 to 7 s per frame (target 15): 480 frames is about 45 to 55 minutes on the Mac. Scene build about 6 s on the
+Mac (about 25 s on the 2-core chat box), once per chunk.
+
+## Weak spots (honest)
+
+- **The hawk shadow is half real, half art-directed** (see Light and look). In motion it reads as a dark shape sweeping
+  over the meadow; in a single still it is soft, not a crisp silhouette.
+- **Storybook scale:** rabbits (2.35x the extras model), cubs, ants (1.6x) and bees are oversized for a 1.6 m block so
+  they read at phone size. The ants are about 2 cm long and read as moving dark dots with green leaf bits at 1080 px.
+- **Rabbits in motion** are rigid models that hop and pitch along their run; the dive down the burrow is a quick
+  head-first slide, not an animated run cycle.
+- **Tunnels** are half tubes with a depth-shaded earth material: they read as hollows, but at the rim a thin highlight
+  shows where the tube meets the face (the extras hole masks are hard-edged).
+- **Trees** are the kit's lumpy-blob miniatures (one pink-blossom tree from the spring palette); they read as a diorama.
+- **Plain strata:** the sand band between the fox den and the ants is a large plain area in the crane shot.
+
+## Log
+
+- 2026-10-23 (overnight build): first build, three check rounds on the Mac lane (rounds 1 to 3), local 270 to 405 px
+  checks on the chat box; changes: burrows depth-shaded (read as hollows), side-back sun with weak fill so the top is
+  sun-lit, art-directed hawk shadow veils on a right-to-left crossing, round trees, brighter ant nest. Cost: nothing
+  (Mac lane and chat box).
