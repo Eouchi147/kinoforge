@@ -30,7 +30,7 @@ SHOTS = [{'name': 'street', 'dur': 4.5}, {'name': 'descent', 'dur': 11.0}, {'nam
 DURATION = 20.0
 FRAMES = {'street': 40, 'pipes': 150, 'sewer': 200, 'metro': 252, 'roman': 320, 'dino': 368, 'city': 440}   # check stills
 SETTINGS = {'samples': 20, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Medium High Contrast',
-            'exposure': 0.2, 'max_bounces': 4, 'volume_bounces': 0, 'clamp_indirect': 4.0, 'adaptive_min_samples': 8, 'denoising_prefilter': 'FAST'}
+            'exposure': 0.1, 'max_bounces': 4, 'volume_bounces': 0, 'clamp_indirect': 4.0, 'adaptive_min_samples': 8, 'denoising_prefilter': 'FAST'}
 
 SX, SY, DEPTH = 4.6, 1.5, 2.6
 FY = -SY / 2                     # the cut face the camera sinks down (-Y)
@@ -39,7 +39,7 @@ SUN_AZ, SUN_EL = 112.0, 4.0
 # time runs down: street, utility fill, clay (sewer), grey till (metro), rubble (old brick), Roman loam, fossil limestone, bedrock
 STRATA = [('asphalt', 0.05, (0.13, 0.13, 0.14), 0.5), ('base', 0.07, (0.50, 0.48, 0.45), 0.9), ('fill', 0.40, (0.56, 0.44, 0.31), 0.35),
           ('clay', 0.34, (0.60, 0.40, 0.27), 0.04), ('till', 0.50, (0.47, 0.46, 0.44), 0.35), ('rubble', 0.22, (0.50, 0.37, 0.29), 0.55),
-          ('roman', 0.22, (0.62, 0.44, 0.27), 0.18), ('limestone', 0.65, (0.86, 0.82, 0.72), 0.05), ('bedrock', 1.0, (0.24, 0.25, 0.30), 0.35)]
+          ('roman', 0.22, (0.62, 0.44, 0.27), 0.18), ('limestone', 0.65, (0.74, 0.70, 0.61), 0.08), ('bedrock', 1.0, (0.24, 0.25, 0.30), 0.35)]
 SEWER = (-0.70, 0.13)            # centre z, radius (half tunnel cut lengthwise by the face)
 METRO = (-1.11, 0.20)
 MANHOLE_U = 0.95
@@ -350,8 +350,8 @@ def build_people(kit):
 def build_sewer(kit, land, eggs, rng):
     """A brick sewer cut lengthwise: dark flowing water, a walkway, a caged lamp, a drip, a rat."""
     bpy = kit.bpy; zc, r = SEWER; out = {}
-    eggs.hole_tunnel('-Y', [(-2.18, zc), (2.18, zc)], r, 'utc_sewer', material=mat_brick(kit, 'utc_brick_sewer', (0.50, 0.26, 0.16), (0.40, 0.21, 0.13), (0.22, 0.20, 0.17), 30.0))
-    wl = zc - r + 0.035
+    eggs.hole_tunnel('-Y', [(-(SX / 2 - r - 0.02), zc), (SX / 2 - r - 0.02, zc)], r, 'utc_sewer', material=mat_brick(kit, 'utc_brick_sewer', (0.50, 0.26, 0.16), (0.40, 0.21, 0.13), (0.22, 0.20, 0.17), 30.0))
+    wl = zc - r + 0.035; xe = SX / 2 - r - 0.02
     # water: glossy, flowing (bump noise moving along +x)
     m = cw._new_mat(bpy, 'utc_sewage'); g = G(m.node_tree, kit); tc = g.node('ShaderNodeTexCoord'); tv = ex.time_value(kit, g)
     q = g.vmath('ADD', tc.outputs['Object'], g.comb(g.math('MULTIPLY', tv, -0.12), 0.0, 0.0))
@@ -359,9 +359,9 @@ def build_sewer(kit, land, eggs, rng):
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': srgb((0.05, 0.07, 0.05)), 'Roughness': 0.06})
     b = g.node('ShaderNodeBump', ins={'Strength': 0.35, 'Height': n.outputs['Fac'], 'Distance': 0.003}); g.put(p, 'Normal', b); cw._finish(g, p)
     d_at = lambda z: math.sqrt(max(0.0, r * r - (z - zc) ** 2))
-    cw.mk_mesh(bpy, 'utc_sewage', [(-2.18, FY + 0.03, wl), (2.18, FY + 0.03, wl), (2.18, FY + d_at(wl) + 0.01, wl), (-2.18, FY + d_at(wl) + 0.01, wl)], [(0, 1, 2, 3)], [m], None, False, kit.coll)
+    cw.mk_mesh(bpy, 'utc_sewage', [(-xe, FY + 0.03, wl), (xe, FY + 0.03, wl), (xe, FY + d_at(wl) + 0.01, wl), (-xe, FY + d_at(wl) + 0.01, wl)], [(0, 1, 2, 3)], [m], None, False, kit.coll)
     stone = cw.mat_simple(kit, 'utc_ledge', (0.30, 0.27, 0.24), 0.8, noise_amt=0.2, bump=0.4)
-    cw.mk_mesh(bpy, 'utc_ledge', *box(-2.18, FY - 0.0005, zc - r, 2.18, FY + 0.032, wl + 0.012), [stone], None, False, kit.coll)
+    cw.mk_mesh(bpy, 'utc_ledge', *box(-xe, FY - 0.0005, zc - r, xe, FY + 0.032, wl + 0.012), [stone], None, False, kit.coll)
     # caged lamp on the back wall
     lamp_on = mat_glow_anim(kit, 'utc_sewerbulb', (1.0, 0.62, 0.30), 40.0)
     A = cw._Acc(); V0, F0 = cw._icosphere(1); A.add(V0 * 0.008, F0, 0)
@@ -373,7 +373,7 @@ def build_sewer(kit, land, eggs, rng):
     out['lamp'] = (lamp_on[1], ld)
     # mist on the water (additive card, drifting downstream)
     mm, _ = mat_add(kit, 'utc_sewermist', (0.85, 0.70, 0.52), 0.25, fade='1-z', noise=14.0, drift=(0.08, 0.0))
-    mc = cw.mk_mesh(bpy, 'utc_sewermist', [(-2.18, FY + 0.05, wl), (2.18, FY + 0.05, wl), (2.18, FY + 0.05, wl + 0.06), (-2.18, FY + 0.05, wl + 0.06)], [(0, 1, 2, 3)], [mm], None, False, kit.coll); hide_from_light(mc)
+    mc = cw.mk_mesh(bpy, 'utc_sewermist', [(-xe, FY + 0.05, wl), (xe, FY + 0.05, wl), (xe, FY + 0.05, wl + 0.06), (-xe, FY + 0.05, wl + 0.06)], [(0, 1, 2, 3)], [mm], None, False, kit.coll); hide_from_light(mc)
     # a drip from the vault and its ring
     drop = cw.mk_mesh(bpy, 'utc_drop', cw._icosphere(1)[0] * np.array([0.0028, 0.0028, 0.0045]), cw._icosphere(1)[1], [ex.mat_pbr(kit, 'utc_dropmat', (0.6, 0.65, 0.6), 0.05, coat=1.0)], None, True, kit.coll)
     th = np.linspace(0, 2 * math.pi, 25)
@@ -410,14 +410,14 @@ def build_metro(kit, land, eggs):
     n = g.noise(tc.outputs['Object'], 25.0, 4.0)
     col = g.mix(n.outputs['Fac'], srgb((0.40, 0.40, 0.39)), srgb((0.58, 0.57, 0.55))); col = g.mix(g.math('MULTIPLY', groove, 0.8), col, srgb((0.10, 0.10, 0.10)))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.8}); cw._finish(g, p)
-    eggs.hole_tunnel('-Y', [(-2.2, zc), (2.2, zc)], r, 'utc_metro', material=m)
-    d_at = lambda z: math.sqrt(max(0.0, r * r - (z - zc) ** 2))
+    eggs.hole_tunnel('-Y', [(-(SX / 2 - r - 0.02), zc), (SX / 2 - r - 0.02, zc)], r, 'utc_metro', material=m)
+    d_at = lambda z: math.sqrt(max(0.0, r * r - (z - zc) ** 2)); xe = SX / 2 - r - 0.02
     zf = zc - 0.13; conc = cw.mat_simple(kit, 'utc_trackbed', (0.22, 0.21, 0.21), 0.9, noise_amt=0.2, bump=0.4)
-    cw.mk_mesh(bpy, 'utc_trackbed', *box(-2.2, FY - 0.0005, zc - r, 2.2, FY + d_at(zf) + 0.02, zf), [conc], None, False, kit.coll)
+    cw.mk_mesh(bpy, 'utc_trackbed', *box(-xe, FY - 0.0005, zc - r, xe, FY + d_at(zf) + 0.02, zf), [conc], None, False, kit.coll)
     steel = ex.mat_pbr(kit, 'utc_rail', (0.7, 0.7, 0.72), 0.25, metallic=1.0); A = []
     for dd in (0.03, 0.10):
-        A.append((*box(-2.2, dd - 0.003, zf, 2.2, dd + 0.003, zf + 0.008), 0))
-    for x in np.arange(-2.15, 2.2, 0.06): A.append((*box(x - 0.008, 0.012, zf - 0.0005, x + 0.008, 0.125, zf + 0.002), 1))
+        A.append((*box(-xe, dd - 0.003, zf, xe, dd + 0.003, zf + 0.008), 0))
+    for x in np.arange(-xe + 0.03, xe, 0.06): A.append((*box(x - 0.008, 0.012, zf - 0.0005, x + 0.008, 0.125, zf + 0.002), 1))
     ex.part(kit, 'utc_rails', A, [steel, ex.mat(kit, 'utc_sleeper', (0.20, 0.18, 0.16), 0.9)], None, (0, FY, 0))
     # warm wall lamps along the back of the tunnel
     lm = cw.mat_glow(kit, 'utc_tunnellamp', (1.0, 0.70, 0.40), 22.0); A = cw._Acc()
@@ -455,7 +455,7 @@ def build_train(kit, zf, rng=None):
         A.add(V0 * np.array([0.002, 0.007, 0.007]) + np.array([-total / 2, s * 0.028, 0.035]), F0, 5)
     A.build(bpy, 'utc_train_shell', [body, stripe, win, pax, head, tail, dark], False, kit.coll).parent = root
     # light streaks trailing the train (additive cards, camera only), brightest at the train
-    sm, sgain = mat_add(kit, 'utc_streak', (1.0, 0.82, 0.58), 3.0, fade='x', lim=2.18)
+    sm, sgain = mat_add(kit, 'utc_streak', (1.0, 0.82, 0.58), 3.0, fade='x', lim=SX / 2 - METRO[1] - 0.02)
     for k, (zz, w, L) in enumerate(((0.035, 0.008, 1.1), (0.098, 0.03, 0.8), (0.035, 0.006, 0.7))):
         V = [(-total / 2 - L, -W / 2 - 0.004, zz - w / 2), (-total / 2, -W / 2 - 0.004, zz - w / 2), (-total / 2, -W / 2 - 0.004, zz + w / 2), (-total / 2 - L, -W / 2 - 0.004, zz + w / 2)]
         ob = cw.mk_mesh(bpy, f'utc_streak{k}', V, [(0, 1, 2, 3)], [sm], None, False, kit.coll); ob.parent = root; hide_from_light(ob)
@@ -554,7 +554,7 @@ def build_background(kit, rng):
         ca, sa = math.cos(a), math.sin(a); V = [(cx + x * ca - y * sa, cy + x * sa + y * ca, z) for x, y, z in V]; A.add(V, F, 0)
     sk = A.build(bpy, 'utc_skyline', [m], False, kit.coll)
     for a in ('visible_shadow', 'visible_diffuse', 'visible_glossy'): setattr(sk, a, False)
-    hm, _ = mat_add(kit, 'utc_haze', (0.86, 0.52, 0.36), 0.75, fade='1-z', lim=99.0)
+    hm, _ = mat_add(kit, 'utc_haze', (0.86, 0.52, 0.36), 0.4, fade='1-z', lim=99.0)
     for k, a in enumerate((80, 120, 160)):
         ar = math.radians(a); R = 8.5; c = (R * math.cos(ar), R * math.sin(ar)); t_ = (-math.sin(ar), math.cos(ar)); hw = 4.6
         V = [(c[0] - t_[0] * hw, c[1] - t_[1] * hw, -DEPTH), (c[0] + t_[0] * hw, c[1] + t_[1] * hw, -DEPTH), (c[0] + t_[0] * hw, c[1] + t_[1] * hw, 1.8), (c[0] - t_[0] * hw, c[1] - t_[1] * hw, 1.8)]
@@ -598,13 +598,15 @@ def build(bpy, ctx):
     eggs.finish()
     ex.soften_roots(land)
     ex.edge_spill(kit, land, '-Y', power=28.0)
-    ld = bpy.data.lights.new('utc_facefill', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = 5.0; ld.size_y = 1.8; ld.spread = math.radians(28); ld.energy = 110.0; ld.color = (0.60, 0.70, 1.0)
+    ld = bpy.data.lights.new('utc_facefill', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = 5.0; ld.size_y = 1.8; ld.spread = math.radians(28); ld.energy = 45.0; ld.color = (0.60, 0.70, 1.0)
     fo = bpy.data.objects.new(ld.name, ld); kit.coll.objects.link(fo); fo.location = (0.6, FY - 3.2, -1.25); ex.look_at(fo, (0.3, FY, -1.25))
     fo.visible_camera = False; fo.visible_glossy = False
     S['motes'] = build_motes(kit)
     build_background(kit, rng)
     cw.birds(kit, 3, center=(0.3, 0.6), radius=1.8, height=1.3)
     ex.finish(bpy, W, H, bloom=0.28, threshold=1.0, vignette=0.3)
+    fl = [n for n in rig['floor'].active_material.node_tree.nodes if n.bl_idname == 'ShaderNodeBsdfPrincipled'][0]
+    fl.inputs['Base Color'].default_value = srgb((0.07, 0.06, 0.07))
     S['cam'] = ex.ShotCam(kit); S['title'] = build_title(kit, S['cam'])
     cw.apply_cycles(bpy, fast=True)
     cy = bpy.context.scene.cycles
