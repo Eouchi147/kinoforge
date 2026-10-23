@@ -73,7 +73,7 @@ jobs:
         run: |
           test -f "$D/brief.json" || { echo "::error::no $D/brief.json"; exit 1; }
           python3 films/director/start.py "$D" --from "${{ inputs.from || 'resume' }}" ${{ github.event_name == 'push' && '--push' || '' }} > "$RUNNER_TEMP/open.out"
-          cat "$RUNNER_TEMP/open.out"; grep -E '^(render|sound|tts)=' "$RUNNER_TEMP/open.out" >> "$GITHUB_OUTPUT"
+          cat "$RUNNER_TEMP/open.out"; grep -E '^(render|sound|tts|kind)=' "$RUNNER_TEMP/open.out" >> "$GITHUB_OUTPUT"
       - name: free seats (the live free models on OpenRouter, the seat chosen for each role)
         run: python3 films/director/free.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
       - uses: actions/setup-python@v5
@@ -104,6 +104,15 @@ jobs:
           fi
           echo "KF_TTS_PYTHON=$RUNNER_TEMP/tts/bin/python" >> "$GITHUB_ENV"
           "$RUNNER_TEMP/tts/bin/python" -c "import faster_whisper; print('tts env ready')"
+      - name: Blender for the check stills (lines rendered in Blender, e.g. cutaway) in its own Python 3.13
+        if: steps.open.outputs.kind == 'blender'
+        run: |
+          sudo apt-get install -y -qq libegl1 libgl1 libglu1-mesa libxi6 libxkbcommon0 libxrender1 libxxf86vm1 libxfixes3 libsm6 libgomp1 > /dev/null
+          uv --version 2>/dev/null || pip install -q uv
+          uv venv -q -p 3.13 "$RUNNER_TEMP/bpy"
+          VIRTUAL_ENV="$RUNNER_TEMP/bpy" uv pip install -q numpy pillow bpy==5.2.2
+          echo "KF_BPY_PYTHON=$RUNNER_TEMP/bpy/bin/python" >> "$GITHUB_ENV"
+          "$RUNNER_TEMP/bpy/bin/python" -c "import bpy; print('bpy', bpy.app.version_string)"
       - name: script
         run: set -o pipefail; python films/director/script.py "$D" 2>&1 | tee -a "$RUNNER_TEMP/film.log"
       - name: sound

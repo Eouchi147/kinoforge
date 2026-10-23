@@ -145,7 +145,7 @@ def validate(film_dir, spec_rel='spec.json'):
         if L is None: continue
         fs = frame_seconds(L, s['camera'], fmt, samples, W, H); n = (s['t1'] - s['t0']) * fps; total += fs * n
         per.append({'shot': s['i'], 'camera': s['camera'], 's_per_frame': round(fs, 1), 'frames': int(round(n))})
-    frames = int(math.ceil(dur * fps)); parts = max(4, min(20, math.ceil(frames / 200)))
+    frames = int(math.ceil(dur * fps)); parts = max(4, min(20, math.ceil(frames / 48)))   # films-render.yml: 48 frames a part for Blender films
     part_min = (total / parts + SETUP_S) / 60.0
     cost = {'frames': frames, 'samples': samples, 'size': [W, H], 'runner_hours': round(total / 3600.0, 1), 'parts': parts,
             'minutes_per_part': round(part_min, 1), 'avg_s_per_frame': round(total / max(1, frames), 1), 'per_shot': per, 'usd': 0.0,

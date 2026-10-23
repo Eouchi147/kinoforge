@@ -14,8 +14,8 @@ import common as C
 
 STAGE_FILES = {   # what each stage makes (cleared when the job restarts from that stage or an earlier one)
     'script': ['script.json', 'ad.json'],
-    'sound': ['audio', 'cues.json', 'film.json', 'index.html', 'prep.log'],
-    'spec': ['cand', 'check', 'spec.js', 'spec_log.json'],
+    'sound': ['audio', 'cues.json', 'film.json', 'index.html', 'blender.py', 'prep.log'],
+    'spec': ['cand', 'check', 'spec.js', 'spec.json', 'spec_log.json'],
     'render': [], 'reflect': ['reflect.json'],
 }
 ORDER = ['script', 'sound', 'spec', 'render', 'reflect']
@@ -25,14 +25,16 @@ def check_brief(d):
     b = json.load(open(os.path.join(d, 'brief.json'))); probs = []
     for k in ('title', 'subject'):
         if not str(b.get(k) or '').strip(): probs.append(f'{k} is missing')
-    ln = b.get('line') or C.DEFAULTS['line']
-    try: C.line(ln)
+    ln = b.get('line') or C.DEFAULTS['line']; L = {}
+    try: L = C.line(ln)
     except ValueError as e: probs.append(str(e))
+    if L.get('formats') and b.get('format') and b['format'] not in L['formats']: probs.append(f'format {b["format"]!r} is not one of {", ".join(L["formats"])}')
     try:
         cap = float(b.get('cap_usd') or C.DEFAULTS['cap_usd'])
         if not 0.3 <= cap <= 5: probs.append(f'cap_usd {cap} is outside 0.30 to 5.00')
         ts = float(b.get('target_seconds') or C.DEFAULTS['target_seconds'])
-        if not 45 <= ts <= 240: probs.append(f'target_seconds {ts} is outside 45 to 240')
+        lo, hi = L.get('target_range') or (45, 240)
+        if not lo <= ts <= hi: probs.append(f'target_seconds {ts} is outside {lo} to {hi} for the {ln} line')
     except (TypeError, ValueError): probs.append('cap_usd and target_seconds must be numbers')
     if b.get('id') and b['id'] != os.path.basename(d): probs.append(f'id {b["id"]!r} does not match the folder {os.path.basename(d)!r}')
     return b, probs
@@ -67,7 +69,9 @@ def open_job(d, frm, push):
         clear(d, ORDER[ORDER.index(frm):])
     done_render = (st.get('stages') or {}).get('render', {}).get('state') == 'done'
     render = not done_render or frm in ('script', 'sound', 'spec', 'render') or fresh
-    mark = {'script': 'script.json', 'sound': 'cues.json', 'spec': 'spec.js'}
+    try: sf = C.line(b.get('line') or C.DEFAULTS['line']).get('spec_file') or 'spec.js'
+    except ValueError: sf = 'spec.js'
+    mark = {'script': 'script.json', 'sound': 'cues.json', 'spec': sf}
     first = next((s for s in ['script', 'sound', 'spec'] if not os.path.exists(os.path.join(d, mark[s]))), 'render')
     note = ('fresh job' if fresh or not st else f'resuming at {first}') + ('; free models and free tools only' if C.FREE_ONLY else '')
     C.set_status(d, first if first != 'render' else 'render', 'queued',
@@ -89,5 +93,7 @@ if __name__ == '__main__':
     print(f'render={"true" if r else "false"}')
     b = json.load(open(os.path.join(d, 'brief.json')))
     print(f'sound={"false" if os.path.exists(os.path.join(d, "cues.json")) else "true"}')
+    try: print(f'kind={C.line(b.get("line") or C.DEFAULTS["line"]).get("kind") or "web"}')
+    except ValueError: print('kind=web')
     v = (b.get('voice') or C.DEFAULTS['voice']).split('|')[0]
     print(f'tts={v if v in ("chatterbox", "kokoro") else ("chatterbox" if C.FREE_ONLY else "paid")}')

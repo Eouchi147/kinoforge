@@ -8,7 +8,7 @@ on:
   workflow_call:
     inputs:
       film: { description: 'film folder, e.g. films/studio/battle-of-tours', required: true, type: string }
-      parts: { description: 'parallel parts (0 = about 200 frames per part, 4 to 20)', required: false, default: '0', type: string }
+      parts: { description: 'parallel parts (0 = auto: about 200 frames per part, 48 for Blender films; 4 to 20)', required: false, default: '0', type: string }
       ref: { description: 'branch or commit', required: false, default: 'main', type: string }
     outputs:
       video: { description: 'release URL of the film', value: '${{ jobs.join.outputs.video }}' }
@@ -39,8 +39,9 @@ jobs:
           import json, os, math
           f = os.environ['FILM'].rstrip('/'); m = json.load(open(f + '/film.json'))
           fps = int(m.get('fps', 24)); total = int(math.ceil(float(m['duration']) * fps))
-          n = int(os.environ.get('PARTS') or 0) or max(4, min(20, math.ceil(total / 200)))
           kind = 'blender' if os.path.exists(f + '/blender.py') else 'web'
+          # Blender (Cycles CPU, about 30 to 120 s a frame) needs more runners than the web engines (about 1 s a frame)
+          n = int(os.environ.get('PARTS') or 0) or max(4, min(20, math.ceil(total / (48 if kind == 'blender' else 200))))
           meta = {'film': f, 'id': m['id'], 'kind': kind, 'w': int(m['render_w']), 'h': int(m['render_h']), 'fps': fps, 'total': total,
                   'out_w': int(m.get('w', m['render_w'])), 'out_h': int(m.get('h', m['render_h'])), 'samples': int(m.get('samples', 24)),
                   'audio': m.get('audio') or ''}
