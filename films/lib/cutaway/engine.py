@@ -271,7 +271,7 @@ class Film:
         st['kit'].update(t)
         u = (t - shot['t0']) / max(1e-3, shot['t1'] - shot['t0'])
         c = C.pose(shot, L, u, pl.fmt); cam = shot['camera']
-        dof = cam in DOF
+        dof = cam in DOF and os.environ.get('KF_DOF', '1') != '0'      # KF_DOF=0: no depth of field (cost tests)
         self.cam.set(c['pos'], c['tgt'], c['lens'], c['focus'], c['fstop'], c['roll']); self.cam.ob.data.dof.use_dof = dof
         if st['shafts'] is not None:
             st['shafts'].update(c['pos']); st['shafts'].gain.default_value = SHAFT_GAIN.get(cam, 0.6) * L.shafts

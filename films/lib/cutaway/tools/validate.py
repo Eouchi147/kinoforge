@@ -29,8 +29,8 @@ from plan import Plan  # noqa: E402
 CRAFT = {'scenes_max': 9, 'max_shots_per_3min': 40, 'avg_shot_s': (4.0, 12.0), 'min_shot_s': 2.0, 'hard_min_shot_s': 1.0,
          'pan': 0.25, 'push': 0.10, 'hard_factor': 2.0}
 # Render cost model (free 4-core GitHub runner, 1280x720, 24 samples, plain day light): seconds per frame. Calibrated on
-# Venice r4 (about 45 to 60 s a frame), the cinematic board (r3, r4) and this line's example stills (see SPEC.md, cost).
-BASE_S = 50.0
+# Venice r4 (about 45 to 60 s a frame), the cinematic board (r3, r4) and the meadow stills r1 and r2 (23 Oct: golden, 20 samples: map about 55 s, crane 70 to 90 s, macro 30 to 40 s, hero about 50 s).
+BASE_S = 40.0
 SETUP_S = 180.0            # per render part: checkout, apt, pip bpy, scene build
 PART_LIMIT_MIN = 280.0     # films-render.yml gives each part 300 minutes
 

@@ -51,8 +51,8 @@ renders it (48 frames a part, up to 20 parts) to release `films`. Watch `status.
 | Validator | anywhere | under 1 s |
 | Scene build (one set, golden, 10 eggs, 10 animals) | any | about 10 s |
 | Stills at 400 px, 6 samples | 2-core chat box | 10 to 24 s each |
-| Crane frames (close on the cut face), 1280x720, 20 samples, golden | free 4-core runner (stills.yml) | about 80 s a frame |
-| The example film (40 s, 959 frames) | estimate | about 20 runner-hours: 20 parts of about 65 minutes |
+| One frame of the example, 1280x720, 20 samples, golden (runner stills r1, r2, 23 Oct) | free 4-core runner (stills.yml) | map about 55 s, crane 70 to 90 s, macro 30 to 40 s, hero and end card about 50 s; one job in r1 took 29 min for two frames that took 3 min in r2 (runner variance) |
+| The example film (40 s, 959 frames) | validator estimate | about 16 runner-hours: 20 parts of about 50 minutes, US$0 |
 
 The validator's model (`frame_seconds` in `tools/validate.py`) is calibrated on these; update it and this table when a
 run measures something new. Levers: `fog: 0`, `samples` 16, `time: day`, a shorter film.
