@@ -3,8 +3,8 @@
  "title": "The Battle of Salamis",
  "line": "battle-map",
  "stage": "spec",
- "state": "running",
- "message": "The coder is drafting the picture: anthropic/claude-opus-5.5.",
+ "state": "failed",
+ "message": "Stopped:     if errors and all('over the cap' in e for e in errors): raise OverBudget(f'the film cap US${ledger.cap:.2f} would be passed (spent US${ledger.total:.2f})')",
  "usd": 0.0,
  "cap_usd": 0.5,
  "outputs": {
@@ -44,11 +44,12 @@
    "ended_at": "2026-10-22T16:13:12Z"
   },
   "spec": {
-   "state": "running",
+   "state": "failed",
    "started_at": "2026-10-23T01:06:21Z",
    "usd_start": 0.0,
    "usd": 0.0,
-   "spent": 0.0
+   "spent": 0.0,
+   "ended_at": "2026-10-23T01:06:27Z"
   },
   "check": {
    "state": "failed",
@@ -59,5 +60,5 @@
  },
  "approved_at": "2026-10-22T15:00:00Z",
  "run_url": "https://github.com/Eouchi147/kinoforge/actions/runs/39877596998",
- "updated_at": "2026-10-23T01:06:21Z"
+ "updated_at": "2026-10-23T01:06:27Z"
 }
