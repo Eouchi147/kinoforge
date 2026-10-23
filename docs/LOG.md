@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- STATUS: the director's paid section now waits only on credit (the money rule is settled by `docs/decisions/0013`).
 - Docs aligned with decision 0013 (SOUL, PLAYBOOKS, LESSONS, STATUS, HANDOVER banner, decisions 0001, 0005, 0008): the money rule is capped paid films with quality gates; the director playbook covers cap_usd and the no-credit case.
 - Decision 0013 written from Sam's 20:50 message (capped paid films with quality gates); 0001 superseded, 0005 amended, AGENTS.md money rule updated.
 - Director: the `cutaway` line is wired end to end (on top of the paid-mode rework): `spec.py` drafts and repairs `spec.json` (data) for Blender lines, checks it with the line validator, renders a Blender contact sheet for the eyes (and for compose rounds), falls back to the code checks if no sheet renders, writes the render cost to `status.json`; `sound.py` copies the generic scene and sets the format sizes; `common.line()` knows a line's spec file. New `films/director/tests/test_cutaway_line.py` (4 tests, mocks, about 2 s): a wrong cue word is repaired, the eyes see both drafts, `spec.json` is written; the existing director tests pass. WORKFLOWS: the cutaway line.
