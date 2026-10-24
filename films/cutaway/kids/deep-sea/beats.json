@@ -1,0 +1,108 @@
+{
+ "_": "Little Big Questions, deep-sea, a SILENT story (series grammar: no narration; the picture explains; music and real sound effects carry it; a few big words set in code). One fixed Fable view of one lifted slice: a tall cutaway column of ocean floating over the hole it was lifted from, the sunny sea carrying on all round. Facts and cautions: docs/research/KIDS_FACTS_2026-10.md section 2.3 (zones by NOAA depths, sunlight fades with depth, many animals the cameras see make their own light, only SOME anglerfish have a lure and its glow comes from bacteria, vents found in 1977 with life around them, very little of the deep seafloor has been seen, never 5 percent explored). Times in seconds, 70.5 s, timed to the music edit.",
+ "id": "kids-deep-sea",
+ "duration": 70.5,
+ "fps": 24,
+ "key_word": "GLOW",
+ "beats": [
+  {
+   "t": [0.0, 5.5],
+   "name": "hook",
+   "picture": "A sunny sea to the horizon with a boat, gulls, an island with a palm and a whale's spout. In front, a tall slice of ocean floats a little above the hole it was lifted from. On the top of the slice a rubber duck bobs next to a little round submarine; a snail peeks out of its porthole.",
+   "words": "WHAT LIVES IN THE DEEP SEA?",
+   "sound": "gentle waves, gulls, a far boat, the duck's squeak, the submarine's soft hum",
+   "music": "the rolling wave motif begins in the low strings (recording 0:00.5)"
+  },
+  {
+   "t": [5.5, 13.5],
+   "name": "sunlight zone",
+   "picture": "The submarine tips its nose down and dives through the surface with a ring of bubbles. The top water is bright turquoise with sun rays; a school of yellow fish turns around it, a turtle glides by.",
+   "words": "SUNLIGHT ZONE",
+   "sound": "a soft splash, bubbles, the fish school's flutter, a turtle's slow paddle",
+   "music": "the wave motif rises and falls, the dive (recording 0:06 to 0:14)"
+  },
+  {
+   "t": [13.5, 20.5],
+   "name": "twilight zone",
+   "picture": "The blue turns to dusk violet as the sun rays run out. Big-eyed silver fish glide past; on the music's swell a shoal of tiny lantern fish switch on their little lights and swirl round the submarine.",
+   "words": "TWILIGHT ZONE",
+   "sound": "the water hums lower, a sparkle of tiny chimes as the lanterns light",
+   "music": "the first swell (recording 0:17 to 0:19.5): the lights come on"
+  },
+  {
+   "t": [20.5, 26.5],
+   "name": "midnight zone",
+   "picture": "Darkness. The submarine switches on its headlamp and its beam is the only light; specks of marine snow drift through it. For a held breath nothing glows at all.",
+   "words": "MIDNIGHT ZONE",
+   "sound": "the lamp's click, deep quiet, a slow bubble",
+   "music": "the sound thins out into a hush; the splice lands in the silence (recording 1:05 to 1:07)"
+  },
+  {
+   "t": [26.5, 33.5],
+   "name": "they glow",
+   "picture": "A soft light blooms below: a jellyfish lights up, then another, then a third, each a different colour, drifting like lanterns while tiny sparkles twinkle round them.",
+   "words": "GLOW!",
+   "sound": "a glass-like chime for each jellyfish, water burble",
+   "music": "the warm cello theme begins (recording 1:08): the creature reveal"
+  },
+  {
+   "t": [33.5, 40.0],
+   "name": "glowing squid",
+   "picture": "A round little squid with polka dots of light and big eyes zips past, blinking its spots in a pattern; a message in a bottle drifts by. The submarine's snail waves at it.",
+   "words": "",
+   "sound": "a squeaky whoosh, a bubble pop, the bottle's cork bob",
+   "music": "the theme goes on, rising a little (recording 1:15 to 1:21.5)"
+  },
+  {
+   "t": [40.0, 47.0],
+   "name": "the lantern",
+   "picture": "A friendly round anglerfish with big kind eyes swims up with a glowing lure. The submarine's lamp blinks off; the fish swings its lure over the submarine and lights it up like a torch. The snail looks up and waves. Only some anglerfish have such a lure, so this one is shown as one friendly fish.",
+   "words": "",
+   "sound": "a cheerful little boing, a warm chime as the lure lights, a bubble giggle",
+   "music": "the theme answers itself, warmer (recording 1:21.5 to 1:28.5)"
+  },
+  {
+   "t": [47.0, 55.5],
+   "name": "hot vents",
+   "picture": "The submarine settles down to the seafloor. A hot vent shimmers; giant red tube worms sway round it, living without any sunlight. A toy boat lies in the sand, a lost sandal, a little treasure chest.",
+   "words": "HOT VENTS",
+   "sound": "a low warm rumble, bubbling, soft sand thumps",
+   "music": "the build to the tutti (recording 1:28.5 to 1:37)"
+  },
+  {
+   "t": [55.5, 59.5],
+   "name": "all the lights",
+   "picture": "On the climax every light in the whole slice twinkles on at once, from the seafloor to the twilight, jellyfish, squid, lantern fish, the fish's lure, the vent, a deep sea of little lights.",
+   "words": "",
+   "sound": "a shimmering cascade of chimes",
+   "music": "the climax (recording 1:37) and its release"
+  },
+  {
+   "t": [59.5, 64.5],
+   "name": "only a tiny piece",
+   "picture": "The lights go out one by one until the submarine's torch lights a tiny round patch of the wide dark seafloor. Its beam shows only a little: most of the seafloor has never been seen. The submarine rises.",
+   "words": "MOST IS UNSEEN",
+   "sound": "the lights fading with soft chimes, a questioning bubble",
+   "music": "cross-fade to the piece's own closing section (recording 11:07.5): the tutti swells to the first final chord"
+  },
+  {
+   "t": [64.5, 70.5],
+   "name": "back to the surface",
+   "picture": "The submarine rises through twilight and sunlight and pops out of the sea at golden sunset; the snail waves, the boat sails home, a gull calls. Far below the slice keeps its tiny lights twinkling.",
+   "words": "WHAT ELSE IS DOWN THERE?",
+   "sound": "a gentle splash, gulls, calm waves, the duck's squeak",
+   "music": "the final cadence of the piece: two soft chords and the hush (recording 11:12 to 11:19.5)"
+  }
+ ],
+ "words_rules": "Set in code (Fable lettering, large, readable on a phone, 2.5 s minimum on screen); no em dash, en dash or three dots; never drawn by a model.",
+ "sound_rules": "Music is the voice of the film: foreground, not a bed (about -16 LUFS integrated). Every event the picture shows has a real recorded sound (CC0 studio bank). Nothing harsh, sudden or scary: soft attacks, no loud stingers, true peak under -1.5 dBTP.",
+ "music": {
+  "piece": "Mendelssohn, The Hebrides (Fingal's Cave), Overture, Op. 26",
+  "recording": "Musopen Symphony (Musopen)",
+  "licence": "Public domain (Wikimedia Commons licence record: Public domain; Musopen requires uploaders to warrant public domain content). The research notes list CC BY 3.0 on IMSLP for the performance; credited either way.",
+  "source": "https://commons.wikimedia.org/wiki/File:Mendelssohn_-_Hebrides_Overture,_Op._26_(Musopen_Symphony).flac",
+  "asset": "Eouchi147/rc-render release music: mendelssohn-hebrides-musopen.flac (+ .licence.json)",
+  "edit": "recording 0:00.5 to 0:26.0 (film 0 to 25.5), triangular cross-fade of 2.0 s (film 23.5 to 25.5) into 1:05.0 to 1:42.0 (film 23.5 to 60.5), triangular cross-fade of 2.0 s (film 58.5 to 60.5) into 11:07.5 to 11:20.0 (film 58.5 to 71.0), cut to 70.5 s with a gentle fade; loudnorm -16 LUFS, true peak -1.5 dBTP",
+  "credit": "Music: Felix Mendelssohn, The Hebrides (Fingal's Cave) Overture, performed by the Musopen Symphony (musopen.org), public domain."
+ }
+}

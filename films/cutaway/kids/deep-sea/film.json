@@ -1,0 +1,16 @@
+{
+ "id": "kids-deep-sea",
+ "series": "Little Big Questions",
+ "title": "What lives in the deep sea?",
+ "style": "cutaway",
+ "art": "fable",
+ "duration": 70.5,
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "note": "Little Big Questions, deep sea (6 to 8), a silent story: Fable Cutaway lifted slice, a tall column of ocean over its hole in a sunny sea, one fixed view, a 2 degree sway, no cuts. A little round submarine descends through the sunlight, twilight and midnight zones to a hot vent. Timing from beats.json through the one event table at the top of blender.py. Music: Mendelssohn, The Hebrides Overture (Musopen Symphony, public domain), edit in beats.json; soundtrack in audio/mix.m4a (audio/make_audio.py, SOUND.md).",
+ "audio": "audio/mix.m4a"
+}
