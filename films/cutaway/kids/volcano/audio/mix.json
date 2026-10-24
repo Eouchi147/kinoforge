@@ -1,0 +1,4529 @@
+{
+ "film": "kids-volcano",
+ "duration_s": 72.3,
+ "measurements": {
+  "lufs": -16.2,
+  "lra": 8.8,
+  "true_peak": -1.8,
+  "limiter_max_reduction_db": 4.32,
+  "limiter_max_reduction_at_s": 38.73,
+  "limiter_samples_over_1db": 97558,
+  "limiter_seconds_over_3db": 0.17,
+  "limiter_seconds_over_1db": 2.03,
+  "gain_db": 3.21,
+  "ceiling_dbfs": -2.2,
+  "wav_sample_peak_dbfs": -2.2,
+  "wav_lufs_bs1770": -16.12,
+  "seconds": 72.3,
+  "codec": "aac 256k stereo 48 kHz",
+  "target_lufs": -16.0,
+  "true_peak_limit_dbtp": -1.5
+ },
+ "music": {
+  "piece": "Grieg, Peer Gynt Suite No. 1, IV. In the Hall of the Mountain King",
+  "recording": "Musopen Symphony (Musopen)",
+  "licence": "Public domain (Wikimedia Commons record)",
+  "source": "https://commons.wikimedia.org/wiki/File:Grieg_-_Peer_Gynt_Suite_No._1,_Op._46_-_IV._In_the_Hall_of_the_Mountain_King_(Musopen_Symphony).flac",
+  "asset": "Eouchi147/rc-render release music: grieg-mountain-king-musopen.flac (+ .licence.json)",
+  "edit": "four cuts, each on a rest of the music, 72.3 s: recording 0:00 to 0:09.0 (the whisper); cross-fade 0.5 s into 1:17.2 to 1:52.0 (the accelerando up to the big entrance at 1:40.09 = the eruption at film 31.39, then the full orchestra); cross-fade 1.0 s into 2:14.1 to 2:31.9 (the eight orchestral hits at 2:15.15, 2:16.11, 2:19.08, 2:20.02, 2:22.95, 2:23.89, 2:24.84 and the piece's own final crash at 2:28.62 = eight more eruptions, the last the biggest); cross-fade 1.0 s into 0:17.8 to 0:31.0 (the quiet theme again for the calm); loudnorm -16 LUFS, true peak -1.5 dBTP",
+  "chosen": "Sam, 23 Oct 2026 (brief: the accelerando is the magma rising, the crash is the eruption, the calm on a quiet ending)",
+  "credit": "Music: Edvard Grieg, In the Hall of the Mountain King, performed by the Musopen Symphony (musopen.org), public domain.",
+  "segments": [
+   {
+    "src": [
+     0.0,
+     9.0
+    ],
+    "film": 0.0
+   },
+   {
+    "src": [
+     77.2,
+     112.0
+    ],
+    "film": 8.5,
+    "xf": 0.5
+   },
+   {
+    "src": [
+     134.1,
+     151.9
+    ],
+    "film": 42.3,
+    "xf": 1.0
+   },
+   {
+    "src": [
+     17.8,
+     31.0
+    ],
+    "film": 59.1,
+    "xf": 1.0
+   }
+  ],
+  "rider": {
+   "target_lufs": -21.0,
+   "ratio": 2.6,
+   "max_gain_db": 14.0,
+   "smoothing_s": 1.0,
+   "gain_db_range": [
+    -6.3,
+    14.0
+   ]
+  },
+  "music_only_lufs": -15.91
+ },
+ "events": {
+  "ball0": 0.4,
+  "ball1": 2.4,
+  "glow0": 4.9,
+  "label0": 5.25,
+  "label1": 8.15,
+  "rise0": 8.6,
+  "rise1": 20.5,
+  "gas0": 21.0,
+  "rumble0": 22.5,
+  "bottle0": 23.0,
+  "fly0": 27.0,
+  "gas1": 31.0,
+  "rumble1": 31.0,
+  "e0": 31.39,
+  "flows_0": 35.6,
+  "stack0": 43.0,
+  "e1": 43.35,
+  "e2": 44.31,
+  "e3": 47.28,
+  "e4": 48.22,
+  "e5": 51.15,
+  "e6": 52.09,
+  "e7": 53.04,
+  "e8": 56.82,
+  "stack1": 57.5,
+  "rest0": 58.8,
+  "soil0": 60.0,
+  "green1": 65.5,
+  "soil1": 66.0,
+  "ring0": 66.4,
+  "ring1": 66.9,
+  "ring2": 67.4,
+  "ring3": 67.9,
+  "wave0": 69.6
+ },
+ "recordings": {
+  "big_broth": {
+   "uses": [
+    "bed 5.2-31.4 s"
+   ],
+   "source": "https://bigsoundbank.com/s0491.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "birds_waking_3": {
+   "uses": [
+    "bed 59.4-72.3 s"
+   ],
+   "source": "https://bigsoundbank.com/s0999.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "body_fall_1": {
+   "uses": [
+    "a new layer settles (soft thud) at 43.37 s",
+    "a new layer settles (soft thud) at 44.33 s",
+    "a new layer settles (soft thud) at 47.30 s",
+    "a new layer settles (soft thud) at 48.24 s",
+    "a new layer settles (soft thud) at 51.17 s",
+    "a new layer settles (soft thud) at 52.11 s",
+    "a new layer settles (soft thud) at 53.06 s",
+    "a new layer settles (soft thud) at 56.84 s"
+   ],
+   "source": "https://bigsoundbank.com/s2452.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_2": {
+   "uses": [
+    "the beach ball stops with a little bounce at 2.40 s",
+    "the beach ball stops with a little bounce at 2.66 s"
+   ],
+   "source": "https://bigsoundbank.com/s2277.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_4": {
+   "uses": [
+    "the cap lands on the sandcastle at 32.54 s",
+    "the snail waves at 69.60 s"
+   ],
+   "source": "https://bigsoundbank.com/s2279.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_6": {
+   "uses": [
+    "the beach ball lands after its hop at 32.09 s",
+    "the beach ball lands after its hop at 44.05 s",
+    "the beach ball lands after its hop at 45.01 s",
+    "the beach ball lands after its hop at 47.98 s",
+    "the beach ball lands after its hop at 48.92 s",
+    "the beach ball lands after its hop at 51.85 s",
+    "the beach ball lands after its hop at 52.79 s",
+    "the beach ball lands after its hop at 53.74 s",
+    "the beach ball lands after its hop at 57.52 s"
+   ],
+   "source": "https://bigsoundbank.com/s2281.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "bubbles_burst": {
+   "uses": [
+    "a gas bubble pops in the magma at 21.43 s",
+    "a gas bubble pops in the magma at 21.74 s",
+    "a gas bubble pops in the magma at 22.11 s",
+    "a gas bubble pops in the magma at 22.45 s",
+    "a gas bubble pops in the magma at 22.87 s",
+    "a gas bubble pops in the magma at 23.10 s",
+    "a gas bubble pops in the magma at 23.42 s",
+    "a gas bubble pops in the magma at 23.64 s",
+    "a gas bubble pops in the magma at 24.05 s",
+    "a gas bubble pops in the magma at 24.33 s",
+    "a gas bubble pops in the magma at 24.53 s",
+    "a gas bubble pops in the magma at 24.75 s",
+    "a gas bubble pops in the magma at 25.11 s",
+    "a gas bubble pops in the magma at 25.23 s",
+    "a gas bubble pops in the magma at 25.53 s",
+    "a gas bubble pops in the magma at 25.82 s",
+    "a gas bubble pops in the magma at 26.08 s",
+    "a gas bubble pops in the magma at 26.09 s",
+    "a gas bubble pops in the magma at 26.33 s",
+    "a gas bubble pops in the magma at 26.64 s",
+    "a gas bubble pops in the magma at 26.72 s",
+    "a gas bubble pops in the magma at 27.15 s",
+    "a gas bubble pops in the magma at 27.29 s",
+    "a gas bubble pops in the magma at 27.38 s",
+    "a gas bubble pops in the magma at 27.63 s",
+    "a gas bubble pops in the magma at 27.86 s",
+    "a gas bubble pops in the magma at 28.03 s",
+    "a gas bubble pops in the magma at 28.37 s",
+    "a gas bubble pops in the magma at 28.45 s",
+    "a gas bubble pops in the magma at 28.68 s",
+    "a gas bubble pops in the magma at 28.85 s",
+    "a gas bubble pops in the magma at 29.09 s",
+    "a gas bubble pops in the magma at 29.17 s",
+    "a gas bubble pops in the magma at 29.48 s",
+    "a gas bubble pops in the magma at 29.62 s",
+    "a gas bubble pops in the magma at 29.74 s",
+    "a gas bubble pops in the magma at 30.04 s",
+    "a gas bubble pops in the magma at 30.09 s",
+    "a gas bubble pops in the magma at 30.29 s",
+    "a gas bubble pops in the magma at 30.50 s",
+    "a gas bubble pops in the magma at 30.74 s",
+    "a gas bubble pops in the magma at 30.91 s"
+   ],
+   "source": "https://bigsoundbank.com/s1074.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_butterfly_1": {
+   "uses": [
+    "a chime for each old island at 66.40 s"
+   ],
+   "source": "https://bigsoundbank.com/s2087.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_butterfly_3": {
+   "uses": [
+    "a chime for each old island at 66.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s2089.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_dream_1": {
+   "uses": [
+    "a chime for each old island at 67.40 s"
+   ],
+   "source": "https://bigsoundbank.com/s2079.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_dream_3": {
+   "uses": [
+    "a chime for our new island at 67.90 s",
+    "a last twinkle for the question at 70.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s2081.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "creak_barn_door": {
+   "uses": [
+    "the rock creaks open (a slowed door stands in) at 12.40 s"
+   ],
+   "source": "https://bigsoundbank.com/s0539.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "fire_branching_1": {
+   "uses": [
+    "bed 32.0-43.3 s"
+   ],
+   "source": "https://bigsoundbank.com/s0987.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "glockenspiel": {
+   "uses": [
+    "sparkles on the final crash at 56.86 s"
+   ],
+   "source": "https://bigsoundbank.com/s0920.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "gulls_harbor": {
+   "uses": [
+    "bed 0.0-5.8 s",
+    "bed 59.0-72.3 s",
+    "the gulls cheer from a safe distance at 32.29 s",
+    "the gulls cheer again at 58.02 s"
+   ],
+   "source": "https://bigsoundbank.com/s2573.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "ice_crack_1": {
+   "uses": [
+    "the cooling rock ticks at 34.09 s",
+    "the cooling rock ticks at 50.92 s",
+    "the first lava cools into new rock (ticks) at 37.40 s",
+    "the first lava cools into new rock (ticks) at 41.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s2205.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "ice_crack_2": {
+   "uses": [
+    "the cooling rock ticks at 46.05 s",
+    "the cooling rock ticks at 53.85 s",
+    "the first lava cools into new rock (ticks) at 39.00 s",
+    "the first lava cools into new rock (ticks) at 40.60 s"
+   ],
+   "source": "https://bigsoundbank.com/s2206.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "ice_crack_3": {
+   "uses": [
+    "the cooling rock ticks at 47.01 s",
+    "the cooling rock ticks at 54.79 s"
+   ],
+   "source": "https://bigsoundbank.com/s2207.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "ice_crack_4": {
+   "uses": [
+    "the cooling rock ticks at 49.98 s",
+    "the cooling rock ticks at 55.74 s"
+   ],
+   "source": "https://bigsoundbank.com/s2208.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "plant_cartoon_1": {
+   "uses": [
+    "a plant finds a home on the new rock at 59.30 s",
+    "a plant finds a home on the new rock at 62.20 s",
+    "a plant finds a home on the new rock at 64.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s1950.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "plant_cartoon_4": {
+   "uses": [
+    "the snail peeks out again at 33.59 s",
+    "a plant finds a home on the new rock at 60.80 s",
+    "a plant finds a home on the new rock at 63.60 s"
+   ],
+   "source": "https://bigsoundbank.com/s1953.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "robin_1": {
+   "uses": [
+    "a bird sings in the new green at 62.60 s"
+   ],
+   "source": "https://bigsoundbank.com/s1667.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "sea_tern": {
+   "uses": [
+    "a tern calls over the sea at 1.15 s"
+   ],
+   "source": "https://bigsoundbank.com/s0267.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "small_waves_ocean": {
+   "uses": [
+    "bed 0.0-72.3 s"
+   ],
+   "source": "https://bigsoundbank.com/s1046.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "sparkling_water": {
+   "uses": [
+    "bed 23.0-31.3 s",
+    "fizz and foam burst from the bottle at 31.41 s",
+    "a short fizz of the small fountain at 43.37 s",
+    "a short fizz of the small fountain at 44.33 s",
+    "a short fizz of the small fountain at 47.30 s",
+    "a short fizz of the small fountain at 48.24 s",
+    "a short fizz of the small fountain at 51.17 s",
+    "a short fizz of the small fountain at 52.11 s",
+    "a short fizz of the small fountain at 53.06 s",
+    "a short fizz of the small fountain at 56.84 s"
+   ],
+   "source": "https://bigsoundbank.com/s0230.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_big_3": {
+   "uses": [
+    "a big happy splash as the lava slides into the sea at 58.32 s"
+   ],
+   "source": "https://bigsoundbank.com/s1521.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_1": {
+   "uses": [
+    "a dolphin leaps from the sea at 2.43 s",
+    "the dolphin dives back in at 33.05 s",
+    "a dolphin leaps from the sea at 60.23 s"
+   ],
+   "source": "https://bigsoundbank.com/s1529.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_2": {
+   "uses": [
+    "a dolphin leaps from the sea at 12.63 s",
+    "the dolphin dives back in at 41.50 s",
+    "a dolphin leaps from the sea at 63.43 s"
+   ],
+   "source": "https://bigsoundbank.com/s1530.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_3": {
+   "uses": [
+    "a dolphin leaps from the sea at 24.63 s",
+    "the dolphin dives back in at 52.00 s",
+    "a dolphin leaps from the sea at 68.23 s"
+   ],
+   "source": "https://bigsoundbank.com/s1531.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_4": {
+   "uses": [
+    "the dolphin dives back in at 3.90 s",
+    "a dolphin leaps from the sea at 31.58 s",
+    "the dolphin dives back in at 61.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s1532.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_5": {
+   "uses": [
+    "the dolphin dives back in at 14.10 s",
+    "a dolphin leaps from the sea at 40.03 s",
+    "the dolphin dives back in at 64.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s1533.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_6": {
+   "uses": [
+    "the dolphin dives back in at 26.10 s",
+    "a dolphin leaps from the sea at 50.53 s",
+    "the dolphin dives back in at 69.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s1534.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steam_hiss_1": {
+   "uses": [
+    "a puff of steam at 31.89 s",
+    "lava hisses where it meets the sea at 45.25 s",
+    "lava hisses where it meets the sea at 46.21 s",
+    "lava hisses where it meets the sea at 49.18 s",
+    "lava hisses where it meets the sea at 50.12 s",
+    "lava hisses where it meets the sea at 53.05 s",
+    "lava hisses where it meets the sea at 53.99 s",
+    "lava hisses where it meets the sea at 54.94 s",
+    "lava hisses where it meets the sea at 58.72 s"
+   ],
+   "source": "https://bigsoundbank.com/s0227.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steam_hiss_3": {
+   "uses": [
+    "bed 33.8-38.0 s",
+    "a puff of steam at 43.85 s",
+    "a puff of steam at 44.81 s",
+    "a puff of steam at 47.78 s",
+    "a puff of steam at 48.72 s",
+    "a puff of steam at 51.65 s",
+    "a puff of steam at 52.59 s",
+    "a puff of steam at 53.54 s",
+    "a puff of steam at 57.32 s"
+   ],
+   "source": "https://bigsoundbank.com/s3011.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "strong_wind_village": {
+   "uses": [
+    "the beach ball rolls in on the sand (a soft swish of air stands in) at 0.40 s"
+   ],
+   "source": "https://bigsoundbank.com/s0625.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "suction_cup_plastic": {
+   "uses": [
+    "the snail pops into its shell at 31.04 s"
+   ],
+   "source": "https://bigsoundbank.com/s1261.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "swirl_water": {
+   "uses": [
+    "bed 23.0-31.4 s"
+   ],
+   "source": "https://bigsoundbank.com/s0192.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "thunder_2": {
+   "uses": [
+    "the biggest rumble on the final crash at 56.77 s"
+   ],
+   "source": "https://bigsoundbank.com/s3113.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "thunder_3": {
+   "uses": [
+    "the big happy rumble of the eruption at 31.34 s"
+   ],
+   "source": "https://bigsoundbank.com/s3114.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "thunder_8": {
+   "uses": [
+    "bed 4.9-32.6 s"
+   ],
+   "source": "https://bigsoundbank.com/s3181.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "tibetan_bowl_1": {
+   "uses": [
+    "the chamber begins to glow (a warm bowl) at 5.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s1109.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "toy_squeal_1": {
+   "uses": [
+    "a happy squeak from the snail at 69.95 s"
+   ],
+   "source": "https://bigsoundbank.com/s3331.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "toy_squeal_3": {
+   "uses": [
+    "a happy squeak (a toy squeal stands in for a dolphin) at 2.95 s",
+    "a happy squeak (a toy squeal stands in for a dolphin) at 32.10 s",
+    "a happy squeak (a toy squeal stands in for a dolphin) at 51.05 s",
+    "a happy squeak (a toy squeal stands in for a dolphin) at 60.75 s"
+   ],
+   "source": "https://bigsoundbank.com/s3333.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "triangle_2": {
+   "uses": [
+    "a ping on our own island at 67.95 s"
+   ],
+   "source": "https://bigsoundbank.com/s1688.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "water_bubble_2": {
+   "uses": [
+    "a blob of magma lifts off the chamber at 9.10 s",
+    "a blob of magma lifts off the chamber at 10.55 s",
+    "a blob of magma lifts off the chamber at 12.00 s",
+    "a blob of magma lifts off the chamber at 13.45 s",
+    "a blob of magma lifts off the chamber at 14.90 s",
+    "a blob of magma lifts off the chamber at 16.35 s",
+    "a blob of magma lifts off the chamber at 17.80 s",
+    "a blob of magma lifts off the chamber at 19.25 s",
+    "bed 21.0-31.3 s"
+   ],
+   "source": "https://bigsoundbank.com/s0183.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "water_over_soil": {
+   "uses": [
+    "the soil forms at 60.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s0563.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "whoosh_9": {
+   "uses": [
+    "the cap whooshes over to the sandcastle at 31.47 s",
+    "a little jet leaps from the top at 43.25 s",
+    "a little jet leaps from the top at 44.21 s",
+    "a little jet leaps from the top at 47.18 s",
+    "a little jet leaps from the top at 48.12 s",
+    "a little jet leaps from the top at 51.05 s",
+    "a little jet leaps from the top at 51.99 s",
+    "a little jet leaps from the top at 52.94 s",
+    "a little jet leaps from the top at 56.72 s"
+   ],
+   "source": "https://bigsoundbank.com/s1802.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "whoosh_long_1": {
+   "uses": [
+    "WHOOSH: lava leaps out of the top at 31.27 s"
+   ],
+   "source": "https://bigsoundbank.com/s0572.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_plain": {
+   "uses": [
+    "bed 58.8-72.3 s"
+   ],
+   "source": "https://bigsoundbank.com/s0595.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "winder_1": {
+   "uses": [
+    "the clock spins (a music-box winder) at 43.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s1674.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "winder_2": {
+   "uses": [
+    "the clock spins on (a music-box winder) at 52.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s1675.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wine_stopper_3": {
+   "uses": [
+    "the bottle pops its cap at 31.39 s",
+    "words pop in: how is a volcano born? at 0.35 s",
+    "words pop in: magma at 5.25 s",
+    "words pop in: lava at 31.74 s",
+    "words pop in: new rock at 35.35 s",
+    "words pop in: layer by layer at 42.65 s",
+    "words pop in: hawaii at 66.35 s",
+    "words pop in: is the ground under your feet really still? at 69.35 s"
+   ],
+   "source": "https://bigsoundbank.com/s1719.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  }
+ },
+ "placements": [
+  {
+   "t": 0.0,
+   "what": "the sea laps the beach",
+   "name": "small_waves_ocean",
+   "gain_db": 35.1,
+   "bed_to": 72.3
+  },
+  {
+   "t": 0.0,
+   "what": "gulls over the beach (the hook)",
+   "name": "gulls_harbor",
+   "gain_db": 48.7,
+   "bed_to": 5.8
+  },
+  {
+   "t": 59.0,
+   "what": "gulls over the calm",
+   "name": "gulls_harbor",
+   "gain_db": 48.1,
+   "bed_to": 72.3
+  },
+  {
+   "t": 59.4,
+   "what": "small birds find the green island",
+   "name": "birds_waking_3",
+   "gain_db": 24.2,
+   "bed_to": 72.3
+  },
+  {
+   "t": 58.8,
+   "what": "a soft breeze in the new leaves",
+   "name": "wind_plain",
+   "gain_db": 27.7,
+   "bed_to": 72.3
+  },
+  {
+   "t": 1.15,
+   "what": "a tern calls over the sea",
+   "name": "sea_tern",
+   "gain_db": -28.6,
+   "peak_db": -42.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.45,
+   "onset_ms": 19.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 0.4,
+   "what": "the beach ball rolls in on the sand (a soft swish of air stands in)",
+   "name": "strong_wind_village",
+   "gain_db": -24.7,
+   "peak_db": -53.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 2.4,
+   "what": "the beach ball stops with a little bounce",
+   "name": "boing_2",
+   "gain_db": -34.5,
+   "peak_db": -39.9,
+   "tuned_st": -1.27,
+   "notes": [
+    "F#"
+   ],
+   "pitch_out": "A +42 cents",
+   "pan": -0.46,
+   "onset_ms": 6.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.53,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 2.66,
+   "what": "the beach ball stops with a little bounce",
+   "name": "boing_2",
+   "gain_db": -40.6,
+   "peak_db": -46.0,
+   "tuned_st": -1.27,
+   "notes": [
+    "F#"
+   ],
+   "pitch_out": "A +42 cents",
+   "pan": -0.46,
+   "onset_ms": 6.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.53,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 2.43,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_1",
+   "gain_db": -39.9,
+   "peak_db": -41.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.8,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.03,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 3.9,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_4",
+   "gain_db": -42.4,
+   "peak_db": -43.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.8,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.24,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 2.95,
+   "what": "a happy squeak (a toy squeal stands in for a dolphin)",
+   "name": "toy_squeal_3",
+   "gain_db": -41.1,
+   "peak_db": -47.6,
+   "tuned_st": -1.46,
+   "notes": [
+    "F#"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": 0.8,
+   "onset_ms": 9.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.72,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 12.63,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_2",
+   "gain_db": -36.6,
+   "peak_db": -34.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.98,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 14.1,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_5",
+   "gain_db": -33.8,
+   "peak_db": -32.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.28,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 24.63,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_3",
+   "gain_db": -33.4,
+   "peak_db": -32.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.75,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.07,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 26.1,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_6",
+   "gain_db": -31.4,
+   "peak_db": -31.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.75,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.27,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 31.58,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_4",
+   "gain_db": -30.8,
+   "peak_db": -31.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.05,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 33.05,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_1",
+   "gain_db": -25.6,
+   "peak_db": -26.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.22,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 32.1,
+   "what": "a happy squeak (a toy squeal stands in for a dolphin)",
+   "name": "toy_squeal_3",
+   "gain_db": -29.6,
+   "peak_db": -36.0,
+   "tuned_st": -1.46,
+   "notes": [
+    "F#",
+    "B"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": 0.9,
+   "onset_ms": 9.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.72,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 40.03,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_5",
+   "gain_db": -29.8,
+   "peak_db": -28.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.08,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 41.5,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_2",
+   "gain_db": -28.3,
+   "peak_db": -26.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.17,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 50.53,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_6",
+   "gain_db": -29.9,
+   "peak_db": -30.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.82,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.07,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 52.0,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_3",
+   "gain_db": -26.9,
+   "peak_db": -26.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.82,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.26,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 51.05,
+   "what": "a happy squeak (a toy squeal stands in for a dolphin)",
+   "name": "toy_squeal_3",
+   "gain_db": -27.0,
+   "peak_db": -33.5,
+   "tuned_st": 3.54,
+   "notes": [
+    "B"
+   ],
+   "pitch_out": "B -1 cents",
+   "pan": 0.82,
+   "onset_ms": 9.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.54,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 60.23,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_1",
+   "gain_db": -37.0,
+   "peak_db": -38.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.85,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.03,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 61.7,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_4",
+   "gain_db": -33.4,
+   "peak_db": -33.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.85,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.24,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 60.75,
+   "what": "a happy squeak (a toy squeal stands in for a dolphin)",
+   "name": "toy_squeal_3",
+   "gain_db": -37.0,
+   "peak_db": -43.4,
+   "tuned_st": 1.54,
+   "notes": [
+    "A",
+    "D"
+   ],
+   "pitch_out": "A -1 cents",
+   "pan": 0.85,
+   "onset_ms": 9.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.61,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 63.43,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_2",
+   "gain_db": -36.4,
+   "peak_db": -34.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.98,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 64.9,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_5",
+   "gain_db": -37.7,
+   "peak_db": -36.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.28,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 68.23,
+   "what": "a dolphin leaps from the sea",
+   "name": "splash_small_3",
+   "gain_db": -34.6,
+   "peak_db": -33.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.07,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 69.7,
+   "what": "the dolphin dives back in",
+   "name": "splash_small_6",
+   "gain_db": -38.6,
+   "peak_db": -38.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.9,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.27,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 5.0,
+   "what": "the chamber begins to glow (a warm bowl)",
+   "name": "tibetan_bowl_1",
+   "gain_db": -23.1,
+   "peak_db": -41.5,
+   "tuned_st": 3.45,
+   "notes": [
+    "F#"
+   ],
+   "pitch_out": "C +21 cents",
+   "pan": 0.0,
+   "onset_ms": 108.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.29,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 4.9,
+   "what": "the deep rumble of the magma far below",
+   "name": "thunder_8",
+   "gain_db": 26.6,
+   "bed_to": 32.59
+  },
+  {
+   "t": 5.2,
+   "what": "thick magma bubbles slowly",
+   "name": "big_broth",
+   "gain_db": 33.4,
+   "bed_to": 31.39
+  },
+  {
+   "t": 9.1,
+   "what": "a blob of magma lifts off the chamber",
+   "name": "water_bubble_2",
+   "gain_db": -24.3,
+   "peak_db": -42.5,
+   "tuned_st": -0.47,
+   "notes": [
+    "F#",
+    "G#",
+    "F"
+   ],
+   "pitch_out": "F +0 cents",
+   "pan": -0.41,
+   "onset_ms": 3.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.57,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 10.55,
+   "what": "a blob of magma lifts off the chamber",
+   "name": "water_bubble_2",
+   "gain_db": -35.9,
+   "peak_db": -41.6,
+   "tuned_st": -2.24,
+   "notes": [
+    "F#",
+    "C#"
+   ],
+   "pitch_out": "F# +3 cents",
+   "pan": -0.38,
+   "onset_ms": 79.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 12.0,
+   "what": "a blob of magma lifts off the chamber",
+   "name": "water_bubble_2",
+   "gain_db": -9.8,
+   "peak_db": -40.8,
+   "tuned_st": -1.39,
+   "notes": [
+    "F#",
+    "C#"
+   ],
+   "pitch_out": "G# -43 cents",
+   "pan": -0.32,
+   "onset_ms": 50.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.54,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 13.45,
+   "what": "a blob of magma lifts off the chamber",
+   "name": "water_bubble_2",
+   "gain_db": -38.2,
+   "peak_db": -41.4,
+   "tuned_st": 1.79,
+   "notes": [
+    "F#",
+    "C#",
+    "A#"
+   ],
+   "pitch_out": "A# -1 cents",
+   "pan": -0.39,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 14.9,
+   "what": "a blob of magma lifts off the chamber",
+   "name": "water_bubble_2",
+   "gain_db": -18.8,
+   "peak_db": -41.1,
+   "tuned_st": 1.23,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "D# +13 cents",
+   "pan": -0.12,
+   "onset_ms": 21.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.47,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 16.35,
+   "what": "a blob of magma lifts off the chamber",
+   "name": "water_bubble_2",
+   "gain_db": -16.0,
+   "peak_db": -41.0,
+   "tuned_st": 3.24,
+   "notes": [
+    "F#"
+   ],
+   "pitch_out": "D# -36 cents",
+   "pan": -0.3,
+   "onset_ms": 6.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 17.8,
+   "what": "a blob of magma lifts off the chamber",
+   "name": "water_bubble_2",
+   "gain_db": -24.8,
+   "peak_db": -41.0,
+   "tuned_st": -2.53,
+   "notes": [
+    "F#",
+    "C#"
+   ],
+   "pitch_out": "F# +1 cents",
+   "pan": -0.27,
+   "onset_ms": 9.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.64,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 19.25,
+   "what": "a blob of magma lifts off the chamber",
+   "name": "water_bubble_2",
+   "gain_db": -37.4,
+   "peak_db": -39.2,
+   "tuned_st": -2.24,
+   "notes": [
+    "C#",
+    "F#"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": -0.24,
+   "onset_ms": 10.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.63,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 12.4,
+   "what": "the rock creaks open (a slowed door stands in)",
+   "name": "creak_barn_door",
+   "gain_db": -29.7,
+   "peak_db": -50.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.8,
+   "peak_above_music_rms_db": -24.0
+  },
+  {
+   "t": 21.426,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -25.6,
+   "peak_db": -40.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.1,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -16.9
+  },
+  {
+   "t": 21.742,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -26.4,
+   "peak_db": -39.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.22,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -16.7
+  },
+  {
+   "t": 22.113,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -27.2,
+   "peak_db": -40.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.06,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -16.5
+  },
+  {
+   "t": 22.445,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -19.7,
+   "peak_db": -40.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.12,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -16.3
+  },
+  {
+   "t": 22.87,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -25.3,
+   "peak_db": -41.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.18,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -16.1
+  },
+  {
+   "t": 23.102,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -31.0,
+   "peak_db": -41.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.15,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -15.9
+  },
+  {
+   "t": 23.424,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -26.7,
+   "peak_db": -40.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.16,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -15.8
+  },
+  {
+   "t": 23.642,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -28.0,
+   "peak_db": -39.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.43,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -15.6
+  },
+  {
+   "t": 24.052,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -20.2,
+   "peak_db": -38.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -15.3
+  },
+  {
+   "t": 24.327,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -30.3,
+   "peak_db": -39.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.43,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -15.2
+  },
+  {
+   "t": 24.533,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -25.7,
+   "peak_db": -38.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.07,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 24.75,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -27.5,
+   "peak_db": -39.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -14.8
+  },
+  {
+   "t": 25.108,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -29.7,
+   "peak_db": -37.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -14.7
+  },
+  {
+   "t": 25.23,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -23.3,
+   "peak_db": -38.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.08,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -14.5
+  },
+  {
+   "t": 25.529,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -24.9,
+   "peak_db": -39.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.4,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -14.3
+  },
+  {
+   "t": 25.819,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -17.7,
+   "peak_db": -38.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.16,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 26.08,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -17.1,
+   "peak_db": -38.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.12,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -13.8
+  },
+  {
+   "t": 26.094,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -18.4,
+   "peak_db": -37.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.13,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -13.7
+  },
+  {
+   "t": 26.329,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -28.8,
+   "peak_db": -37.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.07,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 26.638,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -28.6,
+   "peak_db": -37.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.21,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -13.3
+  },
+  {
+   "t": 26.723,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -17.5,
+   "peak_db": -37.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.3,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -13.1
+  },
+  {
+   "t": 27.147,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -18.9,
+   "peak_db": -36.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.17,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -12.9
+  },
+  {
+   "t": 27.294,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -19.6,
+   "peak_db": -35.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.1,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -12.7
+  },
+  {
+   "t": 27.377,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -22.3,
+   "peak_db": -35.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.32,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -12.6
+  },
+  {
+   "t": 27.631,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -23.1,
+   "peak_db": -35.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.09,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -12.3
+  },
+  {
+   "t": 27.857,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -25.0,
+   "peak_db": -34.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.01,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -12.1
+  },
+  {
+   "t": 28.03,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -19.2,
+   "peak_db": -34.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.14,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.9
+  },
+  {
+   "t": 28.374,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -20.9,
+   "peak_db": -34.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.06,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.7
+  },
+  {
+   "t": 28.451,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -20.8,
+   "peak_db": -34.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.22,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.6
+  },
+  {
+   "t": 28.682,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -14.2,
+   "peak_db": -34.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.13,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.4
+  },
+  {
+   "t": 28.852,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -19.9,
+   "peak_db": -34.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.2
+  },
+  {
+   "t": 29.088,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -23.3,
+   "peak_db": -34.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.05,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 29.173,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -13.5,
+   "peak_db": -34.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.05,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -10.8
+  },
+  {
+   "t": 29.478,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -18.9,
+   "peak_db": -34.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.2,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -10.6
+  },
+  {
+   "t": 29.624,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -24.5,
+   "peak_db": -33.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.02,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -10.5
+  },
+  {
+   "t": 29.744,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -13.1,
+   "peak_db": -33.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.21,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -10.2
+  },
+  {
+   "t": 30.036,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -12.7,
+   "peak_db": -32.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.17,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 30.091,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -12.5,
+   "peak_db": -32.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -9.9
+  },
+  {
+   "t": 30.287,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -20.7,
+   "peak_db": -33.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.07,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -9.7
+  },
+  {
+   "t": 30.497,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -17.0,
+   "peak_db": -33.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.19,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -9.5
+  },
+  {
+   "t": 30.743,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -20.3,
+   "peak_db": -34.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.13,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -9.3
+  },
+  {
+   "t": 30.909,
+   "what": "a gas bubble pops in the magma",
+   "name": "bubbles_burst",
+   "gain_db": -15.3,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.1,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -9.1
+  },
+  {
+   "t": 21.0,
+   "what": "the gas fizzes in the crack",
+   "name": "water_bubble_2",
+   "gain_db": 22.6,
+   "bed_to": 31.29
+  },
+  {
+   "t": 23.0,
+   "what": "the shaken bottle fizzes",
+   "name": "sparkling_water",
+   "gain_db": 39.4,
+   "bed_to": 31.34
+  },
+  {
+   "t": 23.0,
+   "what": "the drink sloshes as it is shaken",
+   "name": "swirl_water",
+   "gain_db": 36.4,
+   "bed_to": 31.39
+  },
+  {
+   "t": 31.39,
+   "what": "the bottle pops its cap",
+   "name": "wine_stopper_3",
+   "gain_db": -19.2,
+   "peak_db": -22.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.84,
+   "peak_above_music_rms_db": 1.0
+  },
+  {
+   "t": 31.27,
+   "what": "WHOOSH: lava leaps out of the top",
+   "name": "whoosh_long_1",
+   "gain_db": -21.5,
+   "peak_db": -26.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 3.4,
+   "peak_above_music_rms_db": -2.0
+  },
+  {
+   "t": 31.47,
+   "what": "the cap whooshes over to the sandcastle",
+   "name": "whoosh_9",
+   "gain_db": -14.4,
+   "peak_db": -31.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 4.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 32.54,
+   "what": "the cap lands on the sandcastle",
+   "name": "boing_4",
+   "gain_db": -28.3,
+   "peak_db": -30.7,
+   "tuned_st": 0.24,
+   "notes": [
+    "B"
+   ],
+   "pitch_out": "B -1 cents",
+   "pan": 0.11,
+   "onset_ms": 6.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.53,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 31.34,
+   "what": "the big happy rumble of the eruption",
+   "name": "thunder_3",
+   "gain_db": -18.0,
+   "peak_db": -25.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 50.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 5.5,
+   "peak_above_music_rms_db": -2.0
+  },
+  {
+   "t": 31.41,
+   "what": "fizz and foam burst from the bottle",
+   "name": "sparkling_water",
+   "gain_db": -15.3,
+   "peak_db": -27.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 14.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.6,
+   "peak_above_music_rms_db": -4.0
+  },
+  {
+   "t": 31.89,
+   "what": "a puff of steam",
+   "name": "steam_hiss_1",
+   "gain_db": -20.3,
+   "peak_db": -30.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 3.6,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 32.29,
+   "what": "the gulls cheer from a safe distance",
+   "name": "gulls_harbor",
+   "gain_db": -28.3,
+   "peak_db": -31.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 3.0,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 31.04,
+   "what": "the snail pops into its shell",
+   "name": "suction_cup_plastic",
+   "gain_db": -36.8,
+   "peak_db": -41.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.44,
+   "onset_ms": 4.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 33.59,
+   "what": "the snail peeks out again",
+   "name": "plant_cartoon_4",
+   "gain_db": -30.4,
+   "peak_db": -37.3,
+   "tuned_st": 1.09,
+   "notes": [
+    "B",
+    "F#"
+   ],
+   "pitch_out": "F# +0 cents",
+   "pan": 0.44,
+   "onset_ms": 4.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.64,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 31.99,
+   "what": "the lava crackles as it flows",
+   "name": "fire_branching_1",
+   "gain_db": 49.7,
+   "bed_to": 43.3
+  },
+  {
+   "t": 33.79,
+   "what": "steam where the lava meets the sea",
+   "name": "steam_hiss_3",
+   "gain_db": 25.4,
+   "bed_to": 38.0
+  },
+  {
+   "t": 32.09,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -26.5,
+   "peak_db": -30.1,
+   "tuned_st": -1.23,
+   "notes": [
+    "F#",
+    "B"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": -0.46,
+   "onset_ms": 6.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.49,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 34.09,
+   "what": "the cooling rock ticks",
+   "name": "ice_crack_1",
+   "gain_db": -30.9,
+   "peak_db": -35.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.2,
+   "onset_ms": 130.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.24,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 43.25,
+   "what": "a little jet leaps from the top",
+   "name": "whoosh_9",
+   "gain_db": -14.5,
+   "peak_db": -29.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 4.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 43.37,
+   "what": "a new layer settles (soft thud)",
+   "name": "body_fall_1",
+   "gain_db": -19.7,
+   "peak_db": -24.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.04,
+   "peak_above_music_rms_db": -6.0
+  },
+  {
+   "t": 43.37,
+   "what": "a short fizz of the small fountain",
+   "name": "sparkling_water",
+   "gain_db": -14.0,
+   "peak_db": -28.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 13.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.7,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 43.85,
+   "what": "a puff of steam",
+   "name": "steam_hiss_3",
+   "gain_db": -22.8,
+   "peak_db": -34.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 45.25,
+   "what": "lava hisses where it meets the sea",
+   "name": "steam_hiss_1",
+   "gain_db": -34.1,
+   "peak_db": -44.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 44.05,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -23.7,
+   "peak_db": -27.3,
+   "tuned_st": -1.23,
+   "notes": [
+    "B",
+    "F#"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": -0.46,
+   "onset_ms": 6.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.49,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 46.05,
+   "what": "the cooling rock ticks",
+   "name": "ice_crack_2",
+   "gain_db": -35.8,
+   "peak_db": -40.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 11.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.84,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 44.21,
+   "what": "a little jet leaps from the top",
+   "name": "whoosh_9",
+   "gain_db": -12.7,
+   "peak_db": -27.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 4.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 44.33,
+   "what": "a new layer settles (soft thud)",
+   "name": "body_fall_1",
+   "gain_db": -17.8,
+   "peak_db": -22.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.04,
+   "peak_above_music_rms_db": -6.0
+  },
+  {
+   "t": 44.33,
+   "what": "a short fizz of the small fountain",
+   "name": "sparkling_water",
+   "gain_db": -12.0,
+   "peak_db": -26.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 8.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.7,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 44.81,
+   "what": "a puff of steam",
+   "name": "steam_hiss_3",
+   "gain_db": -21.4,
+   "peak_db": -33.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 46.21,
+   "what": "lava hisses where it meets the sea",
+   "name": "steam_hiss_1",
+   "gain_db": -28.7,
+   "peak_db": -38.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 45.01,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -28.6,
+   "peak_db": -32.2,
+   "tuned_st": -1.23,
+   "notes": [
+    "C#",
+    "F#",
+    "D"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": -0.46,
+   "onset_ms": 6.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.49,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 47.01,
+   "what": "the cooling rock ticks",
+   "name": "ice_crack_3",
+   "gain_db": -29.9,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.1,
+   "onset_ms": 5.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.58,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 47.18,
+   "what": "a little jet leaps from the top",
+   "name": "whoosh_9",
+   "gain_db": -12.8,
+   "peak_db": -27.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 4.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -9.9
+  },
+  {
+   "t": 47.3,
+   "what": "a new layer settles (soft thud)",
+   "name": "body_fall_1",
+   "gain_db": -18.4,
+   "peak_db": -22.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.04,
+   "peak_above_music_rms_db": -5.7
+  },
+  {
+   "t": 47.3,
+   "what": "a short fizz of the small fountain",
+   "name": "sparkling_water",
+   "gain_db": -12.7,
+   "peak_db": -27.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 12.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.7,
+   "peak_above_music_rms_db": -9.8
+  },
+  {
+   "t": 47.78,
+   "what": "a puff of steam",
+   "name": "steam_hiss_3",
+   "gain_db": -22.4,
+   "peak_db": -34.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 49.18,
+   "what": "lava hisses where it meets the sea",
+   "name": "steam_hiss_1",
+   "gain_db": -29.9,
+   "peak_db": -40.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 47.98,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -24.2,
+   "peak_db": -27.8,
+   "tuned_st": -1.23,
+   "notes": [
+    "F#",
+    "B"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": -0.46,
+   "onset_ms": 6.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.49,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 49.98,
+   "what": "the cooling rock ticks",
+   "name": "ice_crack_4",
+   "gain_db": -32.4,
+   "peak_db": -37.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.05,
+   "onset_ms": 12.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.67,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 48.12,
+   "what": "a little jet leaps from the top",
+   "name": "whoosh_9",
+   "gain_db": -13.3,
+   "peak_db": -27.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 4.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -9.8
+  },
+  {
+   "t": 48.24,
+   "what": "a new layer settles (soft thud)",
+   "name": "body_fall_1",
+   "gain_db": -18.3,
+   "peak_db": -22.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.04,
+   "peak_above_music_rms_db": -5.8
+  },
+  {
+   "t": 48.24,
+   "what": "a short fizz of the small fountain",
+   "name": "sparkling_water",
+   "gain_db": -6.9,
+   "peak_db": -27.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 7.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.7,
+   "peak_above_music_rms_db": -9.9
+  },
+  {
+   "t": 48.72,
+   "what": "a puff of steam",
+   "name": "steam_hiss_3",
+   "gain_db": -22.6,
+   "peak_db": -34.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 50.12,
+   "what": "lava hisses where it meets the sea",
+   "name": "steam_hiss_1",
+   "gain_db": -26.9,
+   "peak_db": -37.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 48.92,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -29.3,
+   "peak_db": -32.9,
+   "tuned_st": 0.77,
+   "notes": [
+    "F#",
+    "C#",
+    "G#"
+   ],
+   "pitch_out": "G# +0 cents",
+   "pan": -0.46,
+   "onset_ms": 6.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.44,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 50.92,
+   "what": "the cooling rock ticks",
+   "name": "ice_crack_1",
+   "gain_db": -29.7,
+   "peak_db": -35.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 130.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.24,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 51.05,
+   "what": "a little jet leaps from the top",
+   "name": "whoosh_9",
+   "gain_db": -13.7,
+   "peak_db": -28.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 4.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -9.7
+  },
+  {
+   "t": 51.17,
+   "what": "a new layer settles (soft thud)",
+   "name": "body_fall_1",
+   "gain_db": -19.2,
+   "peak_db": -23.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.04,
+   "peak_above_music_rms_db": -5.5
+  },
+  {
+   "t": 51.17,
+   "what": "a short fizz of the small fountain",
+   "name": "sparkling_water",
+   "gain_db": -7.8,
+   "peak_db": -28.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 7.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.7,
+   "peak_above_music_rms_db": -9.7
+  },
+  {
+   "t": 51.65,
+   "what": "a puff of steam",
+   "name": "steam_hiss_3",
+   "gain_db": -23.1,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 53.05,
+   "what": "lava hisses where it meets the sea",
+   "name": "steam_hiss_1",
+   "gain_db": -23.5,
+   "peak_db": -33.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 51.85,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -25.8,
+   "peak_db": -29.4,
+   "tuned_st": 3.77,
+   "notes": [
+    "B"
+   ],
+   "pitch_out": "B -1 cents",
+   "pan": -0.46,
+   "onset_ms": 5.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.37,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 53.85,
+   "what": "the cooling rock ticks",
+   "name": "ice_crack_2",
+   "gain_db": -32.9,
+   "peak_db": -38.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.05,
+   "onset_ms": 11.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.84,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 51.99,
+   "what": "a little jet leaps from the top",
+   "name": "whoosh_9",
+   "gain_db": -14.4,
+   "peak_db": -28.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 4.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -9.7
+  },
+  {
+   "t": 52.11,
+   "what": "a new layer settles (soft thud)",
+   "name": "body_fall_1",
+   "gain_db": -19.3,
+   "peak_db": -23.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.04,
+   "peak_above_music_rms_db": -5.5
+  },
+  {
+   "t": 52.11,
+   "what": "a short fizz of the small fountain",
+   "name": "sparkling_water",
+   "gain_db": -8.0,
+   "peak_db": -28.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 7.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.7,
+   "peak_above_music_rms_db": -9.7
+  },
+  {
+   "t": 52.59,
+   "what": "a puff of steam",
+   "name": "steam_hiss_3",
+   "gain_db": -22.1,
+   "peak_db": -33.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 53.99,
+   "what": "lava hisses where it meets the sea",
+   "name": "steam_hiss_1",
+   "gain_db": -25.4,
+   "peak_db": -35.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 52.79,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -24.3,
+   "peak_db": -28.0,
+   "tuned_st": 3.77,
+   "notes": [
+    "B"
+   ],
+   "pitch_out": "B -1 cents",
+   "pan": -0.46,
+   "onset_ms": 5.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.37,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 54.79,
+   "what": "the cooling rock ticks",
+   "name": "ice_crack_3",
+   "gain_db": -28.5,
+   "peak_db": -33.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.1,
+   "onset_ms": 5.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.58,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 52.94,
+   "what": "a little jet leaps from the top",
+   "name": "whoosh_9",
+   "gain_db": -13.8,
+   "peak_db": -28.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 4.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -9.6
+  },
+  {
+   "t": 53.06,
+   "what": "a new layer settles (soft thud)",
+   "name": "body_fall_1",
+   "gain_db": -19.2,
+   "peak_db": -23.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.04,
+   "peak_above_music_rms_db": -5.2
+  },
+  {
+   "t": 53.06,
+   "what": "a short fizz of the small fountain",
+   "name": "sparkling_water",
+   "gain_db": -8.0,
+   "peak_db": -28.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 9.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.7,
+   "peak_above_music_rms_db": -9.5
+  },
+  {
+   "t": 53.54,
+   "what": "a puff of steam",
+   "name": "steam_hiss_3",
+   "gain_db": -24.6,
+   "peak_db": -36.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 54.94,
+   "what": "lava hisses where it meets the sea",
+   "name": "steam_hiss_1",
+   "gain_db": -23.8,
+   "peak_db": -33.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 53.74,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -28.2,
+   "peak_db": -31.8,
+   "tuned_st": -2.23,
+   "notes": [
+    "F",
+    "D",
+    "B"
+   ],
+   "pitch_out": "F -1 cents",
+   "pan": -0.46,
+   "onset_ms": 7.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.52,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 55.74,
+   "what": "the cooling rock ticks",
+   "name": "ice_crack_4",
+   "gain_db": -46.1,
+   "peak_db": -51.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.15,
+   "onset_ms": 12.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.67,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 56.72,
+   "what": "a little jet leaps from the top",
+   "name": "whoosh_9",
+   "gain_db": -8.5,
+   "peak_db": -23.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 4.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.26,
+   "peak_above_music_rms_db": -7.8
+  },
+  {
+   "t": 56.84,
+   "what": "a new layer settles (soft thud)",
+   "name": "body_fall_1",
+   "gain_db": -12.2,
+   "peak_db": -16.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.04,
+   "peak_above_music_rms_db": -2.3
+  },
+  {
+   "t": 56.84,
+   "what": "a short fizz of the small fountain",
+   "name": "sparkling_water",
+   "gain_db": -2.1,
+   "peak_db": -22.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 7.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.7,
+   "peak_above_music_rms_db": -7.8
+  },
+  {
+   "t": 57.32,
+   "what": "a puff of steam",
+   "name": "steam_hiss_3",
+   "gain_db": -15.8,
+   "peak_db": -27.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 58.72,
+   "what": "lava hisses where it meets the sea",
+   "name": "steam_hiss_1",
+   "gain_db": -30.3,
+   "peak_db": -40.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 57.52,
+   "what": "the beach ball lands after its hop",
+   "name": "boing_6",
+   "gain_db": -18.9,
+   "peak_db": -22.5,
+   "tuned_st": 3.77,
+   "notes": [
+    "B"
+   ],
+   "pitch_out": "B -1 cents",
+   "pan": -0.46,
+   "onset_ms": 5.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.37,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 37.4,
+   "what": "the first lava cools into new rock (ticks)",
+   "name": "ice_crack_1",
+   "gain_db": -33.5,
+   "peak_db": -37.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.25,
+   "onset_ms": 135.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.29,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 39.0,
+   "what": "the first lava cools into new rock (ticks)",
+   "name": "ice_crack_2",
+   "gain_db": -33.2,
+   "peak_db": -37.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.25,
+   "onset_ms": 11.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.87,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 40.6,
+   "what": "the first lava cools into new rock (ticks)",
+   "name": "ice_crack_2",
+   "gain_db": -33.0,
+   "peak_db": -36.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.25,
+   "onset_ms": 11.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.87,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 41.5,
+   "what": "the first lava cools into new rock (ticks)",
+   "name": "ice_crack_1",
+   "gain_db": -32.0,
+   "peak_db": -36.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.25,
+   "onset_ms": 135.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.29,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 56.77,
+   "what": "the biggest rumble on the final crash",
+   "name": "thunder_2",
+   "gain_db": -9.0,
+   "peak_db": -15.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 50.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 5.0,
+   "peak_above_music_rms_db": -1.0
+  },
+  {
+   "t": 58.32,
+   "what": "a big happy splash as the lava slides into the sea",
+   "name": "splash_big_3",
+   "gain_db": -22.0,
+   "peak_db": -24.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.25,
+   "onset_ms": 30.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.27,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 56.86,
+   "what": "sparkles on the final crash",
+   "name": "glockenspiel",
+   "gain_db": -16.8,
+   "peak_db": -23.4,
+   "tuned_st": 0.0,
+   "notes": [
+    "B"
+   ],
+   "pitch_out": "F -3 cents",
+   "pan": 0.0,
+   "onset_ms": 10.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.7,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 58.02,
+   "what": "the gulls cheer again",
+   "name": "gulls_harbor",
+   "gain_db": -22.9,
+   "peak_db": -28.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 3.05,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 43.0,
+   "what": "the clock spins (a music-box winder)",
+   "name": "winder_1",
+   "gain_db": -26.6,
+   "peak_db": -37.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 9.9,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 52.9,
+   "what": "the clock spins on (a music-box winder)",
+   "name": "winder_2",
+   "gain_db": -24.5,
+   "peak_db": -34.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 4.8,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 59.3,
+   "what": "a plant finds a home on the new rock",
+   "name": "plant_cartoon_1",
+   "gain_db": -40.6,
+   "peak_db": -48.3,
+   "tuned_st": -1.84,
+   "notes": [
+    "B",
+    "D"
+   ],
+   "pitch_out": "D# -49 cents",
+   "pan": -0.3,
+   "onset_ms": 5.7,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 60.8,
+   "what": "a plant finds a home on the new rock",
+   "name": "plant_cartoon_4",
+   "gain_db": -34.1,
+   "peak_db": -41.4,
+   "tuned_st": -2.91,
+   "notes": [
+    "A",
+    "D"
+   ],
+   "pitch_out": "D +0 cents",
+   "pan": -0.15,
+   "onset_ms": 5.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.92,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 62.2,
+   "what": "a plant finds a home on the new rock",
+   "name": "plant_cartoon_1",
+   "gain_db": -29.5,
+   "peak_db": -38.8,
+   "tuned_st": 5.16,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "A -37 cents",
+   "pan": 0.0,
+   "onset_ms": 3.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 63.6,
+   "what": "a plant finds a home on the new rock",
+   "name": "plant_cartoon_4",
+   "gain_db": -29.9,
+   "peak_db": -37.7,
+   "tuned_st": 3.09,
+   "notes": [
+    "G#",
+    "A#"
+   ],
+   "pitch_out": "G# -1 cents",
+   "pan": 0.15,
+   "onset_ms": 16.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.65,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 64.9,
+   "what": "a plant finds a home on the new rock",
+   "name": "plant_cartoon_1",
+   "gain_db": -34.8,
+   "peak_db": -42.5,
+   "tuned_st": -1.84,
+   "notes": [
+    "D",
+    "C#"
+   ],
+   "pitch_out": "D# -49 cents",
+   "pan": 0.3,
+   "onset_ms": 5.7,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 60.0,
+   "what": "the soil forms",
+   "name": "water_over_soil",
+   "gain_db": -28.1,
+   "peak_db": -52.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.1,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 3.0,
+   "peak_above_music_rms_db": -23.0
+  },
+  {
+   "t": 62.6,
+   "what": "a bird sings in the new green",
+   "name": "robin_1",
+   "gain_db": -40.4,
+   "peak_db": -45.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.4,
+   "onset_ms": 34.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -17.9
+  },
+  {
+   "t": 66.4,
+   "what": "a chime for each old island",
+   "name": "chimes_butterfly_1",
+   "gain_db": -18.7,
+   "peak_db": -37.8,
+   "tuned_st": 4.63,
+   "notes": [
+    "C#"
+   ],
+   "pitch_out": "C# +19 cents",
+   "pan": -0.88,
+   "onset_ms": 3.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.53,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 66.9,
+   "what": "a chime for each old island",
+   "name": "chimes_butterfly_3",
+   "gain_db": -27.1,
+   "peak_db": -36.9,
+   "tuned_st": 0.61,
+   "notes": [
+    "C#",
+    "A#",
+    "G#"
+   ],
+   "pitch_out": "A# +1 cents",
+   "pan": 0.2,
+   "onset_ms": 4.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 67.4,
+   "what": "a chime for each old island",
+   "name": "chimes_dream_1",
+   "gain_db": -27.9,
+   "peak_db": -40.0,
+   "tuned_st": -0.34,
+   "notes": [
+    "G#",
+    "C#",
+    "F#"
+   ],
+   "pitch_out": "G# +3 cents",
+   "pan": 0.9,
+   "onset_ms": 11.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.13,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 67.9,
+   "what": "a chime for our new island",
+   "name": "chimes_dream_3",
+   "gain_db": -12.7,
+   "peak_db": -35.2,
+   "tuned_st": -0.36,
+   "notes": [
+    "G#",
+    "A#"
+   ],
+   "pitch_out": "G +11 cents",
+   "pan": -0.16,
+   "onset_ms": 4.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.07,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 67.95,
+   "what": "a ping on our own island",
+   "name": "triangle_2",
+   "gain_db": -35.2,
+   "peak_db": -40.6,
+   "tuned_st": 3.92,
+   "notes": [
+    "G#",
+    "A#"
+   ],
+   "pitch_out": "G# +0 cents",
+   "pan": -0.26,
+   "onset_ms": 3.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.37,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 69.6,
+   "what": "the snail waves",
+   "name": "boing_4",
+   "gain_db": -40.9,
+   "peak_db": -41.9,
+   "tuned_st": 3.24,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "D +0 cents",
+   "pan": 0.44,
+   "onset_ms": 9.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.45,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 69.95,
+   "what": "a happy squeak from the snail",
+   "name": "toy_squeal_1",
+   "gain_db": -43.4,
+   "peak_db": -44.6,
+   "tuned_st": -1.75,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "D +1 cents",
+   "pan": 0.44,
+   "onset_ms": 7.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.51,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 70.5,
+   "what": "a last twinkle for the question",
+   "name": "chimes_dream_3",
+   "gain_db": -16.3,
+   "peak_db": -38.9,
+   "tuned_st": 4.64,
+   "notes": [
+    "C#",
+    "D"
+   ],
+   "pitch_out": "C +11 cents",
+   "pan": 0.1,
+   "onset_ms": 14.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.81,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 0.35,
+   "what": "words pop in: how is a volcano born?",
+   "name": "wine_stopper_3",
+   "gain_db": -49.6,
+   "peak_db": -54.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.57,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 5.25,
+   "what": "words pop in: magma",
+   "name": "wine_stopper_3",
+   "gain_db": -36.6,
+   "peak_db": -41.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.57,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 31.74,
+   "what": "words pop in: lava",
+   "name": "wine_stopper_3",
+   "gain_db": -33.0,
+   "peak_db": -37.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.57,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 35.35,
+   "what": "words pop in: new rock",
+   "name": "wine_stopper_3",
+   "gain_db": -30.6,
+   "peak_db": -35.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.57,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 42.65,
+   "what": "words pop in: layer by layer",
+   "name": "wine_stopper_3",
+   "gain_db": -34.3,
+   "peak_db": -39.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.57,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 66.35,
+   "what": "words pop in: hawaii",
+   "name": "wine_stopper_3",
+   "gain_db": -39.8,
+   "peak_db": -44.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.57,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 69.35,
+   "what": "words pop in: is the ground under your feet really still?",
+   "name": "wine_stopper_3",
+   "gain_db": -40.2,
+   "peak_db": -44.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.57,
+   "peak_above_music_rms_db": -16.0
+  }
+ ],
+ "landing_check": {
+  "by_construction": {
+   "spots": 152,
+   "latest_onset_ms": 135.4,
+   "over_60ms": [
+    {
+     "t": 5.0,
+     "what": "the chamber begins to glow (a warm bowl)",
+     "onset_ms": 108.4
+    },
+    {
+     "t": 10.55,
+     "what": "a blob of magma lifts off the chamber",
+     "onset_ms": 79.8
+    },
+    {
+     "t": 34.09,
+     "what": "the cooling rock ticks",
+     "onset_ms": 130.5
+    },
+    {
+     "t": 50.92,
+     "what": "the cooling rock ticks",
+     "onset_ms": 130.5
+    },
+    {
+     "t": 37.4,
+     "what": "the first lava cools into new rock (ticks)",
+     "onset_ms": 135.4
+    },
+    {
+     "t": 41.5,
+     "what": "the first lava cools into new rock (ticks)",
+     "onset_ms": 135.4
+    }
+   ]
+  },
+  "on_the_rendered_effects_bus": {
+   "checked": 152,
+   "landed": 99,
+   "not_clear": [
+    {
+     "t": 3.9,
+     "what": "the dolphin dives back in",
+     "peak_offset_ms": 57.2,
+     "rise_db": 1.7
+    },
+    {
+     "t": 2.95,
+     "what": "a happy squeak (a toy squeal stands in for a dolphin)",
+     "peak_offset_ms": 149.7,
+     "rise_db": 1.6
+    },
+    {
+     "t": 14.1,
+     "what": "the dolphin dives back in",
+     "peak_offset_ms": 54.8,
+     "rise_db": 1.0
+    },
+    {
+     "t": 31.58,
+     "what": "a dolphin leaps from the sea",
+     "peak_offset_ms": -1.0,
+     "rise_db": 1.6
+    },
+    {
+     "t": 40.03,
+     "what": "a dolphin leaps from the sea",
+     "peak_offset_ms": 9.6,
+     "rise_db": 2.7
+    },
+    {
+     "t": 60.75,
+     "what": "a happy squeak (a toy squeal stands in for a dolphin)",
+     "peak_offset_ms": 149.1,
+     "rise_db": 2.9
+    },
+    {
+     "t": 63.43,
+     "what": "a dolphin leaps from the sea",
+     "peak_offset_ms": 34.7,
+     "rise_db": 1.6
+    },
+    {
+     "t": 68.23,
+     "what": "a dolphin leaps from the sea",
+     "peak_offset_ms": 98.6,
+     "rise_db": 1.5
+    },
+    {
+     "t": 5.0,
+     "what": "the chamber begins to glow (a warm bowl)",
+     "peak_offset_ms": 19.5,
+     "rise_db": 2.0
+    },
+    {
+     "t": 9.1,
+     "what": "a blob of magma lifts off the chamber",
+     "peak_offset_ms": 18.1,
+     "rise_db": 2.5
+    },
+    {
+     "t": 10.55,
+     "what": "a blob of magma lifts off the chamber",
+     "peak_offset_ms": 118.1,
+     "rise_db": 2.7
+    },
+    {
+     "t": 14.9,
+     "what": "a blob of magma lifts off the chamber",
+     "peak_offset_ms": 35.5,
+     "rise_db": 2.4
+    },
+    {
+     "t": 27.377,
+     "what": "a gas bubble pops in the magma",
+     "peak_offset_ms": 62.5,
+     "rise_db": 2.4
+    },
+    {
+     "t": 28.682,
+     "what": "a gas bubble pops in the magma",
+     "peak_offset_ms": 69.0,
+     "rise_db": 2.7
+    },
+    {
+     "t": 28.852,
+     "what": "a gas bubble pops in the magma",
+     "peak_offset_ms": 133.6,
+     "rise_db": -0.9
+    },
+    {
+     "t": 29.478,
+     "what": "a gas bubble pops in the magma",
+     "peak_offset_ms": 62.1,
+     "rise_db": 2.1
+    },
+    {
+     "t": 30.036,
+     "what": "a gas bubble pops in the magma",
+     "peak_offset_ms": 98.3,
+     "rise_db": 1.9
+    },
+    {
+     "t": 30.091,
+     "what": "a gas bubble pops in the magma",
+     "peak_offset_ms": 43.3,
+     "rise_db": 2.4
+    },
+    {
+     "t": 30.287,
+     "what": "a gas bubble pops in the magma",
+     "peak_offset_ms": 139.8,
+     "rise_db": 1.2
+    },
+    {
+     "t": 30.497,
+     "what": "a gas bubble pops in the magma",
+     "peak_offset_ms": 123.6,
+     "rise_db": 2.7
+    },
+    {
+     "t": 31.39,
+     "what": "the bottle pops its cap",
+     "peak_offset_ms": 1.4,
+     "rise_db": 1.3
+    },
+    {
+     "t": 31.47,
+     "what": "the cap whooshes over to the sandcastle",
+     "peak_offset_ms": 109.0,
+     "rise_db": -2.5
+    },
+    {
+     "t": 31.34,
+     "what": "the big happy rumble of the eruption",
+     "peak_offset_ms": 51.4,
+     "rise_db": 0.6
+    },
+    {
+     "t": 31.41,
+     "what": "fizz and foam burst from the bottle",
+     "peak_offset_ms": -18.6,
+     "rise_db": 1.6
+    },
+    {
+     "t": 46.05,
+     "what": "the cooling rock ticks",
+     "peak_offset_ms": 81.3,
+     "rise_db": 0.6
+    },
+    {
+     "t": 45.01,
+     "what": "the beach ball lands after its hop",
+     "peak_offset_ms": 145.4,
+     "rise_db": 0.5
+    },
+    {
+     "t": 47.01,
+     "what": "the cooling rock ticks",
+     "peak_offset_ms": 126.8,
+     "rise_db": 1.7
+    },
+    {
+     "t": 49.98,
+     "what": "the cooling rock ticks",
+     "peak_offset_ms": 4.6,
+     "rise_db": 1.4
+    },
+    {
+     "t": 48.92,
+     "what": "the beach ball lands after its hop",
+     "peak_offset_ms": 86.0,
+     "rise_db": 0.6
+    },
+    {
+     "t": 51.85,
+     "what": "the beach ball lands after its hop",
+     "peak_offset_ms": -27.6,
+     "rise_db": -0.3
+    },
+    {
+     "t": 53.85,
+     "what": "the cooling rock ticks",
+     "peak_offset_ms": 118.9,
+     "rise_db": 2.1
+    },
+    {
+     "t": 52.11,
+     "what": "a new layer settles (soft thud)",
+     "peak_offset_ms": 15.1,
+     "rise_db": 2.8
+    },
+    {
+     "t": 52.11,
+     "what": "a short fizz of the small fountain",
+     "peak_offset_ms": 15.1,
+     "rise_db": 2.8
+    },
+    {
+     "t": 52.79,
+     "what": "the beach ball lands after its hop",
+     "peak_offset_ms": 110.6,
+     "rise_db": 2.2
+    },
+    {
+     "t": 54.79,
+     "what": "the cooling rock ticks",
+     "peak_offset_ms": 102.7,
+     "rise_db": 1.2
+    },
+    {
+     "t": 57.52,
+     "what": "the beach ball lands after its hop",
+     "peak_offset_ms": 51.0,
+     "rise_db": -0.0
+    },
+    {
+     "t": 39.0,
+     "what": "the first lava cools into new rock (ticks)",
+     "peak_offset_ms": 113.4,
+     "rise_db": -0.5
+    },
+    {
+     "t": 40.6,
+     "what": "the first lava cools into new rock (ticks)",
+     "peak_offset_ms": 107.1,
+     "rise_db": -3.9
+    },
+    {
+     "t": 59.3,
+     "what": "a plant finds a home on the new rock",
+     "peak_offset_ms": -17.8,
+     "rise_db": 2.3
+    },
+    {
+     "t": 60.8,
+     "what": "a plant finds a home on the new rock",
+     "peak_offset_ms": 102.7,
+     "rise_db": 2.7
+    },
+    {
+     "t": 62.2,
+     "what": "a plant finds a home on the new rock",
+     "peak_offset_ms": 39.5,
+     "rise_db": 2.8
+    },
+    {
+     "t": 63.6,
+     "what": "a plant finds a home on the new rock",
+     "peak_offset_ms": 50.6,
+     "rise_db": 1.1
+    },
+    {
+     "t": 62.6,
+     "what": "a bird sings in the new green",
+     "peak_offset_ms": -25.0,
+     "rise_db": 2.0
+    },
+    {
+     "t": 66.4,
+     "what": "a chime for each old island",
+     "peak_offset_ms": 104.2,
+     "rise_db": 1.4
+    },
+    {
+     "t": 66.9,
+     "what": "a chime for each old island",
+     "peak_offset_ms": 47.3,
+     "rise_db": 2.9
+    },
+    {
+     "t": 67.4,
+     "what": "a chime for each old island",
+     "peak_offset_ms": 42.7,
+     "rise_db": 1.9
+    },
+    {
+     "t": 69.95,
+     "what": "a happy squeak from the snail",
+     "peak_offset_ms": 68.6,
+     "rise_db": 2.2
+    },
+    {
+     "t": 70.5,
+     "what": "a last twinkle for the question",
+     "peak_offset_ms": 114.7,
+     "rise_db": 1.2
+    },
+    {
+     "t": 5.25,
+     "what": "words pop in: magma",
+     "peak_offset_ms": -1.5,
+     "rise_db": -0.5
+    },
+    {
+     "t": 31.74,
+     "what": "words pop in: lava",
+     "peak_offset_ms": -25.1,
+     "rise_db": 2.2
+    },
+    {
+     "t": 42.65,
+     "what": "words pop in: layer by layer",
+     "peak_offset_ms": 67.9,
+     "rise_db": 2.8
+    },
+    {
+     "t": 66.35,
+     "what": "words pop in: hawaii",
+     "peak_offset_ms": -5.0,
+     "rise_db": 0.9
+    },
+    {
+     "t": 69.35,
+     "what": "words pop in: is the ground under your feet really still?",
+     "peak_offset_ms": 30.6,
+     "rise_db": -0.2
+    }
+   ]
+  }
+ },
+ "timeline_rms_dbfs": [
+  {
+   "event": "beach ball stops (hook)",
+   "t": 2.4,
+   "windows": [
+    [
+     1.4,
+     -23.6,
+     -24.0,
+     -33.4
+    ],
+    [
+     1.9,
+     -26.6,
+     -27.7,
+     -32.9
+    ],
+    [
+     2.4,
+     -27.2,
+     -28.7,
+     -32.6
+    ],
+    [
+     2.9,
+     -27.6,
+     -29.3,
+     -32.4
+    ],
+    [
+     3.4,
+     -27.3,
+     -30.2,
+     -30.3
+    ],
+    [
+     3.9,
+     -29.6,
+     -34.1,
+     -31.6
+    ]
+   ]
+  },
+  {
+   "event": "chamber glows",
+   "t": 4.9,
+   "windows": [
+    [
+     3.9,
+     -29.6,
+     -34.1,
+     -31.6
+    ],
+    [
+     4.4,
+     -22.3,
+     -22.6,
+     -33.1
+    ],
+    [
+     4.9,
+     -26.8,
+     -27.2,
+     -37.1
+    ],
+    [
+     5.4,
+     -20.2,
+     -20.3,
+     -37.0
+    ],
+    [
+     5.9,
+     -26.6,
+     -27.3,
+     -34.6
+    ],
+    [
+     6.4,
+     -22.9,
+     -23.2,
+     -35.1
+    ]
+   ]
+  },
+  {
+   "event": "bottle shaken",
+   "t": 23.0,
+   "windows": [
+    [
+     22.0,
+     -21.5,
+     -21.6,
+     -34.2
+    ],
+    [
+     22.5,
+     -21.1,
+     -21.4,
+     -34.1
+    ],
+    [
+     23.0,
+     -23.0,
+     -23.3,
+     -33.2
+    ],
+    [
+     23.5,
+     -20.1,
+     -20.5,
+     -31.7
+    ],
+    [
+     24.0,
+     -19.2,
+     -19.3,
+     -33.7
+    ],
+    [
+     24.5,
+     -21.1,
+     -21.5,
+     -31.2
+    ]
+   ]
+  },
+  {
+   "event": "ERUPTION: cork pop",
+   "t": 31.39,
+   "windows": [
+    [
+     30.39,
+     -19.8,
+     -20.5,
+     -27.4
+    ],
+    [
+     30.89,
+     -21.4,
+     -23.6,
+     -25.5
+    ],
+    [
+     31.39,
+     -18.5,
+     -18.7,
+     -30.9
+    ],
+    [
+     31.89,
+     -17.7,
+     -17.8,
+     -33.1
+    ],
+    [
+     32.39,
+     -17.9,
+     -18.0,
+     -32.1
+    ],
+    [
+     32.89,
+     -16.5,
+     -16.5,
+     -33.1
+    ]
+   ]
+  },
+  {
+   "event": "first lava flows",
+   "t": 35.6,
+   "windows": [
+    [
+     34.6,
+     -16.3,
+     -16.5,
+     -31.4
+    ],
+    [
+     35.1,
+     -16.1,
+     -16.2,
+     -29.9
+    ],
+    [
+     35.6,
+     -16.0,
+     -16.2,
+     -30.2
+    ],
+    [
+     36.1,
+     -16.7,
+     -17.0,
+     -28.6
+    ],
+    [
+     36.6,
+     -17.3,
+     -17.5,
+     -29.8
+    ],
+    [
+     37.1,
+     -17.1,
+     -17.1,
+     -30.0
+    ]
+   ]
+  },
+  {
+   "event": "layer hit e1",
+   "t": 43.35,
+   "windows": [
+    [
+     42.35,
+     -17.8,
+     -18.0,
+     -32.8
+    ],
+    [
+     42.85,
+     -25.8,
+     -26.5,
+     -34.0
+    ],
+    [
+     43.35,
+     -13.6,
+     -13.4,
+     -33.2
+    ],
+    [
+     43.85,
+     -20.2,
+     -20.7,
+     -28.8
+    ],
+    [
+     44.35,
+     -12.3,
+     -11.6,
+     -28.7
+    ],
+    [
+     44.85,
+     -21.8,
+     -22.2,
+     -33.3
+    ]
+   ]
+  },
+  {
+   "event": "layer hit e3",
+   "t": 47.28,
+   "windows": [
+    [
+     46.28,
+     -19.2,
+     -19.4,
+     -32.0
+    ],
+    [
+     46.78,
+     -18.8,
+     -18.9,
+     -32.9
+    ],
+    [
+     47.28,
+     -12.8,
+     -12.6,
+     -31.4
+    ],
+    [
+     47.78,
+     -20.2,
+     -20.8,
+     -30.9
+    ],
+    [
+     48.28,
+     -12.6,
+     -12.5,
+     -30.3
+    ],
+    [
+     48.78,
+     -24.0,
+     -24.9,
+     -30.6
+    ]
+   ]
+  },
+  {
+   "event": "final crash e8",
+   "t": 56.82,
+   "windows": [
+    [
+     55.82,
+     -25.3,
+     -29.6,
+     -27.1
+    ],
+    [
+     56.32,
+     -18.2,
+     -18.7,
+     -27.3
+    ],
+    [
+     56.82,
+     -11.4,
+     -10.2,
+     -22.9
+    ],
+    [
+     57.32,
+     -11.6,
+     -10.2,
+     -26.5
+    ],
+    [
+     57.82,
+     -12.1,
+     -9.7,
+     -27.6
+    ],
+    [
+     58.32,
+     -16.3,
+     -16.1,
+     -28.6
+    ]
+   ]
+  },
+  {
+   "event": "rest begins",
+   "t": 58.8,
+   "windows": [
+    [
+     57.8,
+     -12.0,
+     -9.7,
+     -27.7
+    ],
+    [
+     58.3,
+     -15.9,
+     -15.5,
+     -28.3
+    ],
+    [
+     58.8,
+     -26.2,
+     -26.9,
+     -34.9
+    ],
+    [
+     59.3,
+     -30.5,
+     -33.5,
+     -33.6
+    ],
+    [
+     59.8,
+     -26.2,
+     -27.0,
+     -33.6
+    ],
+    [
+     60.3,
+     -24.7,
+     -25.8,
+     -31.2
+    ]
+   ]
+  },
+  {
+   "event": "ring: first island",
+   "t": 66.4,
+   "windows": [
+    [
+     65.4,
+     -26.3,
+     -28.4,
+     -30.4
+    ],
+    [
+     65.9,
+     -22.5,
+     -23.1,
+     -31.6
+    ],
+    [
+     66.4,
+     -25.4,
+     -26.4,
+     -32.1
+    ],
+    [
+     66.9,
+     -22.6,
+     -23.2,
+     -31.6
+    ],
+    [
+     67.4,
+     -27.1,
+     -29.5,
+     -30.8
+    ],
+    [
+     67.9,
+     -21.4,
+     -22.4,
+     -28.6
+    ]
+   ]
+  },
+  {
+   "event": "ring: our island",
+   "t": 67.9,
+   "windows": [
+    [
+     66.9,
+     -22.6,
+     -23.2,
+     -31.6
+    ],
+    [
+     67.4,
+     -27.1,
+     -29.5,
+     -30.8
+    ],
+    [
+     67.9,
+     -21.4,
+     -22.4,
+     -28.6
+    ],
+    [
+     68.4,
+     -21.5,
+     -22.4,
+     -28.8
+    ],
+    [
+     68.9,
+     -23.5,
+     -25.3,
+     -28.0
+    ],
+    [
+     69.4,
+     -24.8,
+     -26.5,
+     -29.6
+    ]
+   ]
+  },
+  {
+   "event": "snail waves",
+   "t": 69.6,
+   "windows": [
+    [
+     68.6,
+     -22.0,
+     -23.3,
+     -28.1
+    ],
+    [
+     69.1,
+     -23.8,
+     -25.3,
+     -28.9
+    ],
+    [
+     69.6,
+     -26.1,
+     -28.7,
+     -29.5
+    ],
+    [
+     70.1,
+     -21.7,
+     -22.5,
+     -29.4
+    ],
+    [
+     70.6,
+     -24.2,
+     -25.2,
+     -30.9
+    ],
+    [
+     71.1,
+     -23.7,
+     -24.0,
+     -35.5
+    ]
+   ]
+  }
+ ],
+ "stand_ins": [
+  "The beach ball rolls on a soft swish of air (a band-passed village wind): the bank has no rolling ball. Its stop and every hop are soft harp \"boings\", tuned to the music.",
+  "Dolphins are real splashes with a toy squeal tuned to the music for a happy squeak: there is no dolphin in the bank.",
+  "The deep rumble of the magma is real thunder, low-passed to the floor of hearing; thick bubbling magma is a real pot of broth, slowed and low-passed; the cracking rock is a slowed barn door.",
+  "Gas bubbles popping in the magma are real bubbles bursting in water, slowed and lowered as they grow; the glowing chamber is a singing bowl.",
+  "The shaken bottle is real sparkling water (fizz) and a swirl of water; the cap pop is a wine-stopper pop slowed a little; the cap flying is a short whoosh.",
+  "The lava fountain is a long real whoosh plus a thunder rumble and real fizz; lava crackle is a real fire in branches; steam is a real steam hiss; cooling rock ticks are real ice cracks sped up and filtered. There is no lava in any recording.",
+  "The gulls cheer is a real gull recording from a harbour, placed on the eruption.",
+  "The snail popping into its shell is a suction-cup pop; peeking out and waving are a plant-pop and a boing; its happy squeak is a toy squeal.",
+  "Plants finding a home are cartoon plant pops tuned to the music; the soil forming is water over soil, soft.",
+  "The clock spinning is a music-box winder.",
+  "Words pop in with a wine stopper's pop, sped up."
+ ],
+ "bank_run": "rc-render sfx-bank.yml run 40049538821 (24 Oct 2026)",
+ "listened": false,
+ "note": "Built and measured only: nobody has listened to this mix yet."
+}

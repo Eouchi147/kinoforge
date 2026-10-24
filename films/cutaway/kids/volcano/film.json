@@ -1,0 +1,16 @@
+{
+ "id": "kids-volcano",
+ "series": "Little Big Questions",
+ "title": "How is a volcano born?",
+ "style": "cutaway",
+ "art": "fable",
+ "duration": 72.3,
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "note": "Little Big Questions (6 to 8), a silent story (Sam 23 Oct): Fable Cutaway on the lifted-slice grammar, one fixed view, a 2 degree sway, no cuts. The slice is a young volcano island, its magma chamber glowing in the cut face; nine eruptions build nine layers. Timing from beats.json through the one event table at the top of blender.py (re-time beats.json to the chosen recording and the picture follows). Look named by KF_ART_NAME in blender.py. Music: Grieg, In the Hall of the Mountain King (Musopen Symphony, public domain), four cuts in beats.json; soundtrack in audio/mix.m4a (audio/make_audio.py, SOUND.md).",
+ "audio": "audio/mix.m4a"
+}
