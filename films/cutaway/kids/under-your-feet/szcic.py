@@ -22,7 +22,7 @@ import szpark as PK
 from szgeo import Parts, sphere, tube, cone, box, disc, rz, ry, rx, euler, I3
 
 NAMES = ['M', 'S1', 'S2', 'S3', 'S4']
-PERCH = {'M': (-1.08 - 0.15, 0.46), 'S1': (-1.08 - 0.85, 0.20), 'S2': (-1.08 + 0.80, 0.30), 'S3': (-1.08 + 0.55, 0.40), 'S4': (-1.08 - 0.55, 0.27)}      # (angle round the trunk, height)
+PERCH = {'M': (-1.08 - 0.20, 0.50), 'S1': (-1.08 - 1.05, 0.15), 'S2': (-1.08 + 0.95, 0.30), 'S3': (-1.08 + 0.45, 0.19), 'S4': (-1.08 - 0.55, 0.40)}      # (angle round the trunk, height)
 
 
 def sm(a, b, t): return W.sm(a, b, t)
@@ -154,7 +154,7 @@ def hatchling_path(t):
 
 def nymph_k(t):
     """The nymphs grow over the years (bigger each year), from hatchling to ready."""
-    B = W.B; return 0.55 + 0.60 * sm(B.yr0, B.yr1, t)
+    B = W.B; return (0.55 + 0.60 * sm(B.yr0, B.yr1, t)) * (1.0 + 0.9 * (1.0 - sm(B.settle0, B.label0 - 0.4, t)))      # big enough to follow while it is new
 
 
 def main_world(who, t, lift):
@@ -246,12 +246,12 @@ def pose(C, D, t, under, park):
     for q, j in enumerate(C['eggs']):
         a = 0.0 if t < B.crack0 else 1.0
         vis = 1.0 if t < B.crack0 + 0.1 else 0.0
-        if vis: pe.set(j, egg + np.array([-0.012 + 0.014 * q, 0.0, -0.010 * q]) , rx(0.5 + 0.3 * q), 1.8 * (1 + 0.10 * math.sin(2 * math.pi * 6 * t) * W.win(t, B.crack0 - 0.5, B.crack0 + 0.1, 0.1)) if q == 1 else 1.8)
+        if vis: pe.set(j, egg + np.array([-0.012 + 0.014 * q, 0.0, -0.010 * q]) , rx(0.5 + 0.3 * q), 3.0 * (1 + 0.10 * math.sin(2 * math.pi * 6 * t) * W.win(t, B.crack0 - 0.5, B.crack0 + 0.1, 0.1)) if q == 1 else 3.0)
         else: pe.hide(j)
     for q, j in enumerate(C['halves']):
         u = float(np.clip((t - B.crack0) / 0.4, 0, 1))
         if 0 < u and t < B.crack1 + 1.2:
-            pe.set(j, egg + np.array([-0.002 + (0.014 + 0.03 * u) * (1 if q else -1), 0.0, -0.010 - 0.04 * u * u]), rx(0.3 + 2 * u), 1.8 * (1 - W.sm(B.crack1 + 0.6, B.crack1 + 1.2, t)))
+            pe.set(j, egg + np.array([-0.002 + (0.014 + 0.03 * u) * (1 if q else -1), 0.0, -0.010 - 0.04 * u * u]), rx(0.3 + 2 * u), 3.0 * (1 - W.sm(B.crack1 + 0.6, B.crack1 + 1.2, t)))
         else: pe.hide(j)
     pe.commit()
     # ---- the five nymphs / cicadas
@@ -291,7 +291,7 @@ def pose(C, D, t, under, park):
             tilt = 0.9 * (1 - ek) + 0.08; off = np.array([-0.01 + 0.05 * ek, 0.0, 0.03 + 0.012 * ek])
             Ra = R @ ry(-tilt)
             pa = p + R @ (off * n_k)
-            ka = (0.30 + 0.95 * ek) * k * 1.0
+            ka = (0.30 + 0.95 * ek) * k * 1.3
             wing_open = sm(B.open0, B.open0 + 0.25, t) * 1.0
             wk = (0.28 + 0.30 * ek) * (1 - wing_open) + 1.0 * wing_open
             for nm in ('a_body', 'a_head'): pr.set(c[nm], pa, Ra, ka)
@@ -331,9 +331,9 @@ def pose(C, D, t, under, park):
         pp = perch_pts[idx]
         for r in range(3):
             j = C['ring'][idx * 3 + r]
-            if pp is None or (song < 0.02 and hum < 0.02) or t < B.open0: ps.hide(j); continue
-            T_ = 1.5 if hum < 0.3 else 2.6; age = ((t / T_ + r / 3.0 + idx * 0.13) % 1.0)
-            rad = 0.04 + 0.34 * age ** 0.8 if hum < 0.3 else 0.03 + 0.18 * age ** 0.8
+            if r == 2 or pp is None or (song < 0.02 and hum < 0.02) or t < B.open0: ps.hide(j); continue
+            T_ = 1.5 if hum < 0.3 else 2.6; age = ((t / T_ + r / 2.0 + idx * 0.13) % 1.0)
+            rad = 0.04 + 0.22 * age ** 0.8 if hum < 0.3 else 0.03 + 0.14 * age ** 0.8
             sc = rad * (1.0 - W.sm(0.80, 1.0, age)) * min(1.0, max(song, hum) * 1.5)
             ps.set(j, pp, CAMR @ rz(0.0), sc if sc > 0.01 else 0.0) if sc > 0.01 else ps.hide(j)
         for r in range(3):
