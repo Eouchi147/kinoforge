@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Fossil music fetched into rc-render release `music` (runs 40046703867, 40046705416, 40046707019, 40046708728, success) with Commons licence records: Magic Flute Overture (Musopen, CC0, 6:39), Morning Mood (Musopen, public domain, 3:49), Danse macabre (Stokowski 1925, public domain); Saint-Saens Fossiles is CC BY-SA 2.0, so not used (share-alike). Candidates sent to Sam to hear. US$0.
 - Kids music research: docs/research/KIDS_MUSIC_2026-10.md (real orchestral recordings per film with licence evidence, about 150 extra CC0 BigSoundBank effects, Content ID notes). Fossil top pick: Mozart, Magic Flute Overture (Musopen 2012, public domain dedication); fetching the fossil candidates with music-fetch.yml for licence records and a listen. US$0.
 - Kids fossil pilot picture built (silent, beats.json timing, Fable, one fixed view, 1440 frames): 7 everyday easter eggs, the snail mascot, a visual joke, 3D era background; checked in stills only (contact sheets looked at). Weak: the ground around the block still reads as a flat plane, thin face bones. Full render about 39 h on a 2-core box, so Mac or runners. US$0.
 - Playful sample-based score palette for the kids series not kept (Sam: "not just crappy midi sound"); its engine edits were reverted unmerged, the VSCO octave trap went to LESSONS. US$0.
