@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
     inputs:
       folder: { description: 'film folder holding ad.json', default: 'films/cutaway/kids/fossil' }
-      engines: { description: 'comma list: chatterbox, parler (large), parler-mini', default: 'chatterbox,parler,parler-mini' }
+      engines: { description: 'comma list, no spaces: chatterbox,parler (large),parler-mini', default: 'chatterbox,parler,parler-mini' }
 permissions:
   contents: write
 jobs:
@@ -79,7 +79,7 @@ jobs:
           VIRTUAL_ENV="$RUNNER_TEMP/pa" uv pip install -q "numpy<2" soundfile huggingface_hub sentencepiece protobuf "setuptools<81" git+https://github.com/huggingface/parler-tts.git
           "$RUNNER_TEMP/pa/bin/python" -c "import parler_tts, transformers, torch; print('parler ready', transformers.__version__, torch.__version__)"
       - name: Parler-TTS large (Apache 2.0) takes
-        if: contains(format(',{0},', replace(inputs.engines, ' ', '')), ',parler,') && !cancelled()
+        if: contains(format(',{0},', inputs.engines), ',parler,') && !cancelled()
         continue-on-error: true
         timeout-minutes: 75
         run: |
