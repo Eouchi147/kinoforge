@@ -41,7 +41,7 @@ def peel_pose(ob, D, t):
     B = W.B
     if not (B.peel0 <= t < B.peel1): ob.hide_render = True; D.set('peel_a', 0.0); return
     u = (t - B.peel0) / (B.peel1 - B.peel0); ob.hide_render = False
-    ob.location = (0.0, 0.0, 1.5 * u ** 1.4); s = 1.0 + 0.06 * u; ob.scale = (s, s, 1.0)
+    ob.location = (0.0, 0.0, W.lift(t) + 1.5 * u ** 1.4); s = 1.0 + 0.06 * u; ob.scale = (s, s, 1.0)
     D.set('peel_a', 1.0 - W.sm(0.35, 1.0, u))
 
 
@@ -131,7 +131,7 @@ def build_leaf(kit, D):
 def leaf_pose(ob, t):
     B = W.B
     if not (B.leaf0 < t < B.mud0): ob.hide_render = True; return
-    u = W.sm(B.leaf0, B.leaf1, t); x0, y0, z0 = 1.40, -0.72, W.Z_ANC + 0.62; x1, y1 = 1.05, -0.80
+    u = W.sm(B.leaf0, B.leaf1, t); x0, y0, z0 = 1.40, -0.72, W.Z_ANC + 0.62 + W.lift(t); x1, y1 = 1.05, -0.80
     x = x0 + (x1 - x0) * u + 0.06 * math.sin(5.0 * u) * (1 - u); y = y0 + (y1 - y0) * u; z = z0 + (gz(x1, y1, t) + 0.004 - z0) * u
     ob.hide_render = False; ob.location = (x, y, z); ob.rotation_euler = (0.6 * math.sin(7 * u) * (1 - u), 0.4 * math.cos(6 * u) * (1 - u), 3.0 * u)
 
@@ -163,7 +163,7 @@ def build_skeleton(kit, D, dn):
 def skeleton_pose(ob, D, t):
     B = W.B; a = W.sm(B.skel0 + 0.2, B.skel1, t) * (1 - W.sm(B.mud1 - 0.4, B.mud1 + 0.3, t))
     D.set('skel_a', a); ob.hide_render = a < 0.01
-    ob.location = (W.DINO_LIE_X, W.DINO_Y, W.Z_ANC - 0.012); ob.rotation_euler = (0, 0, 0)
+    ob.location = (W.DINO_LIE_X, W.DINO_Y, W.Z_ANC - 0.012 + W.lift(t)); ob.rotation_euler = (0, 0, 0)
 
 
 # ============================================================================== mammoths and saplings (layer on layer)
@@ -317,7 +317,7 @@ class Lens:
         for ob in self.obs: ob.hide_render = not show
         if not show: return
         from mathutils import Vector
-        p = self.cam.ob.matrix_basis.inverted() @ Vector(tuple(self.target)); k = DL / max(-p.z, 1e-3); bx, by = p.x * k, p.y * k   # this frame's camera
+        p = self.cam.ob.matrix_basis.inverted() @ Vector(tuple(self.target + np.array([0.0, 0.0, W.lift(t)]))); k = DL / max(-p.z, 1e-3); bx, by = p.x * k, p.y * k   # this frame's camera
         cx, cy = bx + self.R + 0.45, min(by + self.R + 0.18, self.hh * 0.50 - self.R)     # up and to the right of the bone, clear of the caption
         pop = o * (1.0 + 0.06 * math.sin(math.pi * min(1.0, W.sm(B.lens0, B.lens1, t))))
         for ob in (self.disc, self.bone): ob.location = (cx, cy, ob.location.z); ob.scale = (pop, pop, 1)

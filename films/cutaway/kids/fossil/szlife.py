@@ -81,7 +81,7 @@ def dino_pose(dn, D, t):
     tail = math.sin(2 * math.pi * t / 2.6) * (1 - curl)
     breathe = 0.0      # it died: no breathing, no sleep (research 1.1.1: never 'sleep' for death)
     bob = 0.012 * math.sin(walk * 2) if amt else 0.0
-    zg = gz(x, y, t) if t < B.flood0 else W.Z_ANC
+    zg = gz(x, y, t) if t < B.flood0 else W.Z_ANC + W.lift(t)
     dn.pose((x, y, zg - 0.01), 0.0, mu * (1 - lie), lie, walk, amt, tail, curl, eyes * (1 - blink), breathe, bob)
 
 
@@ -108,7 +108,7 @@ def world_pts(rng, step, rmax, rmin=0.0):
     xs = np.arange(-W.HX - rmax, W.HX + rmax, step); ys = np.arange(-W.HY - rmax, W.HY + rmax, step)
     X, Y = np.meshgrid(xs, ys); P = np.column_stack([X.ravel(), Y.ravel()]) + rng.uniform(-0.5, 0.5, (X.size, 2)) * step
     d = np.hypot(np.maximum(np.abs(P[:, 0]) - W.HX, 0), np.maximum(np.abs(P[:, 1]) - W.HY, 0))
-    ok = ~W.in_block(P[:, 0], P[:, 1]) & ~W.in_trench(P[:, 0], P[:, 1]) & (d <= rmax) & (d >= rmin)
+    ok = ~W.in_hole(P[:, 0], P[:, 1]) & (d <= rmax) & (d >= rmin)
     # thinner with distance (the haze takes over)
     ok &= rng.uniform(0, 1, len(P)) < np.clip(1.15 - d / rmax, 0.15, 1.0)
     return P[ok]
@@ -309,12 +309,12 @@ def birds_pose(Bd, t):
     for i, (b, wings, r, h, a0, flap) in enumerate(Bd['birds']):
         if i < n:
             a = a0 + 0.42 * t; rr = r + (1 - pres) * 7.0
-            P = (rr * math.cos(a), rr * math.sin(a) * 0.7 + 0.3, h + (1 - pres) * 2.0 + 0.06 * math.sin(0.8 * t + a0)); yaw = a + math.pi / 2
+            P = (rr * math.cos(a), rr * math.sin(a) * 0.7 + 0.3, h + W.lift(t) + (1 - pres) * 2.0 + 0.06 * math.sin(0.8 * t + a0)); yaw = a + math.pi / 2
             amp = math.radians(12 + 30 * (0.5 + 0.5 * math.sin(0.5 * t + a0))) * math.sin(2 * math.pi * flap * t)
             show = pres > 0.02
         else:
             j = i - n; t0 = B.flyup0 + 0.09 * j; u = max(0.0, t - t0)
-            tx, ty, tz = 0.95 + 0.12 * math.cos(j * 2.1), 0.80 + 0.10 * math.sin(j * 2.1), 0.52 + 0.04 * (j % 3)
+            tx, ty, tz = 0.95 + 0.12 * math.cos(j * 2.1), 0.80 + 0.10 * math.sin(j * 2.1), 0.52 + 0.04 * (j % 3) + W.lift(t)
             ang = -1.9 + 0.45 * j
             P = (tx + math.cos(ang) * 1.3 * u, ty + math.sin(ang) * 0.6 * u, tz + 0.95 * u + 0.25 * u * u); yaw = ang
             amp = math.radians(45) * math.sin(2 * math.pi * 6.0 * t + j) if u > 0 else 0.0
@@ -521,7 +521,7 @@ def girl_pose(G_, t):
         for v in g.values(): pr.hide(v)
         pr.commit(); return None
     kneel_at = np.array([W.DIG[0] - 0.24, W.DIG[1] - 0.15])
-    path = [np.array([-2.60, -0.55]), np.array([-1.40, -0.60]), np.array([-0.75, -0.66]), kneel_at]      # she runs in from the meadow beside the dig
+    path = [np.array([-0.80, 1.02]), np.array([-0.55, 0.30]), np.array([-0.45, -0.30]), kneel_at]      # she runs out from behind the big tree at the back and hops the brook
     u = W.sm(B.girl0, B.girl1, t); p, hd = path_at(path, u)
     walking = B.girl0 < t < B.girl1
     face_bone = math.atan2(W.DIG[1] + 0.04 - kneel_at[1], W.DIG[0] - kneel_at[0])
@@ -580,7 +580,7 @@ def dug_bone_pose(Db, t):
     """The bone in the little rock face (today): hidden in the rock until her brushing clears it; returns the point the
     FOSSIL label points at."""
     pr = Db['parts']; show = W.today(t) > 0.5
-    c = (W.DIG[0], W.DIG[1] + 0.050, W.Z_NOW - W.HOLLOW_D + 0.060)
+    c = (W.DIG[0], W.DIG[1] + 0.050, W.Z_NOW - W.HOLLOW_D + 0.060 + W.lift(t))
     for j in Db['ids']:
         if show: pr.set(j, c, rz(0.12) @ ry(-0.10), BONE_K)
         else: pr.hide(j)
@@ -653,7 +653,7 @@ def eggs_pose(E, t):
     zb = gz(max(p[0], -W.HX + 0.03), p[1], t) + BALL_R
     put(e['ball'], (p[0], p[1], zb), Rb, sc, sc > 0.01 and inside and (t < B.rw0 + 0.3 or td))
     put(e['band'], (p[0], p[1], zb), Rb @ rx(math.pi / 2), sc, sc > 0.01 and inside and (t < B.rw0 + 0.3 or td))
-    for j in e['car']: put(j, CAR, I3)
+    for j in e['car']: put(j, (CAR[0], CAR[1], CAR[2] + W.lift(t)), I3)
     # today: the rubber duck floats down the brook; long ago: the duck-shaped flower floats down the river on a pad
     old = W.ancient(t) > 0.6 and t < B.flood0
     u = (t * 0.035) % 1.0; DP = DUCK_PATH; p, hdg = path_at(DP, u); xs, ys = float(p[0]), float(p[1])
@@ -663,8 +663,8 @@ def eggs_pose(E, t):
     put(e['pad'], (xs, ys, lv + 0.001), Rd, 1.5, old)
     k1, k2, tail = e['kite']; tug = 0.22 * math.sin(2 * math.pi * 0.7 * t) + 0.08 * math.sin(2 * math.pi * 1.9 * t)
     Rk = rz(-1.0) @ rx(0.35 + tug) @ ry(0.3)
-    put(k1, KITE, Rk, 1.5); put(k2, KITE, Rk, 1.5)
-    base = np.array(KITE) + Rk @ np.array([0, 0, -0.075])
+    kp = (KITE[0], KITE[1], KITE[2] + W.lift(t)); put(k1, kp, Rk, 1.5); put(k2, kp, Rk, 1.5)
+    base = np.array(kp) + Rk @ np.array([0, 0, -0.075])
     for i, j in enumerate(tail):
         sw = 0.03 * math.sin(2 * math.pi * 0.7 * t - 0.6 * i) * (i + 1) / 5
         put(j, base + np.array([sw, 0.0, -0.05 * (i + 1)]), rz(-1.0) @ rx(tug * 0.5), 1.5)

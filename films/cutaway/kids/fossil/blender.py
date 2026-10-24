@@ -81,7 +81,7 @@ import szstory as ST  # noqa: E402
 import szfossil as FO  # noqa: E402
 import szback as BK  # noqa: E402
 import szwords as WD  # noqa: E402
-from szgeo import Parts, I3  # noqa: E402
+from szgeo import Parts, I3, tube, sphere, rx, ry  # noqa: E402
 
 DURATION = W.DURATION
 SETTINGS = {'samples': 32, 'denoise': True, 'motion_blur': False, 'view_transform': 'AgX', 'look': 'AgX - Base Contrast',
@@ -89,7 +89,8 @@ SETTINGS = {'samples': 32, 'denoise': True, 'motion_blur': False, 'view_transfor
             'denoising_prefilter': 'ACCURATE'}
 
 AZ0, SWAY = W.VIEW_AZ, 2.0                 # camera azimuth; a 2 degree sway on one slow sine over the whole film
-EL, LENS, FILL = 21.0, 50.0, 0.86
+EL, LENS, FILL = 21.0, 50.0, 0.84
+CAM_DZ = 0.12                          # extra lift of the aim (m)
 SUN_AZ = -118.0                        # sun from the front left, so the front face takes the light
 # sun per mood (today, fern era, evening, deep time): elevation, energy, colour
 SUN = {'el': (52.0, 42.0, 14.0, 34.0), 'e': (3.4, 3.2, 2.4, 2.4),
@@ -125,38 +126,67 @@ def capture(L):
     a = me.attributes.new('rk', 'FLOAT', 'POINT'); a.data.foreach_set('value', W.rock_patch(top[:, 0], top[:, 1]).astype(np.float32))
     a = me.attributes.new('far', 'FLOAT', 'POINT'); a.data.foreach_set('value', np.zeros(len(top), np.float32))
     me = L.objects['walls'].data; n = len(me.vertices); co = np.empty(n * 3, np.float32); me.vertices.foreach_get('co', co); wl = co.reshape(-1, 3).astype(float)
-    zt0 = W.top_h(wl[:, 0], wl[:, 1], 0.0); uu = np.clip((wl[:, 2] - zt0) / (W.ZB - zt0), 0, 1)
+    zt0 = W.slice_h(wl[:, 0], wl[:, 1], 0.0); uu = np.clip((wl[:, 2] - zt0) / (W.ZB - zt0), 0, 1)        # the slice's own frame
     return {'top': top, 'walls': wl, 'uu': uu}
 
 
-def add_trench_walls(kit, L):
-    """Append the two visible walls of the viewing trench to the block's walls mesh (same strata paint, same per-frame
-    heights): the trench's left wall (x = -HX, facing +x) and the back wall beside the +X face (y = +HY, facing -y)."""
-    bpy = kit.bpy; me = L.objects['walls'].data
-    V = np.array([v.co[:] for v in me.vertices]); F = [tuple(p.vertices) for p in me.polygons]; Mi = [p.material_index for p in me.polygons]
-    rows = 18
-    def strip(P, normal):
-        o = len(V_); n = len(P)
-        for x, y in P:
-            zt = float(W.top_h(np.array([x]), np.array([y]), 0.0)[0])
-            for r in range(rows + 1):
-                u = (r / rows) ** 1.6; V_.append((x, y, zt + (W.ZB - zt) * u))
-        for i in range(n - 1):
+def build_hole(kit, D, rng):
+    """The hole the slice was lifted from, directly beneath it: dark earthy walls (darker towards the bottom, faint roots
+    and pebbles in the earth), a dark floor, as deep as the slice. Only its far walls and floor show past the slice."""
+    bpy = kit.bpy; X0, X1, Y0, Y1 = -W.HX - W.HM, W.HX + W.HM, -W.HY - W.HM, W.HY + W.HM; zf = W.HOLE_FLOOR
+    m = cw._new_mat(bpy, 'sz_hole'); g = cw.G(m.node_tree, kit)
+    tc = g.node('ShaderNodeTexCoord'); P = tc.outputs['Object']; z = g.sep(P)[2]
+    col = g.ramp(g.math('DIVIDE', g.math('SUBTRACT', z, zf), -zf), [(0.0, (0.10, 0.07, 0.07)), (0.55, (0.24, 0.16, 0.13)), (1.0, (0.38, 0.27, 0.21))])
+    n = g.noise(P, 9.0, 3.0); col = g.mix(g.math('MULTIPLY', n.outputs['Fac'], 0.35), col, (0.05, 0.03, 0.03, 1))
+    peb = g.math('LESS_THAN', g.voronoi(P, 14.0, 'F1').outputs['Distance'], 0.12)
+    col = g.mix(g.math('MULTIPLY', peb, 0.5), col, cw.srgb((0.50, 0.44, 0.40)))
+    cw._finish(g, g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col, 'Roughness': 0.95}))
+    V = []; F = []
+    def wall(P0, P1, normal, n=40, rows=10):
+        o = len(V)
+        for i in range(n + 1):
+            x, y = P0[0] + (P1[0] - P0[0]) * i / n, P0[1] + (P1[1] - P0[1]) * i / n
+            zt = float(W.land_h(np.array([x]), np.array([y]), 0.0)[0])
+            for r in range(rows + 1): V.append((x, y, zt + (zf - zt) * r / rows))
+        for i in range(n):
             for r in range(rows):
                 a = o + i * (rows + 1) + r; c = o + (i + 1) * (rows + 1) + r; q = (a, a + 1, c + 1, c)
-                p0, p1, p2 = (np.array(V_[q[0]]), np.array(V_[q[1]]), np.array(V_[q[2]]))
-                if np.cross(p1 - p0, p2 - p0) @ np.asarray(normal) < 0: q = q[::-1]
-                F_.append(q); M_.append(0)
-    V_ = [tuple(v) for v in V]; F_ = list(F); M_ = list(Mi)
-    strip([(-W.HX, y) for y in np.linspace(-W.HY - W.TW, -W.HY, 27)], (1, 0, 0))
-    strip([(x, W.HY) for x in np.linspace(W.HX, W.HX + W.TWX, 13)], (0, -1, 0))
-    nm = cw.mk_mesh(bpy, 'fs_wallsmesh', V_, F_, list(me.materials), M_, False, None, {'sd': ('FLOAT', np.zeros(len(V_))), 'dtop': ('FLOAT', np.zeros(len(V_)))})
-    old = me; L.objects['walls'].data = nm.data; bpy.data.objects.remove(nm, do_unlink=True)
-    # the dig's floor: earth, just below the part of the faces the land beyond leaves in view
-    zf = -0.80; x0, x1, y0, y1 = -W.HX, W.HX + W.TWX, -W.HY - W.TW, W.HY
-    Vf = [(x0, y0, zf), (x1, y0, zf), (x1, -W.HY, zf), (x0, -W.HY, zf), (W.HX, -W.HY, zf), (x1, y1, zf), (W.HX, y1, zf)]
-    fm = cw.mat_simple(kit, 'sz_digfloor', (0.50, 0.38, 0.30), 0.9, noise_amt=0.3)
-    cw.mk_mesh(bpy, 'fs_trenchfloor', Vf, [(0, 1, 2, 3), (4, 2, 5, 6)], [fm], None, False, kit.coll)
+                p0, p1, p2 = np.array(V[q[0]]), np.array(V[q[1]]), np.array(V[q[2]])
+                F.append(q if np.cross(p1 - p0, p2 - p0) @ np.asarray(normal) > 0 else q[::-1])
+    wall((X0, Y1), (X1, Y1), (0, -1, 0)); wall((X0, Y0), (X0, Y1), (1, 0, 0)); wall((X1, Y0), (X1, Y1), (-1, 0, 0)); wall((X0, Y0), (X1, Y0), (0, 1, 0))
+    o = len(V); V += [(X0, Y0, zf), (X1, Y0, zf), (X1, Y1, zf), (X0, Y1, zf)]; F.append((o, o + 1, o + 2, o + 3))
+    hole = cw.mk_mesh(bpy, 'fs_hole', V, F, [m], None, False, kit.coll)
+    # under the slice: roots and pebbles hanging off its underside, and a little soil now and then trickling into the hole
+    pr = Parts('fs_underside'); items = []
+    mats = [M.paint(kit, D, 'sz_root', (0.36, 0.24, 0.18), noise=0.0), M.paint(kit, D, 'sz_pebble', (0.62, 0.58, 0.54)), M.paint(kit, D, 'sz_soil', (0.40, 0.30, 0.22), noise=0.0)]
+    for k in range(70):
+        side = k % 4; u = rng.uniform(0.04, 0.96)
+        x, y = [(-W.HX + 2 * W.HX * u, -W.HY + 0.02), (W.HX - 0.02, -W.HY + 2 * W.HY * u), (-W.HX + 2 * W.HX * u, W.HY - 0.02), (-W.HX + 0.02, -W.HY + 2 * W.HY * u)][side]
+        x += rng.uniform(-0.02, 0.15) * (1 if x < 0 else -1) * 0.3; L = rng.uniform(0.10, 0.30); b = rng.uniform(-0.05, 0.05, 2)
+        pts = [(0, 0, 0.01), (b[0] * 0.4, b[1] * 0.4, -L * 0.4), (b[0], b[1], -L * 0.75), (b[0] * 1.3, b[1] * 1.3, -L)]
+        v, f = tube(pts, [0.012, 0.009, 0.006, 0.003], 6); items.append(('root', pr.add(v, f, 0), x, y, rng.uniform(0, 6.28)))
+    for k in range(22):
+        x, y = rng.uniform(-W.HX + 0.05, W.HX - 0.05), rng.uniform(-W.HY + 0.05, W.HY - 0.05)
+        if k % 2: x = np.sign(x) * (W.HX - rng.uniform(0.02, 0.2))
+        else: y = np.sign(y) * (W.HY - rng.uniform(0.02, 0.2))
+        r = rng.uniform(0.025, 0.05); v, f = sphere((0, 0, -r * 0.4), (r, r * 0.9, r * 0.8), 1); items.append(('pebble', pr.add(v, f, 1), x, y, 0.0))
+    for k in range(10):
+        x, y = rng.uniform(-W.HX + 0.1, W.HX - 0.1), -W.HY + rng.uniform(0.02, 0.4); v, f = sphere((0, 0, 0), (0.013, 0.013, 0.013), 1)
+        items.append(('soil', pr.add(v, f, 2), x, y, rng.uniform(0, 1)))
+    pr.build(bpy, mats, kit.coll)
+    return {'hole': hole, 'parts': pr, 'items': items}
+
+
+def underside_pose(H, t):
+    pr = H['parts']; zb = W.ZB + W.lift(t)
+    for kind, j, x, y, ph in H['items']:
+        if kind == 'root': pr.set(j, (x, y, zb), rx(0.10 * math.sin(0.8 * t + ph)) @ ry(0.08 * math.cos(0.6 * t + ph)))
+        elif kind == 'pebble': pr.set(j, (x, y, zb))
+        else:      # a grain of soil falls every 4.5 s or so, from under the slice to the hole's floor
+            T = 4.5; age = ((t / T + ph) % 1.0) * T; fall = 0.5 * 9.8 * 0.25 * age * age; z = zb - fall
+            if age < 1.6 and z > W.HOLE_FLOOR: pr.set(j, (x, y, z), I3, 1.0)
+            else: pr.hide(j)
+    pr.commit()
 
 
 def build_world(kit, D, top_mat, water_mat, res=0.1):
@@ -167,7 +197,7 @@ def build_world(kit, D, top_mat, water_mat, res=0.1):
     X, Y = np.meshgrid(xs, ys); nx, ny = len(xs), len(ys); ii = np.arange(nx * ny).reshape(ny, nx)
     q = np.stack([ii[:-1, :-1].ravel(), ii[:-1, 1:].ravel(), ii[1:, 1:].ravel(), ii[1:, :-1].ravel()], 1)
     cx = (X[:-1, :-1] + X[1:, 1:]).ravel() / 2; cy = (Y[:-1, :-1] + Y[1:, 1:]).ravel() / 2
-    keep = ~(W.in_block(cx, cy) | W.in_trench(cx, cy)); q = q[keep]
+    keep = ~W.in_hole(cx, cy); q = q[keep]      # the hole the slice was lifted from
     used = np.unique(q); remap = -np.ones(nx * ny, int); remap[used] = np.arange(len(used)); q = remap[q]
     P = np.column_stack([X.ravel(), Y.ravel()])[used]
     attrs = {'rd': ('FLOAT', W.river_d(P[:, 0], P[:, 1])), 'rk': ('FLOAT', np.zeros(len(P))), 'far': ('FLOAT', W.far(P[:, 0], P[:, 1]))}
@@ -182,7 +212,7 @@ def world_pose(Wd, t):
     me = Wd['ob'].data; me.vertices.foreach_set('co', np.column_stack([P, z]).astype(np.float32).ravel()); me.update()
     f = W.flood_level(t)
     if f > -0.9:
-        lv = W.base(t) + f + 0.02; Wd['flood'].hide_render = False
+        lv = W.Z_NOW + f + 0.02; Wd['flood'].hide_render = False
         me = Wd['flood'].data; me.vertices.foreach_set('co', np.column_stack([P, lv - W.drop(P[:, 0], P[:, 1])]).astype(np.float32).ravel()); me.update()
     else: Wd['flood'].hide_render = True
 
@@ -196,25 +226,34 @@ def build_water(kit, D):
     mat = M.mat_water(kit, D)
     ob = cw.mk_mesh(kit.bpy, 'fs_flood', V, F, [mat], None, False, kit.coll); ob.visible_shadow = False
     C = cw.catmull([tuple(p) for p in W.RIVER], 260); T = np.gradient(C, axis=0); T /= np.linalg.norm(T, axis=1)[:, None]; N = np.column_stack([-T[:, 1], T[:, 0]])
-    n = len(C); Fr = [(2 * i, 2 * i + 2, 2 * i + 3, 2 * i + 1) for i in range(n - 1)] + [(2 * n, 2 * n + 1, 2 * n + 2, 2 * n + 3)]
-    rib = cw.mk_mesh(kit.bpy, 'fs_river', np.zeros((2 * n + 4, 3)), Fr, [mat], None, False, kit.coll); rib.visible_shadow = False
-    ye = float(np.interp(W.HX, C[:, 0], C[:, 1]))
-    return {'ob': ob, 'xy': np.array(bx), 'rib': rib, 'C': C, 'N': N, 'ye': ye}
+    n = len(C) - 1; Fr = [(4 * i, 4 * i + 1, 4 * i + 2, 4 * i + 3) for i in range(n)]      # one free quad per segment
+    rib = cw.mk_mesh(kit.bpy, 'fs_river', np.zeros((4 * n, 3)), Fr, [mat], None, False, kit.coll); rib.visible_shadow = False
+    on_slice = W.in_slice(C[:, 0], C[:, 1]); on_land = ~W.in_hole(C[:, 0], C[:, 1])
+    seg_slice = on_slice[:-1] & on_slice[1:]; seg_land = on_land[:-1] & on_land[1:]
+    return {'ob': ob, 'xy': np.array(bx), 'rib': rib, 'C': C, 'N': N, 'seg_slice': seg_slice, 'seg_land': seg_land}
 
 
 def water_pose(Wt, t):
     bz = W.base(t); w, d = W.channel(t); f = W.flood_level(t); e = 0.0015
     if f > -0.9:
-        lv = bz + f + 0.02; Wt['ob'].hide_render = False
-        V = [(x, y, bz - 0.2) for x, y in Wt['xy']] + [(x, y, lv) for x, y in Wt['xy']]
+        lf = W.lift(t); lv = bz + f + 0.02 + lf; Wt['ob'].hide_render = False
+        V = [(x, y, bz - 0.2 + lf) for x, y in Wt['xy']] + [(x, y, lv) for x, y in Wt['xy']]
         Wt['ob'].data.vertices.foreach_set('co', np.array(V, np.float32).ravel()); Wt['ob'].data.update()
     else: Wt['ob'].hide_render = True
     if d < 1e-3 or w < 0.01: Wt['rib'].hide_render = True; return
-    lv = bz - 0.012 - 0.5 * d; hw = w + 0.05; C, N = Wt['C'], Wt['N']
-    P = np.stack([C - N * hw, C + N * hw], 1).reshape(-1, 2)
-    V = np.vstack([np.column_stack([P, lv - W.drop(P[:, 0], P[:, 1])]), np.full((4, 3), (0.0, 0.0, -50.0))])
+    hw = w + 0.05; C, N = Wt['C'], Wt['N']
+    # the river on the slice is lifted with it; on the land it stays at the land's level; segments over the gap are left
+    # out, so it ends at the slice's edge and at the hole's rim (it reads as cut from this very spot)
+    zs = bz - 0.012 - 0.5 * d + W.lift(t); zl = W.land_water(t) - W.drop(C[:, 0], C[:, 1])
+    A = C[:-1]; Bp = C[1:]; NA = N[:-1] * hw; NB = N[1:] * hw
+    Q = np.stack([A - NA, Bp - NB, Bp + NB, A + NA], 1)                      # (n, 4, 2)
+    za = np.where(Wt['seg_slice'], zs, zl[:-1]); zb_ = np.where(Wt['seg_slice'], zs, zl[1:])
+    Z = np.stack([za, zb_, zb_, za], 1)
+    S = Wt['seg_slice']; Q[S] = np.clip(Q[S], [-W.HX + e, -W.HY + e], [W.HX - e, W.HY - e])
+    V = np.concatenate([Q, Z[..., None]], 2)
+    V[~(Wt['seg_slice'] | Wt['seg_land'])] = (0.0, 0.0, -50.0)
     Wt['rib'].hide_render = False
-    Wt['rib'].data.vertices.foreach_set('co', V.astype(np.float32).ravel()); Wt['rib'].data.update()
+    Wt['rib'].data.vertices.foreach_set('co', V.reshape(-1, 3).astype(np.float32).ravel()); Wt['rib'].data.update()
 
 
 def build_rain(kit, D, rng, n=520):
@@ -222,7 +261,7 @@ def build_rain(kit, D, rng, n=520):
     for k in range(n): pr.add([(-0.0018, 0, 0), (0.0018, 0, 0), (0.0018, 0, 0.09), (-0.0018, 0, 0.09)], [(0, 1, 2, 3)])
     pr.build(kit.bpy, [m], kit.coll, smooth=False)
     pr.ob.visible_shadow = False
-    return {'parts': pr, 'xy': rng.uniform([-2.6, -1.8], [2.6, 2.0], (n, 2)), 'z0': rng.uniform(0, 3.0, n), 'v': rng.uniform(3.2, 4.2, n), 'ph': rng.uniform(0, 1, n)}
+    return {'parts': pr, 'xy': rng.uniform([-2.6, -1.8], [2.6, 2.0], (n, 2)), 'z0': rng.uniform(0, 4.4, n), 'v': rng.uniform(3.2, 4.2, n), 'ph': rng.uniform(0, 1, n)}
 
 
 def rain_pose(Rn, t):
@@ -230,9 +269,10 @@ def rain_pose(Rn, t):
     Rt = np.array([[math.cos(tilt), 0, math.sin(tilt)], [0, 1, 0], [-math.sin(tilt), 0, math.cos(tilt)]])
     for i in range(len(Rn['z0'])):
         if k < 0.02 or Rn['ph'][i] > k: pr.hide(i); continue
-        z = 2.4 - ((Rn['z0'][i] + Rn['v'][i] * t) % 3.4); x, y = Rn['xy'][i]
-        x = x - 0.35 * (2.4 - z)
-        if abs(x) < W.HX and abs(y) < W.HY and z < W.base(t) + 0.02: pr.hide(i); continue
+        z = 3.6 - ((Rn['z0'][i] + Rn['v'][i] * t) % 4.4); x, y = Rn['xy'][i]
+        x = x - 0.35 * (3.6 - z)
+        if abs(x) < W.HX and abs(y) < W.HY and z < W.base(t) + W.lift(t) + 0.02: pr.hide(i); continue
+        if not (abs(x) < W.HX + W.HM and abs(y) < W.HY + W.HM) and z < 0.0: pr.hide(i); continue
         pr.set(i, (x, y, z), Rt)
     pr.commit()
 
@@ -241,10 +281,9 @@ def rain_pose(Rn, t):
 def build(bpy, ctx):
     rng = np.random.default_rng(5)
     kit = cw.Kit(bpy, seed=5, loop=W.DURATION); D = M.Drive()
-    L = cw.block(kit, size=(W.SX, W.SY), depth=-W.ZB, strata=W.STRATA, top=lambda x, y: W.top_h(x, y, 0.0), water=None, seed=5, season='summer',
+    L = cw.block(kit, size=(W.SX, W.SY), depth=-W.ZB, strata=W.STRATA, top=lambda x, y: W.slice_h(x, y, 0.0), water=None, seed=5, season='summer',
                  res=0.025, grass=0, trees=0, boulders=0, flowers=0, under=False, lilies=0, reeds=0, name='fs_block')
-    add_trench_walls(kit, L)
-    geo = capture(L)
+    geo = capture(L); hole = build_hole(kit, D, rng)
     L.objects['top'].data.materials[0] = M.mat_top(kit, D)
     water = build_water(kit, D)
     world = build_world(kit, D, L.objects['top'].data.materials[0], water['rib'].data.materials[0])
@@ -257,13 +296,13 @@ def build(bpy, ctx):
              'saplings': ST.build_saplings(kit, D, rng)}
     fossil = FO.build(kit, D); rain = build_rain(kit, D, rng)
     cw.studio(kit, color=(0.93, 0.90, 0.84), key_az=SUN_AZ, key_el=45.0, key=3.2, angle=6.0, fill=0.8, land=L)
-    cam = cw.camera(kit, L, '16:9' if ctx['W'] >= ctx['H'] else '9:16', az=AZ0, el=EL, lens=LENS, fill=FILL, top_extra=0.75)
-    cam.pose(target=cam.target + np.array([0.0, 0.0, 0.50]))          # the block sits low: the land behind, the hills and the sky hold the words
+    cam = cw.camera(kit, L, '16:9' if ctx['W'] >= ctx['H'] else '9:16', az=AZ0, el=EL, lens=LENS, fill=FILL, top_extra=0.75, bottom_extra=W.GAP + 0.15)
+    cam.pose(target=cam.target + np.array([0.0, 0.0, -W.ZB + W.GAP + CAM_DZ]))   # framed on the lifted slice, its gap and the hole's rim
     back = BK.build(kit, D, cam, ctx)
     words = WD.Words(kit, D, cam, ROOT)
-    lens = ST.Lens(kit, D, cam, (W.DINO_LIE_X - 0.12 * W.DINO_K, -W.HY, W.Z_ANC + 0.09))
+    lens = ST.Lens(kit, D, cam, (W.DINO_LIE_X - 0.12 * W.DINO_K, -W.HY, W.Z_ANC + 0.09))      # slice frame: the lens adds lift(t)
     cw.apply_cycles(bpy); sc = bpy.context.scene; sc.cycles.transparent_max_bounces = 24
-    S = {'kit': kit, 'D': D, 'land': L, 'geo': geo, 'water': water, 'world': world, 'plants': plants, 'trees': trees, 'dino': dino, 'girl': girl, 'dug': dug,
+    S = {'kit': kit, 'D': D, 'land': L, 'geo': geo, 'water': water, 'world': world, 'hole': hole, 'plants': plants, 'trees': trees, 'dino': dino, 'girl': girl, 'dug': dug,
          'critters': critters, 'birds': birds, 'flutter': flutter, 'eggs': eggs, 'snail': snail, 'story': story, 'lens': lens, 'fossil': fossil, 'rain': rain, 'back': back, 'words': words,
          'cam': cam, 'az0': cam.az, 'sun': bpy.data.objects['cw_sun']}
     frame(bpy, ctx, S, 0, 0.0)
@@ -282,8 +321,8 @@ def frame(bpy, ctx, S, i, t):
     # ---- the land: top and walls follow the story's heights
     tp = S['geo']['top']; z = W.top_h(tp[:, 0], tp[:, 1], t); co = tp.copy(); co[:, 2] = z
     me = S['land'].objects['top'].data; me.vertices.foreach_set('co', co.astype(np.float32).ravel()); me.update()
-    wl = S['geo']['walls']; uu = S['geo']['uu']; zt = W.top_h(wl[:, 0], wl[:, 1], t); zz = zt + (W.ZB - zt) * uu
-    co = wl.copy(); co[:, 2] = zz; me = S['land'].objects['walls'].data; me.vertices.foreach_set('co', co.astype(np.float32).ravel())
+    wl = S['geo']['walls']; uu = S['geo']['uu']; zt = W.slice_h(wl[:, 0], wl[:, 1], t); zz = zt + (W.ZB - zt) * uu
+    co = wl.copy(); co[:, 2] = zz + W.lift(t); me = S['land'].objects['walls'].data; me.vertices.foreach_set('co', co.astype(np.float32).ravel())
     me.attributes['sd'].data.foreach_set('value', (W.Z_MAX - zz).astype(np.float32)); me.attributes['dtop'].data.foreach_set('value', (zt - zz).astype(np.float32)); me.update()
     # ---- the ground's colour of the moment
     e = W.era(t); anc = W.ancient(t); bz = W.base(t)
@@ -306,7 +345,7 @@ def frame(bpy, ctx, S, i, t):
     D.set('wet', max(wet, 0.6 * W.win(t, B.rain0 + 0.5, B.rain1 + 0.4, 0.5), 0.5 * W.win(t, B.rainA0 + 0.5, B.flood0 + 0.5, 0.4)))
     D.set('rw', W.channel(t)[0]); D.set('rockamt', e)
     # ---- water: the river and brook in their bed, the flood over everything
-    water_pose(S['water'], t); world_pose(S['world'], t)
+    water_pose(S['water'], t); world_pose(S['world'], t); underside_pose(S['hole'], t)
     D.setc('haze', blend4(t, ((0.66, 0.78, 0.74), (0.34, 0.54, 0.52), (0.72, 0.56, 0.52), (0.72, 0.76, 0.84))))
     D.set('murk', W.sm(-0.05, 0.02, fl)); D.set('walpha', 1.0)
     # ---- the camera holds (a 2 degree sway over the whole film); the light follows the story

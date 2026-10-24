@@ -129,6 +129,8 @@ def build(kit, D):
 
 def pose(Fo, D, t):
     B = W.B; pr = Fo['parts']
+    for k in ('bones', 'outline', 'sock'): Fo[k].location = (0.0, 0.0, W.lift(t))     # the fossil rides the lifted slice
+    pr.ob.location = (0.0, 0.0, W.lift(t))
     today_a = 1 - W.sm(B.rw0 - 0.1, B.rw0 + 0.9, t)                      # the stone fossil of today, fading in the rewind
     later_a = W.sm(B.bones_in0, B.bones_in1, t)                          # the bones tucked in by the blanket, and after
     a = today_a if t < B.bones_in0 else later_a

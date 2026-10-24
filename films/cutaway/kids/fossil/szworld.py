@@ -184,13 +184,11 @@ def flood_level(t):
 RIVER = np.array([(-10.0, 5.5), (-5.5, 2.6), (-2.6, 0.9), (-1.2, 0.30), (-0.3, -0.08), (0.5, -0.20), (1.15, -0.02), (1.45, 0.55),
                   (1.55, 1.3), (2.2, 2.6), (4.5, 4.5), (9.0, 6.5)])
 # the river comes from far behind on the left, loops past the front of the block (where the dinosaur rests by it) and
-# leaves through the back, on into the land behind; it never crosses the viewing trench
+# leaves through the back, on into the land behind
 
-# ------------------------------------------------------------------ the world around the block
-# The block is a dig section cut out of a continuous land: the land carries on at the same surface level all round it and
-# far behind (same heights, same ground colours, same eras). Only a narrow viewing trench in front of the two cut faces is
-# removed, so the faces stay visible; the land beyond the trench hides the trench floor and fills the lower frame.
-TW, TWX = 1.3, 0.6         # width of the viewing trench in front of the -Y face, and beside the +X face (m)
+# ------------------------------------------------------------------ the world around the slice
+# The slice was lifted out of a continuous land: the land carries on all round at its natural level and far behind (same
+# relief, same ground colours, same eras); beyond the slice's far corner it curves gently away so a horizon shows.
 VIEW_AZ = -62.0            # the camera's azimuth (blender.py uses it): the land curves away from the viewer beyond the block
 DROP_R = 6.0               # radius of that curve (m): a little storybook world, so the horizon, the hills and the sky show
 _FH = np.array([-math.cos(math.radians(VIEW_AZ)), -math.sin(math.radians(VIEW_AZ))])
@@ -202,15 +200,6 @@ def depth_s(x, y):
     return np.asarray(x, float) * _FH[0] + np.asarray(y, float) * _FH[1]
 
 
-def near(x, y):
-    """1 on the land in front of the viewing trench and right of it (between the dig and the viewer), easing to 0 over
-    0.7 m. That strip stays at the old ground's level so it never hides the fossil band, however high the layers stack."""
-    x = np.asarray(x, float); y = np.asarray(y, float)
-    front = smooth(-HY - TW, -HY - TW - 0.7, y)
-    right = smooth(HX + TWX, HX + TWX + 0.7, x) * smooth(HY + 0.7, HY, y)
-    return np.maximum(front, right)
-
-
 def drop(x, y):
     """How far the land has curved down at (x, y): nothing on the block and just beyond it, then a gentle curve."""
     s = np.maximum(depth_s(x, y) - _S0, 0.0); return s * s / (2 * DROP_R)
@@ -220,11 +209,26 @@ def in_block(x, y):
     return (np.abs(np.asarray(x)) < HX) & (np.abs(np.asarray(y)) < HY)
 
 
-def in_trench(x, y):
-    x = np.asarray(x); y = np.asarray(y)
-    front = (x > -HX) & (x < HX + TWX) & (y > -HY - TW) & (y < -HY)
-    side = (x > HX) & (x < HX + TWX) & (y > -HY - TW) & (y < HY)
-    return front | side
+# ------------------------------------------------------------------ the lifted slice (Sam 23 Oct: v3 framing)
+# The block is a slice of land lifted out of the living world: its underside floats GAP above the land, directly over the
+# hole it came from (the hole is HM wider than the slice all round, so its dark walls show). Everything on the slice is
+# at slice height (top_h adds lift(t) inside the slice's footprint); the land around stays at its natural level.
+GAP = 0.32                 # underside to land: about 0.3 of the slice's own height (1.05 m today)
+HM = 0.10                  # the hole is this much wider than the slice on every side
+HOLE_FLOOR = Z_NOW - 1.05  # the hole is as deep as the slice
+
+
+def lift(t):
+    """How high the slice floats: its full depth plus the gap, bobbing a few centimetres on a slow sine."""
+    return -ZB + GAP + 0.025 * math.sin(2 * math.pi * float(t) / 7.5)
+
+
+def in_slice(x, y):
+    return (np.abs(np.asarray(x, float)) <= HX + 1e-6) & (np.abs(np.asarray(y, float)) <= HY + 1e-6)
+
+
+def in_hole(x, y):
+    return (np.abs(np.asarray(x, float)) < HX + HM - 1e-6) & (np.abs(np.asarray(y, float)) < HY + HM - 1e-6)
 
 
 def far(x, y):
@@ -285,7 +289,24 @@ HOLLOW_D = 0.13
 
 
 def top_h(x, y, t):
-    """Height of the top at (x, y) at time t: base + relief + water course + blanket hump - today's hollow."""
+    """Height of the ground at (x, y) at time t. On the slice (its footprint, edges included): the story's top (base +
+    relief + water course + blanket hump - today's hollow) lifted by lift(t). Around it: the land at its natural level
+    (today's ground, the same relief and water course), curving away beyond the far corner."""
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    sl = in_slice(x, y)
+    h = np.where(sl, slice_h(x, y, t) + lift(t), land_h(x, y, t))
+    return h
+
+
+def land_h(x, y, t):
+    x = np.asarray(x, float); y = np.asarray(y, float); w, d = channel(t)
+    h = Z_NOW + relief(x, y)
+    if d > 1e-4: h = h - d * smooth(w + 0.06, max(w - 0.05, 0.0), river_d(x, y))
+    return h - drop(x, y)
+
+
+def slice_h(x, y, t):
+    """The slice's own top in its own frame (before the lift)."""
     x = np.asarray(x, float); y = np.asarray(y, float)
     w, d = channel(t)
     h = base(t) + relief(x, y)
@@ -295,17 +316,21 @@ def top_h(x, y, t):
     if hp > 1e-4: h = h + hp * hump(x, y)
     td = today(t) if base(t) < Z_NOW + 0.02 else 0.0
     if td > 1e-3: h = h - HOLLOW_D * td * hollow(x, y, t)
-    lift = max(0.0, base(t) - Z_ANC)
-    if lift > 1e-4: h = h - lift * near(x, y)
-    return h - drop(x, y)
+    return h
 
 
 def water_level(t):
-    """The water surface (absolute z): the river or brook in its bed; the flood above the whole top."""
+    """The water surface on the slice (absolute z, lift included): the river or brook in its bed; the flood above it."""
     w, d = channel(t); f = flood_level(t)
     lv = base(t) - 0.012 - 0.5 * d if d > 1e-4 else -9.0
     if f > -0.9: lv = max(lv, base(t) + f + 0.02)
-    return lv
+    return lv + lift(t)
+
+
+def land_water(t):
+    """The river's surface on the land around (before the curve away), or -9 when the layers have filled it."""
+    w, d = channel(t)
+    return Z_NOW - 0.012 - 0.5 * d if d > 1e-4 else -9.0
 
 # ------------------------------------------------------------------ colours in time (the painted sky card and the light)
 P_TODAY, P_FERN, P_EVE, P_DEEP = (1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1)
