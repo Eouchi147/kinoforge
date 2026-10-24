@@ -1,8 +1,14 @@
 # Status (updated 23 Oct 2026, director paid mode)
 
-## Kids explainers in Fable (Sam, 23 Oct 19:34; starting)
-- Several 1-minute Fable Cutaway films for kids aged 6 to 8: big concepts made simple (dinosaurs, planet Earth, animals,
-  space, oceans), wise and playful minimal narration, music at the centre, one fixed living view, happy bustling world.
+## Little Big Questions: kids explainers in Fable (Sam, 23 Oct 19:34 to 21:00; fossil pilot in production)
+- Silent stories, about 65 s, ages 6 to 8: no narration (all voices rejected), the picture explains, a few big words set
+  in code, a real orchestral public domain recording with the picture timed to it, real recorded CC0 effects; everyday
+  easter eggs, the snail mascot, one visual joke; framing: the Cutaway "lifted slice" over its hole in a living world.
+  Series rules: `films/cutaway/kids/README.md`; research: `docs/research/KIDS_FACTS_2026-10.md`, `KIDS_MUSIC_2026-10.md`.
+- Fossil pilot: picture v3 built (stills checked), music Grieg Morning Mood (Sam's pick, 21:00), soundtrack v1 built
+  (147 effects, -16 LUFS, not yet heard by anyone), the find beat (47 to 54.5 s) rendering on the Mac as a motion test;
+  full film about 3.5 h on the Mac after Sam's yes. Next films scripted: volcano, under-your-feet, rain, deep-sea,
+  shooting-star (each with its music pick in the research).
 - Storage: everything on Sam's Samsung X5 (`KINOFORGE/films/`); nothing on the Mac's own disk.
 
 ## Studio OS and manual (Sam, 23 Oct 18:17; in progress)
