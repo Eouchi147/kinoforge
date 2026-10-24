@@ -1,0 +1,2769 @@
+{
+ "film": "kids-shooting-star",
+ "duration_s": 68.4,
+ "measurements": {
+  "lufs": -16.1,
+  "lra": 9.4,
+  "true_peak": -1.9,
+  "limiter_max_reduction_db": 5.84,
+  "limiter_max_reduction_at_s": 24.22,
+  "limiter_samples_over_1db": 58621,
+  "gain_db": 10.05,
+  "ceiling_dbfs": -2.0,
+  "wav_sample_peak_dbfs": -2.0,
+  "wav_lufs_bs1770": -16.07,
+  "seconds": 68.4,
+  "codec": "aac 256k stereo 48 kHz",
+  "target_lufs": -16.0,
+  "true_peak_limit_dbtp": -1.5
+ },
+ "music": {
+  "piece": "Grieg, Peer Gynt Suite No. 1, III. Anitra's Dance",
+  "recording": "Musopen Symphony (Musopen)",
+  "licence": "Public domain (Wikimedia Commons record)",
+  "source": "https://commons.wikimedia.org/wiki/File:Grieg_-_Peer_Gynt_Suite_No._1,_Op._46_-_III._Anitra%27s_Dance_(Musopen_Symphony).flac",
+  "asset": "Eouchi147/rc-render release music: grieg-anitra-musopen.flac (+ .licence.json)",
+  "edit": "four pieces cut on the dance's bar lines (one bar = 1.3065 s at about 138 beats a minute): recording 0:00 to 0:03.6 (the introduction); 0:05.18 to 0:30.05 (the theme; the last bar is a cross-fade); 1:28.84 to 1:58.88 (the plucked build, the full-orchestra peak 1:42.3 to 1:51.5, the lilting second theme) then a bar cross-fade into 3:46.06 to 3:57.3 (the dance's own ending); triangular cross-fades of one bar (1.31 s); film 68.4 s; loudnorm -16 LUFS, true peak -1.5 dBTP",
+  "chosen": "docs/research/KIDS_MUSIC_2026-10.md 4.5 (first choice R3-III), Sam's brief of 23 Oct 2026",
+  "credit": "Music: Edvard Grieg, Anitra's Dance (Peer Gynt Suite No. 1), performed by the Musopen Symphony (musopen.org), public domain.",
+  "cut": {
+   "pieces_recording_to_film": [
+    [
+     0.0,
+     3.85,
+     0.0
+    ],
+    [
+     4.93,
+     30.05,
+     3.35
+    ],
+    [
+     88.84,
+     120.19,
+     27.16
+    ],
+    [
+     226.06,
+     237.8,
+     57.2
+    ]
+   ],
+   "crossfade_windows_film_s": [
+    [
+     3.35,
+     3.85
+    ],
+    [
+     27.16,
+     28.4665
+    ],
+    [
+     57.2,
+     58.5065
+    ]
+   ],
+   "bar_s": 1.3065,
+   "curve": "triangular (linear)"
+  },
+  "rider": {
+   "target_lufs": -21.0,
+   "ratio": 3.0,
+   "smoothing_s": 1.0,
+   "gain_db_range": [
+    4.0,
+    9.0
+   ]
+  },
+  "music_only_lufs": -15.78
+ },
+ "events": {
+  "sun0": 0.0,
+  "snail_up0": 0.6,
+  "snail_up1": 1.6,
+  "toast0": 3.6,
+  "streak1_0": 7.52,
+  "point0": 7.8,
+  "owl0": 7.95,
+  "sun1": 8.0,
+  "streak1_1": 8.42,
+  "owl1": 8.6,
+  "toast1": 8.8,
+  "tele0": 9.0,
+  "win0": 9.55,
+  "tele1": 9.9,
+  "win1": 10.25,
+  "lens_star": 10.25,
+  "point1": 11.5,
+  "star_pulse": 13.3,
+  "pebble0": 14.45,
+  "win_close0": 15.45,
+  "pebble1": 15.85,
+  "win_close1": 16.05,
+  "pebble2": 17.55,
+  "win2": 18.25,
+  "win3": 18.95,
+  "lens_rock": 18.95,
+  "pebble_in": 19.6,
+  "acc0": 21.88,
+  "acc1": 23.19,
+  "acc2": 24.5,
+  "air_in": 26.0,
+  "enter": 28.45,
+  "ring0": 29.0,
+  "glow0": 30.0,
+  "hold0": 31.0,
+  "sky_ring": 32.0,
+  "glow1": 39.0,
+  "streak0": 40.59,
+  "gasp": 41.7,
+  "peak": 41.9,
+  "label0": 41.9,
+  "burn": 41.9,
+  "streak1": 44.0,
+  "label1": 44.7,
+  "win_close2": 46.0,
+  "win_close3": 46.6,
+  "dust0": 46.6,
+  "wish0": 49.7,
+  "leaf0": 50.4,
+  "dust1": 52.0,
+  "leaf1": 53.9,
+  "munch0": 54.2,
+  "wish1": 54.4,
+  "munch1": 56.8,
+  "cuddle0": 57.6,
+  "cuddle1": 59.4,
+  "chord": 59.55,
+  "hush0": 61.88,
+  "words_send": 61.88,
+  "hush1": 63.57,
+  "last0": 66.6,
+  "last1": 67.5,
+  "rw0": 68.4,
+  "rw1": 68.4,
+  "stack0": 68.4,
+  "stack1": 68.4,
+  "rain0": 68.4,
+  "erode1": 68.4
+ },
+ "recordings": {
+  "boing_6": {
+   "uses": [
+    "the snail lifts its tiny telescope (a little boing) at 0.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s2281.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "brush_wood": {
+   "uses": [
+    "dad holds a marshmallow on a stick to the fire (a soft swish) at 3.60 s"
+   ],
+   "source": "https://bigsoundbank.com/s1106.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "candle_sparkle_1": {
+   "uses": [
+    "the first stars wink on at 1.00 s",
+    "the first stars wink on at 2.20 s",
+    "the first stars wink on at 3.20 s",
+    "the pebble and the rock glint together at 19.60 s",
+    "a speck of space dust glints (tiny dust falls every day) at 47.10 s",
+    "a speck of space dust glints (tiny dust falls every day) at 48.40 s",
+    "a speck of space dust glints (tiny dust falls every day) at 49.70 s",
+    "a speck of space dust glints (tiny dust falls every day) at 50.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s1278.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "candle_sparkle_2": {
+   "uses": [
+    "sparkle in its wake at 7.72 s",
+    "sparks shed from the streak at 42.43 s",
+    "sparks shed from the streak at 43.31 s",
+    "sparks shed from the streak at 43.67 s",
+    "sparks shed from the streak at 43.78 s",
+    "sparks shed from the streak at 43.83 s",
+    "sparks shed from the streak at 44.22 s",
+    "sparks shed from the streak at 44.54 s"
+   ],
+   "source": "https://bigsoundbank.com/s1279.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "carrot_crunch": {
+   "uses": [
+    "the snail munches its wish (a lettuce crunch) at 54.55 s",
+    "the snail munches its wish (a lettuce crunch) at 55.46 s",
+    "the snail munches its wish (a lettuce crunch) at 56.37 s"
+   ],
+   "source": "https://bigsoundbank.com/s1594.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_butterfly_1": {
+   "uses": [
+    "the window opens (chimes) at 9.70 s",
+    "the window opens on the rock (chimes) at 18.45 s",
+    "the last bright chord (chimes) at 59.57 s"
+   ],
+   "source": "https://bigsoundbank.com/s2087.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_butterfly_3": {
+   "uses": [
+    "she holds the pebble up to the sky (a small chime) at 15.85 s",
+    "the trail fades away (a long soft chime) at 44.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s2089.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_dream_1": {
+   "uses": [
+    "the little streak sings (chimes tuned to the music) at 7.57 s",
+    "sparkles drift down and melt (chimes) at 42.80 s",
+    "sparkles drift down and melt (chimes) at 43.40 s",
+    "sparkles drift down and melt (chimes) at 44.10 s",
+    "sparkles drift down and melt (chimes) at 44.80 s",
+    "the last streak sings (a soft chime) at 66.65 s"
+   ],
+   "source": "https://bigsoundbank.com/s2079.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_dream_3": {
+   "uses": [
+    "the star is a giant, calm ball of fire (a slow glow of chimes) at 13.30 s",
+    "the ring appears in the sky (a small chime) at 29.00 s",
+    "everyone makes a wish (a hushed chime) at 49.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s2081.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "cloth": {
+   "uses": [
+    "everyone looks up (cloth rustle) at 7.80 s",
+    "they cuddle close (cloth) at 57.60 s"
+   ],
+   "source": "https://bigsoundbank.com/s0013.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "cluster_chimes": {
+   "uses": [
+    "METEOR! a burst of gold stars (chimes, tuned) at 41.93 s"
+   ],
+   "source": "https://bigsoundbank.com/s2687.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "dreamcatcher": {
+   "uses": [
+    "wish stars lift from their heads (a faint shimmer) at 50.60 s"
+   ],
+   "source": "https://bigsoundbank.com/s0040.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "evening_birds": {
+   "uses": [
+    "bed 0.0-9.5 s"
+   ],
+   "source": "https://bigsoundbank.com/s1859.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "field_cricket": {
+   "uses": [
+    "bed 3.0-68.4 s"
+   ],
+   "source": "https://bigsoundbank.com/s1020.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "fire_branching_1": {
+   "uses": [
+    "a crackle from the fire at 2.20 s",
+    "a crackle from the fire at 5.60 s",
+    "a crackle from the fire at 11.40 s",
+    "a crackle from the fire at 17.00 s",
+    "a crackle from the fire at 23.30 s",
+    "a crackle from the fire at 31.50 s",
+    "a crackle from the fire at 37.00 s",
+    "a crackle from the fire at 47.40 s",
+    "a crackle from the fire at 52.80 s",
+    "a crackle from the fire at 60.30 s",
+    "a crackle from the fire at 64.20 s"
+   ],
+   "source": "https://bigsoundbank.com/s0987.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "fireplace_1": {
+   "uses": [
+    "bed 0.0-68.4 s"
+   ],
+   "source": "https://bigsoundbank.com/s0030.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "glockenspiel": {
+   "uses": [
+    "METEOR! sparkle (a struck glockenspiel chord, tuned) at 41.95 s"
+   ],
+   "source": "https://bigsoundbank.com/s0920.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "metallophone": {
+   "uses": [
+    "she aims the telescope (a tiny ring) at 9.30 s",
+    "the rock drifts closer (accent 1 of 3 on the bar line) at 21.88 s",
+    "the rock drifts closer (accent 2 of 3 on the bar line) at 23.19 s",
+    "the rock drifts closer (accent 3 of 3 on the bar line) at 24.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s3067.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "owl_tawny": {
+   "uses": [
+    "the owl turns its head (a soft hoot) at 7.95 s",
+    "the owl hoots softly goodnight at 61.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s0429.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "paper": {
+   "uses": [
+    "a lettuce leaf floats in, rocking (paper-light rustle) at 51.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s0785.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "plant_cartoon_1": {
+   "uses": [
+    "the leaf lands beside the snail at 53.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s1950.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "rusk_crunch": {
+   "uses": [
+    "the snail munches its wish (a lettuce crunch) at 55.00 s",
+    "the snail munches its wish (a lettuce crunch) at 55.91 s",
+    "the snail munches its wish (a lettuce crunch) at 56.82 s"
+   ],
+   "source": "https://bigsoundbank.com/s0407.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "sigh_nose": {
+   "uses": [
+    "everyone gasps: oh (a soft breath) at 41.70 s",
+    "a happy sigh at 58.10 s"
+   ],
+   "source": "https://bigsoundbank.com/s1404.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steps_pebbles": {
+   "uses": [
+    "she picks up a pebble at 14.45 s",
+    "she sets the pebble back at 17.55 s",
+    "the rock tumbles (a tiny tick) at 19.00 s",
+    "the rock tumbles (a tiny tick) at 19.57 s",
+    "the rock tumbles (a tiny tick) at 20.10 s",
+    "the rock tumbles (a tiny tick) at 20.65 s"
+   ],
+   "source": "https://bigsoundbank.com/s0839.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "tibetan_bowl_2": {
+   "uses": [
+    "METEOR! a singing bowl blooms with the climax at 41.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s1110.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "toy_squeal_1": {
+   "uses": [
+    "the little brother squeals with delight at 7.90 s",
+    "the little brother cheers at 42.05 s"
+   ],
+   "source": "https://bigsoundbank.com/s3331.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "triangle_2": {
+   "uses": [
+    "the star glints in the window (a triangle) at 10.25 s",
+    "the twin glint (a triangle) at 19.65 s",
+    "the ring in the sky (a triangle) at 32.00 s",
+    "METEOR! a soft triangle at 41.92 s",
+    "the dance's last bright chord (a triangle) at 59.55 s"
+   ],
+   "source": "https://bigsoundbank.com/s1688.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "water_bubble_2": {
+   "uses": [
+    "the round window opens (a soft bubble) at 9.55 s",
+    "the window closes (a soft bubble, reversed) at 15.85 s",
+    "the round window opens again (a soft bubble) at 18.25 s",
+    "the window shows the layers of the air (a soft bubble) at 26.00 s",
+    "the window closes (a soft bubble, reversed) at 46.40 s"
+   ],
+   "source": "https://bigsoundbank.com/s0183.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "whoosh_10": {
+   "uses": [
+    "a small streak zips across the sky at 7.87 s"
+   ],
+   "source": "https://bigsoundbank.com/s1798.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "whoosh_4": {
+   "uses": [
+    "one last small streak at 66.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s1796.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "whoosh_8": {
+   "uses": [
+    "the rock rushes in (a reversed whoosh crossing the sky) at 41.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s1801.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "whoosh_long_2": {
+   "uses": [
+    "it enters the air (a long, rising rush) at 28.05 s"
+   ],
+   "source": "https://bigsoundbank.com/s0573.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_inside_1": {
+   "uses": [
+    "a long breath of air as it nears at 22.08 s"
+   ],
+   "source": "https://bigsoundbank.com/s1714.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_plain": {
+   "uses": [
+    "bed 14.0-68.4 s"
+   ],
+   "source": "https://bigsoundbank.com/s0595.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_whistle_1": {
+   "uses": [
+    "bed 28.4-42.9 s"
+   ],
+   "source": "https://bigsoundbank.com/s0147.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_whistle_2": {
+   "uses": [
+    "the air screams past, gently (a reversed whistle) at 41.80 s"
+   ],
+   "source": "https://bigsoundbank.com/s0155.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wine_stopper_3": {
+   "uses": [
+    "words pop in: what is a shooting star? at 0.35 s",
+    "words pop in: not a star at 9.17 s",
+    "words pop in: a tiny space rock at 18.32 s",
+    "words pop in: meteor! at 41.90 s",
+    "words pop in: will you see one tonight? at 61.88 s"
+   ],
+   "source": "https://bigsoundbank.com/s1719.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  }
+ },
+ "placements": [
+  {
+   "t": 0.0,
+   "what": "the campfire crackles all film",
+   "name": "fireplace_1",
+   "gain_db": 12.8,
+   "bed_to": 68.4
+  },
+  {
+   "t": 0.0,
+   "what": "the last evening birds",
+   "name": "evening_birds",
+   "gain_db": -22.1,
+   "bed_to": 9.5
+  },
+  {
+   "t": 3.0,
+   "what": "crickets as the night comes (louder in the breath of stillness)",
+   "name": "field_cricket",
+   "gain_db": -32.4,
+   "bed_to": 68.4
+  },
+  {
+   "t": 14.0,
+   "what": "a soft night breeze",
+   "name": "wind_plain",
+   "gain_db": -27.9,
+   "bed_to": 68.4
+  },
+  {
+   "t": 2.2,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -33.4,
+   "peak_db": -47.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.06,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 5.6,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -46.7,
+   "peak_db": -57.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.01,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 11.4,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -30.6,
+   "peak_db": -51.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.04,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 17.0,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -27.5,
+   "peak_db": -45.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.06,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 23.3,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -25.0,
+   "peak_db": -40.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.01,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 31.5,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -52.2,
+   "peak_db": -56.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.04,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 37.0,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -36.4,
+   "peak_db": -43.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.06,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 47.4,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -22.0,
+   "peak_db": -41.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.01,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 52.8,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -26.6,
+   "peak_db": -42.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.04,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 60.3,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -26.9,
+   "peak_db": -44.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.06,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 64.2,
+   "what": "a crackle from the fire",
+   "name": "fire_branching_1",
+   "gain_db": -28.2,
+   "peak_db": -49.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.01,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 0.9,
+   "what": "the snail lifts its tiny telescope (a little boing)",
+   "name": "boing_6",
+   "gain_db": -43.1,
+   "peak_db": -46.9,
+   "tuned_st": 0.77,
+   "notes": [
+    "E",
+    "B",
+    "G#"
+   ],
+   "pitch_out": "G# +0 cents",
+   "pan": 0.32,
+   "onset_ms": 6.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.44,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 1.0,
+   "what": "the first stars wink on",
+   "name": "candle_sparkle_1",
+   "gain_db": -37.5,
+   "peak_db": -54.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.5,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -24.0
+  },
+  {
+   "t": 2.2,
+   "what": "the first stars wink on",
+   "name": "candle_sparkle_1",
+   "gain_db": -40.6,
+   "peak_db": -55.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -24.0
+  },
+  {
+   "t": 3.2,
+   "what": "the first stars wink on",
+   "name": "candle_sparkle_1",
+   "gain_db": -51.0,
+   "peak_db": -66.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.5,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -24.0
+  },
+  {
+   "t": 3.6,
+   "what": "dad holds a marshmallow on a stick to the fire (a soft swish)",
+   "name": "brush_wood",
+   "gain_db": -43.7,
+   "peak_db": -56.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 7.87,
+   "what": "a small streak zips across the sky",
+   "name": "whoosh_10",
+   "gain_db": -32.9,
+   "peak_db": -49.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.46,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 7.57,
+   "what": "the little streak sings (chimes tuned to the music)",
+   "name": "chimes_dream_1",
+   "gain_db": -33.4,
+   "peak_db": -47.5,
+   "tuned_st": 0.66,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "A +2 cents",
+   "pan": 0.1,
+   "onset_ms": 34.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.34,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 7.72,
+   "what": "sparkle in its wake",
+   "name": "candle_sparkle_2",
+   "gain_db": -43.5,
+   "peak_db": -56.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.2,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.0,
+   "peak_above_music_rms_db": -20.0
+  },
+  {
+   "t": 7.8,
+   "what": "everyone looks up (cloth rustle)",
+   "name": "cloth",
+   "gain_db": -34.8,
+   "peak_db": -56.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.1,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.7,
+   "peak_above_music_rms_db": -20.0
+  },
+  {
+   "t": 7.9,
+   "what": "the little brother squeals with delight",
+   "name": "toy_squeal_1",
+   "gain_db": -53.3,
+   "peak_db": -55.4,
+   "tuned_st": 0.31,
+   "notes": [
+    "A",
+    "C",
+    "E"
+   ],
+   "pitch_out": "E +0 cents",
+   "pan": 0.19,
+   "onset_ms": 5.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 7.95,
+   "what": "the owl turns its head (a soft hoot)",
+   "name": "owl_tawny",
+   "gain_db": -39.4,
+   "peak_db": -55.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.66,
+   "onset_ms": 98.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.2,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 9.55,
+   "what": "the round window opens (a soft bubble)",
+   "name": "water_bubble_2",
+   "gain_db": -33.9,
+   "peak_db": -40.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 9.7,
+   "what": "the window opens (chimes)",
+   "name": "chimes_butterfly_1",
+   "gain_db": -21.1,
+   "peak_db": -42.8,
+   "tuned_st": 3.63,
+   "notes": [
+    "E",
+    "C"
+   ],
+   "pitch_out": "C +18 cents",
+   "pan": 0.3,
+   "onset_ms": 11.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.56,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 10.25,
+   "what": "the star glints in the window (a triangle)",
+   "name": "triangle_2",
+   "gain_db": -38.5,
+   "peak_db": -43.7,
+   "tuned_st": -0.08,
+   "notes": [
+    "E"
+   ],
+   "pitch_out": "E +1 cents",
+   "pan": 0.3,
+   "onset_ms": 6.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.98,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 9.3,
+   "what": "she aims the telescope (a tiny ring)",
+   "name": "metallophone",
+   "gain_db": -43.9,
+   "peak_db": -47.1,
+   "tuned_st": 5.03,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "F +0 cents",
+   "pan": 0.35,
+   "onset_ms": 8.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.86,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 13.3,
+   "what": "the star is a giant, calm ball of fire (a slow glow of chimes)",
+   "name": "chimes_dream_3",
+   "gain_db": -20.1,
+   "peak_db": -41.9,
+   "tuned_st": 0.64,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "G# +11 cents",
+   "pan": 0.2,
+   "onset_ms": 20.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.01,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 15.85,
+   "what": "the window closes (a soft bubble, reversed)",
+   "name": "water_bubble_2",
+   "gain_db": -6.9,
+   "peak_db": -39.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 14.45,
+   "what": "she picks up a pebble",
+   "name": "steps_pebbles",
+   "gain_db": -35.3,
+   "peak_db": -47.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 15.85,
+   "what": "she holds the pebble up to the sky (a small chime)",
+   "name": "chimes_butterfly_3",
+   "gain_db": -32.7,
+   "peak_db": -42.5,
+   "tuned_st": -0.39,
+   "notes": [
+    "A",
+    "F#",
+    "C"
+   ],
+   "pitch_out": "A -1 cents",
+   "pan": 0.15,
+   "onset_ms": 22.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.47,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 17.55,
+   "what": "she sets the pebble back",
+   "name": "steps_pebbles",
+   "gain_db": -30.0,
+   "peak_db": -44.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 18.25,
+   "what": "the round window opens again (a soft bubble)",
+   "name": "water_bubble_2",
+   "gain_db": -34.6,
+   "peak_db": -41.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 18.45,
+   "what": "the window opens on the rock (chimes)",
+   "name": "chimes_butterfly_1",
+   "gain_db": -24.8,
+   "peak_db": -44.6,
+   "tuned_st": 2.63,
+   "notes": [
+    "B",
+    "D#",
+    "E"
+   ],
+   "pitch_out": "B +19 cents",
+   "pan": 0.3,
+   "onset_ms": 12.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.65,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 19.0,
+   "what": "the rock tumbles (a tiny tick)",
+   "name": "steps_pebbles",
+   "gain_db": -25.7,
+   "peak_db": -46.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.4,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.35,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 19.57,
+   "what": "the rock tumbles (a tiny tick)",
+   "name": "steps_pebbles",
+   "gain_db": -32.0,
+   "peak_db": -50.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.35,
+   "peak_above_music_rms_db": -18.7
+  },
+  {
+   "t": 20.1,
+   "what": "the rock tumbles (a tiny tick)",
+   "name": "steps_pebbles",
+   "gain_db": -37.5,
+   "peak_db": -55.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.45,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.35,
+   "peak_above_music_rms_db": -19.4
+  },
+  {
+   "t": 20.65,
+   "what": "the rock tumbles (a tiny tick)",
+   "name": "steps_pebbles",
+   "gain_db": -26.2,
+   "peak_db": -52.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.35,
+   "peak_above_music_rms_db": -20.1
+  },
+  {
+   "t": 19.6,
+   "what": "the pebble and the rock glint together",
+   "name": "candle_sparkle_1",
+   "gain_db": -34.3,
+   "peak_db": -48.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.2,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 19.65,
+   "what": "the twin glint (a triangle)",
+   "name": "triangle_2",
+   "gain_db": -39.6,
+   "peak_db": -44.8,
+   "tuned_st": -1.08,
+   "notes": [
+    "B",
+    "D#"
+   ],
+   "pitch_out": "D# +0 cents",
+   "pan": 0.25,
+   "onset_ms": 6.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.74,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 21.88,
+   "what": "the rock drifts closer (accent 1 of 3 on the bar line)",
+   "name": "metallophone",
+   "gain_db": -40.5,
+   "peak_db": -42.0,
+   "tuned_st": -4.97,
+   "notes": [
+    "B"
+   ],
+   "pitch_out": "B +0 cents",
+   "pan": 0.3,
+   "onset_ms": 6.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.06,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 23.19,
+   "what": "the rock drifts closer (accent 2 of 3 on the bar line)",
+   "name": "metallophone",
+   "gain_db": -33.9,
+   "peak_db": -35.7,
+   "tuned_st": -2.97,
+   "notes": [
+    "B",
+    "C#"
+   ],
+   "pitch_out": "C# +0 cents",
+   "pan": 0.2,
+   "onset_ms": 5.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.84,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 24.5,
+   "what": "the rock drifts closer (accent 3 of 3 on the bar line)",
+   "name": "metallophone",
+   "gain_db": -35.7,
+   "peak_db": -38.1,
+   "tuned_st": -3.97,
+   "notes": [
+    "B",
+    "C"
+   ],
+   "pitch_out": "C +0 cents",
+   "pan": 0.1,
+   "onset_ms": 5.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.95,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 22.08,
+   "what": "a long breath of air as it nears",
+   "name": "wind_inside_1",
+   "gain_db": -37.5,
+   "peak_db": -48.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 5.0,
+   "peak_above_music_rms_db": -20.9
+  },
+  {
+   "t": 26.0,
+   "what": "the window shows the layers of the air (a soft bubble)",
+   "name": "water_bubble_2",
+   "gain_db": -31.1,
+   "peak_db": -37.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 28.05,
+   "what": "it enters the air (a long, rising rush)",
+   "name": "whoosh_long_2",
+   "gain_db": -49.0,
+   "peak_db": -56.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 5.5,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 28.45,
+   "what": "the air sings past as it glows hotter",
+   "name": "wind_whistle_1",
+   "gain_db": -13.5,
+   "bed_to": 42.9
+  },
+  {
+   "t": 29.0,
+   "what": "the ring appears in the sky (a small chime)",
+   "name": "chimes_dream_3",
+   "gain_db": -30.5,
+   "peak_db": -52.3,
+   "tuned_st": 0.64,
+   "notes": [
+    "A",
+    "G",
+    "D"
+   ],
+   "pitch_out": "G# +11 cents",
+   "pan": 0.2,
+   "onset_ms": 16.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.01,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 32.0,
+   "what": "the ring in the sky (a triangle)",
+   "name": "triangle_2",
+   "gain_db": -46.1,
+   "peak_db": -52.2,
+   "tuned_st": -2.08,
+   "notes": [
+    "D",
+    "G",
+    "A"
+   ],
+   "pitch_out": "D +1 cents",
+   "pan": 0.1,
+   "onset_ms": 6.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.35,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 41.9,
+   "what": "the rock rushes in (a reversed whoosh crossing the sky)",
+   "name": "whoosh_8",
+   "gain_db": -26.4,
+   "peak_db": -31.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 0.81,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 41.8,
+   "what": "the air screams past, gently (a reversed whistle)",
+   "name": "wind_whistle_2",
+   "gain_db": -22.6,
+   "peak_db": -38.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 1.8,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 41.93,
+   "what": "METEOR! a burst of gold stars (chimes, tuned)",
+   "name": "cluster_chimes",
+   "gain_db": -28.3,
+   "peak_db": -31.2,
+   "tuned_st": 2.85,
+   "notes": [
+    "F#",
+    "A",
+    "E"
+   ],
+   "pitch_out": "E +0 cents",
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.37,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 41.95,
+   "what": "METEOR! sparkle (a struck glockenspiel chord, tuned)",
+   "name": "glockenspiel",
+   "gain_db": -25.9,
+   "peak_db": -32.1,
+   "tuned_st": -1.97,
+   "notes": [
+    "F#",
+    "A",
+    "E"
+   ],
+   "pitch_out": "E +1 cents",
+   "pan": -0.1,
+   "onset_ms": 38.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.27,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 41.92,
+   "what": "METEOR! a soft triangle",
+   "name": "triangle_2",
+   "gain_db": -26.2,
+   "peak_db": -32.2,
+   "tuned_st": -0.08,
+   "notes": [
+    "F#",
+    "A",
+    "E"
+   ],
+   "pitch_out": "E +1 cents",
+   "pan": 0.15,
+   "onset_ms": 6.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.38,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 41.9,
+   "what": "METEOR! a singing bowl blooms with the climax",
+   "name": "tibetan_bowl_2",
+   "gain_db": -26.2,
+   "peak_db": -35.3,
+   "tuned_st": 3.74,
+   "notes": [
+    "F#",
+    "A"
+   ],
+   "pitch_out": "C -44 cents",
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 5.64,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 41.7,
+   "what": "everyone gasps: oh (a soft breath)",
+   "name": "sigh_nose",
+   "gain_db": -33.0,
+   "peak_db": -43.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.21,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.6,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 42.05,
+   "what": "the little brother cheers",
+   "name": "toy_squeal_1",
+   "gain_db": -38.1,
+   "peak_db": -39.9,
+   "tuned_st": -0.1,
+   "notes": [
+    "F#",
+    "E",
+    "A"
+   ],
+   "pitch_out": "F# +0 cents",
+   "pan": 0.24,
+   "onset_ms": 4.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.71,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 42.426,
+   "what": "sparks shed from the streak",
+   "name": "candle_sparkle_2",
+   "gain_db": -24.7,
+   "peak_db": -42.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.13,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 43.311,
+   "what": "sparks shed from the streak",
+   "name": "candle_sparkle_2",
+   "gain_db": -32.4,
+   "peak_db": -42.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.05,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 43.666,
+   "what": "sparks shed from the streak",
+   "name": "candle_sparkle_2",
+   "gain_db": -30.7,
+   "peak_db": -44.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.44,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 43.784,
+   "what": "sparks shed from the streak",
+   "name": "candle_sparkle_2",
+   "gain_db": -29.6,
+   "peak_db": -42.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.45,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 43.832,
+   "what": "sparks shed from the streak",
+   "name": "candle_sparkle_2",
+   "gain_db": -25.7,
+   "peak_db": -43.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.07,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 44.221,
+   "what": "sparks shed from the streak",
+   "name": "candle_sparkle_2",
+   "gain_db": -35.4,
+   "peak_db": -45.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.25,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 44.54,
+   "what": "sparks shed from the streak",
+   "name": "candle_sparkle_2",
+   "gain_db": -24.8,
+   "peak_db": -42.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.11,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -17.1
+  },
+  {
+   "t": 42.8,
+   "what": "sparkles drift down and melt (chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -26.0,
+   "peak_db": -38.7,
+   "tuned_st": -2.34,
+   "notes": [
+    "C",
+    "F#"
+   ],
+   "pitch_out": "F# +2 cents",
+   "pan": -0.3,
+   "onset_ms": 40.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.83,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 43.4,
+   "what": "sparkles drift down and melt (chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -24.4,
+   "peak_db": -38.6,
+   "tuned_st": 0.66,
+   "notes": [
+    "C",
+    "A"
+   ],
+   "pitch_out": "G# +10 cents",
+   "pan": -0.15,
+   "onset_ms": 34.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.54,
+   "peak_above_music_rms_db": -14.3
+  },
+  {
+   "t": 44.1,
+   "what": "sparkles drift down and melt (chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -28.4,
+   "peak_db": -42.7,
+   "tuned_st": -2.34,
+   "notes": [
+    "C",
+    "F#",
+    "B"
+   ],
+   "pitch_out": "F# +2 cents",
+   "pan": 0.0,
+   "onset_ms": 40.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.83,
+   "peak_above_music_rms_db": -15.6
+  },
+  {
+   "t": 44.8,
+   "what": "sparkles drift down and melt (chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -27.7,
+   "peak_db": -41.9,
+   "tuned_st": 0.66,
+   "notes": [
+    "A",
+    "B",
+    "F#"
+   ],
+   "pitch_out": "G# +10 cents",
+   "pan": 0.15,
+   "onset_ms": 34.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.54,
+   "peak_above_music_rms_db": -16.9
+  },
+  {
+   "t": 44.0,
+   "what": "the trail fades away (a long soft chime)",
+   "name": "chimes_butterfly_3",
+   "gain_db": -32.4,
+   "peak_db": -41.1,
+   "tuned_st": 1.61,
+   "notes": [
+    "C",
+    "B",
+    "F#"
+   ],
+   "pitch_out": "B +0 cents",
+   "pan": -0.4,
+   "onset_ms": 25.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.9,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 46.4,
+   "what": "the window closes (a soft bubble, reversed)",
+   "name": "water_bubble_2",
+   "gain_db": -4.2,
+   "peak_db": -36.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 47.1,
+   "what": "a speck of space dust glints (tiny dust falls every day)",
+   "name": "candle_sparkle_1",
+   "gain_db": -31.1,
+   "peak_db": -45.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.5,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -20.0
+  },
+  {
+   "t": 48.4,
+   "what": "a speck of space dust glints (tiny dust falls every day)",
+   "name": "candle_sparkle_1",
+   "gain_db": -30.8,
+   "peak_db": -43.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.15,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -20.0
+  },
+  {
+   "t": 49.7,
+   "what": "a speck of space dust glints (tiny dust falls every day)",
+   "name": "candle_sparkle_1",
+   "gain_db": -30.8,
+   "peak_db": -45.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.2,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -20.0
+  },
+  {
+   "t": 50.9,
+   "what": "a speck of space dust glints (tiny dust falls every day)",
+   "name": "candle_sparkle_1",
+   "gain_db": -34.5,
+   "peak_db": -48.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.55,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -20.0
+  },
+  {
+   "t": 49.7,
+   "what": "everyone makes a wish (a hushed chime)",
+   "name": "chimes_dream_3",
+   "gain_db": -15.6,
+   "peak_db": -39.1,
+   "tuned_st": -3.36,
+   "notes": [
+    "F",
+    "C"
+   ],
+   "pitch_out": "B +17 cents",
+   "pan": 0.0,
+   "onset_ms": 20.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.28,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 50.6,
+   "what": "wish stars lift from their heads (a faint shimmer)",
+   "name": "dreamcatcher",
+   "gain_db": -17.0,
+   "peak_db": -52.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 3.0,
+   "peak_above_music_rms_db": -22.0
+  },
+  {
+   "t": 51.7,
+   "what": "a lettuce leaf floats in, rocking (paper-light rustle)",
+   "name": "paper",
+   "gain_db": -30.7,
+   "peak_db": -50.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.02,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.2,
+   "peak_above_music_rms_db": -23.0
+  },
+  {
+   "t": 53.9,
+   "what": "the leaf lands beside the snail",
+   "name": "plant_cartoon_1",
+   "gain_db": -33.1,
+   "peak_db": -40.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.32,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.7,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 54.55,
+   "what": "the snail munches its wish (a lettuce crunch)",
+   "name": "carrot_crunch",
+   "gain_db": -35.1,
+   "peak_db": -41.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.32,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 55.005,
+   "what": "the snail munches its wish (a lettuce crunch)",
+   "name": "rusk_crunch",
+   "gain_db": -18.9,
+   "peak_db": -43.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.32,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 55.46,
+   "what": "the snail munches its wish (a lettuce crunch)",
+   "name": "carrot_crunch",
+   "gain_db": -10.2,
+   "peak_db": -38.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.32,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 55.915,
+   "what": "the snail munches its wish (a lettuce crunch)",
+   "name": "rusk_crunch",
+   "gain_db": -7.3,
+   "peak_db": -41.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.32,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 56.37,
+   "what": "the snail munches its wish (a lettuce crunch)",
+   "name": "carrot_crunch",
+   "gain_db": -3.3,
+   "peak_db": -41.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.32,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 56.825,
+   "what": "the snail munches its wish (a lettuce crunch)",
+   "name": "rusk_crunch",
+   "gain_db": -15.1,
+   "peak_db": -39.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.32,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 57.6,
+   "what": "they cuddle close (cloth)",
+   "name": "cloth",
+   "gain_db": -24.8,
+   "peak_db": -51.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.11,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.5,
+   "peak_above_music_rms_db": -21.0
+  },
+  {
+   "t": 58.1,
+   "what": "a happy sigh",
+   "name": "sigh_nose",
+   "gain_db": -52.3,
+   "peak_db": -59.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.09,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.0,
+   "peak_above_music_rms_db": -23.0
+  },
+  {
+   "t": 59.55,
+   "what": "the dance's last bright chord (a triangle)",
+   "name": "triangle_2",
+   "gain_db": -25.0,
+   "peak_db": -31.3,
+   "tuned_st": 4.92,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "A -1 cents",
+   "pan": 0.1,
+   "onset_ms": 7.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.69,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 59.57,
+   "what": "the last bright chord (chimes)",
+   "name": "chimes_butterfly_1",
+   "gain_db": -13.4,
+   "peak_db": -33.1,
+   "tuned_st": 0.63,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "A +19 cents",
+   "pan": -0.1,
+   "onset_ms": 13.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.92,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 61.0,
+   "what": "the owl hoots softly goodnight",
+   "name": "owl_tawny",
+   "gain_db": -23.5,
+   "peak_db": -53.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.66,
+   "onset_ms": 99.5,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.2,
+   "peak_above_music_rms_db": -20.0
+  },
+  {
+   "t": 66.9,
+   "what": "one last small streak",
+   "name": "whoosh_4",
+   "gain_db": -38.4,
+   "peak_db": -49.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.04,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 66.65,
+   "what": "the last streak sings (a soft chime)",
+   "name": "chimes_dream_1",
+   "gain_db": -32.3,
+   "peak_db": -45.6,
+   "tuned_st": 0.66,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "A +2 cents",
+   "pan": -0.2,
+   "onset_ms": 34.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 0.35,
+   "what": "words pop in: what is a shooting star?",
+   "name": "wine_stopper_3",
+   "gain_db": -44.5,
+   "peak_db": -49.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 9.17,
+   "what": "words pop in: not a star",
+   "name": "wine_stopper_3",
+   "gain_db": -41.0,
+   "peak_db": -46.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 18.32,
+   "what": "words pop in: a tiny space rock",
+   "name": "wine_stopper_3",
+   "gain_db": -41.5,
+   "peak_db": -46.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 41.9,
+   "what": "words pop in: meteor!",
+   "name": "wine_stopper_3",
+   "gain_db": -34.0,
+   "peak_db": -39.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 61.88,
+   "what": "words pop in: will you see one tonight?",
+   "name": "wine_stopper_3",
+   "gain_db": -52.1,
+   "peak_db": -57.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  }
+ ],
+ "landing_check": {
+  "by_construction": {
+   "spots": 63,
+   "latest_onset_ms": 99.5,
+   "over_60ms": [
+    {
+     "t": 7.95,
+     "what": "the owl turns its head (a soft hoot)",
+     "onset_ms": 98.4
+    },
+    {
+     "t": 61.0,
+     "what": "the owl hoots softly goodnight",
+     "onset_ms": 99.5
+    }
+   ]
+  },
+  "on_the_rendered_effects_bus": {
+   "checked": 63,
+   "landed": 49,
+   "not_clear": [
+    {
+     "t": 11.4,
+     "what": "a crackle from the fire",
+     "peak_offset_ms": 88.9,
+     "rise_db": 0.8
+    },
+    {
+     "t": 31.5,
+     "what": "a crackle from the fire",
+     "peak_offset_ms": 8.4,
+     "rise_db": 2.5
+    },
+    {
+     "t": 7.9,
+     "what": "the little brother squeals with delight",
+     "peak_offset_ms": 142.1,
+     "rise_db": 1.1
+    },
+    {
+     "t": 7.95,
+     "what": "the owl turns its head (a soft hoot)",
+     "peak_offset_ms": 139.8,
+     "rise_db": 2.5
+    },
+    {
+     "t": 9.7,
+     "what": "the window opens (chimes)",
+     "peak_offset_ms": 149.9,
+     "rise_db": 1.1
+    },
+    {
+     "t": 9.3,
+     "what": "she aims the telescope (a tiny ring)",
+     "peak_offset_ms": 39.2,
+     "rise_db": 2.0
+    },
+    {
+     "t": 15.85,
+     "what": "she holds the pebble up to the sky (a small chime)",
+     "peak_offset_ms": 13.1,
+     "rise_db": 0.3
+    },
+    {
+     "t": 18.25,
+     "what": "the round window opens again (a soft bubble)",
+     "peak_offset_ms": 121.7,
+     "rise_db": 2.5
+    },
+    {
+     "t": 24.5,
+     "what": "the rock drifts closer (accent 3 of 3 on the bar line)",
+     "peak_offset_ms": 144.3,
+     "rise_db": -2.7
+    },
+    {
+     "t": 29.0,
+     "what": "the ring appears in the sky (a small chime)",
+     "peak_offset_ms": 145.5,
+     "rise_db": 1.6
+    },
+    {
+     "t": 32.0,
+     "what": "the ring in the sky (a triangle)",
+     "peak_offset_ms": 41.1,
+     "rise_db": 2.0
+    },
+    {
+     "t": 42.8,
+     "what": "sparkles drift down and melt (chimes)",
+     "peak_offset_ms": -2.6,
+     "rise_db": 1.7
+    },
+    {
+     "t": 55.46,
+     "what": "the snail munches its wish (a lettuce crunch)",
+     "peak_offset_ms": -22.6,
+     "rise_db": -0.3
+    },
+    {
+     "t": 66.65,
+     "what": "the last streak sings (a soft chime)",
+     "peak_offset_ms": 2.9,
+     "rise_db": -0.3
+    }
+   ]
+  }
+ },
+ "timeline_rms_dbfs": [
+  {
+   "event": "first stars",
+   "t": 1.6,
+   "windows": [
+    [
+     0.6,
+     -20.0,
+     -20.1,
+     -36.1
+    ],
+    [
+     1.1,
+     -19.6,
+     -20.0,
+     -30.0
+    ],
+    [
+     1.6,
+     -18.4,
+     -18.7,
+     -28.9
+    ],
+    [
+     2.1,
+     -21.3,
+     -22.0,
+     -28.2
+    ],
+    [
+     2.6,
+     -24.8,
+     -26.2,
+     -31.0
+    ],
+    [
+     3.1,
+     -29.3,
+     -33.7,
+     -31.5
+    ]
+   ]
+  },
+  {
+   "event": "zip streak",
+   "t": 7.52,
+   "windows": [
+    [
+     6.52,
+     -22.2,
+     -22.7,
+     -32.9
+    ],
+    [
+     7.02,
+     -27.1,
+     -28.8,
+     -32.6
+    ],
+    [
+     7.52,
+     -25.0,
+     -25.7,
+     -32.8
+    ],
+    [
+     8.02,
+     -26.3,
+     -27.9,
+     -32.3
+    ],
+    [
+     8.52,
+     -27.1,
+     -28.8,
+     -31.8
+    ],
+    [
+     9.02,
+     -20.4,
+     -20.7,
+     -31.4
+    ]
+   ]
+  },
+  {
+   "event": "window: star",
+   "t": 9.55,
+   "windows": [
+    [
+     8.55,
+     -26.8,
+     -28.5,
+     -31.5
+    ],
+    [
+     9.05,
+     -19.9,
+     -20.1,
+     -31.6
+    ],
+    [
+     9.55,
+     -20.5,
+     -20.8,
+     -31.9
+    ],
+    [
+     10.05,
+     -23.2,
+     -24.0,
+     -31.4
+    ],
+    [
+     10.55,
+     -19.4,
+     -19.7,
+     -32.1
+    ],
+    [
+     11.05,
+     -23.3,
+     -24.4,
+     -29.6
+    ]
+   ]
+  },
+  {
+   "event": "window: rock",
+   "t": 18.25,
+   "windows": [
+    [
+     17.25,
+     -18.4,
+     -18.7,
+     -30.9
+    ],
+    [
+     17.75,
+     -18.6,
+     -18.8,
+     -30.7
+    ],
+    [
+     18.25,
+     -21.5,
+     -21.9,
+     -31.7
+    ],
+    [
+     18.75,
+     -19.0,
+     -19.4,
+     -28.8
+    ],
+    [
+     19.25,
+     -18.6,
+     -18.9,
+     -30.2
+    ],
+    [
+     19.75,
+     -24.7,
+     -26.1,
+     -30.2
+    ]
+   ]
+  },
+  {
+   "event": "enters the air",
+   "t": 28.45,
+   "windows": [
+    [
+     27.45,
+     -25.7,
+     -27.0,
+     -31.6
+    ],
+    [
+     27.95,
+     -26.9,
+     -31.5,
+     -28.7
+    ],
+    [
+     28.45,
+     -27.5,
+     -30.0,
+     -31.0
+    ],
+    [
+     28.95,
+     -25.7,
+     -27.2,
+     -31.3
+    ],
+    [
+     29.45,
+     -27.0,
+     -29.5,
+     -30.5
+    ],
+    [
+     29.95,
+     -25.0,
+     -26.8,
+     -30.0
+    ]
+   ]
+  },
+  {
+   "event": "the streak starts",
+   "t": 40.59,
+   "windows": [
+    [
+     39.59,
+     -17.0,
+     -17.1,
+     -31.3
+    ],
+    [
+     40.09,
+     -18.3,
+     -18.5,
+     -31.1
+    ],
+    [
+     40.59,
+     -15.4,
+     -14.3,
+     -30.9
+    ],
+    [
+     41.09,
+     -16.4,
+     -16.6,
+     -29.3
+    ],
+    [
+     41.59,
+     -14.4,
+     -13.5,
+     -28.3
+    ],
+    [
+     42.09,
+     -13.9,
+     -13.9,
+     -27.3
+    ]
+   ]
+  },
+  {
+   "event": "METEOR!",
+   "t": 41.9,
+   "windows": [
+    [
+     40.9,
+     -16.0,
+     -16.2,
+     -30.4
+    ],
+    [
+     41.4,
+     -18.3,
+     -18.5,
+     -29.9
+    ],
+    [
+     41.9,
+     -12.5,
+     -11.9,
+     -26.4
+    ],
+    [
+     42.4,
+     -15.9,
+     -16.0,
+     -29.6
+    ],
+    [
+     42.9,
+     -14.3,
+     -14.4,
+     -31.2
+    ],
+    [
+     43.4,
+     -14.2,
+     -14.2,
+     -31.3
+    ]
+   ]
+  },
+  {
+   "event": "gone",
+   "t": 46.0,
+   "windows": [
+    [
+     45.0,
+     -16.5,
+     -16.7,
+     -32.0
+    ],
+    [
+     45.5,
+     -15.1,
+     -14.3,
+     -28.9
+    ],
+    [
+     46.0,
+     -13.6,
+     -13.2,
+     -32.2
+    ],
+    [
+     46.5,
+     -16.6,
+     -16.7,
+     -32.3
+    ],
+    [
+     47.0,
+     -15.7,
+     -15.7,
+     -32.3
+    ],
+    [
+     47.5,
+     -13.9,
+     -13.8,
+     -32.4
+    ]
+   ]
+  },
+  {
+   "event": "the wish",
+   "t": 49.7,
+   "windows": [
+    [
+     48.7,
+     -13.5,
+     -13.5,
+     -32.9
+    ],
+    [
+     49.2,
+     -20.5,
+     -20.9,
+     -32.6
+    ],
+    [
+     49.7,
+     -13.4,
+     -13.4,
+     -32.5
+    ],
+    [
+     50.2,
+     -17.8,
+     -18.0,
+     -32.3
+    ],
+    [
+     50.7,
+     -19.7,
+     -19.9,
+     -32.4
+    ],
+    [
+     51.2,
+     -15.4,
+     -15.5,
+     -32.8
+    ]
+   ]
+  },
+  {
+   "event": "the lettuce lands",
+   "t": 53.9,
+   "windows": [
+    [
+     52.9,
+     -17.6,
+     -17.7,
+     -32.5
+    ],
+    [
+     53.4,
+     -21.3,
+     -21.7,
+     -32.5
+    ],
+    [
+     53.9,
+     -17.6,
+     -17.7,
+     -32.5
+    ],
+    [
+     54.4,
+     -20.2,
+     -20.5,
+     -32.3
+    ],
+    [
+     54.9,
+     -19.6,
+     -20.1,
+     -30.9
+    ],
+    [
+     55.4,
+     -16.6,
+     -16.7,
+     -33.3
+    ]
+   ]
+  },
+  {
+   "event": "the last chord",
+   "t": 59.55,
+   "windows": [
+    [
+     58.55,
+     -20.3,
+     -20.4,
+     -34.3
+    ],
+    [
+     59.05,
+     -17.4,
+     -16.4,
+     -32.7
+    ],
+    [
+     59.55,
+     -13.9,
+     -11.2,
+     -28.7
+    ],
+    [
+     60.05,
+     -17.7,
+     -17.1,
+     -31.5
+    ],
+    [
+     60.55,
+     -23.7,
+     -24.2,
+     -33.2
+    ],
+    [
+     61.05,
+     -22.9,
+     -23.9,
+     -29.8
+    ]
+   ]
+  },
+  {
+   "event": "the stillness",
+   "t": 61.88,
+   "windows": [
+    [
+     60.88,
+     -22.1,
+     -22.8,
+     -30.3
+    ],
+    [
+     61.38,
+     -23.7,
+     -24.4,
+     -32.3
+    ],
+    [
+     61.88,
+     -31.2,
+     -39.3,
+     -32.1
+    ],
+    [
+     62.38,
+     -30.8,
+     -49.6,
+     -30.8
+    ],
+    [
+     62.88,
+     -30.2,
+     -50.1,
+     -30.3
+    ],
+    [
+     63.38,
+     -25.0,
+     -27.5,
+     -27.4
+    ]
+   ]
+  },
+  {
+   "event": "the last streak",
+   "t": 66.6,
+   "windows": [
+    [
+     65.6,
+     -19.6,
+     -19.8,
+     -32.4
+    ],
+    [
+     66.1,
+     -20.6,
+     -20.9,
+     -32.6
+    ],
+    [
+     66.6,
+     -22.8,
+     -23.0,
+     -33.9
+    ],
+    [
+     67.1,
+     -24.7,
+     -24.9,
+     -37.1
+    ],
+    [
+     67.6,
+     -30.1,
+     -30.2,
+     -47.5
+    ]
+   ]
+  }
+ ],
+ "stand_ins": [
+  "The streaks are real whooshes (reversed so they build to the bright instant) with real chimes, a triangle and a glockenspiel chord tuned to the music: the bank has no recording of a meteor, and there is none to make (it is silent in space and far away).",
+  "The pebble, the rock tumbling and the marshmallow stick are a pebble-walking recording, a few of its ticks, and a soft wooden brush: stand-ins for small things.",
+  "The sparks from the fire and the streak are tiny recorded sparkles from a candle, faint and short.",
+  "The lettuce crunch is a raw carrot and a rusk crunch, a little higher and small: there is no recording of a snail, and a snail would not be heard.",
+  "The owl is a real tawny owl's hoots (cut to short soft ones, low-passed, a little way off).",
+  "The family's gasp and happy sigh are a soft breath through the nose; the little brother's squeal is a squeaky toy (no recorded children).",
+  "The window opening is a soft water bubble, closing is the same reversed; the shimmer of the wish stars is a dreamcatcher's faint jingle.",
+  "Words pop in with a wine stopper's pop."
+ ],
+ "bank_run": "rc-render sfx-bank.yml (the studio bank of BigSoundBank CC0 recordings)",
+ "listened": false,
+ "note": "Built and measured only: nobody has listened to this mix yet."
+}

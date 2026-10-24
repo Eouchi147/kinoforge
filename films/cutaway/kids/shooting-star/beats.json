@@ -1,0 +1,142 @@
+{
+ "_": "Little Big Questions, shooting-star: WHAT IS A SHOOTING STAR? A SILENT story (Sam 23 Oct 20:09: no narration; the picture explains, real orchestral music and real sound effects carry it, a few big words set in code). Facts and verdicts: docs/research/KIDS_FACTS_2026-10.md section 2.4 (binding: a tiny bit of space rock or dust, usually no bigger than a pebble, called a meteoroid, rushes into the air so fast it glows hot and makes a streak of light, burns up high above us, far above the clouds; it is not a star; tiny space dust falls every day; NO dinosaur impact in this film; the wish is folklore, shown as a joke, never as a fact). One fixed Fable view of one lifted Cutaway slice (a hilltop at dusk turning to night, a family camping), no cuts. The sky above is the stage. Times in film seconds, 68.4 s, on the bars of the music edit (one bar = 1.3065 s).",
+ "id": "kids-shooting-star",
+ "duration": 68.4,
+ "fps": 24,
+ "key_word": "NONE",
+ "beats": [
+  {
+   "t": [
+    0.0,
+    4.91
+   ],
+   "name": "hook",
+   "picture": "Dusk on a hilltop. The slice floats a little above the hole it was lifted from, ground layers below (topsoil, clay, sand, gravel, rock). On top a family has just pitched camp: a tent with a paper star hanging from it, a campfire, a telescope on a tripod, a teddy bear, a flashlight. The last of the sunset glows behind the hills; across the lake a village lights its warm windows; the first stars come out one by one. The snail (series mascot) looks up through a tiny telescope.",
+   "words": "WHAT IS A SHOOTING STAR?",
+   "sound": "evening crickets, a soft fire crackle, a far owl, the first star twinkles (triangle)",
+   "music": "the little introduction, light strings and triangle (recording 0:00 to 0:03.6)"
+  },
+  {
+   "t": [
+    4.91,
+    8.82
+   ],
+   "name": "look",
+   "picture": "The dance begins. The girl feeds the fire a stick, her dad toasts marshmallows, her little brother hugs the teddy. At 7.5 s a small bright streak zips across the sky; everybody looks up and points; the owl turns its head.",
+   "words": "",
+   "sound": "fire, a marshmallow stick, a soft rising whoosh and a chime for the first streak",
+   "music": "the theme enters (recording 5.18, film 3.6, after a 0.5 s fade), a bar of strings, then the small streak zips on the bar line at film 7.52"
+  },
+  {
+   "t": [
+    8.82,
+    12.74
+   ],
+   "name": "notstar",
+   "picture": "The girl peers through the telescope. A magnifier window opens up in the sky tied to one bright star by a ring and two gold lines: a star is a giant glowing ball of fire, very far away. The stars stay where they are and twinkle; only the streak moved.",
+   "words": "NOT A STAR",
+   "sound": "a soft chime as the window opens, a far warm hum, the stars twinkle on triangle",
+   "music": "the theme goes on, pizzicato strings (recording 10.40 to 14.32)"
+  },
+  {
+   "t": [
+    12.74,
+    17.97
+   ],
+   "name": "far",
+   "picture": "The window keeps the star: a huge calm ball of fire, tiny and still in our sky because it is so far away; then the window closes and the girl scoops a pebble from the grass and holds it up against the sky.",
+   "words": "",
+   "sound": "a small pebble tick, a night breeze",
+   "music": "the theme (recording 14.32 to 19.55)"
+  },
+  {
+   "t": [
+    17.97,
+    21.88
+   ],
+   "name": "rock",
+   "picture": "The window opens again: out in dark space a small brown rock, the size of the pebble she holds (shown by a matching pebble beside it), tumbles slowly among the stars.",
+   "words": "A TINY SPACE ROCK",
+   "sound": "a hush, a low soft space hum, the pebble tick",
+   "music": "the theme gathers (recording 19.55 to 23.46, the first accent at film 21.88)"
+  },
+  {
+   "t": [
+    21.88,
+    27.16
+   ],
+   "name": "drift",
+   "picture": "The rock drifts closer through the dark, small bright dust sparkling off it. Far below the camp is calm. The bars rise: the rock heads toward our air.",
+   "words": "",
+   "sound": "the bed of the night, a faint rising shimmer",
+   "music": "accents on the bar lines at 21.88, 23.19 and 24.50 (recording 23.46 to 28.74), then a one-bar cross-fade at film 27.16 into the quiet pizzicato build (recording 88.84)"
+  },
+  {
+   "t": [
+    27.16,
+    40.23
+   ],
+   "name": "air",
+   "picture": "The window shows the air as soft gentle layers (thin and dark at the top, thicker and bluer lower down, clouds at the bottom). The rock enters the top layer and speeds up; it begins to glow orange, then yellow, then white; the camp holds its breath: the girl at the telescope, the owl wide-eyed, the snail's tiny telescope up. The window and the real sky match: a ring on the sky tracks the rock.",
+   "words": "",
+   "sound": "a soft rising whoosh, a swell of air, the fire crackles quietly",
+   "music": "quiet plucked strings that build bar by bar (recording 88.84 to 101.91)"
+  },
+  {
+   "t": [
+    40.23,
+    44.14
+   ],
+   "name": "streak",
+   "picture": "THE REVEAL on the music's loudest phrase: the rock rushes in at 40.6 and a long bright streak of light writes itself across the whole sky, brightest at 41.9, trailing gold sparks; the label METEOR! pops beside it. Everyone gasps; the owl blinks; fireflies swirl.",
+   "words": "METEOR!",
+   "sound": "a rising whoosh peaking on the bright instant, glock and chime sparkles, a soft gasp of wind",
+   "music": "the full orchestra, the brightest phrase of the dance (recording 101.91 to 105.82); the loud hit at recording 103.58 is film 41.9"
+  },
+  {
+   "t": [
+    44.14,
+    49.37
+   ],
+   "name": "gone",
+   "picture": "The streak fades; sparkles drift down and melt away high above the clouds, the rock is gone. The window closes. The stars are all still there: no star fell. A few tiny specks of dust glint in the dark (tiny space dust falls every day).",
+   "words": "",
+   "sound": "a long soft shimmer decaying, wind, crickets return",
+   "music": "the orchestra keeps its glow to the last tutti bars (recording 105.82 to 111.05)"
+  },
+  {
+   "t": [
+    49.37,
+    57.2
+   ],
+   "name": "wish",
+   "picture": "Everybody closes their eyes and makes a wish, small gold stars lifting from each head. THE JOKE: the snail's wish is a lettuce leaf, and one floats gently across the night and lands in front of it; the snail munches happily.",
+   "words": "",
+   "sound": "a hushed chime for each wish, a soft crunch of lettuce",
+   "music": "the dance settles into its lilting second theme (recording 111.05 to 118.88)"
+  },
+  {
+   "t": [
+    57.2,
+    68.4
+   ],
+   "name": "send",
+   "picture": "The family cuddles by the fire looking up; the owl, the fireflies, the village lights, the lake full of stars, the Moon. The sky is quiet, and in the very last bars a tiny far streak winks out near the horizon. The closing question stays on the quiet.",
+   "words": "WILL YOU SEE ONE TONIGHT?",
+   "sound": "fire, crickets, an owl, a last small chime on the final plucked notes",
+   "music": "a one-bar cross-fade at film 57.2 into the dance's own ending: a last bright chord (recording 228.41, film 59.55), a breath of stillness (recording 230.74 to 232.43) and the hushed plucked coda to the end (recording 237.3)"
+  }
+ ],
+ "words_rules": "Silent film: at most five big words in all, set in code, each at least 2.5 s on screen: the question as the title, NOT A STAR, A TINY SPACE ROCK, the label METEOR!, the closing question. No narration. No em dash, en dash or three dots.",
+ "sound_rules": "Real recorded CC0 effects only (the studio bank), placed on the picture's events, levels relative to the music, nothing sudden or scary.",
+ "music": {
+  "piece": "Grieg, Peer Gynt Suite No. 1, III. Anitra's Dance",
+  "recording": "Musopen Symphony (Musopen)",
+  "licence": "Public domain (Wikimedia Commons record)",
+  "source": "https://commons.wikimedia.org/wiki/File:Grieg_-_Peer_Gynt_Suite_No._1,_Op._46_-_III._Anitra%27s_Dance_(Musopen_Symphony).flac",
+  "asset": "Eouchi147/rc-render release music: grieg-anitra-musopen.flac (+ .licence.json)",
+  "edit": "four pieces cut on the dance's bar lines (one bar = 1.3065 s at about 138 beats a minute): recording 0:00 to 0:03.6 (the introduction); 0:05.18 to 0:30.05 (the theme, film 3.6 to 28.47, a 0.5 s fade at 3.6); 1:28.84 to 2:00.19 (the plucked build and the full-orchestra peak, film 27.16 to 58.51, the peak at recording 1:42.3 to 1:51.5); 3:46.06 to 3:57.3 (the dance's own ending, film 57.2 to 68.4); triangular (linear) cross-fades, one bar (1.31 s) at film 27.16 and 57.2; a slow level rider, then loudnorm to -16 LUFS, true peak -1.5 dBTP (audio/make_audio.py)",
+  "chosen": "docs/research/KIDS_MUSIC_2026-10.md 4.5 (first choice R3-III), Sam's brief of 23 Oct 2026",
+  "credit": "Music: Edvard Grieg, Anitra's Dance (Peer Gynt Suite No. 1), performed by the Musopen Symphony (musopen.org), public domain."
+ }
+}

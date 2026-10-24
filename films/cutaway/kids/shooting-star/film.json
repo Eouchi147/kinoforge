@@ -1,0 +1,16 @@
+{
+ "id": "kids-shooting-star",
+ "series": "Little Big Questions",
+ "title": "What is a shooting star?",
+ "style": "cutaway",
+ "art": "fable",
+ "duration": 68.4,
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "note": "Little Big Questions (6 to 8), a silent story: Fable Cutaway, one fixed view of a lifted hilltop slice at dusk turning to night, a 2 degree sway, no cuts. A family camps (tent, fire, telescope); the sky is the stage: a magnifier window shows a star, then a pebble-sized space rock, then the long streak of the meteor. Timing from beats.json through the one event table szevents.py (re-time beats.json and the picture and the sound follow). Look named by KF_ART_NAME in blender.py. Music: Grieg, Anitra's Dance (Musopen Symphony, public domain), edit in beats.json; real CC0 sound effects, audio/mix.m4a (audio/make_audio.py, SOUND.md).",
+ "audio": "audio/mix.m4a"
+}
