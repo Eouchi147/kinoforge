@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23T23:41:09Z",
+ "generated": "2026-10-24T10:38:55Z",
  "films": [
   {
    "id": "p01-static",
@@ -1361,6 +1361,234 @@
    "summary": "Slate film for the kinetic line; stopped at the script stage by the free models' daily limit.",
    "verdict": null,
    "date": "2026-10-22"
+  },
+  {
+   "id": "kids-deep-sea",
+   "title": "What lives in the deep sea?",
+   "series": "Little Big Questions",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 70.5,
+   "folder": "films/cutaway/kids/deep-sea",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-deep-sea.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-deep-sea-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-deep-sea-poster.jpg"
+   },
+   "sound": "silent story: Mendelssohn, The Hebrides (Musopen, public domain) plus real CC0 effects on every event, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Fable look, lifted slice (films/cutaway/kids/)",
+    "Fredoka words set in code",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/kids-deep-sea.md",
+   "summary": "A little submarine dives through the ocean zones to glowing jellies, a friendly anglerfish and a hot vent.",
+   "verdict": null,
+   "date": "2026-10-24"
+  },
+  {
+   "id": "kids-fossil",
+   "title": "How does a dinosaur turn into stone?",
+   "series": "Little Big Questions",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 65.0,
+   "folder": "films/cutaway/kids/fossil",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-fossil.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-fossil-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-fossil-poster.jpg"
+   },
+   "sound": "silent story: Grieg, Morning Mood (Musopen, public domain) plus real CC0 effects on every event, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Fable look, lifted slice (films/cutaway/kids/)",
+    "Fredoka words set in code",
+    "Mac lane (Metal)"
+   ],
+   "recipe": "docs/manual/films/kids-fossil.md",
+   "summary": "A dinosaur by the river, mud, millions of years, the bone turning to stone in a gold lens, and a girl's find; the pilot.",
+   "verdict": null,
+   "date": "2026-10-24"
+  },
+  {
+   "id": "kids-rain",
+   "title": "Where does rain come from?",
+   "series": "Little Big Questions",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 73.0,
+   "folder": "films/cutaway/kids/rain",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-rain.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-rain-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-rain-poster.jpg"
+   },
+   "sound": "silent story: Smetana, Vltava (Musopen, public domain) plus real CC0 effects on every event, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Fable look, lifted slice (films/cutaway/kids/)",
+    "Fredoka words set in code",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/kids-rain.md",
+   "summary": "Sun lifts invisible water, tiny drops make a cloud, about a million join one raindrop, rain soaks in, and around again.",
+   "verdict": null,
+   "date": "2026-10-24"
+  },
+  {
+   "id": "kids-shooting-star",
+   "title": "What is a shooting star?",
+   "series": "Little Big Questions",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 68.4,
+   "folder": "films/cutaway/kids/shooting-star",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-shooting-star.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-shooting-star-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-shooting-star-poster.jpg"
+   },
+   "sound": "silent story: Grieg, Anitra's Dance (Musopen, public domain) plus real CC0 effects on every event, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Fable look, lifted slice (films/cutaway/kids/)",
+    "Fredoka words set in code",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/kids-shooting-star.md",
+   "summary": "A family camping at night; a tiny space rock glows in the air: not a star; the snail wishes for a lettuce leaf.",
+   "verdict": null,
+   "date": "2026-10-24"
+  },
+  {
+   "id": "kids-under-your-feet",
+   "title": "Who lives under your feet?",
+   "series": "Little Big Questions",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 74.0,
+   "folder": "films/cutaway/kids/under-your-feet",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-under-your-feet.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-under-your-feet-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-under-your-feet-poster.jpg"
+   },
+   "sound": "silent story: Mozart, The Marriage of Figaro Overture (Musopen, CC0) plus real CC0 effects on every event, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Fable look, lifted slice (films/cutaway/kids/)",
+    "Fredoka words set in code",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/kids-under-your-feet.md",
+   "summary": "A park lawn cut open: worms, ants, a mole, roots, and a cicada that waits 17 years before it climbs out and sings.",
+   "verdict": null,
+   "date": "2026-10-24"
+  },
+  {
+   "id": "kids-volcano",
+   "title": "How is a volcano born?",
+   "series": "Little Big Questions",
+   "style": "cutaway",
+   "look": null,
+   "format": "16:9",
+   "duration_s": 72.3,
+   "folder": "films/cutaway/kids/volcano",
+   "status": "delivered",
+   "video": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-volcano.mp4"
+   },
+   "preview": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-volcano-preview.mp4"
+   },
+   "poster": {
+    "repo": "Eouchi147/rc-render",
+    "release": "kino-films",
+    "name": "kids-volcano-poster.jpg"
+   },
+   "sound": "silent story: Grieg, In the Hall of the Mountain King (Musopen, public domain) plus real CC0 effects on every event, -16 LUFS",
+   "made_with": [
+    "Blender 5.2 bpy, Cycles",
+    "Cutaway kit (films/styles/cutaway/cutaway.py)",
+    "Fable look, lifted slice (films/cutaway/kids/)",
+    "Fredoka words set in code",
+    "rc-render films.yml"
+   ],
+   "recipe": "docs/manual/films/kids-volcano.md",
+   "summary": "A volcano island cut open: magma rises like a shaken fizzy drink, lava, layer by layer, then green land and Hawaii.",
+   "verdict": null,
+   "date": "2026-10-24"
   },
   {
    "id": "noor-descent-05-iqra",
