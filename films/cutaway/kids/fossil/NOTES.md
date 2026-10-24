@@ -83,14 +83,26 @@ then lifted). Its top is the same era ground as the land around (one driven mate
 | `szmats.py` | `Drive` (per-frame colours and amounts); top (with rock face, haze and the light step), bones, water, words materials |
 | `szgeo.py` | `Parts` (many rigid pieces in one mesh, posed with numpy), primitives, the dinosaur (one swept tube on a spine blending stand, munch and lie poses) |
 | `szlife.py` | Plants on the block and the land around, trees of both eras, birds, butterflies and dragonflies, rabbit, dog, lizards, the girl, the bone in the rock face, the easter eggs, the snail |
-| `szstory.py` | Set pieces of single beats: peel, babies, turtle, leaf, 3D skeleton, mammoths, saplings, the magnifier window |
+| `szstory.py` | Set pieces of single beats: peel, babies, turtle, leaf, 3D skeleton, mammoths, saplings, the magnifier window (logic; its gold frame, handle, small ring and connector lines are in `_build_frame`, drawn in the crisp words layer through `lens.crisp`) |
 | `szfossil.py` | The skeleton in the front cut face (thicker neck and tail beads, a cranium and a snout, eye socket), ink outline, seeping drops, gold sparkles, the hook's glint |
 | `szback.py` | The hills behind (crest trees, volcano, herd, pterosaurs, village, train, tractor, sheep, kites, smoke, clouds) |
-| `szwords.py` | Captions, the FOSSIL! label and leader, the clock |
+| `szwords.py` | Captions (Fredoka Bold, plum with a warm gold-orange under-shadow, on storybook cards), the FOSSIL! label with its gold ribbon pointer and ring round the bone, the pocket-watch clock |
+| `szui.py` | The storybook graphics kit (Sam 24 Oct: "improve text, box, frame"): hand-cut rounded outlines, gold tube bands shaded from the upper left, parchment, soft warm shadows, sparkles; materials are emission fed by a colour node so Fable's word recolour (ink and paper) cannot repaint them |
+| `fonts/` | `Fredoka-Bold.ttf` (SIL OFL 1.1, `OFL.txt` beside it): Google Fonts' variable Fredoka instanced at weight 700, width 100 with fontTools `instancer` (no Reserved Font Name is declared) |
 
 Every motion is a pure function of t: every piece is set or hidden on every frame, the camera is read from this frame's
 pose (`matrix_basis`, not the lagging `matrix_world`), and text sizes are measured once. Checked: frames 1330, 1020 and 814
 render pixel-identical alone and after earlier frames (max difference 0).
+
+## The graphics (Sam 24 Oct: "improve the graphical elements: text, box, frame"; the picture is untouched)
+Painted storybook set in code, all in the crisp words layer over the brushwork: Fredoka Bold in deep plum with a warm
+gold-orange under-shadow; parchment cards with a hand-cut edge, a toned border, a lit gold rim, a thin inner gold line,
+gold sparkles and a soft warm shadow; a card pops in with a small overshoot, unfolds from slightly flat and settles from a
+3 degree tilt (pure functions of t). Two-line captions are held 0.05 inside the top of the frame. FOSSIL! has a tapered gold
+ribbon that draws itself (0.6 s) from under the card down to a gold ring round the bone, bowed to the right so it never crosses
+the girl. The clock is a pocket watch (gold bezel and crown, cream face, plum spade hands; the hour hand turns at one twelfth).
+The magnifier is a gold lens ring with a bevel and studs, a glass glint, a short plum grip, a small gold ring at the bone
+and two fine gold connector lines. Words, positions, timings and the `Words` API are unchanged.
 
 ## Checks and cost
 Check stills (480x270, 8 samples, Fable, this shared 2-core box; each one looked at): beat middles 60, 180, 372, 552, 660,

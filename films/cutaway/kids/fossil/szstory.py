@@ -18,6 +18,7 @@ import numpy as np
 import cutaway as cw
 import szworld as W
 import szmats as M
+import szui as UI
 from szgeo import Parts, Dino, sphere, tube, cone, box, rz, ry, rx, I3
 
 gz = lambda x, y, t: float(W.top_h(np.array([x]), np.array([y]), t)[0])
@@ -295,20 +296,60 @@ class Lens:
         for k, (j, x, y) in enumerate(self.pores):
             d = pr.add(drop, [(0, 1, 2, 3)], 1); sp = pr.add(star, [(0, 1 + q, 1 + (q + 1) % 8) for q in range(8)], 2)
             self.drops.append((d, sp, x, y, k / len(self.pores) + rng.uniform(-0.03, 0.03)))
-        # the rim (gold, an ink line inside), the small ring on the fossil and the two lines that tie them
-        V = []; Fr = []; n = 72
-        for q in range(n):
-            a = 2 * math.pi * q / n; V += [(Rl * math.cos(a), Rl * math.sin(a), 0), ((Rl + 0.035) * math.cos(a), (Rl + 0.035) * math.sin(a), 0)]
-        Fr = [(2 * q, 2 * ((q + 1) % n), 2 * ((q + 1) % n) + 1, 2 * q + 1) for q in range(n)]
-        self.rim = pr.add(V, Fr, 3)
-        rs = 0.07; V = []
-        for q in range(n): a = 2 * math.pi * q / n; V += [(rs * math.cos(a), rs * math.sin(a), 0), ((rs + 0.014) * math.cos(a), (rs + 0.014) * math.sin(a), 0)]
-        self.ring = pr.add(V, Fr, 3)
-        self.lines = [pr.add([(0, 0, 0), (1, 0, 0), (1, 0.008, 0), (0, 0.008, 0)], [(0, 1, 2, 3)], 3) for _ in range(2)]
         pr.build(bpy, [M.mat_glow(kit, D, 'fs_pore', (0.20, 0.26, 0.30), 1.0), M.mat_glow(kit, D, 'fs_ldrop', (0.42, 0.80, 1.0), 1.6),
-                       M.mat_glow(kit, D, 'fs_crystal', (0.90, 1.0, 1.0), 2.2), M.mat_glow(kit, D, 'fs_lensrim', (0.98, 0.78, 0.36), 1.3)], kit.coll, smooth=False)
+                       M.mat_glow(kit, D, 'fs_crystal', (0.90, 1.0, 1.0), 2.2)], kit.coll, smooth=False)
         self.fx = own(pr.ob, 0.004); self.pr = pr
         self.center = None
+        self._build_frame(kit, D, own, Rl)
+
+    def _build_frame(self, kit, D, own, Rl):
+        """The storybook lens frame (Sam 24 Oct: improve the frame): a rich gold ring with a bevel, a studded rim, a glass glint,
+        a short plum grip, and the small gold ring at the bone with two fine gold connector lines. Crisp pieces in the words'
+        layer (`crisp`, handed to the art adapter by blender.py): they stay sharp over the brushwork."""
+        bpy = kit.bpy; self.crisp = []; al = 'a_lens'
+        def mats3(tag): return [UI.mat_shadow(kit, D, f'fs_lf{tag}s', al, 0.40), UI.mat_gold(kit, D, f'fs_lf{tag}g', al),
+                                UI.mat_flat(kit, D, f'fs_lf{tag}c', al, (1.0, 0.98, 0.90), taper=True),
+                                UI.mat_gold(kit, D, f'fs_lf{tag}p', al, ((0.16, 0.07, 0.20), (0.36, 0.17, 0.36), (0.62, 0.38, 0.52)))]
+        fl = UI.Flat(); rc = Rl + 0.014; Pc, Nc = UI.circle_loop(rc, 120); Pw, Nw = UI.circle_loop(Rl, 120)
+        fl.band(Pc, Nc, [(0.085, 1.0, 0.0), (0.040, 0.55, 0.0), (-0.020, 0.0, 0.0)], 0, 0.0, at=(0.012, -0.034))
+        fl.band(Pc, Nc, [(0.043, 0.0, 0.08), (0.032, 1.0, 0.08)], 1, 0.0006)                    # a dark gold line round the outside
+        fl.tube(Pc, Nc, 0.060, 1, 0.0012, grow=0.008)                                            # the bevelled gold ring
+        fl.band(Pw, Nw, [(0.0, 0.0, 0.10), (-0.009, 1.0, 0.10)], 1, 0.0006)                     # a shadow line where the glass sinks in
+        fl.band(Pc, Nc, [(0.0045, 0.0, 0.55), (0.0, 0.5, 0.92), (-0.0045, 1.0, 0.55)], 1, 0.0020)  # the fine bright line down the ring
+        for q in range(12):                                                                       # studs
+            a = 2 * math.pi * q / 12 + 0.26; c = np.array([rc * math.cos(a), rc * math.sin(a)]); Ps, Ns = UI.circle_loop(0.0125, 14)
+            fl.fan(Ps, Ns, 0.0, 0.5, 0.40, 1, 0.0026, at=tuple(c)); fl.band(Ps, Ns, [(0.0, 0.0, 0.20), (-0.0045, 1.0, 0.95)], 1, 0.0028, at=tuple(c))
+        # a glass glint: a slim bright crescent in the upper left and a small round one
+        n = 18; ang = np.linspace(math.radians(112), math.radians(170), n); wd = 0.036 * np.sin(np.linspace(0, math.pi, n)) ** 0.8
+        A = np.column_stack([(Rl * 0.84 + wd) * np.cos(ang), (Rl * 0.84 + wd) * np.sin(ang)]); Bq = np.column_stack([(Rl * 0.84 - wd) * np.cos(ang), (Rl * 0.84 - wd) * np.sin(ang)])
+        fl.strip(A, Bq, 2, 0.0040, es=np.sin(np.linspace(0, math.pi, n)) * 0.62, ss=0.5)
+        Pd, Nd = UI.circle_loop(0.022, 16); fl.fan(Pd, Nd, 0.0, 0.5, 0.5, 2, 0.0040, at=(-Rl * 0.70 * 0.86, Rl * 0.70 * 0.55 + 0.02))
+        self.frame = own(fl.build(bpy, 'fs_lensframe', mats3('f'), kit.coll), 0.006)
+        # the handle: a gold collar and a short plum grip (rotated about the window each frame, drawn under the ring)
+        h = UI.Flat(); x0, x1, x2 = Rl + 0.00, Rl + 0.13, Rl + 0.33
+        def bar(xa, xb, wa, wb, mat, z, rows=(0.45, 0.95, 0.30)):
+            m = 8; xs = np.linspace(xa, xb, m); ws = np.linspace(wa, wb, m)
+            top = np.column_stack([xs, ws]); mid = np.column_stack([xs, ws * 0.35]); bot = np.column_stack([xs, -ws])
+            h.strip(top, mid, mat, z, es=0.0, ss=rows[0]); h.strip(mid, bot, mat, z, es=1.0, ss=rows[2])
+        bar(x0, x0 + 0.075, 0.030, 0.036, 1, 0.0010)
+        bar(x0 + 0.075, x2, 0.040, 0.046, 3, 0.0014)
+        Pe, Ne = UI.circle_loop(0.046, 24); h.fan(Pe, Ne, 0.0, 0.5, 0.45, 3, 0.0014, at=(x2, 0.0))
+        h.band(*UI.circle_loop(0.046, 24), [(0.003, 0.0, 0.2), (-0.006, 1.0, 0.8)], 1, 0.0020, at=(x2, 0.0))
+        h.poly([(x0 + 0.075, 0.048), (x0 + 0.075 + 0.020, 0.048), (x0 + 0.075 + 0.020, -0.048), (x0 + 0.075, -0.048)], 1, 0.0018, ss=[0.8] * 4)
+        h.strip(np.column_stack([np.linspace(x0 + 0.12, x2 - 0.01, 6), np.full(6, 0.022)]), np.column_stack([np.linspace(x0 + 0.12, x2 - 0.01, 6), np.full(6, 0.016)]), 2, 0.0024, es=0.5, ss=0.5)
+        self.handle = own(h.build(bpy, 'fs_lenshandle', mats3('h'), kit.coll), 0.004)
+        # the small ring on the fossil and two fine connector lines (rewritten each frame)
+        rs = 0.075; r = UI.Flat(); Pr, Nr = UI.circle_loop(rs, 48)
+        r.band(Pr, Nr, [(0.030, 1.0, 0.0), (0.012, 0.55, 0.0), (-0.004, 0.0, 0.0)], 0, 0.0, at=(0.006, -0.016))
+        r.tube(Pr, Nr, 0.020, 1, 0.0010, grow=0.004); r.star((rs * 0.72, rs * 0.72), 0.034, 1, 0.0020)
+        self.ring = own(r.build(bpy, 'fs_lensring', mats3('r'), kit.coll), 0.006)
+        V = [(0, 0, 0)] * 12; F = []; E = []; S = []
+        for q in range(4):
+            for row, (e, sv) in enumerate(((0.0, 0.56), (0.5, 0.80), (1.0, 0.28))): E.append(e); S.append(sv)
+        for k in range(2):
+            for row in range(2): a_ = 6 * k + row; F.append((a_, a_ + 3, a_ + 4, a_ + 1))
+        self.lines = own(cw.mk_mesh(bpy, 'fs_lenslines', V, F, [UI.mat_gold(kit, D, 'fs_lflg', al)], None, False, kit.coll, {'e': ('FLOAT', E), 'sh': ('FLOAT', S)}), 0.005)
+        self.crisp = [self.frame, self.handle, self.ring, self.lines]
 
     def pose(self, t):
         B = W.B; D = self.D
@@ -334,12 +375,19 @@ class Lens:
             g = t - t_land
             if g > 0: pr.set(sp, at(x, y), rz(0.8 * t + ph * 6), pop * (0.55 + 0.45 * math.sin(2 * math.pi * (0.8 * t + ph))) * min(1.0, g / 0.15) * (1 + 0.8 * W.win(t, B.hit - 0.05, B.hit + 0.9, 0.25)))
             else: pr.hide(sp)
-        pr.set(self.rim, (cx, cy, 0.0), I3, pop)
-        pr.set(self.ring, (bx, by, 0.0), I3, o)
-        # two lines from the small ring to the window's sides (a zoom callout)
+        D.set('a_lens', min(1.0, o * 1.6))
         v = np.array([cx - bx, cy - by]); dist = np.linalg.norm(v) + 1e-9; u = v / dist; nrm = np.array([-u[1], u[0]])
-        for j, sd in zip(self.lines, (-1, 1)):
-            a = np.array([bx, by]) + nrm * sd * 0.078; b = np.array([cx, cy]) + nrm * sd * Rl
-            L = np.linalg.norm(b - a); ang = math.atan2(b[1] - a[1], b[0] - a[0])
-            pr.set(j, (a[0], a[1], -0.001), rz(ang), (L * o, 1.0, 1.0))
+        self.frame.location = (cx, cy, self.frame.location.z); self.frame.scale = (pop, pop, 1)
+        ah = math.atan2(v[1], v[0]) + 0.50                                  # the grip points away from the fossil, a little up
+        self.handle.location = (cx, cy, self.handle.location.z); self.handle.scale = (pop, pop, 1); self.handle.rotation_euler = (0, 0, ah)
+        self.ring.location = (bx, by, self.ring.location.z); self.ring.scale = (o, o, 1)
+        # two fine gold lines from the small ring's sides to the window's sides (a zoom callout)
+        co = np.zeros((12, 3), np.float32)
+        for k, sd in enumerate((-1, 1)):
+            a = np.array([bx, by]) + nrm * sd * 0.078 * o; b = np.array([cx, cy]) + nrm * sd * Rl
+            tg = (b - a) / (np.linalg.norm(b - a) + 1e-9); nn = np.array([-tg[1], tg[0]])
+            if nn @ UI.LIGHT < 0: nn = -nn
+            for q, (pt, hw) in enumerate(((a, 0.0055 * o), (b, 0.0075 * pop))):
+                for row, off in enumerate((1.0, 0.0, -1.0)): co[6 * k + 3 * q + row] = (*(pt + nn * off * hw), 0.0)
+        me = self.lines.data; me.vertices.foreach_set('co', co.ravel()); me.update()
         pr.commit()

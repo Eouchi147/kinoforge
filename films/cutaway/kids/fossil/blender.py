@@ -311,7 +311,7 @@ def build(bpy, ctx):
         import importlib.util
         sp = importlib.util.spec_from_file_location('kf_art_adapter', os.path.join(ROOT, 'films', 'styles', 'cutaway', 'art', '_adapter.py'))
         ad = importlib.util.module_from_spec(sp); sp.loader.exec_module(ad)
-        S['art'] = ad.attach(bpy, ctx, art, kit=kit, land=L, cam=cam, settings=SETTINGS, strata=W.STRATA, words=words.obs)
+        S['art'] = ad.attach(bpy, ctx, art, kit=kit, land=L, cam=cam, settings=SETTINGS, strata=W.STRATA, words=words.obs + lens.crisp)
         S['art'].frame(bpy, ctx, 0.0)
     return S
 

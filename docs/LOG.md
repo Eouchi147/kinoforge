@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Kids fossil graphics upgraded (Sam 22:21): Fredoka Bold (OFL) in plum with a gold-orange shadow on parchment cards with gold rims and a soft pop, a gold ribbon pointer for FOSSIL!, a pocket-watch clock, a gold lens magnifier with a handle (szui.py, szwords.py, szstory.py); stills looked at at 1280x720; deterministic. Full film now rendering on the Mac. US$0.
 - Sam (22:21): graphics (text, box, frame) to improve, otherwise the fossil pilot is great; render it, and the other five films by morning on GitHub's machines in parallel. Graphics builder and five film builders started (volcano, under-your-feet, rain, deep-sea, shooting-star; shared brief), music fetched into rc-render `music` (Mountain King, Hebrides, Figaro, Anitra's Dance, Vltava; new rc-render workflow music-search.yml lists Commons files and licences); fossil mix committed for the runners (film.json audio). US$0.
 - Kids fossil motion test: the find beat (frames 1128 to 1307) rendered on the Mac lane (about 9 s a frame, 1280x720, 24 samples), encoded on the Mac with soundtrack v1 (7.5 s, 1920x1080 H.264), contact sheet looked at (label pops on time, no flicker in the sheet), delivered to Samsung X5 KINOFORGE/films/kids/ and sent to Sam. US$0.
 - STATUS: the kids series section rewritten for the silent pilot (picture v3, Grieg, soundtrack v1, Mac motion test of the find). US$0.
