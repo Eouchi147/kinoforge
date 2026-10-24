@@ -245,13 +245,13 @@ class Streak:
         n = self.N; us = ut + (uh - ut) * np.arange(n + 1) / n; pts = bez(self.path, us)
         tg = np.gradient(pts, axis=0); tg /= np.linalg.norm(tg, axis=1)[:, None] + 1e-9; nr = np.column_stack([-tg[:, 1], tg[:, 0]])
         flare = W.win(t, self.peak - 0.15, self.peak + 0.9, 0.4) if self.peak else 0.0
-        wd = self.w * (1.0 + 0.8 * flare) * (np.arange(n + 1) / n) ** 0.8
+        wd = self.w * (1.0 + 1.5 * flare) * (np.arange(n + 1) / n) ** 0.8
         co = np.zeros((2 * (n + 1), 3), np.float32)
         co[0::2, :2] = pts + nr * wd[:, None]; co[1::2, :2] = pts - nr * wd[:, None]
         me = self.rib.data; me.vertices.foreach_set('co', co.ravel()); me.update()
-        h = bez(self.path, uh); rr = self.w * 3.2 * self.heat * (1 + 1.6 * flare)
+        h = bez(self.path, uh); rr = self.w * 3.2 * self.heat * (1 + 3.0 * flare)
         self.pc.set(self.halo, h[0], h[1], rr * 2.4); self.pc.set(self.core, h[0], h[1], rr * 0.8)
-        self.pc.set(self.glint, h[0], h[1], rr * (1.3 + 1.2 * flare), 0.6 * t)
+        self.pc.set(self.glint, h[0], h[1], rr * (1.3 + 2.2 * flare), 0.6 * t)
         for k, (j, r3) in enumerate(self.sp):
             ts = self.t0 + self.dur * (0.04 + 0.9 * k / self.K) + 0.05 * r3[2]; age = t - ts
             if age < 0 or age > self.life * (1 + 0.5 * flare): self.pc.hide(j); continue

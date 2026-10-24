@@ -277,7 +277,7 @@ def build_camp(kit, D):
             M.paint(kit, D, 'sz_peg', (0.50, 0.36, 0.26), noise=0.0), M.paint(kit, D, 'sz_log', (0.50, 0.34, 0.24)),
             M.paint(kit, D, 'sz_logend', (0.78, 0.62, 0.44), noise=0.0), M.paint(kit, D, 'sz_stone', (0.60, 0.60, 0.66)),
             M.paint(kit, D, 'sz_brass', (0.92, 0.72, 0.30), rough=0.35, noise=0.0), M.paint(kit, D, 'sz_scope', (0.28, 0.36, 0.62), noise=0.0),
-            M.paint(kit, D, 'sz_tripod', (0.40, 0.30, 0.24), noise=0.0), M.paint(kit, D, 'sz_pstar', (1.0, 0.86, 0.24), noise=0.0),
+            M.paint(kit, D, 'sz_tripod', (0.40, 0.30, 0.24), noise=0.0), M.mat_glow(kit, D, 'fs_pstar', (1.0, 0.80, 0.28), 1.1),
             M.paint(kit, D, 'sz_pole', (0.60, 0.50, 0.40), noise=0.0), M.paint(kit, D, 'sz_blanket', (0.80, 0.34, 0.34), noise=0.05)]
     c = {}
     # ---- the tent: a prism (ridge along y), local frame at its centre on the ground; entrance on the -y face, turned to the viewer
@@ -352,7 +352,7 @@ def camp_pose(Cp, t):
     # the paper star hangs by its string from the tent's front pole, swinging a little
     sw = 0.12 * math.sin(1.7 * t) + 0.05 * math.sin(4.1 * t + 1.0)
     Rp = Rt @ rx(sw)
-    for j in c['pstar']: pr.set(j, np.array([tx, ty, zt]) + Rt @ np.array([0.0, -0.50 - 0.03, 0.60]), Rp, 1.0)
+    for j in c['pstar']: pr.set(j, np.array([tx, ty, zt]) + Rt @ np.array([0.50, -0.60, 0.30]), Rp, 1.5)
     pr.commit()
     tip = hd + Rd @ np.array([0.34, 0, 0.04]); eye = hd + Rd @ np.array([-0.40, 0, 0.04])
     return {'tip': tip, 'eye': eye, 'tent': (tx, ty, zt), 'tent_yaw': TENT_YAW}
@@ -538,8 +538,8 @@ def eggs_pose(E, D, t, hands):
     for j in e['marsh_hot']: pr.set(j, hd, Rs, (1.4 * (1.0 + 0.04) if brown > 0.55 else 0.0))
     # flashlight with a beam lying on the grass near the tent
     fx, fy = W.FLASH; fz = gz(fx, fy, t) + 0.014
-    for j in e['flash']: pr.set(j, (fx, fy, fz), rz(1.0), 2.2)
-    pr.set(e['beam'], (fx, fy, fz + 0.004), rz(1.0), 2.2)
+    for j in e['flash']: pr.set(j, (fx, fy, fz), rz(1.0), 3.0)
+    pr.set(e['beam'], (fx, fy, fz + 0.004), rz(1.0), 3.0)
     # the toy rocket in the little brother's hand (it rises when he points)
     hb = hands['boy']['hand_R']; zb = 1.0 + 0.0
     for j in e['rocket']: pr.set(j, hb + np.array([0, 0, 0.05]), rz(hands['boy']['yaw']) @ ry(-0.2 - 0.5 * W.win(t, B.point0, B.point1, 0.4)), 2.3)
