@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Kids fossil motion test: the find beat (frames 1128 to 1307) rendered on the Mac lane (about 9 s a frame, 1280x720, 24 samples), encoded on the Mac with soundtrack v1 (7.5 s, 1920x1080 H.264), contact sheet looked at (label pops on time, no flicker in the sheet), delivered to Samsung X5 KINOFORGE/films/kids/ and sent to Sam. US$0.
 - STATUS: the kids series section rewritten for the silent pilot (picture v3, Grieg, soundtrack v1, Mac motion test of the find). US$0.
 - Kids fossil sound built (audio/make_audio.py, SOUND.md): Grieg, Morning Mood (Musopen) cut as beats.json says, 65.0 s, with 147 real CC0 sound effects on the picture's events (read from blender.py EVENTS at build time; tonal sounds tuned to the orchestra's chord); mix.m4a measured -16.0 LUFS, -1.6 dBTP, deterministic; audio ignored in git. Bank extended with 64 BigSoundBank ids (rc-render sfx-bank.yml run 40049538821, success). Not listened to yet (the build cannot hear). US$0.
 - Kids fossil picture v3, Sam's "lifted slice" framing: the Cutaway block floats 0.32 m over the hole it came from (roots, pebbles, falling soil, a 2.5 cm bob), the world continues around it at natural level in every era, the river cut at the gap. Stills checked (fos_v3 contact sheets, full-size 49.5 s frame). Weak: heavy dark lowest band, small roots. Full render about 66 h on a 2-core box. US$0.
