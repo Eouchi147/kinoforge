@@ -63,5 +63,8 @@ stars, streaks, the magnifier window) | `szback.py` (hills, village, clouds) | `
 No narration; words set in code only; no emoji or cartoon icons; no brands; no dash or three-dot punctuation in any text; nothing scary (the
 meteor is a gentle glow and sparkles, no flash, no sound over the music); AI-made, disclosed by the series.
 
+## Changes after the first push (23 Oct night)
+- The paper star now hangs on the tent's guy rope and glows (it was hidden behind dad), the flashlight is bigger, the reveal's flare is brighter and wider (US$0).
+
 ## Open
 Needs Sam's eyes and ears before it is published (looks and levels were set by measurement and stills). See the builder's report for weak spots.
