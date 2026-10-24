@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Manual: docs/manual/films/kids-little-big-questions.md (the series recipe: files, steps, music, render, checks, weak spots). US$0.
 - Studio upgrade (every success upgrades the studio): the six Little Big Questions films in tools/catalog.py (series, sound, how made, delivered) so the studio Library shows them; fossil also rendering on rc-render films.yml so its video sits in kino-films like the others (uploads from this session are blocked). US$0.
 - Kids films done: under-your-feet (run 40062248447, 74.0 s; qc flicker flag: a smooth 2.5 Hz brightness pulse at 22 to 27 s during the fast seasons, under 3 flashes a second, to slow) and rain (run 40062314304, 73.0 s, qc pass but for the -16 LUFS design choice); both on Samsung X5 KINOFORGE/films/kids/ and sent to Sam. All six Little Big Questions films delivered by 06:40 Toronto. US$0.
 - Kids films rendered on runners and delivered (rc-render kino-films and Samsung X5 KINOFORGE/films/kids/; sent to Sam): volcano (run 40059001981, 72.3 s), deep-sea (40060566034, 70.5 s), shooting-star (40062232772, 68.4 s); all 1920x1080 H.264 + AAC. qc on each: true peak -1.5 to -1.9 dBTP, no dead air, frozen or black frames, flicker 0.07 to 0.24 (pass); loudness about -16 LUFS by design. Contact sheets looked at. Under-your-feet and rain still rendering. US$0.
