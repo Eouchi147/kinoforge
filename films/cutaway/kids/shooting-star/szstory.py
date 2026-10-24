@@ -26,7 +26,7 @@ from szgeo import Parts, I3, rz
 DL = 5.0                      # the picture layer: 5 m in front of the camera (as the words)
 STAR_POS = (0.30, 0.36)       # the bright star the window shows
 PATH = ((0.46, 1.10), (-0.30, 0.96), (-1.62, 0.30))      # the long streak: quadratic Bezier, screen units
-WIN_C = (1.10, 0.50)          # the window's centre
+WIN_C = (1.10, 0.44)          # the window's centre
 gz = lambda x, y, t: float(W.top_h(np.array([x]), np.array([y]), t)[0])
 
 
@@ -381,7 +381,7 @@ class Window:
         if t < B.air_in:
             return 0.06 * math.sin(0.7 * t), 0.05 + 0.04 * math.cos(0.9 * t), rk, 0.9 * t
         u = W.sm(B.air_in, B.air_in + 1.8, t)
-        y = 0.05 + (0.92 - 0.05) * u; r = rk + (0.15 - rk) * u; x = 0.06 * math.sin(0.7 * t) * (1 - u) + 0.0
+        y = 0.05 + (0.92 - 0.05) * u; r = rk + (0.17 - rk) * u; x = 0.06 * math.sin(0.7 * t) * (1 - u) + 0.0
         if t > B.enter:
             s = (t - B.enter) / (B.streak0 - B.enter); y = 0.92 - 0.66 * min(1.0, s) ** 1.8
             if t > B.streak0: v = min(1.0, (t - B.streak0) / (B.peak - B.streak0)); y = 0.26 - 0.50 * v ** 1.15
@@ -418,9 +418,9 @@ class Window:
             pc.set(self.rock, x, y, rk * vis, spin); Rs = np.array([[math.cos(spin), -math.sin(spin)], [math.sin(spin), math.cos(spin)]])
             for j, (qx, qy, qr) in zip(self.craters, self.CR):
                 q = Rs @ np.array([qx, qy * 0.86]) * rk * vis; pc.set(j, x + q[0], y + q[1], qr * rk * vis, spin)
-        sz = rk * (1.0 + 2.2 * h)
+        sz = 0.15 * (1.0 + 2.2 * h)
         if h * (1 - burn) > 0.01:
-            pc.set(self.h_big, x, y, sz * 2.4); pc.set(self.h_mid, x, y, sz * 1.5); pc.set(self.h_core, x, y, sz * 0.9)
+            pc.set(self.h_big, x, y, sz * 1.6); pc.set(self.h_mid, x, y, sz * 1.1); pc.set(self.h_core, x, y, sz * 0.7)
         else:
             for j in (self.h_big, self.h_mid, self.h_core): pc.hide(j)
         # the trail above the rock (it falls head first), longer as it speeds up
