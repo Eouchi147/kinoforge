@@ -258,15 +258,15 @@ def flows_pose(FL, D, t):
     pr.commit()
 
 
-def build_fountain(kit, D, rng, per=52):
+def build_fountain(kit, D, rng, per=110):
     pr = Parts('fs_fountain'); gm = M.mat_glow(kit, D, 'fs_fount', (1.0, 0.62, 0.20), 2.6); gm2 = M.mat_glow(kit, D, 'fs_fount2', (1.0, 0.88, 0.40), 3.0)
     items = []
     for j in range(9):
         for i in range(per):
-            r = rng.uniform(0.024, 0.044) * (0.8 + 0.3 * W.STRENGTH[j])
+            r = rng.uniform(0.034, 0.060) * (0.8 + 0.3 * W.STRENGTH[j])
             p = pr.add(*sphere((0, 0, 0), (1, 1, 1), 0), m=i % 2)
             ang = rng.uniform(0, 2 * math.pi); sp = rng.uniform(0.05, 0.50)
-            items.append((j, i, p, r, rng.uniform(1.65, 2.9), sp * math.cos(ang), sp * math.sin(ang) * 0.7 + 0.08, rng.uniform(0, 1)))
+            items.append((j, i, p, r, rng.uniform(1.8, 3.0), sp * math.cos(ang), sp * math.sin(ang) * 0.7 + 0.08, rng.uniform(0, 1)))
     pr.build(kit.bpy, [gm, gm2], kit.coll, smooth=False); pr.ob.visible_shadow = False
     return {'parts': pr, 'items': items, 'per': per}
 
@@ -317,7 +317,7 @@ def build_bottle(kit, D, rng):
     V, F = tube([(0, 0, 0.0), (0, 0, 0.09)], [0.006, 0.006], 6, True); b['handle'] = pr.add(V, F, 8)
     V, F = box((0, 0, 0.0), (0.05, 0.004, 0.06)); b['blade'] = pr.add(V, F, 8)
     pr.build(kit.bpy, mats, kit.coll)
-    return {'parts': pr, 'b': b, 'rng': np.random.default_rng(3), 'foam_v': [(rng.uniform(-0.35, 0.35), rng.uniform(-0.35, 0.35), rng.uniform(1.4, 2.6), rng.uniform(0.012, 0.022), rng.uniform(0, 1)) for _ in range(34)]}
+    return {'parts': pr, 'b': b, 'rng': np.random.default_rng(3), 'foam_v': [(rng.uniform(-0.35, 0.35), rng.uniform(-0.35, 0.35), rng.uniform(1.5, 2.8), rng.uniform(0.019, 0.034), rng.uniform(0, 1)) for _ in range(34)]}
 
 
 def bottle_pose(Bt, t):

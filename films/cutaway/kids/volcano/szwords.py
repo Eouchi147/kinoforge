@@ -28,7 +28,7 @@ import szui as UI
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def _lines(text, max_chars=16):
+def _lines(text, max_chars=23):
     """Break a caption into short lines (big type): greedy, at most max_chars a line."""
     out = []; cur = ''
     for word in text.split():
