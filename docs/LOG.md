@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Kids music research: docs/research/KIDS_MUSIC_2026-10.md (real orchestral recordings per film with licence evidence, about 150 extra CC0 BigSoundBank effects, Content ID notes). Fossil top pick: Mozart, Magic Flute Overture (Musopen 2012, public domain dedication); fetching the fossil candidates with music-fetch.yml for licence records and a listen. US$0.
 - Kids fossil pilot picture built (silent, beats.json timing, Fable, one fixed view, 1440 frames): 7 everyday easter eggs, the snail mascot, a visual joke, 3D era background; checked in stills only (contact sheets looked at). Weak: the ground around the block still reads as a flat plane, thin face bones. Full render about 39 h on a 2-core box, so Mac or runners. US$0.
 - Playful sample-based score palette for the kids series not kept (Sam: "not just crappy midi sound"); its engine edits were reverted unmerged, the VSCO octave trap went to LESSONS. US$0.
 - Sam (20:09, 20:10): kids films become silent stories (no narration), real orchestral recordings and real recorded effects ("not crappy midi sound"). Fossil beat sheet `films/cutaway/kids/fossil/beats.json` (10 beats, 60 s); the voice lab run 40043405466 was cancelled before any take (the workflow stays, untested); the sample-based playful score stopped; music research launched. US$0.
