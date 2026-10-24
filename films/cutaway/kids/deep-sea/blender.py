@@ -95,14 +95,14 @@ def build(bpy, ctx):
     sub = LF.build_sub(kit, D); fish = LF.build_fish(kit, D); turtle = LF.build_turtle(kit, D); duck = LF.build_duck(kit, D)
     lantern = LF.build_lantern(kit, D); bigeye = LF.build_bigeye(kit, D); jelly = LF.build_jelly(kit, D); squid = LF.build_squid(kit, D); angler = LF.build_angler(kit, D)
     floorlife = LF.build_floor_life(kit, D); snow = LF.build_snow(kit, D); bub = LF.build_bubbles(kit, D); rip = LF.build_ripples(kit, D)
-    tw = LF.build_twinkles(kit, D); bottle = LF.build_bottle(kit, D); world = LF.build_world_life(kit, D)
+    pool = LF.build_pool(kit, D); tw = LF.build_twinkles(kit, D); bottle = LF.build_bottle(kit, D); world = LF.build_world_life(kit, D)
     cw.studio(kit, color=(0.93, 0.90, 0.84), key_az=SUN_AZ, key_el=45.0, key=2.0, angle=6.0, fill=0.8, land=L)
     cam = fit_camera(kit, '16:9' if ctx['W'] >= ctx['H'] else '9:16')
     far = SEA.build_far(kit, D, cam, ctx); D.setv('camP', tuple(cam.ob.location))
     words = WD.Words(kit, D, cam, ROOT)
     cw.apply_cycles(bpy); sc = bpy.context.scene; sc.cycles.transparent_max_bounces = 24
     S = {'kit': kit, 'D': D, 'land': L, 'stage': stage, 'sub': sub, 'fish': fish, 'turtle': turtle, 'duck': duck, 'lantern': lantern, 'bigeye': bigeye, 'jelly': jelly,
-         'squid': squid, 'angler': angler, 'floor': floorlife, 'snow': snow, 'bub': bub, 'rip': rip, 'tw': tw, 'bottle': bottle, 'world': world, 'words': words,
+         'squid': squid, 'angler': angler, 'floor': floorlife, 'snow': snow, 'bub': bub, 'rip': rip, 'pool': pool, 'tw': tw, 'bottle': bottle, 'world': world, 'words': words,
          'cam': cam, 'az0': cam.az, 'sun': bpy.data.objects['cw_sun']}
     frame(bpy, ctx, S, 0, 0.0)
     art = os.environ.get('KF_ART', globals().get('KF_ART_NAME'))
@@ -129,7 +129,7 @@ def frame(bpy, ctx, S, i, t):
     LF.lantern_pose(S['lantern'], t); LF.bigeye_pose(S['bigeye'], t); LF.jelly_pose(S['jelly'], D, t); LF.squid_pose(S['squid'], D, t)
     lure_p = LF.angler_pose(S['angler'], D, t)
     LF.floor_pose(S['floor'], D, t); LF.snow_pose(S['snow'], t); LF.bubbles_pose(S['bub'], D, t); LF.ripples_pose(S['rip'], D, t)
-    LF.twinkles_pose(S['tw'], t); LF.bottle_pose(S['bottle'], D, t); LF.world_life_pose(S['world'], D, t)
+    LF.pool_pose(S['pool'], D, t); LF.twinkles_pose(S['tw'], t); LF.bottle_pose(S['bottle'], D, t); LF.world_life_pose(S['world'], D, t)
     # the lure's light on the submarine: a cone from the lure down onto it
     from mathutils import Vector
     bu = S['sub']['beam_u']; la = D.v['lureA'][0].default_value if D.v.get('lureA') else 0.0

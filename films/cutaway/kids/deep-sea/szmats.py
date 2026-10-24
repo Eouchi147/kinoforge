@@ -243,6 +243,13 @@ def far_card(kit, D, hw, hh, name='fs_farm'):
                      g.math('MULTIPLY', g.math('SUBTRACT', g.math('MULTIPLY', 0.028 * k, g.math('SUBTRACT', 1.0, g.math('DIVIDE', dy, 0.075 * k), clamp=True)), dx), 500.0, clamp=True))
         hull = g.math('MULTIPLY', g.math('MULTIPLY', g.math('MULTIPLY', g.math('ADD', dy, 0.012), 300.0, clamp=True), g.math('MULTIPLY', g.math('SUBTRACT', 0.0, dy), 300.0, clamp=True)), g.math('MULTIPLY', g.math('SUBTRACT', 0.04 * k, dx), 400.0, clamp=True))
         col = g.mix(g.math('MULTIPLY', tri, 0.9), col, srgb((1.0, 0.99, 0.95))); col = g.mix(g.math('MULTIPLY', hull, 0.8), col, srgb((0.28, 0.40, 0.62)))
-    e = g.node('ShaderNodeEmission', ins={'Color': col, 'Strength': 1.0})
     alpha = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('SUBTRACT', v, 0.36), 10.0, clamp=True))
+    # the golden evening: a warm wash over the painted sky (peach at the horizon, fading up), only as `dusk` rises
+    grad = g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('SUBTRACT', v, 0.10), 0.9, clamp=True))
+    wa = g.math('MULTIPLY', D.val(g, 'dusk'), g.math('MULTIPLY', 0.70, grad))
+    wf = g.math('MULTIPLY', wa, g.math('SUBTRACT', 1.0, alpha))
+    warm = g.mix(g.math('MULTIPLY', grad, 0.0), srgb((1.0, 0.80, 0.46)), srgb((1.0, 0.72, 0.40)))
+    col = g.mix(wf, col, warm)
+    alpha = g.math('ADD', alpha, wf)
+    e = g.node('ShaderNodeEmission', ins={'Color': col, 'Strength': 1.0})
     _alpha_out(g, e, alpha); return m

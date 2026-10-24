@@ -14,7 +14,7 @@ import cutaway as cw
 import szworld as W
 import szmats as M
 import szsea as SEA
-from szgeo import Parts, I3, rx, ry, rz, sphere, tube, cone, box
+from szgeo import Parts, I3, rx, ry, rz, sphere, tube, cone, box, disc
 
 B = W.B
 SQ2 = math.sqrt(2.0)
@@ -273,12 +273,12 @@ def duck_pose(Du, t):
 # ====================================================================================== glow envelopes (the animals' own light)
 def bloom_env(t, delay=0.0):
     """The whole slice's lights on together at the climax, going out one by one on the way up."""
-    return W.win(t, B.bloom0 + delay, B.bloom1 + 3.2 + delay * 0.5, 0.45)
+    return W.win(t, B.bloom0 + delay, B.bloom1 + 1.6 + delay * 0.5, 0.45)
 
 
 def jelly_env(t, cue):
     if t >= B.bloom1 + 5.5: return 0.30 * W.sm(B.bloom1 + 5.5, B.bloom1 + 7.0, t)      # a few little lights still twinkle far below at the end
-    own = W.sm(cue, cue + 0.9, t) * (1.0 - W.sm(B.bloom1 + 3.0, B.bloom1 + 5.5, t))
+    own = W.sm(cue, cue + 0.9, t) * (1.0 - W.sm(B.bloom1 + 0.3, B.bloom1 + 2.6, t))
     return max(own, bloom_env(t))
 
 
@@ -340,8 +340,8 @@ def bigeye_pose(Bi, t):
 
 
 # ====================================================================================== jellyfish
-JELLY = [((-0.56, -0.10, -2.18), 0.21, (0.40, 0.72, 1.0), 'jel0', 'B_j0'), ((0.62, 0.10, -2.02), 0.19, (1.0, 0.52, 0.82), 'jel1', 'B_j1'),
-         ((-0.05, 0.28, -2.50), 0.20, (0.62, 1.0, 0.60), 'jel2', 'B_j2'), ((0.40, -0.02, -1.30), 0.19, (0.86, 0.82, 1.0), 'jel3', 'B_j3')]
+JELLY = [((-0.92, 0.04, -2.05), 0.21, (0.40, 0.72, 1.0), 'jel0', 'B_j0'), ((0.98, 0.22, -1.85), 0.19, (1.0, 0.52, 0.82), 'jel1', 'B_j1'),
+         ((-0.30, 0.32, -1.85), 0.20, (0.62, 1.0, 0.60), 'jel2', 'B_j2'), ((0.40, -0.02, -1.30), 0.19, (0.86, 0.82, 1.0), 'jel3', 'B_j3')]
 JEL_CUE = None
 
 
@@ -414,7 +414,7 @@ def squid_path(t):
 def squid_pose(Sq, D, t):
     pr = Sq['parts']; s = Sq['s']; show = W.win(t, B.sq0, B.sq1, 0.5)
     allp = [s['mantle'], s['head']] + s['fin'] + s['tent'] + s['spots'] + s['ew'] + s['ep']
-    D.set('squid', max(W.win(t, B.sq0 + 0.3, B.sq1 - 0.2, 0.5), bloom_env(t, 0.1)) * (1.0 if t < B.bloom1 + 3 else 0.0))
+    D.set('squid', max(W.win(t, B.sq0 + 0.3, B.sq1 - 0.2, 0.5), bloom_env(t, 0.1)) * (1.0 if t < B.bloom1 + 1.8 else 0.0))
     if show < 0.02:
         for k in allp: pr.hide(k)
         pr.commit(); return
@@ -468,7 +468,7 @@ def angler_state(t):
 def angler_pose(An, D, t):
     pr = An['parts']; s = An['s']; show = W.win(t, B.an0, B.an1 + 3.2, 0.6)
     allp = [s['body'], s['belly'], s['tail'], s['dors'], s['smile'], s['stalk'], s['bulb'], s['halo']] + s['sidefin'] + s['ew'] + s['ep'] + s['hi'] + s['cheek']
-    lure_on = max(W.win(t, B.lure0, B.lure1, 0.6), bloom_env(t, 0.2)); D.set('lure', lure_on * (1.0 if t < B.bloom1 + 3.0 else 0.0)); D.set('lureA', W.win(t, B.lure0 + 0.3, B.lure1 - 0.2, 0.7))
+    lure_on = max(W.win(t, B.lure0, B.lure1, 0.6), bloom_env(t, 0.2)); D.set('lure', lure_on * (1.0 if t < B.bloom1 + 1.8 else 0.0)); D.set('lureA', W.win(t, B.lure0 + 0.3, B.lure1 - 0.2, 0.7))
     if show < 0.02:
         for k in allp: pr.hide(k)
         pr.commit(); D.setv('lureP', (0, 0, 5)); D.set('lureA', 0.0); return None
@@ -677,7 +677,7 @@ def build_twinkles(kit, D):
             a = getattr(B, JELLY[j][4]) + rng.uniform(0.2, 2.8); win[i] = (a, a + rng.uniform(1.5, 3.5))
         else:                  # the final bloom: lights everywhere, from the floor up
             kind[i] = 2; P[i] = (rng.uniform(-1.05, 1.05), rng.uniform(-0.55, 0.5), -rng.uniform(0.9, 2.82)); a = B.bloom0 + 0.9 * (P[i][2] + 2.9) * -0.0 + (2.82 + P[i][2]) * 0.55 + rng.uniform(0, 0.4)
-            b = B.bloom1 + 3.2 + rng.uniform(0, 1.6) + (2.82 + P[i][2]) * 0.25; win[i] = (a, b)
+            b = B.bloom1 + 1.6 + rng.uniform(0, 1.4) + (2.82 + P[i][2]) * 0.25; win[i] = (a, b)
     return {'parts': pr, 'P': P, 'win': win, 'kind': kind, 'rng': rng.uniform(0, 6.28, TW_N)}
 
 
@@ -826,3 +826,25 @@ def world_life_pose(Wl, D, t):
                 if pz > -0.2 and k < 22: sp.set(k, blow + np.array([*(W.RIGHT * px), pz]) * 1.0 + np.array([0, 0, 0]), I3, 0.11 * (1.0 - 0.4 * age / 1.9)); k += 1
     for q in range(k, 22): sp.hide(q)
     sp.commit()
+
+
+# ====================================================================================== the torch's small patch of seafloor (only a tiny piece has been seen)
+POOL_XY = (0.10, -0.14)
+
+
+def build_pool(kit, D):
+    pr = Parts('fs_pool'); mo = M.glow(kit, D, 'fs_pool_o', (1.0, 0.90, 0.62), 1.0, None, 'poolA'); mi = M.glow(kit, D, 'fs_pool_i', (1.0, 0.95, 0.74), 1.2, None, 'poolB')
+    a = pr.add(*disc((0, 0, 0), 0.36, 28), m=0); b = pr.add(*disc((0, 0, 0), 0.22, 28), m=1)
+    pr.build(kit.bpy, [mo, mi], kit.coll); pr.ob.visible_shadow = False
+    return {'parts': pr, 'a': a, 'b': b}
+
+
+def pool_pose(Pl, D, t):
+    pr = Pl['parts']; on = W.win(t, B.unseen0 + 0.9, B.unseen0 + 4.8, 0.9)
+    D.set('poolA', 0.28 * on); D.set('poolB', 0.42 * on)
+    if on < 0.02:
+        pr.hide(Pl['a']); pr.hide(Pl['b'])
+    else:
+        x, y = POOL_XY; z = SEA.floor_z(x, y) + 0.03 + wz(t); sq = (1.0 + 0.03 * math.sin(2 * math.pi * t / 2.0))
+        pr.set(Pl['a'], (x, y, z), I3, sq); pr.set(Pl['b'], (x, y, z + 0.004), I3, sq)
+    pr.commit()

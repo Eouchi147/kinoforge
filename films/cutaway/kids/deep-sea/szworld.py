@@ -151,7 +151,7 @@ def sub_depth(t):
 def sub_x(t):
     """Left-right in the slice (m): from the middle to the left, a gentle slalom, the vent, then the rise on the right."""
     return keys(t, [(0.0, 0.05), (5.0, 0.05), (9.0, -0.30), (14.0, 0.10), (20.0, -0.35), (26.0, -0.20), (33.0, 0.20), (39.0, 0.0),
-                    (41.5, -0.10), (46.0, -0.10), (50.0, -0.12), (54.0, -0.16), (59.5, -0.16), (63.0, 0.30), (66.0, 0.30), (70.5, 0.30)])
+                    (41.5, -0.10), (46.0, -0.10), (50.0, -0.30), (52.5, -0.50), (54.0, -0.52), (60.0, -0.52), (63.0, 0.30), (66.0, 0.30), (70.5, 0.30)])
 
 
 def sub_y(t):
@@ -168,6 +168,8 @@ def sub_pitch(t):
 def weights(t):
     """(spring, summer, autumn, winter): bright day, then the golden evening of the calm ending."""
     e = sm(64.0, 70.0, t)
+    if os.environ.get('KF_WT'):
+        a, b, c, d = [float(v) for v in os.environ['KF_WT'].split(',')]; return (1.0 - e + e * a, e * b, e * c, e * d)
     return (1.0 - e, 0.0, e, 0.0)
 
 
