@@ -85,7 +85,7 @@ def build_lawn(kit, L, D, rng):
     Q = Q[(np.abs(Q) < [W.HX - 0.006, W.HY - 0.006]).all(1)]
     # keep the mat of the picnic blanket and the nymph's hole clear
     Q = Q[~((np.abs(Q[:, 0] - BLANKET[0]) < 0.36) & (np.abs(Q[:, 1] - BLANKET[1]) < 0.29))]
-    Q = Q[np.hypot(Q[:, 0] - HOLE_XY[0], Q[:, 1] - HOLE_XY[1]) > 0.075]
+    Q = Q[np.hypot(Q[:, 0] - HOLE_XY[0], Q[:, 1] - HOLE_XY[1]) > 0.115]
     Qw = world_pts(rng, 0.05, 1.8); Q = np.vstack([Q, Qw]); n = len(Q)
     sc = rng.uniform(0.7, 1.3, n)
     ob = L.scatter('sz_grass', tufts, Q, yaw=rng.uniform(0, 6.28, n), scale=sc, variant=rng.integers(0, 6, n), sway=0.22, speed=0.9, z=0.0)
@@ -221,7 +221,7 @@ def build_props(kit, D):
     tail = [pr.add([(-0.012, 0, 0.0), (0.012, 0, 0.008), (0.012, 0, -0.008), (-0.012, 0, 0.0)], [(0, 1, 2)], m=13 - i % 2) for i in range(5)]
     e['kite'] = (k1, k2, tail)
     # the nymph's hole in the lawn (a dark oval with a rim of crumbs) and a molehill (grows when the mole pushes up)
-    e['hole'] = [pr.add(*disc((0, 0, 0.0), 0.058, 20), m=16), pr.add(*cone((0, 0, 0.0), 0.085, 0.006, 18, 0.062), m=17)]
+    e['hole'] = [pr.add(*disc((0, 0, 0.0), 0.085, 20), m=16), pr.add(*cone((0, 0, 0.0), 0.125, 0.006, 18, 0.09), m=17)]
     e['molehill'] = pr.add(*cone((0, 0, 0.0), 0.16, 0.10, 16, 0.02), m=17)
     # the snail's big leaf
     e['dock'] = pr.add(*_ell((0, 0, 0.006), (0.11, 0.075, 0.008), 2), m=14)

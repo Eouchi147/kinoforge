@@ -154,7 +154,7 @@ def hatchling_path(t):
 
 def nymph_k(t):
     """The nymphs grow over the years (bigger each year), from hatchling to ready."""
-    B = W.B; return (0.55 + 0.60 * sm(B.yr0, B.yr1, t)) * (1.0 + 0.9 * (1.0 - sm(B.settle0, B.label0 - 0.4, t)))      # big enough to follow while it is new
+    B = W.B; return (0.55 + 0.60 * sm(B.yr0, B.yr1, t)) * (1.0 + 1.6 * (1.0 - sm(B.settle0, B.label0 - 0.4, t)))      # big enough to follow while it is new
 
 
 def main_world(who, t, lift):
@@ -164,7 +164,7 @@ def main_world(who, t, lift):
         if t < B.crack0: return None
         pos, f, mode = hatchling_path(t)
         pos = pos.copy(); pos[2] += 0.0
-        return pos, frame_dir(f), mode, 0.55 * 0.8 if mode != 'twig' else 0.0, 0.0
+        return pos, frame_dir(f), mode, 1.5 if mode != 'twig' else 0.0, 0.0
     st, p, ang, mode, u = UG.nymph_state(who, t)
     k = nymph_k(t)
     if st == 'hidden': return None
