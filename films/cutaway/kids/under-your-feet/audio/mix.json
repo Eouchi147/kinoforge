@@ -1,0 +1,5385 @@
+{
+ "film": "kids-under-your-feet",
+ "duration_s": 74.0,
+ "measurements": {
+  "lufs": -16.1,
+  "lra": 7.1,
+  "true_peak": -1.9,
+  "limiter_max_reduction_db": 1.22,
+  "limiter_max_reduction_at_s": 68.32,
+  "limiter_samples_over_1db": 8027,
+  "gain_db": 1.97,
+  "ceiling_dbfs": -2.0,
+  "wav_sample_peak_dbfs": -2.0,
+  "wav_lufs_bs1770": -16.03,
+  "seconds": 74.0,
+  "codec": "aac 256k stereo 48 kHz",
+  "target_lufs": -16.0,
+  "true_peak_limit_dbtp": -1.5
+ },
+ "music": {
+  "piece": "Wolfgang Amadeus Mozart, The Marriage of Figaro, overture, K. 492",
+  "recording": "Czech National Symphony Orchestra, via Musopen (Musopen.org: https://musopen.org/music/43979-overture-to-the-marriage-of-figaro-k-492/)",
+  "licence": "CC0 1.0 Universal (Public Domain Dedication) as recorded on the Wikimedia Commons file page, which quotes Musopen's statement that uploaders must represent the content as public domain; no attribution required, credit given anyway",
+  "source_page": "https://commons.wikimedia.org/wiki/File:Mozart,_The_Marriage_of_Figaro_(overture).ogg",
+  "asset": "release music of Eouchi147/rc-render: mozart-figaro-overture.ogg (6,344,097 bytes) with mozart-figaro-overture.licence.json",
+  "edit": "recording 0:00 to 0:27.6 (film 0 to 27.6), a linear 1.5 s cross-fade (film 26.1 to 27.6) into recording 3:15.0 to 3:59.6 (film 26.1 to 70.7, played straight to the piece's own final cadence at recording 3:56.95 = film 68.05 and its decay), then a quiet tail to 74.0 s. Hits used: burst 8.75, tutti 22.15, finale tutti 202.9 (film 34.0), accents 212.5 (43.6), 224.45 (55.55), the coda 228.6 (59.7), final chord 236.95 (68.05).",
+  "credit": "Music: Wolfgang Amadeus Mozart, The Marriage of Figaro Overture, Czech National Symphony Orchestra, recorded by Musopen (CC0 / public domain).",
+  "cut": {
+   "first": [
+    0.0,
+    27.6
+   ],
+   "second": [
+    195.0,
+    239.9
+   ],
+   "crossfade_s": 1.5,
+   "crossfade_film_s": [
+    26.1,
+    27.6
+   ],
+   "curve": "triangular (linear)"
+  },
+  "rider": {
+   "target_lufs": -21.0,
+   "ratio": 2.3,
+   "smoothing_s": 1.0,
+   "gain_db_range": [
+    -5.4,
+    7.0
+   ]
+  },
+  "music_only_lufs": -16.3
+ },
+ "events": {
+  "rw0": -10.0,
+  "rw1": -10.0,
+  "rain0": -10.0,
+  "erode1": -10.0,
+  "egg_glint0": 0.8,
+  "crack0": 5.3,
+  "crack1": 5.7,
+  "fall0": 5.7,
+  "fall1": 6.35,
+  "walk0": 6.35,
+  "walk1": 7.9,
+  "dive0": 7.9,
+  "dive1": 8.2,
+  "shaft0": 8.2,
+  "reveal0": 8.75,
+  "tun_worm0": 8.8,
+  "pop_worm": 8.9,
+  "tun_ant0": 9.05,
+  "tun_mole0": 9.3,
+  "pop_ant": 9.3,
+  "tun_grub0": 9.6,
+  "pop_mole": 9.6,
+  "tun_worm1": 9.9,
+  "pop_grub": 10.0,
+  "tun_mole1": 10.2,
+  "tun_ant1": 10.4,
+  "tun_grub1": 10.4,
+  "roots_on0": 10.4,
+  "roots_on1": 11.6,
+  "shaft1": 12.3,
+  "settle0": 12.3,
+  "settle1": 13.3,
+  "yr0": 14.25,
+  "label0": 14.6,
+  "label1": 17.9,
+  "stack0": 22.15,
+  "yr1": 27.6,
+  "stack1": 27.6,
+  "warm0": 27.8,
+  "unhook0": 28.4,
+  "gather0": 29.2,
+  "warm1": 32.0,
+  "up0": 32.6,
+  "gather1": 33.4,
+  "pop0": 34.0,
+  "bird_up": 34.2,
+  "look0": 34.4,
+  "pop1": 34.5,
+  "march0": 36.5,
+  "march1": 42.0,
+  "climb0": 42.4,
+  "climb1": 54.0,
+  "crack_shell0": 55.55,
+  "ease0": 56.0,
+  "ease1": 58.8,
+  "open0": 59.7,
+  "sun_gold0": 59.7,
+  "open1": 60.1,
+  "song0": 60.1,
+  "final": 68.05,
+  "lie0": 69.0,
+  "wave0": 69.5,
+  "lie1": 70.4
+ },
+ "recordings": {
+  "birds_waking_3": {
+   "uses": [
+    "bed 0.0-74.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s0999.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "body_fall_1": {
+   "uses": [
+    "she settles on the lawn at 69.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s2452.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_2": {
+   "uses": [
+    "the worms pop in at 8.90 s",
+    "a cicada pops out of the lawn at 34.00 s",
+    "a cicada pops out of the lawn at 34.64 s"
+   ],
+   "source": "https://bigsoundbank.com/s2277.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_4": {
+   "uses": [
+    "the ants pop in at 9.30 s",
+    "a cicada pops out of the lawn at 34.16 s",
+    "the snail waves at 69.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s2279.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_6": {
+   "uses": [
+    "a tiny plop as the nymph lands at 6.35 s",
+    "the grubs pop in at 10.00 s",
+    "the crumb lands in the pantry at 20.60 s",
+    "the crumb lands in the pantry at 34.60 s",
+    "the crumb lands in the pantry at 48.60 s",
+    "the crumb lands in the pantry at 62.60 s",
+    "a cicada pops out of the lawn at 34.32 s"
+   ],
+   "source": "https://bigsoundbank.com/s2281.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_8": {
+   "uses": [
+    "the mole pops in at 9.60 s",
+    "a cicada pops out of the lawn at 34.48 s"
+   ],
+   "source": "https://bigsoundbank.com/s2283.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "brush_wood": {
+   "uses": [
+    "the nymph digs down the shaft at 8.45 s",
+    "the nymph digs down the shaft at 8.95 s",
+    "the nymph digs down the shaft at 9.45 s",
+    "the nymph digs down the shaft at 9.95 s",
+    "the nymph digs down the shaft at 10.45 s",
+    "the nymph digs down the shaft at 10.95 s",
+    "the nymph digs down the shaft at 11.45 s",
+    "scritch, they climb the trunk at 42.70 s",
+    "scritch, they climb the trunk at 43.32 s",
+    "scritch, they climb the trunk at 43.94 s",
+    "scritch, they climb the trunk at 44.56 s",
+    "scritch, they climb the trunk at 45.18 s",
+    "scritch, they climb the trunk at 45.80 s",
+    "scritch, they climb the trunk at 46.42 s",
+    "scritch, they climb the trunk at 47.04 s",
+    "scritch, they climb the trunk at 47.66 s",
+    "scritch, they climb the trunk at 48.28 s",
+    "scritch, they climb the trunk at 48.90 s",
+    "scritch, they climb the trunk at 49.52 s",
+    "scritch, they climb the trunk at 50.14 s",
+    "scritch, they climb the trunk at 50.76 s",
+    "scritch, they climb the trunk at 51.38 s",
+    "scritch, they climb the trunk at 52.00 s",
+    "scritch, they climb the trunk at 52.62 s",
+    "scritch, they climb the trunk at 53.24 s"
+   ],
+   "source": "https://bigsoundbank.com/s1106.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "candle_sparkle_1": {
+   "uses": [
+    "the egg cracks (a tiny crackle) at 5.30 s"
+   ],
+   "source": "https://bigsoundbank.com/s1278.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "candle_sparkle_2": {
+   "uses": [
+    "a crackle of the skin at 55.65 s"
+   ],
+   "source": "https://bigsoundbank.com/s1279.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "cave_soundscape_1": {
+   "uses": [
+    "bed 8.7-33.7 s"
+   ],
+   "source": "https://bigsoundbank.com/s2135.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_butterfly_1": {
+   "uses": [
+    "the egg glints at 0.80 s",
+    "the egg glints at 2.50 s",
+    "the egg glints at 4.20 s",
+    "THE WINGS OPEN: chimes on the coda at 59.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s2087.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_butterfly_3": {
+   "uses": [
+    "a sparkle on the label at 14.70 s",
+    "a rising shimmer up the shaft (reversed chimes) at 32.00 s",
+    "a rising shimmer up the shaft (reversed chimes) at 32.90 s",
+    "a rising shimmer up the shaft (reversed chimes) at 33.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s2089.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_dream_1": {
+   "uses": [
+    "the roots wake and drink (a sparkle) at 10.50 s",
+    "the roots wake and drink (a sparkle) at 10.90 s",
+    "the roots wake and drink (a sparkle) at 11.40 s",
+    "the wings grow, glowing at 56.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s2079.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_dream_3": {
+   "uses": [
+    "the final chord: a twinkle at 68.10 s"
+   ],
+   "source": "https://bigsoundbank.com/s2081.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "cloth": {
+   "uses": [
+    "the wings unfold (soft cloth) at 56.00 s",
+    "the girl lies down, ear to the grass (cloth) at 69.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s0013.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "cluster_chimes": {
+   "uses": [
+    "THE HIDDEN WORLD: tunnels glow open (a burst of chimes on the tutti) at 8.75 s",
+    "THEY ARE OUT: a burst of chimes on the finale tutti at 34.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s2687.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "dig_shovel": {
+   "uses": [
+    "the mole digs (soft) at 11.80 s",
+    "the mole digs (soft) at 15.40 s",
+    "the mole digs (soft) at 19.00 s",
+    "the mole digs (soft) at 22.60 s",
+    "the mole digs (soft) at 26.20 s",
+    "the mole digs (soft) at 29.80 s"
+   ],
+   "source": "https://bigsoundbank.com/s1305.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "dreamcatcher": {
+   "uses": [
+    "a held breath before the song at 58.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s0040.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_1": {
+   "uses": [
+    "the nymph sips root juice (a drop) at 12.60 s",
+    "the nymph sips root juice (a drop) at 19.46 s",
+    "the nymph sips root juice (a drop) at 25.76 s"
+   ],
+   "source": "https://bigsoundbank.com/s1384.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_2": {
+   "uses": [
+    "the nymph sips root juice (a drop) at 14.44 s",
+    "the nymph sips root juice (a drop) at 21.10 s",
+    "the nymph sips root juice (a drop) at 27.64 s"
+   ],
+   "source": "https://bigsoundbank.com/s1385.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_3": {
+   "uses": [
+    "the nymph sips root juice (a drop) at 17.75 s",
+    "the nymph sips root juice (a drop) at 24.01 s"
+   ],
+   "source": "https://bigsoundbank.com/s1386.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_4": {
+   "uses": [
+    "the nymph sips root juice (a drop) at 16.05 s",
+    "the nymph sips root juice (a drop) at 22.71 s"
+   ],
+   "source": "https://bigsoundbank.com/s1387.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "field_cricket": {
+   "uses": [
+    "bed 60.1-71.5 s"
+   ],
+   "source": "https://bigsoundbank.com/s1020.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "flight_bird_1": {
+   "uses": [
+    "birds fly up from the big tree at 34.20 s"
+   ],
+   "source": "https://bigsoundbank.com/s2891.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "flight_bird_2": {
+   "uses": [
+    "birds fly up from the big tree at 34.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s2892.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "flight_bird_3": {
+   "uses": [
+    "birds join the song at 62.50 s",
+    "birds join the song at 64.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s2893.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "flight_bird_4": {
+   "uses": [
+    "birds join the song at 60.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s2894.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "flight_pigeon": {
+   "uses": [
+    "birds fly up from the big tree at 34.32 s"
+   ],
+   "source": "https://bigsoundbank.com/s0840.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "glockenspiel": {
+   "uses": [
+    "THE HIDDEN WORLD: sparkle at 8.79 s",
+    "THE WINGS OPEN: a bright sparkle at 59.75 s"
+   ],
+   "source": "https://bigsoundbank.com/s0920.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "heartbeat_5": {
+   "uses": [
+    "bed 28.0-33.8 s"
+   ],
+   "source": "https://bigsoundbank.com/s1930.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "ice_crack_2": {
+   "uses": [
+    "the shell splits at 5.70 s",
+    "the old skin splits (a soft crack on the accent) at 55.55 s"
+   ],
+   "source": "https://bigsoundbank.com/s2206.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "metallophone": {
+   "uses": [
+    "a year turns (a soft tick) at 22.32 s",
+    "a year turns (a soft tick) at 23.11 s",
+    "a year turns (a soft tick) at 23.90 s",
+    "a year turns (a soft tick) at 24.69 s",
+    "a year turns (a soft tick) at 25.48 s",
+    "a year turns (a soft tick) at 26.65 s"
+   ],
+   "source": "https://bigsoundbank.com/s3067.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "old_dog_bark_3": {
+   "uses": [
+    "the dog barks happily at 34.70 s",
+    "the dog barks happily at 35.40 s",
+    "the dog barks happily at 37.10 s",
+    "the dog barks and dances at 60.50 s",
+    "the dog barks and dances at 61.40 s",
+    "the dog barks and dances at 63.20 s",
+    "the dog barks and dances at 65.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s2354.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "robin_1": {
+   "uses": [
+    "a robin in the tree at 47.00 s",
+    "a bird calls in the quiet at 71.20 s"
+   ],
+   "source": "https://bigsoundbank.com/s1667.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "rusk_crunch": {
+   "uses": [
+    "a grub munches a root at 11.50 s",
+    "a grub munches a root at 13.80 s",
+    "a grub munches a root at 16.10 s",
+    "a grub munches a root at 18.40 s",
+    "a grub munches a root at 20.70 s",
+    "a grub munches a root at 23.00 s",
+    "a grub munches a root at 25.30 s",
+    "a grub munches a root at 27.60 s",
+    "a grub munches a root at 29.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s0407.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "solitary_bees": {
+   "uses": [
+    "bed 60.6-70.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s0101.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "squeaker_toy_2": {
+   "uses": [
+    "the crumb is home (a tiny squeak: the joke) at 20.48 s",
+    "the crumb is home (a tiny squeak: the joke) at 34.48 s",
+    "the crumb is home (a tiny squeak: the joke) at 48.48 s",
+    "the crumb is home (a tiny squeak: the joke) at 62.48 s"
+   ],
+   "source": "https://bigsoundbank.com/s0879.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steps_leaves": {
+   "uses": [
+    "bed 22.6-26.1 s"
+   ],
+   "source": "https://bigsoundbank.com/s0137.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steps_mud": {
+   "uses": [
+    "a worm slides along its tunnel at 10.90 s",
+    "a worm slides along its tunnel at 14.00 s",
+    "a worm slides along its tunnel at 17.10 s",
+    "a worm slides along its tunnel at 20.20 s",
+    "a worm slides along its tunnel at 23.30 s",
+    "a worm slides along its tunnel at 26.40 s"
+   ],
+   "source": "https://bigsoundbank.com/s0495.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steps_pebbles": {
+   "uses": [
+    "ants skitter in the tunnels at 10.30 s",
+    "ants skitter in the tunnels at 12.50 s",
+    "ants skitter in the tunnels at 14.70 s",
+    "ants skitter in the tunnels at 16.90 s",
+    "ants skitter in the tunnels at 19.10 s",
+    "ants skitter in the tunnels at 21.30 s",
+    "ants skitter in the tunnels at 23.50 s",
+    "ants skitter in the tunnels at 25.70 s",
+    "ants skitter in the tunnels at 27.90 s",
+    "ants skitter in the tunnels at 30.10 s",
+    "the ant hauls its crumb at 12.60 s",
+    "the ant hauls its crumb at 14.10 s",
+    "the ant hauls its crumb at 15.60 s",
+    "the ant hauls its crumb at 17.10 s",
+    "the ant hauls its crumb at 18.60 s",
+    "the ant hauls its crumb at 26.60 s",
+    "the ant hauls its crumb at 28.10 s",
+    "the ant hauls its crumb at 29.60 s",
+    "the ant hauls its crumb at 31.10 s",
+    "the ant hauls its crumb at 32.60 s",
+    "the ant hauls its crumb at 40.60 s",
+    "the ant hauls its crumb at 42.10 s",
+    "the ant hauls its crumb at 43.60 s",
+    "the ant hauls its crumb at 45.10 s",
+    "the ant hauls its crumb at 46.60 s",
+    "the ant hauls its crumb at 54.60 s",
+    "the ant hauls its crumb at 56.10 s",
+    "the ant hauls its crumb at 57.60 s",
+    "the ant hauls its crumb at 59.10 s",
+    "the ant hauls its crumb at 60.60 s",
+    "little feet crawl to the shaft at 29.20 s",
+    "little feet crawl to the shaft at 29.65 s",
+    "little feet crawl to the shaft at 30.10 s",
+    "little feet crawl to the shaft at 30.55 s",
+    "little feet crawl to the shaft at 31.00 s",
+    "little feet crawl to the shaft at 31.45 s",
+    "little feet crawl to the shaft at 31.90 s",
+    "little feet crawl to the shaft at 32.35 s",
+    "little feet crawl to the shaft at 32.80 s",
+    "little feet crawl to the shaft at 33.25 s"
+   ],
+   "source": "https://bigsoundbank.com/s0839.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steps_short_grass": {
+   "uses": [
+    "shoes pass on the lawn above at 0.70 s",
+    "shoes pass on the lawn above at 1.20 s",
+    "shoes pass on the lawn above at 1.70 s",
+    "shoes pass on the lawn above at 2.20 s",
+    "shoes pass on the lawn above at 2.70 s",
+    "shoes pass on the lawn above at 3.20 s",
+    "shoes pass on the lawn above at 3.70 s",
+    "shoes pass on the lawn above at 4.20 s",
+    "the kids dance on the grass at 60.05 s",
+    "the kids dance on the grass at 60.35 s",
+    "the kids dance on the grass at 60.65 s",
+    "the kids dance on the grass at 60.95 s",
+    "the kids dance on the grass at 61.25 s",
+    "the kids dance on the grass at 61.55 s"
+   ],
+   "source": "https://bigsoundbank.com/s0854.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steps_twigs": {
+   "uses": [
+    "tiny feet scurry to the hole at 6.43 s",
+    "tiny feet scurry to the hole at 6.60 s",
+    "tiny feet scurry to the hole at 6.77 s",
+    "tiny feet scurry to the hole at 6.94 s",
+    "tiny feet scurry to the hole at 7.11 s",
+    "tiny feet scurry to the hole at 7.28 s",
+    "tiny feet scurry to the hole at 7.45 s",
+    "tiny feet scurry to the hole at 7.62 s",
+    "tiny feet scurry to the hole at 7.79 s",
+    "the cicadas march to the tree at 36.50 s",
+    "the cicadas march to the tree at 36.74 s",
+    "the cicadas march to the tree at 36.98 s",
+    "the cicadas march to the tree at 37.22 s",
+    "the cicadas march to the tree at 37.46 s",
+    "the cicadas march to the tree at 37.70 s",
+    "the cicadas march to the tree at 37.94 s",
+    "the cicadas march to the tree at 38.18 s",
+    "the cicadas march to the tree at 38.42 s",
+    "the cicadas march to the tree at 38.66 s",
+    "the cicadas march to the tree at 38.90 s",
+    "the cicadas march to the tree at 39.14 s",
+    "the cicadas march to the tree at 39.38 s",
+    "the cicadas march to the tree at 39.62 s",
+    "the cicadas march to the tree at 39.86 s",
+    "the cicadas march to the tree at 40.10 s",
+    "the cicadas march to the tree at 40.34 s",
+    "the cicadas march to the tree at 40.58 s",
+    "the cicadas march to the tree at 40.82 s",
+    "the cicadas march to the tree at 41.06 s",
+    "the cicadas march to the tree at 41.30 s",
+    "the cicadas march to the tree at 41.54 s"
+   ],
+   "source": "https://bigsoundbank.com/s1301.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "suction_cup_plastic": {
+   "uses": [
+    "a nymph lets go of the root (a tiny pop) at 28.40 s",
+    "a nymph lets go of the root (a tiny pop) at 28.52 s",
+    "a nymph lets go of the root (a tiny pop) at 28.64 s",
+    "a nymph lets go of the root (a tiny pop) at 28.76 s",
+    "a nymph lets go of the root (a tiny pop) at 28.88 s"
+   ],
+   "source": "https://bigsoundbank.com/s1261.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "sun_heat_1": {
+   "uses": [
+    "bed 27.5-34.2 s"
+   ],
+   "source": "https://bigsoundbank.com/s1779.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "tibetan_bowl_1": {
+   "uses": [
+    "the final chord: a singing bowl swells in at 68.05 s"
+   ],
+   "source": "https://bigsoundbank.com/s1109.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "toy_squeal_1": {
+   "uses": [
+    "the kids gasp (a toy squeal stands in) at 34.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s3331.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "triangle_2": {
+   "uses": [
+    "THE WINGS OPEN: a soft triangle at 59.72 s",
+    "the final chord: a soft triangle at 68.15 s"
+   ],
+   "source": "https://bigsoundbank.com/s1688.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "water_bubble_2": {
+   "uses": [
+    "a dive into the hole (a soft bubble) at 7.95 s"
+   ],
+   "source": "https://bigsoundbank.com/s0183.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "water_over_soil": {
+   "uses": [
+    "soil trickles in at 8.00 s",
+    "soil crumbs fall away at 33.95 s"
+   ],
+   "source": "https://bigsoundbank.com/s0563.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_inside_2": {
+   "uses": [
+    "a breath of air up the shaft at 32.30 s"
+   ],
+   "source": "https://bigsoundbank.com/s1715.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_plain": {
+   "uses": [
+    "bed 0.0-74.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s0595.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_tree_squeaks": {
+   "uses": [
+    "bed 42.4-56.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s1051.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_whistle_2": {
+   "uses": [
+    "a wind of years at 21.85 s"
+   ],
+   "source": "https://bigsoundbank.com/s0155.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "winder_1": {
+   "uses": [
+    "the clock winds (a music-box winder) at 21.95 s"
+   ],
+   "source": "https://bigsoundbank.com/s1674.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wine_stopper_3": {
+   "uses": [
+    "the label pops: CICADA! at 14.65 s",
+    "words pop in: who lives under your feet? at 0.35 s",
+    "words pop in: a hidden world! at 9.05 s",
+    "words pop in: cicada! at 14.60 s",
+    "words pop in: 17 years at 22.50 s",
+    "words pop in: all together! at 29.00 s",
+    "words pop in: who is down there right now? at 68.05 s"
+   ],
+   "source": "https://bigsoundbank.com/s1719.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  }
+ },
+ "placements": [
+  {
+   "t": 0.0,
+   "what": "park birds (spring and summer)",
+   "name": "birds_waking_3",
+   "gain_db": -14.3,
+   "bed_to": 74.0
+  },
+  {
+   "t": 0.0,
+   "what": "a soft breeze (autumn and winter swell it)",
+   "name": "wind_plain",
+   "gain_db": -18.6,
+   "bed_to": 74.0
+  },
+  {
+   "t": 8.65,
+   "what": "the hush of the soil (the hidden world)",
+   "name": "cave_soundscape_1",
+   "gain_db": -4.1,
+   "bed_to": 33.7
+  },
+  {
+   "t": 0.8,
+   "what": "the egg glints",
+   "name": "chimes_butterfly_1",
+   "gain_db": -33.5,
+   "peak_db": -42.9,
+   "tuned_st": -1.37,
+   "notes": [
+    "G",
+    "C#"
+   ],
+   "pitch_out": "G +19 cents",
+   "pan": 0.0,
+   "onset_ms": 4.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.64,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 2.5,
+   "what": "the egg glints",
+   "name": "chimes_butterfly_1",
+   "gain_db": -36.1,
+   "peak_db": -43.0,
+   "tuned_st": 0.63,
+   "notes": [
+    "A",
+    "B"
+   ],
+   "pitch_out": "A +19 cents",
+   "pan": 0.0,
+   "onset_ms": 4.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.46,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 4.2,
+   "what": "the egg glints",
+   "name": "chimes_butterfly_1",
+   "gain_db": -36.4,
+   "peak_db": -43.2,
+   "tuned_st": 0.63,
+   "notes": [
+    "C#",
+    "D",
+    "A"
+   ],
+   "pitch_out": "A +19 cents",
+   "pan": 0.0,
+   "onset_ms": 4.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.46,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 0.7,
+   "what": "shoes pass on the lawn above",
+   "name": "steps_short_grass",
+   "gain_db": -26.8,
+   "peak_db": -44.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.45,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 1.2,
+   "what": "shoes pass on the lawn above",
+   "name": "steps_short_grass",
+   "gain_db": -26.4,
+   "peak_db": -41.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -15.2
+  },
+  {
+   "t": 1.7,
+   "what": "shoes pass on the lawn above",
+   "name": "steps_short_grass",
+   "gain_db": -17.6,
+   "peak_db": -39.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.25,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -14.4
+  },
+  {
+   "t": 2.2,
+   "what": "shoes pass on the lawn above",
+   "name": "steps_short_grass",
+   "gain_db": -15.2,
+   "peak_db": -41.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 2.7,
+   "what": "shoes pass on the lawn above",
+   "name": "steps_short_grass",
+   "gain_db": -13.8,
+   "peak_db": -39.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.05,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -14.1
+  },
+  {
+   "t": 3.2,
+   "what": "shoes pass on the lawn above",
+   "name": "steps_short_grass",
+   "gain_db": -21.5,
+   "peak_db": -39.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.05,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -14.4
+  },
+  {
+   "t": 3.7,
+   "what": "shoes pass on the lawn above",
+   "name": "steps_short_grass",
+   "gain_db": -20.6,
+   "peak_db": -39.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.15,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -15.1
+  },
+  {
+   "t": 4.2,
+   "what": "shoes pass on the lawn above",
+   "name": "steps_short_grass",
+   "gain_db": -24.7,
+   "peak_db": -41.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.25,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 5.3,
+   "what": "the egg cracks (a tiny crackle)",
+   "name": "candle_sparkle_1",
+   "gain_db": -32.9,
+   "peak_db": -45.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 7.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.7,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 5.7,
+   "what": "the shell splits",
+   "name": "ice_crack_2",
+   "gain_db": -33.5,
+   "peak_db": -40.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 6.35,
+   "what": "a tiny plop as the nymph lands",
+   "name": "boing_6",
+   "gain_db": -29.0,
+   "peak_db": -34.5,
+   "tuned_st": -1.23,
+   "notes": [
+    "A",
+    "F#",
+    "D"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": -0.05,
+   "onset_ms": 6.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.49,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 6.43,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": -18.1,
+   "peak_db": -43.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.16,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 6.6,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": 6.9,
+   "peak_db": -43.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.18,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -16.3
+  },
+  {
+   "t": 6.77,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": 12.6,
+   "peak_db": -43.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.21,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -15.6
+  },
+  {
+   "t": 6.94,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": 10.8,
+   "peak_db": -41.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.23,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -15.1
+  },
+  {
+   "t": 7.11,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": -29.7,
+   "peak_db": -41.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.25,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 7.28,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": 7.8,
+   "peak_db": -41.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.27,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -15.2
+  },
+  {
+   "t": 7.45,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": -18.6,
+   "peak_db": -41.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.29,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -15.6
+  },
+  {
+   "t": 7.62,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": -32.9,
+   "peak_db": -42.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.31,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -16.2
+  },
+  {
+   "t": 7.79,
+   "what": "tiny feet scurry to the hole",
+   "name": "steps_twigs",
+   "gain_db": -24.3,
+   "peak_db": -44.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.16,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 7.95,
+   "what": "a dive into the hole (a soft bubble)",
+   "name": "water_bubble_2",
+   "gain_db": -29.3,
+   "peak_db": -38.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 8.0,
+   "what": "soil trickles in",
+   "name": "water_over_soil",
+   "gain_db": -19.5,
+   "peak_db": -43.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 8.45,
+   "what": "the nymph digs down the shaft",
+   "name": "brush_wood",
+   "gain_db": -19.1,
+   "peak_db": -35.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 8.95,
+   "what": "the nymph digs down the shaft",
+   "name": "brush_wood",
+   "gain_db": -1.7,
+   "peak_db": -30.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -12.4
+  },
+  {
+   "t": 9.45,
+   "what": "the nymph digs down the shaft",
+   "name": "brush_wood",
+   "gain_db": -13.9,
+   "peak_db": -31.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -11.8
+  },
+  {
+   "t": 9.95,
+   "what": "the nymph digs down the shaft",
+   "name": "brush_wood",
+   "gain_db": -18.0,
+   "peak_db": -32.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -11.2
+  },
+  {
+   "t": 10.45,
+   "what": "the nymph digs down the shaft",
+   "name": "brush_wood",
+   "gain_db": 21.7,
+   "peak_db": -32.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -10.6
+  },
+  {
+   "t": 10.95,
+   "what": "the nymph digs down the shaft",
+   "name": "brush_wood",
+   "gain_db": -11.5,
+   "peak_db": -31.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 11.45,
+   "what": "the nymph digs down the shaft",
+   "name": "brush_wood",
+   "gain_db": -16.4,
+   "peak_db": -30.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.34,
+   "peak_above_music_rms_db": -9.4
+  },
+  {
+   "t": 8.75,
+   "what": "THE HIDDEN WORLD: tunnels glow open (a burst of chimes on the tutti)",
+   "name": "cluster_chimes",
+   "gain_db": -23.9,
+   "peak_db": -27.0,
+   "tuned_st": 0.85,
+   "notes": [
+    "D",
+    "F#"
+   ],
+   "pitch_out": "D +0 cents",
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.48,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 8.79,
+   "what": "THE HIDDEN WORLD: sparkle",
+   "name": "glockenspiel",
+   "gain_db": -21.4,
+   "peak_db": -27.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.1,
+   "onset_ms": 33.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.32,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 8.9,
+   "what": "the worms pop in",
+   "name": "boing_2",
+   "gain_db": -22.0,
+   "peak_db": -27.2,
+   "tuned_st": -1.27,
+   "notes": [
+    "D",
+    "F#"
+   ],
+   "pitch_out": "A +42 cents",
+   "pan": -0.59,
+   "onset_ms": 6.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.53,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 9.3,
+   "what": "the ants pop in",
+   "name": "boing_4",
+   "gain_db": -25.7,
+   "peak_db": -27.9,
+   "tuned_st": 2.25,
+   "notes": [
+    "D",
+    "C#"
+   ],
+   "pitch_out": "C# +0 cents",
+   "pan": 0.14,
+   "onset_ms": 5.7,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.39,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 9.6,
+   "what": "the mole pops in",
+   "name": "boing_8",
+   "gain_db": -22.8,
+   "peak_db": -28.2,
+   "tuned_st": 0.31,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "D +0 cents",
+   "pan": -0.13,
+   "onset_ms": 9.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.48,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 10.0,
+   "what": "the grubs pop in",
+   "name": "boing_6",
+   "gain_db": -27.8,
+   "peak_db": -30.7,
+   "tuned_st": 1.77,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "A -1 cents",
+   "pan": -0.83,
+   "onset_ms": 5.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.41,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 10.5,
+   "what": "the roots wake and drink (a sparkle)",
+   "name": "chimes_dream_1",
+   "gain_db": -22.5,
+   "peak_db": -36.3,
+   "tuned_st": 0.64,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "G# +8 cents",
+   "pan": -0.57,
+   "onset_ms": 7.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.15,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 10.9,
+   "what": "the roots wake and drink (a sparkle)",
+   "name": "chimes_dream_1",
+   "gain_db": -21.7,
+   "peak_db": -35.9,
+   "tuned_st": 0.64,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "G# +8 cents",
+   "pan": -0.43,
+   "onset_ms": 7.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.15,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 11.4,
+   "what": "the roots wake and drink (a sparkle)",
+   "name": "chimes_dream_1",
+   "gain_db": -20.4,
+   "peak_db": -35.0,
+   "tuned_st": 0.64,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "G# +8 cents",
+   "pan": -0.3,
+   "onset_ms": 7.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.15,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 12.6,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_1",
+   "gain_db": -27.6,
+   "peak_db": -28.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 14.437,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_2",
+   "gain_db": 6.4,
+   "peak_db": -34.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 16.049,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_4",
+   "gain_db": 6.6,
+   "peak_db": -33.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 17.755,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_3",
+   "gain_db": -28.7,
+   "peak_db": -33.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 19.456,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_1",
+   "gain_db": -33.6,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 21.095,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_2",
+   "gain_db": 6.4,
+   "peak_db": -35.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 22.71,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_4",
+   "gain_db": 11.4,
+   "peak_db": -28.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 24.012,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_3",
+   "gain_db": -26.5,
+   "peak_db": -30.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 25.761,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_1",
+   "gain_db": -27.0,
+   "peak_db": -28.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 27.643,
+   "what": "the nymph sips root juice (a drop)",
+   "name": "drops_2",
+   "gain_db": 3.6,
+   "peak_db": -37.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 14.65,
+   "what": "the label pops: CICADA!",
+   "name": "wine_stopper_3",
+   "gain_db": -33.3,
+   "peak_db": -36.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 14.7,
+   "what": "a sparkle on the label",
+   "name": "chimes_butterfly_3",
+   "gain_db": -28.7,
+   "peak_db": -37.6,
+   "tuned_st": -0.39,
+   "notes": [
+    "A",
+    "G#",
+    "D"
+   ],
+   "pitch_out": "A -1 cents",
+   "pan": -0.34,
+   "onset_ms": 8.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.47,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 10.9,
+   "what": "a worm slides along its tunnel",
+   "name": "steps_mud",
+   "gain_db": -3.9,
+   "peak_db": -35.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.66,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.55,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 14.0,
+   "what": "a worm slides along its tunnel",
+   "name": "steps_mud",
+   "gain_db": -19.6,
+   "peak_db": -41.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.52,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.55,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 17.1,
+   "what": "a worm slides along its tunnel",
+   "name": "steps_mud",
+   "gain_db": -27.7,
+   "peak_db": -37.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.39,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.55,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 20.2,
+   "what": "a worm slides along its tunnel",
+   "name": "steps_mud",
+   "gain_db": -23.1,
+   "peak_db": -41.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.66,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.55,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 23.3,
+   "what": "a worm slides along its tunnel",
+   "name": "steps_mud",
+   "gain_db": -16.0,
+   "peak_db": -34.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.52,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.55,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 26.4,
+   "what": "a worm slides along its tunnel",
+   "name": "steps_mud",
+   "gain_db": -20.3,
+   "peak_db": -35.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.39,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.55,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 10.3,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -22.9,
+   "peak_db": -41.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.08,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 12.5,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -13.1,
+   "peak_db": -38.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.02,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 14.7,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -19.7,
+   "peak_db": -43.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.05,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 16.9,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -17.2,
+   "peak_db": -42.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.12,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 19.1,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -31.2,
+   "peak_db": -46.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.08,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 21.3,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -25.3,
+   "peak_db": -46.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.02,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 23.5,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -15.4,
+   "peak_db": -40.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.05,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 25.7,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -23.2,
+   "peak_db": -38.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.12,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 27.9,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -34.2,
+   "peak_db": -47.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.08,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 30.1,
+   "what": "ants skitter in the tunnels",
+   "name": "steps_pebbles",
+   "gain_db": -12.4,
+   "peak_db": -43.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.02,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 12.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -8.9,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.14,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 14.1,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -18.4,
+   "peak_db": -42.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.09,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 15.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -21.6,
+   "peak_db": -40.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.03,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 17.1,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -24.2,
+   "peak_db": -38.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.02,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 18.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -26.7,
+   "peak_db": -48.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.07,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 20.48,
+   "what": "the crumb is home (a tiny squeak: the joke)",
+   "name": "squeaker_toy_2",
+   "gain_db": -26.2,
+   "peak_db": -39.4,
+   "tuned_st": 4.0,
+   "notes": [
+    "A",
+    "F#"
+   ],
+   "pitch_out": "F# +1 cents",
+   "pan": -0.0,
+   "onset_ms": 3.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 20.6,
+   "what": "the crumb lands in the pantry",
+   "name": "boing_6",
+   "gain_db": -36.2,
+   "peak_db": -42.0,
+   "tuned_st": -1.2,
+   "notes": [
+    "A",
+    "F#",
+    "E"
+   ],
+   "pitch_out": "D# -12 cents",
+   "pan": -0.0,
+   "onset_ms": 6.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.38,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 26.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -21.5,
+   "peak_db": -37.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.14,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 28.1,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -20.3,
+   "peak_db": -42.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.09,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 29.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -17.4,
+   "peak_db": -39.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.03,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 31.1,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -19.0,
+   "peak_db": -37.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.02,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 32.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -22.2,
+   "peak_db": -36.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.07,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 34.48,
+   "what": "the crumb is home (a tiny squeak: the joke)",
+   "name": "squeaker_toy_2",
+   "gain_db": -24.0,
+   "peak_db": -35.7,
+   "tuned_st": -0.0,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "A -9 cents",
+   "pan": -0.0,
+   "onset_ms": 4.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.35,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 34.6,
+   "what": "the crumb lands in the pantry",
+   "name": "boing_6",
+   "gain_db": -33.2,
+   "peak_db": -39.0,
+   "tuned_st": 1.8,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "F# -12 cents",
+   "pan": -0.0,
+   "onset_ms": 5.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.32,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 40.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -19.1,
+   "peak_db": -38.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.14,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 42.1,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -20.2,
+   "peak_db": -35.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.09,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 43.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -4.5,
+   "peak_db": -36.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.03,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 45.1,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -21.7,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.02,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 46.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -19.3,
+   "peak_db": -36.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.07,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 48.48,
+   "what": "the crumb is home (a tiny squeak: the joke)",
+   "name": "squeaker_toy_2",
+   "gain_db": -23.1,
+   "peak_db": -34.8,
+   "tuned_st": 0.0,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "A -9 cents",
+   "pan": -0.0,
+   "onset_ms": 4.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.35,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 48.6,
+   "what": "the crumb lands in the pantry",
+   "name": "boing_6",
+   "gain_db": -32.6,
+   "peak_db": -38.4,
+   "tuned_st": 1.8,
+   "notes": [
+    "A",
+    "D"
+   ],
+   "pitch_out": "F# -12 cents",
+   "pan": -0.0,
+   "onset_ms": 5.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.32,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 54.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -16.7,
+   "peak_db": -36.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.14,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 56.1,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -12.7,
+   "peak_db": -35.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.09,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 57.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -9.5,
+   "peak_db": -35.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.03,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 59.1,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -20.6,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.02,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 60.6,
+   "what": "the ant hauls its crumb",
+   "name": "steps_pebbles",
+   "gain_db": -4.0,
+   "peak_db": -34.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.07,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 62.48,
+   "what": "the crumb is home (a tiny squeak: the joke)",
+   "name": "squeaker_toy_2",
+   "gain_db": -22.2,
+   "peak_db": -33.9,
+   "tuned_st": -0.0,
+   "notes": [
+    "A",
+    "D"
+   ],
+   "pitch_out": "A -9 cents",
+   "pan": -0.0,
+   "onset_ms": 4.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.35,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 62.6,
+   "what": "the crumb lands in the pantry",
+   "name": "boing_6",
+   "gain_db": -31.4,
+   "peak_db": -37.2,
+   "tuned_st": 1.8,
+   "notes": [
+    "A",
+    "D"
+   ],
+   "pitch_out": "F# -12 cents",
+   "pan": -0.0,
+   "onset_ms": 5.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.32,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 11.8,
+   "what": "the mole digs (soft)",
+   "name": "dig_shovel",
+   "gain_db": -10.8,
+   "peak_db": -32.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.18,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 15.4,
+   "what": "the mole digs (soft)",
+   "name": "dig_shovel",
+   "gain_db": 9.8,
+   "peak_db": -37.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.03,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 19.0,
+   "what": "the mole digs (soft)",
+   "name": "dig_shovel",
+   "gain_db": 18.9,
+   "peak_db": -40.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.12,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 22.6,
+   "what": "the mole digs (soft)",
+   "name": "dig_shovel",
+   "gain_db": 6.9,
+   "peak_db": -30.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.28,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 26.2,
+   "what": "the mole digs (soft)",
+   "name": "dig_shovel",
+   "gain_db": -5.0,
+   "peak_db": -32.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.43,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 29.8,
+   "what": "the mole digs (soft)",
+   "name": "dig_shovel",
+   "gain_db": 23.9,
+   "peak_db": -36.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.58,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 11.5,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": -19.2,
+   "peak_db": -37.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 13.8,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": -1.2,
+   "peak_db": -43.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 16.1,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": -11.3,
+   "peak_db": -40.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 18.4,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": -9.1,
+   "peak_db": -46.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 20.7,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": -15.8,
+   "peak_db": -41.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 23.0,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": -26.7,
+   "peak_db": -37.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 25.3,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": -13.7,
+   "peak_db": -36.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 27.6,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": -20.5,
+   "peak_db": -46.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 29.9,
+   "what": "a grub munches a root",
+   "name": "rusk_crunch",
+   "gain_db": 8.1,
+   "peak_db": -41.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.83,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.4,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 22.317,
+   "what": "a year turns (a soft tick)",
+   "name": "metallophone",
+   "gain_db": -27.0,
+   "peak_db": -29.8,
+   "tuned_st": -1.97,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "A# +1 cents",
+   "pan": 0.35,
+   "onset_ms": 4.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.29,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 23.108,
+   "what": "a year turns (a soft tick)",
+   "name": "metallophone",
+   "gain_db": -30.0,
+   "peak_db": -32.7,
+   "tuned_st": -1.97,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "A# +1 cents",
+   "pan": 0.35,
+   "onset_ms": 4.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.29,
+   "peak_above_music_rms_db": -12.3
+  },
+  {
+   "t": 23.9,
+   "what": "a year turns (a soft tick)",
+   "name": "metallophone",
+   "gain_db": -31.5,
+   "peak_db": -34.2,
+   "tuned_st": -1.97,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "A# +1 cents",
+   "pan": 0.35,
+   "onset_ms": 4.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.29,
+   "peak_above_music_rms_db": -12.6
+  },
+  {
+   "t": 24.692,
+   "what": "a year turns (a soft tick)",
+   "name": "metallophone",
+   "gain_db": -31.8,
+   "peak_db": -34.6,
+   "tuned_st": -1.97,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "A# +1 cents",
+   "pan": 0.35,
+   "onset_ms": 4.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.29,
+   "peak_above_music_rms_db": -12.9
+  },
+  {
+   "t": 25.483,
+   "what": "a year turns (a soft tick)",
+   "name": "metallophone",
+   "gain_db": -30.2,
+   "peak_db": -33.0,
+   "tuned_st": -1.97,
+   "notes": [
+    "A",
+    "D"
+   ],
+   "pitch_out": "A# +1 cents",
+   "pan": 0.35,
+   "onset_ms": 4.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.29,
+   "peak_above_music_rms_db": -13.2
+  },
+  {
+   "t": 26.65,
+   "what": "a year turns (a soft tick)",
+   "name": "metallophone",
+   "gain_db": -33.6,
+   "peak_db": -36.4,
+   "tuned_st": -1.97,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "A# +1 cents",
+   "pan": 0.35,
+   "onset_ms": 4.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.29,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 21.95,
+   "what": "the clock winds (a music-box winder)",
+   "name": "winder_1",
+   "gain_db": -18.7,
+   "peak_db": -29.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.35,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 5.52,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 21.85,
+   "what": "a wind of years",
+   "name": "wind_whistle_2",
+   "gain_db": -23.1,
+   "peak_db": -38.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 5.6,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 22.65,
+   "what": "leaves of the years",
+   "name": "steps_leaves",
+   "gain_db": 17.2,
+   "bed_to": 26.1
+  },
+  {
+   "t": 27.5,
+   "what": "the soil warms (a warm hush)",
+   "name": "sun_heat_1",
+   "gain_db": -11.2,
+   "bed_to": 34.2
+  },
+  {
+   "t": 28.0,
+   "what": "many small hearts wake",
+   "name": "heartbeat_5",
+   "gain_db": -22.3,
+   "bed_to": 33.8
+  },
+  {
+   "t": 28.4,
+   "what": "a nymph lets go of the root (a tiny pop)",
+   "name": "suction_cup_plastic",
+   "gain_db": -0.6,
+   "peak_db": -40.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.52,
+   "onset_ms": 2.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.45,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 28.52,
+   "what": "a nymph lets go of the root (a tiny pop)",
+   "name": "suction_cup_plastic",
+   "gain_db": -1.6,
+   "peak_db": -39.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.46,
+   "onset_ms": 229.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.45,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 28.64,
+   "what": "a nymph lets go of the root (a tiny pop)",
+   "name": "suction_cup_plastic",
+   "gain_db": -32.3,
+   "peak_db": -39.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.39,
+   "onset_ms": 59.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.45,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 28.76,
+   "what": "a nymph lets go of the root (a tiny pop)",
+   "name": "suction_cup_plastic",
+   "gain_db": 42.6,
+   "peak_db": -39.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.32,
+   "onset_ms": 3.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.45,
+   "peak_above_music_rms_db": -13.0
+  },
+  {
+   "t": 28.88,
+   "what": "a nymph lets go of the root (a tiny pop)",
+   "name": "suction_cup_plastic",
+   "gain_db": -34.3,
+   "peak_db": -38.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 322.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.45,
+   "peak_above_music_rms_db": -12.9
+  },
+  {
+   "t": 29.2,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -23.4,
+   "peak_db": -41.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.48,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 29.65,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -18.9,
+   "peak_db": -41.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.43,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 30.1,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -13.1,
+   "peak_db": -41.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.39,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 30.55,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -19.5,
+   "peak_db": -40.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 31.0,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -12.6,
+   "peak_db": -39.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.3,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 31.45,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -24.9,
+   "peak_db": -39.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.26,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 31.9,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -5.3,
+   "peak_db": -37.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.21,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 32.35,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -5.8,
+   "peak_db": -37.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.17,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 32.8,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -22.4,
+   "peak_db": -38.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.13,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 33.25,
+   "what": "little feet crawl to the shaft",
+   "name": "steps_pebbles",
+   "gain_db": -12.6,
+   "peak_db": -36.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.08,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.2,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 32.0,
+   "what": "a rising shimmer up the shaft (reversed chimes)",
+   "name": "chimes_butterfly_3",
+   "gain_db": -27.2,
+   "peak_db": -28.8,
+   "tuned_st": -0.39,
+   "notes": [
+    "D",
+    "A",
+    "G"
+   ],
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 2.3,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 32.9,
+   "what": "a rising shimmer up the shaft (reversed chimes)",
+   "name": "chimes_butterfly_3",
+   "gain_db": -23.3,
+   "peak_db": -27.0,
+   "tuned_st": 4.61,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 1.72,
+   "peak_above_music_rms_db": -6.0
+  },
+  {
+   "t": 33.5,
+   "what": "a rising shimmer up the shaft (reversed chimes)",
+   "name": "chimes_butterfly_3",
+   "gain_db": -20.5,
+   "peak_db": -24.2,
+   "tuned_st": 4.61,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 1.72,
+   "peak_above_music_rms_db": -4.0
+  },
+  {
+   "t": 32.3,
+   "what": "a breath of air up the shaft",
+   "name": "wind_inside_2",
+   "gain_db": -18.6,
+   "peak_db": -34.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.2,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 34.0,
+   "what": "THEY ARE OUT: a burst of chimes on the finale tutti",
+   "name": "cluster_chimes",
+   "gain_db": -20.9,
+   "peak_db": -30.3,
+   "tuned_st": 0.79,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "D +0 cents",
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.48,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 34.0,
+   "what": "a cicada pops out of the lawn",
+   "name": "boing_2",
+   "gain_db": -24.2,
+   "peak_db": -30.3,
+   "tuned_st": 3.32,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "G +36 cents",
+   "pan": -0.41,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.32,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 34.16,
+   "what": "a cicada pops out of the lawn",
+   "name": "boing_4",
+   "gain_db": -29.6,
+   "peak_db": -30.8,
+   "tuned_st": 3.25,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "D -3 cents",
+   "pan": -0.37,
+   "onset_ms": 9.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.28,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 34.32,
+   "what": "a cicada pops out of the lawn",
+   "name": "boing_6",
+   "gain_db": -27.9,
+   "peak_db": -32.0,
+   "tuned_st": 0.0,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "E +7 cents",
+   "pan": -0.33,
+   "onset_ms": 6.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 34.48,
+   "what": "a cicada pops out of the lawn",
+   "name": "boing_8",
+   "gain_db": -28.2,
+   "peak_db": -32.7,
+   "tuned_st": 0.31,
+   "notes": [
+    "D"
+   ],
+   "pitch_out": "D +0 cents",
+   "pan": -0.29,
+   "onset_ms": 9.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.38,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 34.64,
+   "what": "a cicada pops out of the lawn",
+   "name": "boing_2",
+   "gain_db": -27.6,
+   "peak_db": -33.8,
+   "tuned_st": -1.68,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "D +38 cents",
+   "pan": -0.25,
+   "onset_ms": 7.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.43,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 33.95,
+   "what": "soil crumbs fall away",
+   "name": "water_over_soil",
+   "gain_db": -18.7,
+   "peak_db": -37.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.2,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 34.2,
+   "what": "birds fly up from the big tree",
+   "name": "flight_bird_1",
+   "gain_db": -34.5,
+   "peak_db": -35.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.32,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 34.32,
+   "what": "birds fly up from the big tree",
+   "name": "flight_pigeon",
+   "gain_db": -35.1,
+   "peak_db": -37.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.45,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 34.5,
+   "what": "birds fly up from the big tree",
+   "name": "flight_bird_2",
+   "gain_db": -38.0,
+   "peak_db": -37.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.32,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 34.7,
+   "what": "the dog barks happily",
+   "name": "old_dog_bark_3",
+   "gain_db": -21.6,
+   "peak_db": -28.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.5,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 35.4,
+   "what": "the dog barks happily",
+   "name": "old_dog_bark_3",
+   "gain_db": -19.8,
+   "peak_db": -30.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.4,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 37.1,
+   "what": "the dog barks happily",
+   "name": "old_dog_bark_3",
+   "gain_db": 3.0,
+   "peak_db": -32.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 34.5,
+   "what": "the kids gasp (a toy squeal stands in)",
+   "name": "toy_squeal_1",
+   "gain_db": -34.6,
+   "peak_db": -36.8,
+   "tuned_st": 0.65,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "D +1 cents",
+   "pan": -0.2,
+   "onset_ms": 20.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.48,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 36.5,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -13.0,
+   "peak_db": -37.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.33,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 36.74,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": 16.5,
+   "peak_db": -38.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -17.7
+  },
+  {
+   "t": 36.98,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -27.2,
+   "peak_db": -38.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.34,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -17.4
+  },
+  {
+   "t": 37.22,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -18.3,
+   "peak_db": -38.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -17.1
+  },
+  {
+   "t": 37.46,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -21.7,
+   "peak_db": -38.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.36,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.9
+  },
+  {
+   "t": 37.7,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": 11.1,
+   "peak_db": -38.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.37,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.6
+  },
+  {
+   "t": 37.94,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -16.3,
+   "peak_db": -37.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.38,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.4
+  },
+  {
+   "t": 38.18,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": 1.6,
+   "peak_db": -37.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.39,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.3
+  },
+  {
+   "t": 38.42,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -12.7,
+   "peak_db": -37.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.4,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.2
+  },
+  {
+   "t": 38.66,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": 16.8,
+   "peak_db": -37.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.41,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.1
+  },
+  {
+   "t": 38.9,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -26.5,
+   "peak_db": -37.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.42,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 39.14,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -16.0,
+   "peak_db": -36.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.42,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 39.38,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -19.9,
+   "peak_db": -35.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.43,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 39.62,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": 13.8,
+   "peak_db": -35.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.44,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.1
+  },
+  {
+   "t": 39.86,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -14.2,
+   "peak_db": -35.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.45,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.2
+  },
+  {
+   "t": 40.1,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": 2.2,
+   "peak_db": -36.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.46,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.4
+  },
+  {
+   "t": 40.34,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -14.7,
+   "peak_db": -39.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.47,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.6
+  },
+  {
+   "t": 40.58,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": 13.5,
+   "peak_db": -40.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.48,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -16.9
+  },
+  {
+   "t": 40.82,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -29.5,
+   "peak_db": -40.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.49,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -17.2
+  },
+  {
+   "t": 41.06,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -19.6,
+   "peak_db": -39.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.5,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -17.4
+  },
+  {
+   "t": 41.3,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": -22.9,
+   "peak_db": -38.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.5,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -17.7
+  },
+  {
+   "t": 41.54,
+   "what": "the cicadas march to the tree",
+   "name": "steps_twigs",
+   "gain_db": 10.5,
+   "peak_db": -38.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.18,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 42.7,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -18.8,
+   "peak_db": -34.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 43.32,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -14.9,
+   "peak_db": -35.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -13.8
+  },
+  {
+   "t": 43.94,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": 22.0,
+   "peak_db": -34.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -13.7
+  },
+  {
+   "t": 44.56,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -17.0,
+   "peak_db": -33.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -13.6
+  },
+  {
+   "t": 45.18,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -22.2,
+   "peak_db": -33.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -13.4
+  },
+  {
+   "t": 45.8,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -14.3,
+   "peak_db": -34.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -13.3
+  },
+  {
+   "t": 46.42,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -4.8,
+   "peak_db": -34.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -13.2
+  },
+  {
+   "t": 47.04,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -20.6,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -13.1
+  },
+  {
+   "t": 47.66,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -14.8,
+   "peak_db": -33.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -12.9
+  },
+  {
+   "t": 48.28,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": 27.8,
+   "peak_db": -33.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -12.8
+  },
+  {
+   "t": 48.9,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -18.0,
+   "peak_db": -33.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -12.7
+  },
+  {
+   "t": 49.52,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -20.1,
+   "peak_db": -33.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -12.5
+  },
+  {
+   "t": 50.14,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": 11.5,
+   "peak_db": -33.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -12.4
+  },
+  {
+   "t": 50.76,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -14.4,
+   "peak_db": -32.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -12.3
+  },
+  {
+   "t": 51.38,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -17.8,
+   "peak_db": -31.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -12.2
+  },
+  {
+   "t": 52.0,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -11.3,
+   "peak_db": -35.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 52.62,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -17.8,
+   "peak_db": -34.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -11.9
+  },
+  {
+   "t": 53.24,
+   "what": "scritch, they climb the trunk",
+   "name": "brush_wood",
+   "gain_db": -17.4,
+   "peak_db": -31.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 0.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -11.7
+  },
+  {
+   "t": 47.0,
+   "what": "a robin in the tree",
+   "name": "robin_1",
+   "gain_db": -34.4,
+   "peak_db": -39.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": 34.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 42.4,
+   "what": "the big tree creaks in the breeze",
+   "name": "wind_tree_squeaks",
+   "gain_db": -17.1,
+   "bed_to": 56.05
+  },
+  {
+   "t": 55.55,
+   "what": "the old skin splits (a soft crack on the accent)",
+   "name": "ice_crack_2",
+   "gain_db": -26.6,
+   "peak_db": -29.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.7,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 55.65,
+   "what": "a crackle of the skin",
+   "name": "candle_sparkle_2",
+   "gain_db": -27.8,
+   "peak_db": -34.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.5,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 56.0,
+   "what": "the wings unfold (soft cloth)",
+   "name": "cloth",
+   "gain_db": -14.9,
+   "peak_db": -37.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.51,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.6,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 56.5,
+   "what": "the wings grow, glowing",
+   "name": "chimes_dream_1",
+   "gain_db": -20.2,
+   "peak_db": -32.3,
+   "tuned_st": 0.66,
+   "notes": [
+    "C#",
+    "A",
+    "B"
+   ],
+   "pitch_out": "A +2 cents",
+   "pan": -0.51,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 58.5,
+   "what": "a held breath before the song",
+   "name": "dreamcatcher",
+   "gain_db": -7.3,
+   "peak_db": -37.2,
+   "tuned_st": 0.85,
+   "notes": [
+    "G#",
+    "A",
+    "D"
+   ],
+   "pitch_out": "G# +0 cents",
+   "pan": -0.51,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.52,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 59.7,
+   "what": "THE WINGS OPEN: chimes on the coda",
+   "name": "chimes_butterfly_1",
+   "gain_db": -7.6,
+   "peak_db": -22.7,
+   "tuned_st": 0.63,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "A +19 cents",
+   "pan": -0.51,
+   "onset_ms": 14.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.92,
+   "peak_above_music_rms_db": -3.0
+  },
+  {
+   "t": 59.75,
+   "what": "THE WINGS OPEN: a bright sparkle",
+   "name": "glockenspiel",
+   "gain_db": -20.7,
+   "peak_db": -25.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.41,
+   "onset_ms": 33.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.72,
+   "peak_above_music_rms_db": -6.0
+  },
+  {
+   "t": 59.72,
+   "what": "THE WINGS OPEN: a soft triangle",
+   "name": "triangle_2",
+   "gain_db": -24.0,
+   "peak_db": -28.6,
+   "tuned_st": -2.08,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "D +1 cents",
+   "pan": -0.61,
+   "onset_ms": 6.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.35,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 60.1,
+   "what": "the cicada song (a field cricket chorus stands in; see SOUND.md)",
+   "name": "field_cricket",
+   "gain_db": -18.8,
+   "bed_to": 71.55
+  },
+  {
+   "t": 60.6,
+   "what": "a shimmer around the song",
+   "name": "solitary_bees",
+   "gain_db": 4.1,
+   "bed_to": 70.05
+  },
+  {
+   "t": 60.5,
+   "what": "the dog barks and dances",
+   "name": "old_dog_bark_3",
+   "gain_db": -20.2,
+   "peak_db": -27.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.5,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 61.4,
+   "what": "the dog barks and dances",
+   "name": "old_dog_bark_3",
+   "gain_db": -17.3,
+   "peak_db": -28.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.4,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -9.0
+  },
+  {
+   "t": 63.2,
+   "what": "the dog barks and dances",
+   "name": "old_dog_bark_3",
+   "gain_db": -21.2,
+   "peak_db": -29.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 65.7,
+   "what": "the dog barks and dances",
+   "name": "old_dog_bark_3",
+   "gain_db": -21.8,
+   "peak_db": -30.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.2,
+   "onset_ms": 20.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.3,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 60.7,
+   "what": "birds join the song",
+   "name": "flight_bird_4",
+   "gain_db": -35.3,
+   "peak_db": -36.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.61,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 62.5,
+   "what": "birds join the song",
+   "name": "flight_bird_3",
+   "gain_db": -36.0,
+   "peak_db": -37.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.55,
+   "peak_above_music_rms_db": -16.9
+  },
+  {
+   "t": 64.9,
+   "what": "birds join the song",
+   "name": "flight_bird_3",
+   "gain_db": -36.2,
+   "peak_db": -37.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.55,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 60.05,
+   "what": "the kids dance on the grass",
+   "name": "steps_short_grass",
+   "gain_db": -12.7,
+   "peak_db": -34.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.25,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 60.35,
+   "what": "the kids dance on the grass",
+   "name": "steps_short_grass",
+   "gain_db": -16.4,
+   "peak_db": -34.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.15,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 60.65,
+   "what": "the kids dance on the grass",
+   "name": "steps_short_grass",
+   "gain_db": -12.0,
+   "peak_db": -36.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.05,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 60.95,
+   "what": "the kids dance on the grass",
+   "name": "steps_short_grass",
+   "gain_db": -21.7,
+   "peak_db": -38.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.05,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 61.25,
+   "what": "the kids dance on the grass",
+   "name": "steps_short_grass",
+   "gain_db": -18.2,
+   "peak_db": -39.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 61.55,
+   "what": "the kids dance on the grass",
+   "name": "steps_short_grass",
+   "gain_db": -13.6,
+   "peak_db": -39.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.25,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.22,
+   "peak_above_music_rms_db": -20.0
+  },
+  {
+   "t": 68.05,
+   "what": "the final chord: a singing bowl swells in",
+   "name": "tibetan_bowl_1",
+   "gain_db": -12.9,
+   "peak_db": -24.7,
+   "tuned_st": 0.28,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "A +5 cents",
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 5.81,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 68.1,
+   "what": "the final chord: a twinkle",
+   "name": "chimes_dream_3",
+   "gain_db": -1.8,
+   "peak_db": -24.1,
+   "tuned_st": 0.64,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "G# +11 cents",
+   "pan": 0.1,
+   "onset_ms": 16.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.01,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 68.15,
+   "what": "the final chord: a soft triangle",
+   "name": "triangle_2",
+   "gain_db": -20.1,
+   "peak_db": -26.7,
+   "tuned_st": -2.08,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "D +1 cents",
+   "pan": -0.1,
+   "onset_ms": 6.6,
+   "swell": false,
+   "rev": false,
+   "tail_s": 3.8,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 69.0,
+   "what": "the girl lies down, ear to the grass (cloth)",
+   "name": "cloth",
+   "gain_db": -9.5,
+   "peak_db": -34.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.28,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 1.6,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 69.9,
+   "what": "she settles on the lawn",
+   "name": "body_fall_1",
+   "gain_db": -52.2,
+   "peak_db": -56.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.28,
+   "onset_ms": 30.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.17,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 69.5,
+   "what": "the snail waves",
+   "name": "boing_4",
+   "gain_db": -37.1,
+   "peak_db": -38.3,
+   "tuned_st": -1.76,
+   "notes": [
+    "D",
+    "A"
+   ],
+   "pitch_out": "A -1 cents",
+   "pan": 0.37,
+   "onset_ms": 6.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 71.2,
+   "what": "a bird calls in the quiet",
+   "name": "robin_1",
+   "gain_db": -73.0,
+   "peak_db": -78.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.4,
+   "onset_ms": 34.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 0.35,
+   "what": "words pop in: who lives under your feet?",
+   "name": "wine_stopper_3",
+   "gain_db": -38.9,
+   "peak_db": -44.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 9.05,
+   "what": "words pop in: a hidden world!",
+   "name": "wine_stopper_3",
+   "gain_db": -27.6,
+   "peak_db": -32.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 14.6,
+   "what": "words pop in: cicada!",
+   "name": "wine_stopper_3",
+   "gain_db": -34.6,
+   "peak_db": -39.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 22.5,
+   "what": "words pop in: 17 years",
+   "name": "wine_stopper_3",
+   "gain_db": -27.9,
+   "peak_db": -33.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 29.0,
+   "what": "words pop in: all together!",
+   "name": "wine_stopper_3",
+   "gain_db": -34.7,
+   "peak_db": -40.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 68.05,
+   "what": "words pop in: who is down there right now?",
+   "name": "wine_stopper_3",
+   "gain_db": -26.3,
+   "peak_db": -31.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -15.0
+  }
+ ],
+ "landing_check": {
+  "by_construction": {
+   "spots": 206,
+   "latest_onset_ms": 322.2,
+   "over_60ms": [
+    {
+     "t": 28.52,
+     "what": "a nymph lets go of the root (a tiny pop)",
+     "onset_ms": 229.4
+    },
+    {
+     "t": 28.88,
+     "what": "a nymph lets go of the root (a tiny pop)",
+     "onset_ms": 322.2
+    }
+   ]
+  },
+  "on_the_rendered_effects_bus": {
+   "checked": 206,
+   "landed": 141,
+   "not_clear": [
+    {
+     "t": 2.2,
+     "what": "shoes pass on the lawn above",
+     "peak_offset_ms": 55.9,
+     "rise_db": -1.7
+    },
+    {
+     "t": 3.2,
+     "what": "shoes pass on the lawn above",
+     "peak_offset_ms": 5.3,
+     "rise_db": 0.5
+    },
+    {
+     "t": 6.77,
+     "what": "tiny feet scurry to the hole",
+     "peak_offset_ms": 7.5,
+     "rise_db": -0.2
+    },
+    {
+     "t": 6.94,
+     "what": "tiny feet scurry to the hole",
+     "peak_offset_ms": 60.3,
+     "rise_db": -0.8
+    },
+    {
+     "t": 7.11,
+     "what": "tiny feet scurry to the hole",
+     "peak_offset_ms": 65.7,
+     "rise_db": 1.3
+    },
+    {
+     "t": 8.95,
+     "what": "the nymph digs down the shaft",
+     "peak_offset_ms": 98.2,
+     "rise_db": 2.7
+    },
+    {
+     "t": 9.95,
+     "what": "the nymph digs down the shaft",
+     "peak_offset_ms": -29.8,
+     "rise_db": 1.0
+    },
+    {
+     "t": 10.45,
+     "what": "the nymph digs down the shaft",
+     "peak_offset_ms": 49.9,
+     "rise_db": 2.7
+    },
+    {
+     "t": 11.45,
+     "what": "the nymph digs down the shaft",
+     "peak_offset_ms": -30.0,
+     "rise_db": 2.9
+    },
+    {
+     "t": 8.9,
+     "what": "the worms pop in",
+     "peak_offset_ms": 148.2,
+     "rise_db": 2.9
+    },
+    {
+     "t": 10.0,
+     "what": "the grubs pop in",
+     "peak_offset_ms": 42.1,
+     "rise_db": 1.0
+    },
+    {
+     "t": 10.5,
+     "what": "the roots wake and drink (a sparkle)",
+     "peak_offset_ms": -0.1,
+     "rise_db": 2.7
+    },
+    {
+     "t": 14.437,
+     "what": "the nymph sips root juice (a drop)",
+     "peak_offset_ms": 10.5,
+     "rise_db": 2.9
+    },
+    {
+     "t": 22.71,
+     "what": "the nymph sips root juice (a drop)",
+     "peak_offset_ms": 25.5,
+     "rise_db": 1.7
+    },
+    {
+     "t": 25.761,
+     "what": "the nymph sips root juice (a drop)",
+     "peak_offset_ms": 0.3,
+     "rise_db": 2.6
+    },
+    {
+     "t": 14.7,
+     "what": "a sparkle on the label",
+     "peak_offset_ms": 128.8,
+     "rise_db": 2.9
+    },
+    {
+     "t": 26.4,
+     "what": "a worm slides along its tunnel",
+     "peak_offset_ms": 101.4,
+     "rise_db": 0.1
+    },
+    {
+     "t": 10.3,
+     "what": "ants skitter in the tunnels",
+     "peak_offset_ms": 138.1,
+     "rise_db": 1.7
+    },
+    {
+     "t": 14.7,
+     "what": "ants skitter in the tunnels",
+     "peak_offset_ms": 128.8,
+     "rise_db": 2.9
+    },
+    {
+     "t": 21.3,
+     "what": "ants skitter in the tunnels",
+     "peak_offset_ms": 107.3,
+     "rise_db": 2.2
+    },
+    {
+     "t": 23.5,
+     "what": "ants skitter in the tunnels",
+     "peak_offset_ms": 71.3,
+     "rise_db": 1.8
+    },
+    {
+     "t": 25.7,
+     "what": "ants skitter in the tunnels",
+     "peak_offset_ms": 61.3,
+     "rise_db": 2.8
+    },
+    {
+     "t": 15.6,
+     "what": "the ant hauls its crumb",
+     "peak_offset_ms": -20.4,
+     "rise_db": 2.1
+    },
+    {
+     "t": 29.6,
+     "what": "the ant hauls its crumb",
+     "peak_offset_ms": -18.4,
+     "rise_db": -2.3
+    },
+    {
+     "t": 34.48,
+     "what": "the crumb is home (a tiny squeak: the joke)",
+     "peak_offset_ms": -24.2,
+     "rise_db": 1.3
+    },
+    {
+     "t": 40.6,
+     "what": "the ant hauls its crumb",
+     "peak_offset_ms": 53.1,
+     "rise_db": 2.6
+    },
+    {
+     "t": 43.6,
+     "what": "the ant hauls its crumb",
+     "peak_offset_ms": 126.0,
+     "rise_db": -0.2
+    },
+    {
+     "t": 48.48,
+     "what": "the crumb is home (a tiny squeak: the joke)",
+     "peak_offset_ms": 101.1,
+     "rise_db": 2.0
+    },
+    {
+     "t": 56.1,
+     "what": "the ant hauls its crumb",
+     "peak_offset_ms": 29.7,
+     "rise_db": 1.7
+    },
+    {
+     "t": 62.48,
+     "what": "the crumb is home (a tiny squeak: the joke)",
+     "peak_offset_ms": 97.3,
+     "rise_db": 2.7
+    },
+    {
+     "t": 15.4,
+     "what": "the mole digs (soft)",
+     "peak_offset_ms": 43.0,
+     "rise_db": -2.5
+    },
+    {
+     "t": 19.0,
+     "what": "the mole digs (soft)",
+     "peak_offset_ms": 126.4,
+     "rise_db": 0.8
+    },
+    {
+     "t": 22.6,
+     "what": "the mole digs (soft)",
+     "peak_offset_ms": 135.5,
+     "rise_db": 2.0
+    },
+    {
+     "t": 26.2,
+     "what": "the mole digs (soft)",
+     "peak_offset_ms": 41.9,
+     "rise_db": 2.4
+    },
+    {
+     "t": 29.8,
+     "what": "the mole digs (soft)",
+     "peak_offset_ms": 9.1,
+     "rise_db": 2.8
+    },
+    {
+     "t": 16.1,
+     "what": "a grub munches a root",
+     "peak_offset_ms": -16.3,
+     "rise_db": 2.7
+    },
+    {
+     "t": 23.0,
+     "what": "a grub munches a root",
+     "peak_offset_ms": 73.4,
+     "rise_db": 1.1
+    },
+    {
+     "t": 29.9,
+     "what": "a grub munches a root",
+     "peak_offset_ms": 97.9,
+     "rise_db": 2.6
+    },
+    {
+     "t": 23.108,
+     "what": "a year turns (a soft tick)",
+     "peak_offset_ms": -30.0,
+     "rise_db": 1.9
+    },
+    {
+     "t": 24.692,
+     "what": "a year turns (a soft tick)",
+     "peak_offset_ms": 98.0,
+     "rise_db": 2.5
+    },
+    {
+     "t": 29.65,
+     "what": "little feet crawl to the shaft",
+     "peak_offset_ms": 16.1,
+     "rise_db": -2.2
+    },
+    {
+     "t": 30.55,
+     "what": "little feet crawl to the shaft",
+     "peak_offset_ms": 91.1,
+     "rise_db": 0.4
+    },
+    {
+     "t": 31.45,
+     "what": "little feet crawl to the shaft",
+     "peak_offset_ms": 29.3,
+     "rise_db": 1.5
+    },
+    {
+     "t": 31.9,
+     "what": "little feet crawl to the shaft",
+     "peak_offset_ms": 130.1,
+     "rise_db": -0.3
+    },
+    {
+     "t": 32.35,
+     "what": "little feet crawl to the shaft",
+     "peak_offset_ms": 60.6,
+     "rise_db": 2.9
+    },
+    {
+     "t": 34.32,
+     "what": "a cicada pops out of the lawn",
+     "peak_offset_ms": 113.5,
+     "rise_db": 1.2
+    },
+    {
+     "t": 34.48,
+     "what": "a cicada pops out of the lawn",
+     "peak_offset_ms": -24.2,
+     "rise_db": 1.3
+    },
+    {
+     "t": 37.1,
+     "what": "the dog barks happily",
+     "peak_offset_ms": 16.5,
+     "rise_db": 2.2
+    },
+    {
+     "t": 34.5,
+     "what": "the kids gasp (a toy squeal stands in)",
+     "peak_offset_ms": 88.7,
+     "rise_db": 1.1
+    },
+    {
+     "t": 38.18,
+     "what": "the cicadas march to the tree",
+     "peak_offset_ms": 62.2,
+     "rise_db": -8.4
+    },
+    {
+     "t": 38.42,
+     "what": "the cicadas march to the tree",
+     "peak_offset_ms": 4.9,
+     "rise_db": -7.6
+    },
+    {
+     "t": 39.14,
+     "what": "the cicadas march to the tree",
+     "peak_offset_ms": 13.1,
+     "rise_db": 2.5
+    },
+    {
+     "t": 39.62,
+     "what": "the cicadas march to the tree",
+     "peak_offset_ms": 6.3,
+     "rise_db": 1.2
+    },
+    {
+     "t": 40.58,
+     "what": "the cicadas march to the tree",
+     "peak_offset_ms": 73.1,
+     "rise_db": 2.6
+    },
+    {
+     "t": 41.06,
+     "what": "the cicadas march to the tree",
+     "peak_offset_ms": 103.5,
+     "rise_db": 0.5
+    },
+    {
+     "t": 43.94,
+     "what": "scritch, they climb the trunk",
+     "peak_offset_ms": 90.7,
+     "rise_db": 2.7
+    },
+    {
+     "t": 44.56,
+     "what": "scritch, they climb the trunk",
+     "peak_offset_ms": -29.4,
+     "rise_db": 2.7
+    },
+    {
+     "t": 45.18,
+     "what": "scritch, they climb the trunk",
+     "peak_offset_ms": 79.3,
+     "rise_db": 2.5
+    },
+    {
+     "t": 48.9,
+     "what": "scritch, they climb the trunk",
+     "peak_offset_ms": 1.8,
+     "rise_db": 0.7
+    },
+    {
+     "t": 50.76,
+     "what": "scritch, they climb the trunk",
+     "peak_offset_ms": 28.9,
+     "rise_db": 1.2
+    },
+    {
+     "t": 52.0,
+     "what": "scritch, they climb the trunk",
+     "peak_offset_ms": -14.1,
+     "rise_db": 2.2
+    },
+    {
+     "t": 63.2,
+     "what": "the dog barks and dances",
+     "peak_offset_ms": 11.9,
+     "rise_db": -1.1
+    },
+    {
+     "t": 60.05,
+     "what": "the kids dance on the grass",
+     "peak_offset_ms": -8.6,
+     "rise_db": 0.7
+    },
+    {
+     "t": 60.65,
+     "what": "the kids dance on the grass",
+     "peak_offset_ms": -16.7,
+     "rise_db": 0.2
+    },
+    {
+     "t": 71.2,
+     "what": "a bird calls in the quiet",
+     "peak_offset_ms": 116.7,
+     "rise_db": -7.6
+    }
+   ]
+  }
+ },
+ "timeline_rms_dbfs": [
+  {
+   "event": "egg cracks",
+   "t": 5.3,
+   "windows": [
+    [
+     4.3,
+     -23.9,
+     -24.0,
+     -43.3
+    ],
+    [
+     4.8,
+     -28.7,
+     -28.8,
+     -45.1
+    ],
+    [
+     5.3,
+     -30.7,
+     -31.0,
+     -42.5
+    ],
+    [
+     5.8,
+     -22.4,
+     -22.5,
+     -40.4
+    ],
+    [
+     6.3,
+     -24.0,
+     -24.2,
+     -39.6
+    ],
+    [
+     6.8,
+     -25.5,
+     -25.5,
+     -45.6
+    ]
+   ]
+  },
+  {
+   "event": "reveal burst",
+   "t": 8.75,
+   "windows": [
+    [
+     7.75,
+     -24.1,
+     -25.4,
+     -29.9
+    ],
+    [
+     8.25,
+     -24.1,
+     -27.4,
+     -26.8
+    ],
+    [
+     8.75,
+     -15.2,
+     -15.5,
+     -28.2
+    ],
+    [
+     9.25,
+     -16.9,
+     -17.3,
+     -27.7
+    ],
+    [
+     9.75,
+     -19.0,
+     -19.6,
+     -27.5
+    ],
+    [
+     10.25,
+     -20.2,
+     -20.5,
+     -30.8
+    ]
+   ]
+  },
+  {
+   "event": "label CICADA!",
+   "t": 14.6,
+   "windows": [
+    [
+     13.6,
+     -23.2,
+     -23.3,
+     -39.0
+    ],
+    [
+     14.1,
+     -25.2,
+     -25.6,
+     -36.3
+    ],
+    [
+     14.6,
+     -22.4,
+     -22.6,
+     -36.4
+    ],
+    [
+     15.1,
+     -22.1,
+     -22.3,
+     -34.5
+    ],
+    [
+     15.6,
+     -23.5,
+     -23.6,
+     -40.6
+    ],
+    [
+     16.1,
+     -22.1,
+     -22.1,
+     -40.2
+    ]
+   ]
+  },
+  {
+   "event": "years race",
+   "t": 22.15,
+   "windows": [
+    [
+     21.15,
+     -25.3,
+     -25.8,
+     -35.5
+    ],
+    [
+     21.65,
+     -25.1,
+     -25.2,
+     -40.8
+    ],
+    [
+     22.15,
+     -15.1,
+     -14.9,
+     -33.4
+    ],
+    [
+     22.65,
+     -17.5,
+     -17.6,
+     -33.5
+    ],
+    [
+     23.15,
+     -19.2,
+     -19.4,
+     -35.0
+    ],
+    [
+     23.65,
+     -19.1,
+     -19.4,
+     -32.1
+    ]
+   ]
+  },
+  {
+   "event": "unhook",
+   "t": 28.4,
+   "windows": [
+    [
+     27.4,
+     -24.4,
+     -27.5,
+     -27.2
+    ],
+    [
+     27.9,
+     -23.7,
+     -25.9,
+     -27.7
+    ],
+    [
+     28.4,
+     -23.2,
+     -24.6,
+     -28.9
+    ],
+    [
+     28.9,
+     -21.5,
+     -22.8,
+     -27.5
+    ],
+    [
+     29.4,
+     -22.3,
+     -22.7,
+     -32.9
+    ],
+    [
+     29.9,
+     -22.3,
+     -22.5,
+     -37.1
+    ]
+   ]
+  },
+  {
+   "event": "finale tutti: out",
+   "t": 34.0,
+   "windows": [
+    [
+     33.0,
+     -17.7,
+     -17.7,
+     -36.6
+    ],
+    [
+     33.5,
+     -19.0,
+     -19.1,
+     -41.1
+    ],
+    [
+     34.0,
+     -19.4,
+     -19.6,
+     -33.2
+    ],
+    [
+     34.5,
+     -20.2,
+     -20.5,
+     -32.5
+    ],
+    [
+     35.0,
+     -18.7,
+     -18.9,
+     -33.0
+    ],
+    [
+     35.5,
+     -20.2,
+     -20.3,
+     -34.5
+    ]
+   ]
+  },
+  {
+   "event": "climb",
+   "t": 42.4,
+   "windows": [
+    [
+     41.4,
+     -18.0,
+     -18.0,
+     -45.7
+    ],
+    [
+     41.9,
+     -20.0,
+     -20.1,
+     -45.4
+    ],
+    [
+     42.4,
+     -17.2,
+     -17.2,
+     -41.4
+    ],
+    [
+     42.9,
+     -19.1,
+     -19.2,
+     -37.7
+    ],
+    [
+     43.4,
+     -19.3,
+     -19.4,
+     -37.8
+    ],
+    [
+     43.9,
+     -18.7,
+     -18.8,
+     -36.4
+    ]
+   ]
+  },
+  {
+   "event": "skin splits",
+   "t": 55.55,
+   "windows": [
+    [
+     54.55,
+     -19.1,
+     -19.5,
+     -29.1
+    ],
+    [
+     55.05,
+     -19.3,
+     -19.5,
+     -31.8
+    ],
+    [
+     55.55,
+     -18.0,
+     -18.1,
+     -33.2
+    ],
+    [
+     56.05,
+     -17.8,
+     -17.8,
+     -44.1
+    ],
+    [
+     56.55,
+     -18.3,
+     -18.3,
+     -42.1
+    ],
+    [
+     57.05,
+     -18.3,
+     -18.3,
+     -41.3
+    ]
+   ]
+  },
+  {
+   "event": "wings open",
+   "t": 59.7,
+   "windows": [
+    [
+     58.7,
+     -18.1,
+     -18.2,
+     -39.2
+    ],
+    [
+     59.2,
+     -19.1,
+     -19.1,
+     -39.6
+    ],
+    [
+     59.7,
+     -16.6,
+     -16.7,
+     -31.4
+    ],
+    [
+     60.2,
+     -17.2,
+     -17.3,
+     -32.2
+    ],
+    [
+     60.7,
+     -18.5,
+     -18.7,
+     -33.2
+    ],
+    [
+     61.2,
+     -17.2,
+     -17.5,
+     -28.1
+    ]
+   ]
+  },
+  {
+   "event": "final chord",
+   "t": 68.05,
+   "windows": [
+    [
+     67.05,
+     -16.0,
+     -16.3,
+     -28.3
+    ],
+    [
+     67.55,
+     -22.1,
+     -23.1,
+     -28.6
+    ],
+    [
+     68.05,
+     -13.3,
+     -13.0,
+     -24.6
+    ],
+    [
+     68.55,
+     -12.5,
+     -12.3,
+     -26.6
+    ],
+    [
+     69.05,
+     -17.9,
+     -18.5,
+     -26.7
+    ],
+    [
+     69.55,
+     -26.1,
+     -32.8,
+     -27.2
+    ]
+   ]
+  }
+ ],
+ "stand_ins": [
+  "The cicada song (60 to 74 s) is a field recording of crickets, filtered and kept soft, with a bee shimmer: the bank has no cicada. It reads as a bright insect chorus, not as a real periodical cicada.",
+  "Tiny feet (the hatchling, the ants, the marching cicadas) are a twig or pebble step, sped up and high-passed: there is no recording of an insect walking.",
+  "Digging and climbing scratches are a wooden brush stroke and a shovel in soil, slowed or sped up and filtered. The mole is a muffled shovel crunch.",
+  "Worms are a slowed, low-passed mud step. Grubs munching is a sped-up rusk crunch.",
+  "The egg crack is a soft ice crack and a candle crackle: there is no recording of an egg.",
+  "The nymph's sips are real water drops. Pops of the neighbours and of the cicadas coming out are soft harp \"boings\", tuned to the music.",
+  "The dog is an old dog's real barks, played a little faster so it sounds younger and happier: the nearest recording the bank has.",
+  "The kids' gasp is a toy squeal (no children's voices in the bank, on purpose: the film has no voices).",
+  "The wings opening are real chimes, a triangle and a glockenspiel chord raised a major third; the unfolding is soft cloth.",
+  "Words pop in with a wine stopper's pop."
+ ],
+ "bank_run": "rc-render sfx-bank.yml run 40049538821 (24 Oct 2026)",
+ "listened": false,
+ "note": "Built and measured only: nobody has listened to this mix yet."
+}

@@ -1,0 +1,16 @@
+{
+ "id": "kids-under-your-feet",
+ "series": "Little Big Questions",
+ "title": "Who lives under your feet?",
+ "style": "cutaway",
+ "art": "fable",
+ "duration": 74.0,
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "note": "Little Big Questions (6 to 8), a silent story: Fable Cutaway, one fixed view, a 2 degree sway, no cuts. One periodical cicada nymph is followed from egg to its big day (17 years underground, then up the tree to sing) while it meets the busy neighbours (worms, ants, a mole, grubs, roots) under a park lawn and the seasons turn on top. Timing from beats.json through the T(**seconds) event table at the top of blender.py. Music: Mozart, The Marriage of Figaro overture (Czech National Symphony Orchestra via Musopen, CC0 on the Wikimedia Commons page), edit in beats.json; soundtrack v1 in audio/mix.m4a (audio/make_audio.py, SOUND.md). Nobody has listened to it yet.",
+ "audio": "audio/mix.m4a"
+}

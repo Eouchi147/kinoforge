@@ -1,0 +1,106 @@
+{
+ "_": "Little Big Questions, film under-your-feet, SILENT STORY (Sam 23 Oct: no narration; music and sound design carry the story; a few big words set in code; the picture explains). One fixed Fable view of one Cutaway block (a slice of a park lawn with a big tree, lifted out of the land), no cuts, a 2 degree sway. This beat sheet is the film's source of truth for picture, words, sound and music; facts in docs/research/KIDS_FACTS_2026-10.md section 2.1 (binding). The thread is ONE cicada nymph: egg, a long wait underground, the big day. Times in seconds, 74 s total, timed to the music edit described in the music block.",
+ "id": "kids-under-your-feet",
+ "duration": 74.0,
+ "fps": 24,
+ "key_word": "CICADA",
+ "beats": [
+  {
+   "t": [0.0, 5.2],
+   "name": "hook",
+   "picture": "A sunny neighbourhood park on a summer day: a slice of lawn with a big tree floats over the hole it was lifted from. Kids' shoes stomp across the grass on top (a red-shoed girl, a boy dribbling a ball); a bike leans on the big tree; a swing swings in the playground behind; a picnic blanket with a basket. The cut face shows plain soil. A tiny pale egg on a twig of the big tree glints.",
+   "words": "WHO LIVES UNDER YOUR FEET?",
+   "sound": "park ambience (birds, a far playground), the soft thump of running shoes on grass, a ball bounce",
+   "music": "the hushed scurrying string opening (recording 0:00): many small feet"
+  },
+  {
+   "t": [5.2, 8.7],
+   "name": "scurry",
+   "picture": "The egg cracks: a tiny cicada nymph hatches, tumbles down off the twig, lands on the lawn and shuffles to a little hole at the lawn's edge and slips in. A first soil crumb trickles. A tiny dot starts digging down the cut face: something small is on its way.",
+   "words": "",
+   "sound": "tiny egg crack, a tiny plop on grass, scratching, soil trickle",
+   "music": "the whispering scurry continues, crescendo (recording 5.2 to 8.7)"
+  },
+  {
+   "t": [8.7, 14.25],
+   "name": "reveal",
+   "picture": "THE FIRST TUTTI BURST (recording 8.75): the whole hidden world lights up in the cut face. Tunnels glow open in a ripple and the neighbours pop into view one after another: earthworms wriggling in their tunnels, an ant town (a nursery with eggs and a queen, a pantry), a mole digging with big paws, beetle grubs among the roots. The tree's roots are drinking, bright drops rising up them to the tree.",
+   "words": "A HIDDEN WORLD!",
+   "sound": "a warm swell with the burst; soft pops for each neighbour; worm slides, ant pitter-patter, mole digging, drips in the roots",
+   "music": "first tutti burst, bright and joyful (recording 8.75 to 14.25)"
+  },
+  {
+   "t": [14.25, 22.15],
+   "name": "meet",
+   "picture": "The tiny nymph reaches a root of the big tree, hooks on and sips root juice, a straw-like beak in the root. CICADA! points at it. Spring, summer, autumn and winter turn once on the lawn above (the first year, slow). Everybody carries on: an ant hauls a sandwich crumb far bigger than itself into the pantry (the visual joke), the mole tunnels on, the worm chases a rolling marble. A snail rests on a leaf.",
+   "words": "CICADA!",
+   "sound": "drinking sips, ant steps, mole scratching, a marble rolling, seasons: birds, a wind, snow hush",
+   "music": "the lilting second theme (recording 14.25 to 22.15)"
+  },
+  {
+   "t": [22.15, 27.6],
+   "name": "years",
+   "picture": "THE YEARS RACE BY: a pocket watch spins forward, seasons whirl on the lawn above (green, golden, snowy, blossom, again and again), kids and dogs and bikes zip past, and the nymph grows a little bigger each year while it keeps sipping. The neighbours keep busy below.",
+   "words": "17 YEARS",
+   "sound": "a rising shimmer of ticks, a wind through the seasons, birds flickering, small chime",
+   "music": "the tutti, racing (recording 22.15 to 27.6); cross-fade 1.5 s (film 26.1 to 27.6) to the build of the finale"
+  },
+  {
+   "t": [27.6, 34.0],
+   "name": "stir",
+   "picture": "Spring warms the soil (a soft golden warmth creeps down the cut face). The big nymph stops sipping, wriggles loose and sets off up its shaft. From side tunnels more nymphs join it, shuffling in from all directions: they are going together.",
+   "words": "ALL TOGETHER!",
+   "sound": "a warm hush, scratching and shuffling, soft thumps climbing",
+   "music": "quiet cello and violin build, then crescendo (recording 195.0 to 202.9)"
+  },
+  {
+   "t": [34.0, 43.6],
+   "name": "emerge",
+   "picture": "THE TUTTI RETURNS (recording 202.9): the nymphs pop out of the ground at the lawn's edge in a burst of soil crumbs and sparkles, blink at the sun, and march in a line across the lawn to the big tree. Birds in the tree lift off; the kids look and point; the dog barks.",
+   "words": "",
+   "sound": "pop, soil crumbs, a swell of birds, a dog bark, kids' gasp, little footsteps",
+   "music": "steady tutti (recording 202.9 to 212.5)"
+  },
+  {
+   "t": [43.6, 55.55],
+   "name": "climb",
+   "picture": "A line of nymphs climbs the trunk of the big tree, higher and higher past the bike and the kite; each finds a spot on a branch or on the bark and grips. The girl holds her hands up to catch the afternoon light. The snail waves from its leaf.",
+   "words": "",
+   "sound": "tiny claw scratches on bark, a gentle wind",
+   "music": "tutti with its accent at 212.5 (recording 212.5 to 224.45)"
+  },
+  {
+   "t": [55.55, 59.7],
+   "name": "split",
+   "picture": "On the accent (recording 224.45) the backs of the shells begin to split, one after another. Pale soft cicadas ease out, backs first, wings crumpled like wet tissue, head last. They hang and wait while their wings pump up.",
+   "words": "",
+   "sound": "soft crackle of shells, a hush, small wing flutters",
+   "music": "accented tutti building (recording 224.45 to 228.6)"
+  },
+  {
+   "t": [59.7, 68.05],
+   "name": "sing",
+   "picture": "THE BIGGEST CLIMAX (recording 228.6): wings snap open in a golden flash, bodies darken, red eyes shine. The whole tree sings: golden rings and little music notes pour out of the cicadas and spread across the park. Kids dance, the dog jumps. At the final chord (recording 236.95) one last big note rings out and the sun pours gold over everything.",
+   "words": "",
+   "sound": "a chorus of cicada song layered under the orchestra, birds, kids' cheers, a final shimmer",
+   "music": "the coda, the loudest part of the piece (recording 228.6 to 236.95)"
+  },
+  {
+   "t": [68.05, 74.0],
+   "name": "send",
+   "picture": "The final chord rings and fades. The park is calm in warm gold; the cicadas hum softly on the tree; the girl lies on the lawn with her ear to the grass and the snail waves its eye stalks. The slice keeps floating, the neighbours busy below.",
+   "words": "WHO IS DOWN THERE RIGHT NOW?",
+   "sound": "the last orchestral chord and its tail, soft cicada hum, park air",
+   "music": "the final cadence (recording 236.95 to 239.6) and its natural decay, then a quiet room-tone tail"
+  }
+ ],
+ "music": {
+  "piece": "Wolfgang Amadeus Mozart, The Marriage of Figaro, overture, K. 492",
+  "recording": "Czech National Symphony Orchestra, via Musopen (Musopen.org: https://musopen.org/music/43979-overture-to-the-marriage-of-figaro-k-492/)",
+  "licence": "CC0 1.0 Universal (Public Domain Dedication) as recorded on the Wikimedia Commons file page, which quotes Musopen's statement that uploaders must represent the content as public domain; no attribution required, credit given anyway",
+  "source_page": "https://commons.wikimedia.org/wiki/File:Mozart,_The_Marriage_of_Figaro_(overture).ogg",
+  "asset": "release music of Eouchi147/rc-render: mozart-figaro-overture.ogg (6,344,097 bytes) with mozart-figaro-overture.licence.json",
+  "edit": "recording 0:00 to 0:27.6 (film 0 to 27.6), a linear 1.5 s cross-fade (film 26.1 to 27.6) into recording 3:15.0 to 3:59.6 (film 26.1 to 70.7, played straight to the piece's own final cadence at recording 3:56.95 = film 68.05 and its decay), then a quiet tail to 74.0 s. Hits used: burst 8.75, tutti 22.15, finale tutti 202.9 (film 34.0), accents 212.5 (43.6), 224.45 (55.55), the coda 228.6 (59.7), final chord 236.95 (68.05).",
+  "credit": "Music: Wolfgang Amadeus Mozart, The Marriage of Figaro Overture, Czech National Symphony Orchestra, recorded by Musopen (CC0 / public domain)."
+ }
+}
