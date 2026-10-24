@@ -37,9 +37,9 @@ never confusing.
 ## Films (first batch)
 | id | Question | Theme | Status |
 | --- | --- | --- | --- |
-| fossil | How does a dinosaur turn into stone? | Dinosaurs | pilot: script, voice, music, picture |
-| volcano | How is a volcano born? | Planet Earth | script; picture after the pilot verdict |
-| under-your-feet | Who lives under your feet? | Animals | script draft |
-| rain | Where does rain come from? | Planet Earth, weather | script draft |
-| deep-sea | What lives in the deep sea? | Oceans | script draft |
-| shooting-star | What is a shooting star? | Space | script draft |
+| fossil | How does a dinosaur turn into stone? | Dinosaurs | delivered 24 Oct (silent, real orchestra) |
+| volcano | How is a volcano born? | Planet Earth | delivered 24 Oct (silent, real orchestra) |
+| under-your-feet | Who lives under your feet? | Animals | delivered 24 Oct (silent, real orchestra) |
+| rain | Where does rain come from? | Planet Earth, weather | delivered 24 Oct (silent, real orchestra) |
+| deep-sea | What lives in the deep sea? | Oceans | delivered 24 Oct (silent, real orchestra) |
+| shooting-star | What is a shooting star? | Space | delivered 24 Oct (silent, real orchestra) |

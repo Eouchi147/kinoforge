@@ -5,7 +5,7 @@
   in code, a real orchestral public domain recording with the picture timed to it, real recorded CC0 effects; everyday
   easter eggs, the snail mascot, one visual joke; framing: the Cutaway "lifted slice" over its hole in a living world.
   Series rules: `films/cutaway/kids/README.md`; research: `docs/research/KIDS_FACTS_2026-10.md`, `KIDS_MUSIC_2026-10.md`.
-- 24 Oct overnight (Sam 22:21: render all, films ready by morning): fossil full render on the Mac; volcano, deep-sea, shooting-star, under-your-feet built and rendering on rc-render films.yml; rain in build.
+- 24 Oct morning: all six films rendered and delivered (Samsung X5 `KINOFORGE/films/kids/`, rc-render release `kino-films`): fossil (Mac), volcano, deep-sea, shooting-star, under-your-feet, rain (runners). Waiting on Sam's verdict. Known: under-your-feet fast-seasons brightness pulse (22 to 27 s) to slow; nobody has listened by ear yet.
 - Fossil pilot: picture v3 built (stills checked), music Grieg Morning Mood (Sam's pick, 21:00), soundtrack v1 built
   (147 effects, -16 LUFS, not yet heard by anyone), the find beat (47 to 54.5 s) rendering on the Mac as a motion test;
   full film about 3.5 h on the Mac after Sam's yes. Next films scripted: volcano, under-your-feet, rain, deep-sea,
