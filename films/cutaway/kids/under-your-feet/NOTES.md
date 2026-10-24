@@ -48,3 +48,6 @@ no sentence about the song is put in the words.
 
 ## Checks
 `bash tools/verify.sh` (all gates pass). Sound: `python3 films/cutaway/kids/under-your-feet/audio/make_audio.py` (-16.1 LUFS, -1.9 dBTP).
+
+## Change log (this folder)
+- 24 Oct 2026 (UTC): stills at 1280x720 read; the egg and the hatchling made larger and the lawn hole bigger so the first story beat can be followed; song rings fewer and smaller, cicadas spread up the trunk (szcic.py, szpark.py). Sound unchanged. US$0.
