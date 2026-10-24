@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Kids fossil also rendered on rc-render (run 40086790184, success): kids-fossil.mp4, preview, poster and sheet in kino-films, so the studio Library plays all six; sheet looked at. US$0.
 - Manual: docs/manual/films/kids-little-big-questions.md (the series recipe: files, steps, music, render, checks, weak spots). US$0.
 - Studio upgrade (every success upgrades the studio): the six Little Big Questions films in tools/catalog.py (series, sound, how made, delivered) so the studio Library shows them; fossil also rendering on rc-render films.yml so its video sits in kino-films like the others (uploads from this session are blocked). US$0.
 - Kids films done: under-your-feet (run 40062248447, 74.0 s; qc flicker flag: a smooth 2.5 Hz brightness pulse at 22 to 27 s during the fast seasons, under 3 flashes a second, to slow) and rain (run 40062314304, 73.0 s, qc pass but for the -16 LUFS design choice); both on Samsung X5 KINOFORGE/films/kids/ and sent to Sam. All six Little Big Questions films delivered by 06:40 Toronto. US$0.
