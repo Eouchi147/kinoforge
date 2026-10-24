@@ -50,8 +50,11 @@ its shell for the big whoosh, peeks out, and waves at the end). Hidden: flip-flo
 fish in the sea band of the cut face, dolphins, a sailing boat, far volcano islands with their own smoke. The visual joke: the
 bottle's cap flies off at the eruption and lands on top of the sandcastle like a roof.
 
+## Deviation from the shared graphics copy
+`szwords.py` here breaks captions at 23 characters a line instead of 16 (one constant, `_lines(max_chars=23)`): HOW IS A VOLCANO BORN? sits on one line and the closing question on two, so the cards do not hide the volcano. The API is unchanged.
+
 ## Limits (honest)
-- Checked locally at 320x180 and 640x360 only (4 to 5 samples); the real 1280x720 look comes from the runner stills.
+- Checked locally at 320x180 and 640x360 (4 to 5 samples) and on runner stills at 1280x720 (tags volcano-v1 and volcano-v2 in rc-render release `stills`); the film itself is not rendered yet.
 - The slice shows a cartoon of an island volcano, not a scientific model: nine layers stand for nine eruptions; real
   eruptions are far apart in time (the clock says so), and the film never shows anyone in danger.
 - Sound is built and measured, not heard (see `SOUND.md`).
