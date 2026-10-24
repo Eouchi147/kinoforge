@@ -8,10 +8,10 @@ recording and where it is used, the music edit, the event table, the timelines) 
 **Music credit (for the description of the video):** Music: Felix Mendelssohn, The Hebrides (Fingal's Cave) Overture, performed by the Musopen Symphony (musopen.org), public domain.
 
 ## Result (measured on the decoded AAC, `ffmpeg ebur128=peak=true`)
-- 70.50 s, 48 kHz stereo AAC 256k, -16.1 LUFS integrated (target -16), true peak -1.90 dBTP (limit -1.5 dBTP), loudness range 4.8 LU.
+- 70.50 s, 48 kHz stereo AAC 256k, -16.1 LUFS integrated (target -16), true peak -1.90 dBTP (limit -1.5 dBTP), loudness range 4.9 LU.
 - The loudest limiter dip is 5.7 dB at 63.1 s (the climax of the Hebrides, where every light comes on); the true-peak loop re-encodes until the decoded AAC is under the limit.
 - Every spot is placed from the picture's event table (zero offset by construction; the loudest instant of a splash or a thump sits 10 to 35 ms after the event
-  frame). On the rendered effects bus alone, 58 of 79 percussive spots stand out by 3 dB or more within 30 ms before to 150 ms
+  frame). On the rendered effects bus alone, 57 of 79 percussive spots stand out by 3 dB or more within 30 ms before to 150 ms
   after their event; the rest are quiet details sitting under the river, rain or a neighbouring sound (listed in `mix.json`, `landing_check`).
 - Nobody has listened to it yet: the build cannot hear. Levels were set by measurement (below) and by rules, then must be
   checked by ear on a phone speaker, a tablet and headphones before anything is published.

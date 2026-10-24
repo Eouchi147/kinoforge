@@ -150,6 +150,7 @@ def wall(kit, D, name='fs_wallm'):
         line = g.math('MULTIPLY', g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('ABSOLUTE', g.math('SUBTRACT', d, z)), 120.0), clamp=True), 0.9)
         col = g.mix(line, col, srgb((0.99, 0.80, 0.36)))
     col = g.mix(1.0, col, g.mix(1.0, col, _lamps(g, D, P), 'MULTIPLY'), 'ADD')
+    col = g.mix(g.math('MULTIPLY', D.val(g, 'wflash'), g.math('MULTIPLY', g.math('ADD', 0.35, dn), 0.55)), col, srgb((0.70, 0.84, 1.0)))
     e = g.node('ShaderNodeEmission', ins={'Color': col, 'Strength': 1.0}); cw._finish(g, e); return m
 
 

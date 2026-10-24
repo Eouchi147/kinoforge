@@ -124,6 +124,7 @@ def frame(bpy, ctx, S, i, t):
     w = W.weights(t); dusk = w[2]; D.set('dusk', dusk)
     D.setc('seahaze', tuple((1 - dusk) * a + dusk * b for a, b in zip((0.70, 0.86, 0.84), (0.80, 0.44, 0.46))))
     D.set('raysA', 1.0 - 0.7 * dusk)
+    D.set('wflash', 0.20 * W.sm(W.B.bloom0 - 0.05, W.B.bloom0 + 0.10, t) * (1.0 - W.sm(W.B.bloom0 + 0.2, W.B.bloom0 + 1.6, t)) + 0.12 * LF.bloom_env(t))
     SEA.stage_pose(S['stage'], D, t)
     LF.sub_pose(S['sub'], D, t); LF.fish_pose(S['fish'], t); LF.turtle_pose(S['turtle'], t); LF.duck_pose(S['duck'], t)
     LF.lantern_pose(S['lantern'], t); LF.bigeye_pose(S['bigeye'], t); LF.jelly_pose(S['jelly'], D, t); LF.squid_pose(S['squid'], D, t)

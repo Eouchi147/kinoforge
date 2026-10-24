@@ -58,9 +58,9 @@ def build_sub(kit, D):
     teal = M.sea(kit, D, 'fs_subteal', (0.12, 0.52, 0.58), shade=0.28, tex=0.02, keep=0.6)
     cabin = M.glow(kit, D, 'fs_subcabin', (0.80, 0.94, 0.92), 0.9)                     # the lit cabin seen through the porthole
     lamp = M.glow(kit, D, 'fs_sublamp', (1.0, 0.96, 0.78), 1.0, 'lampA')
-    snail_s = M.sea(kit, D, 'fs_snshell', (0.96, 0.52, 0.40), shade=0.2, tex=0.0, lamps=False, flat=True)
-    snail_b = M.sea(kit, D, 'fs_snband', (0.99, 0.82, 0.38), shade=0.2, tex=0.0, lamps=False, flat=True)
-    snail_m = M.sea(kit, D, 'fs_snbody', (0.90, 0.88, 0.70), shade=0.2, tex=0.0, lamps=False, flat=True)
+    snail_s = M.glow(kit, D, 'fs_snshell', (1.0, 0.56, 0.42), 1.0)
+    snail_b = M.glow(kit, D, 'fs_snband', (1.0, 0.84, 0.36), 1.0)
+    snail_m = M.glow(kit, D, 'fs_snbody', (0.96, 0.92, 0.74), 1.0)
     snail_e = M.glow(kit, D, 'fs_sneye', (0.10, 0.10, 0.18), 1.0)
     mats = [hull, cream, teal, cabin, lamp, snail_s, snail_b, snail_m, snail_e]
     s = {}
@@ -130,7 +130,7 @@ def sub_pose(Sb, D, t):
     # the snail inside the porthole: faces +x, rides in the glass; peeks at the start, looks around, waves at the squid, the lure and the end
     wave = max(W.win(t, B.snwave0, B.snwave1, 0.4), W.win(t, B.snwave2, B.snwave3, 0.4), W.win(t, B.end_wave0, B.end_wave1, 0.4))
     look = 0.5 * math.sin(2 * math.pi * t / 6.0)
-    base = np.array([pc[0] - 0.010, pc[1] + 0.012, pc[2] - 0.05]) / k; sk = 0.85
+    base = np.array([pc[0] - 0.012, pc[1] - 0.040, pc[2] - 0.045]); sk = 1.5
     Rs = rz(0.0)
     for nm in ('sn_shell', 'sn_band', 'sn_body'): put(pr, s[nm], P, R, k, base, Rs, (sk, sk, sk))
     head = base + np.array([0.040 * sk, 0, 0.010 * sk])
@@ -341,7 +341,7 @@ def bigeye_pose(Bi, t):
 
 # ====================================================================================== jellyfish
 JELLY = [((-0.92, 0.04, -2.05), 0.21, (0.40, 0.72, 1.0), 'jel0', 'B_j0'), ((0.98, 0.22, -1.85), 0.19, (1.0, 0.52, 0.82), 'jel1', 'B_j1'),
-         ((-0.30, 0.32, -1.85), 0.20, (0.62, 1.0, 0.60), 'jel2', 'B_j2'), ((0.40, -0.02, -1.30), 0.19, (0.86, 0.82, 1.0), 'jel3', 'B_j3')]
+         ((-0.55, 0.32, -1.45), 0.20, (0.62, 1.0, 0.60), 'jel2', 'B_j2'), ((0.40, -0.02, -1.30), 0.19, (0.86, 0.82, 1.0), 'jel3', 'B_j3')]
 JEL_CUE = None
 
 
@@ -373,7 +373,7 @@ def jelly_pose(Je, D, t):
         p, s, c, dr, ev = JELLY[i]; cue = getattr(B, ev)
         env = jelly_env(t, cue); D.set(dr, env)
         P = jelly_pos(i, t) + np.array([0, 0, z0]); R = orient(0.3 * i, 0.06 * math.sin(2 * math.pi * t / 5.0 + i), 0.05 * math.cos(2 * math.pi * t / 6.0 + i))
-        pulse = 0.5 + 0.5 * math.sin(2 * math.pi * t / 2.4 + i * 1.7); sz = s * 2.3
+        pulse = 0.5 + 0.5 * math.sin(2 * math.pi * t / 2.4 + i * 1.7); sz = s * 2.3 * (1.0 + 0.30 * W.pulse(t, B.bloom0, B.bloom0 + 2.4))
         put(pr, d['bell'], P, R, sz, (0, 0, 0), None, (1.0 + 0.10 * pulse, 1.0 + 0.10 * pulse, 1.0 - 0.18 * pulse))
         put(pr, d['rim'], P, R, sz, (0, 0, -0.01), None, (1.0 + 0.10 * pulse, 1.0 + 0.10 * pulse, 1.0 - 0.18 * pulse))
         for j, tn in enumerate(d['tent']):
@@ -407,7 +407,7 @@ SQUID_KEYS = None
 
 
 def squid_path(t):
-    ks = [(B.sq0, (0.95, 0.40, -1.62)), (B.sq0 + 1.5, (0.55, 0.05, -1.90)), (B.sq0 + 3.0, (0.0, -0.22, -2.02)), (B.sq0 + 4.5, (-0.5, -0.28, -1.78)), (B.sq1, (-0.92, 0.0, -1.70))]
+    ks = [(B.sq0, (0.95, 0.30, -1.55)), (B.sq0 + 1.5, (0.55, -0.35, -1.66)), (B.sq0 + 3.0, (0.0, -0.62, -1.62)), (B.sq0 + 4.5, (-0.5, -0.62, -1.58)), (B.sq1, (-0.95, -0.20, -1.50))]
     return W.spline_keys(t, ks)
 
 
@@ -420,7 +420,7 @@ def squid_pose(Sq, D, t):
         pr.commit(); return
     p = squid_path(t); v = (squid_path(t + 0.1) - squid_path(t - 0.1)) / 0.2
     P = p + np.array([0, 0, wz(t)]); yaw = math.atan2(v[1], v[0]); pitch = -math.atan2(v[2], math.hypot(v[0], v[1]))
-    R = orient(yaw, pitch, 0.1 * math.sin(2 * math.pi * t / 2.0)); sc = 0.62 * show
+    R = orient(yaw, pitch, 0.1 * math.sin(2 * math.pi * t / 2.0)); sc = 0.80 * show
     jet = 0.5 + 0.5 * math.sin(2 * math.pi * t / 1.3)
     put(pr, s['mantle'], P, R, sc, (-0.25, 0, 0), None, (1.0 + 0.04 * jet, 1.0 - 0.08 * jet, 1.0 - 0.08 * jet)); put(pr, s['head'], P, R, sc, (0.34, 0, 0))
     for j, sd in enumerate((-1, 1)): put(pr, s['fin'][j], P, R, sc, (-0.62, sd * 0.10, 0.0), rz(sd * 0.5) @ rx(sd * 0.35 * math.sin(2 * math.pi * 1.6 * t)))
@@ -676,9 +676,9 @@ def build_twinkles(kit, D):
             kind[i] = 1; j = i % 3; c = np.array(JELLY[j][0]); P[i] = c + rng.normal(0, 0.25, 3) * np.array([1.0, 0.8, 1.0]); P[i][2] = min(P[i][2] + 0.1, -1.2)
             a = getattr(B, JELLY[j][4]) + rng.uniform(0.2, 2.8); win[i] = (a, a + rng.uniform(1.5, 3.5))
         else:                  # the final bloom: lights everywhere, from the floor up
-            kind[i] = 2; P[i] = (rng.uniform(-1.05, 1.05), rng.uniform(-0.55, 0.5), -rng.uniform(0.9, 2.82)); a = B.bloom0 + 0.9 * (P[i][2] + 2.9) * -0.0 + (2.82 + P[i][2]) * 0.55 + rng.uniform(0, 0.4)
+            kind[i] = 2; P[i] = (rng.uniform(-1.05, 1.05), rng.uniform(-0.55, 0.5), -rng.uniform(0.9, 2.82)); a = B.bloom0 + 0.9 * (P[i][2] + 2.9) * -0.0 + (2.82 + P[i][2]) * 0.22 + rng.uniform(0, 0.3)
             b = B.bloom1 + 1.6 + rng.uniform(0, 1.4) + (2.82 + P[i][2]) * 0.25; win[i] = (a, b)
-    return {'parts': pr, 'P': P, 'win': win, 'kind': kind, 'rng': rng.uniform(0, 6.28, TW_N)}
+    return {'parts': pr, 'P': P, 'win': win, 'kind': kind, 'rng': rng.uniform(0, 6.28, TW_N), 'big': (rng.uniform(0, 1, TW_N) > 0.6) * (kind == 2)}
 
 
 def twinkles_pose(Tw, t):
@@ -688,7 +688,7 @@ def twinkles_pose(Tw, t):
         if Tw['kind'][i] == 2 and t > B.bloom1 + 5.5: k = 0.55 * W.sm(B.bloom1 + 5.5, B.bloom1 + 7.0, t) if i % 7 == 0 else 0.0
         if k < 0.02: pr.hide(i); continue
         p = Tw['P'][i] + np.array([0.02 * math.sin(t + ph), 0.0, 0.03 * math.sin(0.8 * t + ph)])
-        tw = 0.65 + 0.35 * math.sin(2 * math.pi * 1.3 * t + ph * 3.0); s = 0.022 * k * tw * (1.0 + 0.35 * (i % 3))
+        tw = 0.65 + 0.35 * math.sin(2 * math.pi * 1.3 * t + ph * 3.0); s = (0.022 if Tw['kind'][i] == 0 else 0.030 if Tw['kind'][i] == 1 else 0.042) * k * tw * (1.0 + 0.35 * (i % 3)) * (1.0 + 1.1 * Tw['big'][i])
         pr.set(i, (p[0], p[1], p[2] + z0), I3, s)
     pr.commit()
 

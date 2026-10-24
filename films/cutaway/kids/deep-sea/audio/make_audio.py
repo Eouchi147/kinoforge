@@ -343,9 +343,9 @@ def design(F, T, B, ERAS, WORDS):
               B['only a tiny piece'][0] + 0.5, B['back to the surface'][0] + 4.5]
 
     # ---- the sunny sea above (0 to 5.6 and again from the surfacing): waves, gulls, a ship's bell far away
-    above = [(0, 0), (DIVE - 0.2, 0), (DIVE + 1.3, -26), (SURF - 1.0, -26), (SURF + 0.2, 0)]
+    above = [(0, 0), (DIVE - 0.2, 0), (DIVE + 1.3, -26), (SURF - 1.0, -26), (SURF + 0.2, 0), (SURF + 2.0, -6)]
     F.bed('small_waves_ocean', 0, 70.5, rel=-17, start=10, hp=100, lp=6000, env=above, fi=1.0, fo=2.5, label='gentle waves on the sunny sea')
-    F.bed('gulls_harbor', 0, 70.5, rel=-24, start=30, hp=500, lp=7000, p=0.3, env=[(0, 0), (DIVE - 0.2, 0), (DIVE + 1.0, -30), (SURF + 0.4, -30), (SURF + 1.4, -2), (70.5, -4)], fi=1.0, fo=2.5,
+    F.bed('gulls_harbor', 0, 70.5, rel=-24, start=30, hp=500, lp=7000, p=0.3, env=[(0, 0), (DIVE - 0.2, 0), (DIVE + 1.0, -30), (SURF + 0.4, -30), (SURF + 1.4, -4), (SURF + 3.0, -10)], fi=1.0, fo=2.5,
           label='gulls over the sea')
     F.spot('sea_tern', 4.0, rel=-18, p=-0.45, lp=6000, hp=400, length=1.6, fi=0.05, fo=0.5, send=-4, label='a tern calls')
     F.spot('bell_1oclock', 3.7, rel=-22, p=far(5.0), lp=4000, hp=350, length=2.0, fi=0.02, fo=0.9, send=-5, label='the boat rings a far soft bell')
