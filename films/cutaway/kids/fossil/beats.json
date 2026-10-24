@@ -1,21 +1,131 @@
 {
- "_": "Little Big Questions, fossil pilot, SILENT STORY (Sam 23 Oct 20:09: no narration; music and sound design carry the story; sparse big words where needed; the picture explains). One fixed Fable view of one Cutaway block, no cuts, barely any camera movement. This beat sheet is the film's source of truth for picture, words, sound and music; facts in docs/research/KIDS_FACTS_2026-10.md 1.1. Times in seconds, 60 s total.",
+ "_": "Little Big Questions, fossil pilot, SILENT STORY (Sam 23 Oct 20:09: no narration; music and sound design carry the story; sparse big words where needed; the picture explains). One fixed Fable view of one Cutaway block, no cuts, barely any camera movement. This beat sheet is the film's source of truth for picture, words, sound and music; facts in docs/research/KIDS_FACTS_2026-10.md 1.1. Times in seconds, 65 s total, timed to the music edit.",
  "id": "kids-fossil",
- "duration": 60.0,
+ "duration": 65.0,
  "fps": 24,
  "key_word": "FOSSIL",
  "beats": [
-  {"t": [0.0, 5.0], "name": "hook", "picture": "Today, a sunny meadow on top of the block; inside the rock below, the dark shape of a big bone, glinting once. The mascot peeks at it. A red ball rolls in from the edge and stops on the grass.", "words": "HOW DO BONES TURN TO STONE?", "sound": "meadow birds, a soft breeze, the ball's little bounce", "music": "the series theme's first phrase: pizzicato and glockenspiel, a curious question at the end of the phrase (hangs on an open chord)"},
-  {"t": [5.0, 8.0], "name": "rewind", "picture": "Time runs backwards: the sky flickers through days and seasons in reverse, the layers above the bone pull away upward, the meadow melts into a fern forest and a river.", "words": "LONG AGO", "sound": "a reversed whoosh, a rising shimmer", "music": "a harp glissando up, a tape-rewind gesture in the strings"},
-  {"t": [8.0, 18.0], "name": "the living world", "picture": "A big, gentle long-necked dinosaur munches ferns by the river; two small babies splash; dragonflies; a pterosaur glides; far away a herd walks the horizon and a volcano smokes. Easter eggs: a rubber-duck-yellow flower floating like a duck, the mascot riding a turtle.", "words": "", "sound": "river, munching (crunchy leaves), gentle heavy footsteps that make the ferns bounce, baby splashes, a far soft call", "music": "the series theme in full: bouncy, bright, footsteps on the bass pizzicato, a flute melody, hits on each splash"},
-  {"t": [18.0, 24.0], "name": "the old dinosaur rests", "picture": "Years pass in a breath: the big dinosaur, old now, walks slowly to the river bank, lies down, and stays still. The light softens to evening gold, one leaf drifts down. Nothing frightening: no wound, no predators, the babies have grown and walk off with the herd.", "words": "", "sound": "the world goes hushed: the river quieter, one bird, a long soft exhale of wind", "music": "the theme slows on solo clarinet over a held warm chord, a gentle cadence; silence for one beat"},
-  {"t": [24.0, 30.0], "name": "mud covers the bones", "picture": "Rain and a gentle flood: the river spreads brown mud and sand over the body; what remains is the skeleton, then the mud covers it like a blanket.", "words": "MUD", "sound": "rain beginning, water rushing, wet squelches as each mud wave settles", "music": "pizzicato raindrops, a low rolling cello figure for the flood, a soft thump as the blanket lands"},
-  {"t": [30.0, 38.0], "name": "layer on layer", "picture": "Layer after layer stacks on top, each a different colour, each landing on a beat. Above ground the world races through eras: forests, ice, mammoths crossing, grasslands. The bones sink deeper in the cut-away view.", "words": "MILLIONS OF YEARS", "sound": "each layer lands with a soft thud; wind, snow, a far mammoth trumpet, grass rustle racing by", "music": "a building ostinato, one new instrument per layer, a clock-like woodblock tick speeding up"},
-  {"t": [38.0, 46.0], "name": "bone to stone", "picture": "A round magnifier window opens on the bone inside the rock: tiny water drops seep in, each leaves a sparkle of crystal; the bone's colour slowly changes from ivory to stone grey with mineral glints, from one end to the other.", "words": "BONE TO STONE", "sound": "slow drips in a cave-like hush, tiny crystal tinkles", "music": "glockenspiel and celesta sparkles on each drop, a magical rising harp, a held shimmering chord; a bright hit when the last part turns to stone"},
-  {"t": [46.0, 51.0], "name": "the land wears away", "picture": "Wind and rain wear the top layers away, little by little; the hills shrink; the bone rises closer to the surface.", "words": "", "sound": "wind gusts, rain, small grit trickles", "music": "a descending playful run in flutes and pizzicato, each layer peeling on a beat"},
-  {"t": [51.0, 56.0], "name": "the find", "picture": "Today: a sunny morning, a girl with a hat and a little brush (her dog chasing a stick nearby), kneeling at a rock face on the side of the block. Brush, brush: the bone shape appears out of the rock. She jumps with joy.", "words": "FOSSIL!", "sound": "brush scrapes in rhythm, the dog's happy bark, a tiny gasp-free 'ta-da' sparkle", "music": "a drum roll built from soft timpani and pizzicato, then the theme's big happy return with full orchestra on the reveal"},
-  {"t": [56.0, 60.0], "name": "the send-off", "picture": "The girl holds up her toy dinosaur next to the real fossil; the mascot waves from the meadow; the red ball from the start rolls back into view. The block settles into its gentle living loop.", "words": "WHAT IS UNDER YOUR FEET?", "sound": "meadow birds return, the ball bounce", "music": "the opening question phrase again, now resolved to the home chord, a final glockenspiel twinkle"}
+  {
+   "t": [
+    0.0,
+    5.0
+   ],
+   "name": "hook",
+   "picture": "Today, a sunny meadow on top of the block; inside the rock below, the dark shape of a big bone, glinting once. The mascot peeks at it. A red ball rolls in from the edge and stops on the grass.",
+   "words": "HOW DO BONES TURN TO STONE?",
+   "sound": "meadow birds, a soft breeze, the ball's little bounce",
+   "music": "first flute phrase, the dawn theme alone (recording 0:00)"
+  },
+  {
+   "t": [
+    5.0,
+    10.0
+   ],
+   "name": "rewind",
+   "picture": "Time runs backwards: the sky flickers through days and seasons in reverse, the layers above the bone pull away upward, the meadow melts into a fern forest and a river.",
+   "words": "LONG AGO",
+   "sound": "a reversed whoosh, a rising shimmer",
+   "music": "the oboe answers (recording 0:05)"
+  },
+  {
+   "t": [
+    10.0,
+    21.0
+   ],
+   "name": "the living world",
+   "picture": "A big, gentle long-necked dinosaur munches ferns by the river; two small babies splash; dragonflies; a pterosaur glides; far away a herd walks the horizon and a volcano smokes. Easter eggs: a rubber-duck-yellow flower floating like a duck, the mascot riding a turtle.",
+   "words": "",
+   "sound": "river, munching (crunchy leaves), gentle heavy footsteps that make the ferns bounce, baby splashes, a far soft call",
+   "music": "the theme passes between flute and oboe, rising through new keys (0:10 to 0:21)"
+  },
+  {
+   "t": [
+    21.0,
+    25.0
+   ],
+   "name": "the old dinosaur rests",
+   "picture": "Years pass in a breath: the big dinosaur, old now, walks slowly to the river bank, lies down, and stays still. The light softens to evening gold, one leaf drifts down. Nothing frightening: no wound, no predators, the babies have grown and walk off with the herd.",
+   "words": "",
+   "sound": "the world goes hushed: the river quieter, one bird, a long soft exhale of wind",
+   "music": "the softest moment, a turn to C major (0:21 to 0:25)"
+  },
+  {
+   "t": [
+    25.0,
+    30.0
+   ],
+   "name": "mud covers the bones",
+   "picture": "Rain and a gentle flood: the river spreads brown mud and sand over the body; what remains is the skeleton, then the mud covers it like a blanket.",
+   "words": "MUD",
+   "sound": "rain beginning, water rushing, wet squelches as each mud wave settles",
+   "music": "a swell at 0:26 as the flood spreads, then it settles"
+  },
+  {
+   "t": [
+    30.0,
+    38.0
+   ],
+   "name": "layer on layer",
+   "picture": "Layer after layer stacks on top, each a different colour, each landing on a beat. Above ground the world races through eras: forests, ice, mammoths crossing, grasslands. The bones sink deeper in the cut-away view.",
+   "words": "MILLIONS OF YEARS",
+   "sound": "each layer lands with a soft thud; wind, snow, a far mammoth trumpet, grass rustle racing by",
+   "music": "quiet restart, the build begins at 0:35.5; each layer lands on a phrase pulse"
+  },
+  {
+   "t": [
+    38.0,
+    44.0
+   ],
+   "name": "bone to stone",
+   "picture": "A round magnifier window opens on the bone inside the rock: tiny water drops seep in, each leaves a sparkle of crystal; the bone's colour slowly changes from ivory to stone grey with mineral glints, from one end to the other.",
+   "words": "BONE TO STONE",
+   "sound": "slow drips in a cave-like hush, tiny crystal tinkles",
+   "music": "a held, glowing passage; the stone hit at 43.0 on the phrase lift"
+  },
+  {
+   "t": [
+    44.0,
+    47.0
+   ],
+   "name": "the land wears away",
+   "picture": "Wind and rain wear the top layers away, little by little; the hills shrink; the bone rises closer to the surface.",
+   "words": "",
+   "sound": "wind gusts, rain, small grit trickles",
+   "music": "the music starts climbing (0:45)"
+  },
+  {
+   "t": [
+    47.0,
+    54.5
+   ],
+   "name": "the find",
+   "picture": "Today: a sunny morning, a girl with a hat and a little brush (her dog chasing a stick nearby), kneeling at a rock face on the side of the block. Brush, brush: the bone shape appears out of the rock. She jumps with joy.",
+   "words": "FOSSIL!",
+   "sound": "brush scrapes in rhythm, the dog's happy bark, a tiny gasp-free 'ta-da' sparkle",
+   "music": "brush strokes on the climb; FOSSIL! on the full-orchestra sunrise climax at 49.5"
+  },
+  {
+   "t": [
+    54.5,
+    65.0
+   ],
+   "name": "the send-off",
+   "picture": "The girl holds up her toy dinosaur next to the real fossil; the mascot waves from the meadow; the red ball from the start rolls back into view. The block settles into its gentle living loop.",
+   "words": "WHAT IS UNDER YOUR FEET?",
+   "sound": "meadow birds return, the ball bounce",
+   "music": "cross-fade at 53.0 to 54.5 into the piece's own ending (recording 3:37 to 3:49): one last swell (film 57 to 60) as she holds up the toy dinosaur, then the final quiet chord under WHAT IS UNDER YOUR FEET?"
+  }
  ],
  "words_rules": "Set in code (Fable lettering, large, readable on a phone, 2.5 s minimum on screen); no em dash, en dash or three dots; never drawn by a model.",
- "sound_rules": "Music is the voice of the film: foreground, not a bed (about -16 LUFS integrated, the voice slot is gone). Every event the picture shows has a sound; sound effects real CC0 recordings from the sfx-bank where they exist, playful synthesised accents (sparkles, thumps, rewind) from the score engine where they do not. Nothing harsh, sudden or scary: soft attacks, no loud stingers, true peak under -1.5 dBTP."
+ "sound_rules": "Music is the voice of the film: foreground, not a bed (about -16 LUFS integrated, the voice slot is gone). Every event the picture shows has a sound; sound effects real CC0 recordings from the sfx-bank where they exist, playful synthesised accents (sparkles, thumps, rewind) from the score engine where they do not. Nothing harsh, sudden or scary: soft attacks, no loud stingers, true peak under -1.5 dBTP.",
+ "music": {
+  "piece": "Grieg, Peer Gynt Suite No. 1, I. Morning Mood",
+  "recording": "Musopen Symphony (Musopen)",
+  "licence": "Public domain (Wikimedia Commons record)",
+  "source": "https://commons.wikimedia.org/wiki/File:Grieg_-_Peer_Gynt_Suite_No._1,_Op._46_-_I._Morning_Mood_(Musopen_Symphony).flac",
+  "asset": "Eouchi147/rc-render release music: grieg-morning-mood-musopen.flac (+ .licence.json)",
+  "edit": "recording 0:00 to 0:54.5, triangular cross-fade 1.5 s into 3:37.0 to 3:49.0; loudnorm -16 LUFS, true peak -1.5 dBTP; 65.0 s",
+  "chosen": "Sam, 23 Oct 2026 21:00",
+  "credit": "Music: Edvard Grieg, Morning Mood, performed by the Musopen Symphony (musopen.org), public domain."
+ }
 }
