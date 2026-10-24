@@ -49,3 +49,4 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - OpenRouter key `usage` lags by hours; per-call `usage.cost` is the reliable figure.
 - Lyria returns audio only when streamed (`stream: true`); Seedream needs `modalities: ["image"]`.
 - Video models warp crowds of small particles and people's hands; they hold one solid object well.
+- 23 Oct 2026: VSCO-2 CE names most notes an octave below the sounding pitch; the score engine's YIN check copes for the instruments it uses but misreads Cello Section pizzT by 4 octaves. If cello pizz is ever used, pin its octave (+12) instead of trusting the check.
