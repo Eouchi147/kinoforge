@@ -40,36 +40,40 @@ EVENTS = {
     # hook: today; the red ball rolls in and stops on the grass (the mascot peeks at the bone, the fossil glints)
     'ball0': ('hook', 0.12), 'ball1': ('hook', 0.50),
     # rewind: today's plants fold, the ground above the old one peels away upward, the sky runs back, ferns grow
-    'rw0': ('rewind', 0.00), 'peel0': ('rewind', 0.18), 'peel1': ('rewind', 0.80), 'rw1': ('rewind', 1.00),
-    'fern0': ('rewind', 0.45), 'fern1': ('living', 0.10),
+    'rw0': ('rewind', 0.00), 'peel0': ('rewind', 0.15), 'peel1': ('rewind', 0.75), 'rw1': ('rewind', 1.00),
+    'fern0': ('rewind', 0.45), 'fern1': ('living', 0.08),
     # the living world: the dinosaur arrives and walks to the ferns, munches; babies splash; the turtle plods by
-    'dino_in0': ('rewind', 0.70), 'dino_in1': ('living', 0.04), 'walk0': ('living', 0.00), 'walk1': ('living', 0.22),
-    'munch0': ('living', 0.22), 'munch1': ('rests', 0.02), 'turtle0': ('living', 0.05), 'turtle1': ('rests', 0.40),
+    'dino_in0': ('rewind', 0.70), 'dino_in1': ('living', 0.03), 'walk0': ('living', 0.00), 'walk1': ('living', 0.20),
+    'munch0': ('living', 0.20), 'munch1': ('living', 0.86), 'turtle0': ('living', 0.05), 'turtle1': ('rests', 0.40),
     # the old dinosaur rests: the babies grow and walk off with the herd; it walks to the bank, lies down, stays still
-    'grow0': ('rests', 0.00), 'grow1': ('rests', 0.30), 'leave0': ('rests', 0.25), 'leave1': ('rests', 0.85),
-    'towater0': ('rests', 0.05), 'towater1': ('rests', 0.45), 'lie0': ('rests', 0.45), 'lie1': ('rests', 0.72),
-    'curl0': ('rests', 0.66), 'curl1': ('rests', 0.92), 'soft0': ('rests', 0.10), 'soft1': ('rests', 0.85),
-    'leaf0': ('rests', 0.55), 'leaf1': ('rests', 0.98),
+    'grow0': ('living', 0.80), 'grow1': ('rests', 0.15), 'leave0': ('rests', 0.05), 'leave1': ('rests', 0.90),
+    'towater0': ('living', 0.86), 'towater1': ('rests', 0.35), 'lie0': ('rests', 0.35), 'lie1': ('rests', 0.65),
+    'curl0': ('rests', 0.60), 'curl1': ('rests', 0.92), 'soft0': ('living', 0.90), 'soft1': ('rests', 0.85),
+    'leaf0': ('rests', 0.50), 'leaf1': ('rests', 0.98),
     # mud: rain and a gentle flood; the body fades to the skeleton; the mud covers it like a blanket; bones in the face
     'rainA0': ('mud', 0.00), 'rainA1': ('mud', 0.80), 'flood0': ('mud', 0.08), 'flood1': ('mud', 0.30), 'flood2': ('mud', 0.70),
     'flood3': ('mud', 0.95), 'skel0': ('mud', 0.15), 'skel1': ('mud', 0.40), 'mud0': ('mud', 0.42), 'mud1': ('mud', 0.82),
     'bones_in0': ('mud', 0.72), 'bones_in1': ('mud', 0.95),
     # layer on layer: five layers, each brought by water (slots), the eras race by above (forest, ice, mammoths, grass, forest)
     'stack0': ('layers', 0.00), 'stack1': ('layers', 1.00), 'hump1': ('layers', 0.15),
-    # bone to stone: the magnifier window opens, drops seep in, the stone front runs along, the bright hit at the end
-    'lens0': ('stone', 0.02), 'lens1': ('stone', 0.10), 'seep0': ('stone', 0.10), 'seep1': ('stone', 0.80), 'stone0': ('stone', 0.22),
-    'hit': ('stone', 0.86), 'lens2': ('stone', 0.95), 'lens3': ('wear', 0.05),
+    # bone to stone: the magnifier window opens, drops seep in, the stone front runs along; THE HIT at 43.0 s (5/6 of the beat)
+    'lens0': ('stone', 0.02), 'lens1': ('stone', 0.10), 'seep0': ('stone', 0.10), 'seep1': ('stone', 0.78), 'stone0': ('stone', 0.20),
+    'hit': ('stone', 5.0 / 6.0), 'lens2': ('stone', 0.95), 'lens3': ('wear', 0.12),
     # the land wears away: wind and rain, the top wears down, the hills shrink; today's meadow comes back
-    'rain0': ('wear', 0.00), 'rain1': ('wear', 0.82), 'erode0': ('wear', 0.05), 'erode1': ('wear', 0.86),
-    'green0': ('wear', 0.70), 'green1': ('find', 0.10),
-    # the find: she walks in, kneels at the little rock face, brushes; the bone appears; FOSSIL!; she jumps for joy
-    'girl0': ('wear', 0.78), 'girl1': ('find', 0.22), 'kneel0': ('find', 0.20), 'kneel1': ('find', 0.30), 'brush0': ('find', 0.30),
-    'brush1': ('find', 0.74), 'pit0': ('find', 0.32), 'pit1': ('find', 0.72), 'cheer0': ('find', 0.76), 'cheer1': ('find', 1.00),
-    'label0': ('find', 0.66), 'label1': ('send', 0.22), 'flyup0': ('find', 0.78),      # the label: 2.58 s on screen (rule: 2.5 s or more)
-    # the send-off: she holds her toy dinosaur up next to the fossil, the mascot waves, the red ball rolls back
-    'hold0': ('send', 0.06), 'hold1': ('send', 0.30), 'wave0': ('send', 0.25), 'ballback0': ('send', 0.30), 'ballback1': ('send', 0.75),
+    'rain0': ('wear', 0.00), 'rain1': ('wear', 0.85), 'erode0': ('wear', 0.03), 'erode1': ('wear', 0.80),
+    'green0': ('wear', 0.55), 'green1': ('find', 0.05),
+    # the find: she runs in from the meadow beside the dig, kneels at the little rock face, brush, brush (47.0 to 49.4);
+    # the bone appears ON THE CLIMAX at 49.5 s (1/3 of the beat) with FOSSIL!; she jumps for joy
+    'girl0': ('wear', 0.58), 'girl1': ('wear', 0.95), 'kneel0': ('wear', 0.93), 'kneel1': ('find', 0.02), 'brush0': ('find', 0.00),
+    'brush1': ('find', 0.32), 'pit0': ('find', 0.01), 'pit1': ('find', 1.0 / 3.0), 'cheer0': ('find', 0.345), 'cheer1': ('find', 0.62),
+    'label0': ('find', 1.0 / 3.0), 'label1': ('find', 0.70), 'flyup0': ('find', 0.35),      # the label: 2.75 s on screen
+    # the send-off: the ball rolls back; she lifts her toy dinosaur up beside the fossil on the final swell (57 to 60 s);
+    # WHAT IS UNDER YOUR FEET? over the last quiet chord (60 to 65 s); the mascot waves
+    'ballback0': ('send', 0.08), 'ballback1': ('send', 0.28), 'hold0': ('send', 2.5 / 10.5), 'hold1': ('send', 5.5 / 10.5),
+    'words_send': ('send', 5.5 / 10.5), 'wave0': ('send', 0.60),
 }
 W.set_events({k: (BEAT_NAMES[b], u) for k, (b, u) in EVENTS.items()})
+W.WORD_IN[BEAT_NAMES['send']] = W.B.words_send          # the last words wait for the last chord
 
 import szmats as M  # noqa: E402
 import szlife as LF  # noqa: E402
@@ -84,7 +88,7 @@ SETTINGS = {'samples': 32, 'denoise': True, 'motion_blur': False, 'view_transfor
             'exposure': 0.0, 'max_bounces': 4, 'volume_bounces': 0, 'clamp_indirect': 6.0, 'adaptive_min_samples': 12,
             'denoising_prefilter': 'ACCURATE'}
 
-AZ0, SWAY = -62.0, 2.0                  # camera azimuth; a 2 degree sway on one slow sine over the whole film
+AZ0, SWAY = W.VIEW_AZ, 2.0                 # camera azimuth; a 2 degree sway on one slow sine over the whole film
 EL, LENS, FILL = 21.0, 50.0, 0.86
 SUN_AZ = -118.0                        # sun from the front left, so the front face takes the light
 # sun per mood (today, fern era, evening, deep time): elevation, energy, colour
@@ -119,9 +123,68 @@ def capture(L):
     me = L.objects['top'].data; n = len(me.vertices); co = np.empty(n * 3, np.float32); me.vertices.foreach_get('co', co); top = co.reshape(-1, 3).astype(float)
     a = me.attributes.new('rd', 'FLOAT', 'POINT'); a.data.foreach_set('value', W.river_d(top[:, 0], top[:, 1]).astype(np.float32))
     a = me.attributes.new('rk', 'FLOAT', 'POINT'); a.data.foreach_set('value', W.rock_patch(top[:, 0], top[:, 1]).astype(np.float32))
+    a = me.attributes.new('far', 'FLOAT', 'POINT'); a.data.foreach_set('value', np.zeros(len(top), np.float32))
     me = L.objects['walls'].data; n = len(me.vertices); co = np.empty(n * 3, np.float32); me.vertices.foreach_get('co', co); wl = co.reshape(-1, 3).astype(float)
     zt0 = W.top_h(wl[:, 0], wl[:, 1], 0.0); uu = np.clip((wl[:, 2] - zt0) / (W.ZB - zt0), 0, 1)
     return {'top': top, 'walls': wl, 'uu': uu}
+
+
+def add_trench_walls(kit, L):
+    """Append the two visible walls of the viewing trench to the block's walls mesh (same strata paint, same per-frame
+    heights): the trench's left wall (x = -HX, facing +x) and the back wall beside the +X face (y = +HY, facing -y)."""
+    bpy = kit.bpy; me = L.objects['walls'].data
+    V = np.array([v.co[:] for v in me.vertices]); F = [tuple(p.vertices) for p in me.polygons]; Mi = [p.material_index for p in me.polygons]
+    rows = 18
+    def strip(P, normal):
+        o = len(V_); n = len(P)
+        for x, y in P:
+            zt = float(W.top_h(np.array([x]), np.array([y]), 0.0)[0])
+            for r in range(rows + 1):
+                u = (r / rows) ** 1.6; V_.append((x, y, zt + (W.ZB - zt) * u))
+        for i in range(n - 1):
+            for r in range(rows):
+                a = o + i * (rows + 1) + r; c = o + (i + 1) * (rows + 1) + r; q = (a, a + 1, c + 1, c)
+                p0, p1, p2 = (np.array(V_[q[0]]), np.array(V_[q[1]]), np.array(V_[q[2]]))
+                if np.cross(p1 - p0, p2 - p0) @ np.asarray(normal) < 0: q = q[::-1]
+                F_.append(q); M_.append(0)
+    V_ = [tuple(v) for v in V]; F_ = list(F); M_ = list(Mi)
+    strip([(-W.HX, y) for y in np.linspace(-W.HY - W.TW, -W.HY, 27)], (1, 0, 0))
+    strip([(x, W.HY) for x in np.linspace(W.HX, W.HX + W.TWX, 13)], (0, -1, 0))
+    nm = cw.mk_mesh(bpy, 'fs_wallsmesh', V_, F_, list(me.materials), M_, False, None, {'sd': ('FLOAT', np.zeros(len(V_))), 'dtop': ('FLOAT', np.zeros(len(V_)))})
+    old = me; L.objects['walls'].data = nm.data; bpy.data.objects.remove(nm, do_unlink=True)
+    # the dig's floor: earth, just below the part of the faces the land beyond leaves in view
+    zf = -0.80; x0, x1, y0, y1 = -W.HX, W.HX + W.TWX, -W.HY - W.TW, W.HY
+    Vf = [(x0, y0, zf), (x1, y0, zf), (x1, -W.HY, zf), (x0, -W.HY, zf), (W.HX, -W.HY, zf), (x1, y1, zf), (W.HX, y1, zf)]
+    fm = cw.mat_simple(kit, 'sz_digfloor', (0.50, 0.38, 0.30), 0.9, noise_amt=0.3)
+    cw.mk_mesh(bpy, 'fs_trenchfloor', Vf, [(0, 1, 2, 3), (4, 2, 5, 6)], [fm], None, False, kit.coll)
+
+
+def build_world(kit, D, top_mat, water_mat, res=0.1):
+    """The land around and behind the block, out to the hills: one grid at the same heights (szworld.top_h) and in the
+    same ground paint (it follows every era), minus the block and the viewing trench; and a flood sheet with the same
+    holes (the floods spread over the whole plain)."""
+    xs = np.round(np.arange(-12.0, 12.0 + 1e-6, res), 4); ys = np.round(np.arange(-9.0, 14.0 + 1e-6, res), 4)
+    X, Y = np.meshgrid(xs, ys); nx, ny = len(xs), len(ys); ii = np.arange(nx * ny).reshape(ny, nx)
+    q = np.stack([ii[:-1, :-1].ravel(), ii[:-1, 1:].ravel(), ii[1:, 1:].ravel(), ii[1:, :-1].ravel()], 1)
+    cx = (X[:-1, :-1] + X[1:, 1:]).ravel() / 2; cy = (Y[:-1, :-1] + Y[1:, 1:]).ravel() / 2
+    keep = ~(W.in_block(cx, cy) | W.in_trench(cx, cy)); q = q[keep]
+    used = np.unique(q); remap = -np.ones(nx * ny, int); remap[used] = np.arange(len(used)); q = remap[q]
+    P = np.column_stack([X.ravel(), Y.ravel()])[used]
+    attrs = {'rd': ('FLOAT', W.river_d(P[:, 0], P[:, 1])), 'rk': ('FLOAT', np.zeros(len(P))), 'far': ('FLOAT', W.far(P[:, 0], P[:, 1]))}
+    V = np.column_stack([P, W.top_h(P[:, 0], P[:, 1], 0.0)])
+    ob = cw.mk_mesh(kit.bpy, 'fs_world', V, q.tolist(), [top_mat], None, True, kit.coll, attrs)
+    fl = cw.mk_mesh(kit.bpy, 'fs_floodworld', V, q.tolist(), [water_mat], None, False, kit.coll); fl.visible_shadow = False
+    return {'ob': ob, 'P': P, 'flood': fl}
+
+
+def world_pose(Wd, t):
+    P = Wd['P']; z = W.top_h(P[:, 0], P[:, 1], t)
+    me = Wd['ob'].data; me.vertices.foreach_set('co', np.column_stack([P, z]).astype(np.float32).ravel()); me.update()
+    f = W.flood_level(t)
+    if f > -0.9:
+        lv = W.base(t) + f + 0.02; Wd['flood'].hide_render = False
+        me = Wd['flood'].data; me.vertices.foreach_set('co', np.column_stack([P, lv - W.drop(P[:, 0], P[:, 1])]).astype(np.float32).ravel()); me.update()
+    else: Wd['flood'].hide_render = True
 
 
 def build_water(kit, D):
@@ -132,7 +195,7 @@ def build_water(kit, D):
     F = [(3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
     mat = M.mat_water(kit, D)
     ob = cw.mk_mesh(kit.bpy, 'fs_flood', V, F, [mat], None, False, kit.coll); ob.visible_shadow = False
-    C = cw.catmull([tuple(p) for p in W.RIVER], 90); T = np.gradient(C, axis=0); T /= np.linalg.norm(T, axis=1)[:, None]; N = np.column_stack([-T[:, 1], T[:, 0]])
+    C = cw.catmull([tuple(p) for p in W.RIVER], 260); T = np.gradient(C, axis=0); T /= np.linalg.norm(T, axis=1)[:, None]; N = np.column_stack([-T[:, 1], T[:, 0]])
     n = len(C); Fr = [(2 * i, 2 * i + 2, 2 * i + 3, 2 * i + 1) for i in range(n - 1)] + [(2 * n, 2 * n + 1, 2 * n + 2, 2 * n + 3)]
     rib = cw.mk_mesh(kit.bpy, 'fs_river', np.zeros((2 * n + 4, 3)), Fr, [mat], None, False, kit.coll); rib.visible_shadow = False
     ye = float(np.interp(W.HX, C[:, 0], C[:, 1]))
@@ -148,11 +211,9 @@ def water_pose(Wt, t):
     else: Wt['ob'].hide_render = True
     if d < 1e-3 or w < 0.01: Wt['rib'].hide_render = True; return
     lv = bz - 0.012 - 0.5 * d; hw = w + 0.05; C, N = Wt['C'], Wt['N']
-    P = np.concatenate([np.stack([C - N * hw, C + N * hw], 1).reshape(-1, 2)], 0)
-    P[:, 0] = np.clip(P[:, 0], -W.HX + e, W.HX - e); P[:, 1] = np.clip(P[:, 1], -W.HY + e, W.HY - e)
-    V = np.column_stack([P, np.full(len(P), lv)])
-    ye = Wt['ye']; sk = np.array([(W.HX - e, ye - hw, lv - d - 0.03), (W.HX - e, ye + hw, lv - d - 0.03), (W.HX - e, ye + hw, lv), (W.HX - e, ye - hw, lv)])
-    V = np.vstack([V, sk]); Wt['rib'].hide_render = False
+    P = np.stack([C - N * hw, C + N * hw], 1).reshape(-1, 2)
+    V = np.vstack([np.column_stack([P, lv - W.drop(P[:, 0], P[:, 1])]), np.full((4, 3), (0.0, 0.0, -50.0))])
+    Wt['rib'].hide_render = False
     Wt['rib'].data.vertices.foreach_set('co', V.astype(np.float32).ravel()); Wt['rib'].data.update()
 
 
@@ -182,9 +243,11 @@ def build(bpy, ctx):
     kit = cw.Kit(bpy, seed=5, loop=W.DURATION); D = M.Drive()
     L = cw.block(kit, size=(W.SX, W.SY), depth=-W.ZB, strata=W.STRATA, top=lambda x, y: W.top_h(x, y, 0.0), water=None, seed=5, season='summer',
                  res=0.025, grass=0, trees=0, boulders=0, flowers=0, under=False, lilies=0, reeds=0, name='fs_block')
+    add_trench_walls(kit, L)
     geo = capture(L)
     L.objects['top'].data.materials[0] = M.mat_top(kit, D)
     water = build_water(kit, D)
+    world = build_world(kit, D, L.objects['top'].data.materials[0], water['rib'].data.materials[0])
     plants = LF.build_plants(kit, L, D, rng); trees = LF.build_trees(kit, D)
     dino = LF.build_dino(kit, D); girl = LF.build_girl(kit, D); dug = LF.build_dug_bone(kit, D)
     critters = LF.build_critters(kit, D, rng); birds = LF.build_birds(kit, D, rng); flutter = LF.build_flutter(kit, D, rng)
@@ -195,12 +258,12 @@ def build(bpy, ctx):
     fossil = FO.build(kit, D); rain = build_rain(kit, D, rng)
     cw.studio(kit, color=(0.93, 0.90, 0.84), key_az=SUN_AZ, key_el=45.0, key=3.2, angle=6.0, fill=0.8, land=L)
     cam = cw.camera(kit, L, '16:9' if ctx['W'] >= ctx['H'] else '9:16', az=AZ0, el=EL, lens=LENS, fill=FILL, top_extra=0.75)
-    cam.pose(target=cam.target + np.array([0.0, 0.0, 0.10]))          # the block sits a little low: the sky holds the words
+    cam.pose(target=cam.target + np.array([0.0, 0.0, 0.50]))          # the block sits low: the land behind, the hills and the sky hold the words
     back = BK.build(kit, D, cam, ctx)
     words = WD.Words(kit, D, cam, ROOT)
     lens = ST.Lens(kit, D, cam, (W.DINO_LIE_X - 0.12 * W.DINO_K, -W.HY, W.Z_ANC + 0.09))
     cw.apply_cycles(bpy); sc = bpy.context.scene; sc.cycles.transparent_max_bounces = 24
-    S = {'kit': kit, 'D': D, 'land': L, 'geo': geo, 'water': water, 'plants': plants, 'trees': trees, 'dino': dino, 'girl': girl, 'dug': dug,
+    S = {'kit': kit, 'D': D, 'land': L, 'geo': geo, 'water': water, 'world': world, 'plants': plants, 'trees': trees, 'dino': dino, 'girl': girl, 'dug': dug,
          'critters': critters, 'birds': birds, 'flutter': flutter, 'eggs': eggs, 'snail': snail, 'story': story, 'lens': lens, 'fossil': fossil, 'rain': rain, 'back': back, 'words': words,
          'cam': cam, 'az0': cam.az, 'sun': bpy.data.objects['cw_sun']}
     frame(bpy, ctx, S, 0, 0.0)
@@ -243,7 +306,8 @@ def frame(bpy, ctx, S, i, t):
     D.set('wet', max(wet, 0.6 * W.win(t, B.rain0 + 0.5, B.rain1 + 0.4, 0.5), 0.5 * W.win(t, B.rainA0 + 0.5, B.flood0 + 0.5, 0.4)))
     D.set('rw', W.channel(t)[0]); D.set('rockamt', e)
     # ---- water: the river and brook in their bed, the flood over everything
-    water_pose(S['water'], t)
+    water_pose(S['water'], t); world_pose(S['world'], t)
+    D.setc('haze', blend4(t, ((0.66, 0.78, 0.74), (0.34, 0.54, 0.52), (0.72, 0.56, 0.52), (0.72, 0.76, 0.84))))
     D.set('murk', W.sm(-0.05, 0.02, fl)); D.set('walpha', 1.0)
     # ---- the camera holds (a 2 degree sway over the whole film); the light follows the story
     S['cam'].pose(az=S['az0'] + SWAY * math.sin(2 * math.pi * t / W.DURATION))

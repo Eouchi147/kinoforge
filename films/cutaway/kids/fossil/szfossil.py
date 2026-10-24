@@ -59,10 +59,11 @@ def skeleton(grow=0.0):
     T = np.gradient(P, axis=0); T /= np.linalg.norm(T, axis=1)[:, None]; Nn = np.column_stack([-T[:, 1], T[:, 0]])
     S = Shapes(); g = grow
     # vertebrae: a bead every few samples, long in the neck, round in the back, tiny in the tail
-    for i in range(1, n - 3, 2):
-        r = 0.50 * R[i] + 0.012
-        if u[i] > 0.72: S.fan(tuple(P[i]), _capsule(P[i] - T[i] * 0.022, P[i] + T[i] * 0.022, 0.6 * r * 0.75 + g), u[i])
-        else: S.fan(tuple(P[i]), _ellipse(P[i], 0.55 * r + 0.004 + g, 0.75 * r + g, math.atan2(T[i, 1], T[i, 0])), u[i])
+    for i in range(1, n - 3):
+        if 0.35 <= u[i] <= 0.72 and i % 2: continue           # the back: a bead every other sample; neck and tail: every sample
+        r = 0.55 * R[i] + 0.018
+        if u[i] > 0.72: S.fan(tuple(P[i]), _capsule(P[i] - T[i] * 0.020, P[i] + T[i] * 0.020, 0.80 * r + g), u[i])
+        else: S.fan(tuple(P[i]), _ellipse(P[i], 0.58 * r + 0.004 + g, 0.80 * r + g, math.atan2(T[i, 1], T[i, 0])), u[i])
     # ribs: curved bones from the spine down over the belly
     for i in range(int(0.42 * n), int(0.67 * n), 2):
         a = P[i]; L = 0.85 * R[i]; d = -Nn[i]
@@ -80,9 +81,11 @@ def skeleton(grow=0.0):
             S.fan(tuple((a + b) / 2), _capsule(a, b, 0.017 + g), u[i0])
             for c in (a, b): S.fan(tuple(c), _ellipse(c, 0.026 + g, 0.023 + g), u[i0])
         S.fan(tuple(foot + (0.03, 0)), _ellipse(foot + np.array([0.03, 0.0]), 0.034 + g, 0.012 + g), u[i0])
-    # the skull: rounded, resting on the ground at the end of the neck
-    h = P[-1] + T[-1] * 0.03
-    S.fan(tuple(h), _ellipse(h, 0.085 + g, 0.050 + g, math.atan2(T[-1, 1], T[-1, 0]) * 0.5, 20), 1.0)
+    # the skull: a rounded cranium and a blunt snout, resting on the ground at the end of the neck
+    h = P[-1] + T[-1] * 0.03; ang = math.atan2(T[-1, 1], T[-1, 0]) * 0.5
+    S.fan(tuple(h), _ellipse(h, 0.098 + g, 0.060 + g, ang, 20), 1.0)
+    sn = h + np.array([math.cos(ang), math.sin(ang)]) * 0.085
+    S.fan(tuple(sn), _ellipse(sn, 0.060 + g, 0.036 + g, ang, 16), 1.0)
     return S
 
 
@@ -96,8 +99,8 @@ def build(kit, D):
     outline = cw.mk_mesh(bpy, 'fs_bones_ink', [(x, Y_FACE + 0.0008, z) for x, z in O.V], O.F, [ink], None, False, kit.coll)
     # the eye socket of the skull (a darker hollow)
     P, R = dino_fossil_2d(W.DINO_K); P = P + np.array([W.DINO_LIE_X, W.Z_ANC]); T = P[-1] - P[-2]; T /= np.linalg.norm(T)
-    c = P[-1] + T * 0.045 + np.array([0, 0.008]); V, F = [], []
-    V.append((c[0], Y_FACE - 0.0006, c[1])); V += [(c[0] + 0.013 * math.cos(a), Y_FACE - 0.0006, c[1] + 0.011 * math.sin(a)) for a in np.linspace(0, 2 * math.pi, 13)[:-1]]
+    c = P[-1] + T * 0.040 + np.array([0, 0.014]); V, F = [], []
+    V.append((c[0], Y_FACE - 0.0006, c[1])); V += [(c[0] + 0.017 * math.cos(a), Y_FACE - 0.0006, c[1] + 0.015 * math.sin(a)) for a in np.linspace(0, 2 * math.pi, 13)[:-1]]
     F = [(0, 1 + k, 1 + (k + 1) % 12) for k in range(12)]
     sock = cw.mk_mesh(bpy, 'fs_socket', V, F, [ink], None, False, kit.coll)
     # sparkles (gold, four-pointed stars) and drops (blue diamonds), facing out of the face

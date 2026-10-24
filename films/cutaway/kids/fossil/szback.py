@@ -29,9 +29,9 @@ from szgeo import Parts, Dino, sphere, tube, cone, box, rz, rx, ry, I3
 # per layer: distance behind the block centre, crest height (z), roll, rounding radius, sRGB (today, fern era, evening, deep)
 # v: where the crest sits on screen (fraction of the half height above the centre), so the sky keeps the top of the frame
 LAYERS = [
-    dict(d=2.6, v=0.30, amp=0.16, f=0.55, R=0.9, seed=3, cols=((0.54, 0.72, 0.46), (0.22, 0.50, 0.40), (0.62, 0.52, 0.42), (0.62, 0.70, 0.70))),
-    dict(d=5.0, v=0.43, amp=0.26, f=0.40, R=1.3, seed=7, cols=((0.50, 0.68, 0.58), (0.20, 0.44, 0.46), (0.66, 0.50, 0.46), (0.66, 0.72, 0.78))),
-    dict(d=7.8, v=0.54, amp=0.36, f=0.28, R=1.8, seed=11, cols=((0.68, 0.78, 0.84), (0.38, 0.52, 0.64), (0.78, 0.60, 0.58), (0.78, 0.82, 0.90))),
+    dict(d=3.8, v=0.44, amp=0.16, f=0.55, R=0.9, seed=3, cols=((0.54, 0.72, 0.46), (0.22, 0.50, 0.40), (0.62, 0.52, 0.42), (0.62, 0.70, 0.70))),
+    dict(d=5.8, v=0.50, amp=0.26, f=0.40, R=1.3, seed=7, cols=((0.50, 0.68, 0.58), (0.20, 0.44, 0.46), (0.66, 0.50, 0.46), (0.66, 0.72, 0.78))),
+    dict(d=7.8, v=0.56, amp=0.36, f=0.28, R=1.8, seed=11, cols=((0.68, 0.78, 0.84), (0.38, 0.52, 0.64), (0.78, 0.60, 0.58), (0.78, 0.82, 0.90))),
 ]
 
 
@@ -116,7 +116,7 @@ def build(kit, D, cam, ctx):
         return out_
     # crests: trees of both eras along all three layers
     for li, L in enumerate(LAYERS):
-        hw = (F3.dist + L['d']) * hf * 1.25; n = (16, 22, 28)[li]; H = (0.30, 0.40, 0.50)[li]
+        hw = (F3.dist + L['d']) * hf * 1.25; n = (12, 16, 22)[li]; H = (0.26, 0.34, 0.42)[li]
         for s in np.sort(rng.uniform(-hw, hw, n)):
             dz = rng.uniform(0.0, 0.25 * L['R']); h = H * rng.uniform(0.7, 1.3)
             put(L, s, 1, 'tree', lollipop(h, 0.22 * h) if rng.uniform() < 0.7 else poplar(h * 1.2), dz)

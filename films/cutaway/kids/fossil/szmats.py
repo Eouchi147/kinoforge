@@ -87,6 +87,10 @@ def mat_top(kit, D):
     lines = g.math('MULTIPLY', g.math('SUBTRACT', g.math('ABSOLUTE', g.math('SINE', g.math('MULTIPLY', g.sep(P)[2], 220.0))), 0.85), 6.0, clamp=True)
     face = g.mix(g.math('MULTIPLY', lines, 0.6), srgb((0.40, 0.58, 0.52)), srgb((0.62, 0.76, 0.68)))
     col = g.mix(g.math('MULTIPLY', steep, rk), col, face)
+    # the land around the block: a small step of light just outside it, then haze with distance (attribute far)
+    fa = g.attr('far').outputs['Fac']
+    col = g.mix(1.0, col, g.math('SUBTRACT', 1.0, g.math('MULTIPLY', g.math('MINIMUM', fa, 0.25), 0.9)), 'MULTIPLY')
+    col = g.mix(g.math('MULTIPLY', g.math('MAXIMUM', g.math('SUBTRACT', fa, 0.18), 0.0), 1.3), col, D.rgb(g, 'haze', (0.62, 0.74, 0.72)))
     wet = D.val(g, 'wet')
     col = g.mix(g.math('MULTIPLY', wet, 0.4), col, g.mix(1.0, col, (0.5, 0.5, 0.55, 1), 'MULTIPLY'))
     p = g.node('ShaderNodeBsdfPrincipled', ins={'Base Color': col}); g.put(p, 'Roughness', g.math('SUBTRACT', 0.85, g.math('MULTIPLY', wet, 0.5)))

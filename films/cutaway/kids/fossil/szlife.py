@@ -103,6 +103,22 @@ def proto_fern(kit, mat, seed, height, fronds=7):
     return A.build(kit.bpy, f'fs_fern{seed}', [mat], True, None)
 
 
+def world_pts(rng, step, rmax, rmin=0.0):
+    """Jittered points on the land around the block (not on it, not in the viewing trench), from rmin to rmax metres away."""
+    xs = np.arange(-W.HX - rmax, W.HX + rmax, step); ys = np.arange(-W.HY - rmax, W.HY + rmax, step)
+    X, Y = np.meshgrid(xs, ys); P = np.column_stack([X.ravel(), Y.ravel()]) + rng.uniform(-0.5, 0.5, (X.size, 2)) * step
+    d = np.hypot(np.maximum(np.abs(P[:, 0]) - W.HX, 0), np.maximum(np.abs(P[:, 1]) - W.HY, 0))
+    ok = ~W.in_block(P[:, 0], P[:, 1]) & ~W.in_trench(P[:, 0], P[:, 1]) & (d <= rmax) & (d >= rmin)
+    # thinner with distance (the haze takes over)
+    ok &= rng.uniform(0, 1, len(P)) < np.clip(1.15 - d / rmax, 0.15, 1.0)
+    return P[ok]
+
+
+def behind(P, margin=-0.6):
+    """Keep points that are not between the camera and the block (tall things there would wall off the view)."""
+    return P[W.depth_s(P[:, 0], P[:, 1]) > float(min(W.depth_s(np.array([-W.HX, W.HX]), np.array([-W.HY, -W.HY])))) - margin]
+
+
 def build_plants(kit, L, D, rng):
     """Ferns (long ago), grass and flowers (today), the little plants of each new layer: instanced by the kit's scatter
     (wind sway), their heights and sizes rewritten every frame (they follow the moving top and grow or fold away)."""
@@ -115,6 +131,7 @@ def build_plants(kit, L, D, rng):
     lane = (np.abs(P[:, 1] - W.DINO_Y) < 0.26) & (P[:, 0] > -1.9) & (P[:, 0] < 1.15)
     keep = (rd > 0.34) & ~lane & (rng.uniform(0, 1, len(P)) < 0.85)
     P = P[keep]
+    Pw = behind(world_pts(rng, 0.12, 4.0)); Pw = Pw[W.river_d(Pw[:, 0], Pw[:, 1]) > 0.34]; P = np.vstack([P, Pw])
     # the clump it munches, right in front of its nose
     clump = np.array([(0.10, W.DINO_Y - 0.02), (0.20, W.DINO_Y + 0.08), (0.02, W.DINO_Y + 0.10), (0.16, W.DINO_Y - 0.12)])
     P = np.vstack([P, clump]); n = len(P)
@@ -129,19 +146,21 @@ def build_plants(kit, L, D, rng):
     xs = np.arange(-W.HX + 0.02, W.HX - 0.01, 0.034); X, Y = np.meshgrid(xs, np.arange(-W.HY + 0.02, W.HY - 0.01, 0.034))
     Q = np.column_stack([X.ravel(), Y.ravel()]) + rng.uniform(-0.016, 0.016, (X.size, 2))
     rd = W.river_d(Q[:, 0], Q[:, 1]); rk = W.rock_patch(Q[:, 0], Q[:, 1])
-    Q = Q[(rd > 0.19) & (rk < 0.25) & (np.abs(Q) < [W.HX - 0.006, W.HY - 0.006]).all(1)]; n = len(Q)
+    Q = Q[(rd > 0.19) & (rk < 0.25) & (np.abs(Q) < [W.HX - 0.006, W.HY - 0.006]).all(1)]
+    Qw = world_pts(rng, 0.05, 1.8); Qw = Qw[W.river_d(Qw[:, 0], Qw[:, 1]) > 0.19]; Q = np.vstack([Q, Qw]); n = len(Q)
     sc = rng.uniform(0.7, 1.3, n)
     ob = L.scatter('sz_grass', tufts, Q, yaw=rng.uniform(0, 6.28, n), scale=sc, variant=rng.integers(0, 6, n), sway=0.22, speed=0.9, z=0.0)
     out['grass'] = (ob, Q, sc, rng.uniform(0, 0.4, n))
     fl = cw.proto_flowers(kit, 5, 7)
     R = rng.uniform([-W.HX + 0.05, -W.HY + 0.05], [W.HX - 0.05, W.HY - 0.05], (260, 2))
-    R = R[(W.river_d(R[:, 0], R[:, 1]) > 0.22) & (W.rock_patch(R[:, 0], R[:, 1]) < 0.05)]; n = len(R)
+    R = R[(W.river_d(R[:, 0], R[:, 1]) > 0.22) & (W.rock_patch(R[:, 0], R[:, 1]) < 0.05)]
+    Rw = world_pts(rng, 0.16, 2.2); Rw = Rw[W.river_d(Rw[:, 0], Rw[:, 1]) > 0.22]; R = np.vstack([R, Rw]); n = len(R)
     sc = rng.uniform(0.9, 1.5, n)
     ob = L.scatter('sz_flowers', fl, R, yaw=rng.uniform(0, 6.28, n), scale=sc, variant=rng.integers(0, 5, n), sway=0.18, speed=0.9, z=0.0)
     out['flowers'] = (ob, R, sc, rng.uniform(0.2, 0.7, n))
     # little plants on each new layer (deep time): sprout after each flood, buried by the next
     small = [proto_fern(kit, fern_m, 11 + s, 0.07, 5) for s in range(3)]
-    S = rng.uniform([-W.HX + 0.06, -W.HY + 0.06], [W.HX - 0.06, W.HY - 0.06], (150, 2)); n = len(S)
+    S = rng.uniform([-W.HX + 0.06, -W.HY + 0.06], [W.HX - 0.06, W.HY - 0.06], (150, 2)); S = np.vstack([S, world_pts(rng, 0.18, 2.0)]); n = len(S)
     sc = rng.uniform(0.8, 1.3, n); slot = rng.integers(-1, 5, n)      # -1: the mud blanket's own plants
     ob = L.scatter('sz_sprouts', small, S, yaw=rng.uniform(0, 6.28, n), scale=sc, variant=rng.integers(0, 3, n), sway=0.10, speed=0.6, z=0.0)
     out['sprouts'] = (ob, S, sc, slot, rng.uniform(0, 0.3, n))
@@ -218,10 +237,24 @@ def _tree(A, base, H, crown_r, seed, mat_trunk=0, mat_crown=1, kind='round'):
 
 # meadow trees today (x, y, height, crown radius, kind); the kite is stuck in the third one
 TODAY_TREES = [(-1.50, 0.78, 0.66, 0.20, 'round'), (-0.65, 0.90, 0.56, 0.17, 'round'), (0.95, 0.80, 0.70, 0.21, 'round'),
-               (1.52, 0.42, 0.62, 0.13, 'fir'), (-1.62, -0.25, 0.44, 0.13, 'round'), (0.20, 0.95, 0.50, 0.11, 'fir')]
+               (1.62, -0.30, 0.62, 0.13, 'fir'), (-1.62, -0.25, 0.44, 0.13, 'round'), (0.20, 0.95, 0.50, 0.11, 'fir')]
 OLD_TREES = [(-1.58, -0.66, 0.58, 0.30, 'treefern'), (-1.35, 0.62, 0.64, 0.30, 'treefern'), (-0.25, 0.84, 0.56, 0.26, 'treefern'),
              (1.12, 0.66, 0.60, 0.28, 'treefern'), (1.58, -0.70, 0.46, 0.24, 'treefern'), (-0.85, 0.95, 0.92, 0.20, 'puzzle'),
-             (0.48, 0.96, 0.84, 0.18, 'puzzle'), (1.55, 0.92, 0.96, 0.19, 'puzzle')]
+             (0.48, 0.96, 0.84, 0.18, 'puzzle'), (1.05, 1.00, 0.96, 0.19, 'puzzle')]
+
+
+def world_trees(rng):
+    """Trees on the land around the block, both eras: (x, y, height, crown, kind)."""
+    today, old = [], []
+    pts = behind(world_pts(rng, 1.25, 5.0, 0.35), -1.4); pts = pts[W.river_d(pts[:, 0], pts[:, 1]) > 0.45]
+    for i, (x, y) in enumerate(pts):
+        h = rng.uniform(0.40, 0.62)
+        today.append((x, y, h, h * 0.30, 'round' if rng.uniform() < 0.7 else 'fir'))
+    pts = behind(world_pts(rng, 1.05, 5.0, 0.35), -1.4); pts = pts[W.river_d(pts[:, 0], pts[:, 1]) > 0.45]
+    for i, (x, y) in enumerate(pts):
+        h = rng.uniform(0.40, 0.75); k = rng.uniform()
+        old.append((x, y, h, h * 0.45, 'treefern') if k < 0.6 else (x, y, h * 1.3, h * 0.22, 'puzzle'))
+    return today, old
 
 
 def build_trees(kit, D):
@@ -230,8 +263,10 @@ def build_trees(kit, D):
             M.paint(kit, D, 'sz_fir', (0.14, 0.44, 0.40)), M.varied(kit, D, 'sz_oldleaf', [(0.10, 0.48, 0.34), (0.24, 0.60, 0.30), (0.08, 0.40, 0.36)]),
             M.paint(kit, D, 'sz_oldtrunk', (0.40, 0.28, 0.22))]
     items = []
-    for i, (x, y, H, r, kind) in enumerate(TODAY_TREES + OLD_TREES):
-        old = i >= len(TODAY_TREES)
+    wt, wo = world_trees(np.random.default_rng(17))
+    allt = TODAY_TREES + wt + OLD_TREES + wo; n_today = len(TODAY_TREES) + len(wt)
+    for i, (x, y, H, r, kind) in enumerate(allt):
+        old = i >= n_today
         mc = {'round': 1, 'fir': 2, 'treefern': 3, 'puzzle': 3}[kind]
         ids = [pr.add(v, f, mc if m == 1 else (4 if old else 0), pivot=(x, y, 0)) for v, f, m in _tree(None, (x, y), H, r, 100 + i, 0, 1, kind)]
         items.append((ids, x, y, old, (i * 0.37) % 1.0, i * 1.7))
@@ -370,8 +405,8 @@ def build_critters(kit, D, rng):
 
 
 DK, RK = 1.6, 1.6   # the dog and the rabbit at storybook scale (readable on a phone)
-RABBIT_PATH = [(-1.25, -0.62), (-1.0, -0.35), (-1.15, 0.05), (-0.85, 0.30), (-0.45, 0.25), (-0.70, -0.05), (-1.05, -0.30), (-1.25, -0.62)]
-DOG_PATH = [(1.55, 0.95), (1.20, 0.30), (0.95, -0.15), (1.25, -0.70), (1.60, -0.30), (1.45, 0.20), (1.05, 0.05), (0.75, -0.45), (1.25, -0.70)]
+RABBIT_PATH = [(-1.30, -0.70), (-1.05, -0.45), (-1.45, -0.25), (-0.80, -0.30), (-0.60, -0.60), (-1.00, -0.85), (-1.30, -0.70)]
+DOG_PATH = [(1.20, 0.95), (1.10, 0.40), (0.85, -0.45), (1.25, -0.80), (1.62, -0.55), (1.50, -0.10), (1.05, -0.40), (0.75, -0.62), (1.25, -0.80)]
 
 
 def critters_pose(C, t):
@@ -482,11 +517,11 @@ def girl_pose(G_, t):
     """She comes in from the left meadow, kneels in the little hollow beside the rock face, brushes (the bone appears out
     of the rock), jumps for joy, then stands and holds her toy dinosaur up next to the real fossil."""
     B = W.B; pr = G_['parts']; g = G_['g']; k_ = GK
-    if t < B.girl0 or W.today(t) < 0.9:
+    if t < B.girl0 or t < B.green0:
         for v in g.values(): pr.hide(v)
         pr.commit(); return None
     kneel_at = np.array([W.DIG[0] - 0.24, W.DIG[1] - 0.15])
-    path = [np.array([-1.30, 0.10]), np.array([-0.70, -0.55]), kneel_at]
+    path = [np.array([-2.60, -0.55]), np.array([-1.40, -0.60]), np.array([-0.75, -0.66]), kneel_at]      # she runs in from the meadow beside the dig
     u = W.sm(B.girl0, B.girl1, t); p, hd = path_at(path, u)
     walking = B.girl0 < t < B.girl1
     face_bone = math.atan2(W.DIG[1] + 0.04 - kneel_at[1], W.DIG[0] - kneel_at[0])
@@ -495,9 +530,9 @@ def girl_pose(G_, t):
     yaw = turn_to(hd, face_bone, W.sm(B.girl1 - 0.25, B.kneel0 + 0.1, t))
     yaw = turn_to(yaw, face_cam, W.sm(B.hold0 - 0.3, B.hold0 + 0.2, t))
     kn = W.sm(B.kneel0, B.kneel1, t) * (1 - W.sm(B.cheer0, B.cheer0 + 0.3, t))
-    ch = W.win(t, B.cheer0, B.hold0, 0.25)
+    ch = W.win(t, B.cheer0, B.cheer1, 0.25)
     jump = 0.05 * max(0.0, math.sin(2 * math.pi * (t - B.cheer0) / 0.6)) if B.cheer0 < t < B.cheer0 + 1.2 else 0.0
-    sw = math.sin(2 * math.pi * 1.6 * t) if walking else 0.0
+    sw = math.sin(2 * math.pi * 2.6 * t) if walking else 0.0      # running steps
     z0 = gz(p[0], p[1], t) + (0.112 - 0.075 * kn + jump) * k_
     root = np.array([p[0], p[1], z0]); R0 = rz(yaw)
     lean = 0.45 * kn * W.win(t, B.brush0, B.brush1, 0.3) + 0.2 * kn
@@ -590,6 +625,7 @@ def build_eggs(kit, D):
 
 BALL_R = 0.036 * 1.6
 CAR = (W.HX - 0.012, 0.30, -0.046)
+DUCK_PATH = [p for p in cw.catmull([tuple(q) for q in W.RIVER], 240) if abs(p[0]) < W.HX - 0.25 and abs(p[1]) < W.HY - 0.15]
 KITE = (1.08, 0.56, 0.46)          # on the camera side of the big tree's crown
 TEDDY = (-1.05, -0.62)
 
@@ -620,9 +656,9 @@ def eggs_pose(E, t):
     for j in e['car']: put(j, CAR, I3)
     # today: the rubber duck floats down the brook; long ago: the duck-shaped flower floats down the river on a pad
     old = W.ancient(t) > 0.6 and t < B.flood0
-    u = (t * 0.035) % 1.0; xs = 0.05 + 1.65 * u; ys = float(np.interp(xs, W.RIVER[:, 0], W.RIVER[:, 1]))
+    u = (t * 0.035) % 1.0; DP = DUCK_PATH; p, hdg = path_at(DP, u); xs, ys = float(p[0]), float(p[1])
     lv = W.water_level(t); bob = 0.004 * math.sin(2 * math.pi * 0.9 * t)
-    Rd = rz(math.atan2(np.interp(xs + 0.05, W.RIVER[:, 0], W.RIVER[:, 1]) - ys, 0.05) + 0.25 * math.sin(0.6 * t)) @ rx(0.08 * math.sin(2 * math.pi * 0.9 * t))
+    Rd = rz(hdg + 0.25 * math.sin(0.6 * t)) @ rx(0.08 * math.sin(2 * math.pi * 0.9 * t))
     for j in e['duck']: put(j, (xs, ys, lv - 0.008 + bob), Rd, 1.5, td or old)
     put(e['pad'], (xs, ys, lv + 0.001), Rd, 1.5, old)
     k1, k2, tail = e['kite']; tug = 0.22 * math.sin(2 * math.pi * 0.7 * t) + 0.08 * math.sin(2 * math.pi * 1.9 * t)

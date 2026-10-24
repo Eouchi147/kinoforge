@@ -123,12 +123,13 @@ class Words:
         if show:
             from mathutils import Vector
             p = self.cam.ob.matrix_basis.inverted() @ Vector(tuple(bone_world)); k = DEPTH / max(-p.z, 1e-3); bx, by = p.x * k, p.y * k   # this frame's camera (matrix_world lags a frame)
-            lx, ly = bx - 0.45, by + 0.55; pop = 0.88 + 0.12 * W.sm(B.label0, B.label0 + 0.35, t)
+            lx, ly = bx + 0.62, by + 0.50;      # up and to the right: the girl works on the left of the bone, the line never crosses her
+            pop = 0.88 + 0.12 * W.sm(B.label0, B.label0 + 0.35, t)
             self.label.location = (lx, ly, -DEPTH + 0.004); self.label_pl.location = (lx, ly, -DEPTH)
             for ob in (self.label, self.label_pl): ob.scale = (pop, pop, 1)
             y0 = ly - (self.label_h / 2 + 0.04) * pop
             d = np.array([bx - lx, by - y0]); d /= np.linalg.norm(d) + 1e-9; nrm = np.array([-d[1], d[0]]) * 0.006
-            P0 = np.array([lx, y0]); P1 = np.array([bx, by])
+            P0 = np.array([lx - 0.10, y0]); P1 = np.array([bx, by])
             V = [(*(P0 - nrm), -DEPTH + 0.002), (*(P1 - nrm), -DEPTH + 0.002), (*(P1 + nrm), -DEPTH + 0.002), (*(P0 + nrm), -DEPTH + 0.002)]
             me = self.leader.data; me.vertices.foreach_set('co', np.array(V, np.float32).ravel()); me.update()
             self.dot.location = (bx, by, -DEPTH + 0.002)

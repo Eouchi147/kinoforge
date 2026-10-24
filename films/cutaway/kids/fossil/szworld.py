@@ -128,14 +128,17 @@ def slot_at(t):
     d = (B.stack1 - B.stack0) / 5; return int(min(4, max(0, (t - B.stack0) // d)))
 
 
+WORD_IN = {}     # beat name -> start time of its words, when the music wants them later than the beat (set by blender.py)
+
+
 def word_windows():
-    """(text, t_in, t_out) for each beat that has words: in with a soft pop after the beat starts, out before it ends,
-    never under 2.5 s on screen. The key word (FOSSIL!) is the label on the bone, the rest are captions."""
+    """(text, t_in, t_out) for each beat that has words: in with a soft pop after the beat starts (or at WORD_IN), out
+    before it ends, never under 2.5 s on screen. The key word (FOSSIL!) is the label on the bone, the rest are captions."""
     out = []
     for b in BEATS:
         w = b['words'].strip()
         if not w: continue
-        a = b['t0'] + 0.35; z = max(b['t1'] - 0.25, a + 2.5)
+        a = WORD_IN.get(b['name'], b['t0'] + 0.35); z = max(b['t1'] - 0.25, a + 2.5)
         out.append((w, a, min(z, DURATION)))
     return out
 
@@ -178,7 +181,57 @@ def flood_level(t):
     return lv
 
 # the river (ancient) and the brook (today) share one bed along the back, out through the right (+X) face
-RIVER = np.array([(-2.2, 0.62), (-1.2, 0.34), (-0.3, -0.06), (0.5, -0.20), (1.3, -0.10), (2.2, 0.14)])
+RIVER = np.array([(-10.0, 5.5), (-5.5, 2.6), (-2.6, 0.9), (-1.2, 0.30), (-0.3, -0.08), (0.5, -0.20), (1.15, -0.02), (1.45, 0.55),
+                  (1.55, 1.3), (2.2, 2.6), (4.5, 4.5), (9.0, 6.5)])
+# the river comes from far behind on the left, loops past the front of the block (where the dinosaur rests by it) and
+# leaves through the back, on into the land behind; it never crosses the viewing trench
+
+# ------------------------------------------------------------------ the world around the block
+# The block is a dig section cut out of a continuous land: the land carries on at the same surface level all round it and
+# far behind (same heights, same ground colours, same eras). Only a narrow viewing trench in front of the two cut faces is
+# removed, so the faces stay visible; the land beyond the trench hides the trench floor and fills the lower frame.
+TW, TWX = 1.3, 0.6         # width of the viewing trench in front of the -Y face, and beside the +X face (m)
+VIEW_AZ = -62.0            # the camera's azimuth (blender.py uses it): the land curves away from the viewer beyond the block
+DROP_R = 6.0               # radius of that curve (m): a little storybook world, so the horizon, the hills and the sky show
+_FH = np.array([-math.cos(math.radians(VIEW_AZ)), -math.sin(math.radians(VIEW_AZ))])
+_S0 = float(max(np.array([(x, y) for x in (-HX, HX) for y in (-HY, HY)]) @ _FH))
+
+
+def depth_s(x, y):
+    """How far a point lies along the view (horizontal), measured like the block's corners."""
+    return np.asarray(x, float) * _FH[0] + np.asarray(y, float) * _FH[1]
+
+
+def near(x, y):
+    """1 on the land in front of the viewing trench and right of it (between the dig and the viewer), easing to 0 over
+    0.7 m. That strip stays at the old ground's level so it never hides the fossil band, however high the layers stack."""
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    front = smooth(-HY - TW, -HY - TW - 0.7, y)
+    right = smooth(HX + TWX, HX + TWX + 0.7, x) * smooth(HY + 0.7, HY, y)
+    return np.maximum(front, right)
+
+
+def drop(x, y):
+    """How far the land has curved down at (x, y): nothing on the block and just beyond it, then a gentle curve."""
+    s = np.maximum(depth_s(x, y) - _S0, 0.0); return s * s / (2 * DROP_R)
+
+
+def in_block(x, y):
+    return (np.abs(np.asarray(x)) < HX) & (np.abs(np.asarray(y)) < HY)
+
+
+def in_trench(x, y):
+    x = np.asarray(x); y = np.asarray(y)
+    front = (x > -HX) & (x < HX + TWX) & (y > -HY - TW) & (y < -HY)
+    side = (x > HX) & (x < HX + TWX) & (y > -HY - TW) & (y < HY)
+    return front | side
+
+
+def far(x, y):
+    """0 on the block; a small step down just outside it (the cut-out reads as the hero), then more haze with distance."""
+    x = np.asarray(x, float); y = np.asarray(y, float)
+    d = np.hypot(np.maximum(np.abs(x) - HX, 0), np.maximum(np.abs(y) - HY, 0))
+    return np.where(in_block(x, y), 0.0, 0.18 + 0.62 * smooth(0.0, 9.0, d))
 
 def _seg_dist(P, x, y):
     d = np.full(np.shape(x), 1e9)
@@ -242,7 +295,9 @@ def top_h(x, y, t):
     if hp > 1e-4: h = h + hp * hump(x, y)
     td = today(t) if base(t) < Z_NOW + 0.02 else 0.0
     if td > 1e-3: h = h - HOLLOW_D * td * hollow(x, y, t)
-    return h
+    lift = max(0.0, base(t) - Z_ANC)
+    if lift > 1e-4: h = h - lift * near(x, y)
+    return h - drop(x, y)
 
 
 def water_level(t):
