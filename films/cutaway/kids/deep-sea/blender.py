@@ -48,7 +48,7 @@ EVENTS = {
     'bloom0': ('bloom', -0.5), 'bloom1': ('bloom', 4.0),
     'unseen0': ('unseen', 0.0), 'end_wave0': ('home', 2.6), 'end_wave1': ('home', 5.8), 'words_send': ('home', 1.5),
     # names the shared caption and label code reads (a pocket watch and a ribbon label that this film does not use are parked at the end)
-    'rw0': ('home', 6.0), 'rw1': ('home', 6.0), 'stack0': ('home', 6.0), 'stack1': ('home', 6.0), 'rain0': ('home', 6.0), 'erode1': ('home', 6.0),
+    'rw0': ('home', 20.0), 'rw1': ('home', 20.0), 'stack0': ('home', 20.0), 'stack1': ('home', 20.0), 'rain0': ('home', 20.0), 'erode1': ('home', 20.0),
 }
 W.set_events({k: (BEAT_NAMES[b], s / (W.BEAT[BEAT_NAMES[b]]['t1'] - W.BEAT[BEAT_NAMES[b]]['t0'])) for k, (b, s) in EVENTS.items()})
 W.B.spouts = [W.bt('hook', 1.2 / 5.5), W.bt('sunlight zone', 5.0 / 8.0), W.bt('glow'.replace('glow', 'they glow'), 0.2), W.bt('only a tiny piece', 0.5 / 5.0), W.bt('back to the surface', 4.5 / 6.0)]
