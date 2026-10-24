@@ -14,3 +14,7 @@ films/battles/*/check/
 films/dark-corners/*/check/
 films/cutaway/**/check/
 films/studio/_selftest*/
+
+# Little Big Questions films: the sound mix is rebuilt by audio/make_audio.py and never kept in git (mix.json and SOUND.md are)
+films/cutaway/kids/*/audio/*.m4a
+films/cutaway/kids/*/audio/*.wav
