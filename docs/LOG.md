@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 23 Oct 2026
+- Voice lab (`.github/workflows/voice-lab.yml`, `tools/voice_lab.py`): free, openly licensed voices tried on the kids pilot lines 0, 1, 4 after Sam rejected every Kokoro voice as not kid friendly. Engines: Chatterbox (MIT; built-in voice and a synthetic Kokoro reference, never a real person), Parler-TTS large and mini (Apache 2.0); skipped Index-TTS2, Higgs Audio, StyleTTS2, Orpheus (licence or CPU speed, reasons in the script). Output `<folder>/voicelab/` (wavs, report.json, voicelab.m4a, voicelab.txt). US$0.
 - SOUL verdict row for 23 Oct 19:43 to 19:54 (kids eggs, background, voice). US$0.
 - Kids series: fact check and craft research in docs/research/KIDS_FACTS_2026-10.md (87 sources); fossil and volcano scripts replaced by the checked versions (124 and 125 words; "died" instead of "fell asleep", bone not dinosaur turns to stone, Hawaii lava out of the top). Sam (19:54): round 2 voices also not kid friendly; wants a smiling storyteller woman, free only; free voice lab (Chatterbox, Parler-TTS) being built. US$0.
 - Kids voice audition round 2 recorded (sound.yml run 40041587962, success): six voices, all words recognised except Puck and Michael ("wanted" for "want"); speaking rate still 3.2 to 4.2 words a second, faster than the 2.3 to 3.0 target, so final takes get slower speed and longer pauses. Sent to Sam. US$0.

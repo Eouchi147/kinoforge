@@ -1,0 +1,109 @@
+# voice-lab: audition free, openly licensed text-to-speech engines on a film's lines. Costs nothing (no API, no key).
+# Reads <folder>/ad.json prep.vo lines prep.audition.lines (default 0, 1, 4) and renders each with several engines and
+# settings on the runner's CPU through tools/voice_lab.py: Chatterbox (MIT; its built-in voice and zero-shot with a
+# SYNTHETIC reference made by Kokoro, Apache 2.0, never a real person's recording), Parler-TTS large and mini (Apache 2.0).
+# Writes and commits <folder>/voicelab/<take>/line<N>.wav, report.json (rate, pitch range, pitch movement, pause share, Whisper
+# word error, engine, settings, licence per take), voicelab.m4a (every take's lines, 0.7 s between lines, 1.6 s between takes,
+# AAC 160k, a chapter per take) and voicelab.txt (the listening order).
+#
+#   gh api -X POST repos/Eouchi147/kinoforge/actions/workflows/voice-lab.yml/dispatches -f ref=main \
+#     -f 'inputs[folder]=films/cutaway/kids/fossil' -f 'inputs[engines]=chatterbox,parler,parler-mini'
+#
+# An engine that fails or runs out of its time box is dropped; the other takes still come out (report.json "failed").
+name: voice-lab
+on:
+  workflow_dispatch:
+    inputs:
+      folder: { description: 'film folder holding ad.json', default: 'films/cutaway/kids/fossil' }
+      engines: { description: 'comma list: chatterbox, parler (large), parler-mini', default: 'chatterbox,parler,parler-mini' }
+permissions:
+  contents: write
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    concurrency: { group: 'voice-lab-${{ inputs.folder }}', cancel-in-progress: false }
+    env:
+      PYTHONUNBUFFERED: '1'
+      GH_TOKEN: ${{ github.token }}
+      F: ${{ inputs.folder }}
+      ENGINES: ${{ inputs.engines }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: tools, plan
+        run: |
+          F="${F%/}"; test -f "$F/ad.json" || { echo "::error::no $F/ad.json"; exit 1; }
+          echo "F=$F" >> "$GITHUB_ENV"
+          WORK="$RUNNER_TEMP/vl"; echo "WORK=$WORK" >> "$GITHUB_ENV"
+          # model downloads (Parler large is about 9 GB) go to the big /mnt disk
+          sudo mkdir -p /mnt/hf && sudo chown "$USER" /mnt/hf; echo "HF_HOME=/mnt/hf" >> "$GITHUB_ENV"
+          if ! command -v ffmpeg > /dev/null; then
+            ( cd "$RUNNER_TEMP" && timeout 300 curl -sSL -o ff.tar.xz https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz \
+              && tar -xf ff.tar.xz && mkdir -p "$HOME/.local/bin" && cp ffmpeg-master-latest-linux64-gpl/bin/ff* "$HOME/.local/bin/" ) \
+              || (timeout 600 sudo apt-get update -qq && timeout 600 sudo apt-get install -y -qq ffmpeg > /dev/null)
+            echo "$HOME/.local/bin" >> "$GITHUB_PATH"; export PATH="$HOME/.local/bin:$PATH"
+          fi
+          ffmpeg -version | head -1; nproc; free -g | head -2; df -h / /mnt | cat
+          timeout 900 pip install -q numpy scipy soundfile librosa faster-whisper huggingface_hub uv
+          python3 tools/voice_lab.py plan "$F" "$ENGINES" "$WORK"
+      - name: Kokoro (Apache 2.0) synthetic reference clips
+        if: contains(inputs.engines, 'chatterbox')
+        continue-on-error: true
+        timeout-minutes: 20
+        run: |
+          uv venv -q -p 3.11 "$RUNNER_TEMP/kok"
+          VIRTUAL_ENV="$RUNNER_TEMP/kok" uv pip install -q kokoro-onnx soundfile scipy numpy
+          mkdir -p "$RUNNER_TEMP/kokoro"; for f in kokoro-v1.0.onnx voices-v1.0.bin; do
+            curl -sSL -o "$RUNNER_TEMP/kokoro/$f" "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/$f"; done
+          KOKORO_DIR="$RUNNER_TEMP/kokoro" "$RUNNER_TEMP/kok/bin/python" tools/voice_lab.py kokoro-ref "$WORK"
+      - name: Chatterbox (MIT) takes
+        if: contains(inputs.engines, 'chatterbox')
+        continue-on-error: true
+        timeout-minutes: 60
+        run: |
+          uv venv -q -p 3.11 "$RUNNER_TEMP/cb"
+          VIRTUAL_ENV="$RUNNER_TEMP/cb" uv pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
+          VIRTUAL_ENV="$RUNNER_TEMP/cb" uv pip install -q chatterbox-tts huggingface_hub "setuptools<81"     # perth (the watermarker) needs pkg_resources
+          "$RUNNER_TEMP/cb/bin/python" -c "import perth; assert perth.PerthImplicitWatermarker is not None; print('chatterbox ready')"
+          "$RUNNER_TEMP/cb/bin/python" tools/voice_lab.py render chatterbox "$WORK"
+      - name: Parler-TTS venv
+        if: contains(inputs.engines, 'parler')
+        continue-on-error: true
+        timeout-minutes: 30
+        run: |
+          uv venv -q -p 3.11 "$RUNNER_TEMP/pa"
+          VIRTUAL_ENV="$RUNNER_TEMP/pa" uv pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
+          VIRTUAL_ENV="$RUNNER_TEMP/pa" uv pip install -q "numpy<2" soundfile huggingface_hub sentencepiece protobuf "setuptools<81" git+https://github.com/huggingface/parler-tts.git
+          "$RUNNER_TEMP/pa/bin/python" -c "import parler_tts, transformers, torch; print('parler ready', transformers.__version__, torch.__version__)"
+      - name: Parler-TTS large (Apache 2.0) takes
+        if: contains(format(',{0},', replace(inputs.engines, ' ', '')), ',parler,') && !cancelled()
+        continue-on-error: true
+        timeout-minutes: 75
+        run: |
+          # the plan lists 'parler-mini' takes under their own engine name, so 'parler' here is the large model only
+          "$RUNNER_TEMP/pa/bin/python" tools/voice_lab.py render parler "$WORK"
+      - name: Parler-TTS mini (Apache 2.0) takes
+        if: contains(inputs.engines, 'parler-mini') && !cancelled()
+        continue-on-error: true
+        timeout-minutes: 30
+        run: '"$RUNNER_TEMP/pa/bin/python" tools/voice_lab.py render parler-mini "$WORK"'
+      - name: finish (trim, slow, check, analyse, listening file)
+        if: '!cancelled()'
+        run: |
+          set -e -o pipefail
+          python3 tools/voice_lab.py finish "$F" "$WORK" 2>&1 | tee "$RUNNER_TEMP/voicelab.log"
+          ls -la "$F/voicelab" | head -30; cat "$F/voicelab/voicelab.txt"
+      - name: keep the log
+        if: always()
+        run: |
+          N="voicelab-$(basename "$F").log"; cp "$RUNNER_TEMP/voicelab.log" "$N" 2>/dev/null || echo "no log" > "$N"
+          gh release upload logs "$N" --clobber || true
+      - name: commit
+        run: |
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$F/voicelab"; git status --short | head -40
+          git commit -q -m "voice-lab: $F ($ENGINES)" || echo "nothing to commit"
+          for i in 1 2 3 4 5; do git pull -q --rebase --autostash && git push -q && break || sleep $((i * 4)); done
