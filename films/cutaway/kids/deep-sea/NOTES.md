@@ -58,6 +58,9 @@ hull, the snail waves up at it). Only some anglerfish have a lure; this is one f
 | `szwords.py`, `szui.py`, `fonts/` | The storybook captions and label (the coordinator's upgraded graphics, same API as the fossil film) |
 | `audio/make_audio.py` | The soundtrack (see `SOUND.md`); `audio/mix.m4a` is committed with `git add -f` for the runners |
 
+## Camera (24 Oct, coordinator: column too small)
+`fit_camera` frames z from `GAP - 0.20` to `LIFT0 + 1.35` with FILL 0.94: the column is about 28 percent of the width and 64 percent of the height. A column that is 2.4 m wide and 3.4 m tall cannot reach 40 percent of the width at 70 percent of the height in 16:9 without widening the slice. The title card covers the top of the column's surface for the first seconds, so the hook submarine floats just under it (depth 0.12).
+
 ## Checks and cost
 Stills looked at (Fable, 1280x720 on the rc-render runners and on this box): frames 140 (5.8 s, the dive), 408 (17.0 s), 676 (28.2 s,
 GLOW!), 816 (34.0 s), 1044 and 1056 (43.5 to 44 s, the lure), 1200 (50 s, hot vents), 1326 and 1334 (55.2 to 55.6 s, the climax),

@@ -65,7 +65,7 @@ SETTINGS = {'samples': 32, 'denoise': True, 'motion_blur': False, 'view_transfor
             'denoising_prefilter': 'ACCURATE'}
 
 AZ0, SWAY = W.VIEW_AZ, 2.0
-EL, LENS, FILL = 13.0, 50.0, 0.90
+EL, LENS, FILL = 13.0, 50.0, 0.94
 SUN_AZ = -118.0
 
 
@@ -74,7 +74,7 @@ def fit_camera(kit, aspect):
     little sea under it. Same exact-fit loop as cw.camera."""
     asp = 16 / 9 if aspect == '16:9' else 9 / 16
     th = 18.0 / LENS; tanh, tanv = (th, th / asp) if asp >= 1 else (th * asp, th)
-    z_lo, z_hi = W.GAP - 0.18, W.LIFT0 + 2.2
+    z_lo, z_hi = W.GAP - 0.20, W.LIFT0 + 1.35
     pts = np.array([(x, y, z) for x in (-W.HX, W.HX) for y in (-W.HY, W.HY) for z in (z_lo, z_hi)])
     tgt = np.array((0.0, 0.0, (z_lo + z_hi) / 2)); dist = 8.0; az, el = AZ0, EL
     for _ in range(8):
