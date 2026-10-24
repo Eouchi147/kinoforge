@@ -4,20 +4,42 @@
  "cap_usd": 0,
  "prep": {
   "voice": "kokoro|bm_george",
-  "voice_settings": {"speed": 0.92},
+  "voice_settings": {
+   "speed": 0.92
+  },
   "pad_bpm": 72,
   "title_line": 1,
   "vo": [
-   {"text": "Deep under our feet, it is so hot that rock can melt."},
-   {"text": "How is a volcano born?"},
-   {"text": "This melted rock is called magma. It is lighter than the rock around it, so it slowly pushes up, and up."},
-   {"text": "It finds a crack. The pressure builds. The ground begins to rumble."},
-   {"text": "And then, whoosh! It bursts out of the ground. Now we call it lava."},
-   {"text": "The lava cools down, and turns into brand new rock."},
-   {"text": "Every time it erupts, it adds another layer, and the mountain grows taller and taller."},
-   {"text": "When the volcano rests, rain and sun make the land green again. Volcano soil is wonderful for growing plants."},
-   {"text": "Some islands, like the islands of Hawaii, were built by volcanoes, one eruption at a time."},
-   {"text": "So the ground under your feet is not as still as it looks."}
+   {
+    "text": "Far below us, it is so hot that rock can melt."
+   },
+   {
+    "text": "How is a volcano born?"
+   },
+   {
+    "text": "Melted rock is called magma. It is lighter than the rock around it, so it rises."
+   },
+   {
+    "text": "It finds a crack. Gas bubbles push, like a shaken fizzy drink. The ground rumbles."
+   },
+   {
+    "text": "Whoosh! It bursts out of the top. Now we call it lava."
+   },
+   {
+    "text": "The lava cools, and turns into brand new rock."
+   },
+   {
+    "text": "Each eruption adds a layer, and the mountain grows."
+   },
+   {
+    "text": "When the volcano rests, plants find a home on the new rock, and slowly it turns to rich soil."
+   },
+   {
+    "text": "The islands of Hawaii were built this way, one eruption at a time."
+   },
+   {
+    "text": "Our planet is always making new land, and the ground under your feet is slowly moving."
+   }
   ]
  }
 }

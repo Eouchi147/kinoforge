@@ -26,6 +26,10 @@ never confusing.
 - The background is a lively extension of the world (Sam, 23 Oct 19:43), never a flat static card: 3D layers with depth
   behind the block, distant life of the same era (herds on the horizon, a smoking volcano, a village with chimney smoke,
   a train on a bridge, kites, sheep), drifting clouds, light that changes with the story and with time passing.
+- Voice (Sam, 23 Oct 19:54): a smiling storyteller woman, warm and bright, like a favourite teacher at story time; free
+  engines only. All ten Kokoro voices were rejected as not kid friendly (19:44, 19:54); the free voice lab
+  (`voice-lab.yml`: Chatterbox, Parler-TTS) is auditioning expressive engines. About 2 words a second with pauses.
+- Scripts at 125 words or fewer, one key word repeated, no sleep words for death ("died", said softly).
 - Facts checked with sources before anything is voiced (`docs/research/KIDS_FACTS_2026-10.md`).
 - YouTube: these are "Made for Kids" (COPPA): no personalised ads, comments off. Money comes from the brand, books and
   prints more than ads (see the Cutaway guide doc).

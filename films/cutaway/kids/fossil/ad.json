@@ -4,22 +4,61 @@
  "cap_usd": 0,
  "prep": {
   "voice": "kokoro|bm_george",
-  "voice_settings": {"speed": 0.85},
+  "voice_settings": {
+   "speed": 0.85
+  },
   "pad_bpm": 72,
   "title_line": 1,
-  "audition": {"lines": [0, 1, 4], "voices": ["kokoro|af_heart", "kokoro|bf_emma", "kokoro|af_bella", "kokoro|bf_lily", "kokoro|am_puck", "kokoro|am_michael"], "_": "Round 2 (Sam 23 Oct 19:44: the four deep British male voices scare kids): warm, bright, smiling voices, slower."},
+  "audition": {
+   "lines": [
+    0,
+    1,
+    4
+   ],
+   "voices": [
+    "kokoro|af_heart",
+    "kokoro|bf_emma",
+    "kokoro|af_bella",
+    "kokoro|bf_lily",
+    "kokoro|am_puck",
+    "kokoro|am_michael"
+   ],
+   "_": "Round 2 (Sam 23 Oct 19:44: the four deep British male voices scare kids): warm, bright, smiling voices, slower."
+  },
   "vo": [
-   {"text": "This rock was once alive. Want to know how?"},
-   {"text": "How does a dinosaur turn into stone?"},
-   {"text": "Long, long ago, a big, gentle dinosaur lived right here, munching ferns by the river."},
-   {"text": "One day, very old and very tired, it lay down by the water, and fell asleep forever."},
-   {"text": "The river brought mud and sand, and tucked its bones in, like a blanket."},
-   {"text": "Then more mud came. And more. Layer on layer, for millions and millions of years."},
-   {"text": "Deep down, water crept into the bones and left tiny bits of stone behind. Slowly, slowly, the bones became rock."},
-   {"text": "Then wind and rain wore the land away, little by little."},
-   {"text": "Until one sunny day, a girl with a little brush found something poking out of the ground."},
-   {"text": "A fossil! A real dinosaur, turned to stone."},
-   {"text": "I wonder what is sleeping under your feet."}
+   {
+    "text": "This stone was once a dinosaur's bone."
+   },
+   {
+    "text": "How does a dinosaur bone turn into stone?"
+   },
+   {
+    "text": "Long ago, a big, gentle dinosaur lived right here, munching ferns by the river."
+   },
+   {
+    "text": "One day, very old and tired, it lay down and died."
+   },
+   {
+    "text": "The river brought mud and sand, which covered its bones like a blanket."
+   },
+   {
+    "text": "More mud came. And more. Layer on layer, for millions of years."
+   },
+   {
+    "text": "Deep down, water seeped into the bones and left tiny bits of stone. Slowly, they turned to rock."
+   },
+   {
+    "text": "Then wind and rain slowly wore the land away."
+   },
+   {
+    "text": "One sunny day, a girl with a brush spotted something poking out of the rock."
+   },
+   {
+    "text": "A fossil! A real dinosaur bone, turned to stone."
+   },
+   {
+    "text": "I wonder what is waiting under your feet."
+   }
   ]
  }
 }
