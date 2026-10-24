@@ -11,5 +11,6 @@
  "w": 1920,
  "h": 1080,
  "samples": 32,
- "note": "Little Big Questions pilot (6 to 8), a silent story (Sam 23 Oct 20:09): Fable Cutaway on the seasons grammar, one fixed view, a 2 degree sway, no cuts. Timing from beats.json through the one event table at the top of blender.py (re-time beats.json to the chosen recording and the picture follows). Look named by KF_ART_NAME in blender.py. Music: Grieg, Morning Mood (Musopen Symphony, public domain), edit in beats.json; sound effects not made yet."
+ "note": "Little Big Questions pilot (6 to 8), a silent story (Sam 23 Oct 20:09): Fable Cutaway on the seasons grammar, one fixed view, a 2 degree sway, no cuts. Timing from beats.json through the one event table at the top of blender.py (re-time beats.json to the chosen recording and the picture follows). Look named by KF_ART_NAME in blender.py. Music: Grieg, Morning Mood (Musopen Symphony, public domain), edit in beats.json; soundtrack v1 in audio/mix.m4a (audio/make_audio.py, SOUND.md).",
+ "audio": "audio/mix.m4a"
 }
