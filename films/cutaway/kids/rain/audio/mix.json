@@ -1,0 +1,3709 @@
+{
+ "film": "kids-rain",
+ "duration_s": 73.0,
+ "measurements": {
+  "lufs": -16.1,
+  "lra": 8.1,
+  "true_peak": -2.0,
+  "limiter_max_reduction_db": 1.76,
+  "limiter_max_reduction_at_s": 68.22,
+  "limiter_samples_over_1db": 6229,
+  "gain_db": 5.3,
+  "ceiling_dbfs": -2.0,
+  "wav_sample_peak_dbfs": -2.0,
+  "wav_lufs_bs1770": -16.02,
+  "seconds": 73.0,
+  "codec": "aac 256k stereo 48 kHz",
+  "target_lufs": -16.0,
+  "true_peak_limit_dbtp": -1.5
+ },
+ "music": {
+  "piece": "Smetana, M\u00e1 Vlast, no. 2, Vltava (The Moldau)",
+  "recording": "Musopen Symphony (Musopen)",
+  "licence": "Public domain (Wikimedia Commons record; Musopen requires uploaders to warrant public domain)",
+  "source": "https://commons.wikimedia.org/wiki/File:Smetana_-_M%C3%A1_Vlast_-_Vltava_(Musopen_Symphony).flac",
+  "asset": "Eouchi147/rc-render release music: smetana-vltava-musopen.flac (+ .licence.json)",
+  "edit": "recording 0:00.0 to 0:16.95, 1.5 s cross-fade (joint 0:16.2 = 0:44.4: flutes in the same key, 0.95 chroma match) into 0:43.65 to 1:17.5 (the springs swell, the river theme enters at 1:02.1 = film 33.86), 1.0 s cross-fade (joint 1:17.0 = 11:52.2, V to I) into 11:51.7 to 12:09.0 (the broad river theme in major, big phrase at 11:56.0, final chord 12:03.8), 2.0 s cross-fade into 12:40.8 to 12:50.2 (the piece's own two final chords at 12:45.2 and 12:47.2) with a 0.6 s fade-out; level rider; loudnorm -16 LUFS, true peak -1.5 dBTP; 73.0 s",
+  "credit": "Music: Bedřich Smetana, Vltava (The Moldau), performed by the Musopen Symphony (musopen.org), public domain.",
+  "cut": {
+   "pieces_rec_s": [
+    [
+     0.0,
+     16.95
+    ],
+    [
+     43.65,
+     77.5
+    ],
+    [
+     711.7,
+     729.0
+    ],
+    [
+     760.8,
+     770.2
+    ]
+   ],
+   "crossfades_s": [
+    1.5,
+    1.0,
+    2.0
+   ],
+   "curve": "triangular (linear)",
+   "fade_out_s": 0.6,
+   "tail_trim_db": -3.0
+  },
+  "rider": {
+   "target": -27.0,
+   "ratio": 3.4,
+   "sigma": 1.4,
+   "maxg": 17.0,
+   "ming": 9.0,
+   "gain_db_range": [
+    -9.0,
+    17.0
+   ]
+  },
+  "duck_points_db": [
+   [
+    0,
+    0
+   ],
+   [
+    33.56,
+    0
+   ],
+   [
+    34.36,
+    -1.5
+   ],
+   [
+    48.800399999999996,
+    -1.5
+   ],
+   [
+    51.300399999999996,
+    0
+   ],
+   [
+    52.440059999999995,
+    0
+   ],
+   [
+    52.940059999999995,
+    -1.0
+   ],
+   [
+    55.64006,
+    0
+   ],
+   [
+    80,
+    0
+   ]
+  ],
+  "music_only_lufs": -17.85
+ },
+ "events": {
+  "sun0": 6.5,
+  "vap0": 11.5,
+  "sun1": 12.0,
+  "vapup0": 13.0,
+  "cool0": 18.5,
+  "cloud0": 20.0,
+  "vap1": 24.5,
+  "cool1": 25.0,
+  "lens0": 25.7,
+  "lens1": 26.4,
+  "lensj1": 28.0,
+  "dark0": 29.0,
+  "lensj2": 29.3,
+  "lensj3": 30.6,
+  "cloud1": 31.0,
+  "lensj4": 31.8,
+  "lensj5": 32.7,
+  "lens2": 33.2,
+  "dark1": 33.8,
+  "drop0": 33.86,
+  "lens3": 34.0,
+  "snail0": 34.6,
+  "child0": 35.0,
+  "umbrella0": 36.2,
+  "umbrella1": 36.9,
+  "rainsoft": 38.0,
+  "soak0": 40.0,
+  "boat0": 41.0,
+  "jump0": 42.2,
+  "swell1": 45.0,
+  "soak1": 46.5,
+  "jump1": 47.8,
+  "sunback0": 48.8,
+  "gw1": 49.5,
+  "cshrink0": 49.5,
+  "drop1": 49.8,
+  "rainbow0": 52.64,
+  "sunback1": 53.5,
+  "rainbow1": 55.4,
+  "sea0": 57.2,
+  "cshrink1": 58.0,
+  "vap2a": 58.5,
+  "cloud2a": 64.0,
+  "words_end": 64.4,
+  "chord1": 67.95,
+  "chord2": 69.95,
+  "vap2b": 70.0,
+  "cloud2b": 72.0
+ },
+ "recordings": {
+  "birds_waking_3": {
+   "uses": [
+    "bed 0.0-73.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s0999.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "blackbird_30": {
+   "uses": [
+    "a bird sings again at 51.20 s"
+   ],
+   "source": "https://bigsoundbank.com/s3503.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_2": {
+   "uses": [
+    "the last two join: one plump drop at 32.75 s",
+    "a hop (a soft boing) at 42.22 s",
+    "a hop (a soft boing) at 43.82 s",
+    "a hop (a soft boing) at 45.42 s",
+    "a hop (a soft boing) at 47.02 s",
+    "a hop (a soft boing) at 69.17 s"
+   ],
+   "source": "https://bigsoundbank.com/s2277.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "boing_4": {
+   "uses": [
+    "the umbrella bounces open (a soft boing) at 36.88 s",
+    "the snail wiggles happily in the rain at 36.50 s",
+    "the snail wiggles happily in the rain at 39.80 s",
+    "the snail waves at 67.85 s"
+   ],
+   "source": "https://bigsoundbank.com/s2279.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "bubbles_burst": {
+   "uses": [
+    "two drops bump and stick (a soft blip) at 29.14 s",
+    "two drops bump and stick (a soft blip) at 29.36 s"
+   ],
+   "source": "https://bigsoundbank.com/s1074.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "candle_sparkle_1": {
+   "uses": [
+    "a tiny drop joins the cloud at 18.90 s",
+    "a tiny drop joins the cloud at 19.35 s",
+    "a tiny drop joins the cloud at 19.81 s",
+    "a tiny drop joins the cloud at 20.26 s",
+    "a tiny drop joins the cloud at 20.72 s",
+    "a tiny drop joins the cloud at 21.17 s",
+    "a tiny drop joins the cloud at 21.62 s",
+    "a tiny drop joins the cloud at 22.08 s",
+    "a tiny drop joins the cloud at 22.53 s",
+    "a tiny drop joins the cloud at 22.98 s",
+    "a tiny drop joins the cloud at 23.44 s",
+    "a tiny drop joins the cloud at 23.89 s",
+    "a tiny drop joins the cloud at 24.35 s",
+    "a tiny drop joins the cloud at 24.80 s"
+   ],
+   "source": "https://bigsoundbank.com/s1278.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_butterfly_1": {
+   "uses": [
+    "a glint on the lake at 7.70 s",
+    "a glint on the lake at 9.60 s",
+    "a glint on the lake at 11.10 s",
+    "a glint on the lake at 11.80 s"
+   ],
+   "source": "https://bigsoundbank.com/s2087.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_butterfly_3": {
+   "uses": [
+    "a last twinkle at 68.05 s"
+   ],
+   "source": "https://bigsoundbank.com/s2089.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_dream_1": {
+   "uses": [
+    "the water rises as an invisible shimmer (reversed chimes) at 13.00 s",
+    "the water rises as an invisible shimmer (reversed chimes) at 14.70 s",
+    "the water rises as an invisible shimmer (reversed chimes) at 16.40 s",
+    "the water rises as an invisible shimmer (reversed chimes) at 18.00 s",
+    "new shimmer rises again (reversed chimes) at 58.70 s",
+    "new shimmer rises again (reversed chimes) at 60.40 s",
+    "new shimmer rises again (reversed chimes) at 62.10 s"
+   ],
+   "source": "https://bigsoundbank.com/s2079.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "chimes_dream_3": {
+   "uses": [
+    "the rainbow paints itself across the sky (chimes) at 52.54 s",
+    "the rainbow paints itself across the sky (chimes) at 53.44 s",
+    "the rainbow paints itself across the sky (chimes) at 54.24 s",
+    "the rainbow paints itself across the sky (chimes) at 55.04 s"
+   ],
+   "source": "https://bigsoundbank.com/s2081.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "cloth": {
+   "uses": [
+    "the umbrella unfurls (cloth) at 36.00 s",
+    "the umbrella is shut (cloth) at 50.10 s"
+   ],
+   "source": "https://bigsoundbank.com/s0013.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "cluster_chimes": {
+   "uses": [
+    "the cloud puffs up (a soft shimmer) at 20.30 s",
+    "the cloud puffs up (a soft shimmer) at 23.00 s",
+    "the cloud puffs up (a soft shimmer) at 26.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s2687.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_1": {
+   "uses": [
+    "the first raindrops fall at 33.86 s",
+    "a raindrop at 36.21 s",
+    "a raindrop at 37.16 s",
+    "a drop sinks down to the water in the sand at 39.15 s",
+    "a drop sinks down to the water in the sand at 41.79 s",
+    "a drop sinks down to the water in the sand at 44.86 s",
+    "a drop sinks down to the water in the sand at 47.27 s"
+   ],
+   "source": "https://bigsoundbank.com/s1384.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_2": {
+   "uses": [
+    "a raindrop at 34.71 s",
+    "a raindrop at 36.51 s",
+    "a raindrop at 37.36 s",
+    "a drop sinks down to the water in the sand at 38.00 s",
+    "a drop sinks down to the water in the sand at 40.76 s",
+    "a drop sinks down to the water in the sand at 43.92 s",
+    "a drop sinks down to the water in the sand at 46.50 s",
+    "a drop sinks down to the water in the sand at 49.14 s"
+   ],
+   "source": "https://bigsoundbank.com/s1385.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_3": {
+   "uses": [
+    "two drops bump and stick (a soft blip) at 31.65 s",
+    "two drops bump and stick (a soft blip) at 31.85 s",
+    "a raindrop at 35.81 s",
+    "a raindrop at 36.96 s"
+   ],
+   "source": "https://bigsoundbank.com/s1386.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_4": {
+   "uses": [
+    "a raindrop at 35.36 s",
+    "a raindrop at 36.76 s",
+    "a drop sinks down to the water in the sand at 39.87 s",
+    "a drop sinks down to the water in the sand at 42.80 s",
+    "a drop sinks down to the water in the sand at 45.64 s",
+    "a drop sinks down to the water in the sand at 48.01 s"
+   ],
+   "source": "https://bigsoundbank.com/s1387.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "drops_metal_pan": {
+   "uses": [
+    "a raindrop plinks in the watering can at 36.46 s",
+    "a raindrop plinks in the watering can at 37.77 s",
+    "a raindrop plinks in the watering can at 39.20 s",
+    "a raindrop plinks in the watering can at 40.15 s",
+    "a raindrop plinks in the watering can at 41.29 s",
+    "a raindrop plinks in the watering can at 42.71 s",
+    "a raindrop plinks in the watering can at 43.65 s",
+    "a raindrop plinks in the watering can at 44.75 s",
+    "a raindrop plinks in the watering can at 45.89 s",
+    "a raindrop plinks in the watering can at 47.03 s",
+    "a raindrop plinks in the watering can at 48.49 s"
+   ],
+   "source": "https://bigsoundbank.com/s1382.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "forest_stream_1": {
+   "uses": [
+    "bed 0.0-73.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s2713.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "glockenspiel": {
+   "uses": [
+    "the rainbow arrives (a struck glockenspiel chord, tuned) at 52.64 s"
+   ],
+   "source": "https://bigsoundbank.com/s0920.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "night_after_rain": {
+   "uses": [
+    "drip, drip: after the rain at 49.30 s"
+   ],
+   "source": "https://bigsoundbank.com/s0621.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "paper": {
+   "uses": [
+    "paper rustle (the boat) at 40.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s0785.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "rain_concrete": {
+   "uses": [
+    "bed 36.9-51.3 s"
+   ],
+   "source": "https://bigsoundbank.com/s1289.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "rain_puddle": {
+   "uses": [
+    "bed 29.0-34.9 s",
+    "bed 35.9-52.3 s",
+    "rain drums on the umbrella at 37.10 s"
+   ],
+   "source": "https://bigsoundbank.com/s1290.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "robin_1": {
+   "uses": [
+    "a bird sings again at 50.30 s",
+    "a bird sings again at 52.30 s",
+    "a bird calls over the last chord at 70.95 s"
+   ],
+   "source": "https://bigsoundbank.com/s1667.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "small_cascade": {
+   "uses": [
+    "the brook swells at 43.50 s"
+   ],
+   "source": "https://bigsoundbank.com/s0507.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "small_waves_ocean": {
+   "uses": [
+    "bed 56.2-73.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s1046.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "sparkling_water": {
+   "uses": [
+    "bed 7.5-24.5 s"
+   ],
+   "source": "https://bigsoundbank.com/s0230.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_big_1": {
+   "uses": [
+    "she lands in the puddle: SPLASH at 69.95 s"
+   ],
+   "source": "https://bigsoundbank.com/s1519.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_2": {
+   "uses": [
+    "she lands in the puddle: SPLASH at 43.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s1530.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_3": {
+   "uses": [
+    "two drops bump and stick (a soft blip) at 32.70 s"
+   ],
+   "source": "https://bigsoundbank.com/s1531.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_4": {
+   "uses": [
+    "she lands in the puddle: SPLASH at 44.60 s"
+   ],
+   "source": "https://bigsoundbank.com/s1532.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_5": {
+   "uses": [
+    "she lands in the puddle: SPLASH at 46.20 s"
+   ],
+   "source": "https://bigsoundbank.com/s1533.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "splash_small_6": {
+   "uses": [
+    "she lands in the puddle: SPLASH at 47.80 s"
+   ],
+   "source": "https://bigsoundbank.com/s1534.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "steps_short_grass": {
+   "uses": [
+    "she runs in over the wet grass at 35.20 s",
+    "she runs in over the wet grass at 35.42 s",
+    "she runs in over the wet grass at 35.64 s",
+    "she runs in over the wet grass at 35.86 s",
+    "she runs in over the wet grass at 36.08 s",
+    "she runs in over the wet grass at 36.30 s",
+    "she runs in over the wet grass at 36.52 s",
+    "she runs in over the wet grass at 36.74 s"
+   ],
+   "source": "https://bigsoundbank.com/s0854.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "sun_heat_1": {
+   "uses": [
+    "bed 6.0-14.5 s"
+   ],
+   "source": "https://bigsoundbank.com/s1779.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "swirl_water": {
+   "uses": [
+    "the water table rises in the sand at 46.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s0192.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "toy_duck": {
+   "uses": [
+    "the rubber duck squeaks on the lake at 59.70 s",
+    "the rubber duck squeaks again at 60.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s0364.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "toy_squeal_1": {
+   "uses": [
+    "the snail wiggles happily in the rain at 34.90 s"
+   ],
+   "source": "https://bigsoundbank.com/s3331.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "toy_squeal_3": {
+   "uses": [
+    "the snail wiggles happily in the rain at 38.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s3333.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "triangle_2": {
+   "uses": [
+    "a soft triangle on the rainbow at 52.69 s"
+   ],
+   "source": "https://bigsoundbank.com/s1688.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "water_bubble_2": {
+   "uses": [
+    "the round window opens (a soft bubble) at 25.80 s",
+    "two drops bump and stick (a soft blip) at 27.83 s",
+    "two drops bump and stick (a soft blip) at 27.99 s",
+    "two drops bump and stick (a soft blip) at 28.12 s",
+    "two drops bump and stick (a soft blip) at 30.57 s",
+    "two drops bump and stick (a soft blip) at 30.74 s",
+    "the paper boat is set on the brook at 41.00 s"
+   ],
+   "source": "https://bigsoundbank.com/s0183.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "water_over_soil": {
+   "uses": [
+    "bed 37.0-50.5 s"
+   ],
+   "source": "https://bigsoundbank.com/s0563.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "whoosh_3": {
+   "uses": [
+    "the fat drop falls out of the window at 33.30 s"
+   ],
+   "source": "https://bigsoundbank.com/s1795.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_inside_1": {
+   "uses": [
+    "bed 13.0-31.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s1714.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wind_plain": {
+   "uses": [
+    "bed 0.0-73.0 s"
+   ],
+   "source": "https://bigsoundbank.com/s0595.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  },
+  "wine_stopper_3": {
+   "uses": [
+    "POP: the yellow umbrella opens at 36.80 s",
+    "words pop in: where does rain come from? at 0.35 s",
+    "words pop in: invisible water at 12.85 s",
+    "words pop in: tiny drops at 19.35 s",
+    "words pop in: about a million at 25.85 s",
+    "words pop in: around and around at 57.35 s",
+    "words pop in: where has your rain been? at 64.75 s"
+   ],
+   "source": "https://bigsoundbank.com/s1719.html",
+   "licence": "CC0 (BigSoundBank / Joseph Sardin)"
+  }
+ },
+ "placements": [
+  {
+   "t": 0.0,
+   "what": "morning birds (and again when the sun is back)",
+   "name": "birds_waking_3",
+   "gain_db": -19.0,
+   "bed_to": 73.0,
+   "bed_peak_db": -30.3,
+   "bed_rms_db": -44.0
+  },
+  {
+   "t": 0.0,
+   "what": "a soft breeze",
+   "name": "wind_plain",
+   "gain_db": -24.3,
+   "bed_to": 73.0,
+   "bed_peak_db": -40.4,
+   "bed_rms_db": -51.3
+  },
+  {
+   "t": 0.0,
+   "what": "the brook (it swells in the rain)",
+   "name": "forest_stream_1",
+   "gain_db": -8.3,
+   "bed_to": 73.0,
+   "bed_peak_db": -25.0,
+   "bed_rms_db": -41.1
+  },
+  {
+   "t": 6.0,
+   "what": "the sun warms (a warm hum)",
+   "name": "sun_heat_1",
+   "gain_db": -19.3,
+   "bed_to": 14.5,
+   "bed_peak_db": -40.1,
+   "bed_rms_db": -54.4
+  },
+  {
+   "t": 7.5,
+   "what": "the water glitters in the warm sun",
+   "name": "sparkling_water",
+   "gain_db": -16.6,
+   "bed_to": 24.5,
+   "bed_peak_db": -37.2,
+   "bed_rms_db": -52.7
+  },
+  {
+   "t": 7.7,
+   "what": "a glint on the lake",
+   "name": "chimes_butterfly_1",
+   "gain_db": -36.2,
+   "peak_db": -44.8,
+   "tuned_st": 2.63,
+   "notes": [
+    "B",
+    "C"
+   ],
+   "pitch_out": "B +19 cents",
+   "pan": 0.25,
+   "onset_ms": 3.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.31,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 9.6,
+   "what": "a glint on the lake",
+   "name": "chimes_butterfly_1",
+   "gain_db": -43.8,
+   "peak_db": -49.2,
+   "tuned_st": 0.63,
+   "notes": [
+    "G",
+    "A",
+    "F#"
+   ],
+   "pitch_out": "A +19 cents",
+   "pan": 0.25,
+   "onset_ms": 4.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.46,
+   "peak_above_music_rms_db": -14.5
+  },
+  {
+   "t": 11.1,
+   "what": "a glint on the lake",
+   "name": "chimes_butterfly_1",
+   "gain_db": -43.1,
+   "peak_db": -48.5,
+   "tuned_st": 0.63,
+   "notes": [
+    "G",
+    "A",
+    "B"
+   ],
+   "pitch_out": "A +19 cents",
+   "pan": 0.25,
+   "onset_ms": 4.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.46,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 11.8,
+   "what": "a glint on the lake",
+   "name": "chimes_butterfly_1",
+   "gain_db": -36.3,
+   "peak_db": -44.9,
+   "tuned_st": 2.63,
+   "notes": [
+    "C",
+    "B"
+   ],
+   "pitch_out": "B +19 cents",
+   "pan": 0.25,
+   "onset_ms": 3.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.31,
+   "peak_above_music_rms_db": -15.4
+  },
+  {
+   "t": 13.0,
+   "what": "the water rises as an invisible shimmer (reversed chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -46.3,
+   "peak_db": -47.9,
+   "tuned_st": -1.34,
+   "notes": [
+    "G",
+    "F#"
+   ],
+   "pitch_out": null,
+   "pan": -0.22,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 2.47,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 14.7,
+   "what": "the water rises as an invisible shimmer (reversed chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -43.3,
+   "peak_db": -46.3,
+   "tuned_st": 0.66,
+   "notes": [
+    "A",
+    "B",
+    "G"
+   ],
+   "pitch_out": null,
+   "pan": -0.07,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 2.21,
+   "peak_above_music_rms_db": -12.7
+  },
+  {
+   "t": 16.4,
+   "what": "the water rises as an invisible shimmer (reversed chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -40.7,
+   "peak_db": -43.7,
+   "tuned_st": 0.66,
+   "notes": [
+    "A",
+    "C",
+    "B"
+   ],
+   "pitch_out": null,
+   "pan": 0.07,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 2.21,
+   "peak_above_music_rms_db": -13.4
+  },
+  {
+   "t": 18.0,
+   "what": "the water rises as an invisible shimmer (reversed chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -44.7,
+   "peak_db": -46.6,
+   "tuned_st": 2.66,
+   "notes": [
+    "C",
+    "B",
+    "E"
+   ],
+   "pitch_out": null,
+   "pan": 0.22,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 1.97,
+   "peak_above_music_rms_db": -14.1
+  },
+  {
+   "t": 13.0,
+   "what": "high up the air is cold and still (a soft wind)",
+   "name": "wind_inside_1",
+   "gain_db": -27.6,
+   "bed_to": 31.0,
+   "bed_peak_db": -44.9,
+   "bed_rms_db": -57.6
+  },
+  {
+   "t": 18.9,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -15.6,
+   "peak_db": -43.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.05,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 19.354,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -17.9,
+   "peak_db": -45.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.05,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 19.808,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -20.0,
+   "peak_db": -47.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.07,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -17.9
+  },
+  {
+   "t": 20.262,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -18.8,
+   "peak_db": -45.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.29,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 20.716,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -21.3,
+   "peak_db": -48.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.09,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 21.169,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -24.8,
+   "peak_db": -51.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.18,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 21.623,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -20.0,
+   "peak_db": -46.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.23,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 22.077,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -18.6,
+   "peak_db": -46.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.11,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 22.531,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -21.0,
+   "peak_db": -47.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.22,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 22.985,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -20.8,
+   "peak_db": -47.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.16,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 23.439,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -22.3,
+   "peak_db": -49.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.16,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 23.892,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -21.5,
+   "peak_db": -48.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.15,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -18.0
+  },
+  {
+   "t": 24.346,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -20.3,
+   "peak_db": -48.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.03,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 24.8,
+   "what": "a tiny drop joins the cloud",
+   "name": "candle_sparkle_1",
+   "gain_db": -20.1,
+   "peak_db": -47.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.17,
+   "onset_ms": 9.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.36,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 20.3,
+   "what": "the cloud puffs up (a soft shimmer)",
+   "name": "cluster_chimes",
+   "gain_db": -18.4,
+   "peak_db": -44.3,
+   "tuned_st": -0.33,
+   "notes": [
+    "F#",
+    "B"
+   ],
+   "pitch_out": "F# +1 cents",
+   "pan": 0.1,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.17,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 23.0,
+   "what": "the cloud puffs up (a soft shimmer)",
+   "name": "cluster_chimes",
+   "gain_db": -18.9,
+   "peak_db": -47.0,
+   "tuned_st": -0.31,
+   "notes": [
+    "F#",
+    "A"
+   ],
+   "pitch_out": "F# -2 cents",
+   "pan": 0.1,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.85,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 26.0,
+   "what": "the cloud puffs up (a soft shimmer)",
+   "name": "cluster_chimes",
+   "gain_db": -35.7,
+   "peak_db": -43.7,
+   "tuned_st": -4.14,
+   "notes": [
+    "A",
+    "G"
+   ],
+   "pitch_out": "A -1 cents",
+   "pan": 0.1,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.79,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 25.8,
+   "what": "the round window opens (a soft bubble)",
+   "name": "water_bubble_2",
+   "gain_db": -32.0,
+   "peak_db": -40.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 27.832,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "water_bubble_2",
+   "gain_db": -33.9,
+   "peak_db": -44.6,
+   "tuned_st": 1.5,
+   "notes": [
+    "A",
+    "B"
+   ],
+   "pitch_out": "G# +0 cents",
+   "pan": -0.3,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.46,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 27.993,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "water_bubble_2",
+   "gain_db": -33.0,
+   "peak_db": -43.7,
+   "tuned_st": 1.5,
+   "notes": [
+    "B",
+    "A",
+    "C"
+   ],
+   "pitch_out": "G# +0 cents",
+   "pan": -0.3,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.46,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 28.115,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "water_bubble_2",
+   "gain_db": -32.7,
+   "peak_db": -43.4,
+   "tuned_st": 1.5,
+   "notes": [
+    "B",
+    "C",
+    "A"
+   ],
+   "pitch_out": "G# +0 cents",
+   "pan": -0.3,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.46,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 29.142,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "bubbles_burst",
+   "gain_db": -25.4,
+   "peak_db": -40.5,
+   "tuned_st": -1.77,
+   "notes": [
+    "E",
+    "B"
+   ],
+   "pitch_out": "A# +28 cents",
+   "pan": -0.15,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.66,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 29.365,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "bubbles_burst",
+   "gain_db": -26.9,
+   "peak_db": -42.0,
+   "tuned_st": -1.77,
+   "notes": [
+    "E",
+    "B",
+    "A"
+   ],
+   "pitch_out": "A# +28 cents",
+   "pan": -0.15,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.66,
+   "peak_above_music_rms_db": -12.0
+  },
+  {
+   "t": 30.567,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "water_bubble_2",
+   "gain_db": -30.3,
+   "peak_db": -40.6,
+   "tuned_st": -0.71,
+   "notes": [
+    "G",
+    "A"
+   ],
+   "pitch_out": "G -1 cents",
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.73,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 30.744,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "water_bubble_2",
+   "gain_db": -29.0,
+   "peak_db": -39.4,
+   "tuned_st": -0.71,
+   "notes": [
+    "A",
+    "G"
+   ],
+   "pitch_out": "G -1 cents",
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.73,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 31.646,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "drops_3",
+   "gain_db": -33.5,
+   "peak_db": -36.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 31.854,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "drops_3",
+   "gain_db": -32.8,
+   "peak_db": -35.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.15,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -8.0
+  },
+  {
+   "t": 32.7,
+   "what": "two drops bump and stick (a soft blip)",
+   "name": "splash_small_3",
+   "gain_db": -36.1,
+   "peak_db": -36.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.3,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -6.0
+  },
+  {
+   "t": 32.75,
+   "what": "the last two join: one plump drop",
+   "name": "boing_2",
+   "gain_db": -34.1,
+   "peak_db": -41.8,
+   "tuned_st": -1.27,
+   "notes": [
+    "B",
+    "F#",
+    "A"
+   ],
+   "pitch_out": "F# -1 cents",
+   "pan": 0.0,
+   "onset_ms": 6.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.64,
+   "peak_above_music_rms_db": -10.0
+  },
+  {
+   "t": 33.3,
+   "what": "the fat drop falls out of the window",
+   "name": "whoosh_3",
+   "gain_db": -47.2,
+   "peak_db": -52.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.2,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.52,
+   "peak_above_music_rms_db": -16.8
+  },
+  {
+   "t": 29.0,
+   "what": "the cloud grows heavy (a far hush of rain)",
+   "name": "rain_puddle",
+   "gain_db": -22.5,
+   "bed_to": 34.86,
+   "bed_peak_db": -53.7,
+   "bed_rms_db": -77.0
+  },
+  {
+   "t": 33.86,
+   "what": "the first raindrops fall",
+   "name": "drops_1",
+   "gain_db": -33.5,
+   "peak_db": -34.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.38,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 34.71,
+   "what": "a raindrop",
+   "name": "drops_2",
+   "gain_db": 4.6,
+   "peak_db": -35.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.32,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -6.1
+  },
+  {
+   "t": 35.36,
+   "what": "a raindrop",
+   "name": "drops_4",
+   "gain_db": 2.4,
+   "peak_db": -35.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.27,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -5.7
+  },
+  {
+   "t": 35.81,
+   "what": "a raindrop",
+   "name": "drops_3",
+   "gain_db": -30.2,
+   "peak_db": -34.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.18,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -5.3
+  },
+  {
+   "t": 36.21,
+   "what": "a raindrop",
+   "name": "drops_1",
+   "gain_db": -34.1,
+   "peak_db": -34.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.31,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -4.9
+  },
+  {
+   "t": 36.51,
+   "what": "a raindrop",
+   "name": "drops_2",
+   "gain_db": 5.0,
+   "peak_db": -34.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.39,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -4.5
+  },
+  {
+   "t": 36.76,
+   "what": "a raindrop",
+   "name": "drops_4",
+   "gain_db": 3.6,
+   "peak_db": -33.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.44,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -4.1
+  },
+  {
+   "t": 36.96,
+   "what": "a raindrop",
+   "name": "drops_3",
+   "gain_db": -27.8,
+   "peak_db": -31.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.48,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -3.7
+  },
+  {
+   "t": 37.16,
+   "what": "a raindrop",
+   "name": "drops_1",
+   "gain_db": -28.4,
+   "peak_db": -29.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -3.2
+  },
+  {
+   "t": 37.36,
+   "what": "a raindrop",
+   "name": "drops_2",
+   "gain_db": 11.7,
+   "peak_db": -27.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.43,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.6,
+   "peak_above_music_rms_db": -2.9
+  },
+  {
+   "t": 35.86,
+   "what": "soft rain",
+   "name": "rain_puddle",
+   "gain_db": 3.5,
+   "bed_to": 52.3,
+   "bed_peak_db": -22.4,
+   "bed_rms_db": -37.7
+  },
+  {
+   "t": 36.86,
+   "what": "rain on leaves",
+   "name": "rain_concrete",
+   "gain_db": -10.0,
+   "bed_to": 51.3,
+   "bed_peak_db": -32.1,
+   "bed_rms_db": -51.8
+  },
+  {
+   "t": 35.2,
+   "what": "she runs in over the wet grass",
+   "name": "steps_short_grass",
+   "gain_db": -21.7,
+   "peak_db": -38.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.7,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.24,
+   "peak_above_music_rms_db": -8.5
+  },
+  {
+   "t": 35.42,
+   "what": "she runs in over the wet grass",
+   "name": "steps_short_grass",
+   "gain_db": -28.2,
+   "peak_db": -38.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.68,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.24,
+   "peak_above_music_rms_db": -8.9
+  },
+  {
+   "t": 35.64,
+   "what": "she runs in over the wet grass",
+   "name": "steps_short_grass",
+   "gain_db": -15.4,
+   "peak_db": -39.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.66,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.24,
+   "peak_above_music_rms_db": -9.3
+  },
+  {
+   "t": 35.86,
+   "what": "she runs in over the wet grass",
+   "name": "steps_short_grass",
+   "gain_db": -16.3,
+   "peak_db": -39.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.64,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.24,
+   "peak_above_music_rms_db": -9.7
+  },
+  {
+   "t": 36.08,
+   "what": "she runs in over the wet grass",
+   "name": "steps_short_grass",
+   "gain_db": -23.1,
+   "peak_db": -40.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.62,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.24,
+   "peak_above_music_rms_db": -10.1
+  },
+  {
+   "t": 36.3,
+   "what": "she runs in over the wet grass",
+   "name": "steps_short_grass",
+   "gain_db": -20.9,
+   "peak_db": -40.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.6,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.24,
+   "peak_above_music_rms_db": -10.5
+  },
+  {
+   "t": 36.52,
+   "what": "she runs in over the wet grass",
+   "name": "steps_short_grass",
+   "gain_db": -18.7,
+   "peak_db": -41.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.58,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.24,
+   "peak_above_music_rms_db": -10.9
+  },
+  {
+   "t": 36.74,
+   "what": "she runs in over the wet grass",
+   "name": "steps_short_grass",
+   "gain_db": -20.9,
+   "peak_db": -41.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.56,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.24,
+   "peak_above_music_rms_db": -11.2
+  },
+  {
+   "t": 36.0,
+   "what": "the umbrella unfurls (cloth)",
+   "name": "cloth",
+   "gain_db": -17.3,
+   "peak_db": -43.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.6,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.8,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 36.8,
+   "what": "POP: the yellow umbrella opens",
+   "name": "wine_stopper_3",
+   "gain_db": -34.8,
+   "peak_db": -36.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.6,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.47,
+   "peak_above_music_rms_db": -7.5
+  },
+  {
+   "t": 36.88,
+   "what": "the umbrella bounces open (a soft boing)",
+   "name": "boing_4",
+   "gain_db": -38.6,
+   "peak_db": -39.2,
+   "tuned_st": 1.25,
+   "notes": [
+    "C",
+    "G"
+   ],
+   "pitch_out": "C +0 cents",
+   "pan": -0.6,
+   "onset_ms": 5.8,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.41,
+   "peak_above_music_rms_db": -10.5
+  },
+  {
+   "t": 37.1,
+   "what": "rain drums on the umbrella",
+   "name": "rain_puddle",
+   "gain_db": -30.9,
+   "peak_db": -42.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.6,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 2.2,
+   "peak_above_music_rms_db": -16.4
+  },
+  {
+   "t": 34.9,
+   "what": "the snail wiggles happily in the rain",
+   "name": "toy_squeal_1",
+   "gain_db": -44.2,
+   "peak_db": -44.8,
+   "tuned_st": 3.25,
+   "notes": [
+    "A",
+    "B",
+    "G"
+   ],
+   "pitch_out": "G +7 cents",
+   "pan": 0.65,
+   "onset_ms": 9.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.39,
+   "peak_above_music_rms_db": -15.4
+  },
+  {
+   "t": 36.5,
+   "what": "the snail wiggles happily in the rain",
+   "name": "boing_4",
+   "gain_db": -44.1,
+   "peak_db": -44.7,
+   "tuned_st": 1.25,
+   "notes": [
+    "C",
+    "G"
+   ],
+   "pitch_out": "C -2 cents",
+   "pan": 0.65,
+   "onset_ms": 11.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.32,
+   "peak_above_music_rms_db": -14.5
+  },
+  {
+   "t": 38.0,
+   "what": "the snail wiggles happily in the rain",
+   "name": "toy_squeal_3",
+   "gain_db": -33.7,
+   "peak_db": -40.9,
+   "tuned_st": -0.44,
+   "notes": [
+    "G",
+    "C"
+   ],
+   "pitch_out": "G -1 cents",
+   "pan": 0.65,
+   "onset_ms": 8.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.48,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 39.8,
+   "what": "the snail wiggles happily in the rain",
+   "name": "boing_4",
+   "gain_db": -48.1,
+   "peak_db": -48.5,
+   "tuned_st": -1.75,
+   "notes": [
+    "A"
+   ],
+   "pitch_out": "A -1 cents",
+   "pan": 0.65,
+   "onset_ms": 13.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.38,
+   "peak_above_music_rms_db": -14.5
+  },
+  {
+   "t": 36.46,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -42.8,
+   "peak_db": -45.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 37.766,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -5.1,
+   "peak_db": -40.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 39.201,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -43.4,
+   "peak_db": -46.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 40.15,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -45.8,
+   "peak_db": -48.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.6
+  },
+  {
+   "t": 41.287,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -42.7,
+   "peak_db": -45.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 42.711,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -5.0,
+   "peak_db": -46.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 43.647,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -42.1,
+   "peak_db": -45.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 44.754,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -42.4,
+   "peak_db": -46.8,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 45.892,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -44.2,
+   "peak_db": -48.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.4
+  },
+  {
+   "t": 47.031,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -33.6,
+   "peak_db": -43.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 48.487,
+   "what": "a raindrop plinks in the watering can",
+   "name": "drops_metal_pan",
+   "gain_db": -41.5,
+   "peak_db": -44.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -15.6
+  },
+  {
+   "t": 37.0,
+   "what": "the water sinks into the soil",
+   "name": "water_over_soil",
+   "gain_db": -2.7,
+   "bed_to": 50.5,
+   "bed_peak_db": -33.1,
+   "bed_rms_db": -52.0
+  },
+  {
+   "t": 38.0,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_2",
+   "gain_db": 3.8,
+   "peak_db": -38.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 39.146,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_1",
+   "gain_db": -11.4,
+   "peak_db": -44.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.23,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 39.868,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_4",
+   "gain_db": 2.1,
+   "peak_db": -47.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.11,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 40.765,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_2",
+   "gain_db": 5.9,
+   "peak_db": -44.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.01,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 41.788,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_1",
+   "gain_db": 0.7,
+   "peak_db": -44.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 42.798,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_4",
+   "gain_db": -41.1,
+   "peak_db": -44.1,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.23,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 43.919,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_2",
+   "gain_db": -22.4,
+   "peak_db": -43.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.11,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.4
+  },
+  {
+   "t": 44.863,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_1",
+   "gain_db": -24.7,
+   "peak_db": -45.0,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.01,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 45.636,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_4",
+   "gain_db": -5.8,
+   "peak_db": -45.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 46.499,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_2",
+   "gain_db": -3.4,
+   "peak_db": -45.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.23,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 47.274,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_1",
+   "gain_db": -39.6,
+   "peak_db": -41.5,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.11,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 48.009,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_4",
+   "gain_db": 0.5,
+   "peak_db": -44.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.01,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.5
+  },
+  {
+   "t": 49.14,
+   "what": "a drop sinks down to the water in the sand",
+   "name": "drops_2",
+   "gain_db": 6.8,
+   "peak_db": -35.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -13.8
+  },
+  {
+   "t": 46.0,
+   "what": "the water table rises in the sand",
+   "name": "swirl_water",
+   "gain_db": -39.5,
+   "peak_db": -49.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.35,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 3.0,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 43.5,
+   "what": "the brook swells",
+   "name": "small_cascade",
+   "gain_db": -39.0,
+   "peak_db": -46.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.1,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 3.4,
+   "peak_above_music_rms_db": -16.5
+  },
+  {
+   "t": 41.0,
+   "what": "the paper boat is set on the brook",
+   "name": "water_bubble_2",
+   "gain_db": -34.4,
+   "peak_db": -40.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.4,
+   "onset_ms": 10.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.5,
+   "peak_above_music_rms_db": -10.5
+  },
+  {
+   "t": 40.7,
+   "what": "paper rustle (the boat)",
+   "name": "paper",
+   "gain_db": -12.9,
+   "peak_db": -48.3,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.4,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.45,
+   "peak_above_music_rms_db": -17.5
+  },
+  {
+   "t": 43.0,
+   "what": "she lands in the puddle: SPLASH",
+   "name": "splash_small_2",
+   "gain_db": -39.0,
+   "peak_db": -37.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.41,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.1,
+   "peak_above_music_rms_db": -7.5
+  },
+  {
+   "t": 42.22,
+   "what": "a hop (a soft boing)",
+   "name": "boing_2",
+   "gain_db": -40.0,
+   "peak_db": -45.7,
+   "tuned_st": 0.32,
+   "notes": [
+    "G",
+    "B",
+    "E"
+   ],
+   "pitch_out": "E +37 cents",
+   "pan": -0.41,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.39,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 44.6,
+   "what": "she lands in the puddle: SPLASH",
+   "name": "splash_small_4",
+   "gain_db": -37.2,
+   "peak_db": -38.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.41,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.1,
+   "peak_above_music_rms_db": -7.5
+  },
+  {
+   "t": 43.82,
+   "what": "a hop (a soft boing)",
+   "name": "boing_2",
+   "gain_db": -39.4,
+   "peak_db": -45.1,
+   "tuned_st": 0.32,
+   "notes": [
+    "F#",
+    "A",
+    "B"
+   ],
+   "pitch_out": "E +37 cents",
+   "pan": -0.41,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.39,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 46.2,
+   "what": "she lands in the puddle: SPLASH",
+   "name": "splash_small_5",
+   "gain_db": -42.3,
+   "peak_db": -42.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.41,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.1,
+   "peak_above_music_rms_db": -7.5
+  },
+  {
+   "t": 45.42,
+   "what": "a hop (a soft boing)",
+   "name": "boing_2",
+   "gain_db": -41.4,
+   "peak_db": -47.0,
+   "tuned_st": 0.32,
+   "notes": [
+    "B",
+    "E",
+    "G"
+   ],
+   "pitch_out": "E +37 cents",
+   "pan": -0.41,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.39,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 47.8,
+   "what": "she lands in the puddle: SPLASH",
+   "name": "splash_small_6",
+   "gain_db": -37.0,
+   "peak_db": -37.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.41,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.1,
+   "peak_above_music_rms_db": -7.5
+  },
+  {
+   "t": 47.02,
+   "what": "a hop (a soft boing)",
+   "name": "boing_2",
+   "gain_db": -37.7,
+   "peak_db": -43.3,
+   "tuned_st": -3.68,
+   "notes": [
+    "G",
+    "F#",
+    "E"
+   ],
+   "pitch_out": "C +37 cents",
+   "pan": -0.41,
+   "onset_ms": 7.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.49,
+   "peak_above_music_rms_db": -15.5
+  },
+  {
+   "t": 69.95,
+   "what": "she lands in the puddle: SPLASH",
+   "name": "splash_big_1",
+   "gain_db": -26.9,
+   "peak_db": -29.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.41,
+   "onset_ms": 15.0,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.1,
+   "peak_above_music_rms_db": -7.0
+  },
+  {
+   "t": 69.17,
+   "what": "a hop (a soft boing)",
+   "name": "boing_2",
+   "gain_db": -54.7,
+   "peak_db": -60.3,
+   "tuned_st": 0.32,
+   "notes": [
+    "B",
+    "E"
+   ],
+   "pitch_out": "E +37 cents",
+   "pan": -0.41,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.39,
+   "peak_above_music_rms_db": -17.0
+  },
+  {
+   "t": 49.3,
+   "what": "drip, drip: after the rain",
+   "name": "night_after_rain",
+   "gain_db": -25.2,
+   "peak_db": -44.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.2,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 5.0,
+   "peak_above_music_rms_db": -22.8
+  },
+  {
+   "t": 50.3,
+   "what": "a bird sings again",
+   "name": "robin_1",
+   "gain_db": -36.9,
+   "peak_db": -41.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.5,
+   "onset_ms": 34.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -18.5
+  },
+  {
+   "t": 51.2,
+   "what": "a bird sings again",
+   "name": "blackbird_30",
+   "gain_db": -40.5,
+   "peak_db": -40.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.5,
+   "onset_ms": 20.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.94,
+   "peak_above_music_rms_db": -18.9
+  },
+  {
+   "t": 52.3,
+   "what": "a bird sings again",
+   "name": "robin_1",
+   "gain_db": -35.4,
+   "peak_db": -41.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.2,
+   "onset_ms": 34.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -18.7
+  },
+  {
+   "t": 50.1,
+   "what": "the umbrella is shut (cloth)",
+   "name": "cloth",
+   "gain_db": -18.5,
+   "peak_db": -41.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.6,
+   "onset_ms": null,
+   "swell": true,
+   "rev": false,
+   "tail_s": 0.9,
+   "peak_above_music_rms_db": -18.4
+  },
+  {
+   "t": 52.54,
+   "what": "the rainbow paints itself across the sky (chimes)",
+   "name": "chimes_dream_3",
+   "gain_db": -10.2,
+   "peak_db": -31.1,
+   "tuned_st": -0.36,
+   "notes": [
+    "G#",
+    "B",
+    "E"
+   ],
+   "pitch_out": "G +11 cents",
+   "pan": -0.6,
+   "onset_ms": 14.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.07,
+   "peak_above_music_rms_db": -9.4
+  },
+  {
+   "t": 53.44,
+   "what": "the rainbow paints itself across the sky (chimes)",
+   "name": "chimes_dream_3",
+   "gain_db": -8.4,
+   "peak_db": -30.7,
+   "tuned_st": -0.36,
+   "notes": [
+    "B",
+    "G#"
+   ],
+   "pitch_out": "G +11 cents",
+   "pan": -0.2,
+   "onset_ms": 14.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.07,
+   "peak_above_music_rms_db": -9.9
+  },
+  {
+   "t": 54.24,
+   "what": "the rainbow paints itself across the sky (chimes)",
+   "name": "chimes_dream_3",
+   "gain_db": -9.3,
+   "peak_db": -31.6,
+   "tuned_st": -0.36,
+   "notes": [
+    "G#",
+    "B",
+    "E"
+   ],
+   "pitch_out": "G +11 cents",
+   "pan": 0.2,
+   "onset_ms": 14.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.07,
+   "peak_above_music_rms_db": -10.7
+  },
+  {
+   "t": 55.04,
+   "what": "the rainbow paints itself across the sky (chimes)",
+   "name": "chimes_dream_3",
+   "gain_db": -11.9,
+   "peak_db": -32.8,
+   "tuned_st": -0.36,
+   "notes": [
+    "G#",
+    "B"
+   ],
+   "pitch_out": "G +11 cents",
+   "pan": 0.6,
+   "onset_ms": 14.4,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.07,
+   "peak_above_music_rms_db": -11.6
+  },
+  {
+   "t": 52.64,
+   "what": "the rainbow arrives (a struck glockenspiel chord, tuned)",
+   "name": "glockenspiel",
+   "gain_db": -23.0,
+   "peak_db": -29.6,
+   "tuned_st": -0.97,
+   "notes": [
+    "G#",
+    "B",
+    "E"
+   ],
+   "pitch_out": "C# +1 cents",
+   "pan": 0.0,
+   "onset_ms": 45.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.85,
+   "peak_above_music_rms_db": -8.3
+  },
+  {
+   "t": 52.69,
+   "what": "a soft triangle on the rainbow",
+   "name": "triangle_2",
+   "gain_db": -26.3,
+   "peak_db": -32.3,
+   "tuned_st": -0.08,
+   "notes": [
+    "G#",
+    "B",
+    "E"
+   ],
+   "pitch_out": "E +1 cents",
+   "pan": 0.15,
+   "onset_ms": 6.9,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.98,
+   "peak_above_music_rms_db": -11.2
+  },
+  {
+   "t": 56.2,
+   "what": "the far sea",
+   "name": "small_waves_ocean",
+   "gain_db": -12.9,
+   "bed_to": 73.0,
+   "bed_peak_db": -34.6,
+   "bed_rms_db": -50.7
+  },
+  {
+   "t": 58.7,
+   "what": "new shimmer rises again (reversed chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -33.6,
+   "peak_db": -35.3,
+   "tuned_st": -0.34,
+   "notes": [
+    "B",
+    "G#",
+    "E"
+   ],
+   "pitch_out": null,
+   "pan": -0.2,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 2.34,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 60.4,
+   "what": "new shimmer rises again (reversed chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -33.1,
+   "peak_db": -36.2,
+   "tuned_st": 2.66,
+   "notes": [
+    "E",
+    "B"
+   ],
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 1.97,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 62.1,
+   "what": "new shimmer rises again (reversed chimes)",
+   "name": "chimes_dream_1",
+   "gain_db": -40.4,
+   "peak_db": -42.2,
+   "tuned_st": -0.34,
+   "notes": [
+    "B",
+    "G#",
+    "E"
+   ],
+   "pitch_out": null,
+   "pan": 0.2,
+   "onset_ms": null,
+   "swell": true,
+   "rev": true,
+   "tail_s": 2.34,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 59.7,
+   "what": "the rubber duck squeaks on the lake",
+   "name": "toy_duck",
+   "gain_db": -29.9,
+   "peak_db": -35.5,
+   "tuned_st": 0.69,
+   "notes": [
+    "E",
+    "B",
+    "G#"
+   ],
+   "pitch_out": "B -1 cents",
+   "pan": 0.13,
+   "onset_ms": 7.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.48,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 60.0,
+   "what": "the rubber duck squeaks again",
+   "name": "toy_duck",
+   "gain_db": -30.2,
+   "peak_db": -35.8,
+   "tuned_st": 0.69,
+   "notes": [
+    "E",
+    "B"
+   ],
+   "pitch_out": "B -1 cents",
+   "pan": 0.13,
+   "onset_ms": 7.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.48,
+   "peak_above_music_rms_db": -15.0
+  },
+  {
+   "t": 67.85,
+   "what": "the snail waves",
+   "name": "boing_4",
+   "gain_db": -32.7,
+   "peak_db": -33.1,
+   "tuned_st": 0.24,
+   "notes": [
+    "B"
+   ],
+   "pitch_out": "B -1 cents",
+   "pan": 0.65,
+   "onset_ms": 6.1,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.53,
+   "peak_above_music_rms_db": -11.0
+  },
+  {
+   "t": 68.05,
+   "what": "a last twinkle",
+   "name": "chimes_butterfly_3",
+   "gain_db": -24.1,
+   "peak_db": -33.6,
+   "tuned_st": 1.61,
+   "notes": [
+    "B",
+    "F#"
+   ],
+   "pitch_out": "B +0 cents",
+   "pan": 0.2,
+   "onset_ms": 22.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 1.9,
+   "peak_above_music_rms_db": -14.0
+  },
+  {
+   "t": 70.95,
+   "what": "a bird calls over the last chord",
+   "name": "robin_1",
+   "gain_db": -48.2,
+   "peak_db": -53.2,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": -0.4,
+   "onset_ms": 34.2,
+   "swell": false,
+   "rev": false,
+   "tail_s": 2.01,
+   "peak_above_music_rms_db": -19.0
+  },
+  {
+   "t": 0.35,
+   "what": "words pop in: where does rain come from?",
+   "name": "wine_stopper_3",
+   "gain_db": -43.3,
+   "peak_db": -48.6,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 12.85,
+   "what": "words pop in: invisible water",
+   "name": "wine_stopper_3",
+   "gain_db": -44.0,
+   "peak_db": -49.4,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 19.35,
+   "what": "words pop in: tiny drops",
+   "name": "wine_stopper_3",
+   "gain_db": -39.4,
+   "peak_db": -44.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 25.85,
+   "what": "words pop in: about a million",
+   "name": "wine_stopper_3",
+   "gain_db": -39.5,
+   "peak_db": -44.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 57.35,
+   "what": "words pop in: around and around",
+   "name": "wine_stopper_3",
+   "gain_db": -31.6,
+   "peak_db": -36.9,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  },
+  {
+   "t": 64.75,
+   "what": "words pop in: where has your rain been?",
+   "name": "wine_stopper_3",
+   "gain_db": -36.3,
+   "peak_db": -41.7,
+   "tuned_st": null,
+   "notes": null,
+   "pitch_out": null,
+   "pan": 0.0,
+   "onset_ms": 6.3,
+   "swell": false,
+   "rev": false,
+   "tail_s": 0.74,
+   "peak_above_music_rms_db": -16.0
+  }
+ ],
+ "landing_check": {
+  "by_construction": {
+   "spots": 109,
+   "latest_onset_ms": 45.1,
+   "over_60ms": []
+  },
+  "on_the_rendered_effects_bus": {
+   "checked": 109,
+   "landed": 69,
+   "not_clear": [
+    {
+     "t": 9.6,
+     "what": "a glint on the lake",
+     "peak_offset_ms": 87.5,
+     "rise_db": 2.4
+    },
+    {
+     "t": 11.1,
+     "what": "a glint on the lake",
+     "peak_offset_ms": -12.2,
+     "rise_db": 2.9
+    },
+    {
+     "t": 18.9,
+     "what": "a tiny drop joins the cloud",
+     "peak_offset_ms": 106.1,
+     "rise_db": 2.4
+    },
+    {
+     "t": 19.354,
+     "what": "a tiny drop joins the cloud",
+     "peak_offset_ms": 44.0,
+     "rise_db": 2.3
+    },
+    {
+     "t": 20.262,
+     "what": "a tiny drop joins the cloud",
+     "peak_offset_ms": 1.0,
+     "rise_db": 1.1
+    },
+    {
+     "t": 20.716,
+     "what": "a tiny drop joins the cloud",
+     "peak_offset_ms": -15.1,
+     "rise_db": 2.4
+    },
+    {
+     "t": 22.077,
+     "what": "a tiny drop joins the cloud",
+     "peak_offset_ms": 131.8,
+     "rise_db": 1.6
+    },
+    {
+     "t": 22.985,
+     "what": "a tiny drop joins the cloud",
+     "peak_offset_ms": 34.7,
+     "rise_db": 1.5
+    },
+    {
+     "t": 23.439,
+     "what": "a tiny drop joins the cloud",
+     "peak_offset_ms": -29.6,
+     "rise_db": 2.3
+    },
+    {
+     "t": 24.346,
+     "what": "a tiny drop joins the cloud",
+     "peak_offset_ms": -9.9,
+     "rise_db": 1.6
+    },
+    {
+     "t": 29.365,
+     "what": "two drops bump and stick (a soft blip)",
+     "peak_offset_ms": -24.0,
+     "rise_db": 1.6
+    },
+    {
+     "t": 37.36,
+     "what": "a raindrop",
+     "peak_offset_ms": 83.5,
+     "rise_db": 2.9
+    },
+    {
+     "t": 35.64,
+     "what": "she runs in over the wet grass",
+     "peak_offset_ms": 147.9,
+     "rise_db": 2.2
+    },
+    {
+     "t": 36.3,
+     "what": "she runs in over the wet grass",
+     "peak_offset_ms": 149.3,
+     "rise_db": 1.9
+    },
+    {
+     "t": 36.5,
+     "what": "the snail wiggles happily in the rain",
+     "peak_offset_ms": -3.9,
+     "rise_db": 2.3
+    },
+    {
+     "t": 36.46,
+     "what": "a raindrop plinks in the watering can",
+     "peak_offset_ms": 36.1,
+     "rise_db": 2.4
+    },
+    {
+     "t": 39.201,
+     "what": "a raindrop plinks in the watering can",
+     "peak_offset_ms": 16.9,
+     "rise_db": 2.8
+    },
+    {
+     "t": 41.287,
+     "what": "a raindrop plinks in the watering can",
+     "peak_offset_ms": 7.4,
+     "rise_db": 2.5
+    },
+    {
+     "t": 47.031,
+     "what": "a raindrop plinks in the watering can",
+     "peak_offset_ms": 127.1,
+     "rise_db": 2.1
+    },
+    {
+     "t": 48.487,
+     "what": "a raindrop plinks in the watering can",
+     "peak_offset_ms": 83.8,
+     "rise_db": 0.9
+    },
+    {
+     "t": 39.146,
+     "what": "a drop sinks down to the water in the sand",
+     "peak_offset_ms": 71.9,
+     "rise_db": 2.9
+    },
+    {
+     "t": 42.798,
+     "what": "a drop sinks down to the water in the sand",
+     "peak_offset_ms": -30.0,
+     "rise_db": 2.1
+    },
+    {
+     "t": 49.14,
+     "what": "a drop sinks down to the water in the sand",
+     "peak_offset_ms": 23.1,
+     "rise_db": 0.5
+    },
+    {
+     "t": 41.0,
+     "what": "the paper boat is set on the brook",
+     "peak_offset_ms": -14.0,
+     "rise_db": 0.4
+    },
+    {
+     "t": 43.0,
+     "what": "she lands in the puddle: SPLASH",
+     "peak_offset_ms": 1.8,
+     "rise_db": 1.0
+    },
+    {
+     "t": 45.42,
+     "what": "a hop (a soft boing)",
+     "peak_offset_ms": 52.2,
+     "rise_db": 2.5
+    },
+    {
+     "t": 47.02,
+     "what": "a hop (a soft boing)",
+     "peak_offset_ms": 138.1,
+     "rise_db": 2.1
+    },
+    {
+     "t": 69.95,
+     "what": "she lands in the puddle: SPLASH",
+     "peak_offset_ms": 82.3,
+     "rise_db": 1.7
+    },
+    {
+     "t": 69.17,
+     "what": "a hop (a soft boing)",
+     "peak_offset_ms": 72.2,
+     "rise_db": 2.9
+    },
+    {
+     "t": 50.3,
+     "what": "a bird sings again",
+     "peak_offset_ms": 149.5,
+     "rise_db": 2.2
+    },
+    {
+     "t": 53.44,
+     "what": "the rainbow paints itself across the sky (chimes)",
+     "peak_offset_ms": 2.1,
+     "rise_db": 1.3
+    },
+    {
+     "t": 54.24,
+     "what": "the rainbow paints itself across the sky (chimes)",
+     "peak_offset_ms": 48.6,
+     "rise_db": 2.4
+    },
+    {
+     "t": 55.04,
+     "what": "the rainbow paints itself across the sky (chimes)",
+     "peak_offset_ms": -1.5,
+     "rise_db": 2.0
+    },
+    {
+     "t": 59.7,
+     "what": "the rubber duck squeaks on the lake",
+     "peak_offset_ms": -15.4,
+     "rise_db": 1.0
+    },
+    {
+     "t": 68.05,
+     "what": "a last twinkle",
+     "peak_offset_ms": -27.8,
+     "rise_db": 2.5
+    },
+    {
+     "t": 12.85,
+     "what": "words pop in: invisible water",
+     "peak_offset_ms": 54.8,
+     "rise_db": 2.8
+    },
+    {
+     "t": 19.35,
+     "what": "words pop in: tiny drops",
+     "peak_offset_ms": 48.0,
+     "rise_db": 2.3
+    },
+    {
+     "t": 25.85,
+     "what": "words pop in: about a million",
+     "peak_offset_ms": -17.4,
+     "rise_db": 2.4
+    },
+    {
+     "t": 57.35,
+     "what": "words pop in: around and around",
+     "peak_offset_ms": -10.1,
+     "rise_db": 1.0
+    },
+    {
+     "t": 64.75,
+     "what": "words pop in: where has your rain been?",
+     "peak_offset_ms": 115.1,
+     "rise_db": 2.8
+    }
+   ]
+  }
+ },
+ "timeline_rms_dbfs": [
+  {
+   "event": "first flutes",
+   "t": 0.5,
+   "windows": [
+    [
+     0.0,
+     -40.4,
+     -51.6,
+     -40.8
+    ],
+    [
+     0.5,
+     -21.0,
+     -21.6,
+     -29.7
+    ],
+    [
+     1.0,
+     -20.5,
+     -21.8,
+     -26.4
+    ],
+    [
+     1.5,
+     -25.8,
+     -33.3,
+     -26.7
+    ],
+    [
+     2.0,
+     -23.3,
+     -25.3,
+     -27.8
+    ],
+    [
+     2.5,
+     -23.6,
+     -24.8,
+     -30.0
+    ]
+   ]
+  },
+  {
+   "event": "sun warms",
+   "t": 6.5,
+   "windows": [
+    [
+     5.5,
+     -24.8,
+     -26.7,
+     -29.4
+    ],
+    [
+     6.0,
+     -25.6,
+     -26.8,
+     -31.6
+    ],
+    [
+     6.5,
+     -26.8,
+     -28.7,
+     -31.3
+    ],
+    [
+     7.0,
+     -26.1,
+     -28.1,
+     -30.8
+    ],
+    [
+     7.5,
+     -24.0,
+     -26.3,
+     -27.9
+    ],
+    [
+     8.0,
+     -21.6,
+     -24.9,
+     -24.5
+    ]
+   ]
+  },
+  {
+   "event": "vapour rises",
+   "t": 13.0,
+   "windows": [
+    [
+     12.0,
+     -21.6,
+     -22.6,
+     -28.6
+    ],
+    [
+     12.5,
+     -22.8,
+     -25.6,
+     -26.1
+    ],
+    [
+     13.0,
+     -25.8,
+     -32.1,
+     -27.1
+    ],
+    [
+     13.5,
+     -25.7,
+     -28.7,
+     -28.6
+    ],
+    [
+     14.0,
+     -24.6,
+     -26.4,
+     -29.6
+    ],
+    [
+     14.5,
+     -24.7,
+     -28.1,
+     -27.4
+    ]
+   ]
+  },
+  {
+   "event": "cloud forms",
+   "t": 20.0,
+   "windows": [
+    [
+     19.0,
+     -20.8,
+     -23.6,
+     -24.0
+    ],
+    [
+     19.5,
+     -21.8,
+     -24.2,
+     -25.6
+    ],
+    [
+     20.0,
+     -21.8,
+     -23.3,
+     -27.7
+    ],
+    [
+     20.5,
+     -24.4,
+     -25.9,
+     -29.6
+    ],
+    [
+     21.0,
+     -26.2,
+     -28.9,
+     -29.4
+    ],
+    [
+     21.5,
+     -23.2,
+     -25.1,
+     -27.7
+    ]
+   ]
+  },
+  {
+   "event": "window opens",
+   "t": 25.7,
+   "windows": [
+    [
+     24.7,
+     -23.2,
+     -24.3,
+     -29.6
+    ],
+    [
+     25.2,
+     -23.3,
+     -24.8,
+     -28.5
+    ],
+    [
+     25.7,
+     -23.1,
+     -24.7,
+     -28.2
+    ],
+    [
+     26.2,
+     -21.7,
+     -22.5,
+     -29.2
+    ],
+    [
+     26.7,
+     -24.2,
+     -27.8,
+     -26.8
+    ],
+    [
+     27.2,
+     -20.9,
+     -25.0,
+     -23.0
+    ]
+   ]
+  },
+  {
+   "event": "last drops join",
+   "t": 32.7,
+   "windows": [
+    [
+     31.7,
+     -21.6,
+     -22.5,
+     -28.6
+    ],
+    [
+     32.2,
+     -21.5,
+     -22.2,
+     -30.0
+    ],
+    [
+     32.7,
+     -25.3,
+     -29.3,
+     -27.6
+    ],
+    [
+     33.2,
+     -29.5,
+     -34.0,
+     -31.5
+    ],
+    [
+     33.7,
+     -21.9,
+     -22.4,
+     -31.6
+    ],
+    [
+     34.2,
+     -20.9,
+     -21.3,
+     -30.5
+    ]
+   ]
+  },
+  {
+   "event": "FIRST RAINDROP",
+   "t": 33.86,
+   "windows": [
+    [
+     32.86,
+     -27.3,
+     -32.0,
+     -29.1
+    ],
+    [
+     33.36,
+     -26.6,
+     -28.1,
+     -32.2
+    ],
+    [
+     33.86,
+     -20.3,
+     -20.7,
+     -30.6
+    ],
+    [
+     34.36,
+     -22.8,
+     -23.5,
+     -30.7
+    ],
+    [
+     34.86,
+     -23.4,
+     -24.3,
+     -30.8
+    ],
+    [
+     35.36,
+     -23.6,
+     -24.5,
+     -30.5
+    ]
+   ]
+  },
+  {
+   "event": "umbrella pops",
+   "t": 36.9,
+   "windows": [
+    [
+     35.9,
+     -23.4,
+     -24.2,
+     -31.2
+    ],
+    [
+     36.4,
+     -24.0,
+     -25.1,
+     -30.5
+    ],
+    [
+     36.9,
+     -21.5,
+     -22.4,
+     -28.8
+    ],
+    [
+     37.4,
+     -18.3,
+     -18.8,
+     -28.2
+    ],
+    [
+     37.9,
+     -18.8,
+     -19.8,
+     -25.4
+    ],
+    [
+     38.4,
+     -21.6,
+     -24.2,
+     -25.1
+    ]
+   ]
+  },
+  {
+   "event": "soaking in",
+   "t": 40.0,
+   "windows": [
+    [
+     39.0,
+     -21.8,
+     -25.2,
+     -24.6
+    ],
+    [
+     39.5,
+     -22.5,
+     -27.9,
+     -23.9
+    ],
+    [
+     40.0,
+     -21.6,
+     -28.4,
+     -22.6
+    ],
+    [
+     40.5,
+     -20.0,
+     -25.5,
+     -21.4
+    ],
+    [
+     41.0,
+     -20.7,
+     -25.0,
+     -22.6
+    ],
+    [
+     41.5,
+     -20.5,
+     -25.2,
+     -22.4
+    ]
+   ]
+  },
+  {
+   "event": "rain stops",
+   "t": 49.8,
+   "windows": [
+    [
+     48.8,
+     -17.4,
+     -18.0,
+     -26.5
+    ],
+    [
+     49.3,
+     -16.0,
+     -16.3,
+     -27.3
+    ],
+    [
+     49.8,
+     -17.2,
+     -17.7,
+     -27.0
+    ],
+    [
+     50.3,
+     -17.4,
+     -17.9,
+     -27.2
+    ],
+    [
+     50.8,
+     -16.2,
+     -16.6,
+     -26.6
+    ],
+    [
+     51.3,
+     -16.1,
+     -16.5,
+     -26.7
+    ]
+   ]
+  },
+  {
+   "event": "RAINBOW",
+   "t": 52.64,
+   "windows": [
+    [
+     51.64,
+     -16.2,
+     -16.6,
+     -26.6
+    ],
+    [
+     52.14,
+     -17.9,
+     -18.9,
+     -24.9
+    ],
+    [
+     52.64,
+     -14.1,
+     -14.9,
+     -21.7
+    ],
+    [
+     53.14,
+     -14.6,
+     -15.5,
+     -21.7
+    ],
+    [
+     53.64,
+     -14.5,
+     -15.4,
+     -21.6
+    ],
+    [
+     54.14,
+     -14.9,
+     -15.6,
+     -23.1
+    ]
+   ]
+  },
+  {
+   "event": "sea",
+   "t": 57.2,
+   "windows": [
+    [
+     56.2,
+     -16.2,
+     -16.5,
+     -28.3
+    ],
+    [
+     56.7,
+     -15.2,
+     -15.5,
+     -28.8
+    ],
+    [
+     57.2,
+     -15.4,
+     -15.7,
+     -27.8
+    ],
+    [
+     57.7,
+     -15.6,
+     -15.9,
+     -28.0
+    ],
+    [
+     58.2,
+     -15.6,
+     -16.0,
+     -27.1
+    ],
+    [
+     58.7,
+     -15.5,
+     -15.9,
+     -26.3
+    ]
+   ]
+  },
+  {
+   "event": "chord 1",
+   "t": 67.95,
+   "windows": [
+    [
+     66.95,
+     -26.2,
+     -43.6,
+     -26.2
+    ],
+    [
+     67.45,
+     -24.6,
+     -56.5,
+     -24.6
+    ],
+    [
+     67.95,
+     -13.7,
+     -13.3,
+     -22.6
+    ],
+    [
+     68.45,
+     -16.9,
+     -17.9,
+     -23.8
+    ],
+    [
+     68.95,
+     -24.2,
+     -37.7,
+     -24.5
+    ],
+    [
+     69.45,
+     -23.9,
+     -44.5,
+     -24.0
+    ]
+   ]
+  },
+  {
+   "event": "chord 2",
+   "t": 69.95,
+   "windows": [
+    [
+     68.95,
+     -24.2,
+     -37.7,
+     -24.5
+    ],
+    [
+     69.45,
+     -23.9,
+     -44.5,
+     -24.0
+    ],
+    [
+     69.95,
+     -15.1,
+     -15.6,
+     -25.0
+    ],
+    [
+     70.45,
+     -18.9,
+     -19.9,
+     -25.9
+    ],
+    [
+     70.95,
+     -27.1,
+     -33.4,
+     -28.2
+    ],
+    [
+     71.45,
+     -30.6,
+     -39.6,
+     -31.1
+    ]
+   ]
+  }
+ ],
+ "stand_ins": [
+  "The umbrella pop is a wine stopper's pop plus a soft harp boing tuned to the music: the bank has no umbrella.",
+  "The child's running is a real soft footstep on short grass (the bank has no wet grass or rubber boots); the puddle splashes are real small splashes.",
+  "The snail's happy wiggle is a toy squeal and soft boings, panned right: there is no recording of a snail.",
+  "The drops that bump and stick in the magnifier are soft water bubbles and bubble bursts (the bank has no cloud droplets); the last join is a soft boing.",
+  "The invisible water rising is reversed chimes tuned to the music (a shimmer, not a real sound of vapour).",
+  "The tiny drops gathering are a candle sparkle (tiny tinks).",
+  "The paper boat is a rustle of paper and a bubble where it touches the water.",
+  "The rainbow is a struck glockenspiel, chimes and a triangle, tuned to the orchestra; a rainbow has no sound.",
+  "No thunder anywhere (it would frighten the very young); the rain is a soft puddle-rain bed and rain on leaves.",
+  "Words pop in with a wine stopper's pop."
+ ],
+ "bank_run": "rc-render sfx-bank.yml run 40049538821 (24 Oct 2026)",
+ "listened": false,
+ "note": "Built and measured only: nobody has listened to this mix yet."
+}

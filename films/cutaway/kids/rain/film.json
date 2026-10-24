@@ -1,0 +1,16 @@
+{
+ "id": "kids-rain",
+ "series": "Little Big Questions",
+ "title": "Where does rain come from?",
+ "style": "cutaway",
+ "art": "fable",
+ "duration": 73.0,
+ "fps": 24,
+ "render_w": 1280,
+ "render_h": 720,
+ "w": 1920,
+ "h": 1080,
+ "samples": 20,
+ "note": "Little Big Questions, film 3 (6 to 8), a silent story: Fable Cutaway lifted slice (hillside, brook, lake, soil and groundwater) in a living world, one fixed view, a 2 degree sway, no cuts. Timing from beats.json through the one event table at the top of blender.py. Look named by KF_ART_NAME in blender.py. Music: Smetana, Vltava (The Moldau), Musopen Symphony, public domain, edit in beats.json; soundtrack v1 in audio/mix.m4a (audio/make_audio.py, SOUND.md).",
+ "audio": "audio/mix.m4a"
+}
