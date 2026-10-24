@@ -380,7 +380,7 @@ def eggs_pose(E, t):
 
 # ============================================================================== the series mascot: a little snail
 SNAIL_HOME = (1.42, -W.HY + 0.07)
-SK = 2.8
+SK = 4.6     # the mascot: bigger than the fossil film (it is this film's joke), about 24 cm long
 
 
 def build_snail(kit, D):
