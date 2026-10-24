@@ -59,9 +59,14 @@ hull, the snail waves up at it). Only some anglerfish have a lure; this is one f
 | `audio/make_audio.py` | The soundtrack (see `SOUND.md`); `audio/mix.m4a` is committed with `git add -f` for the runners |
 
 ## Checks and cost
-Looked at (this shared box, small size, Fable): t = 1.2, 2.2, 8, 18, 22 (640x360 to 960x540) and 36, 43 (1280x720). Real
-full-size stills: see the run ids in `docs/LOG.md`. Cost: US$0 (CPU, free runners).
-Frame independence: see the line in the report of the film (a frame rendered alone and after another).
+Stills looked at (Fable, 1280x720 on the rc-render runners and on this box): frames 140 (5.8 s, the dive), 408 (17.0 s), 676 (28.2 s,
+GLOW!), 816 (34.0 s), 1044 and 1056 (43.5 to 44 s, the lure), 1200 (50 s, hot vents), 1326 and 1334 (55.2 to 55.6 s, the climax),
+1464 and 1488 (61 to 62 s, MOST IS UNSEEN), 1596 (66.5 s, the surfacing) and 1640 (68.3 s), then 480x270 to 960x540 sweeps of the
+whole film (0.5, 1.2, 2.2, 8, 10.5, 17.6, 18.8, 22, 24, 27.5, 36.5, 37.9, 39.9, 52.5, 55.6, 56.4, 57, 58.5, 62, 64.8, 69, 70.3 s).
+Frame independence: frame 1032 renders pixel-identical alone and after frame 1031 (max difference 0, bounding box None).
+Measured: build 3 s; 1280x720 at 6 to 12 samples about 60 to 90 s a frame on this shared box (more on the runners at 20 samples).
+Cost: US$0 (CPU, free runners). Sound: `audio/make_audio.py` (79 real CC0 effects on the picture's events, music cut as beats.json
+says), -16.1 LUFS, -1.9 dBTP; nobody has listened to it yet.
 
 ## Weak spots (honest)
 - The deep creatures are lit by an ambient floor (they glow brighter than a real deep sea would show them) so a child can see them.

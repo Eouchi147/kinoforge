@@ -288,31 +288,32 @@ LANT_N = 10
 
 def build_lantern(kit, D):
     pr = Parts('fs_lantern')
-    body = SD(kit, D, 'fs_lf_b', (0.62, 0.72, 0.92), shade=0.28, tex=0.04); dot = M.glow(kit, D, 'fs_lf_d', (0.55, 0.95, 1.0), 2.2)
+    body = SD(kit, D, 'fs_lf_b', (0.90, 0.95, 1.0), shade=0.20, tex=0.04, glow=0.6, glow_color=(0.7, 0.9, 1.0), glow_drive='lantG'); dot = M.glow(kit, D, 'fs_lf_d', (0.55, 0.95, 1.0), 3.2)
     ew = SD(kit, D, 'fs_lf_w', (1, 1, 1), shade=0.05, tex=0.0, lamps=False, flat=True); ep = M.glow(kit, D, 'fs_lf_p', (0.07, 0.07, 0.18), 1.0)
     f = []
     for i in range(LANT_N):
         f.append({'body': pr.add(*sphere((0, 0, 0), (0.5, 0.17, 0.2), 2), m=0), 'tail': pr.add(*sphere((-0.13, 0, 0), (0.15, 0.025, 0.16), 1), m=0),
-                  'dots': [pr.add(*sphere((0, 0, 0), (0.07, 0.07, 0.07), 1), m=1) for _ in range(3)],
+                  'dots': [pr.add(*sphere((0, 0, 0), (0.24, 0.24, 0.24), 1), m=1) for _ in range(3)],
                   'ew': [pr.add(*sphere((0, 0, 0), (0.075, 0.075, 0.075), 1), m=2) for _ in range(2)], 'ep': [pr.add(*sphere((0, 0, 0), (0.05, 0.05, 0.05), 1), m=3) for _ in range(2)]})
     pr.build(kit.bpy, [body, dot, ew, ep], kit.coll); return {'parts': pr, 'f': f}
 
 
-def lantern_pose(La, t):
+def lantern_pose(La, t, D_=None):
     pr = La['parts']; rng = np.random.default_rng(11); z0 = wz(t)
     sp, _, _, _ = sub_state(t); c = sp
     k = W.win(t, B.lant0, B.lant1, 0.6)      # they come to the submarine on the swell and leave again
-    ph = rng.uniform(0, 6.28, LANT_N); rad = rng.uniform(0.32, 0.55, LANT_N); tilt = rng.uniform(-0.6, 0.6, LANT_N); sp_ = rng.uniform(0.9, 1.3, LANT_N)
+    D_.set('lantG', k) if D_ is not None else None
+    ph = rng.uniform(0, 6.28, LANT_N); rad = rng.uniform(0.55, 0.95, LANT_N); tilt = rng.uniform(-0.6, 0.6, LANT_N); sp_ = rng.uniform(0.9, 1.3, LANT_N)
     for i, d in enumerate(La['f']):
         allp = [d['body'], d['tail']] + d['dots'] + d['ew'] + d['ep']
         if k < 0.02:
             for q in allp: pr.hide(q)
             continue
         a = sp_[i] * 2.2 * (t - B.lant0) + ph[i]; r = rad[i] * (0.4 + 0.6 * k)
-        p = c + np.array([r * math.cos(a), 0.2 * math.sin(a * 0.5 + ph[i]) - 0.04, 0.55 * r * math.sin(a) + 0.04 * tilt[i]]) + np.array([0, 0, z0])
+        p = c + np.array([r * math.cos(a), 0.2 * math.sin(a * 0.5 + ph[i]) - 0.28, 0.55 * r * math.sin(a) + 0.04 * tilt[i]]) + np.array([0, 0, z0])
         v = np.array([-r * math.sin(a), 0.0, 0.55 * r * math.cos(a)]); yaw = 0.0; pitch = -math.atan2(v[2], v[0]) if v[0] >= 0 else -math.atan2(-v[2], -v[0])
         yaw = 0.0 if v[0] >= 0 else math.pi
-        R = orient(yaw, pitch if v[0] >= 0 else -pitch, 0.0); sc = 0.13 * k
+        R = orient(yaw, pitch if v[0] >= 0 else -pitch, 0.0); sc = 0.22 * k
         put(pr, d['body'], p, R, sc, (0, 0, 0)); put(pr, d['tail'], p, R, sc, (-0.46, 0, 0), rz(0.5 * math.sin(2 * math.pi * 2.5 * t + ph[i])))
         on = W.sm(B.lant0 + 0.4 + 0.07 * i, B.lant0 + 0.8 + 0.07 * i, t) * (0.85 + 0.15 * math.sin(6 * t + i))
         for j, off in enumerate([(0.1, -0.13, -0.12), (-0.1, -0.15, -0.1), (0.3, -0.12, -0.1)]):

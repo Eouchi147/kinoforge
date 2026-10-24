@@ -127,7 +127,7 @@ def frame(bpy, ctx, S, i, t):
     D.set('wflash', 0.20 * W.sm(W.B.bloom0 - 0.05, W.B.bloom0 + 0.10, t) * (1.0 - W.sm(W.B.bloom0 + 0.2, W.B.bloom0 + 1.6, t)) + 0.12 * LF.bloom_env(t))
     SEA.stage_pose(S['stage'], D, t)
     LF.sub_pose(S['sub'], D, t); LF.fish_pose(S['fish'], t); LF.turtle_pose(S['turtle'], t); LF.duck_pose(S['duck'], t)
-    LF.lantern_pose(S['lantern'], t); LF.bigeye_pose(S['bigeye'], t); LF.jelly_pose(S['jelly'], D, t); LF.squid_pose(S['squid'], D, t)
+    LF.lantern_pose(S['lantern'], t, D); LF.bigeye_pose(S['bigeye'], t); LF.jelly_pose(S['jelly'], D, t); LF.squid_pose(S['squid'], D, t)
     lure_p = LF.angler_pose(S['angler'], D, t)
     LF.floor_pose(S['floor'], D, t); LF.snow_pose(S['snow'], t); LF.bubbles_pose(S['bub'], D, t); LF.ripples_pose(S['rip'], D, t)
     LF.pool_pose(S['pool'], D, t); LF.twinkles_pose(S['tw'], t); LF.bottle_pose(S['bottle'], D, t); LF.world_life_pose(S['world'], D, t)
