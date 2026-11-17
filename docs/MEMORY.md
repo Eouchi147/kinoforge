@@ -23,6 +23,7 @@ carry over to the next agent. So: if it matters, it is in one of the files below
 | `docs/research/*.md` | Research notes with sources | The researcher | Once | Dated in the file name |
 | `.agents/memory/MEMORY.md` | Only an index into the files above, for Muse Code's committed memory | Whoever adds a file to this table | Rarely | No facts of its own |
 | `CLAUDE.md` | `@AGENTS.md` plus Claude Code notes | Claude sessions | Rarely | Never the only home of a rule (Muse and Codex do not read it) |
+| `docs/memory/*.md` | Five pointers (STATE, DECISIONS, LESSONS, PEOPLE, OPEN) named by the owner's standing instruction in `CLAUDE.md` (17 Nov 2026) | Nobody adds facts | Rarely | No facts of their own: each points to the file above that holds that record |
 
 ## The loop for every change
 

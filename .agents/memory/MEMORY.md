@@ -13,3 +13,4 @@ so this index only points there. Do not write facts here; write them where `docs
 - `docs/LESSONS.md`: studio-wide traps; `films/director/LESSONS.md`: the director's lessons
 - `films/director/CRAFT.md`: the craft rules for films
 - `tools/verify.sh`: every gate in one command
+- `docs/memory/`: five pointers named by the owner's standing instruction in `CLAUDE.md`; no facts of their own
