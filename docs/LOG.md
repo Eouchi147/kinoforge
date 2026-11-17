@@ -2,6 +2,9 @@
 
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
+## 17 Nov 2026
+- CLAUDE.md: the owner's standing instruction now opens it, in its public version (no personal details, decision 0009), above the existing notes, which are unchanged; docs/memory/ holds five pointer files named by that instruction, with rows in docs/MEMORY.md and .agents/memory/MEMORY.md. No code, film or workflow changed. US$0.
+
 ## 23 Oct 2026
 - Kids fossil also rendered on rc-render (run 40086790184, success): kids-fossil.mp4, preview, poster and sheet in kino-films, so the studio Library plays all six; sheet looked at. US$0.
 - Manual: docs/manual/films/kids-little-big-questions.md (the series recipe: files, steps, music, render, checks, weak spots). US$0.

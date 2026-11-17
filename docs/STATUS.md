@@ -1,4 +1,7 @@
-# Status (updated 23 Oct 2026, director paid mode)
+# Status (updated 17 Nov 2026 for the standing instruction; the sections below it are as of 23 Oct 2026, director paid mode)
+
+## Standing instruction in CLAUDE.md (the owner, 17 Nov)
+- CLAUDE.md now opens with the owner's standing instruction (public version); docs/memory/ points to the files docs/MEMORY.md lists. Nothing else in this file was re-checked on 17 Nov.
 
 ## Little Big Questions: kids explainers in Fable (Sam, 23 Oct 19:34 to 21:00; fossil pilot in production)
 - Silent stories, about 65 s, ages 6 to 8: no narration (all voices rejected), the picture explains, a few big words set
