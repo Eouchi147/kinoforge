@@ -1,4 +1,4 @@
-# Status (updated 24 Nov 2026 09:15 UTC for a private test series; 17 Nov for the standing instruction; the sections below those are as of 23 Oct 2026, director paid mode)
+# Status (updated 24 Nov 2026 10:25 UTC for a private test series; 17 Nov for the standing instruction; the sections below those are as of 23 Oct 2026, director paid mode)
 
 ## Private test series in clay (the owner, 23 Nov; content kept off the public repos, decision 0009)
 - Another test phase of the studio, at series scale: 10 episodes of 2.5 to 3 min plus 10 shorts, French and English
@@ -17,6 +17,11 @@
   every episode renders from the extracted pack and the encoder makes a film with sound and title card. Waiting: the
   owner starts the queue on the Mac (estimate 5 to 10 s a frame at 1280x720, 16 samples; unmeasured), then records the
   narration. Next: two more episodes as an add-on pack. US$0.
+- 24 Nov 10:25 UTC: two more version 2 episodes built and checked (seven in all): a full contact sheet of the long one,
+  close checks of faces at 960x540, and jump scans, which caught two near-identical shot changes (jump cuts) that are now
+  smooth moves. The Mac pack was rebuilt with all seven (it replaces the 09:00 pack; the first five scenes are byte for
+  byte the same, so finished frames stay valid) and verified from the extracted copy; the start line now stops an earlier
+  run of the same pack before unpacking. Estimate 34 to 47 h on the Mac (unmeasured). Next: two more episodes. US$0.
 - Generic lessons from it: docs/LESSONS.md (24 Nov).
 
 ## Standing instruction in CLAUDE.md (the owner, 17 Nov)

@@ -12,6 +12,7 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - The chat container restarts and loses background watchers: anything that must happen later lives on GitHub (rc-render `chain.yml`), not in a session (22 Oct).
 - Free models allow about 1,000 requests a day per key and few capable ones are live: run one director job at a time; keep repair prompts small (22 Oct).
 - The picture spec is the weak stage of the free director; script and sound are fine on free models (22 Oct).
+- A start line that stops an earlier run must match that run's own path (`pkill -f "<pack>/mac/run.sh"`), never a shared script name: a test with `pkill -f blender_render.py` killed an unrelated render in the same session. Test such a line through `bash -s`: inside `bash -c '...'` the pattern also matches the test shell and kills it silently (24 Nov).
 - Other agents push to `main` all the time: `git pull --rebase --autostash origin main` before every commit and push; commit only your own files (never `git add -A` in a shared checkout).
 - Free original sound effects need no licence: a heartbeat (two low decaying thumps with a falling pitch and a few harmonics) and a released balloon (a buzzy, falling, wobbling tone) synthesized in numpy both read on a tablet speaker (24 Nov).
 - Birdsong, wingbeats and a soft far-off boom also synthesize well: a tweet is two quick up-and-down sine sweeps around 4 kHz with a fast trill; wings are band-limited noise in bursts at the wingbeat rate; a boom needs harmonics above 100 Hz or a tablet speaker plays nothing (24 Nov).
@@ -41,6 +42,8 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - Constant screen speed over a big perspective change reads as sped up: plan moves in metres per second (22 Oct, Kleidion).
 - Grain is incompressible: cap the bitrate (crf 20, max 14 Mbps) or masters reach 70 Mbps.
 - Square stills fed to a 16:9 video model get pillarboxed: crop to the target aspect first.
+- A jump scan cut with a tiny camera move (about 0.005 to 0.02 units) and a small turn (under about 20 degrees) is a jump cut: the same subject from nearly the same place. Make it one smooth move from where the last shot ended, or a real change of size or angle (24 Nov).
+- Contact sheets at 384x216 can turn a small open mouth into what looks like a moustache: look at the face at 960x540 before changing anything (24 Nov).
 
 ## Sound
 - ffmpeg: `xfade` shorter than about 0.22 s drops segments; trim on the input (`-ss`/`-t` before `-i`); always `-nostdin`.
