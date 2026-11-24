@@ -13,6 +13,7 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - Free models allow about 1,000 requests a day per key and few capable ones are live: run one director job at a time; keep repair prompts small (22 Oct).
 - The picture spec is the weak stage of the free director; script and sound are fine on free models (22 Oct).
 - Other agents push to `main` all the time: `git pull --rebase --autostash origin main` before every commit and push; commit only your own files (never `git add -A` in a shared checkout).
+- Free original sound effects need no licence: a heartbeat (two low decaying thumps with a falling pitch and a few harmonics) and a released balloon (a buzzy, falling, wobbling tone) synthesized in numpy both read on a tablet speaker (24 Nov).
 
 ## GitHub and runners
 - `gh workflow run` and `gh release download` use GraphQL, which some sessions block: dispatch and download through `gh api` (REST).
@@ -51,3 +52,9 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - Video models warp crowds of small particles and people's hands; they hold one solid object well.
 - 23 Oct 2026: VSCO-2 CE names most notes an octave below the sounding pitch; the score engine's YIN check copes for the instruments it uses but misreads Cello Section pizzT by 4 octaves. If cello pizz is ever used, pin its octave (+12) instead of trusting the check.
 - 24 Oct 2026: a single 1560-frame Mac lane job (kids fossil) was killed with exit -9 after about 2 h at frame 734 (likely memory growth in one Blender process). Queue Mac lane renders as chunks of about 200 frames (one job file each); a fresh process also ran faster (7.2 s against 10 s a frame).
+- Cycles: anything inside a refractive glass tube renders black (shadow rays do not pass refraction without caustics). For clear tubes mix a Transparent BSDF with a Glossy BSDF by Fresnel (24 Nov).
+- A parked object must also be shrunk or hidden: a unit-sphere mesh parked at z = -1 still filled the room and swallowed the camera, and every frame came out black (24 Nov).
+- Never let a render depend on Python `hash()`: it is randomised per process, so chunked renders disagree with each other; use a fixed checksum such as `sum(map(ord, name))` (24 Nov).
+- A Workbench animatic of a whole 3 min film renders in well under an hour on two CPU cores and catches camera drift and framing errors before a multi-hour Cycles render; review it as contact sheets every 1.5 s (24 Nov).
+- A two-axis shoulder can twist without changing old poses: set the shoulder empty to ZXY Euler and put the twist in Z; with zero twist the matrix equals the old XYZ one (24 Nov).
+- Amiri Quran draws Uthmani stop marks (small high jeem, ligatures) about a line above their word: give two-row verse cards about 1.3 lines of spacing, or use one row when it fits, or the mark lands on the line above (24 Nov).

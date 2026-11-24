@@ -2,6 +2,9 @@
 
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
+## 24 Nov 2026
+- Private test series (content kept off the public repos, decision 0009): 7 clay episodes and 7 shorts built and checked in stills in a session, one short rendering on the session CPU, the rest queued for the Mac lane; seven generic lessons added to docs/LESSONS.md. No public code, film or workflow changed. US$0.
+
 ## 17 Nov 2026
 - CLAUDE.md: the owner's standing instruction now opens it, in its public version (no personal details, decision 0009), above the existing notes, which are unchanged; docs/memory/ holds five pointer files named by that instruction, with rows in docs/MEMORY.md and .agents/memory/MEMORY.md. No code, film or workflow changed. US$0.
 
