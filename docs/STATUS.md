@@ -1,11 +1,13 @@
-# Status (updated 24 Nov 2026 for a private test series; 17 Nov for the standing instruction; the sections below those are as of 23 Oct 2026, director paid mode)
+# Status (updated 24 Nov 2026 05:20 UTC for a private test series; 17 Nov for the standing instruction; the sections below those are as of 23 Oct 2026, director paid mode)
 
 ## Private test series in clay (the owner, 23 Nov; content kept off the public repos, decision 0009)
-- Another test phase of the studio, at series scale: 7 episodes of about 2.5 min plus 7 shorts, French and English scripts
-  narrated by the owner against prompter videos, clay scenes in Blender on the free character and set kit, public domain
-  music, CC0 and self-made sound. All of its code, scripts and renders stay outside this repo and rc-render.
-- 24 Nov 04:20 UTC: every scene checked in stills (and one film's full animatic); one short rendering on the session CPU;
-  the rest queued for the Mac lane (about 29 h), waiting for the Mac to come online. US$0.
+- Another test phase of the studio, at series scale: 10 episodes of 2.5 to 3 min plus 10 shorts, French and English
+  scripts narrated by the owner against prompter videos, clay scenes in Blender on the free character and set kit, public
+  domain music, CC0 and self-made sound. All of its code, scripts and renders stay outside this repo and rc-render.
+- 24 Nov 05:20 UTC: all 10 episodes and 10 shorts built and checked in stills; one short rendered on the session CPU and
+  sent to the owner as a preview (music and effects); the other 20 films queued for the Mac lane (about 48 h). The Mac came
+  online at 04:28 UTC; waiting for the owner to add the external drive in the desktop app and start the queue (a session
+  cannot grant itself folder access). US$0.
 - Generic lessons from it: docs/LESSONS.md (24 Nov).
 
 ## Standing instruction in CLAUDE.md (the owner, 17 Nov)

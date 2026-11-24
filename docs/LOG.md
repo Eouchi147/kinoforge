@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 24 Nov 2026
+- Private test series, later the same night: three more episodes and shorts built (10 and 10 in all), all checked in stills; the session-rendered short delivered to the owner as a preview; the Mac came online but the drive folder must be added by the owner, so the 20-film queue (about 48 h) waits; eight more generic lessons in docs/LESSONS.md. No public code, film or workflow changed. US$0.
 - Private test series (content kept off the public repos, decision 0009): 7 clay episodes and 7 shorts built and checked in stills in a session, one short rendering on the session CPU, the rest queued for the Mac lane; seven generic lessons added to docs/LESSONS.md. No public code, film or workflow changed. US$0.
 
 ## 17 Nov 2026

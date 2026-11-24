@@ -14,6 +14,7 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - The picture spec is the weak stage of the free director; script and sound are fine on free models (22 Oct).
 - Other agents push to `main` all the time: `git pull --rebase --autostash origin main` before every commit and push; commit only your own files (never `git add -A` in a shared checkout).
 - Free original sound effects need no licence: a heartbeat (two low decaying thumps with a falling pitch and a few harmonics) and a released balloon (a buzzy, falling, wobbling tone) synthesized in numpy both read on a tablet speaker (24 Nov).
+- Birdsong, wingbeats and a soft far-off boom also synthesize well: a tweet is two quick up-and-down sine sweeps around 4 kHz with a fast trill; wings are band-limited noise in bursts at the wingbeat rate; a boom needs harmonics above 100 Hz or a tablet speaker plays nothing (24 Nov).
 
 ## GitHub and runners
 - `gh workflow run` and `gh release download` use GraphQL, which some sessions block: dispatch and download through `gh api` (REST).
@@ -29,6 +30,8 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - ffmpeg `-movflags +faststart` writing straight to the Samsung X5 (exFAT) through the Mac's Linux mount wrote a broken mp4 (NAL errors). Encode to `$HOME` on that shell, then copy to the drive; check with ffprobe after copying.
 - Cutaway art modules: `Eggs.finish` cuts the egg openings into the wall and water materials, so an art look that replaces them must keep the mask (`films/styles/cutaway/art/_jewel.py` `under_mask`). Overlay text is measured in the active view layer: keep the words indirect-only in the picture layer, not removed.
 - Mac lane on the Samsung X5 (exFAT): macOS writes a `._name` file beside every file. Count frames with `ls frames/[0-9]*.png`, never `ls | wc -l`; a job's `end` frame is exclusive.
+- A session cannot grant itself access to a folder on the Mac (the folder request is refused from the session side): as soon as the Mac shows up, ask the owner in one line to add the drive in the Claude desktop app (+, Add folder) (24 Nov).
+- The Mac's `device_bash` is a Linux VM, not macOS: it cannot run Blender with Metal. Start Mac renders from Blender's Python console (`go.py`) or the macOS Terminal; a Terminal line can wait for its files first: `until [ -f <file> ]; do sleep 15; done; <command>` (24 Nov).
 - ffmpeg: in a chain of `overlay` filters, `enable='between(n,a,b)'` on the second overlay does not see the main frame numbers (Agincourt insert B never showed). Enable by time (`between(t,(a-0.5)/fps,(b+0.5)/fps)`) and test with two inserts, not one.
 - Every frame is a pure function of the frame index: no clocks, no unseeded randomness, no CSS transitions.
 - Never measure a stage before its fonts load: an early `offsetWidth` read shifts glyph rasterization.
@@ -56,5 +59,10 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - A parked object must also be shrunk or hidden: a unit-sphere mesh parked at z = -1 still filled the room and swallowed the camera, and every frame came out black (24 Nov).
 - Never let a render depend on Python `hash()`: it is randomised per process, so chunked renders disagree with each other; use a fixed checksum such as `sum(map(ord, name))` (24 Nov).
 - A Workbench animatic of a whole 3 min film renders in well under an hour on two CPU cores and catches camera drift and framing errors before a multi-hour Cycles render; review it as contact sheets every 1.5 s (24 Nov).
+- Blender: `hide_render` on a parent does not hide its children; hide each one (`children_recursive`), or lashes and wheels stay floating in the shot (24 Nov).
+- A Solidify shell with offset 0 grows outward by half its thickness: discs or decals placed on the original surface (an iris, a pupil) end up under the shell; push them out by half the thickness plus a margin (24 Nov).
+- A cutaway part that slides toward the camera blocks the very view it should open: lift parts up and away, and check the opened shot from the camera's own position (24 Nov).
+- A pinhole (camera obscura) picture is far too dim to render at 16 samples: fake it with an emissive picture on the wall that fades in, and show the light path with glowing beads that cross at the hole (24 Nov).
+- A jug tipped past 90 degrees points its mouth into the ground; a pour reads at about 75 degrees with the drops falling forward (24 Nov).
 - A two-axis shoulder can twist without changing old poses: set the shoulder empty to ZXY Euler and put the twist in Z; with zero twist the matrix equals the old XYZ one (24 Nov).
 - Amiri Quran draws Uthmani stop marks (small high jeem, ligatures) about a line above their word: give two-row verse cards about 1.3 lines of spacing, or use one row when it fits, or the mark lands on the line above (24 Nov).
