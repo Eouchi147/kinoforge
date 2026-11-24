@@ -66,3 +66,9 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - A jug tipped past 90 degrees points its mouth into the ground; a pour reads at about 75 degrees with the drops falling forward (24 Nov).
 - A two-axis shoulder can twist without changing old poses: set the shoulder empty to ZXY Euler and put the twist in Z; with zero twist the matrix equals the old XYZ one (24 Nov).
 - Amiri Quran draws Uthmani stop marks (small high jeem, ligatures) about a line above their word: give two-row verse cards about 1.3 lines of spacing, or use one row when it fits, or the mark lands on the line above (24 Nov).
+- Under the AgX view transform an emissive gold or orange at strength 2 to 3 renders cream white: keep emission under about 1 and the base colour deep (gold 1.0, 0.48, 0.02) when the colour must read (24 Nov).
+- A thin marker traced along a limb hides inside the limb's own tube: offset it toward the camera by more than the limb's radius (24 Nov).
+- Walk cycles of the form sin(t x frequency) jump when the frequency changes mid-shot (the phase leaps): keep the frequency fixed and fade the swing amplitude in and out instead (24 Nov).
+- Keep a clear circle around every camera path, not only a cone in front of it: a slow 3 cm drift took a camera into a scattered tree and every frame rendered black (24 Nov).
+- Two shots in a row with nearly the same framing read as a jump cut: glide between them; a jump scan that lists a cut with a camera move of a few cm and a small turn has found one (24 Nov).
+- A low, flat band of white clouds along a far shore reads as snow, not mist: leave haze to the sky colours (24 Nov).

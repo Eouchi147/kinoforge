@@ -1,4 +1,4 @@
-# Status (updated 24 Nov 2026 05:20 UTC for a private test series; 17 Nov for the standing instruction; the sections below those are as of 23 Oct 2026, director paid mode)
+# Status (updated 24 Nov 2026 09:15 UTC for a private test series; 17 Nov for the standing instruction; the sections below those are as of 23 Oct 2026, director paid mode)
 
 ## Private test series in clay (the owner, 23 Nov; content kept off the public repos, decision 0009)
 - Another test phase of the studio, at series scale: 10 episodes of 2.5 to 3 min plus 10 shorts, French and English
@@ -8,6 +8,15 @@
   sent to the owner as a preview (music and effects); the other 20 films queued for the Mac lane (about 48 h). The Mac came
   online at 04:28 UTC; waiting for the owner to add the external drive in the desktop app and start the queue (a session
   cannot grant itself folder access). US$0.
+- 24 Nov 06:20 UTC: the owner rejected that first version (one shared set for every topic, a trembling hand-held shake,
+  a soft-focus character). Rebuilt as version 2: every episode in its own living world, several seasons for two age
+  groups, smooth motion with no shake, focus set every frame from the characters' real eye positions, music and effects
+  cued to each moment. Version 1 is retired and will not be rendered.
+- 24 Nov 09:00 UTC: five version 2 episodes built and checked (stills over several fix rounds, frame-by-frame jump scans),
+  packed for the Mac lane with a Blender-only encoder (no ffmpeg on the Mac) and sent to the owner; verified here that
+  every episode renders from the extracted pack and the encoder makes a film with sound and title card. Waiting: the
+  owner starts the queue on the Mac (estimate 5 to 10 s a frame at 1280x720, 16 samples; unmeasured), then records the
+  narration. Next: two more episodes as an add-on pack. US$0.
 - Generic lessons from it: docs/LESSONS.md (24 Nov).
 
 ## Standing instruction in CLAUDE.md (the owner, 17 Nov)
