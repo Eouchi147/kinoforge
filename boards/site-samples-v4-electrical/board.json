@@ -1,0 +1,49 @@
+{
+ "_": "Sample photos for the electrician's sample business in the website template library (25 Nov 2026, the owner: the electrician's looks need real photography). AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos. The panel photo already exists: site-samples-v3-industries, el-panel.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "el-exterior",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: the front of a two-storey brick house on a Toronto residential street at blue hour, warm light glowing in every window, a lit porch light, soffit lights under the eaves and low path lights along the front walkway, deep blue evening sky, wide shot from the sidewalk. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-kitchen",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a renovated kitchen in a Toronto home in the evening with every light on: warm recessed pot lights in the ceiling, three pendant lights over a stone island, under-cabinet lighting, dusk through the window, wide interior shot from the doorway, warm and inviting. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-ev",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a wall-mounted Level 2 electric vehicle charger in a clean, finished residential garage, its charging cable plugged into the charge port of an electric car, neat conduit running up the wall to the ceiling, bright even light. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-potlights",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a freshly renovated living room seen from a corner, a neat grid of recessed LED pot lights switched on in a smooth white ceiling, warm even light on the walls and the floor, tidy and empty of clutter. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-van",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a clean plain white work van parked in the driveway of a brick Toronto home on a bright morning, its side door open on tidy shelves of electrical supplies and coils of cable. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-tools",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a neat flat lay of an electrician's tools on a clean dark workbench: a voltage tester, wire strippers, insulated screwdrivers, pliers, a coil of copper wire and wire connectors, seen from overhead. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-switch",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a close-up of a modern white dimmer switch beside a new wall outlet on a freshly painted wall, soft warm side light, shallow depth of field. No people, no hands, no faces, no text, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}

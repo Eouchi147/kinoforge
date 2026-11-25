@@ -2,6 +2,9 @@
 
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
+## 25 Nov 2026
+- Board `site-samples-v4-electrical`: 7 AI stills (Seedream 5 Pro, cap US$1.00, about US$0.63 expected) for the electrician's invented sample business in the website template library, at the owner's go the same day (the electrician's looks need real photography); the same house rules as the earlier sample boards (no people, text or logos; samples only).
+
 ## 24 Nov 2026
 - Private test series: two more version 2 episodes (seven in all) built and checked; two jump cuts found by the frame-by-frame scan and smoothed; the Mac pack rebuilt with all seven, verified from the extracted copy (new episodes render, the encoder makes a film with sound and cards) and sent to the owner at 10:25 UTC with a start line tested on a copy; three generic lessons in docs/LESSONS.md. No public code, film or workflow changed. US$0.
 - Private test series, version 2 (after the owner rejected version 1 at 06:20 UTC): five episodes rebuilt, each in its own world, checked in stills and frame-by-frame jump scans; packed for the Mac lane with a Blender-only encoder and sent to the owner at 09:00 UTC; the pack verified by rendering every episode from the extracted copy and encoding a test film with sound and cards. Version 1 retired, not rendered. Six generic lessons added to docs/LESSONS.md. No public code, film or workflow changed. US$0.
