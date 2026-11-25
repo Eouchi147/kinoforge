@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 25 Nov 2026
+- Board `site-samples-v4-electrical`, result (run 45629656388, success): 5 of 7 stills made (exterior at dusk, kitchen, EV charger, pot lights, van); the tools and switch frames stopped with error 402, because OpenRouter asks for at least US$1.00 of balance for image output and the key had US$0.84 left of its US$50 limit (US$0.66 after the run). Spent US$0.18 by the account (the ledger's estimate is US$0.45). Each still read at full size: no people, no readable text; two small invented marks on the charger's face were retouched off in the website repo's copy. More stills need the owner to raise the key's limit.
 - Board `site-samples-v4-electrical`: 7 AI stills (Seedream 5 Pro, cap US$1.00, about US$0.63 expected) for the electrician's invented sample business in the website template library, at the owner's go the same day (the electrician's looks need real photography); the same house rules as the earlier sample boards (no people, text or logos; samples only).
 
 ## 24 Nov 2026

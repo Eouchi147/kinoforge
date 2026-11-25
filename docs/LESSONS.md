@@ -75,3 +75,4 @@ Add a line the day you hit a trap; if a lesson can be checked by code, add the c
 - Keep a clear circle around every camera path, not only a cone in front of it: a slow 3 cm drift took a camera into a scattered tree and every frame rendered black (24 Nov).
 - Two shots in a row with nearly the same framing read as a jump cut: glide between them; a jump scan that lists a cut with a camera move of a few cm and a small turn has found one (24 Nov).
 - A low, flat band of white clouds along a far shore reads as snow, not mist: leave haze to the sky colours (24 Nov).
+- Before dispatching a board, read the key's balance in the last `account.json` (`after.remaining`): OpenRouter refuses image output with error 402 below US$1.00 of balance, so frames stop mid-board with nothing to show for them. Size the board to the balance, or ask the owner to raise the limit first (25 Nov).
