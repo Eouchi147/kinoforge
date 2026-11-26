@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 51.769526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 53.029526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 1.26,
+ "ledger_total": 0.72,
+ "frames": {
+  "rf-roof": "bytedance-seed/seedream-5-0-pro",
+  "rf-deck": "bytedance-seed/seedream-5-0-pro",
+  "rf-ice": "bytedance-seed/seedream-5-0-pro",
+  "rf-underlay": "bytedance-seed/seedream-5-0-pro",
+  "rf-shingles": "bytedance-seed/seedream-5-0-pro",
+  "rf-ridge": "bytedance-seed/seedream-5-0-pro",
+  "rf-eaves": "bytedance-seed/seedream-5-0-pro",
+  "rf-repair": "bytedance-seed/seedream-5-0-pro"
+ }
+}
