@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the painting sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the painters' own look shows each job as a paint chip with its photograph (bedroom, ceiling, trim, front door, deck, exterior), with the preparation and the cut line. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "pa-bedroom",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a freshly painted bedroom with soft blue-grey walls, crisp white ceiling, white baseboards and window trim, a made bed with plain linen bedding, a small oak bedside table, daylight from a window on the left, perfectly clean sharp line where the wall colour meets the white ceiling. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pa-ceiling",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: looking up at a freshly painted flat white ceiling with white crown moulding meeting warm beige walls in an empty room, a plain ceiling light, even daylight, perfectly clean sharp paint lines, no stains. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pa-trim",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a freshly painted white panel interior door, door casing and tall baseboard in a hallway with warm grey walls, a soft semi-gloss sheen on the trim, oak floor, daylight, perfectly clean sharp line between trim and wall. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pa-front",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the front entrance of a brick house with a freshly painted deep navy blue front door in a white frame, a plain black handle, two plain planters with boxwood on the stone step, soft morning light, seen straight on. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pa-deck",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a freshly stained backyard wooden deck in a warm cedar tone, the boards evenly coloured with a slight sheen, a plain railing, green lawn beyond, late afternoon sun, seen from a low angle along the boards. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pa-exterior",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a two-storey house with freshly painted pale grey wood siding and crisp white window trim and white soffits, a small covered porch, clear blue sky, seen from the garden at an angle, late morning sun. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pa-prep",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a living room prepared for painting: the furniture gathered in the middle of the room under clean white drop sheets, canvas drop cloths covering the whole floor, blue painter's tape along the baseboards and window trim, small white filler patches sanded smooth on a pale wall, a roller tray and a brush on a step ladder, daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pa-line",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of the corner of a room where a deep terracotta painted wall meets a white ceiling and a white door frame, the paint lines perfectly straight and sharp, soft daylight raking across the smooth wall. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    }
+  ]
+}
