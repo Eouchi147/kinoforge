@@ -1,0 +1,55 @@
+{
+ "_": "Sample photos for the heating and cooling sample business in the website template library (25 Nov 2026, the owner's go the same day: the next trade's looks are built on photographs), plus one remake for the electrician's sample: its panel photo showed a European style panel, not one installed in Canada. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "hv-living-winter",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: the living room of a Toronto home on a winter evening, seen from the doorway: a deep sofa with a wool throw, two warm lamps lit, a large window with snow falling on a dark blue evening street outside, a white floor register near the baseboard, warm and calm. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "hv-room-summer",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a bright, airy living room of a Toronto home on a hot summer afternoon: sunlight through sheer white curtains, a pale wood floor, a white sofa, a large green plant, a white air vent in the ceiling, cool and calm, wide shot. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "hv-furnace",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a new high-efficiency gas furnace just installed in a clean, bright basement utility room of a Toronto home: a plain white furnace cabinet with no markings, neat galvanized sheet-metal ductwork above it, two white plastic vent pipes rising to the ceiling, a swept concrete floor, seen at a slight angle. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "hv-tuneup",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a gas furnace in a clean basement with its front panel taken off and leaning against the wall, the row of burners and the blower visible inside, a fresh pleated air filter and an open canvas tool bag of hand tools on the floor beside it, bright even light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "hv-heatpump-winter",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a cold-climate heat pump outdoor unit standing on a raised metal stand beside a red brick wall in winter, fresh snow on the ground around it and a light dusting on its top, a plain light grey cabinet with no markings, a tidy insulated line set under a white cover running up the wall, soft overcast daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "hv-ac-summer",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a central air conditioner outdoor unit on a concrete pad beside a red brick house in bright summer daylight, a plain grey cabinet with no markings, a tidy insulated line set running into the wall, a green lawn and hostas beside it. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "hv-van-winter",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a clean plain white work van parked in the snow-cleared driveway of a brick Toronto home on a bright winter morning, snow on the lawn and the roof, the van's rear doors open on tidy shelves of furnace filters, coils of flexible duct and tool cases. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-panel",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: an open residential electrical panel of the kind used in Canadian homes: a grey steel load centre mounted on a plywood board in a clean basement, its door swung open, two vertical columns of black circuit breakers with a larger main breaker at the top, black, white and red wires and bare copper grounds routed neatly down the sides, bright even light, seen straight on. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}
