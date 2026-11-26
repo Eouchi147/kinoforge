@@ -150,6 +150,7 @@ the **social lane** (`social/`, workflow `social.yml`) for Unmissed's Social Aut
 client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toronto opening in December).
 
 ## Done
+- **Board `site-samples-v14-auto` (26 Nov):** 8 AI stills for the auto sample business in the website template library, dispatched under the same standing go, capped at US$1.00, run alone.
 - **Board `site-samples-v13-moving` (26 Nov):** 8 AI stills for the moving sample business in the website template library, run 45907874396 (success, 8 of 8, US$0.27 charged), under the same standing go, capped at US$1.00, run alone. All eight are in the website library; US$2.70 of the list's US$30 is spent.
 - **Board `site-samples-v12-pest` (26 Nov):** 8 AI stills for the pest control sample business in the website template library, run 45906123084 (success, 8 of 8, US$0.27 charged), under the same standing go, capped at US$1.00, run alone. All eight are in the website library; US$2.43 of the list's US$30 is spent.
 - **Board `site-samples-v11-painting` (26 Nov):** 8 AI stills for the painting sample business in the website template library, run 45904127111 (success, 8 of 8, US$0.27 charged), under the same standing go, capped at US$1.00, run alone. All eight are in the website library; US$2.16 of the list's US$30 is spent.

@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 26 Nov 2026
+- Board `site-samples-v14-auto`: 8 AI stills (Seedream 5 Pro, cap US$1.00) for the auto sample business in the website template library (a car on the lift, an oil change, winter tires, a brake, a battery, a detailed interior, a waxed hood, the waiting room), under the owner's standing go of 26 Nov (one run per kind, US$30 for the list, US$2.70 spent before this run). Run alone. Result in the next line.
 - Board `site-samples-v13-moving`, result (run 45907874396, success): 8 of 8 stills, US$0.27 charged (usage 55.37 to 55.64), run alone. Read in the website repo: all eight clean and kept.
 - Board `site-samples-v13-moving`: 8 AI stills (Seedream 5 Pro, cap US$1.00) for the moving sample business in the website template library (the truck, wrapped furniture, floor protection, packing, supplies, storage vaults, a loaded truck, the arrival), under the owner's standing go of 26 Nov (one run per kind, US$30 for the list, US$2.43 spent before this run). Run alone. Result in the next line.
 - Board `site-samples-v12-pest`, result (run 45906123084, success): 8 of 8 stills, US$0.27 charged (usage 54.65 to 54.92), run alone. Read in the website repo: all eight kept, the house cropped on the right.

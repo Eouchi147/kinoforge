@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the auto sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the auto look opens on the shop and shows a service board with the work behind each column (oil, tires, brakes, a battery, detailing) and the waiting room. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, badges or plates.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "au-lift",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: inside a clean modern auto repair shop in the evening, a dark grey hatchback raised on a two-post lift seen from the side at wheel height, bright work lights under the car, polished concrete floor with reflections, tool chests along the back wall in soft focus, moody dark surroundings. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no badges, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "au-oil",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: under a car raised on a lift, a clean black oil drain pan on a stand beneath the engine and a new plain oil filter with a funnel on a rolling steel cart beside it, bright work light, clean concrete floor. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no badges, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "au-tire",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: four winter tires mounted on plain silver alloy rims stacked two by two beside a tire balancing machine in a clean workshop, deep tread, plain smooth sidewalls with no lettering at all, a torque wrench lying on the top tire, bright light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no badges, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "au-brake",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a car's front wheel hub with the wheel removed: a new shiny brake disc and a plain red brake caliper with new pads, clean suspension parts behind, bright work light, the car on a lift. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no badges, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "au-battery",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view into an open engine bay where a new plain black car battery sits in its tray with clean terminals and a red cover on the positive post, plain top with nothing printed on it, bright work light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no badges, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "au-interior",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the spotless interior of a compact car after detailing seen through the open driver's door: clean grey fabric seats, vacuumed dark carpet with brush lines, a clean plain dashboard and a plain steering wheel with a blank centre, soft daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no badges, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "au-wax",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of the freshly waxed deep blue hood of a car with tight round beads of water on the glossy paint, a folded yellow microfibre cloth resting on the hood, reflections of workshop lights, no emblem anywhere. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no badges, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "au-wait",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small tidy waiting room of a neighbourhood repair shop: two grey armchairs, a low table with a plain white cup, a coffee machine on a counter, a large interior window looking onto the workshop bays, warm light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no badges, no brand names, no licence plates.",
+      "aspect": "3:2"
+    }
+  ]
+}
