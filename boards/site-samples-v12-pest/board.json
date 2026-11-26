@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the pest control sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the pest control look shows the year, which pest is in season, and the work that keeps them out (sealed gaps, mesh, door sweeps). AI-generated, previews only, marked Sample and AI-generated; never a client's work. No insects, no animals, no people, no text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "pc-house",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a tidy two-storey red brick family house in a Toronto neighbourhood seen from the front garden in soft morning light, clean foundation line, trimmed shrubs kept back from the walls, closed windows with intact screens, a neat lawn, calm and well kept. No insects, no animals, no people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-seal",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view under a white kitchen sink cabinet where a copper water pipe passes through the back wall, the gap around the pipe neatly packed with steel wool mesh and sealed with a clean bead of grey sealant, a small flashlight lying on the cabinet floor, bright clean light. No insects, no animals, no people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-foundation",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: low view along the outside foundation wall of a brick house with a clean strip of pale gravel between the wall and the lawn, a neat bead of fresh sealant along a basement window frame, morning light, everything tidy and dry. No insects, no animals, no people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-bedroom",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a calm bright bedroom with a bed pulled slightly away from the wall, the mattress and box spring zipped inside clean white protective encasements with no bedding on them, a folded white duvet on a chair, pale wood floor, daylight. No insects, no animals, no people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-wasp",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: view up at the white soffit and eave corner of a house where a grey papery wasp nest the size of a melon hangs under the eave against a blue sky, sharp detail of the layered paper texture, summer light. No insects, no animals, no people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-attic",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a clean attic with even pale insulation between the joists and a gable vent covered from the inside with new bright galvanized steel mesh screwed neatly to the frame, a beam of daylight through the vent. No insects, no animals, no people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-kit",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: an inspection kit laid out neatly on a clean grey garage floor: a handheld pump sprayer with a plain white tank, a black flashlight, a pair of blue nitrile gloves, a small inspection mirror on a telescopic handle, a caulking gun and a roll of steel mesh, seen from above, soft daylight. No insects, no animals, no people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-sweep",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close low view of the bottom of a white exterior side door with a new brushed aluminium door sweep and black rubber seal fitted tight against a clean stone threshold, no gap, daylight. No insects, no animals, no people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    }
+  ]
+}
