@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 56.809526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 57.079526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "hd-assembly": "bytedance-seed/seedream-5-0-pro",
+  "hd-drywall": "bytedance-seed/seedream-5-0-pro",
+  "hd-door": "bytedance-seed/seedream-5-0-pro",
+  "hd-caulk": "bytedance-seed/seedream-5-0-pro",
+  "hd-shelf": "bytedance-seed/seedream-5-0-pro",
+  "hd-tap": "bytedance-seed/seedream-5-0-pro",
+  "hd-light": "bytedance-seed/seedream-5-0-pro",
+  "hd-tools": "bytedance-seed/seedream-5-0-pro"
+ }
+}

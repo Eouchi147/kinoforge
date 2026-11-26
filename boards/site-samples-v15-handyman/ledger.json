@@ -1,0 +1,73 @@
+{
+ "cap": 1.0,
+ "total": 0.72,
+ "by_seat": {
+  "image": 0.72
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-drywall",
+   "usd": 0.09,
+   "s": 39.4,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-door",
+   "usd": 0.09,
+   "s": 40.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-assembly",
+   "usd": 0.09,
+   "s": 44.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-shelf",
+   "usd": 0.09,
+   "s": 42.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-tap",
+   "usd": 0.09,
+   "s": 39.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-caulk",
+   "usd": 0.09,
+   "s": 44.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-tools",
+   "usd": 0.09,
+   "s": 38.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "hd-light",
+   "usd": 0.09,
+   "s": 50.9,
+   "ok": true
+  }
+ ]
+}
