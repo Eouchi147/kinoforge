@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 49.609526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 49.879526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "hv-living-winter": "bytedance-seed/seedream-5-0-pro",
+  "hv-room-summer": "bytedance-seed/seedream-5-0-pro",
+  "hv-furnace": "bytedance-seed/seedream-5-0-pro",
+  "hv-tuneup": "bytedance-seed/seedream-5-0-pro",
+  "hv-heatpump-winter": "bytedance-seed/seedream-5-0-pro",
+  "hv-ac-summer": "bytedance-seed/seedream-5-0-pro",
+  "hv-van-winter": "bytedance-seed/seedream-5-0-pro",
+  "el-panel": "bytedance-seed/seedream-5-0-pro"
+ }
+}
