@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 53.209526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 53.839526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.63,
+ "ledger_total": 0.72,
+ "frames": {
+  "in-tv-living": "bytedance-seed/seedream-5-0-pro",
+  "in-tv-fireplace": "bytedance-seed/seedream-5-0-pro",
+  "in-tv-brick": "bytedance-seed/seedream-5-0-pro",
+  "in-bracket": "bytedance-seed/seedream-5-0-pro",
+  "in-cables": "bytedance-seed/seedream-5-0-pro",
+  "in-floor": "bytedance-seed/seedream-5-0-pro",
+  "in-door": "bytedance-seed/seedream-5-0-pro",
+  "in-dishwasher": "bytedance-seed/seedream-5-0-pro"
+ }
+}
