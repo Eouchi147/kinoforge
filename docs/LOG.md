@@ -2,6 +2,9 @@
 
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
+## 26 Nov 2026
+- Board `site-samples-v6-plumbing`: 8 AI stills (Seedream 5 Pro, cap US$1.00, about US$0.72 expected by the ledger) for the plumbing sample business in the website template library, at the owner's go of the same day: the cabinet under a kitchen sink, a toilet, a kitchen tap, a drain being cleared, a water heater, a shower, a sump pit and a backwater valve. The same house rules as the earlier sample boards (no people, text or logos; samples only).
+
 ## 25 Nov 2026
 - Board `site-samples-v5-heating`, result (run 45732324885, success): 8 of 8 stills made; US$0.27 spent by the account (the ledger's estimate is US$0.72) of a US$1.00 cap. Each still read at full size: no people, no readable text, no logo. All eight are in use in the website repo (seven on the heating sample, the panel on the electrician's).
 - Board `site-samples-v5-heating`: 8 AI stills (Seedream 5 Pro, cap US$1.00) at the owner's go of the same evening, after he raised the image key's limit: 7 for the heating and cooling sample business in the website template library (a winter living room, a summer room, a furnace, a tune-up, a heat pump in snow, an air conditioner, a van) and 1 remake of the electrician's panel photo, which showed a European style panel. The same house rules as the earlier sample boards (no people, text or logos; samples only).

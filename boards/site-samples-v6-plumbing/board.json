@@ -1,0 +1,55 @@
+{
+ "_": "Sample photos for the plumbing sample business in the website template library (26 Nov 2026, the owner's go the same day: plumbing's second look is built on photographs of the home's water points). AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "pl-undersink",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: the open cabinet under a kitchen sink in a Toronto home, seen straight on at cabinet height: two new chrome quarter-turn shut-off valves on the back wall with braided stainless steel supply lines rising to the tap, a white plastic P-trap under the sink basin, a red pipe wrench and a folded grey cloth on the clean cabinet floor, soft daylight from the kitchen, the white cabinet doors open at the edges of the frame. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pl-toilet",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a white two-piece toilet in a bright, clean bathroom with pale grey floor tile and white walls, seen at a three-quarter angle, a chrome shut-off valve and a braided supply line visible at the wall beside it, a small open metal toolbox on the floor next to it. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pl-tap",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a close view of a kitchen sink with a new matte black pull-down kitchen tap on a white stone counter, a thin clear stream of water running into a stainless steel sink, a window with soft daylight behind, shallow depth of field. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pl-drain",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a round drain cleanout in the clean concrete floor of a basement with its cap removed and lying beside it, a professional drum-style drain cleaning machine standing next to it with its steel cable feeding into the open cleanout, a yellow work light on the floor, the machine plain with no markings. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pl-waterheater",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a new white residential tank water heater standing in a drain pan in a clean, bright basement utility room of a Toronto home, copper water pipes with two lever shut-off valves above it, a plain cabinet with no markings, a swept concrete floor, seen at a slight angle. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pl-shower",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a walk-in shower with white subway tile, a chrome pressure-balance shower valve handle and a round chrome rain shower head, a clear glass panel at the edge of the frame, drops of water on the tile, bright even light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pl-sump",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a sump pit set in the clean concrete floor in the corner of a basement, its round black lid lifted off and resting beside it, a submersible sump pump visible inside with a white plastic discharge pipe and a check valve rising up the white wall, bright even light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "pl-backwater",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a newly installed backwater valve in a basement floor: a rectangular access box set flush in a neat patch of fresh smooth concrete in an older concrete basement floor, its clear lid showing the pipe and the flap inside, a white round cleanout cap beside it, a tidy unfinished basement with white walls in soft light, wide shot from standing height. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}
