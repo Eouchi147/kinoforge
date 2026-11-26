@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the installers sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the installers' own look prices a TV on a wall (drywall, brick, above a fireplace), shows the bracket and the hidden cables, and the other installs (floor, door, dishwasher). AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos; every screen is switched off.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "in-tv-living",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a large flat screen TV mounted flat and perfectly level on a warm white living room wall, the screen switched off and plain black, no cables visible anywhere, a low walnut media console below with two books and a small plant, oak floor, soft late afternoon daylight from a window on the left, seen straight on from the sofa. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "in-tv-fireplace",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a flat screen TV mounted above a grey stacked stone fireplace in a family room, the screen switched off and plain black, the TV tilted slightly downward on its mount, no cables visible, a simple wood mantel with nothing on it, cream walls, evening lamp light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "in-tv-brick",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a flat screen TV mounted level on an exposed red brick wall in a condo loft, the screen switched off and plain black, no cables visible, a slim black sound bar mounted on the wall just under the screen, concrete ceiling, daylight from tall windows on the right. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "in-bracket",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of an empty black steel full-motion TV wall bracket bolted to a pale grey painted wall, a yellow spirit level resting on top of the bracket with its bubble centred, faint pencil marks on the wall, a cordless drill and a box of lag bolts on a folded drop cloth on the floor below, daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "in-cables",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a white painted wall with a black steel TV bracket bolted on and, between its arms, a white recessed in-wall cable plate with a neat bundle of black cables passing into it, a second matching white plate low on the wall near the baseboard, clean and tidy, daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "in-floor",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: an empty bright room with light oak look vinyl plank flooring half laid, the finished rows running from the far wall toward the camera, the bare grey levelled subfloor in the foreground, a neat stack of loose planks, a rubber mallet, a tapping block and small plastic spacers along the wall, daylight from a window. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "in-door",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a newly hung white shaker style interior door standing half open in a bright hallway, new matte black lever handle and three black hinges, even gaps around the door, fresh white trim, a folded drop cloth and a wood chisel on the oak floor beside it, daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "in-dishwasher",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a kitchen with white shaker cabinets and a pale quartz counter, a new stainless steel dishwasher slid halfway into its opening under the counter, a braided steel water line and a grey drain hose visible in the gap beside it, a small torpedo level resting on the open dishwasher door, a folded towel on the floor, daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    }
+  ]
+}
