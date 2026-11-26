@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the handyman sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the look for any other service shows the firm's jobs as a list to tick, each with the photograph of that job (assembly, a drywall patch, a door latch, caulking, a shelf, a tap, a light). AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "hd-assembly",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a bedroom floor with a half assembled pale wood dresser lying on a grey moving blanket, two drawers waiting beside it, screws and wooden dowels sorted in a small plain tray, an allen key and a cordless screwdriver next to the tray, daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "hd-drywall",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a pale grey painted living room wall with one neat white filler patch the size of a fist sanded smooth and ready for paint, a putty knife and a sanding block resting on a small step stool below it, a folded drop cloth on the oak floor, daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "hd-door",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of the edge of a white interior door standing half open, showing a new brushed nickel latch and strike plate fitted cleanly into the frame, a wood chisel and a screwdriver on the floor below, daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "hd-caulk",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a white bathtub where it meets white subway tile, a fresh smooth bead of white caulk running perfectly straight along the joint, a caulking gun resting on the tub edge, soft daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "hd-shelf",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a plain oak floating shelf freshly mounted on a white wall with a small spirit level resting on it, bubble centred, a cordless drill and a box of wall anchors on the floor below, daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "hd-tap",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a new brushed steel kitchen tap freshly installed on a white quartz counter over a clean sink, an adjustable wrench and a roll of white thread tape lying on a folded towel beside it, daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "hd-light",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a new simple white dome ceiling light fixture freshly mounted on a white ceiling in a hallway, switched on, a wooden step ladder standing open below it, warm daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "hd-tools",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: an open canvas tool bag on a clean hallway floor mat with hand tools arranged neatly beside it: a hammer, two screwdrivers, pliers, a tape measure, a small level and a cordless drill, seen from above, daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    }
+  ]
+}
