@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 26 Nov 2026
+- Board `site-samples-v11-painting`, result (run 45904127111, success): 8 of 8 stills, US$0.27 charged (usage 53.93 to 54.20), run alone. Read in the website repo: all eight clean and kept.
 - Board `site-samples-v11-painting`: 8 AI stills (Seedream 5 Pro, cap US$1.00) for the painting sample business in the website template library (bedroom, ceiling, trim, front door, deck, exterior, the preparation, the cut line), under the owner's standing go of 26 Nov (one run per kind, US$30 for the list, US$1.89 spent before this run). Run alone. Result in the next line.
 - Board `site-samples-v10-installers`, result (run 45901537588, success): 8 of 8 stills, US$0.63 charged (usage 53.21 to 53.84), run alone. Read at full size in the website repo: seven kept, the bracket still cropped, the fireplace still dropped (its TV hung crooked) and not regenerated (one run per kind).
 - Board `site-samples-v10-installers`: 8 AI stills (Seedream 5 Pro, cap US$1.00) for the installers sample business in the website template library (TV on drywall, above a fireplace and on brick, the bracket, the hidden cables, a floor, a door, a dishwasher), under the owner's standing go of 26 Nov (one run per kind, US$30 for the list, US$1.26 spent before this run). Run alone so its charge can be read. Result in the next line.
