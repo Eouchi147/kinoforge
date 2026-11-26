@@ -1,0 +1,73 @@
+{
+ "cap": 1.0,
+ "total": 0.72,
+ "by_seat": {
+  "image": 0.72
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-summer",
+   "usd": 0.09,
+   "s": 42.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-winter",
+   "usd": 0.09,
+   "s": 52.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-base",
+   "usd": 0.09,
+   "s": 57.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-driveway",
+   "usd": 0.09,
+   "s": 43.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-mow",
+   "usd": 0.09,
+   "s": 48.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-fall",
+   "usd": 0.09,
+   "s": 47.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-mulch",
+   "usd": 0.09,
+   "s": 39.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "ls-steps",
+   "usd": 0.09,
+   "s": 42.7,
+   "ok": true
+  }
+ ]
+}
