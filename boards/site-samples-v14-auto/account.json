@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 56.089526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 56.359526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "au-lift": "bytedance-seed/seedream-5-0-pro",
+  "au-oil": "bytedance-seed/seedream-5-0-pro",
+  "au-tire": "bytedance-seed/seedream-5-0-pro",
+  "au-brake": "bytedance-seed/seedream-5-0-pro",
+  "au-battery": "bytedance-seed/seedream-5-0-pro",
+  "au-interior": "bytedance-seed/seedream-5-0-pro",
+  "au-wax": "bytedance-seed/seedream-5-0-pro",
+  "au-wait": "bytedance-seed/seedream-5-0-pro"
+ }
+}
