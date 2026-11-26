@@ -1,0 +1,73 @@
+{
+ "cap": 1.0,
+ "total": 0.72,
+ "by_seat": {
+  "image": 0.72
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-bedroom",
+   "usd": 0.09,
+   "s": 49.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-ceiling",
+   "usd": 0.09,
+   "s": 60.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-trim",
+   "usd": 0.09,
+   "s": 66.4,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-front",
+   "usd": 0.09,
+   "s": 55.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-deck",
+   "usd": 0.09,
+   "s": 46.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-exterior",
+   "usd": 0.09,
+   "s": 47.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-prep",
+   "usd": 0.09,
+   "s": 46.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pa-line",
+   "usd": 0.09,
+   "s": 55.4,
+   "ok": true
+  }
+ ]
+}

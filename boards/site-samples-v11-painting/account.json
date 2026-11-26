@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 53.929526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 54.199526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "pa-bedroom": "bytedance-seed/seedream-5-0-pro",
+  "pa-ceiling": "bytedance-seed/seedream-5-0-pro",
+  "pa-trim": "bytedance-seed/seedream-5-0-pro",
+  "pa-front": "bytedance-seed/seedream-5-0-pro",
+  "pa-deck": "bytedance-seed/seedream-5-0-pro",
+  "pa-exterior": "bytedance-seed/seedream-5-0-pro",
+  "pa-prep": "bytedance-seed/seedream-5-0-pro",
+  "pa-line": "bytedance-seed/seedream-5-0-pro"
+ }
+}
