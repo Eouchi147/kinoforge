@@ -6,7 +6,7 @@
     {
       "id": "mv-van",
       "model": "bytedance-seed/seedream-5-0-pro",
-      "prompt": "Photograph, photographed for real, not illustrated: a clean plain white box moving truck parked at the curb of a leafy residential street with its rear door rolled up and a loading ramp down to the road, the plain white side of the truck facing the camera with nothing written on it, a few sealed cardboard boxes at the foot of the ramp, morning light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "prompt": "Photograph, photographed for real, not illustrated: a clean plain white box moving truck parked at the curb of a leafy residential street with its rear door rolled up and a loading ramp down to the road, the plain white side of the truck facing the camera and left blank, a few sealed cardboard boxes at the foot of the ramp, morning light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
       "aspect": "3:2"
     },
     {
