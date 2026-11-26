@@ -150,6 +150,7 @@ the **social lane** (`social/`, workflow `social.yml`) for Unmissed's Social Aut
 client on TikTok, Reels, Shorts, Facebook Reels); first client Smart Mount (Toronto opening in December).
 
 ## Done
+- **Board `site-samples-v7-landscaping` (26 Nov):** 8 AI stills asked for the landscaping sample business in the website template library, cap US$1.00, at the owner's go; the result is logged when the run ends.
 - **Board `site-samples-v6-plumbing` (26 Nov):** 8 of 8 AI stills made for the plumbing sample business in the website template library (the cabinet under a sink, a toilet, a tap, a drain being cleared, a water heater, a shower, a sump pit, a backwater valve), in the `boards` release and stored in the website repo; US$0.27 spent of a US$1.00 cap.
 - **Board `site-samples-v5-heating` (25 Nov, evening):** 8 of 8 AI stills made for the website template library (7 for the heating and cooling sample business, 1 remake of the electrician's panel photo), in the `boards` release and in use in the website repo; US$0.27 spent of a US$1.00 cap.
 - **Board `site-samples-v4-electrical` (25 Nov):** 5 of 7 AI stills made for the electrician's sample business in the website template library (an evening exterior, a lit kitchen, an EV charger, pot lights, a van), in the `boards` release and in use in the website repo; US$0.18 spent of a US$1.00 cap. The tools and switch frames were not made: the OpenRouter key is at US$49.34 of its US$50 limit, and image output needs US$1.00 of balance. The owner raised the key's limit the same evening.

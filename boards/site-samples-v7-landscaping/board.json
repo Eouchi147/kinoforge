@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the landscaping sample business in the website template library (26 Nov 2026, the owner's go the same day: landscaping's first look of its own is built on photographs of a property through the year, its seasonal work and an interlock project). AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "ls-summer",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the front of a two-storey brick house in a Toronto suburb on a bright summer morning, seen from the sidewalk: a freshly cut green lawn with clean mowing stripes, a crisp edge along a garden bed of hostas, grasses and a small maple, a clean concrete walkway to the front door, soft sunlight, blue sky. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ls-winter",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the front of a two-storey brick house in a Toronto suburb at dawn in winter after a snowfall, seen from the street: the asphalt driveway and the front walkway cleared down to bare black pavement with neat snowbanks on both sides, warm light in the windows, deep untouched snow on the lawn, pale blue sky. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ls-base",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a residential front walkway under construction, seen from standing height: the path dug out between wooden form edges and filled with compacted grey gravel raked perfectly level, two steel screed pipes lying on the base, a plate compactor resting at the side, a tight string line, a neat pallet of plain grey concrete pavers on the lawn beside it, daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ls-driveway",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a newly finished interlocking paver driveway in front of a suburban house, seen from the street at a low angle: charcoal and light grey rectangular pavers in a herringbone pattern with a darker soldier-course border, perfectly level joints filled with sand, a cut lawn edge on both sides, late afternoon light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ls-mow",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a plain red walk-behind lawn mower with no markings standing on a freshly cut residential lawn with strong light and dark mowing stripes, a string trimmer lying on the grass beside it, a tidy garden bed and a wooden fence behind, summer afternoon light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ls-fall",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a residential front lawn in late October being cleaned up: a wide leaf rake leaning on a row of four tall plain brown paper yard waste bags filled with orange and yellow maple leaves standing at the curb, the lawn half cleared, bare maple branches above, soft overcast light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ls-mulch",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a garden bed in spring with a fresh layer of dark brown mulch and a crisp cut edge against a green lawn, young perennials and two boxwoods coming up, a metal wheelbarrow half full of mulch with a square shovel standing in it, morning light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ls-steps",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the front steps and walkway of a brick house in winter, seen from the walkway: three concrete steps with a black iron railing cleared of snow down to dry concrete with a light scatter of coarse rock salt, a snow shovel leaning on the railing, clean snowbanks on both sides, the front door at the top, soft morning light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+      "aspect": "3:2"
+    }
+  ]
+}

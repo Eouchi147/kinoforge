@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 26 Nov 2026
+- Board `site-samples-v7-landscaping`: 8 AI stills (Seedream 5 Pro, cap US$1.00) for the landscaping sample business in the website template library, at the owner's go of the same day (16:46 UTC: "Yes and go"): a front yard in summer, a driveway cleared at dawn, a walkway dug out with its gravel base, a finished interlock driveway, a mower on a striped lawn, a fall cleanup, fresh mulch beds, cleared and salted steps. Samples only, marked AI-generated; no people, text or logos.
 - Board `site-samples-v6-plumbing`, result (run 45840201100, success): 8 of 8 stills made; US$0.27 spent by the account (the ledger's estimate is US$0.72) of a US$1.00 cap. Each still read at a thousand pixels and more: no people, no readable text, no logo. One retouch in the website repo's copy: a blurred tag with lines on it, far in the background of the drain photo, taken out. All eight are stored in the website repo for the plumbing sample.
 - Board `site-samples-v6-plumbing`: 8 AI stills (Seedream 5 Pro, cap US$1.00, about US$0.72 expected by the ledger) for the plumbing sample business in the website template library, at the owner's go of the same day: the cabinet under a kitchen sink, a toilet, a kitchen tap, a drain being cleared, a water heater, a shower, a sump pit and a backwater valve. The same house rules as the earlier sample boards (no people, text or logos; samples only).
 
