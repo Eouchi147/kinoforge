@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the moving sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the movers' look sizes a move by the home and shows the truck, the wrapping, the floor protection, the packing, the supplies and the storage vaults. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "mv-van",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a clean plain white box moving truck parked at the curb of a leafy residential street with its rear door rolled up and a loading ramp down to the road, the plain white side of the truck facing the camera with nothing written on it, a few sealed cardboard boxes at the foot of the ramp, morning light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "mv-wrap",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a living room on moving day with a sofa, an armchair and a wooden dresser each wrapped in blue quilted moving blankets held by clear stretch film, standing ready on a hardwood floor, daylight from a window. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "mv-floor",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a hallway inside a house prepared for a move: grey protective runners taped along the hardwood floor, padded protectors on the door frame, a red hand truck standing by the open front door with three plain sealed cardboard boxes stacked on it, daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "mv-pack",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a kitchen counter during packing: an open plain cardboard box with white plates wrapped in packing paper standing on edge inside it, a stack of clean packing paper, a tape dispenser and a roll of bubble wrap beside it, daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "mv-supplies",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: new moving supplies stacked neatly against a white wall: a bundle of flat plain cardboard boxes, one tall plain wardrobe box with a metal hanging bar, rolls of clear tape, a roll of bubble wrap and a stack of folded blue moving blankets, soft daylight. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "mv-vault",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the inside of a clean heated storage warehouse with two rows of large plain plywood storage vaults stacked two high along a polished concrete aisle, bright even lighting, nothing written anywhere. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "mv-load",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the inside of a moving truck neatly loaded: plain cardboard boxes stacked in tight columns, furniture wrapped in blue quilted blankets, everything held by orange ratchet straps to the rails on the walls, seen from the open rear door. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "mv-arrive",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a bright empty apartment living room with sunlight across a pale wood floor, a neat stack of five plain sealed cardboard boxes and a wrapped armchair by the wall, a green plant in a pot on the floor beside them, white walls. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates, no house numbers.",
+      "aspect": "3:2"
+    }
+  ]
+}
