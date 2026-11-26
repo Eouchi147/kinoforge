@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 54.649526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 54.919526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "pc-house": "bytedance-seed/seedream-5-0-pro",
+  "pc-seal": "bytedance-seed/seedream-5-0-pro",
+  "pc-foundation": "bytedance-seed/seedream-5-0-pro",
+  "pc-bedroom": "bytedance-seed/seedream-5-0-pro",
+  "pc-wasp": "bytedance-seed/seedream-5-0-pro",
+  "pc-attic": "bytedance-seed/seedream-5-0-pro",
+  "pc-kit": "bytedance-seed/seedream-5-0-pro",
+  "pc-sweep": "bytedance-seed/seedream-5-0-pro"
+ }
+}
