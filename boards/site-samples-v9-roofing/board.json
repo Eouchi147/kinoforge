@@ -1,0 +1,55 @@
+{
+ "_": "Sample photos for the roofing sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): roofing's own look shows a new roof layer by layer, from the bare deck to the ridge, and the edges of the house. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "rf-roof",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a two-storey brick house in a Toronto suburb with a brand new charcoal grey asphalt shingle roof, seen from the street at a low angle so the roof fills the upper half of the frame, crisp straight shingle lines, new black eavestroughs and downspouts, clear blue sky with a few clouds, late morning sun. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rf-deck",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: the slope of a house roof stripped down to its bare plywood deck, seen from on the roof looking along the slope toward the ridge: clean pale plywood sheets with straight seams, two new sheets brighter than the rest, a neat pile of old shingles gone, blue sky beyond the ridge. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rf-ice",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: the lower edge of a house roof during a re-roof, seen from on the roof: a wide band of plain black self-adhered waterproof membrane laid smooth along the eaves over the plywood deck, a new metal drip edge along the edge, bare plywood above it, blue sky. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rf-underlay",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a house roof slope fully covered in plain light grey synthetic underlayment with no printing on it, laid in straight overlapping horizontal rows and fastened with rows of small round plastic cap nails, seen from on the roof looking up toward the ridge, blue sky. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rf-shingles",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a house roof slope half covered in new charcoal grey architectural asphalt shingles laid in perfectly straight rows from the eaves upward, grey underlayment still showing above them, a few bundles wrapped in plain brown paper resting near the ridge, seen from on the roof, blue sky. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rf-ridge",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a close view of the peak of a new charcoal grey asphalt shingle roof: neat overlapping ridge cap shingles over a low ridge vent running along the peak, crisp granule texture, sharp against a clear blue sky. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rf-eaves",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a close view of the corner of a house roof from below: a new seamless white aluminum eavestrough with a downspout, clean white soffit panels and fascia, the edge of new charcoal shingles above, red brick wall, clear sky. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rf-repair",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a section of an older grey asphalt shingle roof after a wind storm, seen from on the roof: several shingles missing and a few lifted and creased, dark felt showing in the gaps, the rest of the roof intact, overcast sky. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}

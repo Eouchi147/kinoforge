@@ -1,0 +1,55 @@
+{
+ "_": "Sample photos for the renovation sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): renovation's own look shows a project per sheet and needs warm finished rooms and one stage of the work. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "rv-basement",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a newly finished basement family room in a Toronto house, warm and lived in: light oak vinyl plank floor, a grey sectional sofa with a wool throw, a low media unit, rows of recessed pot lights switched on in a smooth white ceiling, a small basement window near the ceiling, a built-in shelf with plants and ceramic vases, soft warm evening light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rv-suite",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a newly built basement apartment in a Toronto house, seen from the living area toward a compact kitchen: white flat-front cabinets, a pale stone counter, a small stainless sink, a two-burner cooktop, a small window near the ceiling, light vinyl plank floor, pot lights on, a small dining table with two chairs, bright and clean. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rv-kitchen",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a newly renovated kitchen in a Toronto house: deep green shaker cabinets, a white quartz counter and island with three wooden stools, brass cabinet pulls, a white tile backsplash, two glass pendant lights over the island, an oak floor, daylight from a window over the sink. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rv-bathroom",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a newly renovated bathroom: a curbless walk-in shower with a clear glass panel and large pale porcelain tile, a matte black shower head, a floating walnut vanity with a white basin and a round mirror, a heated towel rail, soft daylight from a frosted window. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rv-framing",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a basement in the middle of a renovation, clean and orderly: new wood stud walls framed along the concrete foundation, pink insulation batts between the studs on one wall, electrical cable stapled neatly along the studs, a swept concrete floor, a work light on a tripod, a stack of drywall sheets against one wall. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rv-stairs",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a finished basement staircase seen from below: oak treads with white risers, a black metal handrail, a white wall with two small recessed step lights, light vinyl plank floor at the bottom, warm light. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rv-niche",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a close view of new tile work in a shower: a recessed niche in large pale porcelain wall tile with perfectly aligned thin grout lines and a brushed metal edge trim, a matte black valve handle beside it, water drops on the tile. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "rv-van",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated: a white work van with a ladder rack parked in the driveway of a brick Toronto house on an overcast day, its side door open on tidy shelves of tool cases, a folded drop cloth and a stack of lumber beside it on the driveway. No people, no hands, no faces, no text, no writing, no labels, no stickers, no signage, no logos, no brand names, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}
