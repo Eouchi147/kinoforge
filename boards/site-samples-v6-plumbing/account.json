@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 50.329526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 50.599526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "pl-undersink": "bytedance-seed/seedream-5-0-pro",
+  "pl-toilet": "bytedance-seed/seedream-5-0-pro",
+  "pl-tap": "bytedance-seed/seedream-5-0-pro",
+  "pl-drain": "bytedance-seed/seedream-5-0-pro",
+  "pl-waterheater": "bytedance-seed/seedream-5-0-pro",
+  "pl-shower": "bytedance-seed/seedream-5-0-pro",
+  "pl-sump": "bytedance-seed/seedream-5-0-pro",
+  "pl-backwater": "bytedance-seed/seedream-5-0-pro"
+ }
+}
