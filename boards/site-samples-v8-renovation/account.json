@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 51.769526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 52.309526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.54,
+ "ledger_total": 0.72,
+ "frames": {
+  "rv-basement": "bytedance-seed/seedream-5-0-pro",
+  "rv-suite": "bytedance-seed/seedream-5-0-pro",
+  "rv-kitchen": "bytedance-seed/seedream-5-0-pro",
+  "rv-bathroom": "bytedance-seed/seedream-5-0-pro",
+  "rv-framing": "bytedance-seed/seedream-5-0-pro",
+  "rv-stairs": "bytedance-seed/seedream-5-0-pro",
+  "rv-niche": "bytedance-seed/seedream-5-0-pro",
+  "rv-van": "bytedance-seed/seedream-5-0-pro"
+ }
+}
