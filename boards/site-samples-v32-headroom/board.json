@@ -1,0 +1,49 @@
+{
+ "_": "Sample photos for the electrician sample business in the website template library (27 Nov 2026 in Toronto, under the owner's standing go: one run per look, capped at US$1.00): Headroom, the electrician's third look, for the homeowner adding load (a heat pump, a hot tub, an induction range, a basement suite) and the older house (knob and tube, a fuse panel, the service mast). Seven stills. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos or numbers.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "el-heatpump",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent electrician in Toronto: a modern outdoor heat pump unit on a concrete pad beside the red brick wall of a Toronto house, a plain grey electrical disconnect box mounted on the wall beside it with a short run of grey conduit into the unit, everything neat and new, soft overcast autumn daylight, a few fallen leaves on the lawn. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no warning signs, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-hottub",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent electrician in Toronto: a covered hot tub on a cedar backyard deck at dusk, a small plain grey weatherproof electrical disconnect box mounted on a cedar post a few steps away with grey conduit running down into the deck, warm light from the house windows, calm and premium. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no warning signs, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-range",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent electrician in Toronto: a new induction range with a smooth black glass cooktop, clean and switched off, in a bright modern kitchen with white cabinets and a pale quartz counter, soft daylight from a window, the range plain with no markings and no brand. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no warning signs, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-suite",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent electrician in Toronto: a newly finished basement apartment in a Toronto house: a bright open living room and kitchenette with rows of pot lights switched on in a smooth white ceiling, a small plain grey electrical subpanel with its door closed on the wall near the stairs, light oak vinyl plank floor, clean and new. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no warning signs, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-knob",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent electrician in Toronto: old knob and tube wiring on the dark wooden joists of an unfinished basement ceiling in an old house: white porcelain knobs and tubes with cloth-covered wires running between them along the joists, warm light from one bare bulb, dust and texture, documentary. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no warning signs, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-fuse",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent electrician in Toronto: an old screw-in fuse panel from the 1950s on a basement wall, a worn grey metal box with its door open, two rows of round plain fuses with no visible markings, old cloth-covered wires leaving the top, flash-lit documentary photograph. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no warning signs, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "el-mast",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent electrician in Toronto: the side wall of a two-storey red brick Toronto house seen from the side yard: the electric meter base and a new grey service mast running up the brick to the overhead service wires at the roofline, the meter seen from the side so its face is not visible, clear morning light, blue sky. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no warning signs, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}
