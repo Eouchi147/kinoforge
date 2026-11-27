@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the bakery sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the bakery's look shows the bake by the piece, each bread, pastry and cake as its own photograph with its price, and opens on the shop. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos or alcohol.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "bk-shop",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small neighbourhood bakery seen from the door early in the morning: a long pale oak counter with a glass case of pastries, behind it open oak shelves stacked with round sourdough loaves, rye loaves and a basket of baguettes, a brick wall painted white, warm pendant lights, a terracotta tiled floor, empty and ready to open. No people, no hands, no faces, no text, no writing, no lettering, no labels, no price tags, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bk-sourdough",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: one round country sourdough loaf with a dark blistered crust and a flour dusted scored ear, on a pale oak board, a folded linen cloth beside it, dark background, warm side light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no price tags, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "4:5"
+    },
+    {
+      "id": "bk-rye",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: one oval seeded rye loaf covered in sunflower, flax and sesame seeds, with two slices cut showing a dense dark crumb, on a pale oak board, dark background, warm side light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no price tags, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "4:5"
+    },
+    {
+      "id": "bk-baguette",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: five golden baguettes with deep scored crusts standing in a woven wicker basket lined with linen, dark background, warm side light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no price tags, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "4:5"
+    },
+    {
+      "id": "bk-croissant",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: three golden butter croissants with crisp flaky layers on a sheet of plain brown baking paper on a pale oak board, a few crumbs, dark background, warm side light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no price tags, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "4:5"
+    },
+    {
+      "id": "bk-bun",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: four knotted cardamom buns glazed and sprinkled with pearl sugar on a round wire cooling rack on a pale oak board, dark background, warm side light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no price tags, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "4:5"
+    },
+    {
+      "id": "bk-lemon",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a whole round lemon olive oil cake with a thin white glaze dripping at the edge and thin slices of candied lemon on top, on a plain white cake stand, one slice cut and resting on a small plate, dark background, warm side light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no price tags, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "4:5"
+    },
+    {
+      "id": "bk-chocolate",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a whole three layer chocolate cake covered in smooth dark chocolate frosting with a simple swirl on top, on a plain white cake stand, one slice removed showing the layers, dark background, warm side light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no price tags, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "4:5"
+    }
+  ]
+}
