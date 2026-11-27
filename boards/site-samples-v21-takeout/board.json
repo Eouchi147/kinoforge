@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the takeout counter sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the takeout look is the whole menu as a docket with a search, and its favourites each under their own photograph. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos, alcohol or pork.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "cy-spread",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: directly overhead view of a Caribbean takeout order laid out on a dark green counter: an open plain kraft takeout box of charred jerk chicken with rice and peas and coleslaw, an open box of braised oxtail with butter beans and rice, a roti wrap cut in half, a small box of golden fried plantain slices, two golden flaky patties on a plain paper bag, and a clear cup of deep red hibiscus sorrel drink with ice, warm daylight with soft shadows. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no rum, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cy-jerk",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close three quarter view of an open plain kraft takeout box holding dark charred jerk chicken leg and thigh pieces glazed with spices, beside rice and peas and a spoon of creamy coleslaw, on a dark green counter, warm light, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no rum, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cy-oxtail",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close three quarter view of an open plain kraft takeout box holding braised oxtail pieces in a glossy dark brown gravy with butter beans and carrot, beside rice and peas, on a dark green counter, warm light, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no rum, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cy-roti",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a chicken roti wrap cut in half and stacked on plain white paper, the soft folded flatbread showing a filling of yellow curry chicken and potato, on a dark green counter, warm light, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no rum, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cy-patty",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of two golden yellow flaky half moon Jamaican patties on a plain brown paper bag, one broken open showing a spiced ground beef filling, on a dark green counter, warm light, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no rum, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cy-sorrel",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a clear plastic cup of deep red hibiscus sorrel drink with ice cubes and a slice of orange, beside a second clear cup of bright orange carrot juice, on a dark green counter, hard daylight with crisp shadows. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no rum, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cy-counter",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small Caribbean takeout counter seen from the door in the late afternoon: a stainless steel steam table with covered trays, a glass warming case holding rows of golden patties, a stack of plain kraft takeout boxes and a row of plain brown paper bags on the counter, dark green tiled wall, warm pendant lights, empty. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no rum, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cy-grill",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of chicken leg and thigh pieces charring on the grate of a black steel drum barbecue over glowing charcoal, thick aromatic smoke rising, dark background, warm firelight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no rum, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    }
+  ]
+}
