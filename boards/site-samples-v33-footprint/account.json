@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 69.679526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 70.039526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.36,
+ "ledger_total": 0.72,
+ "frames": {
+  "fp-patio": "bytedance-seed/seedream-5-0-pro",
+  "fp-flagstone": "bytedance-seed/seedream-5-0-pro",
+  "fp-wall": "bytedance-seed/seedream-5-0-pro",
+  "fp-steps": "bytedance-seed/seedream-5-0-pro",
+  "fp-layout": "bytedance-seed/seedream-5-0-pro",
+  "fp-tree": "bytedance-seed/seedream-5-0-pro",
+  "fp-planting": "bytedance-seed/seedream-5-0-pro",
+  "fp-sod": "bytedance-seed/seedream-5-0-pro"
+ }
+}
