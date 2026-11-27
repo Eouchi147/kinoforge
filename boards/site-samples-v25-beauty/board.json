@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the nail and skin studio sample business in the website template library (26 Nov 2026 in Toronto, under the owner's standing go of that day: one run per kind, capped at US$1.00): the beauty and spa look is a treatment menu drawn by time, the people, and the proof. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos, needles or lasers.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "nb-room",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a calm, bright treatment room in a small skin studio: a facial bed made up with a folded cream blanket and a rolled white towel, a small round side table with a ceramic bowl, pale lilac plastered walls, a linen curtain with soft daylight coming through, a potted olive tree in the corner, oak floor. Nobody in the picture: no people, no hands, no feet, no faces, no figures, no reflections of people. No text, no writing, no lettering, no labels on any bottle or jar, no price cards, no signage, no logos, no brand names, no needles, no syringes, no laser devices.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "nb-nails",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a manicure station by a window: a small white table with a rounded edge, a slim desk lamp, a folded white towel, a row of glass nail polish bottles in muted pinks, plums, nudes and one deep red with plain black caps and no labels, a glass bowl of water, soft daylight, pale lilac wall behind. Nobody in the picture: no people, no hands, no feet, no faces, no figures, no reflections of people. No text, no writing, no lettering, no labels on any bottle or jar, no price cards, no signage, no logos, no brand names, no needles, no syringes, no laser devices.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "nb-pedi",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a pedicure corner: a cream upholstered armchair on a low wooden platform, in front of it a round ceramic foot basin filled with warm water and a few flower petals, a rolled white towel and a wooden brush beside it on the floor, pale lilac wall, soft daylight. Nobody in the picture: no people, no hands, no feet, no faces, no figures, no reflections of people. No text, no writing, no lettering, no labels on any bottle or jar, no price cards, no signage, no logos, no brand names, no needles, no syringes, no laser devices.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "nb-skin",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a facial trolley seen from slightly above: three small ceramic bowls, a fan brush and a mask brush laid on a folded white cloth, plain glass jars and amber glass bottles with no labels, a stack of cotton rounds in a glass jar, soft daylight, pale wall. Nobody in the picture: no people, no hands, no feet, no faces, no figures, no reflections of people. No text, no writing, no lettering, no labels on any bottle or jar, no price cards, no signage, no logos, no brand names, no needles, no syringes, no laser devices.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "nb-brows",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small tray for brow and lash work on a white counter: steel tweezers, small scissors, clean spoolie brushes in a glass, a hand mirror lying face up showing only the ceiling, cotton pads, a small dish, soft daylight from the side, very tidy. Nobody in the picture: no people, no hands, no feet, no faces, no figures, no reflections of people. No text, no writing, no lettering, no labels on any bottle or jar, no price cards, no signage, no logos, no brand names, no needles, no syringes, no laser devices.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "nb-wax",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a waxing cart in a clean treatment room: a small round wax warmer with warm honey-coloured wax, a glass jar of wooden spatulas, a neat stack of white cloth strips, a glass bottle with no label, a folded towel on the shelf below, pale lilac wall. Nobody in the picture: no people, no hands, no feet, no faces, no figures, no reflections of people. No text, no writing, no lettering, no labels on any bottle or jar, no price cards, no signage, no logos, no brand names, no needles, no syringes, no laser devices.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "nb-tools",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: clean steel manicure tools sealed one set to a pouch in plain clear sterilisation pouches with no printing, laid in a neat row on a steel tray on a white counter beside a small tabletop steriliser with its door closed, bright even light, very clean. Nobody in the picture: no people, no hands, no feet, no faces, no figures, no reflections of people. No text, no writing, no lettering, no labels on any bottle or jar, no price cards, no signage, no logos, no brand names, no needles, no syringes, no laser devices.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "nb-front",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the small reception of a nail and skin studio in the late afternoon: a pale oak desk with a ceramic vase of dried flowers, a cream boucle bench against a pale lilac wall, a round mirror hung high showing only the ceiling and a pendant lamp, coat hooks, oak floor, warm light, nobody there. Nobody in the picture: no people, no hands, no feet, no faces, no figures, no reflections of people. No text, no writing, no lettering, no labels on any bottle or jar, no price cards, no signage, no logos, no brand names, no needles, no syringes, no laser devices.",
+      "aspect": "3:2"
+    }
+  ]
+}
