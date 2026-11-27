@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the wedding photographer and the portrait studio sample businesses in the website template library (27 Nov 2026 in Toronto, under the owner's standing go: one run per kind, capped at US$1.00): the photography look is led by the photographs; one kind, two businesses, six stills for the wedding photographer and two for the studio. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "ph-venue",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, as a professional wedding or portrait photographer's own portfolio frame: an empty outdoor wedding ceremony in an Ontario orchard at golden hour: two rows of white wooden folding chairs facing a simple arch of eucalyptus and white roses, low warm sun flaring through the trees, soft haze, shallow depth of field. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no lettering, no numbers, no printing on any paper, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ph-table",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, as a professional wedding or portrait photographer's own portfolio frame: a long reception table set for dinner inside a timber barn at dusk: linen tablecloth, rows of lit taper candles, low arrangements of white and blush flowers, empty wine glasses filled with water, warm string lights blurred above, nobody seated. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no lettering, no numbers, no printing on any paper, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ph-rings",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, as a professional wedding or portrait photographer's own portfolio frame: close detail of two plain gold wedding bands resting on a folded cream linen napkin beside a single open white peony, soft north window light, very shallow depth of field. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no lettering, no numbers, no printing on any paper, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ph-dress",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, as a professional wedding or portrait photographer's own portfolio frame: a white wedding dress hanging alone on a wooden hanger from a tall window frame in a bright hotel suite, sheer curtains, soft morning light through the lace, a pair of satin shoes on the floor below. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no lettering, no numbers, no printing on any paper, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ph-bouquet",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, as a professional wedding or portrait photographer's own portfolio frame: a bridal bouquet of white garden roses, blush ranunculus and trailing ribbon lying on old limestone steps scattered with a few petals, late afternoon light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no lettering, no numbers, no printing on any paper, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ph-lake",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, as a professional wedding or portrait photographer's own portfolio frame: a calm Ontario lake at dawn with mist on the water, a weathered wooden dock reaching out, pine trees on the far shore, pale pink sky, quiet and wide. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no lettering, no numbers, no printing on any paper, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ps-studio",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, as a professional wedding or portrait photographer's own portfolio frame: an empty portrait photography studio: a seamless warm grey paper backdrop, a simple wooden stool in the centre, a large softbox on a stand to the left and a reflector to the right, a pale concrete floor, calm even light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no lettering, no numbers, no printing on any paper, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ps-desk",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, as a professional wedding or portrait photographer's own portfolio frame: a photographer's worktable seen from above: a mirrorless camera body with a lens, two more lenses standing on their caps, a lens cloth, a small stack of blank white mounting boards and a cup of black coffee on pale oak. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no lettering, no numbers, no printing on any paper, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    }
+  ]
+}
