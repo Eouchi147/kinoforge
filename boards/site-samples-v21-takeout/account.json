@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 61.129526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 61.759526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.63,
+ "ledger_total": 0.72,
+ "frames": {
+  "cy-spread": "bytedance-seed/seedream-5-0-pro",
+  "cy-jerk": "bytedance-seed/seedream-5-0-pro",
+  "cy-oxtail": "bytedance-seed/seedream-5-0-pro",
+  "cy-roti": "bytedance-seed/seedream-5-0-pro",
+  "cy-patty": "bytedance-seed/seedream-5-0-pro",
+  "cy-sorrel": "bytedance-seed/seedream-5-0-pro",
+  "cy-counter": "bytedance-seed/seedream-5-0-pro",
+  "cy-grill": "bytedance-seed/seedream-5-0-pro"
+ }
+}
