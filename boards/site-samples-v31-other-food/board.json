@@ -1,0 +1,55 @@
+{
+ "_": "Sample photos for the halal butcher and the fishmonger sample businesses in the website template library (27 Nov 2026 in Toronto, under the owner's standing go: one run per kind, capped at US$1.00): the look for food shops that sell by weight for pick-up; one kind, two businesses, six stills for the butcher and two for the fishmonger. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos, pork or alcohol.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "bt-case",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent food shop in Toronto: a long glass butcher's display case seen at a low angle, neat rows of fresh beef steaks, lamb chops, lamb shoulder, whole chickens and ground beef on white trays with green leaf dividers, bright clean light, a white tiled wall behind, warm and premium. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no price tags, no labels, no signage, no logos, no brand names, no printing on any paper or package, every scale display dark or turned away. No pork, no bacon, no ham, no sausage, no alcohol, no wine, no beer bottles.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "bt-block",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent food shop in Toronto: a thick worn end-grain wooden butcher block with a clean boning knife and a rack of lamb on it, a roll of brown butcher paper beside, soft window light from the side, deep shadows, calm and craftsmanlike. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no price tags, no labels, no signage, no logos, no brand names, no printing on any paper or package, every scale display dark or turned away. No pork, no bacon, no ham, no sausage, no alcohol, no wine, no beer bottles.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "bt-parcel",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent food shop in Toronto: three parcels wrapped in brown butcher paper and tied with cotton twine, stacked on a steel counter ready for pick-up, one plain paper bag beside them, soft daylight, shallow depth of field. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no price tags, no labels, no signage, no logos, no brand names, no printing on any paper or package, every scale display dark or turned away. No pork, no bacon, no ham, no sausage, no alcohol, no wine, no beer bottles.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "bt-beef",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent food shop in Toronto: two thick bone-in rib steaks and a beef tenderloin on brown butcher paper on a dark wood counter, coarse salt and fresh rosemary beside, moody natural light, close and appetising. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no price tags, no labels, no signage, no logos, no brand names, no printing on any paper or package, every scale display dark or turned away. No pork, no bacon, no ham, no sausage, no alcohol, no wine, no beer bottles.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "bt-chicken",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent food shop in Toronto: two whole fresh raw chickens and a tray of chicken thighs on white butcher paper on a marble counter, fresh thyme and a lemon beside, bright soft daylight, clean and fresh. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no price tags, no labels, no signage, no logos, no brand names, no printing on any paper or package, every scale display dark or turned away. No pork, no bacon, no ham, no sausage, no alcohol, no wine, no beer bottles.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "bt-shop",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent food shop in Toronto: the inside of a small neighbourhood butcher shop with a white tiled wall, a long glass display case, a hanging steel rail with butcher hooks holding nothing, a wooden block, warm pendant lights, empty and spotless, early morning. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no price tags, no labels, no signage, no logos, no brand names, no printing on any paper or package, every scale display dark or turned away. No pork, no bacon, no ham, no sausage, no alcohol, no wine, no beer bottles.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fm-ice",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent food shop in Toronto: a fishmonger's counter of crushed ice with whole fresh fish laid in rows, sea bream, mackerel and a whole salmon, lemons and parsley between them, bright clean light, glistening and fresh. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no price tags, no labels, no signage, no logos, no brand names, no printing on any paper or package, every scale display dark or turned away. No pork, no bacon, no ham, no sausage, no alcohol, no wine, no beer bottles.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fm-fillet",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent food shop in Toronto: fresh salmon fillets, a halibut steak and a few cod fillets on crushed ice in a steel tray, lemon wedges and dill, close and fresh, soft daylight. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no price tags, no labels, no signage, no logos, no brand names, no printing on any paper or package, every scale display dark or turned away. No pork, no bacon, no ham, no sausage, no alcohol, no wine, no beer bottles.",
+   "aspect": "3:2"
+  }
+ ]
+}
