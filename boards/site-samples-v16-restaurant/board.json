@@ -1,0 +1,61 @@
+{
+  "_": "Sample photos for the sit-down restaurant sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the restaurant's look sets the menu as a printed carte, each course beside the photograph of one of its dishes, and opens on the room. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos or alcohol.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "bs-room",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small warm neighbourhood restaurant dining room at dusk seen from the doorway, a long olive green velvet banquette along a pale plaster wall, eight small walnut tables set with white linen napkins, plain white plates and clear water tumblers, small brass table lamps glowing, a terrazzo floor, an arched doorway to the kitchen at the back, empty and ready for the evening. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bs-table",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a table for two beside a tall window at blue hour, white linen napkins, two plain white plates, cutlery, two clear tumblers of water, a small brass lamp glowing and a tiny vase with one olive sprig, the olive green banquette behind, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bs-grill",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a restaurant kitchen pass seen from the dining room: a charcoal grill glowing orange with clean steel grates, copper pans hanging above, a marble pass with a stack of white plates and a bowl of lemons, warm light, no cooks in view. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bs-start",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: overhead view of a starter on a round white plate on a walnut table: charred octopus tentacle over crushed golden potatoes with a drizzle of red paprika oil and a few parsley leaves, a linen napkin and a fork beside it, soft evening light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bs-pasta",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a shallow white bowl of ricotta ravioli glistening with brown butter and crisp sage leaves, a little grated cheese, on a walnut table with a linen napkin and a spoon, warm evening light, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bs-fish",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a whole grilled sea bream with charred skin on an oval white platter, halved grilled lemons and sprigs of thyme and parsley beside it, a small bowl of olive oil, on a walnut table, warm evening light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bs-finish",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a slice of golden olive oil cake on a small white plate with a spoonful of whipped ricotta and two segments of orange, a dessert fork beside it, on a walnut table, soft warm light, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bs-drink",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a clear glass carafe of cloudy lemonade with fresh mint leaves and lemon slices and two short tumblers filled with it over ice, on a walnut table beside a window, daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bs-front",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the front of a small neighbourhood restaurant at night on a quiet city street: a dark green painted wooden shopfront with two large windows glowing warm, the banquette and set tables visible inside, a plain awning with nothing on it, a wet sidewalk reflecting the light, two potted olive trees by the door. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no wine, no beer, no bottles, no alcohol.",
+      "aspect": "3:2"
+    }
+  ]
+}
