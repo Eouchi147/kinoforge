@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 59.689526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 60.319526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.63,
+ "ledger_total": 0.72,
+ "frames": {
+  "pz-oven": "bytedance-seed/seedream-5-0-pro",
+  "pz-pies": "bytedance-seed/seedream-5-0-pro",
+  "pz-slices": "bytedance-seed/seedream-5-0-pro",
+  "pz-sides": "bytedance-seed/seedream-5-0-pro",
+  "pz-sweets": "bytedance-seed/seedream-5-0-pro",
+  "pz-room": "bytedance-seed/seedream-5-0-pro",
+  "pz-boxes": "bytedance-seed/seedream-5-0-pro",
+  "pz-dough": "bytedance-seed/seedream-5-0-pro"
+ }
+}

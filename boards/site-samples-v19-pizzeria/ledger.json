@@ -1,0 +1,73 @@
+{
+ "cap": 1.0,
+ "total": 0.72,
+ "by_seat": {
+  "image": 0.72
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pz-oven",
+   "usd": 0.09,
+   "s": 54.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pz-slices",
+   "usd": 0.09,
+   "s": 56.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pz-pies",
+   "usd": 0.09,
+   "s": 60.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pz-sweets",
+   "usd": 0.09,
+   "s": 53.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pz-room",
+   "usd": 0.09,
+   "s": 54.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pz-sides",
+   "usd": 0.09,
+   "s": 71.7,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pz-boxes",
+   "usd": 0.09,
+   "s": 53.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "pz-dough",
+   "usd": 0.09,
+   "s": 56.5,
+   "ok": true
+  }
+ ]
+}
