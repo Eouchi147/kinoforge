@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 27 Nov 2026
+- Board `site-samples-v29-photography`, result (run 46039958793, success): 8 of 8 stills, US$0.72 by the ledger. Read in the website repo: all eight kept as made; no people, no lettering. US$15.84 of the list's US$30 after twenty-two runs.
 - Board `site-samples-v29-photography`: 8 AI stills for the wedding photographer and the portrait studio sample businesses in the website template library (an orchard ceremony, a barn table, rings, a dress, a bouquet, a lake at dawn; a studio set, a worktable). Standing go (one run per kind, cap US$1.00, US$30 for the list; US$15.12 spent before this run). No people, text or logos. Dispatched alone.
 - Board `site-samples-v28-petcare`, result (run 46033176608, success): 8 of 8 stills, US$0.72 by the ledger. Read in the website repo: seven kept as made, one dropped (bottles with labels behind the sleeping dog). Animals only, no people, no lettering. US$15.12 of the list's US$30 after twenty-one runs.
 - Board `site-samples-v28-petcare`: 8 AI stills for the pet salon and daycare and the dog walker sample businesses in the website template library (a groomed dog, a dog in the tub, the play room, a dog asleep on a cot, a cat at a window; a dog running in a ravine, two dogs on a path, a walker's kit). Standing go (one run per kind, cap US$1.00, US$30 for the list; US$14.40 spent before this run). Animals only: no people, text or logos. Dispatched alone.
