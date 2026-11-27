@@ -3,6 +3,7 @@
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
 ## 27 Nov 2026
+- Board `site-samples-v31-other-food`, result (run 46049286633, success): 8 of 8 stills, US$0.72 by the ledger. Read in the website repo: six kept as made, the two fish stills cropped to take out bottles on a shelf and a notice on the wall; no people, no lettering, no pork, no alcohol. US$17.28 of the list's US$30 after twenty-four runs.
 - Board `site-samples-v31-other-food`: 8 AI stills for the halal butcher and the fishmonger sample businesses in the website template library (a display case, a butcher block, paper parcels, beef, chicken, the shop; fish on ice, fillets). Standing go (one run per kind, cap US$1.00, US$30 for the list; US$16.56 spent before it). No people, text, logos, pork or alcohol.
 - Board `site-samples-v30-professional`, result (run 46043620921, success): 8 of 8 stills, US$0.72 by the ledger. Read in the website repo: seven kept as made, the entrance cropped to take out street signs; no people, no lettering. US$16.56 of the list's US$30 after twenty-three runs.
 - Board `site-samples-v30-professional`: 8 AI stills for the accounting firm and the insurance brokerage sample businesses in the website template library (a meeting room, a desk, a reception, a city view, a shelf of blank binders, a building entrance; a house, keys on a table). Standing go (one run per kind, cap US$1.00, US$30 for the list; US$15.84 spent before this run). No people, text or logos. Dispatched alone.
