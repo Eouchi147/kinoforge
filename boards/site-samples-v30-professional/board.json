@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the accounting firm and the insurance brokerage sample businesses in the website template library (27 Nov 2026 in Toronto, under the owner's standing go: one run per kind, capped at US$1.00): the professional services look; one kind, two businesses, six stills for the accounting firm and two for the brokerage. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "pf-meeting",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, for the website of a small professional firm in Toronto: a quiet meeting room in a small accounting office: a round pale oak table with four upholstered chairs, a closed slim laptop, a carafe of water and two glasses, tall windows with soft daylight and a view of brick buildings, a large green plant in the corner, calm and orderly. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no printing on any paper, folder, book spine or screen, every screen dark or turned away, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pf-desk",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, for the website of a small professional firm in Toronto: a tidy desk seen from slightly above: a closed dark green leather folder, a desk calculator with no printing on it, a fountain pen resting on a blank sheet of cream paper, a ceramic cup of coffee, warm morning light from the left. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no printing on any paper, folder, book spine or screen, every screen dark or turned away, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pf-reception",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, for the website of a small professional firm in Toronto: the bright reception of a small professional office: a long walnut reception counter, two armchairs and a low table with a vase of white tulips, a pale plaster wall, warm pendant lights, polished concrete floor, nobody there. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no printing on any paper, folder, book spine or screen, every screen dark or turned away, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pf-view",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, for the website of a small professional firm in Toronto: the view from the window of an office high up in downtown Toronto at golden hour: glass towers and older brick buildings, the lake in the distance, a sliver of a wooden window sill in the foreground. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no printing on any paper, folder, book spine or screen, every screen dark or turned away, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pf-shelf",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, for the website of a small professional firm in Toronto: a walnut bookshelf in an office with neat rows of plain archive boxes and closed binders in muted green and grey with completely blank spines, a brass desk lamp, a small plant, soft light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no printing on any paper, folder, book spine or screen, every screen dark or turned away, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pf-entrance",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, for the website of a small professional firm in Toronto: the street entrance of a restored red brick commercial building in Toronto: a black framed glass door, a brass handle, two stone steps, a clipped boxwood planter on each side, soft overcast light, no sign of any kind. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no printing on any paper, folder, book spine or screen, every screen dark or turned away, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ib-home",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, for the website of a small professional firm in Toronto: a warm family house in a leafy Toronto neighbourhood seen from the street in autumn: a brick front porch with a bench, a red maple in the front yard, golden afternoon light, no cars, no house number visible. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no printing on any paper, folder, book spine or screen, every screen dark or turned away, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ib-keys",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated, for the website of a small professional firm in Toronto: a set of house keys and a car key on a plain ring resting on a folded blank cream document on a wooden kitchen table beside a cup of tea, soft window light, very shallow depth of field. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no printing on any paper, folder, book spine or screen, every screen dark or turned away, no labels, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    }
+  ]
+}
