@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 60.409526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 60.589526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.18,
+ "ledger_total": 0.72,
+ "frames": {
+  "bg-tray": "bytedance-seed/seedream-5-0-pro",
+  "bg-double": "bytedance-seed/seedream-5-0-pro",
+  "bg-classic": "bytedance-seed/seedream-5-0-pro",
+  "bg-mushroom": "bytedance-seed/seedream-5-0-pro",
+  "bg-firecracker": "bytedance-seed/seedream-5-0-pro",
+  "bg-halloumi": "bytedance-seed/seedream-5-0-pro",
+  "bg-sides": "bytedance-seed/seedream-5-0-pro",
+  "bg-counter": "bytedance-seed/seedream-5-0-pro"
+ }
+}
