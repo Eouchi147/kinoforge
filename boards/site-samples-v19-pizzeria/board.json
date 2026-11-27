@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the pizzeria sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the pizzeria's look is an order pad, every part of the menu under its own photograph, and opens on the oven. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos, alcohol or pork.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "pz-oven",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a margherita pizza with a blistered leopard spotted crust sliding off a long wooden peel into a domed brick wood-fired oven, flames and glowing embers at the back of the oven, the oven mouth filling the frame, warm firelight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no wine, no beer, no meat on any pizza, no pepperoni, no ham, no sausage.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pz-pies",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: directly overhead view of three whole twelve inch wood-fired pizzas on a black steel table: a margherita with basil, a mushroom pizza with thyme, and a marinara with tomato and oregano and no cheese, each on a round metal tray, a pizza cutter and a small bowl of chili flakes between them. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no wine, no beer, no meat on any pizza, no pepperoni, no ham, no sausage.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pz-slices",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a row of large triangular cheese and margherita pizza slices on plain white paper plates on a stainless steel counter under warm lamps, a metal pizza server beside them, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no wine, no beer, no meat on any pizza, no pepperoni, no ham, no sausage.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pz-sides",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: overhead view of a white bowl of arugula salad with shaved parmesan and lemon beside a small cast iron pan of four golden garlic knots with a ramekin of tomato dip and a dish of roasted olives, on a black steel table. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no wine, no beer, no meat on any pizza, no pepperoni, no ham, no sausage.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pz-sweets",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: two cannoli filled with ricotta and dipped in chopped pistachio on a small white plate beside a tall glass of sparkling lemonade with ice and a lemon slice, on a black steel table, warm light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no wine, no beer, no meat on any pizza, no pepperoni, no ham, no sausage.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pz-room",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small pizzeria seen from the door in the evening: a white tiled counter with a stack of plain white pizza boxes and a brick wood-fired oven glowing behind it, six small square black tables with bentwood chairs, a red and white checkered floor, warm pendant lights, empty. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no wine, no beer, no meat on any pizza, no pepperoni, no ham, no sausage.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pz-boxes",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: three plain white cardboard pizza boxes stacked on a white tiled counter, the top box open showing a whole margherita pizza cut into eight slices, the glowing oven blurred behind, warm light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no wine, no beer, no meat on any pizza, no pepperoni, no ham, no sausage.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pz-dough",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a wooden tray of eight round pizza dough balls dusted with flour, proofing under a folded linen cloth pulled half back, on a floured marble counter, soft daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no wine, no beer, no meat on any pizza, no pepperoni, no ham, no sausage.",
+      "aspect": "3:2"
+    }
+  ]
+}
