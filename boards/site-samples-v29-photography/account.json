@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 66.889526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 67.159526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "ph-venue": "bytedance-seed/seedream-5-0-pro",
+  "ph-table": "bytedance-seed/seedream-5-0-pro",
+  "ph-rings": "bytedance-seed/seedream-5-0-pro",
+  "ph-dress": "bytedance-seed/seedream-5-0-pro",
+  "ph-bouquet": "bytedance-seed/seedream-5-0-pro",
+  "ph-lake": "bytedance-seed/seedream-5-0-pro",
+  "ps-studio": "bytedance-seed/seedream-5-0-pro",
+  "ps-desk": "bytedance-seed/seedream-5-0-pro"
+ }
+}
