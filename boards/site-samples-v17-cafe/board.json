@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the cafe sample business in the website template library (27 Nov 2026, under the owner's standing go of 26 Nov: one run per kind, capped at US$1.00): the cafe's look opens on a cup seen from above and shows each part of the menu as a card with its own photograph, and the orders for the office with a pastry box. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos or alcohol.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "cb-latte",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: directly overhead view, perfectly centred, of one wide white ceramic cup of flat white coffee with a symmetrical rosetta in the milk foam, on a matching white saucer, on a pale pink terrazzo table top that fills the frame, soft even daylight, nothing else on the table. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "1:1"
+    },
+    {
+      "id": "cb-espresso",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a double espresso with thick golden crema in a small clear glass on a white saucer with a small spoon, on a pale wood counter in front of a blurred chrome espresso machine, morning daylight from the left, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cb-brewed",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a glass pour-over dripper on a clear glass carafe half full of black coffee, steam rising, beside a tall glass of cold brew over ice, on a pale wood counter, a white tiled wall behind, morning daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cb-matcha",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a matcha latte with a leaf pattern in the foam in a short clear glass on a pale pink terrazzo table, a small bamboo whisk and a tiny bowl of green matcha powder beside it, soft daylight, shallow depth of field. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cb-oven",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a pale wood tray of golden butter croissants, almond croissants dusted with sugar and knotted cardamom buns, on a white marble counter, a cooling rack behind, warm morning daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cb-breakfast",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a toasted brioche bun sandwich with a folded egg and melted cheddar on a white plate, beside a small bowl of yogurt with granola and berries, on a pale pink terrazzo table by a window, morning daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cb-bar",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small bright coffee bar seen from the door: a white tiled counter with a chrome two group espresso machine and a grinder, a glass case of pastries, pale wood shelves with plain white cups and plants, a pink terrazzo floor, two stools, morning sun through a big window, empty and ready to open. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "cb-box",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: an open plain white pastry box holding a dozen croissants and cardamom buns in neat rows, beside a plain steel coffee urn and a stack of plain white paper cups, on a pale wood office meeting table, daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol.",
+      "aspect": "3:2"
+    }
+  ]
+}
