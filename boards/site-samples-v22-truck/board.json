@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the food truck sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the truck look opens on today's stop and the week, then the menu and booking the truck. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos, plates, alcohol or pork.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "wp-truck",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: three quarter view of a food truck with a plain glossy cobalt blue body and no markings of any kind, a wide open serving window with a striped cream awning and a stainless steel ledge, parked at the curb of a city street beside a small park in bright midday sun, a row of paper boats and a napkin holder on the ledge, the street and sidewalk empty, crisp shadows. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no licence plates, no alcohol, no beer, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "wp-classic",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a classic poutine in a plain white paper boat on a stainless steel ledge: golden fries, white cheese curds and glossy brown gravy, a plain wooden fork beside it, a cobalt blue painted panel behind, bright daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no licence plates, no alcohol, no beer, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "wp-mushroom",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a poutine in a plain white paper boat on a stainless steel ledge: golden fries, white cheese curds and a creamy mushroom gravy with sliced browned mushrooms and chopped green onion, a cobalt blue painted panel behind, bright daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no licence plates, no alcohol, no beer, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "wp-butter",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a poutine in a plain white paper boat on a stainless steel ledge: golden fries and white cheese curds topped with orange butter chicken sauce, pieces of chicken and chopped cilantro, a cobalt blue painted panel behind, bright daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no licence plates, no alcohol, no beer, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "wp-fries",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a tall plain white paper cone of thick golden fries with skin on, sprinkled with coarse salt, standing in a steel holder beside a small paper cup of mayonnaise on a stainless steel ledge, a cobalt blue painted panel behind, bright daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no licence plates, no alcohol, no beer, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "wp-grilled",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a grilled cheese sandwich cut in half and stacked on plain white paper on a stainless steel ledge, golden crisp bread with melted orange cheese stretching between the halves, a cobalt blue painted panel behind, bright daylight. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no licence plates, no alcohol, no beer, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "wp-window",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the inside of a food truck kitchen seen through its open serving window: a steel ledge with a stack of plain white paper boats, a salt shaker and plain squeeze bottles, two fryer baskets of golden fries hanging over the fryer behind, warm work lights, empty. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no licence plates, no alcohol, no beer, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "wp-event",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: wide view at dusk of a food truck with a plain glossy cobalt blue body and no markings of any kind, a wide open serving window with a striped cream awning and a stainless steel ledge, parked on the grass at an outdoor party, warm string lights overhead, three empty wooden picnic tables in front, trees behind, the serving window glowing warm, nobody there. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no licence plates, no alcohol, no beer, no pork, no bacon, no ham.",
+      "aspect": "3:2"
+    }
+  ]
+}
