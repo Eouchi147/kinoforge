@@ -1,0 +1,65 @@
+{
+ "cap": 1.0,
+ "total": 0.63,
+ "by_seat": {
+  "image": 0.63
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "el-heatpump",
+   "usd": 0.09,
+   "s": 42.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "el-hottub",
+   "usd": 0.09,
+   "s": 52.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "el-range",
+   "usd": 0.09,
+   "s": 53.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "el-suite",
+   "usd": 0.09,
+   "s": 46.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "el-knob",
+   "usd": 0.09,
+   "s": 49.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "el-fuse",
+   "usd": 0.09,
+   "s": 57.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "el-mast",
+   "usd": 0.09,
+   "s": 51.4,
+   "ok": true
+  }
+ ]
+}
