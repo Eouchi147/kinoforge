@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 64.729526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 64.999526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "bb-shop": "bytedance-seed/seedream-5-0-pro",
+  "bb-station": "bytedance-seed/seedream-5-0-pro",
+  "bb-shave": "bytedance-seed/seedream-5-0-pro",
+  "bb-bench": "bytedance-seed/seedream-5-0-pro",
+  "bb-towels": "bytedance-seed/seedream-5-0-pro",
+  "sl-colour": "bytedance-seed/seedream-5-0-pro",
+  "sl-style": "bytedance-seed/seedream-5-0-pro",
+  "sl-wash": "bytedance-seed/seedream-5-0-pro"
+ }
+}

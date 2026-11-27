@@ -1,0 +1,73 @@
+{
+ "cap": 1.0,
+ "total": 0.72,
+ "by_seat": {
+  "image": 0.72
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bb-shop",
+   "usd": 0.09,
+   "s": 35.3,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bb-shave",
+   "usd": 0.09,
+   "s": 44.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bb-station",
+   "usd": 0.09,
+   "s": 56.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bb-bench",
+   "usd": 0.09,
+   "s": 47.8,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "bb-towels",
+   "usd": 0.09,
+   "s": 44.4,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sl-colour",
+   "usd": 0.09,
+   "s": 54.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sl-style",
+   "usd": 0.09,
+   "s": 35.6,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "sl-wash",
+   "usd": 0.09,
+   "s": 40.4,
+   "ok": true
+  }
+ ]
+}
