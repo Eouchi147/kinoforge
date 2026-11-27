@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the caterer sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the catering look is an event brief, each menu under its own photograph. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos, alcohol or pork.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "pc-table",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a long wooden dinner table set for forty guests in an empty greenhouse venue at golden hour, seen down its length: cream linen runner, white plates with folded napkins, plain water tumblers, low arrangements of white flowers and greenery, lit taper candles, warm light through the glass. Nobody in the picture: no people, no hands, no faces, no figures in the background. No text, no writing, no lettering, no labels, no menus, no place cards with writing, no signage, no logos, no brand names, no alcohol, no wine, no wine glasses, no champagne flutes, no bottles, no pork, no ham, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-canapes",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: overhead view of a white marble tray of canapes in neat rows: cucumber rounds with whipped cheese and dill, small tomato tartlets, smoked salmon on dark rye, and beef on toasted brioche with horseradish cream, soft daylight. Nobody in the picture: no people, no hands, no faces, no figures in the background. No text, no writing, no lettering, no labels, no menus, no place cards with writing, no signage, no logos, no brand names, no alcohol, no wine, no wine glasses, no champagne flutes, no bottles, no pork, no ham, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-plated",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close three quarter view of a plated dinner course on a wide white plate: sliced beef tenderloin, roasted fingerling potatoes, green beans and a glossy brown sauce, on a table with a cream linen cloth, a lit candle blurred behind, warm light. Nobody in the picture: no people, no hands, no faces, no figures in the background. No text, no writing, no lettering, no labels, no menus, no place cards with writing, no signage, no logos, no brand names, no alcohol, no wine, no wine glasses, no champagne flutes, no bottles, no pork, no ham, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-family",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: overhead view of a wooden table laid with shared platters: a whole roast chicken carved on a board, a bowl of grain salad with herbs, a platter of roasted carrots and squash, a dish of hummus and warm flatbread, serving spoons, warm light. Nobody in the picture: no people, no hands, no faces, no figures in the background. No text, no writing, no lettering, no labels, no menus, no place cards with writing, no signage, no logos, no brand names, no alcohol, no wine, no wine glasses, no champagne flutes, no bottles, no pork, no ham, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-lunch",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a bright empty meeting room with a long white table laid with an office lunch: a board of cut sandwiches, two large bowls of green salad and grain salad, a bowl of fruit, stacks of white plates and napkins, jugs of water with lemon, daylight from large windows. Nobody in the picture: no people, no hands, no faces, no figures in the background. No text, no writing, no lettering, no labels, no menus, no place cards with writing, no signage, no logos, no brand names, no alcohol, no wine, no wine glasses, no champagne flutes, no bottles, no pork, no ham, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-dessert",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view of a dessert table: a three tier white stand of small pastel petit fours, a board of sliced fruit and cheese, and small chocolate cakes on a white cake stand, on a cream linen cloth, soft daylight. Nobody in the picture: no people, no hands, no faces, no figures in the background. No text, no writing, no lettering, no labels, no menus, no place cards with writing, no signage, no logos, no brand names, no alcohol, no wine, no wine glasses, no champagne flutes, no bottles, no pork, no ham, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-pass",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a stainless steel kitchen pass in a professional catering kitchen, a row of twelve identical white plates each with the same neat starter of beetroot, soft cheese and greens, a squeeze bottle and a pair of tweezers beside them, heat lamps above, empty kitchen. Nobody in the picture: no people, no hands, no faces, no figures in the background. No text, no writing, no lettering, no labels, no menus, no place cards with writing, no signage, no logos, no brand names, no alcohol, no wine, no wine glasses, no champagne flutes, no bottles, no pork, no ham, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pc-room",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: an empty event hall dressed for a reception in the evening: eight round tables with white linen, white chairs, low white flower centrepieces and lit candles, plain water tumblers, warm chandeliers, tall windows at dusk. Nobody in the picture: no people, no hands, no faces, no figures in the background. No text, no writing, no lettering, no labels, no menus, no place cards with writing, no signage, no logos, no brand names, no alcohol, no wine, no wine glasses, no champagne flutes, no bottles, no pork, no ham, no bacon.",
+      "aspect": "3:2"
+    }
+  ]
+}
