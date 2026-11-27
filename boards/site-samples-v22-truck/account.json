@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 61.849526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 62.479526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.63,
+ "ledger_total": 0.72,
+ "frames": {
+  "wp-truck": "bytedance-seed/seedream-5-0-pro",
+  "wp-classic": "bytedance-seed/seedream-5-0-pro",
+  "wp-mushroom": "bytedance-seed/seedream-5-0-pro",
+  "wp-butter": "bytedance-seed/seedream-5-0-pro",
+  "wp-fries": "bytedance-seed/seedream-5-0-pro",
+  "wp-grilled": "bytedance-seed/seedream-5-0-pro",
+  "wp-window": "bytedance-seed/seedream-5-0-pro",
+  "wp-event": "bytedance-seed/seedream-5-0-pro"
+ }
+}
