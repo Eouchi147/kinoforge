@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the dessert shop sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the dessert look is a parlour's page, the case and an order for a day. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos, alcohol or pork.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "ic-case",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the glass display case of a small ice cream parlour seen at a slight angle from the customer's side: two rows of round steel tubs filled with ice cream in soft natural colours (pistachio green, cherry pink, chocolate, vanilla, mango), swirled tops, a steel scoop resting in a rinse well, pale green tiled wall behind, warm evening light from pendant lamps. Nobody in the picture: no people, no hands, no faces, no figures in the background or behind glass. No text, no writing, no lettering, no labels, no flavour tags, no price cards, no menus, no chalkboards, no signage, no logos, no brand names, no alcohol, no liqueur, no bottles, no pork, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ic-cone",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: one waffle cone with two scoops of ice cream, pistachio green below and sour cherry pink above, standing upright in a small steel cone holder on a white marble counter, soft daylight from the left, a pale green tiled wall out of focus behind. Nobody in the picture: no people, no hands, no faces, no figures in the background or behind glass. No text, no writing, no lettering, no labels, no flavour tags, no price cards, no menus, no chalkboards, no signage, no logos, no brand names, no alcohol, no liqueur, no bottles, no pork, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ic-tubs",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: seen from directly above: nine round steel tubs of ice cream set in a grid in a display freezer, each a different natural colour with a swirled, freshly scooped surface, steel rims catching the light, nothing else in frame. Nobody in the picture: no people, no hands, no faces, no figures in the background or behind glass. No text, no writing, no lettering, no labels, no flavour tags, no price cards, no menus, no chalkboards, no signage, no logos, no brand names, no alcohol, no liqueur, no bottles, no pork, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ic-sundae",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a hot fudge sundae in a clear glass coupe on a marble counter: three scoops of vanilla ice cream, dark chocolate sauce running down, whipped cream, chopped toasted almonds and one cherry on top, a long steel spoon beside it, soft warm light. Nobody in the picture: no people, no hands, no faces, no figures in the background or behind glass. No text, no writing, no lettering, no labels, no flavour tags, no price cards, no menus, no chalkboards, no signage, no logos, no brand names, no alcohol, no liqueur, no bottles, no pork, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ic-shake",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: two milkshakes in tall clear ribbed glasses on a marble counter, one strawberry pink and one chocolate, whipped cream on top, plain paper straws, a small steel milkshake cup beside them, pale green tiles out of focus behind. Nobody in the picture: no people, no hands, no faces, no figures in the background or behind glass. No text, no writing, no lettering, no labels, no flavour tags, no price cards, no menus, no chalkboards, no signage, no logos, no brand names, no alcohol, no liqueur, no bottles, no pork, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ic-cake",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a whole round ice cream cake on a plain white cake stand on a marble counter, one slice cut and pulled forward to show two layers of ice cream, pistachio green and chocolate, over a dark cookie base, a smooth cream coating and a ring of piped rosettes on top, soft daylight. Nobody in the picture: no people, no hands, no faces, no figures in the background or behind glass. No text, no writing, no lettering, no labels, no flavour tags, no price cards, no menus, no chalkboards, no signage, no logos, no brand names, no alcohol, no liqueur, no bottles, no pork, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ic-churn",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a steel batch freezer in a small clean ice cream kitchen extruding thick fresh vanilla ice cream in a ribbon into a round steel tub set below its spout, white tiled wall, steel worktop, cool daylight, close and from the side. Nobody in the picture: no people, no hands, no faces, no figures in the background or behind glass. No text, no writing, no lettering, no labels, no flavour tags, no price cards, no menus, no chalkboards, no signage, no logos, no brand names, no alcohol, no liqueur, no bottles, no pork, no bacon.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ic-room",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the inside of a small empty ice cream parlour in the early evening: a short marble counter with four round steel stools with cream leather seats, a pale green tiled wall, a terrazzo floor, three globe pendant lamps lit, a potted plant by a big front window with the street dark blue outside. Nobody in the picture: no people, no hands, no faces, no figures in the background or behind glass. No text, no writing, no lettering, no labels, no flavour tags, no price cards, no menus, no chalkboards, no signage, no logos, no brand names, no alcohol, no liqueur, no bottles, no pork, no bacon.",
+      "aspect": "3:2"
+    }
+  ]
+}
