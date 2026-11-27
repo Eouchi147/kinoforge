@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the burger counter sample business in the website template library (26 Nov 2026, under the owner's standing go of that day: one run per kind, capped at US$1.00): the burger look shows one burger at a time, each under its own photograph. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos, alcohol or pork.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "bg-tray",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a brushed steel tray lined with plain white greaseproof paper on a bright mustard yellow counter, seen from a three quarter angle: a double smash cheeseburger with two thin crispy edged beef patties, melted orange cheese, pickles and a glossy potato bun, beside a paper cone of golden fries and a vanilla milkshake in a plain clear glass, hard daylight with crisp shadows, plain mustard yellow wall behind. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no bacon, no ham, no pork.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bg-double",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view, straight on at eye level, of a double smash cheeseburger: two thin beef patties with dark lacy crispy edges, two slices of melted orange cheese, sliced pickles, diced white onion and a pale pink sauce in a toasted potato bun, sitting on plain white greaseproof paper, plain warm cream background, soft studio light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no bacon, no ham, no pork.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bg-classic",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view, straight on at eye level, of a single smash cheeseburger: one thin beef patty with crispy edges, one slice of melted orange cheese, pickles, onion and a pale pink sauce in a toasted potato bun, sitting on plain white greaseproof paper, plain warm cream background, soft studio light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no bacon, no ham, no pork.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bg-mushroom",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view, straight on at eye level, of a burger with one thin beef patty, a generous pile of browned griddled sliced mushrooms and melted pale Swiss cheese with a white garlic mayonnaise in a toasted potato bun, sitting on plain white greaseproof paper, plain warm cream background, soft studio light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no bacon, no ham, no pork.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bg-firecracker",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view, straight on at eye level, of a spicy burger with one thin beef patty, melted pale pepper jack cheese, bright green pickled jalapeno slices, a heap of thin crispy fried onion strings and an orange chipotle mayonnaise in a toasted potato bun, sitting on plain white greaseproof paper, plain warm cream background, soft studio light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no bacon, no ham, no pork.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bg-halloumi",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: close view, straight on at eye level, of a vegetarian burger with a thick golden crispy fried slab of halloumi cheese, a slice of red tomato, green leaf lettuce and a drizzle of chili honey in a toasted potato bun, no meat, sitting on plain white greaseproof paper, plain warm cream background, soft studio light. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no bacon, no ham, no pork.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bg-sides",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: overhead view on a matte black counter: a paper cone of golden fries, a small paper tray of battered onion rings, a small paper cup of creamy coleslaw, a vanilla milkshake and a chocolate milkshake in plain clear glasses with paper straws, and a glass of lemonade with ice and a lemon slice, hard light with crisp shadows. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no bacon, no ham, no pork.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bg-counter",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small burger counter seen from the door in the evening: a stainless steel counter with a row of twelve round black stools, a flat-top griddle and a steel pass behind it, a shelf with a row of plain brown paper bags ready for pickup, white tiled walls, a mustard yellow painted ceiling beam, warm pendant lights, empty. No people, no hands, no faces, no text, no writing, no lettering, no labels, no menus, no signage, no logos, no brand names, no alcohol, no beer, no bacon, no ham, no pork.",
+      "aspect": "3:2"
+    }
+  ]
+}
