@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the barbershop and the hair salon sample businesses in the website template library (26 Nov 2026 in Toronto, under the owner's standing go of that day: one run per kind, capped at US$1.00): the salon and barber look is a price board and the people; one kind, two businesses, five stills for the barbershop and three for the salon. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "bb-shop",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the inside of a small empty barbershop seen along its length: three classic barber chairs in dark red leather with chrome bases facing three large plain mirrors on a deep navy panelled wall, a long walnut counter under the mirrors, cream and navy checkerboard floor tiles, warm globe wall lamps lit, morning light from the front window, the mirrors showing only the opposite cream wall. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no labels on any bottle or jar, no price boards, no signage, no neon signs, no logos, no brand names, no barber pole, no posters, no magazines.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bb-station",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a barber's station seen from slightly above on a walnut counter: black clippers with their cord coiled, a set of clipper guards, two combs, a pair of scissors, a neck brush and a plain steel spray bottle laid in a neat row on a black rubber mat, the bottom edge of a mirror at the top of the frame showing only a cream wall. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no labels on any bottle or jar, no price boards, no signage, no neon signs, no logos, no brand names, no barber pole, no posters, no magazines.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bb-shave",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a hot towel shave set out on a walnut counter: a shaving brush standing in a white ceramic bowl of thick lather, a closed straight razor beside it, two rolled white towels with faint steam rising, a small steel dish, a deep navy panelled wall out of focus behind, warm light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no labels on any bottle or jar, no price boards, no signage, no neon signs, no logos, no brand names, no barber pole, no posters, no magazines.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bb-bench",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the waiting corner of a small barbershop: a long walnut bench with a dark red leather seat pad against a deep navy panelled wall, a row of brass coat hooks above it with one plain grey wool coat, a potted snake plant, cream and navy checkerboard floor tiles, daylight from a window on the left. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no labels on any bottle or jar, no price boards, no signage, no neon signs, no logos, no brand names, no barber pole, no posters, no magazines.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "bb-towels",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a shelf in a barbershop: neat stacks of rolled white towels, a tall clear glass jar of combs standing in clear blue disinfectant liquid, a steel tray with clean scissors, plain amber glass bottles with no labels, a deep navy wall behind, bright even light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no labels on any bottle or jar, no price boards, no signage, no neon signs, no logos, no brand names, no barber pole, no posters, no magazines.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "sl-colour",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a hair colourist's trolley in a bright salon seen from slightly above: three black tint bowls with pastel colour mixed in them, tint brushes resting on the rims, a neat stack of folded foils, sectioning clips, a tail comb, a folded black towel, a pale plastered wall behind, soft daylight. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no labels on any bottle or jar, no price boards, no signage, no neon signs, no logos, no brand names, no barber pole, no posters, no magazines.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "sl-style",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a styling station in a bright hair salon: a pale oak shelf under a tall plain mirror that shows only a white wall and a hanging plant, on the shelf a black hairdryer lying on its side, three round brushes of different sizes in a ceramic pot, sectioning clips in a small dish, soft daylight from the left. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no labels on any bottle or jar, no price boards, no signage, no neon signs, no logos, no brand names, no barber pole, no posters, no magazines.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "sl-wash",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: two backwash basins in a bright hair salon: black ceramic basins with black leather reclining chairs, a pale oak shelf above with rolled white towels and plain white pump bottles with no labels, a pale plastered wall, a hanging plant, soft daylight. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no labels on any bottle or jar, no price boards, no signage, no neon signs, no logos, no brand names, no barber pole, no posters, no magazines.",
+      "aspect": "3:2"
+    }
+  ]
+}
