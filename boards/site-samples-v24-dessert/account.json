@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 63.289526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 63.649526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.36,
+ "ledger_total": 0.72,
+ "frames": {
+  "ic-case": "bytedance-seed/seedream-5-0-pro",
+  "ic-cone": "bytedance-seed/seedream-5-0-pro",
+  "ic-tubs": "bytedance-seed/seedream-5-0-pro",
+  "ic-sundae": "bytedance-seed/seedream-5-0-pro",
+  "ic-shake": "bytedance-seed/seedream-5-0-pro",
+  "ic-cake": "bytedance-seed/seedream-5-0-pro",
+  "ic-churn": "bytedance-seed/seedream-5-0-pro",
+  "ic-room": "bytedance-seed/seedream-5-0-pro"
+ }
+}
