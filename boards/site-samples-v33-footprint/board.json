@@ -1,0 +1,55 @@
+{
+ "_": "Sample photos for the design and build landscaping sample business in the website template library (27 Nov 2026 in Toronto, under the owner's standing go: one run per look, capped at US$1.00, inside the US$30 already paid): Footprint, landscaping's second look, for the firm that builds patios, walkways, driveways, retaining walls, steps and planting. Eight stills. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos or numbers.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "fp-patio",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent landscape design and build firm in Toronto: a finished interlocking paver patio behind a red brick Toronto house at dusk, warm grey rectangular pavers with a darker charcoal border, a round steel fire bowl unlit in the middle, two wooden lounge chairs, low garden lights glowing along planted beds of ornamental grasses and hostas, warm light from the house windows, calm and premium. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fp-flagstone",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent landscape design and build firm in Toronto: a natural flagstone patio of irregular grey and buff stones with tight joints, set into a green backyard lawn, edged with low perennials and lavender, a small cedar bench at one side, soft late afternoon summer light, quiet and well kept. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fp-wall",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent landscape design and build firm in Toronto: a sloped backyard terraced by two low natural armour stone retaining walls of large rough grey limestone blocks, planted beds of shrubs and perennials on each level, a few stone slab steps between the levels, bright overcast daylight, crisp and new. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fp-steps",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent landscape design and build firm in Toronto: a set of wide natural stone slab steps rising up a gentle front yard slope to the porch of a brick house, each step a single thick grey limestone slab, low boxwood and fresh dark mulch on both sides, clean morning light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fp-layout",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent landscape design and build firm in Toronto: a flat green backyard lawn with the outline of a future rectangular patio marked out on the grass with wooden survey stakes at the four corners, bright orange string lines pulled tight between them and a line of white marking paint along the strings, a wheelbarrow and a flat shovel resting nearby, clear morning light, seen from a low angle. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fp-tree",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent landscape design and build firm in Toronto: a large mature maple tree in a Toronto backyard with tree protection hoarding of plain plywood panels and orange mesh fencing built in a square around its trunk, beside it a freshly excavated rectangular area filled with compacted grey gravel ready for a patio, a plate compactor resting at the edge, autumn daylight, neat and careful. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fp-planting",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent landscape design and build firm in Toronto: a newly planted garden bed curving along a stone path, young perennials, ornamental grasses and small shrubs spaced in fresh dark mulch, a steel edge between the bed and the lawn, a garden fork resting on the mulch, soft spring light, fresh and tidy. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "fp-sod",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent landscape design and build firm in Toronto: a backyard covered with freshly laid rolls of green sod with faint seams still visible between the strips, the soil graded smooth at the edges, a sod roller resting on the lawn, a wooden fence at the back, clear spring daylight. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}
