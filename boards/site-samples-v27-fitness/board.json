@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the gym and the yoga and pilates studio sample businesses in the website template library (27 Nov 2026 in Toronto; the owner restarted the list that morning: one run per kind, capped at US$1.00, under his standing go of 26 Nov): the fitness look is a poster first screen, price boards and the space; one kind, two businesses, five stills for the gym and three for the studio. AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "gy-floor",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the inside of a small empty strength training gym seen along its length: three matte black steel squat racks in a row on a black rubber floor, barbells resting on the racks with plain matte black bumper plates, a strip of green turf running down the right side, a white painted brick wall, tall black steel framed factory windows on the left with low morning sun falling across the floor, a high dark ceiling with exposed ducts, a little haze in the light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no numbers, no markings on any plate, weight or machine, no labels on any bottle, no screens, no clocks, no signage, no neon signs, no logos, no brand names, no posters, no flags.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "gy-bar",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a close view from the side of a steel barbell resting on the hooks of a matte black squat rack, plain matte black rubber bumper plates on its sleeve held by a plain steel collar, chalk dust on the knurled grip, the gym out of focus behind with warm low window light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no numbers, no markings on any plate, weight or machine, no labels on any bottle, no screens, no clocks, no signage, no neon signs, no logos, no brand names, no posters, no flags.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "gy-bells",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a row of plain matte black cast iron kettlebells in rising sizes standing on a strip of green turf beside a white painted brick wall, a block of white chalk in a small steel bowl at the end of the row, low side light from a window making long shadows. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no numbers, no markings on any plate, weight or machine, no labels on any bottle, no screens, no clocks, no signage, no neon signs, no logos, no brand names, no posters, no flags.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "gy-sled",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a plain black steel push sled standing at the start of a long lane of green turf inside a strength gym, plain black bumper plates stacked on its posts, a white painted brick wall on one side, black rubber floor on the other, tall black framed windows at the far end, morning light. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no numbers, no markings on any plate, weight or machine, no labels on any bottle, no screens, no clocks, no signage, no neon signs, no logos, no brand names, no posters, no flags.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "gy-lockers",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the changing room of a small gym: a wall of plain pale oak lockers with small round steel locks, a long oak bench in front of them with two folded white towels and a plain steel water bottle, a concrete floor, a soft ceiling light, clean and tidy. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no numbers, no markings on any plate, weight or machine, no labels on any bottle, no screens, no clocks, no signage, no neon signs, no logos, no brand names, no posters, no flags.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ys-room",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: an empty bright yoga and pilates studio: a pale oak floor, six sage green yoga mats rolled out in two neat rows each with a cork block and a folded grey blanket, a white wall, a tall arched window with sheer linen curtains and soft morning light, two large potted plants in the corners. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no numbers, no markings on any plate, weight or machine, no labels on any bottle, no screens, no clocks, no signage, no neon signs, no logos, no brand names, no posters, no flags.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ys-reformer",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: three pilates reformer machines with pale maple wood frames, black padded carriages and steel springs standing side by side in a bright studio with a pale oak floor and a white wall, a round plain mirror on the wall showing only the white ceiling, soft daylight from the left. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no numbers, no markings on any plate, weight or machine, no labels on any bottle, no screens, no clocks, no signage, no neon signs, no logos, no brand names, no posters, no flags.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "ys-props",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a pale oak shelf in a yoga studio: rolled yoga mats in sage green and sand standing in a row, a stack of cork blocks, folded grey wool blankets, two round bolsters in natural linen, a small ceramic cup, a white wall behind, soft daylight. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people in any mirror. No text, no writing, no lettering, no numbers, no markings on any plate, weight or machine, no labels on any bottle, no screens, no clocks, no signage, no neon signs, no logos, no brand names, no posters, no flags.",
+      "aspect": "3:2"
+    }
+  ]
+}

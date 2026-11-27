@@ -2,6 +2,9 @@
 
 Newest first. One line per change or decision, with the date (UTC). Whoever changes the project adds a line here.
 
+## 27 Nov 2026
+- Board `site-samples-v27-fitness`: 8 AI stills for the gym and the yoga and pilates studio sample businesses in the website template library (the gym floor, a barbell, kettlebells, a sled lane, the lockers; a studio room, reformers, a shelf of props). The owner restarted the website list this morning (27 Nov, 10:45 Toronto: move on, the new standard applies to what is next), so the stop of 26 Nov is lifted and his standing go applies again (one run per kind, cap US$1.00, US$30 for the list; US$13.68 spent before this run). No people, text or logos. Dispatched alone.
+
 ## 26 Nov 2026
 - Gate `prompts` fixed (it was red on `main` from 0969ef6 to this commit, my mistake): the moving board's first prompt said "with nothing written on it", a phrase the gate reads as asking for words. The gate does not read a board until it is committed, so my check before the commit passed and I did not run it again after. The prompt now says "left blank"; the stills were already made and are unchanged. Rule for these boards: run `bash tools/verify.sh` again after `git add`, before the push.
 - Board `site-samples-v26-barber`, result (run 45939751493, success): 8 of 8 stills, US$0.72 by the ledger. Read in the website repo: seven kept as made, one cropped at a window; no people, no lettering. US$13.68 of the list's US$30 after nineteen runs. The owner stopped the website list the same hour (the looks were starting to resemble each other): no further board is dispatched until he says so.
