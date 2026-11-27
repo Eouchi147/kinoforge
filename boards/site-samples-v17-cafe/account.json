@@ -1,0 +1,24 @@
+{
+ "before": {
+  "usage": 58.249526052,
+  "limit": null,
+  "remaining": null
+ },
+ "after": {
+  "usage": 58.519526052,
+  "limit": null,
+  "remaining": null
+ },
+ "board_spent": 0.27,
+ "ledger_total": 0.72,
+ "frames": {
+  "cb-latte": "bytedance-seed/seedream-5-0-pro",
+  "cb-espresso": "bytedance-seed/seedream-5-0-pro",
+  "cb-brewed": "bytedance-seed/seedream-5-0-pro",
+  "cb-matcha": "bytedance-seed/seedream-5-0-pro",
+  "cb-oven": "bytedance-seed/seedream-5-0-pro",
+  "cb-breakfast": "bytedance-seed/seedream-5-0-pro",
+  "cb-bar": "bytedance-seed/seedream-5-0-pro",
+  "cb-box": "bytedance-seed/seedream-5-0-pro"
+ }
+}
