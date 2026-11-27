@@ -1,0 +1,55 @@
+{
+  "_": "Sample photos for the pet salon and daycare and the dog walker sample businesses in the website template library (27 Nov 2026 in Toronto, under the owner's standing go: one run per kind, capped at US$1.00; he restarted the list that morning): the pet care look opens on the animal itself; one kind, two businesses, five stills for the salon and daycare and three for the walker. AI-generated, previews only, marked Sample and AI-generated; never a client's work. Animals only: no people, text or logos.",
+  "cap_usd": 1.0,
+  "aspect": "3:2",
+  "frames": [
+    {
+      "id": "pt-hero",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a freshly groomed cream coloured goldendoodle sitting upright in the middle of the frame and looking straight at the camera with its mouth slightly open, soft fluffy coat, a plain warm cream studio wall and a pale wood floor, soft daylight from the left, plenty of empty wall above and around the dog. Nobody in the picture: no people, no hands, no legs, no faces of people, no figures. No text, no writing, no lettering, no name tags with letters, no labels on any bottle, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pt-bath",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a small white terrier standing calmly in a stainless steel dog grooming tub, its coat damp, a fluffy white towel draped over its back, a plain white tiled wall behind, a steel shower hose resting on its hook, bright soft light. Nobody in the picture: no people, no hands, no legs, no faces of people, no figures. No text, no writing, no lettering, no name tags with letters, no labels on any bottle, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pt-play",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: the play room of a small dog daycare: a black labrador and a small brown spaniel playing with a rope toy on a grey rubber floor, a low wooden climbing ramp and a few balls behind them, a pale green wall, daylight from high windows. Nobody in the picture: no people, no hands, no legs, no faces of people, no figures. No text, no writing, no lettering, no name tags with letters, no labels on any bottle, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pt-nap",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a brindle greyhound fast asleep curled on a raised canvas dog cot with a folded grey blanket, in a quiet dim room with a pale green wall, a steel water bowl on the floor beside the cot, soft afternoon light. Nobody in the picture: no people, no hands, no legs, no faces of people, no figures. No text, no writing, no lettering, no name tags with letters, no labels on any bottle, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pt-cat",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a grey tabby cat sitting on a sunny windowsill inside an apartment beside a potted plant, looking toward the camera, sheer curtains, a ceramic food bowl on the floor below the window. Nobody in the picture: no people, no hands, no legs, no faces of people, no figures. No text, no writing, no lettering, no name tags with letters, no labels on any bottle, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pw-run",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a happy golden retriever running straight toward the camera along a dirt path in a wooded city ravine in autumn, ears flying, wearing a plain red harness, yellow leaves on the ground, low morning sun through the trees. Nobody in the picture: no people, no hands, no legs, no faces of people, no figures. No text, no writing, no lettering, no name tags with letters, no labels on any bottle, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pw-pair",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a border collie and a small scruffy terrier sitting side by side on a gravel path in a leafy park, both wearing plain harnesses and looking up toward the camera, tall trees and morning mist behind them. Nobody in the picture: no people, no hands, no legs, no faces of people, no figures. No text, no writing, no lettering, no name tags with letters, no labels on any bottle, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    },
+    {
+      "id": "pw-kit",
+      "model": "bytedance-seed/seedream-5-0-pro",
+      "prompt": "Photograph, photographed for real, not illustrated: a dog walker's kit laid out neatly on a wooden bench seen from above: two rolled rope leashes, a plain green harness, a collapsible silicone water bowl, a steel water bottle, a small canvas treat pouch and a folded towel. Nobody in the picture: no people, no hands, no legs, no faces of people, no figures. No text, no writing, no lettering, no name tags with letters, no labels on any bottle, no signage, no logos, no brand names, no posters.",
+      "aspect": "3:2"
+    }
+  ]
+}
