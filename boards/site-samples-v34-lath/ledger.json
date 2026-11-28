@@ -1,0 +1,65 @@
+{
+ "cap": 1.0,
+ "total": 0.63,
+ "by_seat": {
+  "image": 0.63
+ },
+ "calls": [
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "lt-kitchen",
+   "usd": 0.09,
+   "s": 46.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "lt-lath",
+   "usd": 0.09,
+   "s": 47.0,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "lt-house",
+   "usd": 0.09,
+   "s": 54.1,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "lt-bath",
+   "usd": 0.09,
+   "s": 39.9,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "lt-stair",
+   "usd": 0.09,
+   "s": 42.2,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "lt-studs",
+   "usd": 0.09,
+   "s": 44.5,
+   "ok": true
+  },
+  {
+   "seat": "image",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "task": "lt-front",
+   "usd": 0.09,
+   "s": 45.9,
+   "ok": true
+  }
+ ]
+}
