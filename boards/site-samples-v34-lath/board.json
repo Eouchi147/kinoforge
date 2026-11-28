@@ -1,0 +1,49 @@
+{
+ "_": "Sample photos for the century home renovation sample business in the website template library (27 Nov 2026 in Toronto, under the owner's standing go: one run per look, capped at US$1.00, inside the US$30 already paid): Lath, renovation's second look, for the firm that renovates older houses. Seven stills (an eighth, old wiring on basement joists, is reused from the electrical sample). AI-generated, previews only, marked Sample and AI-generated; never a client's work. No people, text, logos or numbers.",
+ "cap_usd": 1.0,
+ "aspect": "3:2",
+ "frames": [
+  {
+   "id": "lt-house",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent renovation and restoration firm in the east end of Toronto that renovates century homes: the front of a red brick Edwardian semi-detached house on a quiet Toronto street in soft autumn morning light, a deep covered front porch with turned white wooden columns and a railing, a gabled third floor with painted wood trim, a large maple tree with yellow leaves, the house well kept and recently restored, calm and premium, wide shot from across the street. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "lt-lath",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent renovation and restoration firm in the east end of Toronto that renovates century homes: an interior wall of an old house during renovation with the plaster carefully removed in one section, revealing rows of thin rough wooden lath strips nailed across old dark studs, the edge of the remaining plaster clean and straight, a dust sheet on the oak floor below, soft daylight from a tall window, orderly and careful work in progress. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "lt-kitchen",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent renovation and restoration firm in the east end of Toronto that renovates century homes: a renovated kitchen in a century home with one original red brick wall kept and cleaned, new flat white oak cabinets, a pale stone counter, open wooden shelves, a deep white farmhouse sink under a tall old window, warm daylight, calm and premium. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "lt-stair",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent renovation and restoration firm in the east end of Toronto that renovates century homes: the staircase of a restored Edwardian house: original oak handrail, turned spindles and a carved newel post refinished in a warm honey colour, oak treads, a white painted wall, light falling from a stained wood window frame above the landing, quiet and elegant. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "lt-bath",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent renovation and restoration firm in the east end of Toronto that renovates century homes: a restored bathroom in a century home with a white freestanding clawfoot tub, a small white hexagon mosaic tile floor, white subway tile halfway up the walls with a painted deep green wall above, a pedestal sink, an old wooden sash window, soft daylight. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "lt-studs",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent renovation and restoration firm in the east end of Toronto that renovates century homes: a living room of an old brick house opened to the studs for new wiring and insulation: old plaster removed, old dark wood studs and the inside of the brick wall visible, new yellow electrical cable neatly run through drilled holes, a ladder and covered floor, tidy job site in daylight. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  },
+  {
+   "id": "lt-front",
+   "model": "bytedance-seed/seedream-5-0-pro",
+   "prompt": "Photograph, photographed for real, not illustrated, for the website of a small independent renovation and restoration firm in the east end of Toronto that renovates century homes: the front room of a restored Edwardian house: deep original baseboards and door casings painted white, a plaster ceiling medallion and crown moulding, a restored wood burning fireplace with a dark green tiled surround and a wooden mantel, refinished oak floor, a soft grey sofa, a tall window with daylight, calm and premium. Nobody in the picture: no people, no hands, no faces, no figures, no reflections of people. No text, no writing, no numbers, no labels, no stickers, no signage, no logos, no brand names, no printing on any surface, no house numbers, no licence plates.",
+   "aspect": "3:2"
+  }
+ ]
+}
